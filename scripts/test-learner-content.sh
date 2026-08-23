@@ -155,10 +155,12 @@ check_file "$site_dir/register.html" "meal planning" 'ข้อจำกัด�
 check_file "$site_dir/assets/registration.js" "local registration draft" 'ai-for-research-registration-draft\.txt'
 check_file "$site_dir/assets/site-shell.js" "registration navigation" 'สมัครเป็นกลุ่ม'
 check_file "$site_dir/assets/site-shell.js" "production base URL" 'https://urban\.cpe\.ku\.ac\.th/ai-for-research/'
-check_file "$site_dir/index.html" "selectable course cards" 'data-course-card'
 check_file "$site_dir/assets/course-cart.js" "three-course bundle" 'BUNDLE_TOTAL=8900'
-check_file "$site_dir/index.html" "visible course prices" 'เลือก Build-up · 4,900 บาท'
-check_file "$site_dir/index.html" "visible bundle savings" 'ลดทันที 1,800 บาทในตะกร้า'
+check_file "$site_dir/index.html" "no-sale project status" 'ยังไม่เปิดรับสมัครและยังไม่รับชำระเงิน'
+if grep -Eq '[0-9],[0-9]{3} บาท|data-course-card|data-select-course' "$site_dir/index.html"; then
+  printf 'Found course pricing/cart markup on index.html. The homepage must not sell before the project is approved — keep pricing in documents/public-site-drafts/index-with-pricing.html instead.\n'
+  failed=1
+fi
 check_file "$site_dir/checkout.html" "checkout identity fields" 'ชื่อ–นามสกุล'
 check_file "$site_dir/assets/checkout.js" "KU email discount" 'ku\\.th|ku\\.ac\\.th'
 check_file "$site_dir/checkout.html" "email code delivery purpose" 'รหัสยืนยันการสมัคร รหัสเข้าเรียน และรหัสใช้ครั้งเดียว'
