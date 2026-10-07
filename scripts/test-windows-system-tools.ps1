@@ -42,8 +42,12 @@ try {
   }
   $env:PATH = "$env:SystemRoot\System32"
   Refresh-ToolPath
-  foreach ($command in @('git','tesseract','pandoc','pdftotext','pdftoppm','pdfinfo')) {
-    if (-not (Has $command)) { throw "Installed off-PATH tool not discovered: $command" }
+  $expectedDirectories = @($fixtureFiles | ForEach-Object { Split-Path -Parent $_ } | Select-Object -Unique)
+  $refreshedPaths = @($env:PATH -split ';')
+  foreach ($directory in $expectedDirectories) {
+    if ($script:DiscoveredToolDirectories -notcontains $directory -or $refreshedPaths -notcontains $directory) {
+      throw "Installed off-PATH directory not discovered: $directory"
+    }
   }
   # Stub discovery to exercise WinGet results without accessing any package manager.
   $DryRun = $true
