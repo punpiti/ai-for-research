@@ -109,7 +109,8 @@ def ensure_node(root, agent):
     for candidate in candidates:
         try:
             version = run(candidate, '-p', 'process.versions.node', capture_output=True, text=True).stdout.strip()
-            if int(version.split('.')[0]) >= minimum and shutil.which('npm'):
+            bundled_npm = candidate.parent / ('npm.cmd' if os.name == 'nt' else 'npm')
+            if int(version.split('.')[0]) >= minimum and (bundled_npm.is_file() or shutil.which('npm')):
                 log(f'REUSE Node {version} ({candidate}); no automatic update.')
                 return candidate.parent
         except (OSError, ValueError, subprocess.CalledProcessError):

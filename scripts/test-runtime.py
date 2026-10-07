@@ -147,6 +147,18 @@ class RuntimeTests(unittest.TestCase):
             self.assertEqual(runtime.ensure_node(Path(scratch), 'claude'), Path('/usr/bin'))
             network.assert_not_called()
 
+    def test_course_node_is_reused_when_its_npm_is_not_on_shell_path(self):
+        with tempfile.TemporaryDirectory() as scratch:
+            root = Path(scratch)
+            binary = root / 'node/node-v24.21.0-linux-x64/bin'
+            binary.mkdir(parents=True)
+            (binary / 'node').touch()
+            (binary / 'npm').touch()
+            completed = subprocess.CompletedProcess([], 0, stdout='24.21.0')
+            with patch.object(runtime.shutil, 'which', return_value=None), patch.object(runtime, 'run', return_value=completed), patch.object(runtime.urllib.request, 'urlopen') as network:
+                self.assertEqual(runtime.ensure_node(root, 'openrouter'), binary)
+                network.assert_not_called()
+
     def test_old_node_checksum_failure_keeps_system_node(self):
         with tempfile.TemporaryDirectory() as scratch:
             root = Path(scratch)

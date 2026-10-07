@@ -10,7 +10,7 @@ param(
 $ErrorActionPreference = 'Stop'
 $ProgressPreference = 'SilentlyContinue'
 $DryRun = $env:AI_RESEARCH_DRY_RUN -eq '1'
-$SetupVersion = '2026.10.07.17'
+$SetupVersion = '2026.10.07.18'
 $TestCommands = @($env:AI_RESEARCH_TEST_COMMANDS -split ',' | Where-Object { $_ })
 function Trace([string]$Action, [string]$Kind, [string]$Target, [string]$Status, [string]$Details = '') {
   if ($DryRun -or -not $TraceFile) { return }
