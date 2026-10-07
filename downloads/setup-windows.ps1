@@ -2,11 +2,12 @@
 param(
   [ValidateSet('Check','Install','InstallSystem','SetupUser','Repair')][string]$Mode = 'Check',
   [ValidateSet('codex','claude','openrouter','antigravity')][string]$Agent,
-  [string]$CourseDir = (Join-Path $HOME 'ai-for-research-workspace')
+  [string]$CourseDir = (Join-Path $HOME 'ai-for-research-workspace'),
+  [string]$SystemLog
 )
 $ErrorActionPreference = 'Stop'
 $DryRun = $env:AI_RESEARCH_DRY_RUN -eq '1'
-$SetupVersion = '2026.10.07.6'
+$SetupVersion = '2026.10.07.7'
 $TestCommands = @($env:AI_RESEARCH_TEST_COMMANDS -split ',' | Where-Object { $_ })
 function Log([string]$Message) { Write-Host "[ai-grad] $Message" }
 Log "SETUP_VERSION $SetupVersion"
@@ -14,6 +15,38 @@ function Has([string]$Command) {
   if ($TestCommands.Count -gt 0) { return $TestCommands -contains $Command }
   return [bool](Get-Command $Command -ErrorAction SilentlyContinue)
 }
+function Refresh-ToolPath {
+  if ($DryRun) { return }
+  # Keep this shell's PATH entries and discover installed tools whose installers
+  # did not register PATH (notably Tesseract and portable Poppler).
+  $directories = @(
+    (Join-Path $env:ProgramFiles 'Git\cmd'),
+    (Join-Path $env:ProgramFiles 'Pandoc'),
+    (Join-Path $env:LOCALAPPDATA 'Pandoc'),
+    (Join-Path $env:ProgramFiles 'Tesseract-OCR'),
+    (Join-Path $env:LOCALAPPDATA 'Programs\Microsoft VS Code\bin'),
+    (Join-Path $env:ProgramFiles 'Microsoft VS Code\bin'),
+    (Join-Path $env:LOCALAPPDATA 'Microsoft\WinGet\Links'),
+    (Join-Path $env:ProgramFiles 'WinGet\Links')
+  )
+  foreach ($packageRoot in @((Join-Path $env:LOCALAPPDATA 'Microsoft\WinGet\Packages'), (Join-Path $env:ProgramFiles 'WinGet\Packages'))) {
+    $popplerPackages = Get-ChildItem -Path $packageRoot -Directory -Filter 'oschwartz10612.Poppler_*' -ErrorAction SilentlyContinue
+    foreach ($package in $popplerPackages) {
+      $directories += @(Get-ChildItem -Path $package.FullName -File -Filter 'pdftotext.exe' -Recurse -ErrorAction SilentlyContinue | ForEach-Object { $_.DirectoryName })
+    }
+  }
+  $script:DiscoveredToolDirectories = @($directories | Where-Object { Test-Path -LiteralPath $_ -PathType Container } | Select-Object -Unique)
+  $allPaths = @($env:PATH -split ';') + @([Environment]::GetEnvironmentVariable('Path','Machine') -split ';') + @([Environment]::GetEnvironmentVariable('Path','User') -split ';') + $script:DiscoveredToolDirectories
+  $env:PATH = ($allPaths | Where-Object { $_ } | Select-Object -Unique) -join ';'
+}
+function Confirm-WinGetResult([string]$Command, [string]$Package, [int]$ExitCode) {
+  Refresh-ToolPath
+  # WinGet uses this HRESULT when an installed package has no applicable update.
+  if ($ExitCode -ne 0 -and $ExitCode -ne -1978335189) { throw "WinGet failed: $Package ($ExitCode)" }
+  if (-not (Has $Command)) { throw "TOOL_NOT_FOUND $Package is installed but $Command could not be located. Add its executable directory to PATH and rerun Install." }
+  if ($ExitCode -eq -1978335189) { Log "REUSE $Command (WinGet: no applicable update)" }
+}
+Refresh-ToolPath
 function Is-Admin {
   if ($DryRun) { return $false }
   $identity = [Security.Principal.WindowsIdentity]::GetCurrent()
@@ -42,7 +75,11 @@ function Check-Tools {
   if ($ramGb -lt 8) { $issues += "RAM 8 GB (found $ramGb GB)" }
   if ($diskGb -lt 20) { $issues += "free disk 20 GB (found $diskGb GB)" }
   if (-not $network) { $issues += 'HTTPS network access to github.com' }
-  if ($issues.Count -eq 0) { Log 'FINAL_RESULT PASS - Device is ready.'; return $true }
+  if ($issues.Count -eq 0) {
+    if ($Mode -eq 'Check') { Log 'FINAL_RESULT PASS - Device is ready.' }
+    else { Log 'DEVICE_CHECK_PASS Hardware and network checks passed; tool setup continues.' }
+    return $true
+  }
   Log "FINAL_RESULT FAIL - Missing: $($issues -join '; ')"
   return $false
 }
@@ -141,8 +178,8 @@ function Install-SystemTools {
   foreach ($item in $packages) {
     if (Has $item.Command) { Log "REUSE $($item.Command)"; continue }
     Log "INSTALL $($item.Package)"
-    winget install --id $item.Package --exact --accept-package-agreements --accept-source-agreements --silent
-    if ($LASTEXITCODE -ne 0) { throw "WinGet failed: $($item.Package) ($LASTEXITCODE)" }
+    winget install --id $item.Package --exact --source winget --accept-package-agreements --accept-source-agreements --silent
+    Confirm-WinGetResult $item.Command $item.Package $LASTEXITCODE
   }
   $tesseractCommand = Get-Command tesseract -ErrorAction SilentlyContinue
   $tesseractRoot = if ($tesseractCommand) { Split-Path $tesseractCommand.Source } else { Join-Path $env:ProgramFiles 'Tesseract-OCR' }
@@ -164,6 +201,15 @@ function Install-SystemTools {
 function Install-UserTools {
   if (Is-Admin) { throw 'SetupUser must run in a normal, non-Administrator PowerShell. Close this window and open PowerShell normally.' }
   if (-not $Agent) { $Agent = Read-Host 'Choose AI frontend [claude/codex/openrouter]' }
+  Refresh-ToolPath
+  if (-not $DryRun) {
+    $userPaths = @([Environment]::GetEnvironmentVariable('Path','User') -split ';' | Where-Object { $_ })
+    $missingPaths = @($script:DiscoveredToolDirectories | Where-Object { $userPaths -notcontains $_ })
+    if ($missingPaths.Count -gt 0) {
+      [Environment]::SetEnvironmentVariable('Path', (($userPaths + $missingPaths) -join ';'), 'User')
+      Log 'TOOL_PATH_READY Installed document tools added to your user PATH.'
+    }
+  }
   New-CourseWorkspace
   if ($DryRun) { Log 'DRY_RUN runtime Python 3.12 + user-owned TinyTeX + scoped Codex permissions' }
   else {
@@ -211,14 +257,25 @@ switch ($Mode) {
     if (-not (Check-Tools)) { throw 'INSTALL_STOPPED System requirements did not pass. Nothing was installed.' }
     if (Needs-SystemSetup) {
       Log 'ADMIN_PHASE_REQUIRED One UAC window installs missing system tools; keep this normal window open.'
-      $childArgs = '-NoProfile -ExecutionPolicy Bypass -File "' + $PSCommandPath + '" -Mode InstallSystem -Agent ' + $Agent
-      $child = Start-Process powershell.exe -Verb RunAs -ArgumentList $childArgs -Wait -PassThru
-      if ($child.ExitCode -ne 0) { throw 'System installation failed or UAC was cancelled.' }
-      $env:PATH = [Environment]::GetEnvironmentVariable('Path','Machine') + ';' + [Environment]::GetEnvironmentVariable('Path','User')
+      $logPath = Join-Path $env:TEMP ('ai-research-system-' + [guid]::NewGuid() + '.log')
+      Log "ADMIN_PHASE_LOG $logPath"
+      $childArgs = '-NoProfile -ExecutionPolicy Bypass -File "' + $PSCommandPath + '" -Mode InstallSystem -Agent ' + $Agent + ' -CourseDir "' + $CourseDir + '" -SystemLog "' + $logPath + '"'
+      try { $child = Start-Process powershell.exe -Verb RunAs -ArgumentList $childArgs -Wait -PassThru }
+      catch { throw "Could not start administrator phase (UAC may have been cancelled): $($_.Exception.Message)" }
+      if ($child.ExitCode -ne 0) {
+        if (Test-Path $logPath) { Get-Content $logPath -Tail 40 | ForEach-Object { Write-Host $_ } }
+        throw "System installation failed (exit $($child.ExitCode)). Details: $logPath"
+      }
+      Refresh-ToolPath
     } else { Log 'REUSE_SYSTEM_TOOLS No Administrator phase needed.' }
     Install-UserTools
   }
-  'InstallSystem' { Install-SystemTools }
+  'InstallSystem' {
+    if ($SystemLog) { Start-Transcript -Path $SystemLog -Force | Out-Null }
+    try { Install-SystemTools }
+    catch { Write-Host "[ai-grad] SYSTEM_INSTALL_FAILED $($_.Exception.Message)"; exit 1 }
+    finally { if ($SystemLog) { Stop-Transcript | Out-Null } }
+  }
   'SetupUser' { Install-UserTools }
   'Repair' { if (Is-Admin) { Install-SystemTools } else { Install-UserTools } }
 }

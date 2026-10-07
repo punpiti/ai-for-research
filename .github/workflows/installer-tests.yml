@@ -55,3 +55,5 @@ jobs:
       - uses: actions/checkout@v4
       - shell: pwsh
         run: ./scripts/test-installer-behavior.ps1 -Agent "${{ matrix.agent }}" -State "${{ matrix.state }}"
+      - shell: powershell
+        run: ./scripts/test-windows-system-tools.ps1
