@@ -5,7 +5,7 @@ mode="${1:---check}"
 course_dir="${AI_RESEARCH_COURSE_DIR:-${AI_GRAD_COURSE_DIR:-$HOME/ai-for-research-workspace}}"
 agent="${AI_GRAD_AGENT:-}"
 dry_run="${AI_RESEARCH_DRY_RUN:-0}"
-setup_version='2026.10.07.10'
+setup_version='2026.10.07.11'
 test_commands=",${AI_RESEARCH_TEST_COMMANDS:-},"
 trace_platform=macos
 trace_root="$HOME/Library/Application Support/ai-for-research"
@@ -68,10 +68,10 @@ if [[ "$dry_run" != 1 && "$mode" != --check ]]; then
   (umask 077; : > "${trace_file%.jsonl}.log")
   trace phase installer "$mode" started "agent=$agent; version=$setup_version"
   trace snapshot workspace "$course_dir" before preserve-personal-files
-  for name in content.md README.md AGENTS.md templates/modern-thai.yaml templates/modern-thai.lua templates/modern-thai.tex templates/fonts/Sarabun-Regular.ttf templates/fonts/Sarabun-Bold.ttf templates/fonts/OFL.txt tools/import-documents.sh tools/import-documents.ps1 .vscode/extensions.json; do
+  for name in content.md README.md AGENTS.md templates/modern-thai.yaml templates/modern-thai.lua templates/modern-thai.tex templates/fonts/Sarabun-Regular.ttf templates/fonts/Sarabun-Bold.ttf templates/fonts/OFL.txt tools/import-documents.sh tools/import-documents.ps1 tools/install-summary.py .vscode/extensions.json; do
     watched_paths+=("$course_dir/$name")
   done
-  for name in python envs/research TinyTeX node npm uv-tools bin tessdata; do watched_paths+=("$trace_root/$name"); done
+  for name in python envs/research TinyTeX node npm uv-tools bin tessdata envs/research/pyvenv.cfg TinyTeX/tlpkg/texlive.tlpdb; do watched_paths+=("$trace_root/$name"); done
   for path in "${watched_paths[@]}"; do trace_path "$path" before; done
   finish_trace() {
     local result=$? status=completed
@@ -88,7 +88,7 @@ log "SETUP_VERSION $setup_version"
 have() {
   if [[ "$test_commands" != ",," ]]; then [[ "$test_commands" == *",$1,"* ]]; else command -v "$1" >/dev/null 2>&1; fi
 }
-run_npm_install() { if [[ "$dry_run" == 1 ]]; then log "DRY_RUN npm install -g $1"; else quiet npm install -g "$1"; fi; }
+run_npm_install() { if [[ "$dry_run" == 1 ]]; then log "DRY_RUN npm install -g $1"; else trace install user-tool "$1" started; quiet npm install -g "$1"; trace install user-tool "$1" completed; fi; }
 check() {
   [[ "$(uname -s)" == Darwin ]] || { log 'FAIL This script requires macOS.'; return 2; }
   ram_gb="$(( $(sysctl -n hw.memsize) / 1024 / 1024 / 1024 ))"
@@ -139,6 +139,7 @@ make_workspace() {
   quiet curl -fL 'https://urban.cpe.ku.ac.th/ai-for-research/downloads/starter-AGENTS.md' -o "$course_dir/AGENTS.md"
   quiet curl -fL 'https://urban.cpe.ku.ac.th/ai-for-research/downloads/import-documents.sh' -o "$course_dir/tools/import-documents.sh"
   quiet curl -fL 'https://urban.cpe.ku.ac.th/ai-for-research/downloads/import-documents.ps1' -o "$course_dir/tools/import-documents.ps1"
+  quiet curl -fL https://urban.cpe.ku.ac.th/ai-for-research/downloads/setup-summary.py -o "$course_dir/tools/install-summary.py"
   chmod +x "$course_dir/tools/import-documents.sh"
   log "workspace=$course_dir"
 }
@@ -250,6 +251,7 @@ setup_user() {
     export PATH="$HOME/.local/bin:$PATH"
     export UV_PYTHON_INSTALL_DIR="$HOME/Library/Application Support/ai-for-research/python"
     export UV_CACHE_DIR="$HOME/Library/Application Support/ai-for-research/cache/uv"
+    if have uv; then trace snapshot system-tool uv before present; fi
     if ! have uv; then
       uv_script="$(mktemp)"
       curl -fsSL https://astral.sh/uv/install.sh -o "$uv_script"
@@ -276,6 +278,7 @@ setup_user() {
     *) log 'AI frontend must be codex, claude, openrouter, or antigravity.'; exit 2 ;;
   esac
   if [[ "$agent" == antigravity ]]; then configure_antigravity; else configure_vscode; fi
+  if [[ "$dry_run" != 1 ]]; then "$VIRTUAL_ENV/bin/python" "$course_dir/tools/install-summary.py" --trace "$trace_file"; fi
   log "AI workspace=$agent installed. Next: open the workspace, open its AI panel, and sign in with your own account. The terminal command is only a fallback."
 }
 case "$mode" in

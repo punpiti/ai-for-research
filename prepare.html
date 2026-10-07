@@ -136,7 +136,7 @@
       <div class="notice"><strong>สิทธิ์ครั้งแรก:</strong> Windows จะถาม UAC เฉพาะเมื่อขาดเครื่องมือระบบ; macOS และ Linux อาจถามรหัสผ่านเพื่อติดตั้งเครื่องมือระบบ จากนั้น Python, TinyTeX และแพ็กเกจเพิ่มเติมใช้พื้นที่ของบัญชีผู้ใช้ปกติ</div>
       <p>เลือก extension จากผู้พัฒนา official หรือที่มียอดติดตั้งสูง: <a href="https://marketplace.visualstudio.com/items?itemName=mathematic.vscode-pdf" target="_blank" rel="noopener">PDF Viewer</a> เปิด PDF, <a href="https://marketplace.visualstudio.com/items?itemName=mechatroner.rainbow-csv" target="_blank" rel="noopener">Rainbow CSV</a> แยกสีและจัดแนวคอลัมน์ CSV และ <a href="https://marketplace.visualstudio.com/items?itemName=AykutSarac.jsoncrack-vscode" target="_blank" rel="noopener">JSON Crack</a> ซึ่งเป็น extension official ของโครงการ JSON Crack แสดง JSON เป็นแผนภาพ ทั้งสามตัวติดตั้งพร้อมกันทุกตัวเลือก AI ส่วนการอ่าน จัดรูปแบบ และพับโครงสร้าง JSON มีอยู่ใน VS Code ของ Microsoft แล้ว</p>
       <p>เปิด PDF หรือ CSV ได้จากรายการไฟล์ สำหรับ CSV ใช้ <code>Rainbow CSV: Virtual Align CSV Columns</code> เพื่อจัดแนวโดยไม่เปลี่ยนข้อมูล สำหรับ JSON เปิดไฟล์แล้วคลิกไอคอน JSON Crack ที่มุมขวาบนของ editor ยอดติดตั้งที่ตรวจเมื่อ 7 ตุลาคม 2026: PDF Viewer ประมาณ 2.8 ล้านครั้ง, Rainbow CSV ประมาณ 24.3 ล้านครั้ง และ JSON Crack ประมาณ 7.8 แสนครั้ง ตัวเลขนี้เป็นยอดติดตั้งสะสม ไม่ใช่จำนวนผู้ใช้ปัจจุบัน</p>
-      <div class="notice"><strong>ถ้ารันซ้ำหรือแก้ปัญหา:</strong> คัดลอกคำสั่งติดตั้งด้านล่างใหม่แล้วรันได้เลย แล้วตรวจว่าเห็น <code>SETUP_VERSION 2026.10.07.10</code></div>
+      <div class="notice"><strong>ถ้ารันซ้ำหรือแก้ปัญหา:</strong> คัดลอกคำสั่งติดตั้งด้านล่างใหม่แล้วรันได้เลย แล้วตรวจว่าเห็น <code>SETUP_VERSION 2026.10.07.11</code></div>
       <div class="platform-picker" role="group" aria-label="เลือกระบบปฏิบัติการสำหรับติดตั้ง software">
         <button type="button" data-platform-button="windows">Windows 11</button>
         <button type="button" data-platform-button="macos">macOS</button>
@@ -163,7 +163,7 @@
         </article>
       </div>
       <div class="notice"><strong>ติดตั้งสำเร็จเมื่อ:</strong> เห็น <code>RUNTIME_READY</code> ซึ่งยืนยัน Python ใน venv, การติดตั้งและ import แพ็กเกจ, XeLaTeX และการสร้าง PDF ภาษาไทยผ่าน template จริง แล้ว Workspace เปิดพร้อม AI panel หากขั้นใดล้มเหลว Script จะหยุดและแสดงข้อผิดพลาด</div>
-      <p>ระหว่างติดตั้งจะแสดงเฉพาะขั้นหลักและผลสำเร็จ รายละเอียดและประวัติการเปลี่ยนแปลงจะเก็บในเครื่อง หากติดตั้งไม่สำเร็จ Script จะแสดงขั้นที่มีปัญหาและตำแหน่ง log สำหรับตรวจสอบ</p>
+      <p>ระหว่างติดตั้งจะแสดงเฉพาะขั้นหลัก เมื่อเสร็จจะแสดงสรุปเครื่องมือที่ใช้ต่อจากของเดิม รายการที่เพิ่ม และตำแหน่ง log รายละเอียดและประวัติการเปลี่ยนแปลงจะเก็บในเครื่อง หากติดตั้งไม่สำเร็จ Script จะแสดงขั้นที่มีปัญหาและตำแหน่ง log สำหรับตรวจสอบ</p>
       <h3>มีอยู่แล้วให้ใช้ต่อ</h3>
       <p>Installer ใช้ซอฟต์แวร์ที่มีอยู่และติดตั้งเฉพาะตัวที่ขาด จะไม่อัปเดตทุกโปรแกรมเป็นรุ่นล่าสุด หาก Node รุ่นเดิมต่ำกว่าที่ AI frontend ต้องใช้ จะเตรียม Node LTS ที่รองรับในพื้นที่เครื่องมือของคอร์สโดยเก็บรุ่นระบบไว้ ส่วน Python 3.12 และ TinyTeX ของคอร์สจะใช้ชุดเดิมเมื่อรันซ้ำ</p>
       <p>LaTeX ที่ติดตั้งไว้ระดับระบบอาจยังต้องขอ Admin เมื่อลงแพ็กเกจเพิ่ม จึงเตรียม TinyTeX ที่ผู้ใช้เขียนได้แยกไว้ตั้งแต่ครั้งแรก ผู้เรียนสามารถอัปเดตเครื่องมือภายหลังเมื่อพบปัญหาหรือมีเหตุผลด้านการรองรับงาน โดยบันทึกรุ่นก่อนและหลัง</p>

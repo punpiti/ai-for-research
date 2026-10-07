@@ -18,9 +18,42 @@ ROOT = Path(__file__).resolve().parents[1]
 spec = importlib.util.spec_from_file_location('runtime', ROOT / 'downloads/setup-runtime.py')
 runtime = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(runtime)
+summary_spec = importlib.util.spec_from_file_location('summary', ROOT / 'downloads/setup-summary.py')
+summary = importlib.util.module_from_spec(summary_spec)
+summary_spec.loader.exec_module(summary)
 
 
 class RuntimeTests(unittest.TestCase):
+    def test_summary_distinguishes_reuse_additions_and_unconfirmed_attempts(self):
+        def event(kind, target, status, details, action='snapshot'):
+            return dict(kind=kind, target=target, status=status, details=details, action=action)
+        events = [
+            event('system-tool', 'git', 'before', 'present; source=git.exe'),
+            event('path', 'C:/tools/envs/research/pyvenv.cfg', 'before', 'missing'),
+            event('path', 'C:/tools/envs/research/pyvenv.cfg', 'before', 'file:later'),
+            event('path', 'C:/tools/envs/research/pyvenv.cfg', 'after', 'file:later'),
+            event('path', 'C:/tools/TinyTeX/tlpkg/texlive.tlpdb', 'before', 'file:old'),
+            event('path', 'C:/tools/TinyTeX/tlpkg/texlive.tlpdb', 'after', 'file:new'),
+            event('vscode-extension', 'saoudrizwan.claude-dev', 'before', 'present; profile=course'),
+            event('vscode-extension', 'saoudrizwan.claude-dev', 'after', 'present; profile=course'),
+            event('vscode-extension', 'mechatroner.rainbow-csv', 'before', 'missing; profile=course'),
+            event('vscode-extension', 'mechatroner.rainbow-csv', 'after', 'present; profile=course'),
+            event('user-tool', 'uv', 'started', '', 'install'),
+            event('python-packages', 'env', 'before', '{"packaging":null}'),
+            event('python-packages', 'env', 'after', '{"packaging":"26.3"}'),
+            event('tex-packages', 'tex', 'before', '["old"]'),
+            event('tex-packages', 'tex', 'after', '["old","new"]'),
+        ]
+        result = summary.summarize(events)
+        self.assertEqual(result['reused'], ['Cline', 'Git', 'TinyTeX'])
+        self.assertEqual(result['added'], ['CSV viewer', 'LaTeX packages (1)', 'Python 3.12 + venv', 'packaging (Python package)'])
+        self.assertNotIn('uv', result['added'])
+        self.assertEqual(result['prepared'], [])
+
+    def test_summary_of_unchanged_rerun_has_no_additions(self):
+        events = [dict(action='snapshot', kind='python-packages', target='env', status=stage, details='{"packaging":"26.3"}') for stage in ('before', 'after')]
+        self.assertEqual(summary.summarize(events), dict(reused=['packaging (Python package)'], added=[], prepared=[]))
+
     def test_shell_trace_json_escaping_and_quiet_exit_status(self):
         for platform in ('linux', 'macos'):
             with self.subTest(platform=platform), tempfile.TemporaryDirectory() as scratch:
@@ -158,6 +191,8 @@ class RuntimeTests(unittest.TestCase):
                 if 'pip' in args and python_failure == 'install':
                     raise subprocess.CalledProcessError(1, args)
                 if '-c' in args:
+                    if 'PackageNotFoundError' in args[-1]:
+                        return subprocess.CompletedProcess(args, 0, stdout='{"packaging":null}')
                     if python_failure == 'import':
                         raise subprocess.CalledProcessError(1, args)
                     prefix = root / 'envs/research' if python_failure != 'environment' else root / 'wrong-env'

@@ -9,7 +9,7 @@ param(
 $ErrorActionPreference = 'Stop'
 $ProgressPreference = 'SilentlyContinue'
 $DryRun = $env:AI_RESEARCH_DRY_RUN -eq '1'
-$SetupVersion = '2026.10.07.10'
+$SetupVersion = '2026.10.07.11'
 $TestCommands = @($env:AI_RESEARCH_TEST_COMMANDS -split ',' | Where-Object { $_ })
 function Trace([string]$Action, [string]$Kind, [string]$Target, [string]$Status, [string]$Details = '') {
   if ($DryRun -or -not $TraceFile) { return }
@@ -75,9 +75,9 @@ if (-not $DryRun -and $Mode -ne 'Check') {
   Trace 'phase' 'installer' $Mode 'started' "agent=$Agent; version=$SetupVersion"
   Log "INSTALL_TRACE $TraceFile"
 }
-$watchedPaths = @('content.md','README.md','AGENTS.md','templates\modern-thai.yaml','templates\modern-thai.lua','templates\modern-thai.tex','templates\fonts\Sarabun-Regular.ttf','templates\fonts\Sarabun-Bold.ttf','templates\fonts\OFL.txt','tools\import-documents.sh','tools\import-documents.ps1','.vscode\extensions.json') | ForEach-Object { Join-Path $CourseDir $_ }
+$watchedPaths = @('content.md','README.md','AGENTS.md','templates\modern-thai.yaml','templates\modern-thai.lua','templates\modern-thai.tex','templates\fonts\Sarabun-Regular.ttf','templates\fonts\Sarabun-Bold.ttf','templates\fonts\OFL.txt','tools\import-documents.sh','tools\import-documents.ps1','tools\install-summary.py','.vscode\extensions.json') | ForEach-Object { Join-Path $CourseDir $_ }
 $toolRoot = Join-Path $env:LOCALAPPDATA 'ai-for-research'
-$watchedPaths += @('python','envs\research','TinyTeX','node','npm','uv-tools','bin') | ForEach-Object { Join-Path $toolRoot $_ }
+$watchedPaths += @('python','envs\research','envs\research\pyvenv.cfg','TinyTeX','TinyTeX\tlpkg\texlive.tlpdb','node','npm','uv-tools','bin') | ForEach-Object { Join-Path $toolRoot $_ }
 foreach ($path in $watchedPaths) { Trace-Path $path 'before' }
 Trace 'snapshot' 'workspace' $CourseDir 'before' 'preserve-personal-files'
 Log "SETUP_VERSION $SetupVersion"
@@ -174,6 +174,7 @@ function New-CourseWorkspace {
   if (-not (Test-Path $content)) { Set-Content -Encoding utf8 $content "# My AI Research Workspace`n`nDescribe the research task here.`n" }
   if (-not (Test-Path $readme)) { Set-Content -Encoding utf8 $readme "# AI for Research`n`nKeep permitted inputs in input/ and generated work in output/.`n" }
   $starterFiles = @(
+    @{ Url = 'https://urban.cpe.ku.ac.th/ai-for-research/downloads/setup-summary.py'; Path = (Join-Path $CourseDir 'tools\install-summary.py') },
     @{ Url = 'https://urban.cpe.ku.ac.th/ai-for-research/downloads/modern-thai.yaml'; Path = (Join-Path $templateDir 'modern-thai.yaml') },
     @{ Url = 'https://urban.cpe.ku.ac.th/ai-for-research/downloads/modern-thai.lua'; Path = (Join-Path $templateDir 'modern-thai.lua') },
     @{ Url = 'https://urban.cpe.ku.ac.th/ai-for-research/downloads/modern-thai.tex'; Path = (Join-Path $templateDir 'modern-thai.tex') },
@@ -313,6 +314,7 @@ function Install-UserTools {
     $env:PATH = "$HOME\.local\bin;" + $env:PATH
     $env:UV_PYTHON_INSTALL_DIR = Join-Path $env:LOCALAPPDATA 'ai-for-research\python'
     $env:UV_CACHE_DIR = Join-Path $env:LOCALAPPDATA 'ai-for-research\cache\uv'
+    if (Has 'uv') { Trace 'snapshot' 'system-tool' 'uv' 'before' 'present' }
     if (-not (Has 'uv')) {
       $uvScript = Join-Path $env:TEMP ('ai-research-uv-' + [guid]::NewGuid() + '.ps1')
       try {
@@ -338,13 +340,19 @@ function Install-UserTools {
   if (Has 'npm') {
     switch ($Agent) {
       'openrouter' { Log 'OPENROUTER_READY Cline extension; configure provider OpenRouter and your own key in the IDE.' }
-      'codex' { if (Has 'codex') { Log 'REUSE codex' } else { Log 'INSTALL codex'; if ($DryRun) { Log 'DRY_RUN npm install -g @openai/codex' } else { Run-Quiet 'Install Codex' { npm install -g '@openai/codex' } } } }
-      'claude' { if (Has 'claude') { Log 'REUSE claude' } else { Log 'INSTALL claude'; if ($DryRun) { Log 'DRY_RUN npm install -g @anthropic-ai/claude-code' } else { Run-Quiet 'Install Claude Code' { npm install -g '@anthropic-ai/claude-code' } } } }
+      'codex' { if (Has 'codex') { Log 'REUSE codex' } else { Log 'INSTALL codex'; if ($DryRun) { Log 'DRY_RUN npm install -g @openai/codex' } else { Run-Quiet 'Install Codex' { npm install -g '@openai/codex' }; Trace 'install' 'user-tool' 'codex' 'completed' } } }
+      'claude' { if (Has 'claude') { Log 'REUSE claude' } else { Log 'INSTALL claude'; if ($DryRun) { Log 'DRY_RUN npm install -g @anthropic-ai/claude-code' } else { Run-Quiet 'Install Claude Code' { npm install -g '@anthropic-ai/claude-code' }; Trace 'install' 'user-tool' 'claude' 'completed' } } }
       'antigravity' { if (-not (Has 'agy-ide')) { Log 'Antigravity will be opened through its desktop IDE; agy-ide is not required for workspace setup.' } }
     }
   }
   else { Log 'Node/npm was installed but this shell has not refreshed PATH. Reopen PowerShell and rerun with -Mode Repair.' }
   if ($Agent -eq 'antigravity') { Configure-Antigravity } else { Configure-VSCode }
+  if (-not $DryRun) {
+    foreach ($path in $watchedPaths) { Trace-Path $path 'after' }
+    $python = Join-Path $env:VIRTUAL_ENV 'Scripts\python.exe'
+    & $python (Join-Path $CourseDir 'tools\install-summary.py') --trace $TraceFile
+    if ($LASTEXITCODE -ne 0) { throw 'Installation summary could not be generated. See the installation trace.' }
+  }
   Log "AI workspace=$Agent installed. Next: open the workspace, open its AI panel, and sign in with your own account. The terminal command is only a fallback."
 }
 $installSucceeded = $false

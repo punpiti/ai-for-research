@@ -156,11 +156,18 @@ def ensure_node(root, agent):
         shutil.move(str(unpacked), str(destination))
     binary = destination if os.name == 'nt' else destination / 'bin'
     run(binary / executable, '--version')
+    trace('install', 'component', 'Node', 'completed')
     return binary
 
 
 def install_tex(root):
     tex = root / 'TinyTeX'
+    database = tex / 'tlpkg' / 'texlive.tlpdb'
+    def package_names():
+        return [line[5:] for line in database.read_text(encoding='utf-8').splitlines() if line.startswith('name ')] if database.exists() else None
+    previous_packages = package_names()
+    if previous_packages is not None:
+        trace('snapshot', 'tex-packages', tex, 'before', json.dumps(previous_packages))
     # Never replace an existing distribution; incomplete installs need inspection.
     if not tex.exists():
         system = platform.system()
@@ -200,11 +207,19 @@ def install_tex(root):
     kpsewhich = bin_dir / ('kpsewhich.exe' if os.name == 'nt' else 'kpsewhich')
     for name in ('setspace.sty', 'parskip.sty', 'unicode-math.sty', 'bookmark.sty'):
         run(kpsewhich, name, stdout=subprocess.DEVNULL)
+    current_packages = package_names()
+    if current_packages is not None:
+        trace('snapshot', 'tex-packages', tex, 'after', json.dumps(current_packages))
     return bin_dir
 
 
 def verify_python_runtime(uv, environment):
     python = environment / ('Scripts/python.exe' if os.name == 'nt' else 'bin/python')
+    before_probe = ('import json\nfrom importlib.metadata import version,PackageNotFoundError\n'
+                    'try:\n value=version("packaging")\nexcept PackageNotFoundError:\n value=None\n'
+                    'print(json.dumps({"packaging":value}))')
+    previous = run(python, '-I', '-c', before_probe, capture_output=True, text=True)
+    trace('snapshot', 'python-packages', environment, 'before', previous.stdout.strip())
     # A small useful dependency exercises package installation and imports in
     # the exact interpreter the AI will use; do not install into system Python.
     run(uv, 'pip', 'install', '--python', python, 'packaging>=24')
@@ -299,7 +314,7 @@ def main():
         trace('phase', 'installer', 'runtime', 'started')
     trace_file = os.environ['AI_RESEARCH_TRACE_FILE']
     log(f'INSTALL_TRACE {trace_file}')
-    tracked = [root / name for name in ('python', 'envs/research', 'TinyTeX', 'node', 'npm', 'uv-tools', 'bin', 'tessdata')]
+    tracked = [root / name for name in ('python', 'envs/research', 'envs/research/pyvenv.cfg', 'TinyTeX', 'TinyTeX/tlpkg/texlive.tlpdb', 'node', 'npm', 'uv-tools', 'bin', 'tessdata')]
     tracked += [workspace / name for name in ('tools/runtime-env.json', 'tools/runtime-env.sh', 'tools/runtime-env.ps1', '.vscode/settings.json', '.codex/config.toml', '.claude/settings.local.json', '.clinerules/course.md', '.gitignore')]
     _tracked_paths = tracked
     for path in tracked:
