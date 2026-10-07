@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/styles.css?v=20260805-16">
-  <script src="assets/app.js?v=20261007-3" defer></script>
+  <script src="assets/app.js?v=20261007-4" defer></script>
   <script src="assets/site-shell.js?v=20260805-5"></script>
 </head>
 <body class="prepare-page">
@@ -131,10 +131,11 @@
 
     <section class="section platform-section" id="install" data-agent-required hidden>
       <div class="section-heading compact"><p class="eyebrow">ขั้นที่ 2 · Installation</p><h2>ติดตั้งซอฟต์แวร์</h2></div>
-      <p>ติดตั้งครั้งแรกด้วยคำสั่งเดียวหลังโหลด Script: เตรียม VS Code พร้อม AI extension ที่เลือก, PDF Viewer, Python 3.12, LaTeX/XeLaTeX ผ่าน TinyTeX, Pandoc และ OCR ไทย–อังกฤษ แล้วให้ AI ดาวน์โหลดไลบรารี Python และแพ็กเกจ LaTeX เพิ่มเมื่อจำเป็น</p>
+      <p>ติดตั้งครั้งแรกด้วยคำสั่งเดียวหลังโหลด Script: เตรียม VS Code พร้อม AI extension ที่เลือก, PDF Viewer, CSV Viewer และ JSON Viewer, Python 3.12, LaTeX/XeLaTeX ผ่าน TinyTeX, Pandoc และ OCR ไทย–อังกฤษ แล้วให้ AI ดาวน์โหลดไลบรารี Python และแพ็กเกจ LaTeX เพิ่มเมื่อจำเป็น</p>
       <div class="notice"><strong>ติดตั้งต่อเนื่อง:</strong> Script ติดตั้งสิ่งที่ขาดตาม AI ที่เลือก โดยไม่ถามยืนยันทีละโปรแกรม เมื่อจบแล้วจึง Sign in หรือใส่ API key ไม่ต้องเลือกรุ่น Python, แพ็กเกจ LaTeX หรือ AI ตัวอื่นระหว่างติดตั้ง</div>
       <div class="notice"><strong>สิทธิ์ครั้งแรก:</strong> Windows จะถาม UAC; macOS และ Linux อาจถามรหัสผ่านเพื่อติดตั้งเครื่องมือระบบ จากนั้น Python, TinyTeX และแพ็กเกจเพิ่มเติมใช้พื้นที่ของบัญชีผู้ใช้ปกติ</div>
-      <div class="notice"><strong>ถ้ารันซ้ำหรือแก้ปัญหา:</strong> ต้องคัดลอกคำสั่งโหลด Script ในข้อ 1 ใหม่ก่อนเสมอ แล้วตรวจว่าเห็น <code>SETUP_VERSION 2026.10.07.3</code></div>
+      <p>Extension สำหรับดูไฟล์จะติดตั้งพร้อมกันทุกตัวเลือก AI: PDF Viewer เปิดไฟล์ PDF, <a href="https://marketplace.visualstudio.com/items?itemName=janisdd.vscode-edit-csv" target="_blank" rel="noopener">Edit CSV</a> ดู CSV เป็นตาราง และ <a href="https://marketplace.visualstudio.com/items?itemName=ccimage.jsonviewer" target="_blank" rel="noopener">JSON Viewer</a> ดู JSON เป็นโครงสร้างต้นไม้ สำหรับ CSV ให้เปิดไฟล์แล้วเลือกคำสั่ง <code>Edit as CSV</code>; สำหรับ JSON เลือก <code>Open in json viewer</code> จาก Command Palette</p>
+      <div class="notice"><strong>ถ้ารันซ้ำหรือแก้ปัญหา:</strong> ต้องคัดลอกคำสั่งโหลด Script ในข้อ 1 ใหม่ก่อนเสมอ แล้วตรวจว่าเห็น <code>SETUP_VERSION 2026.10.07.4</code></div>
       <div class="platform-picker" role="group" aria-label="เลือกระบบปฏิบัติการสำหรับติดตั้ง software">
         <button type="button" data-platform-button="windows">Windows 11</button>
         <button type="button" data-platform-button="macos">macOS</button>
@@ -155,7 +156,7 @@
           <div class="command"><code>curl -fL "https://urban.cpe.ku.ac.th/ai-for-research/downloads/setup-macos.sh" -o "$HOME/Downloads/setup-macos.sh"</code><button type="button" data-copy>คัดลอก</button></div>
           <h4 class="phase-title"><span>2</span> รันครั้งเดียว; ใส่รหัสผ่านเมื่อระบบถาม</h4>
           <div class="command"><code data-agent-command data-template="AI_GRAD_AGENT={agent} bash &quot;$HOME/Downloads/setup-macos.sh&quot; --install">AI_GRAD_AGENT=codex bash "$HOME/Downloads/setup-macos.sh" --install</code><button type="button" data-copy>คัดลอก</button></div>
-          <p class="expected">ติดตั้ง Homebrew เมื่อยังไม่มี แล้วเตรียมเครื่องมือระบบและเครื่องมือของผู้ใช้ต่อเนื่อง ต้องเห็น <code>SETUP_VERSION 2026.10.07.3</code>, <code>FONT_READY</code> และ <code>RUNTIME_READY</code> หากเลือก Codex หรือ Claude จะเห็น <code>CREATE VS_CODE_PROFILE</code> ด้วย Script จะเปิด Workspace ใน <span data-workspace-app>VS Code</span> ให้อัตโนมัติ</p>
+          <p class="expected">ติดตั้ง Homebrew เมื่อยังไม่มี แล้วเตรียมเครื่องมือระบบและเครื่องมือของผู้ใช้ต่อเนื่อง ต้องเห็น <code>SETUP_VERSION 2026.10.07.4</code>, <code>FONT_READY</code> และ <code>RUNTIME_READY</code> หากเลือก Codex หรือ Claude จะเห็น <code>CREATE VS_CODE_PROFILE</code> ด้วย Script จะเปิด Workspace ใน <span data-workspace-app>VS Code</span> ให้อัตโนมัติ</p>
         </article>
         <article class="platform-card" data-platform-panel="linux">
           <p class="platform-label">Linux (Ubuntu/Debian)</p><h3>เปิด Terminal ปกติ</h3>

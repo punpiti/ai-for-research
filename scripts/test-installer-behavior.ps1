@@ -32,6 +32,7 @@ if ($State -in @('present','missing')) {
   Require ($workspaceIndex -ge 0 -and $agentIndexes.Count -gt 0 -and $workspaceIndex -lt ($agentIndexes | Measure-Object -Minimum).Minimum) 'Workspace fonts must be prepared before the AI frontend.'
 }
 if ($Agent -ne 'antigravity' -and $State -in @('present','missing')) {
+  Require ($output.Contains('janisdd.vscode-edit-csv') -and $output.Contains('ccimage.jsonviewer')) 'CSV and JSON viewers must be installed with every AI profile.'
   $profileIndex = $output.IndexOf('CREATE VS_CODE_PROFILE')
   $extensionIndex = $output.IndexOf('INSTALL VS_CODE_EXTENSION')
   Require ($profileIndex -ge 0 -and $extensionIndex -ge 0 -and $profileIndex -lt $extensionIndex) 'VS Code profile must be created before extensions are installed.'

@@ -6,7 +6,7 @@ param(
 )
 $ErrorActionPreference = 'Stop'
 $DryRun = $env:AI_RESEARCH_DRY_RUN -eq '1'
-$SetupVersion = '2026.10.07.3'
+$SetupVersion = '2026.10.07.4'
 $TestCommands = @($env:AI_RESEARCH_TEST_COMMANDS -split ',' | Where-Object { $_ })
 function Log([string]$Message) { Write-Host "[ai-grad] $Message" }
 Log "SETUP_VERSION $SetupVersion"
@@ -86,7 +86,7 @@ function Configure-VSCode {
     'openrouter' { 'saoudrizwan.claude-dev' }
     'antigravity' { $null }
   }
-  $extensions = @('mathematic.vscode-pdf')
+  $extensions = @('mathematic.vscode-pdf', 'janisdd.vscode-edit-csv', 'ccimage.jsonviewer')
   if ($aiExtension) { $extensions = @($aiExtension) + $extensions }
   Log "CREATE VS_CODE_PROFILE profile=$profile workspace=$CourseDir"
   if ($DryRun) { Log "DRY_RUN code --profile $profile $CourseDir" } else { code --profile $profile $CourseDir }

@@ -28,6 +28,7 @@ if [[ "$state" =~ ^(present|missing)$ && ( "$state" == present || "$agent" != an
   [[ "$output" == *'mathematic.vscode-pdf'* ]]
 fi
 if [[ "$agent" != antigravity && "$state" =~ ^(present|missing)$ ]]; then
+  [[ "$output" == *'janisdd.vscode-edit-csv'* && "$output" == *'ccimage.jsonviewer'* ]]
   profile_line="$(grep -n -m1 'CREATE VS_CODE_PROFILE' <<<"$output" | cut -d: -f1)"
   extension_line="$(grep -n -m1 'INSTALL VS_CODE_EXTENSION' <<<"$output" | cut -d: -f1)"
   [[ -n "$profile_line" && -n "$extension_line" && $profile_line -lt $extension_line ]]
