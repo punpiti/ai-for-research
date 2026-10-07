@@ -20,21 +20,30 @@ $DryRun = $false
 $TestCommands = @()
 $Agent = 'openrouter'
 $originalPath = $env:PATH
+$originalProgramFiles = $env:ProgramFiles
+$originalLocalAppData = $env:LOCALAPPDATA
+$discoveryScratch = Join-Path $env:TEMP ('.ai-research-discovery-' + [guid]::NewGuid())
 try {
-  # Simulate a stale shell even on a machine with previously installed packages.
+  # Use a deterministic fake installation tree. This verifies discovery without
+  # depending on tools preinstalled on a developer machine or GitHub runner.
+  $env:ProgramFiles = Join-Path $discoveryScratch 'ProgramFiles'
+  $env:LOCALAPPDATA = Join-Path $discoveryScratch 'LocalAppData'
+  $fixtureFiles = @(
+    (Join-Path $env:ProgramFiles 'Git\cmd\git.exe'),
+    (Join-Path $env:ProgramFiles 'Tesseract-OCR\tesseract.exe'),
+    (Join-Path $env:LOCALAPPDATA 'Pandoc\pandoc.exe'),
+    (Join-Path $env:LOCALAPPDATA 'Microsoft\WinGet\Packages\oschwartz10612.Poppler_fixture\Library\bin\pdftotext.exe'),
+    (Join-Path $env:LOCALAPPDATA 'Microsoft\WinGet\Packages\oschwartz10612.Poppler_fixture\Library\bin\pdftoppm.exe'),
+    (Join-Path $env:LOCALAPPDATA 'Microsoft\WinGet\Packages\oschwartz10612.Poppler_fixture\Library\bin\pdfinfo.exe')
+  )
+  foreach ($file in $fixtureFiles) {
+    New-Item -ItemType Directory -Force -Path (Split-Path -Parent $file) | Out-Null
+    New-Item -ItemType File -Force -Path $file | Out-Null
+  }
   $env:PATH = "$env:SystemRoot\System32"
   Refresh-ToolPath
-  foreach ($pair in @(
-    @('git', (Join-Path $env:ProgramFiles 'Git\cmd\git.exe')),
-    @('tesseract', (Join-Path $env:ProgramFiles 'Tesseract-OCR\tesseract.exe')),
-    @('pandoc', (Join-Path $env:LOCALAPPDATA 'Pandoc\pandoc.exe'))
-  )) {
-    if ((Test-Path $pair[1]) -and -not (Has $pair[0])) { throw "Installed off-PATH tool not discovered: $($pair[0])" }
-  }
-  foreach ($directory in $script:DiscoveredToolDirectories) {
-    if ((Test-Path (Join-Path $directory 'pdftotext.exe')) -and -not (Has 'pdftotext')) { throw 'Portable Poppler was not discovered.' }
-    if ((Test-Path (Join-Path $directory 'pdftoppm.exe')) -and -not (Has 'pdftoppm')) { throw 'Poppler PDF renderer was not discovered.' }
-    if ((Test-Path (Join-Path $directory 'pdfinfo.exe')) -and -not (Has 'pdfinfo')) { throw 'Poppler PDF metadata tool was not discovered.' }
+  foreach ($command in @('git','tesseract','pandoc','pdftotext','pdftoppm','pdfinfo')) {
+    if (-not (Has $command)) { throw "Installed off-PATH tool not discovered: $command" }
   }
   # Stub discovery to exercise WinGet results without accessing any package manager.
   $DryRun = $true
@@ -58,7 +67,12 @@ try {
   if (Needs-SystemSetup) { throw 'Complete tools must skip UAC.' }
   $TestCommands = @('code','git','pandoc','tesseract','pdftotext','pdftoppm','pdfinfo')
   if (-not (Needs-SystemSetup)) { throw 'Missing Thai data must request system setup.' }
-} finally { $env:PATH = $originalPath }
+} finally {
+  $env:PATH = $originalPath
+  $env:ProgramFiles = $originalProgramFiles
+  $env:LOCALAPPDATA = $originalLocalAppData
+  Remove-Item $discoveryScratch -Recurse -Force -ErrorAction SilentlyContinue
+}
 $scratch = Join-Path $PSScriptRoot ('.trace-test-' + [guid]::NewGuid())
 New-Item -ItemType Directory -Path $scratch | Out-Null
 try {
