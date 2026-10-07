@@ -19,7 +19,7 @@ for platform in windows macos linux; do
   grep -q "data-platform-panel=\"$platform\"" "$page"
 done
 
-grep -q 'SETUP_VERSION 2026.10.07.4' "$page"
+grep -q 'SETUP_VERSION 2026.10.07.5' "$page"
 grep -q 'FONT_READY' "$page"
 grep -q 'CREATE VS_CODE_PROFILE' "$page"
 grep -q 'Script จะเปิด Workspace ใน <span data-workspace-app>VS Code</span> ให้อัตโนมัติ' "$page"
