@@ -99,3 +99,6 @@ try {
   if ($diagnostic -notmatch 'tool detail' -or $diagnostic -notmatch 'missing package') { throw 'Hidden tool output must remain in the diagnostic log.' }
 } finally { Remove-Item $scratch -Recurse -Force }
 Write-Host 'PASS Windows off-PATH discovery, WinGet results and Thai-data elevation checks'
+# The test intentionally exercises a failing native command above. GitHub's
+# powershell shell propagates a stale LASTEXITCODE even after we catch it.
+$global:LASTEXITCODE = 0
