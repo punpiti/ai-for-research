@@ -5,7 +5,7 @@ $errors = $null
 $ast = [Management.Automation.Language.Parser]::ParseFile($installer, [ref]$tokens, [ref]$errors)
 if ($errors.Count) { throw ($errors | Out-String) }
 # Load only the functions under test; never run installation, elevation or PATH persistence.
-foreach ($name in @('Has','Log','Refresh-ToolPath','Confirm-WinGetResult','Get-SystemPackages','Needs-SystemSetup')) {
+foreach ($name in @('Has','Trace','Trace-Path','Run-Quiet','Log','Refresh-ToolPath','Confirm-WinGetResult','Get-SystemPackages','Needs-SystemSetup')) {
   $node = $ast.Find({ param($n) $n -is [Management.Automation.Language.FunctionDefinitionAst] -and $n.Name -eq $name }, $true)
   if (-not $node) { throw "Missing function: $name" }
   Invoke-Expression $node.Extent.Text
@@ -47,4 +47,20 @@ try {
   $TestCommands = @('code','git','pandoc','tesseract','pdftotext')
   if (-not (Needs-SystemSetup)) { throw 'Missing Thai data must request system setup.' }
 } finally { $env:PATH = $originalPath }
+$scratch = Join-Path $PSScriptRoot ('.trace-test-' + [guid]::NewGuid())
+New-Item -ItemType Directory -Path $scratch | Out-Null
+try {
+  $DryRun = $false
+  $TraceFile = Join-Path $scratch 'trace.jsonl'
+  Trace-Path (Join-Path $scratch 'missing-file') 'before'
+  $output = (& { Run-Quiet 'test success' { cmd.exe /d /c 'echo tool detail & echo a warning 1>&2 & exit 0' } } 6>&1 | Out-String)
+  if ($output.Trim()) { throw "Successful tool output must be hidden: $output" }
+  $failed = $false
+  try { Run-Quiet 'test failure' { cmd.exe /d /c 'echo missing package 1>&2 & exit 7' } } catch { $failed = $_.Exception.Message -match 'exit 7' }
+  if (-not $failed) { throw 'Quiet capture must preserve native command failure.' }
+  $records = @(Get-Content $TraceFile | ForEach-Object { $_ | ConvertFrom-Json })
+  if ($records[0].details -ne 'missing' -or $records[-1].status -ne 'failed') { throw 'Journal snapshots/failures were lost.' }
+  $diagnostic = Get-Content ([IO.Path]::ChangeExtension($TraceFile, '.log')) -Raw
+  if ($diagnostic -notmatch 'tool detail' -or $diagnostic -notmatch 'missing package') { throw 'Hidden tool output must remain in the diagnostic log.' }
+} finally { Remove-Item $scratch -Recurse -Force }
 Write-Host 'PASS Windows off-PATH discovery, WinGet results and Thai-data elevation checks'

@@ -5,7 +5,9 @@ import io
 import json
 import os
 from pathlib import Path
+import shlex
 import subprocess
+import sys
 import tarfile
 import tempfile
 import tomllib
@@ -19,6 +21,55 @@ spec.loader.exec_module(runtime)
 
 
 class RuntimeTests(unittest.TestCase):
+    def test_shell_trace_json_escaping_and_quiet_exit_status(self):
+        for platform in ('linux', 'macos'):
+            with self.subTest(platform=platform), tempfile.TemporaryDirectory() as scratch:
+                source = (ROOT / f'downloads/setup-{platform}.sh').read_text()
+                helpers = source[source.index("trace_file=''\n"):source.index('log "SETUP_VERSION')]
+                journal = Path(scratch) / 'trace.jsonl'
+                script = 'mode=--check; dry_run=0; trace_platform=test; trace_root=/unused\n' + helpers
+                script += '\ntrace_file=' + shlex.quote(str(journal)) + '\n'
+                script += 'trace snapshot path ' + shlex.quote('path with "quotes" and \\slashes\nnext line') + ' before missing\n'
+                script += 'quiet bash -c "echo hidden; echo diagnostic >&2"\n'
+                script += 'if quiet bash -c "echo failed >&2; exit 7"; then exit 99; else result=$?; fi\n[[ "$result" == 7 ]]\n'
+                result = subprocess.run(['bash'], input=script, text=True, capture_output=True)
+                self.assertEqual(result.returncode, 0, result.stderr)
+                self.assertNotIn('hidden', result.stdout)
+                events = [json.loads(line) for line in journal.read_text().splitlines()]
+                self.assertEqual(events[0]['target'], 'path with "quotes" and \\slashes\nnext line')
+                self.assertEqual(events[-1]['status'], 'failed')
+                self.assertIn('diagnostic', journal.with_suffix('.log').read_text())
+
+    def test_trace_snapshots_distinguish_missing_reused_and_modified_files(self):
+        with tempfile.TemporaryDirectory() as scratch, patch.dict(os.environ):
+            root = Path(scratch)
+            journal = root / 'trace.jsonl'
+            os.environ['AI_RESEARCH_TRACE_FILE'] = str(journal)
+            target = root / 'file with spaces.txt'
+            runtime.trace_path(target, 'before')
+            target.write_text('first')
+            runtime.trace_path(target, 'after')
+            runtime.trace_path(target, 'before')
+            target.write_text('user edit')
+            runtime.trace_path(target, 'after')
+            events = [json.loads(line) for line in journal.read_text().splitlines()]
+            self.assertEqual(events[0]['details'], 'missing')
+            self.assertEqual(events[1]['details'], events[2]['details'])
+            self.assertNotEqual(events[2]['details'], events[3]['details'])
+
+    def test_commands_are_quiet_and_failures_remain_in_diagnostics(self):
+        with tempfile.TemporaryDirectory() as scratch, patch.dict(os.environ):
+            journal = Path(scratch) / 'trace.jsonl'
+            os.environ['AI_RESEARCH_TRACE_FILE'] = str(journal)
+            runtime.run(sys.executable, '-c', 'print("tool detail")')
+            with self.assertRaises(subprocess.CalledProcessError):
+                runtime.run(sys.executable, '-c', 'import sys; print("missing package",file=sys.stderr); sys.exit(3)')
+            events = [json.loads(line) for line in journal.read_text().splitlines()]
+            self.assertEqual(events[-1]['status'], 'failed')
+            self.assertEqual(events[-1]['details'], '3')
+            self.assertNotIn('missing package', journal.read_text())
+            self.assertIn('missing package', journal.with_suffix('.log').read_text())
+
     def test_config_scopes_downloads_and_preserves_existing_files(self):
         with tempfile.TemporaryDirectory(prefix='research config ') as scratch:
             workspace = Path(scratch) / 'workspace'; root = Path(scratch) / 'local tools'
@@ -123,18 +174,25 @@ class RuntimeTests(unittest.TestCase):
                 if fail_pdf or python_failure:
                     error = RuntimeError if python_failure == 'environment' else subprocess.CalledProcessError
                     with self.assertRaises(error):
-                        runtime.main()
+                        runtime.traced_main()
                 else:
-                    runtime.main()
+                    runtime.traced_main()
             passed = not fail_pdf and not python_failure
             self.assertEqual('RUNTIME_READY' in output.getvalue(), passed)
             self.assertEqual((workspace / '.codex/config.toml').exists(), passed)
             self.assertIn(('/usr/bin/uv', 'python', 'install', '3.12'), commands)
             self.assertTrue(str(root) in os.environ['UV_PROJECT_ENVIRONMENT'])
             self.assertFalse((workspace / '.venv').exists())
+            journal = Path(os.environ['AI_RESEARCH_TRACE_FILE'])
+            events = [json.loads(line) for line in journal.read_text().splitlines()]
+            self.assertEqual(events[-1]['status'], 'completed' if passed else 'after')
+            if not passed:
+                self.assertTrue(any(e['action'] == 'phase' and e['status'] == 'failed' for e in events))
+                self.assertTrue(any(e['action'] == 'snapshot' and e['status'] == 'after' for e in events))
             if passed:
                 receipt = json.loads((workspace / 'tools/runtime-env.json').read_text())
                 self.assertEqual(receipt['tool_root'], str(root))
+                self.assertEqual(receipt['install_trace'], str(journal))
                 self.assertEqual(receipt['python']['prefix'], str(root / 'envs/research'))
                 self.assertEqual(receipt['env']['VIRTUAL_ENV'], receipt['env']['UV_PROJECT_ENVIRONMENT'])
                 settings = json.loads((workspace / '.vscode/settings.json').read_text())

@@ -136,7 +136,7 @@
       <div class="notice"><strong>สิทธิ์ครั้งแรก:</strong> Windows จะถาม UAC เฉพาะเมื่อขาดเครื่องมือระบบ; macOS และ Linux อาจถามรหัสผ่านเพื่อติดตั้งเครื่องมือระบบ จากนั้น Python, TinyTeX และแพ็กเกจเพิ่มเติมใช้พื้นที่ของบัญชีผู้ใช้ปกติ</div>
       <p>เลือก extension จากผู้พัฒนา official หรือที่มียอดติดตั้งสูง: <a href="https://marketplace.visualstudio.com/items?itemName=mathematic.vscode-pdf" target="_blank" rel="noopener">PDF Viewer</a> เปิด PDF, <a href="https://marketplace.visualstudio.com/items?itemName=mechatroner.rainbow-csv" target="_blank" rel="noopener">Rainbow CSV</a> แยกสีและจัดแนวคอลัมน์ CSV และ <a href="https://marketplace.visualstudio.com/items?itemName=AykutSarac.jsoncrack-vscode" target="_blank" rel="noopener">JSON Crack</a> ซึ่งเป็น extension official ของโครงการ JSON Crack แสดง JSON เป็นแผนภาพ ทั้งสามตัวติดตั้งพร้อมกันทุกตัวเลือก AI ส่วนการอ่าน จัดรูปแบบ และพับโครงสร้าง JSON มีอยู่ใน VS Code ของ Microsoft แล้ว</p>
       <p>เปิด PDF หรือ CSV ได้จากรายการไฟล์ สำหรับ CSV ใช้ <code>Rainbow CSV: Virtual Align CSV Columns</code> เพื่อจัดแนวโดยไม่เปลี่ยนข้อมูล สำหรับ JSON เปิดไฟล์แล้วคลิกไอคอน JSON Crack ที่มุมขวาบนของ editor ยอดติดตั้งที่ตรวจเมื่อ 7 ตุลาคม 2026: PDF Viewer ประมาณ 2.8 ล้านครั้ง, Rainbow CSV ประมาณ 24.3 ล้านครั้ง และ JSON Crack ประมาณ 7.8 แสนครั้ง ตัวเลขนี้เป็นยอดติดตั้งสะสม ไม่ใช่จำนวนผู้ใช้ปัจจุบัน</p>
-      <div class="notice"><strong>ถ้ารันซ้ำหรือแก้ปัญหา:</strong> คัดลอกคำสั่งติดตั้งด้านล่างใหม่แล้วรันได้เลย แล้วตรวจว่าเห็น <code>SETUP_VERSION 2026.10.07.8</code></div>
+      <div class="notice"><strong>ถ้ารันซ้ำหรือแก้ปัญหา:</strong> คัดลอกคำสั่งติดตั้งด้านล่างใหม่แล้วรันได้เลย แล้วตรวจว่าเห็น <code>SETUP_VERSION 2026.10.07.9</code></div>
       <div class="platform-picker" role="group" aria-label="เลือกระบบปฏิบัติการสำหรับติดตั้ง software">
         <button type="button" data-platform-button="windows">Windows 11</button>
         <button type="button" data-platform-button="macos">macOS</button>
@@ -147,13 +147,13 @@
           <p class="platform-label">Windows 11</p><h3>เปิด PowerShell ปกติ</h3>
           <h4 class="phase-title"><span>1</span> คัดลอกคำสั่งนี้แล้วกด Enter ครั้งเดียว</h4>
           <div class="command"><code data-agent-command data-template="&amp; { $setup = Join-Path $env:TEMP &#x27;ai-research-setup.ps1&#x27;; Invoke-WebRequest -UseBasicParsing -ErrorAction Stop &quot;https://urban.cpe.ku.ac.th/ai-for-research/downloads/setup-windows.ps1&quot; -OutFile $setup; powershell -NoProfile -ExecutionPolicy Bypass -File &quot;$setup&quot; -Mode Install -Agent {agent} }">&amp; { $setup = Join-Path $env:TEMP 'ai-research-setup.ps1'; Invoke-WebRequest -UseBasicParsing -ErrorAction Stop "https://urban.cpe.ku.ac.th/ai-for-research/downloads/setup-windows.ps1" -OutFile $setup; powershell -NoProfile -ExecutionPolicy Bypass -File "$setup" -Mode Install -Agent codex }</code><button type="button" data-copy>คัดลอก</button></div>
-          <p class="expected">เริ่มใน PowerShell ปกติเพียงหน้าต่างเดียว หากเครื่องมือระบบยังไม่ครบ Script จะเปิดหน้าต่าง Admin หนึ่งครั้ง ให้ตอบ Yes ที่ UAC แล้วรอให้กลับมาทำงานต่อในหน้าต่างเดิม เมื่อเครื่องมือระบบครบแล้วจะข้าม Admin ต้องเห็น <code>FONT_READY</code> และ <code>RUNTIME_READY</code></p>
+          <p class="expected">เริ่มใน PowerShell ปกติเพียงหน้าต่างเดียว หากเครื่องมือระบบยังไม่ครบ Script จะเปิดหน้าต่าง Admin หนึ่งครั้ง ให้ตอบ Yes ที่ UAC แล้วรอให้กลับมาทำงานต่อในหน้าต่างเดิม เมื่อเครื่องมือระบบครบแล้วจะข้าม Admin เมื่อเตรียม Python และ PDF ผ่าน จะเห็น <code>RUNTIME_READY</code></p>
         </article>
         <article class="platform-card" data-platform-panel="macos">
           <p class="platform-label">macOS</p><h3>เปิด Terminal ปกติ</h3>
           <h4 class="phase-title"><span>1</span> คัดลอกคำสั่งนี้แล้วกด Enter ครั้งเดียว</h4>
           <div class="command"><code data-agent-command data-template="setup=&quot;$(mktemp)&quot; &amp;&amp; curl -fsSL &quot;https://urban.cpe.ku.ac.th/ai-for-research/downloads/setup-macos.sh&quot; -o &quot;$setup&quot; &amp;&amp; AI_GRAD_AGENT={agent} bash &quot;$setup&quot; --install">setup="$(mktemp)" &amp;&amp; curl -fsSL "https://urban.cpe.ku.ac.th/ai-for-research/downloads/setup-macos.sh" -o "$setup" &amp;&amp; AI_GRAD_AGENT=codex bash "$setup" --install</code><button type="button" data-copy>คัดลอก</button></div>
-          <p class="expected">ใช้ Terminal ปกติหน้าต่างเดียว ติดตั้ง Homebrew เมื่อยังไม่มีและใส่รหัสผ่านเมื่อระบบขอ จากนั้นเตรียมเครื่องมือของผู้ใช้ต่อเนื่อง ต้องเห็น <code>SETUP_VERSION 2026.10.07.8</code>, <code>FONT_READY</code> และ <code>RUNTIME_READY</code> หากเลือก Codex หรือ Claude จะเห็น <code>CREATE VS_CODE_PROFILE</code> ด้วย Script จะเปิด Workspace ใน <span data-workspace-app>VS Code</span> ให้อัตโนมัติ</p>
+          <p class="expected">ใช้ Terminal ปกติหน้าต่างเดียว ติดตั้ง Homebrew เมื่อยังไม่มีและใส่รหัสผ่านเมื่อระบบขอ จากนั้นเตรียมเครื่องมือของผู้ใช้ต่อเนื่อง เมื่อเตรียม Python และ PDF ผ่าน จะเห็น <code>RUNTIME_READY</code> Script จะเปิด Workspace ใน <span data-workspace-app>VS Code</span> ให้อัตโนมัติ</p>
         </article>
         <article class="platform-card" data-platform-panel="linux">
           <p class="platform-label">Linux (Ubuntu/Debian)</p><h3>เปิด Terminal ปกติ</h3>
@@ -163,6 +163,7 @@
         </article>
       </div>
       <div class="notice"><strong>ติดตั้งสำเร็จเมื่อ:</strong> เห็น <code>RUNTIME_READY</code> ซึ่งยืนยัน Python ใน venv, การติดตั้งและ import แพ็กเกจ, XeLaTeX และการสร้าง PDF ภาษาไทยผ่าน template จริง แล้ว Workspace เปิดพร้อม AI panel หากขั้นใดล้มเหลว Script จะหยุดและแสดงข้อผิดพลาด</div>
+      <p>ระหว่างติดตั้งจะแสดงเฉพาะขั้นหลักและผลสำเร็จ รายละเอียดและประวัติการเปลี่ยนแปลงจะเก็บในเครื่อง หากติดตั้งไม่สำเร็จ Script จะแสดงขั้นที่มีปัญหาและตำแหน่ง log สำหรับตรวจสอบ</p>
       <h3>มีอยู่แล้วให้ใช้ต่อ</h3>
       <p>Installer ใช้ซอฟต์แวร์ที่มีอยู่และติดตั้งเฉพาะตัวที่ขาด จะไม่อัปเดตทุกโปรแกรมเป็นรุ่นล่าสุด หาก Node รุ่นเดิมต่ำกว่าที่ AI frontend ต้องใช้ จะเตรียม Node LTS ที่รองรับในพื้นที่เครื่องมือของคอร์สโดยเก็บรุ่นระบบไว้ ส่วน Python 3.12 และ TinyTeX ของคอร์สจะใช้ชุดเดิมเมื่อรันซ้ำ</p>
       <p>LaTeX ที่ติดตั้งไว้ระดับระบบอาจยังต้องขอ Admin เมื่อลงแพ็กเกจเพิ่ม จึงเตรียม TinyTeX ที่ผู้ใช้เขียนได้แยกไว้ตั้งแต่ครั้งแรก ผู้เรียนสามารถอัปเดตเครื่องมือภายหลังเมื่อพบปัญหาหรือมีเหตุผลด้านการรองรับงาน โดยบันทึกรุ่นก่อนและหลัง</p>

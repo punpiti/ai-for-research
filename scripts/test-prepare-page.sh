@@ -24,8 +24,6 @@ for installer in setup-windows.ps1 setup-linux.sh setup-macos.sh; do
   [[ -n "$version" ]]
   grep -Fq "SETUP_VERSION $version" "$page"
 done
-grep -q 'FONT_READY' "$page"
-grep -q 'CREATE VS_CODE_PROFILE' "$page"
 grep -q 'Script จะเปิด Workspace ใน <span data-workspace-app>VS Code</span> ให้อัตโนมัติ' "$page"
 grep -q 'ตรวจว่า Workspace เปิดแล้ว' "$page"
 grep -q '<details class="fallback-details">' "$page"

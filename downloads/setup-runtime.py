@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Prepare a machine-local research runtime under the normal user's account."""
 import argparse
+from datetime import datetime, timezone
 import hashlib
 import json
 import os
@@ -14,24 +15,79 @@ import tempfile
 import urllib.request
 import zipfile
 
+_tracked_paths = []
+
+
+def diagnostic(message):
+    filename = os.environ.get('AI_RESEARCH_TRACE_FILE')
+    if filename:
+        with Path(filename).with_suffix('.log').open('a', encoding='utf-8') as stream:
+            stream.write(str(message) + '\n')
+
+
+def trace(action, kind, target, status, details=''):
+    filename = os.environ.get('AI_RESEARCH_TRACE_FILE')
+    if not filename:
+        return
+    event = {'schema': 1, 'at': datetime.now(timezone.utc).isoformat(), 'phase': 'runtime',
+             'action': action, 'kind': kind, 'target': str(target), 'status': status, 'details': details}
+    with Path(filename).open('a', encoding='utf-8') as stream:
+        stream.write(json.dumps(event, ensure_ascii=False) + '\n')
+
+
+def trace_path(path, stage):
+    path = Path(path)
+    state = 'missing'
+    if path.is_symlink():
+        state = 'symlink:' + os.readlink(path)
+    elif path.is_file():
+        state = 'file:' + hashlib.sha256(path.read_bytes()).hexdigest()
+    elif path.is_dir():
+        state = 'directory'
+    trace('snapshot', 'path', path, stage, state)
+
 
 def log(message):
-    print(f'[ai-grad] {message}', flush=True)
+    trace('message', 'installer', 'runtime', 'observed', message)
+    diagnostic(message)
+    if not os.environ.get('AI_RESEARCH_TRACE_FILE') or message.startswith(('PYTHON_ENV_READY', 'RUNTIME_READY', 'FINAL_RESULT', 'SETUP_FAILED')):
+        print(f'[ai-grad] {message}', flush=True)
 
 
 def run(*args, **kwargs):
+    # Trace the executable/action, never stdout, environment values or arbitrary
+    # argument contents (which can contain user data or credentials).
+    target = str(args[0])
+    operation = str(args[1]) if len(args) > 1 else ''
+    trace('command', 'process', target, 'started', operation)
     # TeX Live's Windows entry points are .bat files; list2cmdline quotes paths.
     if os.name == 'nt' and str(args[0]).lower().endswith(('.bat', '.cmd')):
         args = ('cmd.exe', '/d', '/c', subprocess.list2cmdline(list(map(str, args))))
-    return subprocess.run(list(map(str, args)), check=True, **kwargs)
+    if not kwargs.get('capture_output'):
+        kwargs.setdefault('stdout', subprocess.PIPE)
+        kwargs.setdefault('stderr', subprocess.PIPE)
+        kwargs.setdefault('text', True)
+    try:
+        result = subprocess.run(list(map(str, args)), check=True, **kwargs)
+    except (OSError, subprocess.CalledProcessError) as error:
+        diagnostic(getattr(error, 'stdout', '') or '')
+        diagnostic(getattr(error, 'stderr', '') or '')
+        trace('command', 'process', target, 'failed', str(getattr(error, 'returncode', type(error).__name__)))
+        raise
+    diagnostic(result.stdout or '')
+    diagnostic(result.stderr or '')
+    trace('command', 'process', target, 'completed', operation)
+    return result
 
 
 def write_new(path, content):
+    trace_path(path, 'before')
     path.parent.mkdir(parents=True, exist_ok=True)
     if path.exists():
         log(f'REUSE_CONFIG {path}; check its permissions/environment if downloads are blocked.')
     else:
         path.write_text(content, encoding='utf-8')
+    trace_path(path, 'after')
 
 
 def tool_root():
@@ -172,6 +228,8 @@ def configure(workspace, agent, root, env, python_receipt=None):
     tools = workspace / 'tools'
     tools.mkdir(parents=True, exist_ok=True)
     receipt = {'tool_root': str(root), 'env': env}
+    if os.environ.get('AI_RESEARCH_TRACE_FILE'):
+        receipt['install_trace'] = os.environ['AI_RESEARCH_TRACE_FILE']
     if python_receipt:
         receipt['python'] = python_receipt
     (tools / 'runtime-env.json').write_text(json.dumps(receipt, indent=2), encoding='utf-8')
@@ -210,13 +268,42 @@ def configure(workspace, agent, root, env, python_receipt=None):
     log(f'RUNTIME_ROOT {root}')
 
 
+def traced_main():
+    trace('phase', 'installer', 'runtime', 'started')
+    try:
+        main()
+    except Exception as error:
+        trace('phase', 'installer', 'runtime', 'failed', type(error).__name__)
+        raise
+    finally:
+        for path in _tracked_paths:
+            trace_path(path, 'after')
+    trace('phase', 'installer', 'runtime', 'completed')
+
+
 def main():
+    global _tracked_paths
     parser = argparse.ArgumentParser()
     parser.add_argument('--workspace', type=Path, required=True)
     parser.add_argument('--agent', choices=['codex', 'claude', 'openrouter', 'antigravity'], required=True)
     args = parser.parse_args()
     workspace = args.workspace.expanduser().resolve()
     root = tool_root().resolve()
+    # Standalone runtime calls also retain a journal. Entry installers pass the
+    # same journal through system/user/runtime phases, including failed runs.
+    if not os.environ.get('AI_RESEARCH_TRACE_FILE'):
+        folder = root / 'install-traces'
+        folder.mkdir(parents=True, exist_ok=True)
+        import uuid
+        os.environ['AI_RESEARCH_TRACE_FILE'] = str(folder / (datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%SZ-') + uuid.uuid4().hex + '.jsonl'))
+        trace('phase', 'installer', 'runtime', 'started')
+    trace_file = os.environ['AI_RESEARCH_TRACE_FILE']
+    log(f'INSTALL_TRACE {trace_file}')
+    tracked = [root / name for name in ('python', 'envs/research', 'TinyTeX', 'node', 'npm', 'uv-tools', 'bin', 'tessdata')]
+    tracked += [workspace / name for name in ('tools/runtime-env.json', 'tools/runtime-env.sh', 'tools/runtime-env.ps1', '.vscode/settings.json', '.codex/config.toml', '.claude/settings.local.json', '.clinerules/course.md', '.gitignore')]
+    _tracked_paths = tracked
+    for path in tracked:
+        trace_path(path, 'before')
     root.mkdir(parents=True, exist_ok=True)
     env = {
         'UV_PYTHON_INSTALL_DIR': str(root / 'python'),
@@ -265,9 +352,20 @@ def main():
         if not pdf.is_file() or pdf.stat().st_size == 0:
             raise RuntimeError('Thai PDF check did not produce a PDF.')
     configure(workspace, args.agent, root, env, python_receipt)
+    for path in tracked:
+        trace_path(path, 'after')
+    trace('snapshot', 'python-packages', env['UV_PROJECT_ENVIRONMENT'], 'after', json.dumps(python_receipt['packages']))
     log('RUNTIME_READY Python 3.12 + XeLaTeX + Thai PDF verified; uv and tlmgr can add packages as this user.')
     log('FINAL_RESULT PASS - Research runtime ready.')
 
 
 if __name__ == '__main__':
-    main()
+    try:
+        traced_main()
+    except Exception as error:
+        diagnostic(repr(error))
+        filename = os.environ.get('AI_RESEARCH_TRACE_FILE')
+        print('[ai-grad] SETUP_FAILED Research runtime setup did not finish.', flush=True)
+        if filename:
+            print(f'[ai-grad] Details: {Path(filename).with_suffix(".log")}', flush=True)
+        raise SystemExit(1)

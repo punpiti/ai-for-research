@@ -3,13 +3,83 @@ param(
   [ValidateSet('Check','Install','InstallSystem','SetupUser','Repair')][string]$Mode = 'Check',
   [ValidateSet('codex','claude','openrouter','antigravity')][string]$Agent,
   [string]$CourseDir = (Join-Path $HOME 'ai-for-research-workspace'),
-  [string]$SystemLog
+  [string]$SystemLog,
+  [string]$TraceFile
 )
 $ErrorActionPreference = 'Stop'
+$ProgressPreference = 'SilentlyContinue'
 $DryRun = $env:AI_RESEARCH_DRY_RUN -eq '1'
-$SetupVersion = '2026.10.07.8'
+$SetupVersion = '2026.10.07.9'
 $TestCommands = @($env:AI_RESEARCH_TEST_COMMANDS -split ',' | Where-Object { $_ })
-function Log([string]$Message) { Write-Host "[ai-grad] $Message" }
+function Trace([string]$Action, [string]$Kind, [string]$Target, [string]$Status, [string]$Details = '') {
+  if ($DryRun -or -not $TraceFile) { return }
+  $record = @{ schema = 1; at = [DateTime]::UtcNow.ToString('o'); phase = 'windows'; action = $Action; kind = $Kind; target = $Target; status = $Status; details = $Details }
+  $line = ($record | ConvertTo-Json -Compress) + "`n"
+  [IO.File]::AppendAllText($TraceFile, $line, [Text.UTF8Encoding]::new($false))
+}
+function Trace-Path([string]$Path, [string]$Stage) {
+  if ($DryRun -or -not $TraceFile) { return }
+  $state = 'missing'
+  if (Test-Path -LiteralPath $Path) {
+    $item = Get-Item -LiteralPath $Path -Force
+    if ($item.Attributes -band [IO.FileAttributes]::ReparsePoint) { $state = 'symlink:preserve' }
+    elseif ($item.PSIsContainer) { $state = 'directory' }
+    else { $state = 'file:' + (Get-FileHash -LiteralPath $Path -Algorithm SHA256).Hash.ToLowerInvariant() }
+  }
+  Trace 'snapshot' 'path' $Path $Stage $state
+}
+function Log([string]$Message) {
+  Trace 'message' 'installer' $Mode 'observed' $Message
+  if (-not $DryRun -and $Message -like 'AI workspace=*') {
+    Write-Host '[ai-grad] FINAL_RESULT PASS - Setup complete. Open the AI panel in your workspace and sign in or configure your provider.'
+    return
+  }
+  if ($DryRun -or $Mode -eq 'Check' -or $Message -match '^(SETUP_VERSION|DEVICE_CHECK|ADMIN_PHASE_REQUIRED|RUNTIME_READY|INSTALL_FAILED|FINAL_RESULT|workspace=|AI workspace=|STEP)') {
+    Write-Host "[ai-grad] $Message"
+  }
+}
+function Run-Quiet([string]$Step, [scriptblock]$Action, [int[]]$AcceptCodes = @(0)) {
+  if (-not $TraceFile) { & $Action; return }
+  Trace 'command' 'process' $Step 'started'
+  $capture = $TraceFile + '.step-' + [guid]::NewGuid() + '.log'
+  $savedPreference = $ErrorActionPreference
+  try {
+    $global:LASTEXITCODE = 0
+    # Windows PowerShell 5 turns native stderr warnings into ErrorRecords.
+    # Capture those warnings and decide success from the native exit code.
+    $ErrorActionPreference = 'Continue'
+    & $Action *>> $capture
+    $code = $LASTEXITCODE
+    $ErrorActionPreference = $savedPreference
+    if ($AcceptCodes -notcontains $code) { throw "$Step failed (exit $code)." }
+    Trace 'command' 'process' $Step 'completed' ([string]$code)
+  } catch {
+    Trace 'command' 'process' $Step 'failed' $_.Exception.Message
+    throw
+  } finally {
+    $ErrorActionPreference = $savedPreference
+    if (Test-Path $capture) {
+      [IO.File]::AppendAllText([IO.Path]::ChangeExtension($TraceFile, '.log'), [IO.File]::ReadAllText($capture), [Text.UTF8Encoding]::new($false))
+      Remove-Item $capture
+    }
+  }
+  $global:LASTEXITCODE = $code
+}
+if (-not $DryRun -and $Mode -ne 'Check') {
+  if (-not $TraceFile) {
+    $traceDir = Join-Path $env:LOCALAPPDATA 'ai-for-research\install-traces'
+    New-Item -ItemType Directory -Force -Path $traceDir | Out-Null
+    $TraceFile = Join-Path $traceDir ([DateTime]::UtcNow.ToString('yyyyMMddTHHmmssZ-') + [guid]::NewGuid() + '.jsonl')
+  }
+  $env:AI_RESEARCH_TRACE_FILE = $TraceFile
+  Trace 'phase' 'installer' $Mode 'started' "agent=$Agent; version=$SetupVersion"
+  Log "INSTALL_TRACE $TraceFile"
+}
+$watchedPaths = @('content.md','README.md','AGENTS.md','templates\modern-thai.yaml','templates\modern-thai.lua','templates\modern-thai.tex','templates\fonts\Sarabun-Regular.ttf','templates\fonts\Sarabun-Bold.ttf','templates\fonts\OFL.txt','tools\import-documents.sh','tools\import-documents.ps1','.vscode\extensions.json') | ForEach-Object { Join-Path $CourseDir $_ }
+$toolRoot = Join-Path $env:LOCALAPPDATA 'ai-for-research'
+$watchedPaths += @('python','envs\research','TinyTeX','node','npm','uv-tools','bin') | ForEach-Object { Join-Path $toolRoot $_ }
+foreach ($path in $watchedPaths) { Trace-Path $path 'before' }
+Trace 'snapshot' 'workspace' $CourseDir 'before' 'preserve-personal-files'
 Log "SETUP_VERSION $SetupVersion"
 function Has([string]$Command) {
   if ($TestCommands.Count -gt 0) { return $TestCommands -contains $Command }
@@ -125,11 +195,30 @@ function Configure-VSCode {
   }
   $extensions = @('mathematic.vscode-pdf', 'mechatroner.rainbow-csv', 'AykutSarac.jsoncrack-vscode')
   if ($aiExtension) { $extensions = @($aiExtension) + $extensions }
+  $existingExtensions = @()
+  $extensionsKnown = $false
+  if (-not $DryRun) {
+    Trace 'snapshot' 'vscode-profile' $profile 'before' 'ownership-unknown-preserve'
+    $queryPreference = $ErrorActionPreference
+    try {
+      $ErrorActionPreference = 'Continue'
+      $existingExtensions = @(code --profile $profile --list-extensions 2>$null)
+      $extensionsKnown = $LASTEXITCODE -eq 0
+    } finally { $ErrorActionPreference = $queryPreference }
+  }
   Log "CREATE VS_CODE_PROFILE profile=$profile workspace=$CourseDir"
-  if ($DryRun) { Log "DRY_RUN code --profile $profile $CourseDir" } else { code --profile $profile $CourseDir }
+  Log 'STEP Preparing your AI workspace and extensions.'
+  if ($DryRun) { Log "DRY_RUN code --profile $profile $CourseDir" } else { Run-Quiet 'Open VS Code workspace' { code --profile $profile $CourseDir } }
   foreach ($extension in $extensions) {
+    $before = if (-not $extensionsKnown) { 'unknown-preserve' } elseif ($existingExtensions -contains $extension) { 'present' } else { 'missing' }
+    Trace 'snapshot' 'vscode-extension' $extension 'before' "$before; profile=$profile"
+    if (-not $DryRun -and $extensionsKnown -and $existingExtensions -contains $extension) {
+      Trace 'snapshot' 'vscode-extension' $extension 'after' "present; profile=$profile; reused"
+      continue
+    }
     Log "INSTALL VS_CODE_EXTENSION $extension profile=$profile"
-    if ($DryRun) { Log "DRY_RUN code --profile $profile --install-extension $extension" } else { code --profile $profile --install-extension $extension; if ($LASTEXITCODE -ne 0) { throw "Extension installation failed: $extension" } }
+    if ($DryRun) { Log "DRY_RUN code --profile $profile --install-extension $extension" } else { Run-Quiet "Install extension $extension" { code --profile $profile --install-extension $extension } }
+    Trace 'snapshot' 'vscode-extension' $extension 'after' "present; profile=$profile"
   }
   if ($DryRun) { return }
   $vscodeDir = Join-Path $CourseDir '.vscode'
@@ -176,37 +265,45 @@ function Install-SystemTools {
   if ($Mode -ne 'InstallSystem') { $answer = Read-Host 'Continue? [y/N]'; if ($answer -notmatch '^[Yy]$') { return } }
   $packages = Get-SystemPackages
   foreach ($item in $packages) {
-    if (Has $item.Command) { Log "REUSE $($item.Command)"; continue }
+    if (Has $item.Command) { Trace 'snapshot' 'system-package' $item.Package 'before' 'present'; Log "REUSE $($item.Command)"; continue }
+    Trace 'snapshot' 'system-package' $item.Package 'before' 'unknown-preserve; command-missing'
+    Trace 'install' 'system-package' $item.Package 'started' 'winget'
     Log "INSTALL $($item.Package)"
-    winget install --id $item.Package --exact --source winget --accept-package-agreements --accept-source-agreements --silent
+    Run-Quiet "Install $($item.Package)" { winget install --id $item.Package --exact --source winget --accept-package-agreements --accept-source-agreements --silent } @(0,-1978335189)
     Confirm-WinGetResult $item.Command $item.Package $LASTEXITCODE
+    Trace 'install' 'system-package' $item.Package 'completed' 'winget; shared-system-software-preserve'
   }
   $tesseractCommand = Get-Command tesseract -ErrorAction SilentlyContinue
   $tesseractRoot = if ($tesseractCommand) { Split-Path $tesseractCommand.Source } else { Join-Path $env:ProgramFiles 'Tesseract-OCR' }
   $tessdataDir = Join-Path $tesseractRoot 'tessdata'
   $thaiData = Join-Path $tessdataDir 'tha.traineddata'
+  Trace-Path $thaiData 'before'
   if (-not (Test-Path $thaiData)) {
     New-Item -ItemType Directory -Force -Path $tessdataDir | Out-Null
     Log 'INSTALL Tesseract Thai language data'
     Invoke-WebRequest -UseBasicParsing -Uri 'https://github.com/tesseract-ocr/tessdata_fast/raw/main/tha.traineddata' -OutFile $thaiData
   } else { Log 'REUSE Tesseract Thai language data' }
+  Trace-Path $thaiData 'after'
   if ($Agent -eq 'antigravity' -and -not (Has 'agy-ide')) {
     Log 'INSTALL Antigravity IDE from the official Google download page; complete its installer before SetupUser.'
     Start-Process 'https://antigravity.google/download#antigravity-ide'
   }
   Log 'System installation finished. Returning to the normal-user installer.'
   Log 'ADMIN_PHASE_COMPLETE The original normal-user window continues automatically in Install mode.'
-  exit 0
+  return
 }
 function Install-UserTools {
   if (Is-Admin) { throw 'SetupUser must run in a normal, non-Administrator PowerShell. Close this window and open PowerShell normally.' }
   if (-not $Agent) { $Agent = Read-Host 'Choose AI frontend [claude/codex/openrouter]' }
+  Log 'STEP Preparing your workspace files.'
   Refresh-ToolPath
   if (-not $DryRun) {
     $userPaths = @([Environment]::GetEnvironmentVariable('Path','User') -split ';' | Where-Object { $_ })
     $missingPaths = @($script:DiscoveredToolDirectories | Where-Object { $userPaths -notcontains $_ })
     if ($missingPaths.Count -gt 0) {
+      Trace 'modify' 'user-path' 'Path' 'started' ($missingPaths | ConvertTo-Json -Compress)
       [Environment]::SetEnvironmentVariable('Path', (($userPaths + $missingPaths) -join ';'), 'User')
+      Trace 'modify' 'user-path' 'Path' 'completed' ($missingPaths | ConvertTo-Json -Compress)
       Log 'TOOL_PATH_READY Installed document tools added to your user PATH.'
     }
   }
@@ -220,25 +317,29 @@ function Install-UserTools {
       $uvScript = Join-Path $env:TEMP ('ai-research-uv-' + [guid]::NewGuid() + '.ps1')
       try {
         Invoke-WebRequest -UseBasicParsing https://astral.sh/uv/install.ps1 -OutFile $uvScript
-        & $uvScript
+        Trace 'install' 'user-tool' 'uv' 'started' 'new-install; shared-user-tool-preserve'
+        Run-Quiet 'Install uv' { & $uvScript }
+        Trace 'install' 'user-tool' 'uv' 'completed' 'shared-user-tool-preserve'
       } finally { Remove-Item $uvScript -ErrorAction SilentlyContinue }
     }
     $runtimeScript = Join-Path $env:TEMP ('ai-research-runtime-' + [guid]::NewGuid() + '.py')
     try {
       Invoke-WebRequest -UseBasicParsing https://urban.cpe.ku.ac.th/ai-for-research/downloads/setup-runtime.py -OutFile $runtimeScript
-      uv python install 3.12
+      Log 'STEP Preparing Python and PDF tools. The first run may take several minutes.'
+      Run-Quiet 'Prepare Python 3.12' { uv python install 3.12 }
       if ($LASTEXITCODE -ne 0) { throw 'Python installation failed.' }
-      uv run --no-project --python 3.12 python $runtimeScript --workspace $CourseDir --agent $Agent
+      Run-Quiet 'Prepare research runtime' { uv run --no-project --python 3.12 python $runtimeScript --workspace $CourseDir --agent $Agent }
       if ($LASTEXITCODE -ne 0) { throw 'Research runtime setup failed.' }
     } finally { Remove-Item $runtimeScript -ErrorAction SilentlyContinue }
     . (Join-Path $CourseDir 'tools\runtime-env.ps1')
+    Log 'RUNTIME_READY Python environment and Thai PDF test passed.'
   }
   if ($Agent -ne 'antigravity' -and -not (Has 'npm')) { throw 'PREREQUISITE_MISSING npm is not on PATH. Close PowerShell, open a new normal PowerShell, then rerun SetupUser.' }
   if (Has 'npm') {
     switch ($Agent) {
       'openrouter' { Log 'OPENROUTER_READY Cline extension; configure provider OpenRouter and your own key in the IDE.' }
-      'codex' { if (Has 'codex') { Log 'REUSE codex' } else { Log 'INSTALL codex'; if ($DryRun) { Log 'DRY_RUN npm install -g @openai/codex' } else { npm install -g '@openai/codex'; if ($LASTEXITCODE -ne 0) { throw 'Codex installation failed.' } } } }
-      'claude' { if (Has 'claude') { Log 'REUSE claude' } else { Log 'INSTALL claude'; if ($DryRun) { Log 'DRY_RUN npm install -g @anthropic-ai/claude-code' } else { npm install -g '@anthropic-ai/claude-code'; if ($LASTEXITCODE -ne 0) { throw 'Claude installation failed.' } } } }
+      'codex' { if (Has 'codex') { Log 'REUSE codex' } else { Log 'INSTALL codex'; if ($DryRun) { Log 'DRY_RUN npm install -g @openai/codex' } else { Run-Quiet 'Install Codex' { npm install -g '@openai/codex' } } } }
+      'claude' { if (Has 'claude') { Log 'REUSE claude' } else { Log 'INSTALL claude'; if ($DryRun) { Log 'DRY_RUN npm install -g @anthropic-ai/claude-code' } else { Run-Quiet 'Install Claude Code' { npm install -g '@anthropic-ai/claude-code' } } } }
       'antigravity' { if (-not (Has 'agy-ide')) { Log 'Antigravity will be opened through its desktop IDE; agy-ide is not required for workspace setup.' } }
     }
   }
@@ -246,6 +347,8 @@ function Install-UserTools {
   if ($Agent -eq 'antigravity') { Configure-Antigravity } else { Configure-VSCode }
   Log "AI workspace=$Agent installed. Next: open the workspace, open its AI panel, and sign in with your own account. The terminal command is only a fallback."
 }
+$installSucceeded = $false
+try {
 switch ($Mode) {
   'Install' {
     if ($DryRun) {
@@ -255,17 +358,19 @@ switch ($Mode) {
     if (Is-Admin) { throw 'Install must start in a normal PowerShell; it requests UAC only for system tools.' }
     if (-not $Agent) { throw 'Install requires -Agent codex, claude, openrouter, or antigravity.' }
     if (-not (Check-Tools)) { throw 'INSTALL_STOPPED System requirements did not pass. Nothing was installed.' }
+    foreach ($item in (Get-SystemPackages)) {
+      $command = Get-Command $item.Command -ErrorAction SilentlyContinue
+      $details = if ($command) { 'present; shared-system-software-preserve; source=' + $command.Source } else { 'missing' }
+      Trace 'snapshot' 'system-tool' $item.Command 'before' $details
+    }
     if (Needs-SystemSetup) {
       Log 'ADMIN_PHASE_REQUIRED One UAC window installs missing system tools; keep this normal window open.'
       $logPath = Join-Path $env:TEMP ('ai-research-system-' + [guid]::NewGuid() + '.log')
       Log "ADMIN_PHASE_LOG $logPath"
-      $childArgs = '-NoProfile -ExecutionPolicy Bypass -File "' + $PSCommandPath + '" -Mode InstallSystem -Agent ' + $Agent + ' -CourseDir "' + $CourseDir + '" -SystemLog "' + $logPath + '"'
+      $childArgs = '-NoProfile -ExecutionPolicy Bypass -File "' + $PSCommandPath + '" -Mode InstallSystem -Agent ' + $Agent + ' -CourseDir "' + $CourseDir + '" -SystemLog "' + $logPath + '" -TraceFile "' + $TraceFile + '"'
       try { $child = Start-Process powershell.exe -Verb RunAs -ArgumentList $childArgs -Wait -PassThru }
       catch { throw "Could not start administrator phase (UAC may have been cancelled): $($_.Exception.Message)" }
-      if ($child.ExitCode -ne 0) {
-        if (Test-Path $logPath) { Get-Content $logPath -Tail 40 | ForEach-Object { Write-Host $_ } }
-        throw "System installation failed (exit $($child.ExitCode)). Details: $logPath"
-      }
+      if ($child.ExitCode -ne 0) { throw "System installation failed (exit $($child.ExitCode)). Details: $logPath" }
       Refresh-ToolPath
     } else { Log 'REUSE_SYSTEM_TOOLS No Administrator phase needed.' }
     Install-UserTools
@@ -280,3 +385,14 @@ switch ($Mode) {
   'Repair' { if (Is-Admin) { Install-SystemTools } else { Install-UserTools } }
 }
 if (($Mode -eq 'Check' -or $Mode -eq 'SetupUser') -and -not $DryRun) { if (-not (Check-Tools)) { throw 'Device readiness check failed.' } }
+$installSucceeded = $true
+} catch {
+  if ($DryRun) { throw }
+  Write-Host "[ai-grad] INSTALL_FAILED $($_.Exception.Message)"
+  if ($TraceFile) { Write-Host ('[ai-grad] Details: ' + [IO.Path]::ChangeExtension($TraceFile, '.log')) }
+  exit 1
+} finally {
+  foreach ($path in $watchedPaths) { Trace-Path $path 'after' }
+  $status = if ($installSucceeded) { 'completed' } else { 'failed' }
+  Trace 'phase' 'installer' $Mode $status
+}
