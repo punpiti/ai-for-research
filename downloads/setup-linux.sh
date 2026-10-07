@@ -5,7 +5,7 @@ mode="${1:---check}"
 course_dir="${AI_RESEARCH_COURSE_DIR:-${AI_GRAD_COURSE_DIR:-$HOME/ai-for-research-workspace}}"
 agent="${AI_GRAD_AGENT:-}"
 dry_run="${AI_RESEARCH_DRY_RUN:-0}"
-setup_version='2026.10.07.5'
+setup_version='2026.10.07.6'
 test_commands=",${AI_RESEARCH_TEST_COMMANDS:-},"
 
 log() { printf '[ai-grad] %s\n' "$*"; }
@@ -138,26 +138,26 @@ install_system_tools() {
     read -r -p 'Continue? [y/N] ' answer
     [[ "$answer" =~ ^[Yy]$ ]] || exit 0
   fi
+  code_deb=''
+  if [[ "$agent" != antigravity ]] && ! is_wsl && ! have code; then
+    case "$(dpkg --print-architecture)" in
+      amd64) vscode_arch=x64 ;;
+      arm64) vscode_arch=arm64 ;;
+      *) log 'VS Code package supports amd64/arm64 only.'; exit 2 ;;
+    esac
+    code_deb="$(mktemp --suffix=.deb)"
+    curl -fL "https://update.code.visualstudio.com/latest/linux-deb-$vscode_arch/stable" -o "$code_deb"
+    chmod 644 "$code_deb"
+    packages+=("$code_deb")
+  fi
   if ((${#packages[@]})); then
-    sudo apt-get update
-    sudo env DEBIAN_FRONTEND=noninteractive apt-get -o Dpkg::Options::=--force-confold install -y "${packages[@]}"
+    log 'ADMIN_PHASE_REQUIRED One sudo phase installs all missing system packages.'
+    sudo bash -c 'set -e; apt-get update; DEBIAN_FRONTEND=noninteractive apt-get -o Dpkg::Options::=--force-confold install -y "$@"' ai-research-system "${packages[@]}"
+    [[ -z "$code_deb" ]] || rm -f "$code_deb"
+  else
+    log 'REUSE_SYSTEM_TOOLS No sudo phase needed.'
   fi
-  if [[ "$agent" != antigravity ]]; then
-    if is_wsl; then
-      setup_windows_vscode
-    elif ! have code; then
-      case "$(dpkg --print-architecture)" in
-        amd64) vscode_arch=x64 ;;
-        arm64) vscode_arch=arm64 ;;
-        *) log 'VS Code package supports amd64/arm64 only.'; exit 2 ;;
-      esac
-      code_deb="$(mktemp --suffix=.deb)"
-      curl -fL "https://update.code.visualstudio.com/latest/linux-deb-$vscode_arch/stable" -o "$code_deb"
-      chmod 644 "$code_deb"
-      sudo env DEBIAN_FRONTEND=noninteractive apt-get -o Dpkg::Options::=--force-confold install -y "$code_deb"
-      rm -f "$code_deb"
-    fi
-  fi
+  if [[ "$agent" != antigravity ]] && is_wsl; then setup_windows_vscode; fi
   if [[ "$agent" == antigravity ]] && ! have agy-ide; then
     log 'INSTALL Antigravity IDE from the official Google download page; complete its installer before --setup-user.'
     if have xdg-open; then xdg-open 'https://antigravity.google/download#antigravity-ide'; fi

@@ -19,7 +19,7 @@ for platform in windows macos linux; do
   grep -q "data-platform-panel=\"$platform\"" "$page"
 done
 
-grep -q 'SETUP_VERSION 2026.10.07.5' "$page"
+grep -q 'SETUP_VERSION 2026.10.07.6' "$page"
 grep -q 'FONT_READY' "$page"
 grep -q 'CREATE VS_CODE_PROFILE' "$page"
 grep -q 'Script จะเปิด Workspace ใน <span data-workspace-app>VS Code</span> ให้อัตโนมัติ' "$page"
@@ -31,7 +31,7 @@ if grep -q 'open -a &quot;Visual Studio Code&quot; --args' "$page"; then
   echo 'macOS learner flow must show the workspace folder path, not reopen VS Code with open -a.' >&2
   exit 1
 fi
-grep -q 'โหลด Script ในข้อ 1 ใหม่ก่อนเสมอ' "$page"
+grep -q 'คัดลอกคำสั่งติดตั้งด้านล่างใหม่แล้วรันได้เลย' "$page"
 grep -q 'RUNTIME_READY' "$page"
 grep -q 'profile/learner-profile.yaml' "$page"
 grep -q 'profile/learner-profile.md' "$page"
@@ -56,5 +56,14 @@ assert re.findall(r'name="agent" value="([^"]+)"', page) == ['claude', 'codex', 
 assert 'คอร์ส Introduction ไม่ต้องติดตั้ง WSL2' in page
 assert 'เพิ่มเติม: สำหรับผู้ที่มี WSL2 อยู่แล้ว' in page
 assert not re.search(r'data-platform-button="linux">[^<]*WSL', page)
+from html import unescape
+install = page[page.index('ติดตั้งครั้งแรกด้วยคำสั่งเดียว'):page.index('มีอยู่แล้วให้ใช้ต่อ')]
+commands = [unescape(x) for x in re.findall(r'data-template="([^"]+)"', install)]
+assert len(commands) == 3, 'One combined download/run command per OS required'
+assert 'Invoke-WebRequest' in commands[0] and '-Mode Install -Agent {agent}' in commands[0]
+for command in commands[1:]:
+    assert 'curl -fsSL' in command and '&& AI_GRAD_AGENT={agent} bash' in command and '--install' in command
+assert 'Run as administrator' not in install
+assert 'Downloads' not in '\n'.join(commands)
 PYTEST
 echo 'Prepare page learner-flow checks passed.'

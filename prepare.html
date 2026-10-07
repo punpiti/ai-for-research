@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/styles.css?v=20260805-16">
-  <script src="assets/app.js?v=20261007-5" defer></script>
+  <script src="assets/app.js?v=20261007-6" defer></script>
   <script src="assets/site-shell.js?v=20260805-5"></script>
 </head>
 <body class="prepare-page">
@@ -131,12 +131,12 @@
 
     <section class="section platform-section" id="install" data-agent-required hidden>
       <div class="section-heading compact"><p class="eyebrow">ขั้นที่ 2 · Installation</p><h2>ติดตั้งซอฟต์แวร์</h2></div>
-      <p>ติดตั้งครั้งแรกด้วยคำสั่งเดียวหลังโหลด Script: เตรียม VS Code พร้อม AI extension ที่เลือก, PDF Viewer, Rainbow CSV และ JSON Crack, Python 3.12, LaTeX/XeLaTeX ผ่าน TinyTeX, Pandoc และ OCR ไทย–อังกฤษ แล้วให้ AI ดาวน์โหลดไลบรารี Python และแพ็กเกจ LaTeX เพิ่มเมื่อจำเป็น</p>
+      <p>ติดตั้งครั้งแรกด้วยคำสั่งเดียวที่ดาวน์โหลด Script แล้วรันต่อทันที: เตรียม VS Code พร้อม AI extension ที่เลือก, PDF Viewer, Rainbow CSV และ JSON Crack, Python 3.12, LaTeX/XeLaTeX ผ่าน TinyTeX, Pandoc และ OCR ไทย–อังกฤษ แล้วให้ AI ดาวน์โหลดไลบรารี Python และแพ็กเกจ LaTeX เพิ่มเมื่อจำเป็น</p>
       <div class="notice"><strong>ติดตั้งต่อเนื่อง:</strong> Script ติดตั้งสิ่งที่ขาดตาม AI ที่เลือก โดยไม่ถามยืนยันทีละโปรแกรม เมื่อจบแล้วจึง Sign in หรือใส่ API key ไม่ต้องเลือกรุ่น Python, แพ็กเกจ LaTeX หรือ AI ตัวอื่นระหว่างติดตั้ง</div>
-      <div class="notice"><strong>สิทธิ์ครั้งแรก:</strong> Windows จะถาม UAC; macOS และ Linux อาจถามรหัสผ่านเพื่อติดตั้งเครื่องมือระบบ จากนั้น Python, TinyTeX และแพ็กเกจเพิ่มเติมใช้พื้นที่ของบัญชีผู้ใช้ปกติ</div>
+      <div class="notice"><strong>สิทธิ์ครั้งแรก:</strong> Windows จะถาม UAC เฉพาะเมื่อขาดเครื่องมือระบบ; macOS และ Linux อาจถามรหัสผ่านเพื่อติดตั้งเครื่องมือระบบ จากนั้น Python, TinyTeX และแพ็กเกจเพิ่มเติมใช้พื้นที่ของบัญชีผู้ใช้ปกติ</div>
       <p>เลือก extension จากผู้พัฒนา official หรือที่มียอดติดตั้งสูง: <a href="https://marketplace.visualstudio.com/items?itemName=mathematic.vscode-pdf" target="_blank" rel="noopener">PDF Viewer</a> เปิด PDF, <a href="https://marketplace.visualstudio.com/items?itemName=mechatroner.rainbow-csv" target="_blank" rel="noopener">Rainbow CSV</a> แยกสีและจัดแนวคอลัมน์ CSV และ <a href="https://marketplace.visualstudio.com/items?itemName=AykutSarac.jsoncrack-vscode" target="_blank" rel="noopener">JSON Crack</a> ซึ่งเป็น extension official ของโครงการ JSON Crack แสดง JSON เป็นแผนภาพ ทั้งสามตัวติดตั้งพร้อมกันทุกตัวเลือก AI ส่วนการอ่าน จัดรูปแบบ และพับโครงสร้าง JSON มีอยู่ใน VS Code ของ Microsoft แล้ว</p>
       <p>เปิด PDF หรือ CSV ได้จากรายการไฟล์ สำหรับ CSV ใช้ <code>Rainbow CSV: Virtual Align CSV Columns</code> เพื่อจัดแนวโดยไม่เปลี่ยนข้อมูล สำหรับ JSON เปิดไฟล์แล้วคลิกไอคอน JSON Crack ที่มุมขวาบนของ editor ยอดติดตั้งที่ตรวจเมื่อ 7 ตุลาคม 2026: PDF Viewer ประมาณ 2.8 ล้านครั้ง, Rainbow CSV ประมาณ 24.3 ล้านครั้ง และ JSON Crack ประมาณ 7.8 แสนครั้ง ตัวเลขนี้เป็นยอดติดตั้งสะสม ไม่ใช่จำนวนผู้ใช้ปัจจุบัน</p>
-      <div class="notice"><strong>ถ้ารันซ้ำหรือแก้ปัญหา:</strong> ต้องคัดลอกคำสั่งโหลด Script ในข้อ 1 ใหม่ก่อนเสมอ แล้วตรวจว่าเห็น <code>SETUP_VERSION 2026.10.07.5</code></div>
+      <div class="notice"><strong>ถ้ารันซ้ำหรือแก้ปัญหา:</strong> คัดลอกคำสั่งติดตั้งด้านล่างใหม่แล้วรันได้เลย แล้วตรวจว่าเห็น <code>SETUP_VERSION 2026.10.07.6</code></div>
       <div class="platform-picker" role="group" aria-label="เลือกระบบปฏิบัติการสำหรับติดตั้ง software">
         <button type="button" data-platform-button="windows">Windows 11</button>
         <button type="button" data-platform-button="macos">macOS</button>
@@ -145,28 +145,21 @@
       <div class="platform-grid">
         <article class="platform-card" data-platform-panel="windows">
           <p class="platform-label">Windows 11</p><h3>เปิด PowerShell ปกติ</h3>
-          <h4 class="phase-title"><span>1</span> โหลด Script</h4>
-          <div class="command"><code>curl.exe -fL "https://urban.cpe.ku.ac.th/ai-for-research/downloads/setup-windows.ps1" -o "$HOME\Downloads\setup-windows.ps1"</code><button type="button" data-copy>คัดลอก</button></div>
-          <h4 class="phase-title"><span>2</span> รันครั้งเดียว แล้วตอบ Yes เมื่อ UAC ถาม</h4>
-          <div class="command"><code data-agent-command data-template="powershell -ExecutionPolicy Bypass -File &quot;$HOME\Downloads\setup-windows.ps1&quot; -Mode Install -Agent {agent}">powershell -ExecutionPolicy Bypass -File "$HOME\Downloads\setup-windows.ps1" -Mode Install -Agent codex</code><button type="button" data-copy>คัดลอก</button></div>
-          <p class="expected">Script ลงเครื่องมือระบบในหน้าต่างที่ขอสิทธิ์ แล้วกลับมาเตรียม Python, TinyTeX และ AI ในหน้าต่างปกติให้อัตโนมัติ ต้องเห็น <code>FONT_READY</code> และ <code>RUNTIME_READY</code></p>
+          <h4 class="phase-title"><span>1</span> คัดลอกคำสั่งนี้แล้วกด Enter ครั้งเดียว</h4>
+          <div class="command"><code data-agent-command data-template="&amp; { $setup = Join-Path $env:TEMP &#x27;ai-research-setup.ps1&#x27;; Invoke-WebRequest -UseBasicParsing -ErrorAction Stop &quot;https://urban.cpe.ku.ac.th/ai-for-research/downloads/setup-windows.ps1&quot; -OutFile $setup; powershell -NoProfile -ExecutionPolicy Bypass -File &quot;$setup&quot; -Mode Install -Agent {agent} }">&amp; { $setup = Join-Path $env:TEMP 'ai-research-setup.ps1'; Invoke-WebRequest -UseBasicParsing -ErrorAction Stop "https://urban.cpe.ku.ac.th/ai-for-research/downloads/setup-windows.ps1" -OutFile $setup; powershell -NoProfile -ExecutionPolicy Bypass -File "$setup" -Mode Install -Agent codex }</code><button type="button" data-copy>คัดลอก</button></div>
+          <p class="expected">เริ่มใน PowerShell ปกติเพียงหน้าต่างเดียว หากเครื่องมือระบบยังไม่ครบ Script จะเปิดหน้าต่าง Admin หนึ่งครั้ง ให้ตอบ Yes ที่ UAC แล้วรอให้กลับมาทำงานต่อในหน้าต่างเดิม เมื่อเครื่องมือระบบครบแล้วจะข้าม Admin ต้องเห็น <code>FONT_READY</code> และ <code>RUNTIME_READY</code></p>
         </article>
         <article class="platform-card" data-platform-panel="macos">
           <p class="platform-label">macOS</p><h3>เปิด Terminal ปกติ</h3>
-          <h4 class="phase-title"><span>1</span> โหลด Script</h4>
-          <div class="command"><code>curl -fL "https://urban.cpe.ku.ac.th/ai-for-research/downloads/setup-macos.sh" -o "$HOME/Downloads/setup-macos.sh"</code><button type="button" data-copy>คัดลอก</button></div>
-          <h4 class="phase-title"><span>2</span> รันครั้งเดียว; ใส่รหัสผ่านเมื่อระบบถาม</h4>
-          <div class="command"><code data-agent-command data-template="AI_GRAD_AGENT={agent} bash &quot;$HOME/Downloads/setup-macos.sh&quot; --install">AI_GRAD_AGENT=codex bash "$HOME/Downloads/setup-macos.sh" --install</code><button type="button" data-copy>คัดลอก</button></div>
-          <p class="expected">ติดตั้ง Homebrew เมื่อยังไม่มี แล้วเตรียมเครื่องมือระบบและเครื่องมือของผู้ใช้ต่อเนื่อง ต้องเห็น <code>SETUP_VERSION 2026.10.07.5</code>, <code>FONT_READY</code> และ <code>RUNTIME_READY</code> หากเลือก Codex หรือ Claude จะเห็น <code>CREATE VS_CODE_PROFILE</code> ด้วย Script จะเปิด Workspace ใน <span data-workspace-app>VS Code</span> ให้อัตโนมัติ</p>
+          <h4 class="phase-title"><span>1</span> คัดลอกคำสั่งนี้แล้วกด Enter ครั้งเดียว</h4>
+          <div class="command"><code data-agent-command data-template="setup=&quot;$(mktemp)&quot; &amp;&amp; curl -fsSL &quot;https://urban.cpe.ku.ac.th/ai-for-research/downloads/setup-macos.sh&quot; -o &quot;$setup&quot; &amp;&amp; AI_GRAD_AGENT={agent} bash &quot;$setup&quot; --install">setup="$(mktemp)" &amp;&amp; curl -fsSL "https://urban.cpe.ku.ac.th/ai-for-research/downloads/setup-macos.sh" -o "$setup" &amp;&amp; AI_GRAD_AGENT=codex bash "$setup" --install</code><button type="button" data-copy>คัดลอก</button></div>
+          <p class="expected">ใช้ Terminal ปกติหน้าต่างเดียว ติดตั้ง Homebrew เมื่อยังไม่มีและใส่รหัสผ่านเมื่อระบบขอ จากนั้นเตรียมเครื่องมือของผู้ใช้ต่อเนื่อง ต้องเห็น <code>SETUP_VERSION 2026.10.07.6</code>, <code>FONT_READY</code> และ <code>RUNTIME_READY</code> หากเลือก Codex หรือ Claude จะเห็น <code>CREATE VS_CODE_PROFILE</code> ด้วย Script จะเปิด Workspace ใน <span data-workspace-app>VS Code</span> ให้อัตโนมัติ</p>
         </article>
         <article class="platform-card" data-platform-panel="linux">
           <p class="platform-label">Linux (Ubuntu/Debian)</p><h3>เปิด Terminal ปกติ</h3>
-          <h4 class="phase-title"><span>1</span> โหลด Script</h4>
-          <div class="command"><code>mkdir -p "$HOME/Downloads"
-curl -fL "https://urban.cpe.ku.ac.th/ai-for-research/downloads/setup-linux.sh" -o "$HOME/Downloads/setup-linux.sh"</code><button type="button" data-copy>คัดลอก</button></div>
-          <h4 class="phase-title"><span>2</span> รันครั้งเดียว; ใส่รหัสผ่านเมื่อ sudo ถาม</h4>
-          <div class="command"><code data-agent-command data-template="AI_GRAD_AGENT={agent} bash &quot;$HOME/Downloads/setup-linux.sh&quot; --install">AI_GRAD_AGENT=codex bash "$HOME/Downloads/setup-linux.sh" --install</code><button type="button" data-copy>คัดลอก</button></div>
-          <p class="expected">รองรับ Ubuntu/Debian; Python และ TinyTeX ติดตั้งในบัญชีผู้ใช้ปกติ ต้องเห็น <code>RUNTIME_READY</code></p>
+          <h4 class="phase-title"><span>1</span> คัดลอกคำสั่งนี้แล้วกด Enter ครั้งเดียว</h4>
+          <div class="command"><code data-agent-command data-template="setup=&quot;$(mktemp)&quot; &amp;&amp; curl -fsSL &quot;https://urban.cpe.ku.ac.th/ai-for-research/downloads/setup-linux.sh&quot; -o &quot;$setup&quot; &amp;&amp; AI_GRAD_AGENT={agent} bash &quot;$setup&quot; --install">setup="$(mktemp)" &amp;&amp; curl -fsSL "https://urban.cpe.ku.ac.th/ai-for-research/downloads/setup-linux.sh" -o "$setup" &amp;&amp; AI_GRAD_AGENT=codex bash "$setup" --install</code><button type="button" data-copy>คัดลอก</button></div>
+          <p class="expected">รองรับ Ubuntu/Debian; ใช้ Terminal ปกติหน้าต่างเดียว Script เรียก sudo หนึ่งช่วงเฉพาะเมื่อขาดเครื่องมือระบบ แล้วเตรียม Python และ TinyTeX ในบัญชีผู้ใช้ปกติ ต้องเห็น <code>RUNTIME_READY</code></p>
         </article>
       </div>
       <div class="notice"><strong>ติดตั้งสำเร็จเมื่อ:</strong> เห็น <code>RUNTIME_READY</code> ซึ่งยืนยัน Python, XeLaTeX และการสร้าง PDF ภาษาไทยผ่าน template จริง แล้ว Workspace เปิดพร้อม AI panel หากขั้นใดล้มเหลว Script จะหยุดและแสดงข้อผิดพลาด</div>

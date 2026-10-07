@@ -6,7 +6,7 @@ param(
 )
 $ErrorActionPreference = 'Stop'
 $DryRun = $env:AI_RESEARCH_DRY_RUN -eq '1'
-$SetupVersion = '2026.10.07.5'
+$SetupVersion = '2026.10.07.6'
 $TestCommands = @($env:AI_RESEARCH_TEST_COMMANDS -split ',' | Where-Object { $_ })
 function Log([string]$Message) { Write-Host "[ai-grad] $Message" }
 Log "SETUP_VERSION $SetupVersion"
@@ -114,13 +114,7 @@ function Configure-Antigravity {
     @{ recommendations = @($extension) } | ConvertTo-Json | Set-Content -Encoding utf8 (Join-Path $vscodeDir 'extensions.json')
   }
 }
-function Install-SystemTools {
-  if (-not (Is-Admin)) { throw 'InstallSystem requires PowerShell opened with Run as administrator.' }
-  if (-not $Agent) { throw 'InstallSystem requires -Agent codex, claude, openrouter, or antigravity.' }
-  if (-not (Check-Tools)) { throw 'INSTALL_STOPPED System requirements did not pass. Nothing was installed.' }
-  if (-not (Has 'winget')) { throw 'WinGet is required. Update App Installer from Microsoft Store and rerun.' }
-  Log "ADMIN PHASE: checks the selected workspace, document, PDF and Thai-English OCR tools; installs only missing items. agent=$Agent"
-  if ($Mode -ne 'InstallSystem') { $answer = Read-Host 'Continue? [y/N]'; if ($answer -notmatch '^[Yy]$') { return } }
+function Get-SystemPackages {
   $packages = @(
     @{ Command = 'git'; Package = 'Git.Git' },
     @{ Command = 'pandoc'; Package = 'JohnMacFarlane.Pandoc' },
@@ -128,6 +122,22 @@ function Install-SystemTools {
     @{ Command = 'pdftotext'; Package = 'oschwartz10612.Poppler' }
   )
   if ($Agent -ne 'antigravity') { $packages = @(@{ Command = 'code'; Package = 'Microsoft.VisualStudioCode' }) + $packages }
+  return $packages
+}
+function Needs-SystemSetup {
+  foreach ($item in (Get-SystemPackages)) { if (-not (Has $item.Command)) { return $true } }
+  if ($DryRun) { return -not (Has 'tha-traineddata') }
+  $tesseractRoot = Split-Path (Get-Command tesseract).Source
+  return -not (Test-Path (Join-Path $tesseractRoot 'tessdata\tha.traineddata'))
+}
+function Install-SystemTools {
+  if (-not (Is-Admin)) { throw 'InstallSystem requires PowerShell opened with Run as administrator.' }
+  if (-not $Agent) { throw 'InstallSystem requires -Agent codex, claude, openrouter, or antigravity.' }
+  if (-not (Check-Tools)) { throw 'INSTALL_STOPPED System requirements did not pass. Nothing was installed.' }
+  if (-not (Has 'winget')) { throw 'WinGet is required. Update App Installer from Microsoft Store and rerun.' }
+  Log "ADMIN PHASE: checks the selected workspace, document, PDF and Thai-English OCR tools; installs only missing items. agent=$Agent"
+  if ($Mode -ne 'InstallSystem') { $answer = Read-Host 'Continue? [y/N]'; if ($answer -notmatch '^[Yy]$') { return } }
+  $packages = Get-SystemPackages
   foreach ($item in $packages) {
     if (Has $item.Command) { Log "REUSE $($item.Command)"; continue }
     Log "INSTALL $($item.Package)"
@@ -148,7 +158,7 @@ function Install-SystemTools {
     Start-Process 'https://antigravity.google/download#antigravity-ide'
   }
   Log 'System installation finished. Returning to the normal-user installer.'
-  Log 'Next: open a normal PowerShell window and run SetupUser. Do not run agents as Administrator.'
+  Log 'ADMIN_PHASE_COMPLETE The original normal-user window continues automatically in Install mode.'
   exit 0
 }
 function Install-UserTools {
@@ -192,13 +202,20 @@ function Install-UserTools {
 }
 switch ($Mode) {
   'Install' {
-    if ($DryRun) { Log 'DRY_RUN request UAC for system tools, return to normal user'; Install-UserTools; break }
+    if ($DryRun) {
+      if (Needs-SystemSetup) { Log 'DRY_RUN request UAC once for system tools, return to normal user' } else { Log 'REUSE_SYSTEM_TOOLS No Administrator phase needed.' }
+      Install-UserTools; break
+    }
     if (Is-Admin) { throw 'Install must start in a normal PowerShell; it requests UAC only for system tools.' }
     if (-not $Agent) { throw 'Install requires -Agent codex, claude, openrouter, or antigravity.' }
-    $childArgs = '-NoProfile -ExecutionPolicy Bypass -File "' + $PSCommandPath + '" -Mode InstallSystem -Agent ' + $Agent
-    $child = Start-Process powershell.exe -Verb RunAs -ArgumentList $childArgs -Wait -PassThru
-    if ($child.ExitCode -ne 0) { throw 'System installation failed or UAC was cancelled.' }
-    $env:PATH = [Environment]::GetEnvironmentVariable('Path','Machine') + ';' + [Environment]::GetEnvironmentVariable('Path','User')
+    if (-not (Check-Tools)) { throw 'INSTALL_STOPPED System requirements did not pass. Nothing was installed.' }
+    if (Needs-SystemSetup) {
+      Log 'ADMIN_PHASE_REQUIRED One UAC window installs missing system tools; keep this normal window open.'
+      $childArgs = '-NoProfile -ExecutionPolicy Bypass -File "' + $PSCommandPath + '" -Mode InstallSystem -Agent ' + $Agent
+      $child = Start-Process powershell.exe -Verb RunAs -ArgumentList $childArgs -Wait -PassThru
+      if ($child.ExitCode -ne 0) { throw 'System installation failed or UAC was cancelled.' }
+      $env:PATH = [Environment]::GetEnvironmentVariable('Path','Machine') + ';' + [Environment]::GetEnvironmentVariable('Path','User')
+    } else { Log 'REUSE_SYSTEM_TOOLS No Administrator phase needed.' }
     Install-UserTools
   }
   'InstallSystem' { Install-SystemTools }

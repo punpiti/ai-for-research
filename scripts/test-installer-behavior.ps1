@@ -62,4 +62,12 @@ switch ("${Agent}:${State}") {
   'claude:no-code' { Require ($failed -and $output.Contains('PREREQUISITE_MISSING VS Code CLI') -and !$output.Contains('INSTALL VS_CODE_EXTENSION')) 'Claude missing code behavior failed.' }
 }
 if (!$failed -and $State -eq 'present') { Require ($output.Contains('mathematic.vscode-pdf')) 'PDF viewer was not installed.' }
+if ($Agent -ne 'antigravity' -and $State -eq 'present') {
+  $env:AI_RESEARCH_TEST_COMMANDS = 'npm,code,uv,git,pandoc,tesseract,pdftotext,tha-traineddata,' + $Agent
+  $reuse = (& $installer -Mode Install -Agent $Agent 6>&1 | Out-String)
+  Require ($reuse.Contains('REUSE_SYSTEM_TOOLS') -and !$reuse.Contains('request UAC')) 'Complete system tools must skip elevation.'
+  $env:AI_RESEARCH_TEST_COMMANDS = 'npm,code,uv,git,pandoc,tesseract,pdftotext,' + $Agent
+  $missingThai = (& $installer -Mode Install -Agent $Agent 6>&1 | Out-String)
+  Require ($missingThai.Contains('request UAC once')) 'Missing system Thai data must request one admin phase.'
+}
 Write-Host "PASS installer=windows agent=$Agent state=$State"
