@@ -36,21 +36,21 @@ fi
 
 case "$agent:$state" in
   openrouter:present|openrouter:missing)
-    [[ $status -eq 0 && "$output" == *'saoudrizwan.claude-dev'* && "$output" == *'OPENROUTER_READY'* ]]
+    [[ $status -eq 0 && "$output" == *'saoudrizwan.claude-dev'* && "$output" == *'ThiagoSantosDevBR.openrouter-ai-monitor'* && "$output" == *'OPENROUTER_READY'* ]]
     [[ "$output" != *'npm install'* && "$output" != *'openai.chatgpt'* && "$output" != *'anthropic.claude-code'* ]]
     ;;
   codex:missing)
-    [[ $status -eq 0 && "$output" == *'DRY_RUN npm install -g @openai/codex'* && "$output" == *'openai.chatgpt'* ]]
+    [[ $status -eq 0 && "$output" == *'DRY_RUN npm install -g @openai/codex'* && "$output" == *'openai.chatgpt'* && "$output" == *'ganymede404.vscode-codex-usage'* ]]
     [[ "$output" != *'@anthropic-ai/claude-code'* ]]
     ;;
   codex:present) [[ $status -eq 0 && "$output" == *'REUSE codex'* && "$output" != *'DRY_RUN npm install'* ]] ;;
   claude:missing)
-    [[ $status -eq 0 && "$output" == *'DRY_RUN npm install -g @anthropic-ai/claude-code'* && "$output" == *'anthropic.claude-code'* ]]
+    [[ $status -eq 0 && "$output" == *'DRY_RUN npm install -g @anthropic-ai/claude-code'* && "$output" == *'anthropic.claude-code'* && "$output" == *'growthjack.claude-code-usage'* ]]
     [[ "$output" != *'@openai/codex'* ]]
     ;;
   claude:present) [[ $status -eq 0 && "$output" == *'REUSE claude'* && "$output" != *'DRY_RUN npm install'* ]] ;;
   antigravity:missing) [[ $status -ne 0 && "$output" == *'Install Antigravity IDE'* && "$output" != *'VS_CODE_EXTENSION'* ]] ;;
-  antigravity:present) [[ $status -eq 0 && "$output" == *'ANTIGRAVITY_EXTENSION mathematic.vscode-pdf'* && "$output" != *'npm install'* && "$output" != *'openai.chatgpt'* && "$output" != *'anthropic.claude-code'* ]] ;;
+  antigravity:present) [[ $status -eq 0 && "$output" == *'ANTIGRAVITY_EXTENSION mathematic.vscode-pdf'* && "$output" == *'sourabhr10122002.antigravity-quota-checker'* && "$output" != *'npm install'* && "$output" != *'openai.chatgpt'* && "$output" != *'anthropic.claude-code'* ]] ;;
   codex:no-npm|claude:no-npm|openrouter:no-npm) [[ $status -ne 0 && "$output" == *'PREREQUISITE_MISSING npm is not on PATH'* && "$output" != *'INSTALL VS_CODE_EXTENSION'* ]] ;;
   codex:no-code|claude:no-code|openrouter:no-code) [[ $status -ne 0 && "$output" == *'PREREQUISITE_MISSING VS Code CLI'* && "$output" != *'INSTALL VS_CODE_EXTENSION'* ]] ;;
   *) echo "Unknown case: $agent/$state" >&2; exit 2 ;;

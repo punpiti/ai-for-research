@@ -5,7 +5,7 @@ mode="${1:---check}"
 course_dir="${AI_RESEARCH_COURSE_DIR:-${AI_GRAD_COURSE_DIR:-$HOME/ai-for-research-workspace}}"
 agent="${AI_GRAD_AGENT:-}"
 dry_run="${AI_RESEARCH_DRY_RUN:-0}"
-setup_version='2026.10.07.18'
+setup_version='2026.10.07.19'
 test_commands=",${AI_RESEARCH_TEST_COMMANDS:-},"
 
 trace_platform=linux
@@ -176,7 +176,11 @@ configure_vscode() {
   have code || { log 'PREREQUISITE_MISSING VS Code CLI not found. Finish the VS Code/WSL setup, then rerun --setup-user.'; exit 2; }
   profile="AI for Research - $agent"
   extensions=(mathematic.vscode-pdf mechatroner.rainbow-csv AykutSarac.jsoncrack-vscode)
-  case "$agent" in codex) extensions=(openai.chatgpt "${extensions[@]}") ;; claude) extensions=(anthropic.claude-code "${extensions[@]}") ;; openrouter) extensions=(saoudrizwan.claude-dev "${extensions[@]}") ;; esac
+  case "$agent" in
+    codex) extensions=(openai.chatgpt ganymede404.vscode-codex-usage "${extensions[@]}") ;;
+    claude) extensions=(anthropic.claude-code growthjack.claude-code-usage "${extensions[@]}") ;;
+    openrouter) extensions=(saoudrizwan.claude-dev ThiagoSantosDevBR.openrouter-ai-monitor "${extensions[@]}") ;;
+  esac
   log 'STEP Preparing your AI workspace and extensions.'
   log "CREATE VS_CODE_PROFILE profile=$profile workspace=$course_dir"
   if [[ "$dry_run" == 1 ]]; then log "DRY_RUN code --profile $profile $course_dir"; else quiet code --profile "$profile" "$course_dir"; fi
@@ -207,12 +211,26 @@ configure_vscode() {
   printf '{\n  "recommendations": [%s]\n}\n' "${recommendations%,}" > "$course_dir/.vscode/extensions.json"
 }
 configure_antigravity() {
-  extension=mathematic.vscode-pdf
-  log "INSTALL ANTIGRAVITY_EXTENSION $extension"
-  if [[ "$dry_run" == 1 ]]; then log "DRY_RUN agy-ide --install-extension $extension"; else quiet agy-ide --install-extension "$extension"; fi
+  extensions=(mathematic.vscode-pdf sourabhr10122002.antigravity-quota-checker)
+  existing_extensions=''
+  extensions_known=no
+  if [[ "$dry_run" != 1 ]] && existing_extensions="$(agy-ide --list-extensions 2>> "${trace_file%.jsonl}.log")"; then extensions_known=yes; fi
+  for extension in "${extensions[@]}"; do
+    before=unknown-preserve
+    if [[ "$extensions_known" == yes ]]; then
+      before=missing
+      if printf '%s\n' "$existing_extensions" | awk -v target="$extension" 'tolower($0) == tolower(target) {found=1} END {exit !found}'; then before=present; fi
+    fi
+    trace snapshot antigravity-extension "$extension" before "$before"
+    if [[ "$dry_run" != 1 && "$before" == present ]]; then trace snapshot antigravity-extension "$extension" after 'present; reused'; continue; fi
+    log "INSTALL ANTIGRAVITY_EXTENSION $extension"
+    if [[ "$dry_run" == 1 ]]; then log "DRY_RUN agy-ide --install-extension $extension"; else quiet agy-ide --install-extension "$extension"; fi
+    trace snapshot antigravity-extension "$extension" after present
+  done
   if [[ "$dry_run" != 1 ]]; then
     mkdir -p "$course_dir/.vscode"
-    printf '{\n  "recommendations": ["%s"]\n}\n' "$extension" > "$course_dir/.vscode/extensions.json"
+    recommendations="$(printf '"%s",' "${extensions[@]}")"
+    printf '{\n  "recommendations": [%s]\n}\n' "${recommendations%,}" > "$course_dir/.vscode/extensions.json"
   fi
 }
 install_system_tools() {

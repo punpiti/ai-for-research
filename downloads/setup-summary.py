@@ -16,6 +16,10 @@ NAMES = {
     'saoudrizwan.claude-dev': 'Cline', 'openai.chatgpt': 'Codex extension',
     'anthropic.claude-code': 'Claude Code extension', 'mathematic.vscode-pdf': 'PDF viewer',
     'mechatroner.rainbow-csv': 'CSV viewer', 'aykutsarac.jsoncrack-vscode': 'JSON viewer',
+    'ganymede404.vscode-codex-usage': 'Codex usage status bar',
+    'growthjack.claude-code-usage': 'Claude usage status bar',
+    'thiagosantosdevbr.openrouter-ai-monitor': 'OpenRouter usage status bar',
+    'sourabhr10122002.antigravity-quota-checker': 'Antigravity usage status bar',
 }
 
 
@@ -62,7 +66,7 @@ def summarize(events):
             else:
                 continue
             (added if previous == 'missing' else reused if previous.startswith('file:') else prepared).add(name)
-        elif kind == 'vscode-extension' and current.startswith('present'):
+        elif kind in ('vscode-extension', 'antigravity-extension') and current.startswith('present'):
             name = NAMES.get(target.lower(), target)
             (added if previous.startswith('missing') else reused if previous.startswith('present') else prepared).add(name)
         elif kind == 'python-packages':

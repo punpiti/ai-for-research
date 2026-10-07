@@ -38,6 +38,8 @@ class RuntimeTests(unittest.TestCase):
             event('vscode-extension', 'saoudrizwan.claude-dev', 'after', 'present; profile=course'),
             event('vscode-extension', 'mechatroner.rainbow-csv', 'before', 'missing; profile=course'),
             event('vscode-extension', 'mechatroner.rainbow-csv', 'after', 'present; profile=course'),
+            event('vscode-extension', 'ThiagoSantosDevBR.openrouter-ai-monitor', 'before', 'missing; profile=course'),
+            event('vscode-extension', 'ThiagoSantosDevBR.openrouter-ai-monitor', 'after', 'present; profile=course'),
             event('user-tool', 'uv', 'started', '', 'install'),
             event('python-packages', 'env', 'before', '{"packaging":null}'),
             event('python-packages', 'env', 'after', '{"packaging":"26.3"}'),
@@ -46,7 +48,7 @@ class RuntimeTests(unittest.TestCase):
         ]
         result = summary.summarize(events)
         self.assertEqual(result['reused'], ['Cline', 'Git', 'TinyTeX'])
-        self.assertEqual(result['added'], ['CSV viewer', 'LaTeX packages (1)', 'Python 3.12 + venv', 'packaging (Python package)'])
+        self.assertEqual(result['added'], ['CSV viewer', 'LaTeX packages (1)', 'OpenRouter usage status bar', 'Python 3.12 + venv', 'packaging (Python package)'])
         self.assertNotIn('uv', result['added'])
         self.assertEqual(result['prepared'], [])
 

@@ -24,6 +24,8 @@ try {
   Add-Event $trace @{ action='snapshot'; kind='vscode-extension'; target='openai.chatgpt'; status='after'; details='present; profile=AI for Research - codex' }
   Add-Event $trace @{ action='snapshot'; kind='vscode-extension'; target='mathematic.vscode-pdf'; status='before'; details='present; profile=AI for Research - codex' }
   Add-Event $trace @{ action='snapshot'; kind='vscode-extension'; target='mathematic.vscode-pdf'; status='after'; details='present; profile=AI for Research - codex; reused' }
+  Add-Event $trace @{ action='snapshot'; kind='antigravity-extension'; target='sourabhr10122002.antigravity-quota-checker'; status='before'; details='missing' }
+  Add-Event $trace @{ action='snapshot'; kind='antigravity-extension'; target='sourabhr10122002.antigravity-quota-checker'; status='after'; details='present' }
   Add-Event $trace @{ action='snapshot'; kind='path'; target=$created; status='before'; details='missing' }
   Add-Event $trace @{ action='snapshot'; kind='path'; target=$created; status='after'; details="file:$createdHash" }
   Add-Event $trace @{ action='snapshot'; kind='path'; target=$modified; status='before'; details='missing' }
@@ -36,10 +38,11 @@ try {
   Add-Event $trace @{ action='phase'; kind='installer'; target='Install'; status='completed'; details='' }
 
   $env:AI_RESEARCH_DRY_RUN = '1'
-  $env:AI_RESEARCH_TEST_COMMANDS = 'code,uv,npm,winget'
+  $env:AI_RESEARCH_TEST_COMMANDS = 'code,uv,npm,winget,agy-ide'
   $output = (& $installer -Mode Uninstall -InstallTraceFile $trace -CourseDir $workspace 2>&1 6>&1 | Out-String)
   if ($output -notmatch 'UNINSTALL VS_CODE_EXTENSION openai.chatgpt') { throw "New extension was not selected.`n$output" }
   if ($output -match 'UNINSTALL VS_CODE_EXTENSION mathematic.vscode-pdf') { throw "Reused extension must be preserved.`n$output" }
+  if ($output -notmatch 'UNINSTALL ANTIGRAVITY_EXTENSION sourabhr10122002.antigravity-quota-checker') { throw "New Antigravity usage extension was not selected.`n$output" }
   if ($output -notmatch 'UNINSTALL_REMOVE_FILE' -or $output -notmatch 'created.txt') { throw "Unchanged created file was not selected.`n$output" }
   if ($output -notmatch 'UNINSTALL_PRESERVE_MODIFIED' -or $output -notmatch 'modified.txt') { throw "Modified learner file was not preserved.`n$output" }
   if ($output -notmatch 'UNINSTALL user-tool uv') { throw "Receipt-owned uv was not selected.`n$output" }

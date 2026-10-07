@@ -10,7 +10,7 @@ param(
 $ErrorActionPreference = 'Stop'
 $ProgressPreference = 'SilentlyContinue'
 $DryRun = $env:AI_RESEARCH_DRY_RUN -eq '1'
-$SetupVersion = '2026.10.07.18'
+$SetupVersion = '2026.10.07.19'
 $TestCommands = @($env:AI_RESEARCH_TEST_COMMANDS -split ',' | Where-Object { $_ })
 function Trace([string]$Action, [string]$Kind, [string]$Target, [string]$Status, [string]$Details = '') {
   if ($DryRun -or -not $TraceFile) { return }
@@ -233,6 +233,16 @@ function Remove-UserItemsFromReceipt([object[]]$Events) {
     }
   }
 
+  $antigravityExtensions = $Events |
+    Where-Object { $_.action -eq 'snapshot' -and $_.kind -eq 'antigravity-extension' -and $_.status -eq 'before' -and $_.details -like 'missing*' } |
+    Select-Object -ExpandProperty target -Unique
+  foreach ($extension in $antigravityExtensions) {
+    Log "UNINSTALL ANTIGRAVITY_EXTENSION $extension"
+    if (-not $DryRun -and (Has 'agy-ide')) { Run-Quiet "Uninstall Antigravity extension $extension" { agy-ide --uninstall-extension $extension } @(0,1) }
+    elseif (-not $DryRun) { Log "UNINSTALL_PRESERVE_TOOL_MISSING agy-ide; extension=$extension" }
+    Trace 'uninstall' 'antigravity-extension' $extension 'completed' 'installed-by-receipt'
+  }
+
   $pathTargets = $Events | Where-Object { $_.action -eq 'snapshot' -and $_.kind -eq 'path' -and $_.status -eq 'before' -and $_.details -eq 'missing' } | Select-Object -ExpandProperty target -Unique
   $directoryTargets = @()
   foreach ($target in $pathTargets) {
@@ -393,7 +403,14 @@ function Configure-VSCode {
     'openrouter' { 'saoudrizwan.claude-dev' }
     'antigravity' { $null }
   }
+  $usageExtension = switch ($Agent) {
+    'codex' { 'ganymede404.vscode-codex-usage' }
+    'claude' { 'growthjack.claude-code-usage' }
+    'openrouter' { 'ThiagoSantosDevBR.openrouter-ai-monitor' }
+    'antigravity' { $null }
+  }
   $extensions = @('mathematic.vscode-pdf', 'mechatroner.rainbow-csv', 'AykutSarac.jsoncrack-vscode')
+  if ($usageExtension) { $extensions = @($usageExtension) + $extensions }
   if ($aiExtension) { $extensions = @($aiExtension) + $extensions }
   $existingExtensions = @()
   $extensionsKnown = $false
@@ -426,18 +443,37 @@ function Configure-VSCode {
   @{ recommendations = $extensions } | ConvertTo-Json | Set-Content -Encoding utf8 (Join-Path $vscodeDir 'extensions.json')
 }
 function Configure-Antigravity {
-  $extension = 'mathematic.vscode-pdf'
+  $extensions = @('mathematic.vscode-pdf', 'sourabhr10122002.antigravity-quota-checker')
   if (Has 'agy-ide') {
-    Log "INSTALL ANTIGRAVITY_EXTENSION $extension"
-    if ($DryRun) { Log "DRY_RUN agy-ide --install-extension $extension" } else { agy-ide --install-extension $extension }
+    $existingExtensions = @()
+    $extensionsKnown = $false
+    if (-not $DryRun) {
+      $queryPreference = $ErrorActionPreference
+      try {
+        $ErrorActionPreference = 'Continue'
+        $existingExtensions = @(agy-ide --list-extensions 2>$null)
+        $extensionsKnown = $LASTEXITCODE -eq 0
+      } finally { $ErrorActionPreference = $queryPreference }
+    }
+    foreach ($extension in $extensions) {
+      $before = if (-not $extensionsKnown) { 'unknown-preserve' } elseif ($existingExtensions -contains $extension) { 'present' } else { 'missing' }
+      Trace 'snapshot' 'antigravity-extension' $extension 'before' $before
+      if (-not $DryRun -and $extensionsKnown -and $existingExtensions -contains $extension) {
+        Trace 'snapshot' 'antigravity-extension' $extension 'after' 'present; reused'
+        continue
+      }
+      Log "INSTALL ANTIGRAVITY_EXTENSION $extension"
+      if ($DryRun) { Log "DRY_RUN agy-ide --install-extension $extension" } else { agy-ide --install-extension $extension }
+      Trace 'snapshot' 'antigravity-extension' $extension 'after' 'present'
+    }
   }
   else {
-    Log "ANTIGRAVITY_GUI_SETUP Open Antigravity IDE, open folder $CourseDir, then install extension $extension from Extensions. The agy-ide command is optional."
+    Log "ANTIGRAVITY_GUI_SETUP Open Antigravity IDE, open folder $CourseDir, then install extensions $($extensions -join ', ') from Extensions. The agy-ide command is optional."
   }
   $vscodeDir = Join-Path $CourseDir '.vscode'
   if (-not $DryRun) {
     New-Item -ItemType Directory -Force -Path $vscodeDir | Out-Null
-    @{ recommendations = @($extension) } | ConvertTo-Json | Set-Content -Encoding utf8 (Join-Path $vscodeDir 'extensions.json')
+    @{ recommendations = $extensions } | ConvertTo-Json | Set-Content -Encoding utf8 (Join-Path $vscodeDir 'extensions.json')
   }
 }
 function Get-SystemPackages {
