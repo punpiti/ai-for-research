@@ -1,4 +1,10 @@
 $ErrorActionPreference = 'Stop'
+trap {
+  # Keep the actual PowerShell failure visible in GitHub's public annotations;
+  # the runner otherwise reports only the process exit code.
+  Write-Host "::error title=Windows system-tools test failed::$($_.Exception.Message)"
+  throw
+}
 $installer = Join-Path (Split-Path -Parent $PSScriptRoot) 'downloads\setup-windows.ps1'
 $tokens = $null
 $errors = $null
