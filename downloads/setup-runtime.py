@@ -139,19 +139,49 @@ def install_tex(root):
     os.environ['PATH'] = str(bin_dir) + os.pathsep + os.environ['PATH']
     run(tlmgr, 'postaction', 'install', 'script', 'xetex')
     run(tlmgr, 'install', 'xetex', 'fontspec', 'unicode-math', 'xcolor', 'geometry', 'bookmark',
-        'fancyvrb', 'framed', 'booktabs', 'upquote', 'etoolbox', 'float', 'tools', 'caption', 'soul')
+        'fancyvrb', 'framed', 'booktabs', 'upquote', 'etoolbox', 'float', 'tools', 'caption', 'soul',
+        'setspace', 'parskip', 'lm', 'amsmath', 'amsfonts', 'iftex', 'microtype', 'xurl')
+    kpsewhich = bin_dir / ('kpsewhich.exe' if os.name == 'nt' else 'kpsewhich')
+    for name in ('setspace.sty', 'parskip.sty', 'unicode-math.sty', 'bookmark.sty'):
+        run(kpsewhich, name, stdout=subprocess.DEVNULL)
     return bin_dir
 
 
-def configure(workspace, agent, root, env):
+def verify_python_runtime(uv, environment):
+    python = environment / ('Scripts/python.exe' if os.name == 'nt' else 'bin/python')
+    # A small useful dependency exercises package installation and imports in
+    # the exact interpreter the AI will use; do not install into system Python.
+    run(uv, 'pip', 'install', '--python', python, 'packaging>=24')
+    probe = (
+        'import json,sys,platform; from importlib.metadata import version; '
+        'from packaging.version import Version; '
+        'assert Version("3.12") <= Version(platform.python_version()) < Version("3.13"); '
+        'print(json.dumps({"executable":sys.executable,"prefix":sys.prefix,'
+        '"base_prefix":sys.base_prefix,"version":platform.python_version(),'
+        '"packages":{"packaging":version("packaging")}}))'
+    )
+    result = run(python, '-I', '-c', probe, capture_output=True, text=True)
+    receipt = json.loads(result.stdout)
+    if Path(receipt['prefix']).resolve() != environment.resolve() or receipt['prefix'] == receipt['base_prefix']:
+        raise RuntimeError('Python environment check failed: interpreter is not using the course venv.')
+    log(f'PYTHON_ENV_READY Python {receipt["version"]}; package install/import verified in {environment}')
+    return receipt
+
+
+def configure(workspace, agent, root, env, python_receipt=None):
     tools = workspace / 'tools'
     tools.mkdir(parents=True, exist_ok=True)
-    (tools / 'runtime-env.json').write_text(json.dumps({'tool_root': str(root), 'env': env}, indent=2), encoding='utf-8')
+    receipt = {'tool_root': str(root), 'env': env}
+    if python_receipt:
+        receipt['python'] = python_receipt
+    (tools / 'runtime-env.json').write_text(json.dumps(receipt, indent=2), encoding='utf-8')
     (tools / 'runtime-env.sh').write_text('\n'.join(f'export {k}={shlex.quote(v)}' for k, v in env.items()) + '\n', encoding='utf-8')
     ps = '\n'.join("$env:" + k + " = '" + v.replace("'", "''") + "'" for k, v in env.items())
     (tools / 'runtime-env.ps1').write_text(ps + '\n', encoding='utf-8')
     # Configure only this workspace. Existing user configuration always wins.
     settings = {f'terminal.integrated.env.{p}': env for p in ('windows', 'osx', 'linux')}
+    if python_receipt:
+        settings['python.defaultInterpreterPath'] = python_receipt['executable']
     write_new(workspace / '.vscode' / 'settings.json', json.dumps(settings, indent=2) + '\n')
     if agent == 'codex':
         config = 'approval_policy = "never"\nsandbox_mode = "workspace-write"\n\n'
@@ -194,6 +224,7 @@ def main():
         'UV_TOOL_DIR': str(root / 'uv-tools'),
         'UV_TOOL_BIN_DIR': str(root / 'bin'),
         'UV_PROJECT_ENVIRONMENT': str(root / 'envs' / 'research'),
+        'VIRTUAL_ENV': str(root / 'envs' / 'research'),
         'TEXMFHOME': str(root / 'texmf'),
         'TEXMFVAR': str(root / 'cache' / 'texmf-var'),
         'TEXMFCONFIG': str(root / 'texmf-config'),
@@ -215,6 +246,7 @@ def main():
         raise RuntimeError('uv is missing. Rerun the main installer.')
     run(uv, 'python', 'install', '3.12')
     run(uv, 'venv', '--python', '3.12', env['UV_PROJECT_ENVIRONMENT'], '--allow-existing')
+    python_receipt = verify_python_runtime(uv, Path(env['UV_PROJECT_ENVIRONMENT']))
     node_bin = ensure_node(root, args.agent)
     tex_bin = install_tex(root)
     python_bin = Path(env['UV_PROJECT_ENVIRONMENT']) / ('Scripts' if os.name == 'nt' else 'bin')
@@ -232,7 +264,7 @@ def main():
         run('pandoc', source, '--defaults', 'templates/modern-thai.yaml', '-o', pdf, cwd=workspace)
         if not pdf.is_file() or pdf.stat().st_size == 0:
             raise RuntimeError('Thai PDF check did not produce a PDF.')
-    configure(workspace, args.agent, root, env)
+    configure(workspace, args.agent, root, env, python_receipt)
     log('RUNTIME_READY Python 3.12 + XeLaTeX + Thai PDF verified; uv and tlmgr can add packages as this user.')
     log('FINAL_RESULT PASS - Research runtime ready.')
 

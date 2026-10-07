@@ -19,7 +19,11 @@ for platform in windows macos linux; do
   grep -q "data-platform-panel=\"$platform\"" "$page"
 done
 
-grep -q 'SETUP_VERSION 2026.10.07.6' "$page"
+for installer in setup-windows.ps1 setup-linux.sh setup-macos.sh; do
+  version="$(sed -n "s/.*[Ss]etup[Vv]ersion *= *'\([^']*\)'.*/\1/p; s/^setup_version='\([^']*\)'.*/\1/p" "$root/downloads/$installer")"
+  [[ -n "$version" ]]
+  grep -Fq "SETUP_VERSION $version" "$page"
+done
 grep -q 'FONT_READY' "$page"
 grep -q 'CREATE VS_CODE_PROFILE' "$page"
 grep -q 'Script จะเปิด Workspace ใน <span data-workspace-app>VS Code</span> ให้อัตโนมัติ' "$page"

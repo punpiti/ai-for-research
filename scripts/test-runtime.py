@@ -53,6 +53,9 @@ class RuntimeTests(unittest.TestCase):
                 self.assertEqual(len(calls), 1)
                 self.assertEqual(binary, root / 'TinyTeX/bin/test-platform')
                 self.assertTrue(all(str(c.args[0]).startswith(str(root)) for c in command.call_args_list))
+                installs = [c.args for c in command.call_args_list if c.args[1] == 'install']
+                self.assertTrue(all('setspace' in args and 'parskip' in args for args in installs))
+                self.assertTrue(any(c.args[1] == 'setspace.sty' for c in command.call_args_list))
 
     def test_compatible_node_is_reused_without_network(self):
         with tempfile.TemporaryDirectory() as scratch, patch.object(runtime.shutil, 'which', return_value='/usr/bin/node'), patch.object(runtime, 'run', return_value=subprocess.CompletedProcess([], 0, stdout='22.1.0')), patch.object(runtime.urllib.request, 'urlopen') as network:
@@ -85,31 +88,58 @@ class RuntimeTests(unittest.TestCase):
     def test_bootstrap_pdf_success_writes_receipt_and_config(self):
         self.exercise_main(fail_pdf=False)
 
-    def exercise_main(self, fail_pdf):
+    def test_package_install_failure_never_reports_ready(self):
+        self.exercise_main(fail_pdf=False, python_failure='install')
+
+    def test_package_import_failure_never_reports_ready(self):
+        self.exercise_main(fail_pdf=False, python_failure='import')
+
+    def test_wrong_python_environment_never_reports_ready(self):
+        self.exercise_main(fail_pdf=False, python_failure='environment')
+
+    def exercise_main(self, fail_pdf, python_failure=None):
         with tempfile.TemporaryDirectory(prefix='research runtime ') as scratch, patch.dict(os.environ):
             workspace = Path(scratch) / 'workspace'; workspace.mkdir()
             root = Path(scratch) / 'local tools'
             commands = []
             def command(*args, **kwargs):
                 commands.append(tuple(map(str, args)))
+                if 'pip' in args and python_failure == 'install':
+                    raise subprocess.CalledProcessError(1, args)
+                if '-c' in args:
+                    if python_failure == 'import':
+                        raise subprocess.CalledProcessError(1, args)
+                    prefix = root / 'envs/research' if python_failure != 'environment' else root / 'wrong-env'
+                    return subprocess.CompletedProcess(args, 0, stdout=json.dumps({
+                        'executable': str(args[0]), 'prefix': str(prefix),
+                        'base_prefix': str(root / 'python'), 'version': '3.12.15',
+                        'packages': {'packaging': '26.0'},
+                    }))
                 if args[0] == 'pandoc':
                     if fail_pdf:
                         raise subprocess.CalledProcessError(1, args)
                     Path(args[-1]).write_bytes(b'%PDF-test')
             with patch.object(runtime, 'tool_root', return_value=root), patch.object(runtime.shutil, 'which', return_value='/usr/bin/uv'), patch.object(runtime, 'run', side_effect=command), patch.object(runtime, 'ensure_node', return_value=root / 'node/bin'), patch.object(runtime, 'install_tex', return_value=root / 'TinyTeX/bin/test'), patch('sys.argv', ['setup-runtime.py','--workspace',str(workspace),'--agent','codex']), contextlib.redirect_stdout(io.StringIO()) as output:
-                if fail_pdf:
-                    with self.assertRaises(subprocess.CalledProcessError):
+                if fail_pdf or python_failure:
+                    error = RuntimeError if python_failure == 'environment' else subprocess.CalledProcessError
+                    with self.assertRaises(error):
                         runtime.main()
                 else:
                     runtime.main()
-            self.assertEqual('RUNTIME_READY' in output.getvalue(), not fail_pdf)
-            self.assertEqual((workspace / '.codex/config.toml').exists(), not fail_pdf)
+            passed = not fail_pdf and not python_failure
+            self.assertEqual('RUNTIME_READY' in output.getvalue(), passed)
+            self.assertEqual((workspace / '.codex/config.toml').exists(), passed)
             self.assertIn(('/usr/bin/uv', 'python', 'install', '3.12'), commands)
             self.assertTrue(str(root) in os.environ['UV_PROJECT_ENVIRONMENT'])
             self.assertFalse((workspace / '.venv').exists())
-            if not fail_pdf:
+            if passed:
                 receipt = json.loads((workspace / 'tools/runtime-env.json').read_text())
                 self.assertEqual(receipt['tool_root'], str(root))
+                self.assertEqual(receipt['python']['prefix'], str(root / 'envs/research'))
+                self.assertEqual(receipt['env']['VIRTUAL_ENV'], receipt['env']['UV_PROJECT_ENVIRONMENT'])
+                settings = json.loads((workspace / '.vscode/settings.json').read_text())
+                self.assertEqual(settings['python.defaultInterpreterPath'], receipt['python']['executable'])
+                self.assertIn(('/usr/bin/uv', 'pip', 'install', '--python', receipt['python']['executable'], 'packaging>=24'), commands)
 
 
 if __name__ == '__main__':
