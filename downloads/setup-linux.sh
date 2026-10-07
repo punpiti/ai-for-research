@@ -5,7 +5,7 @@ mode="${1:---check}"
 course_dir="${AI_RESEARCH_COURSE_DIR:-${AI_GRAD_COURSE_DIR:-$HOME/ai-for-research-workspace}}"
 agent="${AI_GRAD_AGENT:-}"
 dry_run="${AI_RESEARCH_DRY_RUN:-0}"
-setup_version='2026.10.07.11'
+setup_version='2026.10.07.17'
 test_commands=",${AI_RESEARCH_TEST_COMMANDS:-},"
 
 trace_platform=linux
@@ -69,7 +69,7 @@ if [[ "$dry_run" != 1 && "$mode" != --check ]]; then
   (umask 077; : > "${trace_file%.jsonl}.log")
   trace phase installer "$mode" started "agent=$agent; version=$setup_version"
   trace snapshot workspace "$course_dir" before preserve-personal-files
-  for name in content.md README.md AGENTS.md templates/modern-thai.yaml templates/modern-thai.lua templates/modern-thai.tex templates/fonts/Sarabun-Regular.ttf templates/fonts/Sarabun-Bold.ttf templates/fonts/OFL.txt tools/import-documents.sh tools/import-documents.ps1 tools/install-summary.py .vscode/extensions.json; do
+  for name in content.md README.md AGENTS.md CLAUDE.md .ai/PROJECT_STATE.md .ai/TOKEN_BUDGET.md .ai/agent-project-kit/STARTUP.md .ai/agent-project-kit/TOKEN_DISCIPLINE.md templates/modern-thai.yaml templates/modern-thai.lua templates/modern-thai.tex templates/fonts/Sarabun-Regular.ttf templates/fonts/Sarabun-Bold.ttf templates/fonts/OFL.txt tools/import-documents.sh tools/import-documents.ps1 tools/import-office.py tools/install-summary.py .vscode/extensions.json; do
     watched_paths+=("$course_dir/$name")
   done
   for name in python envs/research TinyTeX node npm uv-tools bin tessdata envs/research/pyvenv.cfg TinyTeX/tlpkg/texlive.tlpdb; do watched_paths+=("$trace_root/$name"); done
@@ -144,7 +144,7 @@ check() {
 }
 make_workspace() {
   if [[ "$dry_run" == 1 ]]; then log "DRY_RUN workspace=$course_dir"; return; fi
-  mkdir -p "$course_dir/input/original" "$course_dir/input/markdown" "$course_dir/output" "$course_dir/tools"
+  mkdir -p "$course_dir/input/original" "$course_dir/input/markdown" "$course_dir/output" "$course_dir/tools" "$course_dir/.ai/agent-project-kit"
   mkdir -p "$course_dir/templates/fonts"
   quiet curl -fL 'https://urban.cpe.ku.ac.th/ai-for-research/downloads/fonts/Sarabun-Regular.ttf' -o "$course_dir/templates/fonts/Sarabun-Regular.ttf"
   quiet curl -fL 'https://urban.cpe.ku.ac.th/ai-for-research/downloads/fonts/Sarabun-Bold.ttf' -o "$course_dir/templates/fonts/Sarabun-Bold.ttf"
@@ -161,8 +161,13 @@ make_workspace() {
   quiet curl -fL 'https://urban.cpe.ku.ac.th/ai-for-research/downloads/modern-thai.lua' -o "$course_dir/templates/modern-thai.lua"
   quiet curl -fL 'https://urban.cpe.ku.ac.th/ai-for-research/downloads/modern-thai.tex' -o "$course_dir/templates/modern-thai.tex"
   quiet curl -fL 'https://urban.cpe.ku.ac.th/ai-for-research/downloads/starter-AGENTS.md' -o "$course_dir/AGENTS.md"
+  quiet curl -fL 'https://urban.cpe.ku.ac.th/ai-for-research/downloads/starter-STARTUP.md' -o "$course_dir/.ai/agent-project-kit/STARTUP.md"
+  quiet curl -fL 'https://urban.cpe.ku.ac.th/ai-for-research/downloads/starter-TOKEN-DISCIPLINE.md' -o "$course_dir/.ai/agent-project-kit/TOKEN_DISCIPLINE.md"
+  [[ -e "$course_dir/.ai/PROJECT_STATE.md" ]] || quiet curl -fL 'https://urban.cpe.ku.ac.th/ai-for-research/downloads/starter-PROJECT-STATE.md' -o "$course_dir/.ai/PROJECT_STATE.md"
+  [[ -e "$course_dir/.ai/TOKEN_BUDGET.md" ]] || quiet curl -fL 'https://urban.cpe.ku.ac.th/ai-for-research/downloads/starter-TOKEN-BUDGET.md' -o "$course_dir/.ai/TOKEN_BUDGET.md"
   quiet curl -fL 'https://urban.cpe.ku.ac.th/ai-for-research/downloads/import-documents.sh' -o "$course_dir/tools/import-documents.sh"
   quiet curl -fL 'https://urban.cpe.ku.ac.th/ai-for-research/downloads/import-documents.ps1' -o "$course_dir/tools/import-documents.ps1"
+  quiet curl -fL 'https://urban.cpe.ku.ac.th/ai-for-research/downloads/import-office.py' -o "$course_dir/tools/import-office.py"
   quiet curl -fL https://urban.cpe.ku.ac.th/ai-for-research/downloads/setup-summary.py -o "$course_dir/tools/install-summary.py"
   chmod +x "$course_dir/tools/import-documents.sh"
   log "workspace=$course_dir"
@@ -223,9 +228,9 @@ install_system_tools() {
   have curl || packages+=(curl)
   have pandoc || packages+=(pandoc)
   have tesseract || packages+=(tesseract-ocr)
-  have pdftotext || packages+=(poppler-utils)
+  if ! have pdftotext || ! have pdftoppm || ! have pdfinfo; then packages+=(poppler-utils); fi
   dpkg -s tesseract-ocr-tha >/dev/null 2>&1 || packages+=(tesseract-ocr-tha)
-  for cmd in git curl node npm pandoc xelatex tesseract pdftotext; do
+  for cmd in git curl node npm pandoc xelatex tesseract pdftotext pdftoppm pdfinfo; do
     if have "$cmd"; then log "REUSE $cmd"; fi
   done
   if ((${#packages[@]})); then log "INSTALL apt=${packages[*]}"; else log 'All apt system software is already available.'; fi

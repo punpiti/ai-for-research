@@ -47,7 +47,8 @@
 | 5 Figure | เพิ่มรูปทีละรูป | | | | |
 | 6 Table | เพิ่มตารางทีละตาราง | | | | |
 | 7 Full venue build | ประกอบครบ | | | | |
-| 8 Final PDF QA | แก้หลังตรวจ | | | | |
+| 8 Revision diff | เทียบ snapshot ก่อนและหลัง | | | | |
+| 9 Final PDF QA | แก้หลังตรวจ | | | | |
 
 ## 4. Outline and Section Plan
 
@@ -156,13 +157,25 @@
 | Fonts embedded and PDF opens correctly | | | |
 | Required metadata/file naming/package complete | | | |
 
-## 11. Repair Record
+## 11. Revision Diff Record
+
+| รายการ | คำตอบ |
+|---|---|
+| Old source snapshot/path | |
+| New source snapshot/path | |
+| `latexdiff` command | |
+| Marked PDF path | |
+| Intended claim/number/citation/limitation changes | |
+| Unexpected changes and action | |
+| Reviewer response or venue requirement linked | |
+
+## 12. Repair Record
 
 | ปัญหา | ชั้นที่เป็นสาเหตุ: content/template/generated/build | Source ที่แก้ | เหตุผล | ผล rebuild/QA |
 |---|---|---|---|---|
 | | | | | |
 
-## 12. Final Decision
+## 13. Final Decision
 
 | รายการ | คำตอบ |
 |---|---|

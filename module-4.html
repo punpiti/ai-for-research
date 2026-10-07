@@ -25,12 +25,12 @@
     </div></section>
 
     <section class="section" id="outcomes"><div class="section-heading compact"><p class="eyebrow">LO</p><h2>สิ่งที่จะทำได้</h2><p>จาก “AI บอกว่า” ไปสู่หลักฐานที่เปิดตรวจได้</p></div><div class="check-grid outcome-grid">
-      <div><span>01 · Search</span><strong>แปลง Claim เป็น search concepts, synonyms และ query</strong></div><div><span>02 · Verify</span><strong>ยืนยันตัวตนและ metadata ของแหล่งจากต้นทาง</strong></div><div><span>03 · Evaluate</span><strong>ตรวจว่าเนื้อหาสนับสนุน Claim จริงหรือถูกอ้างเกิน</strong></div><div><span>04 · Synthesize</span><strong>เปรียบเทียบหลักฐานข้ามงานโดยคง traceability</strong></div>
+      <div><span>01 · Search</span><strong>แปลง Claim เป็น search concepts, synonyms และ query</strong></div><div><span>02 · Crawl</span><strong>เก็บ candidate metadata จาก OpenAlex API แบบมีขอบเขต</strong></div><div><span>03 · Verify</span><strong>ยืนยันตัวตนและ metadata ของแหล่งจากต้นทาง</strong></div><div><span>04 · Evaluate</span><strong>ตรวจว่าเนื้อหาสนับสนุน Claim จริงหรือถูกอ้างเกิน</strong></div><div><span>05 · Synthesize</span><strong>เปรียบเทียบหลักฐานข้ามงานโดยคง traceability</strong></div>
     </div></section>
 
     <section class="section" id="source-types"><div class="section-heading compact"><p class="eyebrow">ก่อนค้น</p><h2>แหล่งที่ช่วย “พบ” ไม่จำเป็นต้องเป็นหลักฐาน</h2></div><div class="level-grid">
       <article><span>01</span><div><h3>Discovery Source</h3><p>Search engine, AI, review หรือรายการแนะนำช่วยให้พบชื่อเรื่อง แต่ยังไม่ยืนยันว่าแหล่งมีอยู่จริงหรือสนับสนุน claim</p></div></article>
-      <article><span>02</span><div><h3>Metadata Source</h3><p>Crossref, DOI registry หรือฐานข้อมูลบรรณานุกรมช่วยตรวจชื่อ ผู้แต่ง ปี วารสาร และ DOI แต่ metadata ยังไม่บอกว่าข้อความในบทความสนับสนุน claim</p></div></article>
+      <article><span>02</span><div><h3>Metadata Source</h3><p>OpenAlex, Crossref, DOI registry หรือฐานข้อมูลบรรณานุกรมช่วยค้นและตรวจชื่อ ผู้แต่ง ปี วารสาร และ DOI แต่ metadata ยังไม่บอกว่าข้อความในบทความสนับสนุน claim</p></div></article>
       <article><span>03</span><div><h3>Official Page</h3><p>หน้า publisher, journal, conference หรือ repository ทางการช่วยยืนยันตัวตน เวอร์ชัน และ abstract จากต้นทาง</p></div></article>
       <article><span>04</span><div><h3>Full-text Evidence</h3><p>PDF หรือ HTML ฉบับเต็มทำให้ตรวจ method, result, limitation และบริบทของข้อความที่ต้องการอ้างได้</p></div></article>
     </div><div class="notice"><strong>กฎสำคัญ:</strong> DOI ที่เปิดได้ยืนยันว่าเอกสารมีอยู่จริง แต่ยังไม่ยืนยันว่าเอกสารนั้นสนับสนุน Claim ต้องอ่านตำแหน่งที่เกี่ยวข้องในต้นฉบับอีกครั้ง</div></section>
@@ -60,7 +60,37 @@
       <article><span>04</span><div><h3>ตรวจเนื้อหา</h3><p>อ่านประชากร อาหารเปรียบเทียบ วิธีวัด satiety ผล และข้อจำกัด หากศึกษาในประชากรอื่นหรือผลไม่ชัด Claim อาจได้เพียง partially supported</p></div></article>
     </div><div class="plain-note"><strong>ตารางที่ตรวจย้อนกลับได้:</strong> Evidence table ไม่ควรมีเพียงชื่อบทความกับ summary แต่ต้องมี Claim ที่ตรวจ, ตำแหน่งในต้นฉบับ, สิ่งที่หลักฐานสนับสนุนจริง, ข้อจำกัด และสถานะการตรวจ</div></section>
 
-    <section class="section" id="paths"><div class="section-heading compact"><p class="eyebrow">กิจกรรมฝึกตรวจวรรณกรรม</p><h2>เลือกงานที่ตรงกับสิ่งที่ต้องตรวจ</h2><p>ถ้ามี Claim ให้ทำกิจกรรม A เพื่อค้นหลักฐานใหม่ ถ้ามี manuscript หรือ proposal ให้ทำกิจกรรม B เพื่อตรวจการอ้างอิง เมื่อเสร็จแล้วจะสรุปผลด้วย Citation Verification Checklist</p></div></section>
+    <section class="section" id="openalex"><div class="section-heading compact"><p class="eyebrow">กิจกรรมร่วม · OpenAlex</p><h2>Crawling แบบมีขอบเขตและทำซ้ำได้</h2><p>ทุกคนเก็บ candidate metadata จาก OpenAlex API ก่อนแยกไปทำกิจกรรม A หรือ B โดยกำหนด query, filter, fields และจำนวนระเบียนสูงสุดก่อนรัน</p></div><div class="concept-grid">
+      <article><h3>ขอบเขต</h3><p>ใช้ครั้งละ 100 ระเบียน เดินหน้าด้วย cursor และหยุดเมื่อถึงจำนวนสูงสุดหรือไม่มีผลลัพธ์ ห้ามใช้ cursor เพื่อคัดลอกทั้งฐานข้อมูล</p></article>
+      <article><h3>ความทนทาน</h3><p>ตั้ง timeout และ exponential backoff เมื่อเกิด 429 หรือข้อผิดพลาดชั่วคราว พร้อมบันทึกจำนวน request, retry, error และข้อมูล rate budget</p></article>
+      <article><h3>หลักฐานการรัน</h3><p>เก็บ raw JSONL, candidate CSV และ crawl manifest ที่มี query, filter, fields, เวลา จำนวนที่ขอ/ได้ และเหตุผลที่หยุด โดยไม่บันทึก credential</p></article>
+      <article><h3>ขอบเขตการใช้ข้อมูล</h3><p>OpenAlex เป็น discovery/metadata source ระเบียนต้องผ่านการตรวจ DOI, official page และ full text ก่อนสร้าง <code>refs.bib</code> หรือใช้รองรับ Claim</p></article>
+    </div><div class="command"><code>งาน: เก็บ candidate metadata จาก OpenAlex API สำหรับคำถามวิจัยของฉัน
+
+ก่อนรัน:
+- แสดง query, filter, fields และจำนวนระเบียนสูงสุดให้ฉันตรวจ
+- ประเมินจำนวนผลและจำนวน request
+- ติดตั้งไลบรารีที่จำเป็นใน course environment และบันทึกรุ่น
+
+ระหว่างรัน:
+- ใช้ per_page=100 และ cursor paging
+- ตั้ง timeout และ exponential backoff สำหรับ 429/ข้อผิดพลาดชั่วคราว
+- หยุดเมื่อถึงจำนวนสูงสุดหรือ next_cursor หมด
+- ห้ามบันทึก credential ใน source, URL, output หรือ log
+- ห้าม crawl ทั้งฐานข้อมูล
+
+ส่งมอบ:
+- output/openalex/raw-works.jsonl
+- output/openalex/candidates.csv
+- output/openalex/crawl-manifest.md
+- tools/openalex-crawl.py
+
+หลังรัน:
+- ตรวจ duplicate ด้วย OpenAlex ID และ DOI
+- สรุปจำนวน retrieved, duplicate, missing DOI และ missing abstract
+- จัดรายการเป็น candidate metadata จนกว่าจะตรวจ DOI/official page/full text</code><button type="button" data-copy>คัดลอก Prompt OpenAlex</button></div></section>
+
+    <section class="section" id="paths"><div class="section-heading compact"><p class="eyebrow">กิจกรรมฝึกตรวจวรรณกรรม</p><h2>เลือกงานที่ตรงกับสิ่งที่ต้องตรวจ</h2><p>หลังทำ OpenAlex crawl ถ้ามี Claim ให้ทำกิจกรรม A เพื่อค้นหลักฐานใหม่ ถ้ามี manuscript หรือ proposal ให้ทำกิจกรรม B เพื่อตรวจการอ้างอิง เมื่อเสร็จแล้วจะสรุปผลด้วย Citation Verification Checklist</p></div></section>
 
     <section class="section" id="path-a"><div class="section-heading compact"><p class="eyebrow">ทาง A</p><h2>ค้นหลักฐานใหม่สำหรับ Claim</h2></div><ol class="readiness-steps activity-steps">
       <li><span>A1</span><div><strong>เขียน Claim และขอบเขตด้วยตนเอง</strong><p>Claim ที่ตรวจได้ต้องระบุว่าจะใช้ตอบคำถามใด ใครหรืออะไรคือหน่วยที่กล่าวถึง และผลแบบใดที่จะทำให้เรายอมรับ ปรับ หรือปฏิเสธ Claim</p><p><strong>ตัวอย่างหิว–กิน–อิ่ม:</strong> “อาหารที่มีโปรตีนสูงสัมพันธ์กับระยะเวลาก่อนหิวอีกครั้งในนักศึกษา” ต้องระบุนิยามโปรตีนสูง ความหิว และกลุ่มนักศึกษา</p></div></li>
@@ -192,7 +222,7 @@
 ส่งมอบ: output/citation-verification-checklist.md</code><button type="button" data-copy>คัดลอก Prompt สรุปผล</button></div></section>
 
     <section class="section markdown-section" id="finish" aria-labelledby="finish-heading"><div class="section-heading compact"><p class="eyebrow">Checkpoint</p><h2 id="finish-heading">จบบทเรียน</h2></div><div class="markdown-body"><p>ติ๊กเมื่อคุณตรวจรายการอ้างอิงและอธิบายหลักฐานของแต่ละข้อได้ ระบบจะจำสถานะไว้ในเบราว์เซอร์นี้</p><p class="progress" aria-live="polite">ความสำเร็จ <strong data-progress>0%</strong></p><div class="checklist" data-checklist="module-4">
-      <label><input type="checkbox"> มี search plan/evidence table หรือ citation self-audit ที่ตรวจได้</label><label><input type="checkbox"> แยก discovery source, metadata, official page และ full text ได้</label><label><input type="checkbox"> BibTeX มี abstract จากต้นทาง หรือบันทึกรายการ <code>abstract not found</code> ไว้แล้ว</label><label><input type="checkbox"> ตรวจ DOI และ metadata จากต้นทาง ไม่รับจาก AI โดยตรง</label><label><input type="checkbox"> ตรวจว่าเนื้อหาต้นฉบับสนับสนุน Claim ในขอบเขตที่อ้าง</label><label><input type="checkbox"> ใช้หนึ่งในหกสถานะกับ Citation ที่ตรวจทุกข้อ</label><label><input type="checkbox"> ยืนยันหรือปฏิเสธข้อเสนอของ AI จากต้นฉบับอย่างน้อยหนึ่งรายการ</label><label><input type="checkbox"> เปิด <code>output/citation-verification-checklist.md</code> ได้</label>
+      <label><input type="checkbox"> มี raw JSONL, candidate CSV และ crawl manifest จาก OpenAlex ที่กำหนดขอบเขตไว้</label><label><input type="checkbox"> มี search plan/evidence table หรือ citation self-audit ที่ตรวจได้</label><label><input type="checkbox"> แยก discovery source, metadata, official page และ full text ได้</label><label><input type="checkbox"> BibTeX มี abstract จากต้นทาง หรือบันทึกรายการ <code>abstract not found</code> ไว้แล้ว</label><label><input type="checkbox"> ตรวจ DOI และ metadata จากต้นทาง ไม่รับจาก AI โดยตรง</label><label><input type="checkbox"> ตรวจว่าเนื้อหาต้นฉบับสนับสนุน Claim ในขอบเขตที่อ้าง</label><label><input type="checkbox"> ใช้หนึ่งในหกสถานะกับ Citation ที่ตรวจทุกข้อ</label><label><input type="checkbox"> ยืนยันหรือปฏิเสธข้อเสนอของ AI จากต้นฉบับอย่างน้อยหนึ่งรายการ</label><label><input type="checkbox"> เปิด <code>output/citation-verification-checklist.md</code> ได้</label>
     </div><div class="notice"><strong>การบ้าน:</strong> ปรับบันทึกการค้น ตารางหลักฐาน หรืองานตรวจการอ้างอิงของตนเอง ตรวจข้อมูลรายการและข้อความอ้างซ้ำ แล้วเลือกข้อค้นพบหนึ่งข้อที่ทำให้ต้องปรับคำถามวิจัย วิธี หรือข้อกล่าวอ้าง สำหรับโมดูล 5 ให้นำวิธี ผล และข้อกล่าวอ้างที่เชื่อมกันประมาณ 2–4 หน้า พร้อมทำเครื่องหมายจุดที่สงสัยเรื่องสิ่งที่ต้องการวัด วิธีวัด จุดเปรียบเทียบ ความไม่แน่นอน หรือขอบเขตการอ้าง</div></div><div class="hero-actions module-next"><a class="button secondary" href="module-3.html">← กลับ Module 3</a><a class="button primary" href="index.html#module-5">ดู Module ถัดไป →</a></div></section>
   </main>
   <site-footer></site-footer>

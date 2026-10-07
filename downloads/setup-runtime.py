@@ -203,9 +203,9 @@ def install_tex(root):
     run(tlmgr, 'postaction', 'install', 'script', 'xetex')
     run(tlmgr, 'install', 'xetex', 'fontspec', 'unicode-math', 'xcolor', 'geometry', 'bookmark',
         'fancyvrb', 'framed', 'booktabs', 'upquote', 'etoolbox', 'float', 'tools', 'caption', 'soul',
-        'setspace', 'parskip', 'lm', 'amsmath', 'amsfonts', 'iftex', 'microtype', 'xurl')
+        'setspace', 'parskip', 'lm', 'amsmath', 'amsfonts', 'iftex', 'microtype', 'xurl', 'fontsize')
     kpsewhich = bin_dir / ('kpsewhich.exe' if os.name == 'nt' else 'kpsewhich')
-    for name in ('setspace.sty', 'parskip.sty', 'unicode-math.sty', 'bookmark.sty'):
+    for name in ('setspace.sty', 'parskip.sty', 'unicode-math.sty', 'bookmark.sty', 'fontsize.sty'):
         run(kpsewhich, name, stdout=subprocess.DEVNULL)
     current_packages = package_names()
     if current_packages is not None:
@@ -265,14 +265,21 @@ def configure(workspace, agent, root, env, python_receipt=None):
         write_new(workspace / '.codex' / 'config.toml', config)
         log('CODEX_PERMISSIONS_READY workspace-write; course tool root writable; network enabled; approval never. Trust this workspace once, then start a new session.')
     elif agent == 'claude':
+        write_new(
+            workspace / 'CLAUDE.md',
+            '# AI for Research workspace\n\n'
+            'Read and follow `AGENTS.md`. Start with `.ai/PROJECT_STATE.md` and '
+            '`.ai/agent-project-kit/STARTUP.md`; load only task-relevant context.\n',
+        )
         config = {'env': env, 'permissions': {'allow': [
-            'Bash(uv:*)', 'Bash(tlmgr:*)', 'Bash(pandoc:*)', 'Bash(xelatex:*)']}}
+            'Bash(uv:*)', 'Bash(tlmgr:*)', 'Bash(pandoc:*)', 'Bash(xelatex:*)',
+            'Bash(bibtex:*)', 'Bash(biber:*)', 'Bash(latexmk:*)', 'Bash(latexdiff:*)']}}
         write_new(workspace / '.claude' / 'settings.local.json', json.dumps(config, indent=2) + '\n')
         ignore = workspace / '.gitignore'
         existing = ignore.read_text(encoding='utf-8') if ignore.exists() else ''
         if '.claude/settings.local.json' not in existing:
             ignore.write_text(existing.rstrip() + '\n.claude/settings.local.json\n', encoding='utf-8')
-        log('CLAUDE_PERMISSIONS_READY uv/tlmgr/pandoc/xelatex allowed; accept workspace trust once. Other commands may require IDE approval.')
+        log('CLAUDE_PERMISSIONS_READY document/Python course tools allowed; accept workspace trust once. Other commands may require IDE approval.')
     elif agent == 'openrouter':
         source = workspace / 'AGENTS.md'
         if source.exists():
@@ -315,7 +322,7 @@ def main():
     trace_file = os.environ['AI_RESEARCH_TRACE_FILE']
     log(f'INSTALL_TRACE {trace_file}')
     tracked = [root / name for name in ('python', 'envs/research', 'envs/research/pyvenv.cfg', 'TinyTeX', 'TinyTeX/tlpkg/texlive.tlpdb', 'node', 'npm', 'uv-tools', 'bin', 'tessdata')]
-    tracked += [workspace / name for name in ('tools/runtime-env.json', 'tools/runtime-env.sh', 'tools/runtime-env.ps1', '.vscode/settings.json', '.codex/config.toml', '.claude/settings.local.json', '.clinerules/course.md', '.gitignore')]
+    tracked += [workspace / name for name in ('tools/runtime-env.json', 'tools/runtime-env.sh', 'tools/runtime-env.ps1', '.vscode/settings.json', '.codex/config.toml', '.claude/settings.local.json', '.clinerules/course.md', 'CLAUDE.md', '.gitignore')]
     _tracked_paths = tracked
     for path in tracked:
         trace_path(path, 'before')
@@ -370,7 +377,7 @@ def main():
     for path in tracked:
         trace_path(path, 'after')
     trace('snapshot', 'python-packages', env['UV_PROJECT_ENVIRONMENT'], 'after', json.dumps(python_receipt['packages']))
-    log('RUNTIME_READY Python 3.12 + XeLaTeX + Thai PDF verified; uv and tlmgr can add packages as this user.')
+    log('RUNTIME_READY Python 3.12 + XeLaTeX + Thai PDF verified; uv and tlmgr can add task packages without system elevation.')
     log('FINAL_RESULT PASS - Research runtime ready.')
 
 

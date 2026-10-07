@@ -366,6 +366,7 @@ Target length and tone:</code><button type="button" data-copy="">คัดลอ
 <li>compile จนครบลำดับและไม่มี undefined citation; ใช้ <code>latexmk</code> หรือเครื่องมือที่ venue แนะนำให้จัดลำดับอัตโนมัติ</li>
 </ul>
 <p>การสร้างรายการอ้างอิงอาจทำงานตามลำดับ LaTeX → BibTeX/Biber → LaTeX → LaTeX เพื่อปรับการอ้างในเนื้อหาและหมายเลขให้ครบ คุณไม่ต้องเรียกคำสั่งเหล่านี้เอง แต่ต้องดูผลว่าแต่ละขั้นสำเร็จหรือมีคำเตือนใดค้างอยู่</p>
+<p>ก่อนเริ่มด่าน bibliography ให้ AI ตรวจแม่แบบแล้วติดตั้งชุดที่ต้องใช้ผ่าน TinyTeX เช่น BibTeX/natbib/latexmk หรือ Biber/BibLaTeX/csquotes โดยอัตโนมัติใน course environment พร้อมบันทึกรุ่น ติดตั้ง <code>latexdiff</code> ก่อนด่านตรวจฉบับแก้ และติดตั้งไลบรารีวิเคราะห์ <code>.bib</code> เมื่อกิจกรรมต้องใช้</p>
 <h3 id="gate-5--figures">ด่าน 5 — เพิ่มและตรวจรูป</h3>
 <p>เพิ่มรูปทีละรูปแล้ว compile</p>
 <ul>
@@ -388,7 +389,9 @@ Target length and tone:</code><button type="button" data-copy="">คัดลอ
 </ul>
 <h3 id="gate-7--full-build-and-venue-compliance">ด่าน 7 — สร้างเอกสารเต็มและตรวจข้อกำหนด</h3>
 <p>ประกอบทุกส่วนแล้วตรวจ page/word limit, anonymous review, author block, keywords, acknowledgments, declarations, supplementary files และชื่อแฟ้มตาม guideline</p>
-<h3 id="gate-8--final-pdf-qa">ด่าน 8 — ตรวจไฟล์ PDF สุดท้าย</h3>
+<h3 id="gate-8--revision-diff">ด่าน 8 — ตรวจการแก้ไขด้วย latexdiff</h3>
+<p>เก็บ snapshot ของ <code>.tex</code> ฉบับก่อนแก้และฉบับปัจจุบัน แล้วรัน <code>latexdiff old.tex new.tex &gt; diff.tex</code> ตามด้วย <code>latexmk -xelatex diff.tex</code> ตรวจข้อกล่าวอ้าง ตัวเลข citation และข้อจำกัดที่เปลี่ยนจาก marked PDF โดยใช้ <code>diff.tex</code> เป็นชิ้นงานตรวจทาน ไม่ใช้แทน source หลัก</p>
+<h3 id="gate-9--final-pdf-qa">ด่าน 9 — ตรวจไฟล์ PDF สุดท้าย</h3>
 <p>สร้าง PDF ฉบับส่งจริง แล้วตรวจทั้งด้วยเครื่องมือและสายตา ไม่ใช้เพียงสถานะว่า process จบด้วย exit code 0</p>
 </div></section>
 <section class="section markdown-section" id="ai-command-cards" aria-labelledby="ai-command-cards-heading"><div class="section-heading compact"><h2 id="ai-command-cards-heading">คำสั่งที่ใช้ทำงานกับ AI</h2>
@@ -411,6 +414,10 @@ Target length and tone:</code><button type="button" data-copy="">คัดลอ
 <h3 id="bibliography-card">บัตรตรวจรายการอ้างอิง</h3>
 <blockquote>
 <p>ตรวจระเบียนใน <code>references.bib</code> กับ DOI หรือแหล่งต้นทาง ใช้ citation engine และ style ของ venue ห้ามสร้างรายการที่ตรวจสอบไม่ได้ compile จนไม่มี undefined citation/reference แล้วเปรียบเทียบ citation ในข้อความกับรายการท้ายบทความ</p>
+</blockquote>
+<h3 id="revision-diff-card">บัตรตรวจการแก้ไข</h3>
+<blockquote>
+<p>เก็บ snapshot ของ source ฉบับก่อนแก้และฉบับปัจจุบัน ใช้ <code>latexdiff</code> สร้าง <code>diff.tex</code> และ compile สำเนานั้น ตรวจทุกจุดที่เปลี่ยนข้อกล่าวอ้าง ตัวเลข citation หรือข้อจำกัด รายงานการเปลี่ยนที่ตั้งใจและผิดคาด ห้ามแก้ <code>diff.tex</code> แล้วนำกลับไปแทน source หลัก</p>
 </blockquote>
 <h3 id="pdf-qa-card">บัตรตรวจ PDF ฉบับจริง</h3>
 <blockquote>
@@ -501,7 +508,8 @@ Target length and tone:</code><button type="button" data-copy="">คัดลอ
 <h3>ด่าน 4 — ตรวจย่อหน้าและเอกสารอ้างอิงย้อนกลับ</h3><div class="command markdown-command" data-m8-stage-prompt="4"><code>แยกทุกประโยคกลับไปยังหลักฐานที่ฉันให้ และตรวจรายการอ้างอิงทีละรายการ ถ้าย้อนกลับไม่ได้หรือข้อมูลไม่ครบให้หยุดถาม ห้ามสร้างชื่อผู้แต่ง ชื่อเรื่อง DOI หรือ BibTeX เอง</code><button type="button" data-copy="">คัดลอก</button></div><p><strong>ก่อนผ่าน:</strong> ทุกข้อความและการอ้างอิงต้องมีต้นทางที่ตรวจได้</p>
 <h3>ด่าน 5 — เพิ่มภาพและตาราง</h3><div class="command markdown-command" data-m8-stage-prompt="5"><code>ถามหาแฟ้มต้นทางของภาพหรือตารางทีละรายการ ตรวจชื่อ หน่วย ตัวเลข แหล่งข้อมูล และข้อความที่อ้างถึงก่อนเพิ่ม หลังสร้าง PDF ให้เปรียบเทียบกับต้นทางและรายงานความต่าง</code><button type="button" data-copy="">คัดลอก</button></div><p><strong>คุณตัดสิน:</strong> ยืนยันว่าตัวเลขในต้นทาง ตาราง ภาพ และข้อความตรงกัน</p>
 <h3>ด่าน 6 — ทดลองเสียและซ่อมในสำเนา</h3><div class="command markdown-command" data-m8-stage-prompt="6"><code>ทำงานเฉพาะสำเนาทดลอง แสดงอาการ หลักฐาน และต้นเหตุที่เป็นไปได้ก่อนเสนอการแก้ทีละทาง รอฉันอนุมัติก่อนแก้ และสร้าง PDF ใหม่หลังทุกการเปลี่ยนแปลง</code><button type="button" data-copy="">คัดลอก</button></div><p><strong>คุณตัดสิน:</strong> ต้นเหตุและการแก้ที่ยอมรับ</p>
-<h3>ด่าน 7 — ตรวจ PDF ฉบับจริง</h3><div class="command markdown-command" data-m8-stage-prompt="7"><code>ตรวจ PDF ทีละหน้าเทียบกับข้อกำหนดและแฟ้มเนื้อหาที่ตรวจแล้ว แยกปัญหาเป็นเนื้อหา การอ้างอิง ข้อกำหนด และการจัดหน้า แสดงหลักฐานและถามฉันอนุมัติการแก้ทีละรายการ</code><button type="button" data-copy="">คัดลอก</button></div><p><strong>ก่อนจบ:</strong> สรุปสิ่งที่ผ่าน จุดค้าง และแฟ้มต้นทางที่ต้องแก้ โดยไม่รับรองการตอบรับตีพิมพ์</p>
+<h3>ด่าน 7 — ตรวจความต่างของฉบับแก้</h3><div class="command markdown-command" data-m8-stage-prompt="7"><code>เก็บ source ก่อนและหลังเป็น snapshot แยกกัน ใช้ latexdiff สร้าง diff.tex และ marked PDF แล้วตรวจทุกจุดที่เปลี่ยนข้อกล่าวอ้าง ตัวเลข citation หรือข้อจำกัด รายงานสิ่งที่ตั้งใจแก้และสิ่งผิดคาด ห้ามใช้ diff.tex แทน source หลัก</code><button type="button" data-copy="">คัดลอก</button></div><p><strong>ก่อนผ่าน:</strong> การเปลี่ยนเนื้อหาทุกจุดมีเหตุผลและย้อนกลับไปยัง source หลักได้</p>
+<h3>ด่าน 8 — ตรวจ PDF ฉบับจริง</h3><div class="command markdown-command" data-m8-stage-prompt="8"><code>ตรวจ PDF ทีละหน้าเทียบกับข้อกำหนดและแฟ้มเนื้อหาที่ตรวจแล้ว แยกปัญหาเป็นเนื้อหา การอ้างอิง ข้อกำหนด และการจัดหน้า แสดงหลักฐานและถามฉันอนุมัติการแก้ทีละรายการ</code><button type="button" data-copy="">คัดลอก</button></div><p><strong>ก่อนจบ:</strong> สรุปสิ่งที่ผ่าน จุดค้าง และแฟ้มต้นทางที่ต้องแก้ โดยไม่รับรองการตอบรับตีพิมพ์</p>
 <details class="section concept-reference"><summary>เปิดรายการตรวจละเอียดของแต่ละด่าน</summary><ol type="1">
 <li><strong>เลือกรูปแบบ:</strong> เปรียบเทียบชุดแม่แบบจริงและเลือก Word หรือ LaTeX จากข้อกำหนดของแหล่งเผยแพร่</li>
 <li><strong>สำรวจแม่แบบ:</strong> ระบุแฟ้มหลัก แฟ้มรูปแบบ และระบบอ้างอิง โดยไม่แก้แฟ้มต้นฉบับ</li>
@@ -513,6 +521,7 @@ Target length and tone:</code><button type="button" data-copy="">คัดลอ
 <li><strong>เพิ่มการอ้างอิง:</strong> เพิ่มเฉพาะรายการที่ตรวจชื่อผู้แต่ง ชื่อเรื่อง ปี และ DOI แล้ว</li>
 <li><strong>เพิ่มรูปและตาราง:</strong> เพิ่มจากแฟ้มต้นทางพร้อมชื่อ หน่วย คำอธิบาย และตำแหน่งอ้างถึง</li>
 <li><strong>ฝึกหาสาเหตุและซ่อม:</strong> ใช้สำเนาทดลองที่มีการอ้างอิงหรือรูปหาย ตารางล้น หรือเนื้อหาหาย ห้ามทำให้ต้นฉบับเสีย</li>
+<li><strong>ตรวจฉบับแก้:</strong> ใช้ <code>latexdiff</code> เปรียบเทียบ snapshot ก่อนและหลัง แล้วตรวจข้อกล่าวอ้าง ตัวเลข citation และข้อจำกัดที่เปลี่ยน</li>
 <li><strong>ตรวจ PDF:</strong> ตรวจเนื้อหา ข้อกำหนด และคุณภาพการจัดหน้าจาก PDF ฉบับจริง</li>
 </ol></details>
 </div></section>
@@ -527,6 +536,7 @@ Target length and tone:</code><button type="button" data-copy="">คัดลอ
 <label><input type="checkbox"> ย่อหน้าหลักทุกประโยคย้อนกลับไปยังข้อความหลัก หลักฐาน หรือข้อจำกัดได้</label>
 <label><input type="checkbox"> ตรวจชื่อผู้แต่ง ชื่อเรื่อง ปี DOI และตำแหน่งอ้างในเนื้อหาแล้ว</label>
 <label><input type="checkbox"> ตัวเลข หน่วย และคำอธิบายในรูป ตาราง และข้อความตรงกัน</label>
+<label><input type="checkbox"> ใช้ latexdiff ตรวจ snapshot ก่อนและหลัง โดยเก็บ diff.tex แยกจาก source หลักแล้ว</label>
 <label><input type="checkbox"> เปิดตรวจ PDF ฉบับจริงครบทุกหน้า ไม่ได้ดูเพียงข้อความว่าสร้างสำเร็จ</label>
 <label><input type="checkbox"> บันทึกจุดที่ยังผิด ผู้รับผิดชอบ และสิ่งที่ต้องตรวจภายนอกแล้ว</label>
 <label><input type="checkbox"> กรอก <a href="downloads/module-08-venue-document-workbook.md">สมุดงาน Module 8</a> ครบ</label>
@@ -534,7 +544,7 @@ Target length and tone:</code><button type="button" data-copy="">คัดลอ
 </div>
 </div></section>
 <section class="section markdown-section" id="การบ้าน" aria-labelledby="การบ้าน-heading"><div class="section-heading compact"><h2 id="การบ้าน-heading">การบ้าน</h2>
-</div><div class="markdown-body"><p>เพิ่มเนื้อหาอีกหนึ่งส่วน รูปหรือตารางอีกหนึ่งรายการ และการอ้างอิงที่ตรวจแล้ว ให้ AI สร้างเอกสารหลังเปลี่ยนงานแต่ละประเภท จากนั้นเปรียบเทียบ PDF ก่อนและหลัง พร้อมบันทึกว่าแก้เนื้อหาต้นทางส่วนใด เพราะเหตุใด และตรวจอย่างไรว่าความหมายของงานวิจัยไม่เปลี่ยน</p>
+</div><div class="markdown-body"><p>เพิ่มเนื้อหาอีกหนึ่งส่วน รูปหรือตารางอีกหนึ่งรายการ และการอ้างอิงที่ตรวจแล้ว ให้ AI สร้างเอกสารหลังเปลี่ยนงานแต่ละประเภท จากนั้นใช้ <code>latexdiff</code> เปรียบเทียบ snapshot ก่อนและหลัง พร้อมบันทึกว่าแก้เนื้อหาต้นทางส่วนใด เพราะเหตุใด และตรวจอย่างไรว่าความหมายของงานวิจัยไม่เปลี่ยน</p>
 </div></section>
 <section class="section markdown-section" id="review" aria-labelledby="review-heading"><div class="section-heading compact"><h2 id="review-heading">คำถามทบทวนท้ายบท</h2>
 </div><div class="markdown-body"><ol type="1">
@@ -543,6 +553,7 @@ Target length and tone:</code><button type="button" data-copy="">คัดลอ
 <li>ทุกประโยคในย่อหน้าที่สร้างย้อนกลับไปยังข้อความหลัก หลักฐาน คำอธิบาย หรือขอบเขตใด</li>
 <li>หากสร้าง PDF สำเร็จแต่เนื้อหาหาย คุณจะตรวจเนื้อหาต้นทาง ขั้นประกอบ หรือขั้นสร้างเอกสารก่อน เพราะเหตุใด</li>
 <li>AI ช่วยประกอบและตรวจเอกสารได้อย่างไร โดยไม่รับผิดชอบข้อกล่าวอ้าง การอ้างอิง ความเป็นผู้ประพันธ์ และการทำตามข้อกำหนดแทนคุณ</li>
+<li>เหตุใด <code>diff.tex</code> จึงเป็นชิ้นงานตรวจทานและไม่ควรแทน source หลักของ manuscript</li>
 </ol>
 </div></section>
     </div>

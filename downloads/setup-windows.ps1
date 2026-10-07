@@ -1,15 +1,16 @@
 [CmdletBinding()]
 param(
-  [ValidateSet('Check','Install','InstallSystem','SetupUser','Repair')][string]$Mode = 'Check',
+  [ValidateSet('Check','Install','InstallSystem','SetupUser','Repair','Uninstall','UninstallSystem')][string]$Mode = 'Check',
   [ValidateSet('codex','claude','openrouter','antigravity')][string]$Agent,
   [string]$CourseDir = (Join-Path $HOME 'ai-for-research-workspace'),
   [string]$SystemLog,
-  [string]$TraceFile
+  [string]$TraceFile,
+  [string]$InstallTraceFile
 )
 $ErrorActionPreference = 'Stop'
 $ProgressPreference = 'SilentlyContinue'
 $DryRun = $env:AI_RESEARCH_DRY_RUN -eq '1'
-$SetupVersion = '2026.10.07.11'
+$SetupVersion = '2026.10.07.17'
 $TestCommands = @($env:AI_RESEARCH_TEST_COMMANDS -split ',' | Where-Object { $_ })
 function Trace([string]$Action, [string]$Kind, [string]$Target, [string]$Status, [string]$Details = '') {
   if ($DryRun -or -not $TraceFile) { return }
@@ -34,7 +35,7 @@ function Log([string]$Message) {
     Write-Host '[AI for Research] FINAL_RESULT PASS - Setup complete. Open the AI panel in your workspace and sign in or configure your provider.'
     return
   }
-  if ($DryRun -or $Mode -eq 'Check' -or $Message -match '^(SETUP_VERSION|DEVICE_CHECK|ADMIN_PHASE_REQUIRED|RUNTIME_READY|INSTALL_FAILED|FINAL_RESULT|workspace=|AI workspace=|STEP)') {
+  if ($DryRun -or $Mode -eq 'Check' -or $Message -match '^(SETUP_VERSION|DEVICE_CHECK|ADMIN_PHASE_REQUIRED|RUNTIME_READY|INSTALL_FAILED|FINAL_RESULT|UNINSTALL|workspace=|AI workspace=|STEP)') {
     Write-Host "[AI for Research] $Message"
   }
 }
@@ -65,6 +66,26 @@ function Run-Quiet([string]$Step, [scriptblock]$Action, [int[]]$AcceptCodes = @(
   }
   $global:LASTEXITCODE = $code
 }
+if (-not $DryRun -and $Mode -in @('Uninstall','UninstallSystem')) {
+  if (-not $InstallTraceFile) {
+    $traceDir = Join-Path $env:LOCALAPPDATA 'ai-for-research\install-traces'
+    $InstallTraceFile = Get-ChildItem -LiteralPath $traceDir -Filter '*.jsonl' -File -ErrorAction SilentlyContinue |
+      Sort-Object LastWriteTimeUtc -Descending |
+      Where-Object {
+        $candidate = $_
+        try {
+          @(Get-Content -LiteralPath $candidate.FullName | Where-Object { $_.Trim() } | ForEach-Object { $_ | ConvertFrom-Json }) |
+            Where-Object { $_.action -eq 'phase' -and $_.kind -eq 'installer' -and $_.target -eq 'Install' -and $_.status -eq 'started' } |
+            Select-Object -First 1
+        } catch { $false }
+      } |
+      Select-Object -First 1 -ExpandProperty FullName
+  }
+  if (-not $InstallTraceFile -or -not (Test-Path -LiteralPath $InstallTraceFile -PathType Leaf)) {
+    throw 'UNINSTALL_RECEIPT_MISSING No installation trace was found. Pass -InstallTraceFile with the exact trace printed by Install.'
+  }
+  $TraceFile = $InstallTraceFile
+}
 if (-not $DryRun -and $Mode -ne 'Check') {
   if (-not $TraceFile) {
     $traceDir = Join-Path $env:LOCALAPPDATA 'ai-for-research\install-traces'
@@ -72,14 +93,18 @@ if (-not $DryRun -and $Mode -ne 'Check') {
     $TraceFile = Join-Path $traceDir ([DateTime]::UtcNow.ToString('yyyyMMddTHHmmssZ-') + [guid]::NewGuid() + '.jsonl')
   }
   $env:AI_RESEARCH_TRACE_FILE = $TraceFile
-  Trace 'phase' 'installer' $Mode 'started' "agent=$Agent; version=$SetupVersion"
+  $phaseDetails = if ($Mode -in @('Uninstall','UninstallSystem')) { "receipt=$InstallTraceFile; version=$SetupVersion" } else { "agent=$Agent; version=$SetupVersion" }
+  Trace 'phase' 'installer' $Mode 'started' $phaseDetails
   Log "INSTALL_TRACE $TraceFile"
 }
-$watchedPaths = @('content.md','README.md','AGENTS.md','templates\modern-thai.yaml','templates\modern-thai.lua','templates\modern-thai.tex','templates\fonts\Sarabun-Regular.ttf','templates\fonts\Sarabun-Bold.ttf','templates\fonts\OFL.txt','tools\import-documents.sh','tools\import-documents.ps1','tools\install-summary.py','.vscode\extensions.json') | ForEach-Object { Join-Path $CourseDir $_ }
+$watchedPaths = @()
 $toolRoot = Join-Path $env:LOCALAPPDATA 'ai-for-research'
-$watchedPaths += @('python','envs\research','envs\research\pyvenv.cfg','TinyTeX','TinyTeX\tlpkg\texlive.tlpdb','node','npm','uv-tools','bin') | ForEach-Object { Join-Path $toolRoot $_ }
-foreach ($path in $watchedPaths) { Trace-Path $path 'before' }
-Trace 'snapshot' 'workspace' $CourseDir 'before' 'preserve-personal-files'
+if ($Mode -notin @('Uninstall','UninstallSystem')) {
+  $watchedPaths = @('content.md','README.md','AGENTS.md','CLAUDE.md','.ai\PROJECT_STATE.md','.ai\TOKEN_BUDGET.md','.ai\agent-project-kit\STARTUP.md','.ai\agent-project-kit\TOKEN_DISCIPLINE.md','templates\modern-thai.yaml','templates\modern-thai.lua','templates\modern-thai.tex','templates\fonts\Sarabun-Regular.ttf','templates\fonts\Sarabun-Bold.ttf','templates\fonts\OFL.txt','tools\import-documents.sh','tools\import-documents.ps1','tools\import-office.py','tools\install-summary.py','.vscode\extensions.json') | ForEach-Object { Join-Path $CourseDir $_ }
+  $watchedPaths += @('python','envs\research','envs\research\pyvenv.cfg','TinyTeX','TinyTeX\tlpkg\texlive.tlpdb','node','npm','uv-tools','bin','cache','texmf','texmf-var','texmf-config','tessdata') | ForEach-Object { Join-Path $toolRoot $_ }
+  foreach ($path in $watchedPaths) { Trace-Path $path 'before' }
+  Trace 'snapshot' 'workspace' $CourseDir 'before' 'preserve-personal-files'
+}
 Log "SETUP_VERSION $SetupVersion"
 function Has([string]$Command) {
   if ($TestCommands.Count -gt 0) { return $TestCommands -contains $Command }
@@ -116,12 +141,175 @@ function Confirm-WinGetResult([string]$Command, [string]$Package, [int]$ExitCode
   if (-not (Has $Command)) { throw "TOOL_NOT_FOUND $Package is installed but $Command could not be located. Add its executable directory to PATH and rerun Install." }
   if ($ExitCode -eq -1978335189) { Log "REUSE $Command (WinGet: no applicable update)" }
 }
+function Test-WinGetPackageInstalled([string]$Package) {
+  if ($DryRun) { return $TestCommands -contains "package:$Package" }
+  $savedPreference = $ErrorActionPreference
+  try {
+    $ErrorActionPreference = 'Continue'
+    $inventory = (& winget list --id $Package --exact --accept-source-agreements 2>$null | Out-String)
+    return $inventory -match [regex]::Escape($Package)
+  } finally { $ErrorActionPreference = $savedPreference }
+}
 Refresh-ToolPath
 function Is-Admin {
   if ($DryRun) { return $false }
   $identity = [Security.Principal.WindowsIdentity]::GetCurrent()
   $principal = [Security.Principal.WindowsPrincipal]::new($identity)
   return $principal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
+}
+function Read-InstallReceipt {
+  if (-not $InstallTraceFile -or -not (Test-Path -LiteralPath $InstallTraceFile -PathType Leaf)) {
+    throw 'UNINSTALL_RECEIPT_MISSING Pass -InstallTraceFile with the exact trace printed by Install.'
+  }
+  $events = @(Get-Content -LiteralPath $InstallTraceFile | Where-Object { $_.Trim() } | ForEach-Object { $_ | ConvertFrom-Json })
+  $started = $events | Where-Object { $_.action -eq 'phase' -and $_.kind -eq 'installer' -and $_.target -eq 'Install' -and $_.status -eq 'started' } | Select-Object -First 1
+  if (-not $started) { throw 'UNINSTALL_RECEIPT_INVALID The trace does not contain an Install phase.' }
+  $completed = $events | Where-Object { $_.action -eq 'phase' -and $_.kind -eq 'installer' -and $_.target -eq 'Install' -and $_.status -eq 'completed' } | Select-Object -First 1
+  if (-not $completed) { Log 'UNINSTALL_INCOMPLETE_RECEIPT Installation did not finish; only individually completed additions will be considered.' }
+  return $events
+}
+function Get-ReceiptBefore([object[]]$Events, [string]$Kind, [string]$Target) {
+  return $Events | Where-Object { $_.action -eq 'snapshot' -and $_.kind -eq $Kind -and $_.target -ieq $Target -and $_.status -eq 'before' } | Select-Object -First 1
+}
+function Get-ReceiptAfter([object[]]$Events, [string]$Kind, [string]$Target) {
+  return $Events | Where-Object { $_.action -eq 'snapshot' -and $_.kind -eq $Kind -and $_.target -ieq $Target -and $_.status -eq 'after' } | Select-Object -Last 1
+}
+function Test-PathInside([string]$Path, [string]$Root) {
+  if (-not $Path -or -not $Root) { return $false }
+  $fullPath = [IO.Path]::GetFullPath($Path).TrimEnd('\')
+  $fullRoot = [IO.Path]::GetFullPath($Root).TrimEnd('\')
+  return $fullPath.StartsWith($fullRoot + '\', [StringComparison]::OrdinalIgnoreCase)
+}
+function Remove-ReceiptFile([string]$Path, [string]$AfterState) {
+  if (-not (Test-Path -LiteralPath $Path -PathType Leaf)) { Log "UNINSTALL_REUSE_ALREADY_ABSENT $Path"; return }
+  if ($AfterState -notmatch '^file:([0-9a-f]{64})$') { Log "UNINSTALL_PRESERVE_UNVERIFIED $Path"; return }
+  $expected = $Matches[1]
+  $actual = (Get-FileHash -LiteralPath $Path -Algorithm SHA256).Hash.ToLowerInvariant()
+  if ($actual -ne $expected) { Log "UNINSTALL_PRESERVE_MODIFIED $Path"; return }
+  Log "UNINSTALL_REMOVE_FILE $Path"
+  if (-not $DryRun) { Remove-Item -LiteralPath $Path -Force }
+  Trace 'uninstall' 'path' $Path 'completed' 'created-by-install; hash-matched'
+}
+function Remove-UserItemsFromReceipt([object[]]$Events) {
+  $workspaceEvent = $Events | Where-Object { $_.action -eq 'snapshot' -and $_.kind -eq 'workspace' -and $_.status -eq 'before' } | Select-Object -First 1
+  $receiptCourseDir = if ($workspaceEvent) { [string]$workspaceEvent.target } else { $CourseDir }
+  $receiptToolRoot = Join-Path $env:LOCALAPPDATA 'ai-for-research'
+
+  $removedUserTools = @($Events | Where-Object { $_.action -eq 'uninstall' -and $_.kind -eq 'user-tool' -and $_.status -eq 'completed' } | Select-Object -ExpandProperty target -Unique)
+  $addedCliTools = @($Events | Where-Object { $_.action -eq 'install' -and $_.kind -eq 'user-tool' -and $_.target -in @('codex','claude') -and $_.status -eq 'completed' } | Select-Object -ExpandProperty target -Unique) |
+    Where-Object { $tool = $_; -not ($removedUserTools | Where-Object { $_ -ieq $tool }) }
+  if ($addedCliTools.Count -gt 0) {
+    $savedNpmPrefix = $env:npm_config_prefix
+    $env:npm_config_prefix = Join-Path $receiptToolRoot 'npm'
+    try {
+      $npmExecutable = if (-not $DryRun) {
+        $command = Get-Command npm -ErrorAction SilentlyContinue
+        if ($command) { $command.Source }
+        else { Get-ChildItem -LiteralPath (Join-Path $receiptToolRoot 'node') -Filter 'npm.cmd' -File -Recurse -ErrorAction SilentlyContinue | Select-Object -First 1 -ExpandProperty FullName }
+      }
+      foreach ($tool in $addedCliTools) {
+        $package = if ($tool -eq 'codex') { '@openai/codex' } else { '@anthropic-ai/claude-code' }
+        Log "UNINSTALL user-tool $tool package=$package (installed by receipt)"
+        if ($DryRun) { Log "DRY_RUN npm uninstall -g $package" }
+        elseif ($npmExecutable) {
+          Run-Quiet "Uninstall $tool CLI" { & $npmExecutable uninstall -g $package } @(0)
+          Trace 'uninstall' 'user-tool' $tool 'completed' "package=$package; installed-by-receipt"
+        } else { Log "UNINSTALL_PRESERVE_TOOL_MISSING npm; package=$package" }
+      }
+    } finally {
+      if ($null -eq $savedNpmPrefix) { Remove-Item Env:npm_config_prefix -ErrorAction SilentlyContinue }
+      else { $env:npm_config_prefix = $savedNpmPrefix }
+    }
+  }
+
+  $profiles = $Events | Where-Object { $_.action -eq 'snapshot' -and $_.kind -eq 'vscode-profile' -and $_.status -eq 'before' } | Select-Object -ExpandProperty target -Unique
+  foreach ($profile in $profiles) {
+    $extensions = $Events | Where-Object { $_.action -eq 'snapshot' -and $_.kind -eq 'vscode-extension' -and $_.status -eq 'before' -and $_.details -like 'missing*' } | Select-Object -ExpandProperty target -Unique
+    foreach ($extension in $extensions) {
+      Log "UNINSTALL VS_CODE_EXTENSION $extension profile=$profile"
+      if (-not $DryRun -and (Has 'code')) { Run-Quiet "Uninstall extension $extension" { code --profile $profile --uninstall-extension $extension } @(0,1) }
+      elseif (-not $DryRun) { Log "UNINSTALL_PRESERVE_TOOL_MISSING code; extension=$extension" }
+      Trace 'uninstall' 'vscode-extension' $extension 'completed' "profile=$profile; installed-by-receipt"
+    }
+  }
+
+  $pathTargets = $Events | Where-Object { $_.action -eq 'snapshot' -and $_.kind -eq 'path' -and $_.status -eq 'before' -and $_.details -eq 'missing' } | Select-Object -ExpandProperty target -Unique
+  $directoryTargets = @()
+  foreach ($target in $pathTargets) {
+    $after = Get-ReceiptAfter $Events 'path' $target
+    if (-not $after) { continue }
+    $insideWorkspace = Test-PathInside $target $receiptCourseDir
+    $insideToolRoot = Test-PathInside $target $receiptToolRoot
+    $isThaiData = $target -like '*\Tesseract-OCR\tessdata\tha.traineddata'
+    if (-not ($insideWorkspace -or $insideToolRoot -or $isThaiData)) { Log "UNINSTALL_PRESERVE_OUTSIDE_BOUNDARY $target"; continue }
+    if ([string]$after.details -like 'file:*') { Remove-ReceiptFile $target ([string]$after.details) }
+    elseif ([string]$after.details -eq 'directory' -and $insideToolRoot) { $directoryTargets += $target }
+  }
+
+  foreach ($target in ($directoryTargets | Sort-Object Length -Descending -Unique)) {
+    if (Test-Path -LiteralPath $target -PathType Container) {
+      Log "UNINSTALL_REMOVE_COURSE_RUNTIME $target"
+      if (-not $DryRun) { Remove-Item -LiteralPath $target -Recurse -Force }
+      Trace 'uninstall' 'path' $target 'completed' 'course-runtime-created-by-install'
+    }
+  }
+
+  $pathChanges = $Events | Where-Object { $_.action -eq 'modify' -and $_.kind -eq 'user-path' -and $_.status -eq 'completed' }
+  foreach ($change in $pathChanges) {
+    $addedPaths = @($change.details | ConvertFrom-Json)
+    $currentPaths = @([Environment]::GetEnvironmentVariable('Path','User') -split ';' | Where-Object { $_ })
+    $remaining = @($currentPaths | Where-Object { $candidate = $_; -not ($addedPaths | Where-Object { $_ -ieq $candidate }) })
+    if ($remaining.Count -ne $currentPaths.Count) {
+      Log "UNINSTALL_REMOVE_USER_PATH $($addedPaths -join ',')"
+      if (-not $DryRun) { [Environment]::SetEnvironmentVariable('Path', ($remaining -join ';'), 'User') }
+      Trace 'uninstall' 'user-path' 'Path' 'completed' ($addedPaths | ConvertTo-Json -Compress)
+    }
+  }
+
+  $uvAdded = $Events | Where-Object { $_.action -eq 'install' -and $_.kind -eq 'user-tool' -and $_.target -eq 'uv' -and $_.status -eq 'completed' } | Select-Object -First 1
+  if ($uvAdded -and (Has 'uv')) {
+    Log 'UNINSTALL user-tool uv (installed by receipt)'
+    if (-not $DryRun) { Run-Quiet 'Uninstall uv' { uv self uninstall } @(0) }
+    Trace 'uninstall' 'user-tool' 'uv' 'completed' 'installed-by-receipt'
+  }
+}
+function Get-ReceiptSystemPackages([object[]]$Events) {
+  $installed = @($Events | Where-Object { $_.action -eq 'install' -and $_.kind -eq 'system-package' -and $_.status -eq 'completed' } | Select-Object -ExpandProperty target -Unique)
+  $removed = @($Events | Where-Object { $_.action -eq 'uninstall' -and $_.kind -eq 'system-package' -and $_.status -eq 'completed' } | Select-Object -ExpandProperty target -Unique)
+  return @($installed | Where-Object {
+    $package = $_
+    $before = Get-ReceiptBefore $Events 'system-package' $package
+    $before -and $before.details -eq 'missing' -and -not ($removed | Where-Object { $_ -ieq $package })
+  })
+}
+function Uninstall-SystemItemsFromReceipt([object[]]$Events) {
+  if (-not (Is-Admin)) { throw 'UninstallSystem requires PowerShell opened with Run as administrator.' }
+  if (-not (Has 'winget')) { throw 'WinGet is required to remove system packages recorded by the installation receipt.' }
+  foreach ($package in (Get-ReceiptSystemPackages $Events)) {
+    Log "UNINSTALL SYSTEM_PACKAGE $package"
+    if (-not $DryRun) { Run-Quiet "Uninstall $package" { winget uninstall --id $package --exact --silent --accept-source-agreements } @(0,-1978335189) }
+    Trace 'uninstall' 'system-package' $package 'completed' 'installed-by-receipt'
+  }
+}
+function Uninstall-FromReceipt {
+  if (Is-Admin) { throw 'Uninstall must start in a normal PowerShell; it requests UAC only for system packages.' }
+  $events = @(Read-InstallReceipt)
+  Log "UNINSTALL_RECEIPT $InstallTraceFile"
+  $answer = if ($DryRun) { 'y' } else { Read-Host 'Remove only items this receipt proves were added? Existing and modified items will be preserved. [y/N]' }
+  if ($answer -notmatch '^[Yy]$') { Log 'UNINSTALL_CANCELLED'; return }
+  Remove-UserItemsFromReceipt $events
+  $systemPackages = @(Get-ReceiptSystemPackages $events)
+  if ($systemPackages.Count -gt 0) {
+    Log 'UNINSTALL_ADMIN_PHASE_REQUIRED One UAC window removes only system packages added by this receipt.'
+    if ($DryRun) { foreach ($package in $systemPackages) { Log "DRY_RUN UNINSTALL SYSTEM_PACKAGE $package" } }
+    else {
+      $childArgs = '-NoProfile -ExecutionPolicy Bypass -File "' + $PSCommandPath + '" -Mode UninstallSystem -InstallTraceFile "' + $InstallTraceFile + '"'
+      try { $child = Start-Process powershell.exe -Verb RunAs -ArgumentList $childArgs -Wait -PassThru }
+      catch { throw "Could not start administrator uninstall phase (UAC may have been cancelled): $($_.Exception.Message)" }
+      if ($child.ExitCode -ne 0) { throw "System uninstall failed (exit $($child.ExitCode)). Receipt: $InstallTraceFile" }
+    }
+  }
+  Log 'FINAL_RESULT PASS - Receipt-based uninstall complete; reused items and modified workspace files were preserved.'
 }
 function Check-Tools {
   $os = Get-CimInstance Win32_OperatingSystem
@@ -155,7 +343,7 @@ function Check-Tools {
 }
 function New-CourseWorkspace {
   if ($DryRun) { Log "DRY_RUN workspace=$CourseDir"; return }
-  New-Item -ItemType Directory -Force -Path $CourseDir,(Join-Path $CourseDir 'input\original'),(Join-Path $CourseDir 'input\markdown'),(Join-Path $CourseDir 'output'),(Join-Path $CourseDir 'tools') | Out-Null
+  New-Item -ItemType Directory -Force -Path $CourseDir,(Join-Path $CourseDir 'input\original'),(Join-Path $CourseDir 'input\markdown'),(Join-Path $CourseDir 'output'),(Join-Path $CourseDir 'tools'),(Join-Path $CourseDir '.ai\agent-project-kit') | Out-Null
   $templateDir = Join-Path $CourseDir 'templates'
   $fontDir = Join-Path $templateDir 'fonts'
   New-Item -ItemType Directory -Force -Path $fontDir | Out-Null
@@ -179,10 +367,21 @@ function New-CourseWorkspace {
     @{ Url = 'https://urban.cpe.ku.ac.th/ai-for-research/downloads/modern-thai.lua'; Path = (Join-Path $templateDir 'modern-thai.lua') },
     @{ Url = 'https://urban.cpe.ku.ac.th/ai-for-research/downloads/modern-thai.tex'; Path = (Join-Path $templateDir 'modern-thai.tex') },
     @{ Url = 'https://urban.cpe.ku.ac.th/ai-for-research/downloads/starter-AGENTS.md'; Path = (Join-Path $CourseDir 'AGENTS.md') },
+    @{ Url = 'https://urban.cpe.ku.ac.th/ai-for-research/downloads/starter-STARTUP.md'; Path = (Join-Path $CourseDir '.ai\agent-project-kit\STARTUP.md') },
+    @{ Url = 'https://urban.cpe.ku.ac.th/ai-for-research/downloads/starter-TOKEN-DISCIPLINE.md'; Path = (Join-Path $CourseDir '.ai\agent-project-kit\TOKEN_DISCIPLINE.md') },
     @{ Url = 'https://urban.cpe.ku.ac.th/ai-for-research/downloads/import-documents.sh'; Path = (Join-Path $CourseDir 'tools\import-documents.sh') },
-    @{ Url = 'https://urban.cpe.ku.ac.th/ai-for-research/downloads/import-documents.ps1'; Path = (Join-Path $CourseDir 'tools\import-documents.ps1') }
+    @{ Url = 'https://urban.cpe.ku.ac.th/ai-for-research/downloads/import-documents.ps1'; Path = (Join-Path $CourseDir 'tools\import-documents.ps1') },
+    @{ Url = 'https://urban.cpe.ku.ac.th/ai-for-research/downloads/import-office.py'; Path = (Join-Path $CourseDir 'tools\import-office.py') }
   )
   foreach ($file in $starterFiles) { Invoke-WebRequest -UseBasicParsing -Uri $file.Url -OutFile $file.Path }
+  $projectState = Join-Path $CourseDir '.ai\PROJECT_STATE.md'
+  if (-not (Test-Path -LiteralPath $projectState)) {
+    Invoke-WebRequest -UseBasicParsing -Uri 'https://urban.cpe.ku.ac.th/ai-for-research/downloads/starter-PROJECT-STATE.md' -OutFile $projectState
+  }
+  $tokenBudget = Join-Path $CourseDir '.ai\TOKEN_BUDGET.md'
+  if (-not (Test-Path -LiteralPath $tokenBudget)) {
+    Invoke-WebRequest -UseBasicParsing -Uri 'https://urban.cpe.ku.ac.th/ai-for-research/downloads/starter-TOKEN-BUDGET.md' -OutFile $tokenBudget
+  }
   Log "workspace=$CourseDir"
 }
 function Configure-VSCode {
@@ -246,7 +445,9 @@ function Get-SystemPackages {
     @{ Command = 'git'; Package = 'Git.Git' },
     @{ Command = 'pandoc'; Package = 'JohnMacFarlane.Pandoc' },
     @{ Command = 'tesseract'; Package = 'tesseract-ocr.tesseract' },
-    @{ Command = 'pdftotext'; Package = 'oschwartz10612.Poppler' }
+    @{ Command = 'pdftotext'; Package = 'oschwartz10612.Poppler' },
+    @{ Command = 'pdftoppm'; Package = 'oschwartz10612.Poppler' },
+    @{ Command = 'pdfinfo'; Package = 'oschwartz10612.Poppler' }
   )
   if ($Agent -ne 'antigravity') { $packages = @(@{ Command = 'code'; Package = 'Microsoft.VisualStudioCode' }) + $packages }
   return $packages
@@ -267,7 +468,11 @@ function Install-SystemTools {
   $packages = Get-SystemPackages
   foreach ($item in $packages) {
     if (Has $item.Command) { Trace 'snapshot' 'system-package' $item.Package 'before' 'present'; Log "REUSE $($item.Command)"; continue }
-    Trace 'snapshot' 'system-package' $item.Package 'before' 'unknown-preserve; command-missing'
+    if (Test-WinGetPackageInstalled $item.Package) {
+      Trace 'snapshot' 'system-package' $item.Package 'before' 'present'
+      throw "TOOL_NOT_FOUND $($item.Package) was installed before this run but $($item.Command) is unavailable. Repair its PATH or application installation; it will not be claimed or replaced by this installer."
+    }
+    Trace 'snapshot' 'system-package' $item.Package 'before' 'missing'
     Trace 'install' 'system-package' $item.Package 'started' 'winget'
     Log "INSTALL $($item.Package)"
     Run-Quiet "Install $($item.Package)" { winget install --id $item.Package --exact --source winget --accept-package-agreements --accept-source-agreements --silent } @(0,-1978335189)
@@ -391,6 +596,8 @@ switch ($Mode) {
   }
   'SetupUser' { Install-UserTools }
   'Repair' { if (Is-Admin) { Install-SystemTools } else { Install-UserTools } }
+  'Uninstall' { Uninstall-FromReceipt }
+  'UninstallSystem' { Uninstall-SystemItemsFromReceipt @(Read-InstallReceipt) }
 }
 if (($Mode -eq 'Check' -or $Mode -eq 'SetupUser') -and -not $DryRun) { if (-not (Check-Tools)) { throw 'Device readiness check failed.' } }
 $installSucceeded = $true

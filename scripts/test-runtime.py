@@ -138,8 +138,9 @@ class RuntimeTests(unittest.TestCase):
                 self.assertEqual(binary, root / 'TinyTeX/bin/test-platform')
                 self.assertTrue(all(str(c.args[0]).startswith(str(root)) for c in command.call_args_list))
                 installs = [c.args for c in command.call_args_list if c.args[1] == 'install']
-                self.assertTrue(all('setspace' in args and 'parskip' in args for args in installs))
+                self.assertTrue(all('setspace' in args and 'parskip' in args and 'fontsize' in args for args in installs))
                 self.assertTrue(any(c.args[1] == 'setspace.sty' for c in command.call_args_list))
+                self.assertTrue(any(c.args[1] == 'fontsize.sty' for c in command.call_args_list))
 
     def test_compatible_node_is_reused_without_network(self):
         with tempfile.TemporaryDirectory() as scratch, patch.object(runtime.shutil, 'which', return_value='/usr/bin/node'), patch.object(runtime, 'run', return_value=subprocess.CompletedProcess([], 0, stdout='22.1.0')), patch.object(runtime.urllib.request, 'urlopen') as network:
@@ -165,6 +166,18 @@ class RuntimeTests(unittest.TestCase):
             runtime.configure(workspace, 'openrouter', Path(scratch) / 'tools', {'PATH':'/course/bin:/usr/bin'})
             self.assertEqual((workspace / '.clinerules/course.md').read_text(), 'Course rules')
             self.assertFalse((workspace / '.codex/config.toml').exists())
+
+    def test_claude_bootstrap_points_to_compact_workspace_rules_and_preserves_existing_file(self):
+        with tempfile.TemporaryDirectory() as scratch:
+            workspace = Path(scratch) / 'workspace'; workspace.mkdir()
+            root = Path(scratch) / 'tools'
+            runtime.configure(workspace, 'claude', root, {'PATH':'/course/bin:/usr/bin'})
+            guide = workspace / 'CLAUDE.md'
+            self.assertIn('AGENTS.md', guide.read_text())
+            self.assertIn('.ai/PROJECT_STATE.md', guide.read_text())
+            guide.write_text('Learner rules\n')
+            runtime.configure(workspace, 'claude', root, {'PATH':'/course/bin:/usr/bin'})
+            self.assertEqual(guide.read_text(), 'Learner rules\n')
 
     def test_bootstrap_pdf_failure_never_reports_ready(self):
         self.exercise_main(fail_pdf=True)

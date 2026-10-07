@@ -5,7 +5,7 @@ $errors = $null
 $ast = [Management.Automation.Language.Parser]::ParseFile($installer, [ref]$tokens, [ref]$errors)
 if ($errors.Count) { throw ($errors | Out-String) }
 # Load only the functions under test; never run installation, elevation or PATH persistence.
-foreach ($name in @('Has','Trace','Trace-Path','Run-Quiet','Log','Refresh-ToolPath','Confirm-WinGetResult','Get-SystemPackages','Needs-SystemSetup')) {
+foreach ($name in @('Has','Trace','Trace-Path','Run-Quiet','Log','Refresh-ToolPath','Confirm-WinGetResult','Test-WinGetPackageInstalled','Get-SystemPackages','Needs-SystemSetup')) {
   $node = $ast.Find({ param($n) $n -is [Management.Automation.Language.FunctionDefinitionAst] -and $n.Name -eq $name }, $true)
   if (-not $node) { throw "Missing function: $name" }
   Invoke-Expression $node.Extent.Text
@@ -27,6 +27,8 @@ try {
   }
   foreach ($directory in $script:DiscoveredToolDirectories) {
     if ((Test-Path (Join-Path $directory 'pdftotext.exe')) -and -not (Has 'pdftotext')) { throw 'Portable Poppler was not discovered.' }
+    if ((Test-Path (Join-Path $directory 'pdftoppm.exe')) -and -not (Has 'pdftoppm')) { throw 'Poppler PDF renderer was not discovered.' }
+    if ((Test-Path (Join-Path $directory 'pdfinfo.exe')) -and -not (Has 'pdfinfo')) { throw 'Poppler PDF metadata tool was not discovered.' }
   }
   # Stub discovery to exercise WinGet results without accessing any package manager.
   $DryRun = $true
@@ -42,9 +44,13 @@ try {
     try { Confirm-WinGetResult 'tesseract' 'tesseract-ocr.tesseract' $exitCode } catch { $failed = $_.Exception.Message -match 'TOOL_NOT_FOUND' }
     if (-not $failed) { throw 'A package result must not pass without its command.' }
   }
-  $TestCommands = @('code','git','pandoc','tesseract','pdftotext','tha-traineddata')
+  $TestCommands = @('package:Git.Git')
+  if (-not (Test-WinGetPackageInstalled 'Git.Git')) { throw 'Dry-run WinGet inventory must identify a pre-existing package.' }
+  $TestCommands = @()
+  if (Test-WinGetPackageInstalled 'Git.Git') { throw 'Dry-run WinGet inventory must identify a missing package.' }
+  $TestCommands = @('code','git','pandoc','tesseract','pdftotext','pdftoppm','pdfinfo','tha-traineddata')
   if (Needs-SystemSetup) { throw 'Complete tools must skip UAC.' }
-  $TestCommands = @('code','git','pandoc','tesseract','pdftotext')
+  $TestCommands = @('code','git','pandoc','tesseract','pdftotext','pdftoppm','pdfinfo')
   if (-not (Needs-SystemSetup)) { throw 'Missing Thai data must request system setup.' }
 } finally { $env:PATH = $originalPath }
 $scratch = Join-Path $PSScriptRoot ('.trace-test-' + [guid]::NewGuid())

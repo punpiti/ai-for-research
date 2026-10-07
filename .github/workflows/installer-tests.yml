@@ -57,3 +57,5 @@ jobs:
         run: ./scripts/test-installer-behavior.ps1 -Agent "${{ matrix.agent }}" -State "${{ matrix.state }}"
       - shell: powershell
         run: ./scripts/test-windows-system-tools.ps1
+      - shell: powershell
+        run: ./scripts/test-windows-uninstall.ps1
