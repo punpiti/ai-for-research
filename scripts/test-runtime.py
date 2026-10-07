@@ -54,6 +54,31 @@ class RuntimeTests(unittest.TestCase):
                 self.assertEqual(binary, root / 'TinyTeX/bin/test-platform')
                 self.assertTrue(all(str(c.args[0]).startswith(str(root)) for c in command.call_args_list))
 
+    def test_compatible_node_is_reused_without_network(self):
+        with tempfile.TemporaryDirectory() as scratch, patch.object(runtime.shutil, 'which', return_value='/usr/bin/node'), patch.object(runtime, 'run', return_value=subprocess.CompletedProcess([], 0, stdout='22.1.0')), patch.object(runtime.urllib.request, 'urlopen') as network:
+            self.assertEqual(runtime.ensure_node(Path(scratch), 'claude'), Path('/usr/bin'))
+            network.assert_not_called()
+
+    def test_old_node_checksum_failure_keeps_system_node(self):
+        with tempfile.TemporaryDirectory() as scratch:
+            root = Path(scratch)
+            filename = 'node-v24.1.0-linux-x64.tar.xz'
+            response = io.BytesIO(('0' * 64 + '  ' + filename + '\n').encode())
+            def download(url, target):
+                Path(target).write_bytes(b'invalid archive')
+            with patch.object(runtime.platform, 'system', return_value='Linux'), patch.object(runtime.platform, 'machine', return_value='x86_64'), patch.object(runtime.shutil, 'which', return_value='/usr/bin/node'), patch.object(runtime, 'run', return_value=subprocess.CompletedProcess([], 0, stdout='20.1.0')), patch.object(runtime.urllib.request, 'urlopen', return_value=response), patch.object(runtime.urllib.request, 'urlretrieve', side_effect=download):
+                with self.assertRaisesRegex(RuntimeError, 'checksum mismatch'):
+                    runtime.ensure_node(root, 'claude')
+            self.assertFalse((root / 'node' / filename.removesuffix('.tar.xz')).exists())
+
+    def test_cline_rules_use_course_environment_without_storing_a_key(self):
+        with tempfile.TemporaryDirectory() as scratch:
+            workspace = Path(scratch) / 'workspace'; workspace.mkdir()
+            (workspace / 'AGENTS.md').write_text('Course rules')
+            runtime.configure(workspace, 'openrouter', Path(scratch) / 'tools', {'PATH':'/course/bin:/usr/bin'})
+            self.assertEqual((workspace / '.clinerules/course.md').read_text(), 'Course rules')
+            self.assertFalse((workspace / '.codex/config.toml').exists())
+
     def test_bootstrap_pdf_failure_never_reports_ready(self):
         self.exercise_main(fail_pdf=True)
 
@@ -71,7 +96,7 @@ class RuntimeTests(unittest.TestCase):
                     if fail_pdf:
                         raise subprocess.CalledProcessError(1, args)
                     Path(args[-1]).write_bytes(b'%PDF-test')
-            with patch.object(runtime, 'tool_root', return_value=root), patch.object(runtime.shutil, 'which', return_value='/usr/bin/uv'), patch.object(runtime, 'run', side_effect=command), patch.object(runtime, 'install_tex', return_value=root / 'TinyTeX/bin/test'), patch('sys.argv', ['setup-runtime.py','--workspace',str(workspace),'--agent','codex']), contextlib.redirect_stdout(io.StringIO()) as output:
+            with patch.object(runtime, 'tool_root', return_value=root), patch.object(runtime.shutil, 'which', return_value='/usr/bin/uv'), patch.object(runtime, 'run', side_effect=command), patch.object(runtime, 'ensure_node', return_value=root / 'node/bin'), patch.object(runtime, 'install_tex', return_value=root / 'TinyTeX/bin/test'), patch('sys.argv', ['setup-runtime.py','--workspace',str(workspace),'--agent','codex']), contextlib.redirect_stdout(io.StringIO()) as output:
                 if fail_pdf:
                     with self.assertRaises(subprocess.CalledProcessError):
                         runtime.main()

@@ -2,6 +2,7 @@
 set -euo pipefail
 root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 python3 -B "$root/scripts/test-runtime.py"
+bash "$root/scripts/test-wsl-vscode.sh"
 bash -n "$root/downloads/setup-linux.sh"
 bash -n "$root/downloads/setup-macos.sh"
 bash -n "$root/downloads/import-documents.sh"
@@ -9,7 +10,7 @@ grep -q -- '--install-system|--setup-user' "$root/downloads/setup-linux.sh"
 grep -q -- '--install-system|--setup-user' "$root/downloads/setup-macos.sh"
 grep -q "ValidateSet('Check','Install','InstallSystem','SetupUser','Repair')" "$root/downloads/setup-windows.ps1"
 grep -q "SetupUser must run in a normal, non-Administrator PowerShell" "$root/downloads/setup-windows.ps1"
-grep -q "InstallSystem requires -Agent codex, claude, or antigravity" "$root/downloads/setup-windows.ps1"
+grep -q "InstallSystem requires -Agent codex, claude, openrouter, or antigravity" "$root/downloads/setup-windows.ps1"
 grep -q -- '-Mode Install -Agent {agent}' "$root/prepare.html"
 [[ "$(grep -c 'AI_GRAD_AGENT={agent}.*--install' "$root/prepare.html")" -eq 2 ]]
 grep -q 'setPreference("ai-research-platform"' "$root/assets/app.js"
@@ -21,6 +22,9 @@ grep -q 'data-workspace-open-command' "$root/assets/app.js"
 grep -q 'data-agent-panel' "$root/assets/app.js"
 grep -q 'mainfont: Sarabun' "$root/downloads/modern-thai.yaml"
 grep -q 'Path=templates/fonts/' "$root/downloads/modern-thai.yaml"
+grep -q 'saoudrizwan.claude-dev' "$root/downloads/setup-windows.ps1"
+grep -q 'setup_windows_vscode' "$root/downloads/setup-linux.sh"
+grep -q 'ms-vscode-remote.remote-wsl' "$root/downloads/setup-vscode-wsl.ps1"
 grep -q 'The learner authorizes downloads' "$root/downloads/starter-AGENTS.md"
 for font_file in Sarabun-Regular.ttf Sarabun-Bold.ttf OFL.txt; do
   [[ -s "$root/downloads/fonts/$font_file" ]]

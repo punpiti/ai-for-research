@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Prepare a machine-local research runtime under the normal user's account."""
 import argparse
+import hashlib
 import json
 import os
 from pathlib import Path
@@ -11,6 +12,7 @@ import subprocess
 import tarfile
 import tempfile
 import urllib.request
+import zipfile
 
 
 def log(message):
@@ -38,6 +40,67 @@ def tool_root():
     if platform.system() == 'Darwin':
         return Path.home() / 'Library' / 'Application Support' / 'ai-for-research'
     return Path.home() / '.local' / 'share' / 'ai-for-research'
+
+
+def ensure_node(root, agent):
+    minimum = 22 if agent == 'claude' else 16
+    executable = 'node.exe' if os.name == 'nt' else 'node'
+    candidates = list((root / 'node').glob(f'node-v*/{executable}'))
+    candidates += list((root / 'node').glob(f'node-v*/bin/{executable}'))
+    system_node = shutil.which('node')
+    if system_node:
+        candidates.append(Path(system_node))
+    for candidate in candidates:
+        try:
+            version = run(candidate, '-p', 'process.versions.node', capture_output=True, text=True).stdout.strip()
+            if int(version.split('.')[0]) >= minimum:
+                log(f'REUSE Node {version} ({candidate}); no automatic update.')
+                return candidate.parent
+        except (OSError, ValueError, subprocess.CalledProcessError):
+            continue
+    # Install a compatible LTS in the course tool root; never replace system Node.
+    system = platform.system()
+    arch = {'x86_64': 'x64', 'amd64': 'x64', 'arm64': 'arm64', 'aarch64': 'arm64'}.get(platform.machine().lower())
+    os_part = {'Linux': 'linux', 'Darwin': 'darwin', 'Windows': 'win'}.get(system)
+    if not arch or not os_part:
+        raise RuntimeError('No supported Node LTS binary for this platform.')
+    extension = 'zip' if os.name == 'nt' else 'tar.xz'
+    base_url = 'https://nodejs.org/dist/latest-v24.x/'
+    with urllib.request.urlopen(base_url + 'SHASUMS256.txt') as response:
+        checksums = response.read().decode('utf-8')
+    matches = [line.split() for line in checksums.splitlines() if line.strip().endswith(f'-{os_part}-{arch}.{extension}')]
+    if len(matches) != 1:
+        raise RuntimeError('Node LTS release metadata is ambiguous.')
+    digest, filename = matches[0]
+    if '/' in filename or '\\' in filename:
+        raise RuntimeError('Unexpected Node archive filename.')
+    target = root / 'node'
+    target.mkdir(parents=True, exist_ok=True)
+    log(f'INSTALL compatible Node LTS {filename}; selected frontend requires Node >= {minimum}.')
+    with tempfile.TemporaryDirectory(prefix='ai-research-node-') as scratch:
+        archive = Path(scratch) / filename
+        urllib.request.urlretrieve(base_url + filename, archive)
+        if hashlib.sha256(archive.read_bytes()).hexdigest() != digest:
+            raise RuntimeError('Node archive checksum mismatch.')
+        if os.name == 'nt':
+            with zipfile.ZipFile(archive) as bundle:
+                # Reject paths that could escape the extraction directory.
+                for name in bundle.namelist():
+                    resolved = (Path(scratch) / name).resolve()
+                    if not resolved.is_relative_to(Path(scratch).resolve()):
+                        raise RuntimeError('Unsafe Node archive path.')
+                bundle.extractall(scratch)
+        else:
+            with tarfile.open(archive) as bundle:
+                bundle.extractall(scratch, filter='data')
+        unpacked = Path(scratch) / filename.removesuffix('.zip').removesuffix('.tar.xz')
+        destination = target / unpacked.name
+        if destination.exists():
+            raise RuntimeError(f'Inspect incomplete Node installation: {destination}')
+        shutil.move(str(unpacked), str(destination))
+    binary = destination if os.name == 'nt' else destination / 'bin'
+    run(binary / executable, '--version')
+    return binary
 
 
 def install_tex(root):
@@ -107,6 +170,11 @@ def configure(workspace, agent, root, env):
         if '.claude/settings.local.json' not in existing:
             ignore.write_text(existing.rstrip() + '\n.claude/settings.local.json\n', encoding='utf-8')
         log('CLAUDE_PERMISSIONS_READY uv/tlmgr/pandoc/xelatex allowed; accept workspace trust once. Other commands may require IDE approval.')
+    elif agent == 'openrouter':
+        source = workspace / 'AGENTS.md'
+        if source.exists():
+            write_new(workspace / '.clinerules' / 'course.md', source.read_text(encoding='utf-8'))
+        log('CLINE_READY Configure OpenRouter/key and Auto Approve in the Cline panel once; environment is ready for user-owned package installs.')
     else:
         log('ANTIGRAVITY_PERMISSIONS Configure terminal execution/download approval once in the IDE; the installer does not change IDE-wide policy.')
     log(f'RUNTIME_ROOT {root}')
@@ -115,7 +183,7 @@ def configure(workspace, agent, root, env):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--workspace', type=Path, required=True)
-    parser.add_argument('--agent', choices=['codex', 'claude', 'antigravity'], required=True)
+    parser.add_argument('--agent', choices=['codex', 'claude', 'openrouter', 'antigravity'], required=True)
     args = parser.parse_args()
     workspace = args.workspace.expanduser().resolve()
     root = tool_root().resolve()
@@ -139,11 +207,12 @@ def main():
         raise RuntimeError('uv is missing. Rerun the main installer.')
     run(uv, 'python', 'install', '3.12')
     run(uv, 'venv', '--python', '3.12', env['UV_PROJECT_ENVIRONMENT'], '--allow-existing')
+    node_bin = ensure_node(root, args.agent)
     tex_bin = install_tex(root)
     python_bin = Path(env['UV_PROJECT_ENVIRONMENT']) / ('Scripts' if os.name == 'nt' else 'bin')
     npm_bin = root / 'npm' if os.name == 'nt' else root / 'npm' / 'bin'
     npm_bin.mkdir(parents=True, exist_ok=True)
-    env['PATH'] = os.pathsep.join(map(str, [tex_bin, python_bin, root / 'bin', npm_bin, Path(uv).parent])) + os.pathsep + os.environ['PATH']
+    env['PATH'] = os.pathsep.join(map(str, [tex_bin, python_bin, root / 'bin', npm_bin, node_bin, Path(uv).parent])) + os.pathsep + os.environ['PATH']
     os.environ.update(env)
     run(python_bin / ('python.exe' if os.name == 'nt' else 'python'), '--version')
     run(tex_bin / ('xelatex.exe' if os.name == 'nt' else 'xelatex'), '--version', stdout=subprocess.DEVNULL)

@@ -22,7 +22,7 @@ output="$(AI_RESEARCH_DRY_RUN=1 AI_RESEARCH_TEST_COMMANDS="$commands" AI_GRAD_AG
 status=$?
 set -e
 workspace_line="$(grep -n -m1 'DRY_RUN workspace=' <<<"$output" | cut -d: -f1)"
-agent_line="$(grep -n -m1 -E 'REUSE (codex|claude)|INSTALL (codex|claude)|Install Antigravity IDE|INSTALL ANTIGRAVITY_EXTENSION|PREREQUISITE_MISSING' <<<"$output" | cut -d: -f1)"
+agent_line="$(grep -n -m1 -E 'REUSE (codex|claude)|INSTALL (codex|claude)|Install Antigravity IDE|INSTALL ANTIGRAVITY_EXTENSION|OPENROUTER_READY|PREREQUISITE_MISSING' <<<"$output" | cut -d: -f1)"
 [[ -n "$workspace_line" && -n "$agent_line" && $workspace_line -lt $agent_line ]]
 if [[ "$state" =~ ^(present|missing)$ && ( "$state" == present || "$agent" != antigravity ) ]]; then
   [[ "$output" == *'mathematic.vscode-pdf'* ]]
@@ -34,6 +34,10 @@ if [[ "$agent" != antigravity && "$state" =~ ^(present|missing)$ ]]; then
 fi
 
 case "$agent:$state" in
+  openrouter:present|openrouter:missing)
+    [[ $status -eq 0 && "$output" == *'saoudrizwan.claude-dev'* && "$output" == *'OPENROUTER_READY'* ]]
+    [[ "$output" != *'npm install'* && "$output" != *'openai.chatgpt'* && "$output" != *'anthropic.claude-code'* ]]
+    ;;
   codex:missing)
     [[ $status -eq 0 && "$output" == *'DRY_RUN npm install -g @openai/codex'* && "$output" == *'openai.chatgpt'* ]]
     [[ "$output" != *'@anthropic-ai/claude-code'* ]]
@@ -46,8 +50,8 @@ case "$agent:$state" in
   claude:present) [[ $status -eq 0 && "$output" == *'REUSE claude'* && "$output" != *'DRY_RUN npm install'* ]] ;;
   antigravity:missing) [[ $status -ne 0 && "$output" == *'Install Antigravity IDE'* && "$output" != *'VS_CODE_EXTENSION'* ]] ;;
   antigravity:present) [[ $status -eq 0 && "$output" == *'ANTIGRAVITY_EXTENSION mathematic.vscode-pdf'* && "$output" != *'npm install'* && "$output" != *'openai.chatgpt'* && "$output" != *'anthropic.claude-code'* ]] ;;
-  codex:no-npm|claude:no-npm) [[ $status -ne 0 && "$output" == *'PREREQUISITE_MISSING npm is not on PATH'* && "$output" != *'INSTALL VS_CODE_EXTENSION'* ]] ;;
-  codex:no-code|claude:no-code) [[ $status -ne 0 && "$output" == *'PREREQUISITE_MISSING VS Code CLI'* && "$output" != *'INSTALL VS_CODE_EXTENSION'* ]] ;;
+  codex:no-npm|claude:no-npm|openrouter:no-npm) [[ $status -ne 0 && "$output" == *'PREREQUISITE_MISSING npm is not on PATH'* && "$output" != *'INSTALL VS_CODE_EXTENSION'* ]] ;;
+  codex:no-code|claude:no-code|openrouter:no-code) [[ $status -ne 0 && "$output" == *'PREREQUISITE_MISSING VS Code CLI'* && "$output" != *'INSTALL VS_CODE_EXTENSION'* ]] ;;
   *) echo "Unknown case: $agent/$state" >&2; exit 2 ;;
 esac
 

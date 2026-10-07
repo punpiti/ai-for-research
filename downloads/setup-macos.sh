@@ -5,7 +5,7 @@ mode="${1:---check}"
 course_dir="${AI_RESEARCH_COURSE_DIR:-${AI_GRAD_COURSE_DIR:-$HOME/ai-for-research-workspace}}"
 agent="${AI_GRAD_AGENT:-}"
 dry_run="${AI_RESEARCH_DRY_RUN:-0}"
-setup_version='2026.10.07.1'
+setup_version='2026.10.07.2'
 test_commands=",${AI_RESEARCH_TEST_COMMANDS:-},"
 log() { printf '[ai-grad] %s\n' "$*"; }
 log "SETUP_VERSION $setup_version"
@@ -21,6 +21,7 @@ check() {
   ai_commands=(codex claude agy-ide)
   [[ "$agent" == antigravity ]] && ai_commands=(agy-ide)
   [[ -n "$agent" && "$agent" != antigravity ]] && ai_commands=("$agent")
+  [[ "$agent" == openrouter ]] && ai_commands=(code)
   available_ai=()
   missing_ai=()
   for cmd in "${ai_commands[@]}"; do
@@ -72,7 +73,7 @@ configure_vscode() {
     [[ -x "$vscode_cli" ]] || { log 'PREREQUISITE_MISSING VS Code CLI not found. Open VS Code or reopen Terminal, then rerun --setup-user.'; exit 2; }
   fi
   profile="AI for Research - $agent"
-  extensions=(mathematic.vscode-pdf)
+  extensions=(saoudrizwan.claude-dev mathematic.vscode-pdf)
   case "$agent" in codex) extensions=(openai.chatgpt "${extensions[@]}") ;; claude) extensions=(anthropic.claude-code "${extensions[@]}") ;; esac
   log "CREATE VS_CODE_PROFILE profile=$profile workspace=$course_dir"
   if [[ "$dry_run" == 1 ]]; then log "DRY_RUN code --profile $profile $course_dir"; else "$vscode_cli" --profile "$profile" "$course_dir"; fi
@@ -82,7 +83,8 @@ configure_vscode() {
   done
   [[ "$dry_run" == 1 ]] && return
   mkdir -p "$course_dir/.vscode"
-  printf '{\n  "recommendations": ["%s", "%s"]\n}\n' "${extensions[0]}" "${extensions[1]:-${extensions[0]}}" > "$course_dir/.vscode/extensions.json"
+  recommendations="$(printf '"%s",' "${extensions[@]}")"
+  printf '{\n  "recommendations": [%s]\n}\n' "${recommendations%,}" > "$course_dir/.vscode/extensions.json"
 }
 configure_antigravity() {
   extension=mathematic.vscode-pdf
@@ -97,7 +99,7 @@ configure_antigravity() {
 }
 install_system_tools() {
   [[ "$(uname -s)" == Darwin ]] || { log 'This installer requires macOS.'; exit 2; }
-  [[ "$agent" =~ ^(codex|claude|antigravity)$ ]] || { log 'Set AI_GRAD_AGENT to codex, claude, or antigravity.'; exit 2; }
+  [[ "$agent" =~ ^(codex|claude|openrouter|antigravity)$ ]] || { log 'Set AI_GRAD_AGENT to codex, claude, openrouter, or antigravity.'; exit 2; }
   if ! check; then log 'INSTALL_STOPPED System requirements did not pass. Nothing was installed.'; exit 2; fi
   formulae=()
   casks=()
@@ -135,8 +137,8 @@ install_system_tools() {
   log 'System tools ready. Legacy two-phase setup: open Terminal normally, then run --setup-user.'
 }
 setup_user() {
-  if [[ -z "$agent" ]]; then read -r -p 'Choose AI frontend [codex/claude/antigravity]: ' agent; fi
-  [[ "$agent" =~ ^(codex|claude|antigravity)$ ]] || { log 'AI frontend must be codex, claude, or antigravity.'; exit 2; }
+  if [[ -z "$agent" ]]; then read -r -p 'Choose AI frontend [codex/claude/openrouter/antigravity]: ' agent; fi
+  [[ "$agent" =~ ^(codex|claude|openrouter|antigravity)$ ]] || { log 'AI frontend must be codex, claude, openrouter, or antigravity.'; exit 2; }
   make_workspace
   [[ "$agent" == antigravity ]] || have npm || { log 'PREREQUISITE_MISSING npm is not on PATH. Close Terminal, open a new Terminal, then rerun --setup-user.'; exit 2; }
   if [[ "$dry_run" == 1 ]]; then
@@ -159,10 +161,11 @@ setup_user() {
     source "$course_dir/tools/runtime-env.sh"
   fi
   case "$agent" in
+    openrouter) log 'OPENROUTER_READY Cline extension; configure provider OpenRouter and your own key in the IDE.' ;;
     codex) if have codex; then log 'REUSE codex'; else log 'INSTALL codex'; run_npm_install @openai/codex; fi ;;
     claude) if have claude; then log 'REUSE claude'; else log 'INSTALL claude'; run_npm_install @anthropic-ai/claude-code; fi ;;
     antigravity) have agy-ide || { log 'Install Antigravity IDE and enable the agy-ide command during onboarding, then rerun --setup-user.'; exit 2; } ;;
-    *) log 'AI frontend must be codex, claude, or antigravity.'; exit 2 ;;
+    *) log 'AI frontend must be codex, claude, openrouter, or antigravity.'; exit 2 ;;
   esac
   if [[ "$agent" == antigravity ]]; then configure_antigravity; else configure_vscode; fi
   log "AI workspace=$agent installed. Next: open the workspace, open its AI panel, and sign in with your own account. The terminal command is only a fallback."
@@ -170,7 +173,7 @@ setup_user() {
 case "$mode" in
   --install)
     [[ "$EUID" != 0 ]] || { log 'Run --install as your normal user; sudo is requested only for system tools.'; exit 2; }
-    [[ -n "$agent" ]] || read -r -p 'Choose AI frontend [codex/claude/antigravity]: ' agent
+    [[ -n "$agent" ]] || read -r -p 'Choose AI frontend [codex/claude/openrouter/antigravity]: ' agent
     install_system_tools
     export PATH="$HOME/.local/bin:/Applications/Visual Studio Code.app/Contents/Resources/app/bin:$PATH"
     setup_user

@@ -410,13 +410,13 @@ const agentInputs = [...document.querySelectorAll('input[name="agent"]')];
 const agentRequiredSections = [...document.querySelectorAll("[data-agent-required]")];
 const agentGateStatus = document.querySelector("[data-agent-gate-status]");
 function selectAgent(agent, persist = false) {
-  if (!["codex", "claude"].includes(agent)) return;
+  if (!["codex", "claude", "openrouter"].includes(agent)) return;
   const workspaceApp = agent === "antigravity" ? "Antigravity IDE" : "VS Code";
   for (const element of document.querySelectorAll("[data-antigravity-only]")) element.hidden = agent !== "antigravity";
   for (const element of document.querySelectorAll("[data-antigravity-hide]")) element.hidden = agent === "antigravity";
   for (const label of document.querySelectorAll("[data-workspace-app]")) label.textContent = workspaceApp;
   for (const label of document.querySelectorAll("[data-workspace-open-command]")) label.textContent = agent === "antigravity" ? "agy-ide ." : "code .";
-  const agentPanel = { codex: "Codex panel", claude: "Claude Code panel", antigravity: "Antigravity Agent panel" }[agent];
+  const agentPanel = { codex: "Codex panel", claude: "Claude Code panel", openrouter: "Cline panel", antigravity: "Antigravity Agent panel" }[agent];
   for (const label of document.querySelectorAll("[data-agent-panel]")) label.textContent = agentPanel;
   for (const command of document.querySelectorAll("[data-agent-command]")) {
     const template = agent === "antigravity" && command.dataset.antigravityTemplate ? command.dataset.antigravityTemplate : command.dataset.template;
@@ -435,6 +435,11 @@ function selectAgent(agent, persist = false) {
         ["เริ่ม Sign in", "กด Sign in แล้วเลือก Claude App หากใช้บัญชี Claude Pro หรือ Max; ผู้ใช้ Anthropic Console ให้เลือก Console"],
         ["ยืนยันใน Browser", "ลงชื่อเข้าใช้ Claude.ai หรือ Anthropic Console ตามสิทธิ์ แล้วอนุญาตการเชื่อมต่อ"]
       ],
+      openrouter: [
+        ["เปิด Cline panel", "คลิกไอคอน Cline ใน VS Code แล้วเปิด Settings"],
+        ["เลือก API Provider: OpenRouter", "สร้าง API key ในบัญชี OpenRouter แล้ววางในช่อง key ของ Cline โดยตรง"],
+        ["เลือกโมเดลและตรวจบัญชี", "เลือกโมเดลที่ต้องการ ตรวจเครดิตและราคา จากนั้นเริ่มงานใน Workspace; ไม่ส่ง key ในช่องสนทนาหรือไฟล์งาน"]
+      ],
       antigravity: [
         ["เปิด Antigravity IDE", "ที่ Welcome screen กด Sign in"],
         ["เลือกบัญชี Google", "ลงชื่อเข้าใช้ด้วยบัญชี Gmail ส่วนบุคคลของตนเองใน Browser"],
@@ -450,6 +455,7 @@ function selectAgent(agent, persist = false) {
     const sources = {
       codex: ["คู่มือ Codex ของ OpenAI", "https://developers.openai.com/codex/"],
       claude: ["คู่มือเริ่มต้น Claude Code ของ Anthropic", "https://docs.anthropic.com/en/docs/claude-code/getting-started"],
+      openrouter: ["คู่มือ Cline กับ OpenRouter", "https://openrouter.ai/works-with-openrouter/cline"],
       antigravity: ["คู่มือเริ่มต้น Antigravity IDE ของ Google", "https://codelabs.developers.google.com/getting-started-agy-ide?hl=th"]
     };
     loginSource.textContent = sources[agent][0];
@@ -462,7 +468,7 @@ function selectAgent(agent, persist = false) {
 if (agentInputs.length) {
   for (const section of agentRequiredSections) section.hidden = true;
   const savedValue = getPreference("ai-research-agent");
-  const saved = ["codex", "claude"].includes(savedValue) ? savedValue : null;
+  const saved = ["codex", "claude", "openrouter"].includes(savedValue) ? savedValue : null;
   if (saved) {
     const selected = agentInputs.find((input) => input.value === saved);
     if (selected) {

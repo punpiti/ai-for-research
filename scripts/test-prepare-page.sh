@@ -9,7 +9,7 @@ if grep -Rqs 'punpiti.github.io/ai-for-research' "$root/prepare.html" "$root/dow
   exit 1
 fi
 
-for agent in codex claude; do
+for agent in codex claude openrouter; do
   grep -q "name=\"agent\" value=\"$agent\"" "$page"
 done
 grep -q -- '-Agent {agent}' "$page"
@@ -19,7 +19,7 @@ for platform in windows macos linux; do
   grep -q "data-platform-panel=\"$platform\"" "$page"
 done
 
-grep -q 'SETUP_VERSION 2026.10.07.1' "$page"
+grep -q 'SETUP_VERSION 2026.10.07.2' "$page"
 grep -q 'FONT_READY' "$page"
 grep -q 'CREATE VS_CODE_PROFILE' "$page"
 grep -q 'Script จะเปิด Workspace ใน <span data-workspace-app>VS Code</span> ให้อัตโนมัติ' "$page"

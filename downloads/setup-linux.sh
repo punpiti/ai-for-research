@@ -5,13 +5,33 @@ mode="${1:---check}"
 course_dir="${AI_RESEARCH_COURSE_DIR:-${AI_GRAD_COURSE_DIR:-$HOME/ai-for-research-workspace}}"
 agent="${AI_GRAD_AGENT:-}"
 dry_run="${AI_RESEARCH_DRY_RUN:-0}"
-setup_version='2026.10.07.1'
+setup_version='2026.10.07.2'
 test_commands=",${AI_RESEARCH_TEST_COMMANDS:-},"
 
 log() { printf '[ai-grad] %s\n' "$*"; }
 log "SETUP_VERSION $setup_version"
 have() {
   if [[ "$test_commands" != ",," ]]; then [[ "$test_commands" == *",$1,"* ]]; else command -v "$1" >/dev/null 2>&1; fi
+}
+is_wsl() { [[ -n "${WSL_DISTRO_NAME:-}" ]] || grep -qi microsoft /proc/version 2>/dev/null; }
+setup_windows_vscode() {
+  if [[ "$dry_run" == 1 ]]; then
+    log 'DRY_RUN WSL: powershell.exe installs Windows VS Code + WSL extension; code runs the Linux workspace.'
+    return
+  fi
+  have powershell.exe && have wslpath || { log 'WSL_INTEROP_MISSING Enable Windows interoperability in WSL, then rerun.'; exit 2; }
+  wsl_setup="$(mktemp --suffix=.ps1)"
+  wsl_output="$(mktemp)"
+  curl -fsSL https://urban.cpe.ku.ac.th/ai-for-research/downloads/setup-vscode-wsl.ps1 -o "$wsl_setup"
+  powershell.exe -NoProfile -ExecutionPolicy Bypass -File "$(wslpath -w "$wsl_setup")" | tee "$wsl_output"
+  windows_code="$(awk '/^VSCODE_CLI_PATH=/{sub(/^VSCODE_CLI_PATH=/, ""); sub(/\r$/, ""); print}' "$wsl_output")"
+  rm -f "$wsl_setup" "$wsl_output"
+  [[ -n "$windows_code" ]] || { log 'WSL_CODE_FAILED Windows helper did not return a VS Code path.'; exit 2; }
+  code_launcher="$(wslpath -u "$windows_code")"
+  code_launcher="${code_launcher%.cmd}"
+  [[ -f "$code_launcher" ]] || { log "WSL_CODE_FAILED Missing WSL launcher: $code_launcher"; exit 2; }
+  export PATH="$(dirname "$code_launcher"):$PATH"
+  log "WSL_CODE_READY $code_launcher"
 }
 run_npm_install() { if [[ "$dry_run" == 1 ]]; then log "DRY_RUN npm install -g $1"; else npm install -g "$1"; fi; }
 check() {
@@ -21,6 +41,7 @@ check() {
   ai_commands=(codex claude agy-ide)
   [[ "$agent" == antigravity ]] && ai_commands=(agy-ide)
   [[ -n "$agent" && "$agent" != antigravity ]] && ai_commands=("$agent")
+  [[ "$agent" == openrouter ]] && ai_commands=(code)
   available_ai=()
   missing_ai=()
   for cmd in "${ai_commands[@]}"; do
@@ -69,7 +90,7 @@ make_workspace() {
 configure_vscode() {
   have code || { log 'PREREQUISITE_MISSING VS Code CLI not found. Finish the VS Code/WSL setup, then rerun --setup-user.'; exit 2; }
   profile="AI for Research - $agent"
-  extensions=(mathematic.vscode-pdf)
+  extensions=(saoudrizwan.claude-dev mathematic.vscode-pdf)
   case "$agent" in codex) extensions=(openai.chatgpt "${extensions[@]}") ;; claude) extensions=(anthropic.claude-code "${extensions[@]}") ;; esac
   log "CREATE VS_CODE_PROFILE profile=$profile workspace=$course_dir"
   if [[ "$dry_run" == 1 ]]; then log "DRY_RUN code --profile $profile $course_dir"; else code --profile "$profile" "$course_dir"; fi
@@ -79,7 +100,8 @@ configure_vscode() {
   done
   [[ "$dry_run" == 1 ]] && return
   mkdir -p "$course_dir/.vscode"
-  printf '{\n  "recommendations": ["%s", "%s"]\n}\n' "${extensions[0]}" "${extensions[1]:-${extensions[0]}}" > "$course_dir/.vscode/extensions.json"
+  recommendations="$(printf '"%s",' "${extensions[@]}")"
+  printf '{\n  "recommendations": [%s]\n}\n' "${recommendations%,}" > "$course_dir/.vscode/extensions.json"
 }
 configure_antigravity() {
   extension=mathematic.vscode-pdf
@@ -92,7 +114,7 @@ configure_antigravity() {
 }
 install_system_tools() {
   [[ "$(uname -s)" == Linux ]] || { log 'This installer requires Linux.'; exit 2; }
-  [[ "$agent" =~ ^(codex|claude|antigravity)$ ]] || { log 'Set AI_GRAD_AGENT to codex, claude, or antigravity.'; exit 2; }
+  [[ "$agent" =~ ^(codex|claude|openrouter|antigravity)$ ]] || { log 'Set AI_GRAD_AGENT to codex, claude, openrouter, or antigravity.'; exit 2; }
   if ! check; then log 'INSTALL_STOPPED System requirements did not pass. Nothing was installed.'; exit 2; fi
   have apt-get || { log 'Only Ubuntu/Debian apt systems are currently supported.'; exit 2; }
   packages=()
@@ -122,13 +144,20 @@ install_system_tools() {
     sudo apt-get update
     sudo apt-get install -y "${packages[@]}"
   fi
-  if [[ "$agent" != antigravity ]] && ! have code; then
-    if grep -qi microsoft /proc/version 2>/dev/null; then
-      log 'VS Code still missing in WSL2: install VS Code and the WSL extension on Windows, then reopen this folder in WSL.'
-    elif have snap; then
-      sudo snap install code --classic
-    else
-      log 'VS Code still missing: install it from https://code.visualstudio.com/'
+  if [[ "$agent" != antigravity ]]; then
+    if is_wsl; then
+      setup_windows_vscode
+    elif ! have code; then
+      case "$(dpkg --print-architecture)" in
+        amd64) vscode_arch=x64 ;;
+        arm64) vscode_arch=arm64 ;;
+        *) log 'VS Code package supports amd64/arm64 only.'; exit 2 ;;
+      esac
+      code_deb="$(mktemp --suffix=.deb)"
+      curl -fL "https://update.code.visualstudio.com/latest/linux-deb-$vscode_arch/stable" -o "$code_deb"
+      chmod 644 "$code_deb"
+      sudo apt-get install -y "$code_deb"
+      rm -f "$code_deb"
     fi
   fi
   if [[ "$agent" == antigravity ]] && ! have agy-ide; then
@@ -138,11 +167,12 @@ install_system_tools() {
   log 'System tools ready. Legacy two-phase setup: open Terminal/Ubuntu normally, then run --setup-user.'
 }
 setup_user() {
-  if [[ -z "$agent" ]]; then read -r -p 'Choose AI frontend [codex/claude/antigravity]: ' agent; fi
-  [[ "$agent" =~ ^(codex|claude|antigravity)$ ]] || { log 'AI frontend must be codex, claude, or antigravity.'; exit 2; }
+  if [[ -z "$agent" ]]; then read -r -p 'Choose AI frontend [codex/claude/openrouter/antigravity]: ' agent; fi
+  [[ "$agent" =~ ^(codex|claude|openrouter|antigravity)$ ]] || { log 'AI frontend must be codex, claude, openrouter, or antigravity.'; exit 2; }
   make_workspace
   [[ "$agent" == antigravity ]] || have npm || { log 'PREREQUISITE_MISSING npm is not on PATH. Close Terminal, open a new Terminal, then rerun --setup-user.'; exit 2; }
   if [[ "$dry_run" == 1 ]]; then
+    is_wsl && log 'DRY_RUN WSL extensions install in the remote Linux workspace'
     log 'DRY_RUN runtime Python 3.12 + user-owned TinyTeX + scoped Codex permissions'
   else
     export PATH="$HOME/.local/bin:$PATH"
@@ -162,10 +192,11 @@ setup_user() {
     source "$course_dir/tools/runtime-env.sh"
   fi
   case "$agent" in
+    openrouter) log 'OPENROUTER_READY Cline extension; configure provider OpenRouter and your own key in the IDE.' ;;
     codex) if have codex; then log 'REUSE codex'; else log 'INSTALL codex'; run_npm_install @openai/codex; fi ;;
     claude) if have claude; then log 'REUSE claude'; else log 'INSTALL claude'; run_npm_install @anthropic-ai/claude-code; fi ;;
     antigravity) have agy-ide || { log 'Install Antigravity IDE and enable the agy-ide command during onboarding, then rerun --setup-user.'; exit 2; } ;;
-    *) log 'AI frontend must be codex, claude, or antigravity.'; exit 2 ;;
+    *) log 'AI frontend must be codex, claude, openrouter, or antigravity.'; exit 2 ;;
   esac
   if [[ "$agent" == antigravity ]]; then configure_antigravity; else configure_vscode; fi
   log "AI workspace=$agent installed. Next: open the workspace, open its AI panel, and sign in with your own account. The terminal command is only a fallback."
@@ -174,7 +205,7 @@ setup_user() {
 case "$mode" in
   --install)
     [[ "$EUID" != 0 ]] || { log 'Run --install as your normal user; sudo is requested only for system tools.'; exit 2; }
-    [[ -n "$agent" ]] || read -r -p 'Choose AI frontend [codex/claude/antigravity]: ' agent
+    [[ -n "$agent" ]] || read -r -p 'Choose AI frontend [codex/claude/openrouter/antigravity]: ' agent
     install_system_tools
     export PATH="$HOME/.local/bin:/Applications/Visual Studio Code.app/Contents/Resources/app/bin:$PATH"
     setup_user

@@ -1,5 +1,5 @@
 param(
-  [Parameter(Mandatory)][ValidateSet('codex','claude','antigravity')][string]$Agent,
+  [Parameter(Mandatory)][ValidateSet('codex','claude','openrouter','antigravity')][string]$Agent,
   [Parameter(Mandatory)][ValidateSet('present','missing','no-npm','no-code')][string]$State
 )
 $ErrorActionPreference = 'Stop'
@@ -27,7 +27,7 @@ function Require([bool]$Condition, [string]$Message) {
   if (-not $Condition) { throw "$Message`n$output" }
 }
 $workspaceIndex = $output.IndexOf('DRY_RUN workspace=')
-$agentIndexes = @('REUSE codex','INSTALL codex','REUSE claude','INSTALL claude','Antigravity will be opened','INSTALL ANTIGRAVITY_EXTENSION') | ForEach-Object { $output.IndexOf($_) } | Where-Object { $_ -ge 0 }
+$agentIndexes = @('REUSE codex','INSTALL codex','REUSE claude','INSTALL claude','Antigravity will be opened','INSTALL ANTIGRAVITY_EXTENSION','OPENROUTER_READY') | ForEach-Object { $output.IndexOf($_) } | Where-Object { $_ -ge 0 }
 if ($State -in @('present','missing')) {
   Require ($workspaceIndex -ge 0 -and $agentIndexes.Count -gt 0 -and $workspaceIndex -lt ($agentIndexes | Measure-Object -Minimum).Minimum) 'Workspace fonts must be prepared before the AI frontend.'
 }
@@ -37,6 +37,12 @@ if ($Agent -ne 'antigravity' -and $State -in @('present','missing')) {
   Require ($profileIndex -ge 0 -and $extensionIndex -ge 0 -and $profileIndex -lt $extensionIndex) 'VS Code profile must be created before extensions are installed.'
 }
 switch ("${Agent}:${State}") {
+  { $_ -in @('openrouter:present','openrouter:missing') } {
+    Require (!$failed -and $output.Contains('OPENROUTER_READY') -and $output.Contains('saoudrizwan.claude-dev')) 'Cline/OpenRouter setup failed.'
+    Require (!$output.Contains('npm install') -and !$output.Contains('openai.chatgpt') -and !$output.Contains('anthropic.claude-code')) 'OpenRouter should use the Cline extension without another AI CLI.'
+  }
+  'openrouter:no-npm' { Require ($failed -and $output.Contains('PREREQUISITE_MISSING npm is not on PATH')) 'Missing npm behavior failed.' }
+  'openrouter:no-code' { Require ($failed -and $output.Contains('PREREQUISITE_MISSING VS Code CLI')) 'Missing code behavior failed.' }
   'codex:missing' {
     Require (!$failed -and $output.Contains('DRY_RUN npm install -g @openai/codex') -and $output.Contains('openai.chatgpt')) 'Codex missing behavior failed.'
     Require (!$output.Contains('@anthropic-ai/claude-code')) 'Codex selected but Claude was touched.'

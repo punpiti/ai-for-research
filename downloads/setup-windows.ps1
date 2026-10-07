@@ -1,12 +1,12 @@
 [CmdletBinding()]
 param(
   [ValidateSet('Check','Install','InstallSystem','SetupUser','Repair')][string]$Mode = 'Check',
-  [ValidateSet('codex','claude','antigravity')][string]$Agent,
+  [ValidateSet('codex','claude','openrouter','antigravity')][string]$Agent,
   [string]$CourseDir = (Join-Path $HOME 'ai-for-research-workspace')
 )
 $ErrorActionPreference = 'Stop'
 $DryRun = $env:AI_RESEARCH_DRY_RUN -eq '1'
-$SetupVersion = '2026.10.07.1'
+$SetupVersion = '2026.10.07.2'
 $TestCommands = @($env:AI_RESEARCH_TEST_COMMANDS -split ',' | Where-Object { $_ })
 function Log([string]$Message) { Write-Host "[ai-grad] $Message" }
 Log "SETUP_VERSION $SetupVersion"
@@ -26,8 +26,8 @@ function Check-Tools {
   $ramGb = [math]::Round($os.TotalVisibleMemorySize / 1MB, 1)
   $diskGb = [math]::Round($drive.Free / 1GB, 1)
   $network = Test-NetConnection -ComputerName github.com -Port 443 -InformationLevel Quiet -WarningAction SilentlyContinue
-  $aiTargets = if ($Agent) { @($Agent) } else { @('codex','claude','antigravity') }
-  $aiCommands = @{ codex = 'codex'; claude = 'claude'; antigravity = 'agy-ide' }
+  $aiTargets = if ($Agent) { @($Agent) } else { @('codex','claude','openrouter','antigravity') }
+  $aiCommands = @{ codex = 'codex'; claude = 'claude'; antigravity = 'agy-ide'; openrouter = 'code' }
   $aiTargets = $aiTargets | ForEach-Object { $aiCommands[$_] }
   $availableAi = $aiTargets | Where-Object { Has $_ }
   $missingAi = $aiTargets | Where-Object { -not (Has $_) }
@@ -85,13 +85,13 @@ function Configure-VSCode {
     'claude' { 'anthropic.claude-code' }
     'antigravity' { $null }
   }
-  $extensions = @('mathematic.vscode-pdf')
+  $extensions = @('saoudrizwan.claude-dev','mathematic.vscode-pdf')
   if ($aiExtension) { $extensions = @($aiExtension) + $extensions }
   Log "CREATE VS_CODE_PROFILE profile=$profile workspace=$CourseDir"
   if ($DryRun) { Log "DRY_RUN code --profile $profile $CourseDir" } else { code --profile $profile $CourseDir }
   foreach ($extension in $extensions) {
     Log "INSTALL VS_CODE_EXTENSION $extension profile=$profile"
-    if ($DryRun) { Log "DRY_RUN code --profile $profile --install-extension $extension" } else { code --profile $profile --install-extension $extension }
+    if ($DryRun) { Log "DRY_RUN code --profile $profile --install-extension $extension" } else { code --profile $profile --install-extension $extension; if ($LASTEXITCODE -ne 0) { throw "Extension installation failed: $extension" } }
   }
   if ($DryRun) { return }
   $vscodeDir = Join-Path $CourseDir '.vscode'
@@ -115,7 +115,7 @@ function Configure-Antigravity {
 }
 function Install-SystemTools {
   if (-not (Is-Admin)) { throw 'InstallSystem requires PowerShell opened with Run as administrator.' }
-  if (-not $Agent) { throw 'InstallSystem requires -Agent codex, claude, or antigravity.' }
+  if (-not $Agent) { throw 'InstallSystem requires -Agent codex, claude, openrouter, or antigravity.' }
   if (-not (Check-Tools)) { throw 'INSTALL_STOPPED System requirements did not pass. Nothing was installed.' }
   if (-not (Has 'winget')) { throw 'WinGet is required. Update App Installer from Microsoft Store and rerun.' }
   Log "ADMIN PHASE: checks the selected workspace, document, PDF and Thai-English OCR tools; installs only missing items. agent=$Agent"
@@ -153,7 +153,7 @@ function Install-SystemTools {
 }
 function Install-UserTools {
   if (Is-Admin) { throw 'SetupUser must run in a normal, non-Administrator PowerShell. Close this window and open PowerShell normally.' }
-  if (-not $Agent) { $Agent = Read-Host 'Choose AI frontend [codex/claude/antigravity]' }
+  if (-not $Agent) { $Agent = Read-Host 'Choose AI frontend [codex/claude/openrouter/antigravity]' }
   New-CourseWorkspace
   if ($Agent -ne 'antigravity' -and -not (Has 'npm')) { throw 'PREREQUISITE_MISSING npm is not on PATH. Close PowerShell, open a new normal PowerShell, then rerun SetupUser.' }
   if ($DryRun) { Log 'DRY_RUN runtime Python 3.12 + user-owned TinyTeX + scoped Codex permissions' }
@@ -180,6 +180,7 @@ function Install-UserTools {
   }
   if (Has 'npm') {
     switch ($Agent) {
+      'openrouter' { Log 'OPENROUTER_READY Cline extension; configure provider OpenRouter and your own key in the IDE.' }
       'codex' { if (Has 'codex') { Log 'REUSE codex' } else { Log 'INSTALL codex'; if ($DryRun) { Log 'DRY_RUN npm install -g @openai/codex' } else { npm install -g '@openai/codex'; if ($LASTEXITCODE -ne 0) { throw 'Codex installation failed.' } } } }
       'claude' { if (Has 'claude') { Log 'REUSE claude' } else { Log 'INSTALL claude'; if ($DryRun) { Log 'DRY_RUN npm install -g @anthropic-ai/claude-code' } else { npm install -g '@anthropic-ai/claude-code'; if ($LASTEXITCODE -ne 0) { throw 'Claude installation failed.' } } } }
       'antigravity' { if (-not (Has 'agy-ide')) { Log 'Antigravity will be opened through its desktop IDE; agy-ide is not required for workspace setup.' } }
@@ -193,7 +194,7 @@ switch ($Mode) {
   'Install' {
     if ($DryRun) { Log 'DRY_RUN request UAC for system tools, return to normal user'; Install-UserTools; break }
     if (Is-Admin) { throw 'Install must start in a normal PowerShell; it requests UAC only for system tools.' }
-    if (-not $Agent) { throw 'Install requires -Agent codex, claude, or antigravity.' }
+    if (-not $Agent) { throw 'Install requires -Agent codex, claude, openrouter, or antigravity.' }
     $childArgs = '-NoProfile -ExecutionPolicy Bypass -File "' + $PSCommandPath + '" -Mode InstallSystem -Agent ' + $Agent
     $child = Start-Process powershell.exe -Verb RunAs -ArgumentList $childArgs -Wait -PassThru
     if ($child.ExitCode -ne 0) { throw 'System installation failed or UAC was cancelled.' }
