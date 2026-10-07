@@ -1,12 +1,12 @@
 [CmdletBinding()]
 param(
-  [ValidateSet('Check','InstallSystem','SetupUser','Repair')][string]$Mode = 'Check',
+  [ValidateSet('Check','Install','InstallSystem','SetupUser','Repair')][string]$Mode = 'Check',
   [ValidateSet('codex','claude','antigravity')][string]$Agent,
   [string]$CourseDir = (Join-Path $HOME 'ai-for-research-workspace')
 )
 $ErrorActionPreference = 'Stop'
 $DryRun = $env:AI_RESEARCH_DRY_RUN -eq '1'
-$SetupVersion = '2026.08.05.6'
+$SetupVersion = '2026.10.07.1'
 $TestCommands = @($env:AI_RESEARCH_TEST_COMMANDS -split ',' | Where-Object { $_ })
 function Log([string]$Message) { Write-Host "[ai-grad] $Message" }
 Log "SETUP_VERSION $SetupVersion"
@@ -93,6 +93,7 @@ function Configure-VSCode {
     Log "INSTALL VS_CODE_EXTENSION $extension profile=$profile"
     if ($DryRun) { Log "DRY_RUN code --profile $profile --install-extension $extension" } else { code --profile $profile --install-extension $extension }
   }
+  if ($DryRun) { return }
   $vscodeDir = Join-Path $CourseDir '.vscode'
   New-Item -ItemType Directory -Force -Path $vscodeDir | Out-Null
   @{ recommendations = $extensions } | ConvertTo-Json | Set-Content -Encoding utf8 (Join-Path $vscodeDir 'extensions.json')
@@ -118,14 +119,11 @@ function Install-SystemTools {
   if (-not (Check-Tools)) { throw 'INSTALL_STOPPED System requirements did not pass. Nothing was installed.' }
   if (-not (Has 'winget')) { throw 'WinGet is required. Update App Installer from Microsoft Store and rerun.' }
   Log "ADMIN PHASE: checks the selected workspace, document, PDF and Thai-English OCR tools; installs only missing items. agent=$Agent"
-  $answer = Read-Host 'Continue? [y/N]'
-  if ($answer -notmatch '^[Yy]$') { return }
+  if ($Mode -ne 'InstallSystem') { $answer = Read-Host 'Continue? [y/N]'; if ($answer -notmatch '^[Yy]$') { return } }
   $packages = @(
     @{ Command = 'git'; Package = 'Git.Git' },
     @{ Command = 'node'; Package = 'OpenJS.NodeJS.LTS' },
-    @{ Command = 'uv'; Package = 'astral-sh.uv' },
     @{ Command = 'pandoc'; Package = 'JohnMacFarlane.Pandoc' },
-    @{ Command = 'xelatex'; Package = 'MiKTeX.MiKTeX' },
     @{ Command = 'tesseract'; Package = 'tesseract-ocr.tesseract' },
     @{ Command = 'pdftotext'; Package = 'oschwartz10612.Poppler' }
   )
@@ -134,6 +132,7 @@ function Install-SystemTools {
     if (Has $item.Command) { Log "REUSE $($item.Command)"; continue }
     Log "INSTALL $($item.Package)"
     winget install --id $item.Package --exact --accept-package-agreements --accept-source-agreements --silent
+    if ($LASTEXITCODE -ne 0) { throw "WinGet failed: $($item.Package) ($LASTEXITCODE)" }
   }
   $tesseractCommand = Get-Command tesseract -ErrorAction SilentlyContinue
   $tesseractRoot = if ($tesseractCommand) { Split-Path $tesseractCommand.Source } else { Join-Path $env:ProgramFiles 'Tesseract-OCR' }
@@ -148,9 +147,8 @@ function Install-SystemTools {
     Log 'INSTALL Antigravity IDE from the official Google download page; complete its installer before SetupUser.'
     Start-Process 'https://antigravity.google/download#antigravity-ide'
   }
-  Log 'System installation finished. This Administrator terminal will close in 5 seconds.'
+  Log 'System installation finished. Returning to the normal-user installer.'
   Log 'Next: open a normal PowerShell window and run SetupUser. Do not run agents as Administrator.'
-  Start-Sleep -Seconds 5
   exit 0
 }
 function Install-UserTools {
@@ -158,10 +156,32 @@ function Install-UserTools {
   if (-not $Agent) { $Agent = Read-Host 'Choose AI frontend [codex/claude/antigravity]' }
   New-CourseWorkspace
   if ($Agent -ne 'antigravity' -and -not (Has 'npm')) { throw 'PREREQUISITE_MISSING npm is not on PATH. Close PowerShell, open a new normal PowerShell, then rerun SetupUser.' }
+  if ($DryRun) { Log 'DRY_RUN runtime Python 3.12 + user-owned TinyTeX + scoped Codex permissions' }
+  else {
+    $env:PATH = "$HOME\.local\bin;" + $env:PATH
+    $env:UV_PYTHON_INSTALL_DIR = Join-Path $env:LOCALAPPDATA 'ai-for-research\python'
+    $env:UV_CACHE_DIR = Join-Path $env:LOCALAPPDATA 'ai-for-research\cache\uv'
+    if (-not (Has 'uv')) {
+      $uvScript = Join-Path $env:TEMP ('ai-research-uv-' + [guid]::NewGuid() + '.ps1')
+      try {
+        Invoke-WebRequest -UseBasicParsing https://astral.sh/uv/install.ps1 -OutFile $uvScript
+        & $uvScript
+      } finally { Remove-Item $uvScript -ErrorAction SilentlyContinue }
+    }
+    $runtimeScript = Join-Path $env:TEMP ('ai-research-runtime-' + [guid]::NewGuid() + '.py')
+    try {
+      Invoke-WebRequest -UseBasicParsing https://urban.cpe.ku.ac.th/ai-for-research/downloads/setup-runtime.py -OutFile $runtimeScript
+      uv python install 3.12
+      if ($LASTEXITCODE -ne 0) { throw 'Python installation failed.' }
+      uv run --no-project --python 3.12 python $runtimeScript --workspace $CourseDir --agent $Agent
+      if ($LASTEXITCODE -ne 0) { throw 'Research runtime setup failed.' }
+    } finally { Remove-Item $runtimeScript -ErrorAction SilentlyContinue }
+    . (Join-Path $CourseDir 'tools\runtime-env.ps1')
+  }
   if (Has 'npm') {
     switch ($Agent) {
-      'codex' { if (Has 'codex') { Log 'REUSE codex' } else { Log 'INSTALL codex'; if ($DryRun) { Log 'DRY_RUN npm install -g @openai/codex' } else { npm install -g '@openai/codex' } } }
-      'claude' { if (Has 'claude') { Log 'REUSE claude' } else { Log 'INSTALL claude'; if ($DryRun) { Log 'DRY_RUN npm install -g @anthropic-ai/claude-code' } else { npm install -g '@anthropic-ai/claude-code' } } }
+      'codex' { if (Has 'codex') { Log 'REUSE codex' } else { Log 'INSTALL codex'; if ($DryRun) { Log 'DRY_RUN npm install -g @openai/codex' } else { npm install -g '@openai/codex'; if ($LASTEXITCODE -ne 0) { throw 'Codex installation failed.' } } } }
+      'claude' { if (Has 'claude') { Log 'REUSE claude' } else { Log 'INSTALL claude'; if ($DryRun) { Log 'DRY_RUN npm install -g @anthropic-ai/claude-code' } else { npm install -g '@anthropic-ai/claude-code'; if ($LASTEXITCODE -ne 0) { throw 'Claude installation failed.' } } } }
       'antigravity' { if (-not (Has 'agy-ide')) { Log 'Antigravity will be opened through its desktop IDE; agy-ide is not required for workspace setup.' } }
     }
   }
@@ -170,8 +190,18 @@ function Install-UserTools {
   Log "AI workspace=$Agent installed. Next: open the workspace, open its AI panel, and sign in with your own account. The terminal command is only a fallback."
 }
 switch ($Mode) {
+  'Install' {
+    if ($DryRun) { Log 'DRY_RUN request UAC for system tools, return to normal user'; Install-UserTools; break }
+    if (Is-Admin) { throw 'Install must start in a normal PowerShell; it requests UAC only for system tools.' }
+    if (-not $Agent) { throw 'Install requires -Agent codex, claude, or antigravity.' }
+    $childArgs = '-NoProfile -ExecutionPolicy Bypass -File "' + $PSCommandPath + '" -Mode InstallSystem -Agent ' + $Agent
+    $child = Start-Process powershell.exe -Verb RunAs -ArgumentList $childArgs -Wait -PassThru
+    if ($child.ExitCode -ne 0) { throw 'System installation failed or UAC was cancelled.' }
+    $env:PATH = [Environment]::GetEnvironmentVariable('Path','Machine') + ';' + [Environment]::GetEnvironmentVariable('Path','User')
+    Install-UserTools
+  }
   'InstallSystem' { Install-SystemTools }
   'SetupUser' { Install-UserTools }
   'Repair' { if (Is-Admin) { Install-SystemTools } else { Install-UserTools } }
 }
-if (($Mode -eq 'Check' -or $Mode -eq 'SetupUser') -and -not $DryRun) { [void](Check-Tools) }
+if (($Mode -eq 'Check' -or $Mode -eq 'SetupUser') -and -not $DryRun) { if (-not (Check-Tools)) { throw 'Device readiness check failed.' } }

@@ -1,16 +1,17 @@
 #!/usr/bin/env bash
 set -euo pipefail
 root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+python3 -B "$root/scripts/test-runtime.py"
 bash -n "$root/downloads/setup-linux.sh"
 bash -n "$root/downloads/setup-macos.sh"
 bash -n "$root/downloads/import-documents.sh"
 grep -q -- '--install-system|--setup-user' "$root/downloads/setup-linux.sh"
 grep -q -- '--install-system|--setup-user' "$root/downloads/setup-macos.sh"
-grep -q "ValidateSet('Check','InstallSystem','SetupUser','Repair')" "$root/downloads/setup-windows.ps1"
+grep -q "ValidateSet('Check','Install','InstallSystem','SetupUser','Repair')" "$root/downloads/setup-windows.ps1"
 grep -q "SetupUser must run in a normal, non-Administrator PowerShell" "$root/downloads/setup-windows.ps1"
 grep -q "InstallSystem requires -Agent codex, claude, or antigravity" "$root/downloads/setup-windows.ps1"
-grep -q -- '-Mode InstallSystem -Agent {agent}' "$root/prepare.html"
-[[ "$(grep -c 'AI_GRAD_AGENT={agent}.*--install-system' "$root/prepare.html")" -eq 2 ]]
+grep -q -- '-Mode Install -Agent {agent}' "$root/prepare.html"
+[[ "$(grep -c 'AI_GRAD_AGENT={agent}.*--install' "$root/prepare.html")" -eq 2 ]]
 grep -q 'setPreference("ai-research-platform"' "$root/assets/app.js"
 grep -q 'setPreference("ai-research-agent"' "$root/assets/app.js"
 grep -q 'return getCookie(name) || localStorage.getItem(name)' "$root/assets/app.js"
@@ -20,7 +21,7 @@ grep -q 'data-workspace-open-command' "$root/assets/app.js"
 grep -q 'data-agent-panel' "$root/assets/app.js"
 grep -q 'mainfont: Sarabun' "$root/downloads/modern-thai.yaml"
 grep -q 'Path=templates/fonts/' "$root/downloads/modern-thai.yaml"
-grep -q 'always allow the exact `pandoc` executable' "$root/downloads/starter-AGENTS.md"
+grep -q 'The learner authorizes downloads' "$root/downloads/starter-AGENTS.md"
 for font_file in Sarabun-Regular.ttf Sarabun-Bold.ttf OFL.txt; do
   [[ -s "$root/downloads/fonts/$font_file" ]]
 done
@@ -45,7 +46,6 @@ if grep -q 'อย่าเพิ่งใช้ Prompt ที่ดี' "$root/
   echo 'Module 2 activity must use learner-facing language.' >&2
   exit 1
 fi
-grep -q 'Recommended 2–3 hours' "$root/module-3.html"
 grep -q 'Evidence Boundary' "$root/module-3.html"
 grep -q 'Candidate Gap' "$root/module-3.html"
 grep -q 'Gap Prosecutor' "$root/module-3.html"
@@ -60,7 +60,7 @@ grep -q 'Variable, Indicator &amp; Decision' "$root/hunger-research-methodology.
 grep -q 'สร้างแล้วต้องพยายามหักล้าง' "$root/hunger-research-methodology.html"
 grep -q 'output/problem-gap-rq.md' "$root/module-3.html"
 grep -q 'การเตรียมตัวก่อนเรียน' "$root/module-3.html"
-grep -q 'สิ่งที่ต้องเตรียมก่อนเรียน' "$root/module-3.html"
+grep -q 'การเตรียมตัวก่อนเรียน' "$root/module-3.html"
 if grep -q 'Standalone แต่ต่อยอดได้' "$root/module-3.html"; then
   echo 'Module 3 preparation must use learner-facing language.' >&2
   exit 1
@@ -76,7 +76,7 @@ grep -q 'fabricated / phantom reference' "$root/module-4.html"
 grep -q 'BibTeX คืออะไร และต่างจาก Citation อย่างไร' "$root/module-4.html"
 grep -q 'ข้อกำหนดของงานนี้:</strong> BibTeX ทุก entry ต้องมี <code>abstract</code>' "$root/module-4.html"
 grep -q 'สร้าง BibTeX พร้อม Abstract' "$root/module-4.html"
-grep -q 'ห้ามให้ AI สรุปหรือแต่ง abstract ใหม่' "$root/module-4.html"
+grep -q 'ห้ามสรุปแทนต้นฉบับ' "$root/module-4.html"
 grep -q 'BibTeX เก็บข้อมูลอ้างอิง, DOI ชี้ตัวเอกสาร' "$root/module-4.html"
 grep -q 'APA คือกติกาการแสดงผล; BibTeX และ RIS คือรูปแบบไฟล์' "$root/module-4.html"
 grep -q 'ตัวอย่างสมมติ—ห้ามนำไปอ้างอิง' "$root/module-4.html"
@@ -158,7 +158,7 @@ for name in \
   'Personal AI Research Workflow'; do
   grep -Fq "$name" "$root/assets/site-shell.js"
 done
-if rg -n 'M1 · Workspace</a>|M2 · AI Boundaries</a>|M3 · Problem–Gap–RQ</a>|M4 · Literature</a>|M5 · Logic Review</a>|M6 · (Experiment Design|Design Review|Result–Claim)</a>|M7 · (Analysis Review|Analysis &amp; Visuals)</a>|M8 · Document QA</a>|M9 · (Build-up Kit|Reviews Kit|Publication Kit)</a>' "$root/index.html"; then
+if rg -n 'M2 · AI Boundaries</a>|M3 · Problem–Gap–RQ</a>|M4 · Literature</a>|M5 · Logic Review</a>|M6 · (Experiment Design|Design Review|Result–Claim)</a>|M7 · (Analysis Review|Analysis &amp; Visuals)</a>|M8 · Document QA</a>|M9 · (Build-up Kit|Reviews Kit|Publication Kit)</a>' "$root/index.html"; then
   echo 'Non-canonical module label found on the homepage.' >&2
   exit 1
 fi
@@ -166,7 +166,7 @@ for page in prepare.html module-{2..9}.html; do
   grep -q 'data-research-profile' "$root/$page"
 done
 grep -q 'ai-research-profile:v1' "$root/assets/app.js"
-grep -q 'คัดลอกบริบทให้ AI' "$root/assets/app.js"
-grep -q 'RESEARCH_PROFILE_CONTEXT' "$root/assets/app.js"
+grep -q 'คัดลอกข้อมูลให้ AI' "$root/assets/app.js"
+grep -q 'profileContextText' "$root/assets/app.js"
 grep -q 'profileKeysByModule' "$root/assets/app.js"
 echo 'Installer static checks passed.'

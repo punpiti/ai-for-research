@@ -1,0 +1,15 @@
+__pycache__/
+*.py[cod]
+*.kdbx
+*.key
+*.p12
+*.pem
+*.pfx
+*.private.json
+*.private.md
+.ai/
+.env
+.env.*
+internal/
+local-profiles/
+private/

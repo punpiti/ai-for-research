@@ -124,16 +124,15 @@
         <p>ต้องเลือกตามบัญชีที่มีอยู่ก่อน จึงจะเปิดขั้นตอนติดตั้งและแสดงคำสั่ง CLI ที่ตรงกับ AI นั้น</p>
         <label><input type="radio" name="agent" value="codex"> <span><strong>บัญชี ChatGPT → Codex</strong><small>เปิดครั้งแรกแล้วเลือก Sign in with ChatGPT</small></span></label>
         <label><input type="radio" name="agent" value="claude"> <span><strong>บัญชี Claude → Claude Code</strong><small>เปิดครั้งแรกแล้วเลือกบัญชี Claude ที่มีสิทธิ์</small></span></label>
-        <label><input type="radio" name="agent" value="antigravity"> <span><strong>บัญชี Google → Antigravity IDE</strong><small>ใช้ Antigravity เป็น workspace แทน VS Code แล้ว Sign in ด้วย Google</small></span></label>
         <p class="expected" data-agent-gate-status role="status" aria-live="polite"><strong>ยังไปต่อไม่ได้:</strong> กรุณาเลือก AI หนึ่งตัว</p>
       </div>
     </section>
 
     <section class="section platform-section" id="install" data-agent-required hidden>
       <div class="section-heading compact"><p class="eyebrow">ขั้นที่ 2 · Installation</p><h2>ติดตั้งซอฟต์แวร์</h2></div>
-      <p>Installer จะเตรียม AI workspace, เครื่องมืออ่านเอกสารและ OCR ไทย–อังกฤษ, Markdown และ PDF ให้พร้อมในครั้งเดียว โดยติดตั้งเพิ่มเฉพาะสิ่งที่ยังไม่มี</p>
-      <div class="notice"><strong>สบายใจได้:</strong> Script ไม่เก็บรหัสผ่านหรือ token และไม่ปิดระบบป้องกันของเครื่อง</div>
-      <div class="notice"><strong>ถ้ารันซ้ำหรือแก้ปัญหา:</strong> ต้องคัดลอกคำสั่งโหลด Script ในข้อ 1 ใหม่ก่อนเสมอ แล้วตรวจว่าเห็น <code>SETUP_VERSION 2026.08.05.6</code> เพื่อไม่ใช้ไฟล์เก่าที่ค้างใน Downloads</div>
+      <p>ติดตั้งครั้งแรกด้วยคำสั่งเดียวหลังโหลด Script: เตรียม AI workspace, Python 3.12, LaTeX/XeLaTeX ผ่าน TinyTeX, Pandoc, PDF Viewer และ OCR ไทย–อังกฤษ แล้วให้ AI ดาวน์โหลดไลบรารี Python และแพ็กเกจ LaTeX เพิ่มเมื่อจำเป็น</p>
+      <div class="notice"><strong>สิทธิ์ครั้งแรก:</strong> Windows จะถาม UAC; macOS และ Linux อาจถามรหัสผ่านเพื่อติดตั้งเครื่องมือระบบ จากนั้น Python, TinyTeX และแพ็กเกจเพิ่มเติมใช้พื้นที่ของบัญชีผู้ใช้ปกติ</div>
+      <div class="notice"><strong>ถ้ารันซ้ำหรือแก้ปัญหา:</strong> ต้องคัดลอกคำสั่งโหลด Script ในข้อ 1 ใหม่ก่อนเสมอ แล้วตรวจว่าเห็น <code>SETUP_VERSION 2026.10.07.1</code></div>
       <div class="platform-picker" role="group" aria-label="เลือกระบบปฏิบัติการสำหรับติดตั้ง software">
         <button type="button" data-platform-button="windows">Windows 11</button>
         <button type="button" data-platform-button="macos">macOS</button>
@@ -141,47 +140,41 @@
       </div>
       <div class="platform-grid">
         <article class="platform-card" data-platform-panel="windows">
-          <p class="platform-label">Windows 11</p>
-          <h3>Admin system installation</h3>
-          <h4 class="phase-title"><span>1</span> เปิด PowerShell ด้วย Run as administrator แล้วโหลด script</h4>
+          <p class="platform-label">Windows 11</p><h3>เปิด PowerShell ปกติ</h3>
+          <h4 class="phase-title"><span>1</span> โหลด Script</h4>
           <div class="command"><code>curl.exe -fL "https://urban.cpe.ku.ac.th/ai-for-research/downloads/setup-windows.ps1" -o "$HOME\Downloads\setup-windows.ps1"</code><button type="button" data-copy>คัดลอก</button></div>
-          <h4 class="phase-title"><span>2</span> รัน script ใน Admin PowerShell</h4>
-          <div class="command"><code data-agent-command data-template="powershell -ExecutionPolicy Bypass -File &quot;$HOME\Downloads\setup-windows.ps1&quot; -Mode InstallSystem -Agent {agent}">powershell -ExecutionPolicy Bypass -File "$HOME\Downloads\setup-windows.ps1" -Mode InstallSystem -Agent codex</code><button type="button" data-copy>คัดลอก</button></div>
-          <p class="expected">เมื่อเครื่องพร้อมจะเห็น <code>FINAL_RESULT PASS</code> และหน้าต่างนี้จะปิดเองหลังติดตั้งเสร็จ</p>
-          <h4 class="phase-title"><span>3</span> เปิด PowerShell ปกติและเตรียม Workspace</h4>
-          <div class="command"><code data-agent-command data-template="powershell -ExecutionPolicy Bypass -File &quot;$HOME\Downloads\setup-windows.ps1&quot; -Mode SetupUser -Agent {agent}">powershell -ExecutionPolicy Bypass -File "$HOME\Downloads\setup-windows.ps1" -Mode SetupUser -Agent codex</code><button type="button" data-copy>คัดลอก</button></div>
-          <p class="expected">ขั้นนี้ต้องใช้ PowerShell ปกติ Script ต้องแสดง <code>FONT_READY</code> ก่อนเริ่มติดตั้ง AI frontend แล้วจึงเตรียม Workspace, PDF Viewer และเครื่องมือนำเข้าเอกสาร หากฟอนต์ไม่ครบ Script จะหยุดทันที หากเลือก Antigravity ไม่จำเป็นต้องมีคำสั่ง <code>agy-ide</code></p>
+          <h4 class="phase-title"><span>2</span> รันครั้งเดียว แล้วตอบ Yes เมื่อ UAC ถาม</h4>
+          <div class="command"><code data-agent-command data-template="powershell -ExecutionPolicy Bypass -File &quot;$HOME\Downloads\setup-windows.ps1&quot; -Mode Install -Agent {agent}">powershell -ExecutionPolicy Bypass -File "$HOME\Downloads\setup-windows.ps1" -Mode Install -Agent codex</code><button type="button" data-copy>คัดลอก</button></div>
+          <p class="expected">Script ลงเครื่องมือระบบในหน้าต่างที่ขอสิทธิ์ แล้วกลับมาเตรียม Python, TinyTeX และ AI ในหน้าต่างปกติให้อัตโนมัติ ต้องเห็น <code>FONT_READY</code> และ <code>RUNTIME_READY</code></p>
         </article>
         <article class="platform-card" data-platform-panel="macos">
-          <p class="platform-label">macOS</p>
-          <h3>System installation</h3>
-          <h4 class="phase-title"><span>1</span> โหลด script</h4>
+          <p class="platform-label">macOS</p><h3>เปิด Terminal ปกติ</h3>
+          <h4 class="phase-title"><span>1</span> โหลด Script</h4>
           <div class="command"><code>curl -fL "https://urban.cpe.ku.ac.th/ai-for-research/downloads/setup-macos.sh" -o "$HOME/Downloads/setup-macos.sh"</code><button type="button" data-copy>คัดลอก</button></div>
-          <h4 class="phase-title"><span>2</span> รัน script; ระบบขอสิทธิ์เมื่อจำเป็น</h4>
-          <div class="command"><code data-agent-command data-template="AI_GRAD_AGENT={agent} bash &quot;$HOME/Downloads/setup-macos.sh&quot; --install-system">AI_GRAD_AGENT=codex bash "$HOME/Downloads/setup-macos.sh" --install-system</code><button type="button" data-copy>คัดลอก</button></div>
-          <p class="expected">script ตรวจเครื่องก่อน หากไม่ผ่านจะหยุดโดยไม่ติดตั้ง หากผ่านจึงขอรหัสผ่านเฉพาะขั้นที่จำเป็น</p>
-          <h4 class="phase-title"><span>3</span> เปิด Terminal ปกติใหม่และติดตั้ง AI frontend</h4>
-          <div class="command"><code data-agent-command data-template="AI_GRAD_AGENT={agent} bash ~/Downloads/setup-macos.sh --setup-user">AI_GRAD_AGENT=codex bash ~/Downloads/setup-macos.sh --setup-user</code><button type="button" data-copy>คัดลอก</button></div>
-          <p class="expected">ต้องเห็น <code>SETUP_VERSION 2026.08.05.6</code> และ <code>FONT_READY</code> หากเลือก Codex หรือ Claude จะเห็น <code>CREATE VS_CODE_PROFILE</code> ด้วย เมื่อเสร็จแล้ว Script จะเปิด Workspace ใน <span data-workspace-app>VS Code</span> ให้อัตโนมัติ หาก PATH ยังไม่ refresh Script จะหยุดและให้เปิด Terminal ใหม่ โดยไม่แสดงผลสำเร็จผิด ๆ</p>
+          <h4 class="phase-title"><span>2</span> รันครั้งเดียว; ใส่รหัสผ่านเมื่อระบบถาม</h4>
+          <div class="command"><code data-agent-command data-template="AI_GRAD_AGENT={agent} bash &quot;$HOME/Downloads/setup-macos.sh&quot; --install">AI_GRAD_AGENT=codex bash "$HOME/Downloads/setup-macos.sh" --install</code><button type="button" data-copy>คัดลอก</button></div>
+          <p class="expected">ติดตั้ง Homebrew เมื่อยังไม่มี แล้วเตรียมเครื่องมือระบบและเครื่องมือของผู้ใช้ต่อเนื่อง ต้องเห็น <code>SETUP_VERSION 2026.10.07.1</code>, <code>FONT_READY</code> และ <code>RUNTIME_READY</code> หากเลือก Codex หรือ Claude จะเห็น <code>CREATE VS_CODE_PROFILE</code> ด้วย Script จะเปิด Workspace ใน <span data-workspace-app>VS Code</span> ให้อัตโนมัติ</p>
         </article>
         <article class="platform-card" data-platform-panel="linux">
-          <p class="platform-label">Linux / WSL2</p>
-          <h3>System installation</h3>
-          <h4 class="phase-title"><span>1</span> โหลด script</h4>
-          <div class="command"><code>curl -fL "https://urban.cpe.ku.ac.th/ai-for-research/downloads/setup-linux.sh" -o "$HOME/Downloads/setup-linux.sh"</code><button type="button" data-copy>คัดลอก</button></div>
-          <h4 class="phase-title"><span>2</span> รัน script; ระบบเรียก sudo เมื่อจำเป็น</h4>
-          <div class="command"><code data-agent-command data-template="AI_GRAD_AGENT={agent} bash &quot;$HOME/Downloads/setup-linux.sh&quot; --install-system">AI_GRAD_AGENT=codex bash "$HOME/Downloads/setup-linux.sh" --install-system</code><button type="button" data-copy>คัดลอก</button></div>
-          <p class="expected">script ตรวจเครื่องก่อน หากไม่ผ่านจะหยุดโดยไม่ติดตั้ง หากผ่านจึงเรียก <code>sudo</code> เฉพาะ package ที่จำเป็น</p>
-          <h4 class="phase-title"><span>3</span> เปิด Terminal/Ubuntu ปกติใหม่และติดตั้ง AI frontend</h4>
-          <div class="command"><code data-agent-command data-template="AI_GRAD_AGENT={agent} bash ~/Downloads/setup-linux.sh --setup-user">AI_GRAD_AGENT=codex bash ~/Downloads/setup-linux.sh --setup-user</code><button type="button" data-copy>คัดลอก</button></div>
-          <p class="expected">AI workspace, PDF Viewer และโฟลเดอร์งานพร้อมเครื่องมือนำเข้าเอกสารถูกติดตั้งในบัญชีผู้ใช้ปกติโดยไม่ใช้ <code>sudo</code></p>
+          <p class="platform-label">Linux / WSL2</p><h3>เปิด Terminal / Ubuntu ปกติ</h3>
+          <h4 class="phase-title"><span>1</span> โหลด Script</h4>
+          <div class="command"><code>mkdir -p "$HOME/Downloads"
+curl -fL "https://urban.cpe.ku.ac.th/ai-for-research/downloads/setup-linux.sh" -o "$HOME/Downloads/setup-linux.sh"</code><button type="button" data-copy>คัดลอก</button></div>
+          <h4 class="phase-title"><span>2</span> รันครั้งเดียว; ใส่รหัสผ่านเมื่อ sudo ถาม</h4>
+          <div class="command"><code data-agent-command data-template="AI_GRAD_AGENT={agent} bash &quot;$HOME/Downloads/setup-linux.sh&quot; --install">AI_GRAD_AGENT=codex bash "$HOME/Downloads/setup-linux.sh" --install</code><button type="button" data-copy>คัดลอก</button></div>
+          <p class="expected">รองรับ Ubuntu/Debian; Python และ TinyTeX ติดตั้งในบัญชีผู้ใช้ปกติ ต้องเห็น <code>RUNTIME_READY</code> สำหรับ WSL2 ต้องมี VS Code และ WSL extension ฝั่ง Windows ก่อน</p>
         </article>
       </div>
-      <div class="notice"><strong>ติดตั้งสำเร็จเมื่อ:</strong> เห็น <code>FINAL_RESULT PASS</code> และมีโฟลเดอร์งานพร้อม Pandoc, PDF และ OCR ภาษาไทย–อังกฤษ หากยังไม่สำเร็จ Script จะบอกสิ่งที่ต้องทำต่อให้</div>
+      <div class="notice"><strong>ติดตั้งสำเร็จเมื่อ:</strong> เห็น <code>RUNTIME_READY</code> ซึ่งยืนยัน Python, XeLaTeX และการสร้าง PDF ภาษาไทยผ่าน template จริง แล้ว Workspace เปิดพร้อม AI panel หากขั้นใดล้มเหลว Script จะหยุดและแสดงข้อผิดพลาด</div>
+      <h3>ให้ AI ติดตั้งเพิ่มได้เมื่อจำเป็น</h3>
+      <p>Python environment, cache และ TinyTeX อยู่ในโฟลเดอร์เครื่องมือของผู้ใช้ แยกจากโฟลเดอร์งานและ OneDrive ไฟล์ <code>tools/runtime-env.json</code> บอกตำแหน่งจริง และ <code>tools/runtime-env.sh</code> / <code>tools/runtime-env.ps1</code> ใช้เปิด environment ซ้ำได้</p>
+      <p>Codex: Installer สร้าง <code>.codex/config.toml</code> เฉพาะ Workspace นี้ ให้เขียนไฟล์งานและโฟลเดอร์เครื่องมือ ดาวน์โหลดผ่านเครือข่าย และรันคำสั่งโดยไม่ถามยืนยันซ้ำ ยอมรับความเชื่อถือของ Workspace ครั้งแรก แล้วเริ่ม session ใหม่เพื่อโหลดค่า เครื่ององค์กรอาจมีนโยบายที่ override ค่าเหล่านี้ได้</p>
+      <p>Claude Code: เตรียมการอนุญาต <code>uv</code>, <code>tlmgr</code>, <code>pandoc</code> และ <code>xelatex</code> เฉพาะ Workspace ผ่าน <code>.claude/settings.local.json</code> คำสั่งอื่นอาจยังถาม หากมี config เดิม Installer จะเก็บไว้และแจ้งให้ตรวจค่า</p>
+      <p>อ้างอิง: <a href="https://docs.astral.sh/uv/guides/install-python/" target="_blank" rel="noreferrer">Python ผ่าน uv</a> · <a href="https://yihui.org/tinytex/" target="_blank" rel="noreferrer">TinyTeX และ tlmgr</a> · <a href="https://developers.openai.com/codex/config-reference/" target="_blank" rel="noreferrer">สิทธิ์และเครือข่ายของ Codex</a></p>
     </section>
 
     <section class="section platform-section" id="practice" data-agent-required hidden>
-      <div class="section-heading compact"><p class="eyebrow">ขั้นที่ 3</p><h2>ตรวจว่า Workspace เปิดแล้ว</h2><p>คำสั่ง <code>--setup-user</code> จะเปิด Workspace ให้อัตโนมัติ หากเห็นโฟลเดอร์งานใน VS Code แล้ว ไม่ต้องเปิดซ้ำ ให้ไปที่ “เชื่อมต่อบัญชี AI” ได้เลย วิธีด้านล่างใช้เมื่อปิดหน้าต่างไปแล้วหรือต้องการเปิดใหม่เท่านั้น</p></div>
+      <div class="section-heading compact"><p class="eyebrow">ขั้นที่ 3</p><h2>ตรวจว่า Workspace เปิดแล้ว</h2><p>คำสั่งติดตั้งจะเปิด Workspace ให้อัตโนมัติ หากเห็นโฟลเดอร์งานใน VS Code แล้ว ไม่ต้องเปิดซ้ำ ให้ไปที่ “เชื่อมต่อบัญชี AI” ได้เลย วิธีด้านล่างใช้เมื่อปิดหน้าต่างไปแล้วหรือต้องการเปิดใหม่เท่านั้น</p></div>
       <details class="fallback-details">
       <summary>Workspace ไม่เปิดอัตโนมัติ? ดูวิธีเปิดใหม่</summary>
       <div class="platform-picker" role="group" aria-label="เลือกระบบปฏิบัติการสำหรับการเปิด workspace">
@@ -192,27 +185,17 @@
       <div class="open-terminal-grid workspace-open-grid">
         <article data-platform-panel="windows">
           <p class="platform-label">Windows 11</p>
-          <h4 data-antigravity-hide>เปิดด้วย PowerShell</h4>
-          <ol data-antigravity-hide>
+          <h4>เปิดด้วย PowerShell</h4>
+          <ol>
             <li><span>1</span><div>เปิด PowerShell แบบปกติ</div></li>
             <li><span>2</span><div>คัดลอกคำสั่งด้านล่างแล้วกด Enter</div></li>
             <li><span>3</span><div>รอให้ <span data-workspace-app>VS Code</span> เปิดโฟลเดอร์งาน</div></li>
           </ol>
-          <div class="command" data-antigravity-hide><code data-agent-command data-template="code --profile &quot;AI for Research - {agent}&quot; &quot;$HOME\ai-for-research-workspace&quot;">code --profile "AI for Research - codex" "$HOME\ai-for-research-workspace"</code><button type="button" data-copy>คัดลอก</button></div>
-          <div data-antigravity-only hidden>
-            <h4>เปิดผ่าน Antigravity IDE</h4>
-            <ol>
-              <li><span>1</span><div>เปิด Antigravity จาก Start menu และ Sign in ด้วยบัญชี Google</div></li>
-              <li><span>2</span><div>เลือก <strong>File → Open Folder</strong></div></li>
-              <li><span>3</span><div>วาง path ด้านล่าง แล้วกด <strong>Select Folder</strong></div></li>
-            </ol>
-            <div class="command"><code>%USERPROFILE%\ai-for-research-workspace</code><button type="button" data-copy>คัดลอก</button></div>
-            <p class="expected">ถ้า PDF Viewer ยังไม่มี ให้เปิด Extensions ใน IDE แล้วติดตั้ง <code>mathematic.vscode-pdf</code></p>
-          </div>
+          <div class="command"><code data-agent-command data-template="code --profile &quot;AI for Research - {agent}&quot; &quot;$HOME\ai-for-research-workspace&quot;">code --profile "AI for Research - codex" "$HOME\ai-for-research-workspace"</code><button type="button" data-copy>คัดลอก</button></div>
         </article>
         <article data-platform-panel="macos">
           <p class="platform-label">macOS</p>
-          <div data-antigravity-hide>
+          <div>
             <h4>หาก Workspace ยังไม่เปิด</h4>
             <ol>
               <li><span>1</span><div>เปิด VS Code</div></li>
@@ -221,15 +204,6 @@
               <li><span>4</span><div>วางตำแหน่งโฟลเดอร์ด้านล่าง กด Enter แล้วกด <strong>Open</strong></div></li>
             </ol>
             <div class="command"><code>~/ai-for-research-workspace</code><button type="button" data-copy>คัดลอกตำแหน่งโฟลเดอร์</button></div>
-          </div>
-          <div data-antigravity-only hidden>
-            <h4>หาก Antigravity Workspace ยังไม่เปิด</h4>
-            <ol>
-              <li><span>1</span><div>เปิด <strong>Terminal</strong> ไม่ใช่ช่องค้นหาโฟลเดอร์ใน Antigravity</div></li>
-              <li><span>2</span><div>คัดลอกคำสั่งด้านล่างแล้วกด Enter</div></li>
-              <li><span>3</span><div>รอให้ Antigravity IDE เปิดโฟลเดอร์งาน</div></li>
-            </ol>
-            <div class="command"><code>agy-ide "$HOME/ai-for-research-workspace"</code><button type="button" data-copy>คัดลอกคำสั่ง Terminal</button></div>
           </div>
         </article>
         <article data-platform-panel="linux">
@@ -240,7 +214,7 @@
             <li><span>2</span><div>คัดลอกคำสั่งด้านล่างแล้วกด Enter</div></li>
             <li><span>3</span><div>รอให้ <span data-workspace-app>VS Code</span> เปิดโฟลเดอร์ผ่าน Linux/WSL2</div></li>
           </ol>
-          <div class="command"><code data-agent-command data-template="code --profile &quot;AI for Research - {agent}&quot; &quot;$HOME/ai-for-research-workspace&quot;" data-antigravity-template="agy-ide &quot;$HOME/ai-for-research-workspace&quot;">code --profile "AI for Research - codex" "$HOME/ai-for-research-workspace"</code><button type="button" data-copy>คัดลอก</button></div>
+          <div class="command"><code data-agent-command data-template="code --profile &quot;AI for Research - {agent}&quot; &quot;$HOME/ai-for-research-workspace&quot;">code --profile "AI for Research - codex" "$HOME/ai-for-research-workspace"</code><button type="button" data-copy>คัดลอก</button></div>
         </article>
       </div>
       </details>
@@ -296,7 +270,7 @@
         <li><span>01</span><div><strong>เปิดและแก้ Markdown</strong><br>คลิก <code>content.md</code> แล้วแก้ข้อความตัวอย่าง</div></li>
         <li><span>02</span><div><strong>ดู Markdown Preview</strong><br>กด Ctrl+Shift+V (macOS: Command+Shift+V) เพื่อดูผลลัพธ์ที่จัดรูปแบบแล้ว</div></li>
         <li><span>03</span><div><strong>ให้ AI อ่านและสร้าง PDF</strong><br>วาง prompt ด้านล่างใน <span data-agent-panel>Codex panel</span>; agent จะอ่านคำสั่งใน Workspace และใช้ Integrated Terminal เบื้องหลังเมื่อจำเป็น<div class="command"><code>อ่าน content.md แล้วสร้าง output/content.pdf ตามรูปแบบที่กำหนดไว้ใน Workspace โดยไม่เปลี่ยนไฟล์ต้นฉบับ จากนั้นตรวจว่าไฟล์ PDF สร้างสำเร็จ</code><button type="button" data-copy>คัดลอก prompt</button></div></div></li>
-        <li><span>04</span><div><strong>อนุญาตเฉพาะ Pandoc</strong><br>หาก IDE ถาม <em>Allow running this command?</em> ให้เลือก <strong>Yes, and always allow “pandoc”</strong> สำหรับ Workspace ของรายวิชานี้ ไม่เลือกอนุญาต shell หรือทุกคำสั่งแบบกว้าง</div></li>
+        <li><span>04</span><div><strong>ตรวจสิทธิ์ของ Workspace</strong><br>Codex ที่โหลด config ของคอร์สแล้วจะรันได้ทันที หากยังถาม ให้ยอมรับ Workspace และเริ่ม session ใหม่ สำหรับ Claude ให้ตรวจว่าโหลดการอนุญาต <code>pandoc</code> จาก config ของ Workspace แล้ว</div></li>
         <li><span>05</span><div><strong>เปิด PDF</strong><br>คลิก <code>output/content.pdf</code> และตรวจว่าเปิดอ่านได้ เป็นกระดาษ A4 ภาษาไทยใช้ Sarabun จาก Google Fonts ที่ติดตั้งพร้อม Workspace และมีรูปแบบสีตาม template</div></li>
       </ol>
       <div class="checklist" data-checklist="practice">
@@ -316,8 +290,7 @@
         <li><span>01</span><div><strong>เปิด Terminal</strong><br>Windows เปิด PowerShell; macOS เปิด Terminal; Linux/WSL2 เปิด Terminal หรือ Ubuntu</div></li>
         <li><span>02</span><div><strong>เข้าโฟลเดอร์ Workspace</strong><br>ใช้ <code>cd</code> ไปยังโฟลเดอร์งานที่ installer สร้างไว้</div></li>
         <li><span>03</span><div><strong>เปิด Workspace</strong><br>รัน <code data-workspace-open-command>code .</code> เพื่อเปิด <span data-workspace-app>VS Code</span><div class="command"><code data-agent-command data-template="cd &quot;$HOME/ai-for-research-workspace&quot;
-code ." data-antigravity-template="cd &quot;$HOME/ai-for-research-workspace&quot;
-agy-ide .">cd "$HOME/ai-for-research-workspace"
+code .">cd "$HOME/ai-for-research-workspace"
 code .</code><button type="button" data-copy>คัดลอก</button></div></div></li>
       </ol>
     </section>

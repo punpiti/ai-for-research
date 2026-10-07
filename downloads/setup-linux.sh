@@ -5,7 +5,7 @@ mode="${1:---check}"
 course_dir="${AI_RESEARCH_COURSE_DIR:-${AI_GRAD_COURSE_DIR:-$HOME/ai-for-research-workspace}}"
 agent="${AI_GRAD_AGENT:-}"
 dry_run="${AI_RESEARCH_DRY_RUN:-0}"
-setup_version='2026.08.05.6'
+setup_version='2026.10.07.1'
 test_commands=",${AI_RESEARCH_TEST_COMMANDS:-},"
 
 log() { printf '[ai-grad] %s\n' "$*"; }
@@ -77,6 +77,7 @@ configure_vscode() {
     log "INSTALL VS_CODE_EXTENSION $extension profile=$profile"
     if [[ "$dry_run" == 1 ]]; then log "DRY_RUN code --profile $profile --install-extension $extension"; else code --profile "$profile" --install-extension "$extension"; fi
   done
+  [[ "$dry_run" == 1 ]] && return
   mkdir -p "$course_dir/.vscode"
   printf '{\n  "recommendations": ["%s", "%s"]\n}\n' "${extensions[0]}" "${extensions[1]:-${extensions[0]}}" > "$course_dir/.vscode/extensions.json"
 }
@@ -95,12 +96,14 @@ install_system_tools() {
   if ! check; then log 'INSTALL_STOPPED System requirements did not pass. Nothing was installed.'; exit 2; fi
   have apt-get || { log 'Only Ubuntu/Debian apt systems are currently supported.'; exit 2; }
   packages=()
+  for package in perl xz-utils fontconfig libfontconfig1 libfreetype6 libx11-6; do
+    dpkg -s "$package" >/dev/null 2>&1 || packages+=("$package")
+  done
   have git || packages+=(git)
   have curl || packages+=(curl)
   have node || packages+=(nodejs)
   have npm || packages+=(npm)
   have pandoc || packages+=(pandoc)
-  have xelatex || packages+=(texlive-xetex)
   have tesseract || packages+=(tesseract-ocr)
   have pdftotext || packages+=(poppler-utils)
   dpkg -s tesseract-ocr-tha >/dev/null 2>&1 || packages+=(tesseract-ocr-tha)
@@ -111,8 +114,10 @@ install_system_tools() {
   if [[ "$agent" != antigravity ]]; then
     if have code; then log 'REUSE code'; else log 'INSTALL code if a supported snap/WSL path is available.'; fi
   fi
-  read -r -p 'Continue? [y/N] ' answer
-  [[ "$answer" =~ ^[Yy]$ ]] || exit 0
+  if [[ "$mode" != --install ]]; then
+    read -r -p 'Continue? [y/N] ' answer
+    [[ "$answer" =~ ^[Yy]$ ]] || exit 0
+  fi
   if ((${#packages[@]})); then
     sudo apt-get update
     sudo apt-get install -y "${packages[@]}"
@@ -130,16 +135,32 @@ install_system_tools() {
     log 'INSTALL Antigravity IDE from the official Google download page; complete its installer before --setup-user.'
     if have xdg-open; then xdg-open 'https://antigravity.google/download#antigravity-ide'; fi
   fi
-  log 'System installation finished. Close this terminal, open Terminal/Ubuntu normally, then run --setup-user.'
+  log 'System tools ready. Legacy two-phase setup: open Terminal/Ubuntu normally, then run --setup-user.'
 }
 setup_user() {
   if [[ -z "$agent" ]]; then read -r -p 'Choose AI frontend [codex/claude/antigravity]: ' agent; fi
   [[ "$agent" =~ ^(codex|claude|antigravity)$ ]] || { log 'AI frontend must be codex, claude, or antigravity.'; exit 2; }
   make_workspace
   [[ "$agent" == antigravity ]] || have npm || { log 'PREREQUISITE_MISSING npm is not on PATH. Close Terminal, open a new Terminal, then rerun --setup-user.'; exit 2; }
-  if ! have uv; then if [[ "$dry_run" == 1 ]]; then log 'DRY_RUN install uv'; else curl -LsSf https://astral.sh/uv/install.sh | sh; fi; fi
-  if [[ "$dry_run" != 1 ]]; then mkdir -p "$HOME/.local"; npm config set prefix "$HOME/.local"; fi
-  export PATH="$HOME/.local/bin:$PATH"
+  if [[ "$dry_run" == 1 ]]; then
+    log 'DRY_RUN runtime Python 3.12 + user-owned TinyTeX + scoped Codex permissions'
+  else
+    export PATH="$HOME/.local/bin:$PATH"
+    export UV_PYTHON_INSTALL_DIR="$HOME/.local/share/ai-for-research/python"
+    export UV_CACHE_DIR="$HOME/.local/share/ai-for-research/cache/uv"
+    if ! have uv; then
+      uv_script="$(mktemp)"
+      curl -fsSL https://astral.sh/uv/install.sh -o "$uv_script"
+      sh "$uv_script"
+      rm -f "$uv_script"
+    fi
+    runtime_script="$(mktemp)"
+    curl -fsSL https://urban.cpe.ku.ac.th/ai-for-research/downloads/setup-runtime.py -o "$runtime_script"
+    uv python install 3.12
+    uv run --no-project --python 3.12 python "$runtime_script" --workspace "$course_dir" --agent "$agent"
+    rm -f "$runtime_script"
+    source "$course_dir/tools/runtime-env.sh"
+  fi
   case "$agent" in
     codex) if have codex; then log 'REUSE codex'; else log 'INSTALL codex'; run_npm_install @openai/codex; fi ;;
     claude) if have claude; then log 'REUSE claude'; else log 'INSTALL claude'; run_npm_install @anthropic-ai/claude-code; fi ;;
@@ -151,9 +172,16 @@ setup_user() {
 }
 
 case "$mode" in
+  --install)
+    [[ "$EUID" != 0 ]] || { log 'Run --install as your normal user; sudo is requested only for system tools.'; exit 2; }
+    [[ -n "$agent" ]] || read -r -p 'Choose AI frontend [codex/claude/antigravity]: ' agent
+    install_system_tools
+    export PATH="$HOME/.local/bin:/Applications/Visual Studio Code.app/Contents/Resources/app/bin:$PATH"
+    setup_user
+    ;;
   --check) check ;;
   --install-system) install_system_tools ;;
   --setup-user) setup_user; [[ "$dry_run" == 1 ]] || check ;;
   --repair) install_system_tools; setup_user; [[ "$dry_run" == 1 ]] || check ;;
-  *) echo "Usage: $0 [--check|--install-system|--setup-user|--repair]" >&2; exit 2 ;;
+  *) echo "Usage: $0 [--install|--check|--install-system|--setup-user|--repair]" >&2; exit 2 ;;
 esac

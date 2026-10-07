@@ -410,6 +410,7 @@ const agentInputs = [...document.querySelectorAll('input[name="agent"]')];
 const agentRequiredSections = [...document.querySelectorAll("[data-agent-required]")];
 const agentGateStatus = document.querySelector("[data-agent-gate-status]");
 function selectAgent(agent, persist = false) {
+  if (!["codex", "claude"].includes(agent)) return;
   const workspaceApp = agent === "antigravity" ? "Antigravity IDE" : "VS Code";
   for (const element of document.querySelectorAll("[data-antigravity-only]")) element.hidden = agent !== "antigravity";
   for (const element of document.querySelectorAll("[data-antigravity-hide]")) element.hidden = agent === "antigravity";
@@ -461,7 +462,7 @@ function selectAgent(agent, persist = false) {
 if (agentInputs.length) {
   for (const section of agentRequiredSections) section.hidden = true;
   const savedValue = getPreference("ai-research-agent");
-  const saved = ["codex", "claude", "antigravity"].includes(savedValue) ? savedValue : null;
+  const saved = ["codex", "claude"].includes(savedValue) ? savedValue : null;
   if (saved) {
     const selected = agentInputs.find((input) => input.value === saved);
     if (selected) {

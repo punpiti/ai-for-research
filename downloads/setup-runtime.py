@@ -1,0 +1,164 @@
+#!/usr/bin/env python3
+"""Prepare a machine-local research runtime under the normal user's account."""
+import argparse
+import json
+import os
+from pathlib import Path
+import platform
+import shlex
+import shutil
+import subprocess
+import tarfile
+import tempfile
+import urllib.request
+
+
+def log(message):
+    print(f'[ai-grad] {message}', flush=True)
+
+
+def run(*args, **kwargs):
+    # TeX Live's Windows entry points are .bat files; list2cmdline quotes paths.
+    if os.name == 'nt' and str(args[0]).lower().endswith(('.bat', '.cmd')):
+        args = ('cmd.exe', '/d', '/c', subprocess.list2cmdline(list(map(str, args))))
+    return subprocess.run(list(map(str, args)), check=True, **kwargs)
+
+
+def write_new(path, content):
+    path.parent.mkdir(parents=True, exist_ok=True)
+    if path.exists():
+        log(f'REUSE_CONFIG {path}; check its permissions/environment if downloads are blocked.')
+    else:
+        path.write_text(content, encoding='utf-8')
+
+
+def tool_root():
+    if os.name == 'nt':
+        return Path(os.environ['LOCALAPPDATA']) / 'ai-for-research'
+    if platform.system() == 'Darwin':
+        return Path.home() / 'Library' / 'Application Support' / 'ai-for-research'
+    return Path.home() / '.local' / 'share' / 'ai-for-research'
+
+
+def install_tex(root):
+    tex = root / 'TinyTeX'
+    # Never replace an existing distribution; incomplete installs need inspection.
+    if not tex.exists():
+        system = platform.system()
+        arch = platform.machine().lower()
+        suffix = {'Darwin': 'darwin', 'Windows': 'windows'}.get(system)
+        if system == 'Linux':
+            suffix = {'x86_64': 'linux-x86_64', 'aarch64': 'linux-arm64', 'arm64': 'linux-arm64'}.get(arch)
+        if not suffix:
+            raise RuntimeError(f'Unsupported TinyTeX platform: {system}/{arch}')
+        extension = 'exe' if os.name == 'nt' else 'tar.xz'
+        url = f'https://github.com/rstudio/tinytex-releases/releases/download/daily/TinyTeX-1-{suffix}.{extension}'
+        log('INSTALL user-owned TinyTeX (LaTeX/XeLaTeX); existing system TeX is retained.')
+        with tempfile.TemporaryDirectory(prefix='ai-research-tex-') as scratch:
+            archive = Path(scratch) / f'TinyTeX.{extension}'
+            urllib.request.urlretrieve(url, archive)
+            if os.name == 'nt':
+                run(archive, '-y', cwd=scratch)
+            else:
+                with tarfile.open(archive) as bundle:
+                    bundle.extractall(scratch, filter='data')
+            unpacked = Path(scratch) / ('TinyTeX' if os.name == 'nt' or system == 'Darwin' else '.TinyTeX')
+            if not unpacked.is_dir():
+                raise RuntimeError('TinyTeX bundle has an unexpected directory layout.')
+            shutil.move(str(unpacked), str(tex))
+    bins = [p for p in (tex / 'bin').glob('*') if p.is_dir()]
+    if len(bins) != 1:
+        raise RuntimeError(f'Incomplete TinyTeX installation: inspect {tex}')
+    bin_dir = bins[0]
+    tlmgr = bin_dir / ('tlmgr.bat' if os.name == 'nt' else 'tlmgr')
+    if not tlmgr.exists() or not os.access(tex, os.W_OK):
+        raise RuntimeError(f'TinyTeX is incomplete or not user-writable: {tex}')
+    os.environ['PATH'] = str(bin_dir) + os.pathsep + os.environ['PATH']
+    run(tlmgr, 'postaction', 'install', 'script', 'xetex')
+    run(tlmgr, 'install', 'xetex', 'fontspec', 'unicode-math', 'xcolor', 'geometry', 'bookmark',
+        'fancyvrb', 'framed', 'booktabs', 'upquote', 'etoolbox', 'float', 'tools', 'caption', 'soul')
+    return bin_dir
+
+
+def configure(workspace, agent, root, env):
+    tools = workspace / 'tools'
+    tools.mkdir(parents=True, exist_ok=True)
+    (tools / 'runtime-env.json').write_text(json.dumps({'tool_root': str(root), 'env': env}, indent=2), encoding='utf-8')
+    (tools / 'runtime-env.sh').write_text('\n'.join(f'export {k}={shlex.quote(v)}' for k, v in env.items()) + '\n', encoding='utf-8')
+    ps = '\n'.join("$env:" + k + " = '" + v.replace("'", "''") + "'" for k, v in env.items())
+    (tools / 'runtime-env.ps1').write_text(ps + '\n', encoding='utf-8')
+    # Configure only this workspace. Existing user configuration always wins.
+    settings = {f'terminal.integrated.env.{p}': env for p in ('windows', 'osx', 'linux')}
+    write_new(workspace / '.vscode' / 'settings.json', json.dumps(settings, indent=2) + '\n')
+    if agent == 'codex':
+        config = 'approval_policy = "never"\nsandbox_mode = "workspace-write"\n\n'
+        config += '[sandbox_workspace_write]\nnetwork_access = true\n'
+        config += 'writable_roots = ' + json.dumps([str(root)], ensure_ascii=False) + '\n\n'
+        config += '[shell_environment_policy.set]\n'
+        config += '\n'.join(f'{k} = {json.dumps(v, ensure_ascii=False)}' for k, v in env.items()) + '\n'
+        write_new(workspace / '.codex' / 'config.toml', config)
+        log('CODEX_PERMISSIONS_READY workspace-write; course tool root writable; network enabled; approval never. Trust this workspace once, then start a new session.')
+    elif agent == 'claude':
+        config = {'env': env, 'permissions': {'allow': [
+            'Bash(uv:*)', 'Bash(tlmgr:*)', 'Bash(pandoc:*)', 'Bash(xelatex:*)']}}
+        write_new(workspace / '.claude' / 'settings.local.json', json.dumps(config, indent=2) + '\n')
+        ignore = workspace / '.gitignore'
+        existing = ignore.read_text(encoding='utf-8') if ignore.exists() else ''
+        if '.claude/settings.local.json' not in existing:
+            ignore.write_text(existing.rstrip() + '\n.claude/settings.local.json\n', encoding='utf-8')
+        log('CLAUDE_PERMISSIONS_READY uv/tlmgr/pandoc/xelatex allowed; accept workspace trust once. Other commands may require IDE approval.')
+    else:
+        log('ANTIGRAVITY_PERMISSIONS Configure terminal execution/download approval once in the IDE; the installer does not change IDE-wide policy.')
+    log(f'RUNTIME_ROOT {root}')
+
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--workspace', type=Path, required=True)
+    parser.add_argument('--agent', choices=['codex', 'claude', 'antigravity'], required=True)
+    args = parser.parse_args()
+    workspace = args.workspace.expanduser().resolve()
+    root = tool_root().resolve()
+    root.mkdir(parents=True, exist_ok=True)
+    env = {
+        'UV_PYTHON_INSTALL_DIR': str(root / 'python'),
+        'UV_CACHE_DIR': str(root / 'cache' / 'uv'),
+        'UV_TOOL_DIR': str(root / 'uv-tools'),
+        'UV_TOOL_BIN_DIR': str(root / 'bin'),
+        'UV_PROJECT_ENVIRONMENT': str(root / 'envs' / 'research'),
+        'TEXMFHOME': str(root / 'texmf'),
+        'TEXMFVAR': str(root / 'cache' / 'texmf-var'),
+        'TEXMFCONFIG': str(root / 'texmf-config'),
+        'npm_config_prefix': str(root / 'npm'),
+    }
+    for value in env.values():
+        Path(value).mkdir(parents=True, exist_ok=True)
+    os.environ.update(env)
+    uv = shutil.which('uv')
+    if not uv:
+        raise RuntimeError('uv is missing. Rerun the main installer.')
+    run(uv, 'python', 'install', '3.12')
+    run(uv, 'venv', '--python', '3.12', env['UV_PROJECT_ENVIRONMENT'], '--allow-existing')
+    tex_bin = install_tex(root)
+    python_bin = Path(env['UV_PROJECT_ENVIRONMENT']) / ('Scripts' if os.name == 'nt' else 'bin')
+    npm_bin = root / 'npm' if os.name == 'nt' else root / 'npm' / 'bin'
+    npm_bin.mkdir(parents=True, exist_ok=True)
+    env['PATH'] = os.pathsep.join(map(str, [tex_bin, python_bin, root / 'bin', npm_bin, Path(uv).parent])) + os.pathsep + os.environ['PATH']
+    os.environ.update(env)
+    run(python_bin / ('python.exe' if os.name == 'nt' else 'python'), '--version')
+    run(tex_bin / ('xelatex.exe' if os.name == 'nt' else 'xelatex'), '--version', stdout=subprocess.DEVNULL)
+    # Exercise the actual course template and Thai fonts before reporting success.
+    with tempfile.TemporaryDirectory(prefix='ai-research-pdf-') as scratch:
+        source = Path(scratch) / 'check.md'
+        pdf = Path(scratch) / 'check.pdf'
+        source.write_text('# ทดสอบ Python และ LaTeX\n\nAI for Research พร้อมใช้งาน\n', encoding='utf-8')
+        run('pandoc', source, '--defaults', 'templates/modern-thai.yaml', '-o', pdf, cwd=workspace)
+        if not pdf.is_file() or pdf.stat().st_size == 0:
+            raise RuntimeError('Thai PDF check did not produce a PDF.')
+    configure(workspace, args.agent, root, env)
+    log('RUNTIME_READY Python 3.12 + XeLaTeX + Thai PDF verified; uv and tlmgr can add packages as this user.')
+    log('FINAL_RESULT PASS - Research runtime ready.')
+
+
+if __name__ == '__main__':
+    main()

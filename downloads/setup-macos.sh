@@ -5,7 +5,7 @@ mode="${1:---check}"
 course_dir="${AI_RESEARCH_COURSE_DIR:-${AI_GRAD_COURSE_DIR:-$HOME/ai-for-research-workspace}}"
 agent="${AI_GRAD_AGENT:-}"
 dry_run="${AI_RESEARCH_DRY_RUN:-0}"
-setup_version='2026.08.05.6'
+setup_version='2026.10.07.1'
 test_commands=",${AI_RESEARCH_TEST_COMMANDS:-},"
 log() { printf '[ai-grad] %s\n' "$*"; }
 log "SETUP_VERSION $setup_version"
@@ -80,6 +80,7 @@ configure_vscode() {
     log "INSTALL VS_CODE_EXTENSION $extension profile=$profile"
     if [[ "$dry_run" == 1 ]]; then log "DRY_RUN code --profile $profile --install-extension $extension"; else "$vscode_cli" --profile "$profile" --install-extension "$extension"; fi
   done
+  [[ "$dry_run" == 1 ]] && return
   mkdir -p "$course_dir/.vscode"
   printf '{\n  "recommendations": ["%s", "%s"]\n}\n' "${extensions[0]}" "${extensions[1]:-${extensions[0]}}" > "$course_dir/.vscode/extensions.json"
 }
@@ -100,7 +101,7 @@ install_system_tools() {
   if ! check; then log 'INSTALL_STOPPED System requirements did not pass. Nothing was installed.'; exit 2; fi
   formulae=()
   casks=()
-  for cmd in git node uv pandoc; do
+  for cmd in git node pandoc; do
     if have "$cmd"; then log "REUSE $cmd"; else formulae+=("$cmd"); fi
   done
   if have tesseract; then log 'REUSE tesseract'; else formulae+=(tesseract); fi
@@ -109,27 +110,54 @@ install_system_tools() {
   if [[ "$agent" != antigravity ]]; then
     if have code || [[ -d '/Applications/Visual Studio Code.app' ]]; then log 'REUSE code'; else casks+=(visual-studio-code); fi
   fi
-  if have xelatex; then log 'REUSE xelatex'; else casks+=(basictex); fi
   if (( ${#formulae[@]} == 0 && ${#casks[@]} == 0 )); then log 'All system software is already available. Nothing to install.'; return 0; fi
-  have brew || { log 'Homebrew is required for missing items but will not be installed silently. Install it from https://brew.sh/ and rerun.'; exit 2; }
+  if ! have brew; then
+    log 'INSTALL Homebrew; its official installer may ask for your password.'
+    brew_script="$(mktemp)"
+    curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh -o "$brew_script"
+    /bin/bash "$brew_script"
+    rm -f "$brew_script"
+    if [[ -x /opt/homebrew/bin/brew ]]; then eval "$(/opt/homebrew/bin/brew shellenv)"; else eval "$(/usr/local/bin/brew shellenv)"; fi
+  fi
   log 'This uses Homebrew to install only missing system software. It does not install Rosetta.'
   ((${#formulae[@]})) && log "INSTALL formulae=${formulae[*]}"
   ((${#casks[@]})) && log "INSTALL casks=${casks[*]}"
-  read -r -p 'Continue? [y/N] ' answer
-  [[ "$answer" =~ ^[Yy]$ ]] || exit 0
+  if [[ "$mode" != --install ]]; then
+    read -r -p 'Continue? [y/N] ' answer
+    [[ "$answer" =~ ^[Yy]$ ]] || exit 0
+  fi
   ((${#formulae[@]})) && brew install "${formulae[@]}"
   ((${#casks[@]})) && brew install --cask "${casks[@]}"
   if [[ "$agent" == antigravity ]] && ! have agy-ide; then
     log 'INSTALL Antigravity IDE from the official Google download page; complete its installer before --setup-user.'
     open 'https://antigravity.google/download#antigravity-ide'
   fi
-  log 'System installation finished. Close this terminal, open Terminal normally, then run --setup-user.'
+  log 'System tools ready. Legacy two-phase setup: open Terminal normally, then run --setup-user.'
 }
 setup_user() {
   if [[ -z "$agent" ]]; then read -r -p 'Choose AI frontend [codex/claude/antigravity]: ' agent; fi
   [[ "$agent" =~ ^(codex|claude|antigravity)$ ]] || { log 'AI frontend must be codex, claude, or antigravity.'; exit 2; }
   make_workspace
   [[ "$agent" == antigravity ]] || have npm || { log 'PREREQUISITE_MISSING npm is not on PATH. Close Terminal, open a new Terminal, then rerun --setup-user.'; exit 2; }
+  if [[ "$dry_run" == 1 ]]; then
+    log 'DRY_RUN runtime Python 3.12 + user-owned TinyTeX + scoped Codex permissions'
+  else
+    export PATH="$HOME/.local/bin:$PATH"
+    export UV_PYTHON_INSTALL_DIR="$HOME/Library/Application Support/ai-for-research/python"
+    export UV_CACHE_DIR="$HOME/Library/Application Support/ai-for-research/cache/uv"
+    if ! have uv; then
+      uv_script="$(mktemp)"
+      curl -fsSL https://astral.sh/uv/install.sh -o "$uv_script"
+      sh "$uv_script"
+      rm -f "$uv_script"
+    fi
+    runtime_script="$(mktemp)"
+    curl -fsSL https://urban.cpe.ku.ac.th/ai-for-research/downloads/setup-runtime.py -o "$runtime_script"
+    uv python install 3.12
+    uv run --no-project --python 3.12 python "$runtime_script" --workspace "$course_dir" --agent "$agent"
+    rm -f "$runtime_script"
+    source "$course_dir/tools/runtime-env.sh"
+  fi
   case "$agent" in
     codex) if have codex; then log 'REUSE codex'; else log 'INSTALL codex'; run_npm_install @openai/codex; fi ;;
     claude) if have claude; then log 'REUSE claude'; else log 'INSTALL claude'; run_npm_install @anthropic-ai/claude-code; fi ;;
@@ -140,9 +168,16 @@ setup_user() {
   log "AI workspace=$agent installed. Next: open the workspace, open its AI panel, and sign in with your own account. The terminal command is only a fallback."
 }
 case "$mode" in
+  --install)
+    [[ "$EUID" != 0 ]] || { log 'Run --install as your normal user; sudo is requested only for system tools.'; exit 2; }
+    [[ -n "$agent" ]] || read -r -p 'Choose AI frontend [codex/claude/antigravity]: ' agent
+    install_system_tools
+    export PATH="$HOME/.local/bin:/Applications/Visual Studio Code.app/Contents/Resources/app/bin:$PATH"
+    setup_user
+    ;;
   --check) check ;;
   --install-system) install_system_tools ;;
   --setup-user) setup_user; [[ "$dry_run" == 1 ]] || check ;;
   --repair) install_system_tools; setup_user; [[ "$dry_run" == 1 ]] || check ;;
-  *) echo "Usage: $0 [--check|--install-system|--setup-user|--repair]" >&2; exit 2 ;;
+  *) echo "Usage: $0 [--install|--check|--install-system|--setup-user|--repair]" >&2; exit 2 ;;
 esac
