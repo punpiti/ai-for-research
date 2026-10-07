@@ -42,11 +42,16 @@ try {
   }
   $env:PATH = "$env:SystemRoot\System32"
   Refresh-ToolPath
-  $expectedDirectories = @($fixtureFiles | ForEach-Object { Split-Path -Parent $_ } | Select-Object -Unique)
   $refreshedPaths = @($env:PATH -split ';')
-  foreach ($directory in $expectedDirectories) {
-    if ($script:DiscoveredToolDirectories -notcontains $directory -or $refreshedPaths -notcontains $directory) {
-      throw "Installed off-PATH directory not discovered: $directory"
+  foreach ($file in $fixtureFiles) {
+    # DirectoryName can expand an 8.3 TEMP component (RUNNER~1) on hosted
+    # Windows, so compare by the fixture executable found inside it.
+    $leaf = Split-Path -Leaf $file
+    $directory = $script:DiscoveredToolDirectories |
+      Where-Object { Test-Path -LiteralPath (Join-Path $_ $leaf) -PathType Leaf } |
+      Select-Object -First 1
+    if (-not $directory -or $refreshedPaths -notcontains $directory) {
+      throw "Installed off-PATH tool directory not discovered: $leaf"
     }
   }
   # Stub discovery to exercise WinGet results without accessing any package manager.
