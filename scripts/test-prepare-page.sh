@@ -19,7 +19,7 @@ for platform in windows macos linux; do
   grep -q "data-platform-panel=\"$platform\"" "$page"
 done
 
-grep -q 'SETUP_VERSION 2026.10.07.2' "$page"
+grep -q 'SETUP_VERSION 2026.10.07.3' "$page"
 grep -q 'FONT_READY' "$page"
 grep -q 'CREATE VS_CODE_PROFILE' "$page"
 grep -q 'Script จะเปิด Workspace ใน <span data-workspace-app>VS Code</span> ให้อัตโนมัติ' "$page"
@@ -48,4 +48,13 @@ if grep -qiE 'antigravity|agy-ide' "$page"; then
   echo 'Antigravity must remain hidden from the preparation page.' >&2
   exit 1
 fi
+python3 - "$page" <<'PYTEST'
+import re, sys
+from pathlib import Path
+page = Path(sys.argv[1]).read_text()
+assert re.findall(r'name="agent" value="([^"]+)"', page) == ['claude', 'codex', 'openrouter']
+assert 'คอร์ส Introduction ไม่ต้องติดตั้ง WSL2' in page
+assert 'เพิ่มเติม: สำหรับผู้ที่มี WSL2 อยู่แล้ว' in page
+assert not re.search(r'data-platform-button="linux">[^<]*WSL', page)
+PYTEST
 echo 'Prepare page learner-flow checks passed.'

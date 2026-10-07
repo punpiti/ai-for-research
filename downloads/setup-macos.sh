@@ -5,7 +5,7 @@ mode="${1:---check}"
 course_dir="${AI_RESEARCH_COURSE_DIR:-${AI_GRAD_COURSE_DIR:-$HOME/ai-for-research-workspace}}"
 agent="${AI_GRAD_AGENT:-}"
 dry_run="${AI_RESEARCH_DRY_RUN:-0}"
-setup_version='2026.10.07.2'
+setup_version='2026.10.07.3'
 test_commands=",${AI_RESEARCH_TEST_COMMANDS:-},"
 log() { printf '[ai-grad] %s\n' "$*"; }
 log "SETUP_VERSION $setup_version"
@@ -73,8 +73,8 @@ configure_vscode() {
     [[ -x "$vscode_cli" ]] || { log 'PREREQUISITE_MISSING VS Code CLI not found. Open VS Code or reopen Terminal, then rerun --setup-user.'; exit 2; }
   fi
   profile="AI for Research - $agent"
-  extensions=(saoudrizwan.claude-dev mathematic.vscode-pdf)
-  case "$agent" in codex) extensions=(openai.chatgpt "${extensions[@]}") ;; claude) extensions=(anthropic.claude-code "${extensions[@]}") ;; esac
+  extensions=(mathematic.vscode-pdf)
+  case "$agent" in codex) extensions=(openai.chatgpt "${extensions[@]}") ;; claude) extensions=(anthropic.claude-code "${extensions[@]}") ;; openrouter) extensions=(saoudrizwan.claude-dev "${extensions[@]}") ;; esac
   log "CREATE VS_CODE_PROFILE profile=$profile workspace=$course_dir"
   if [[ "$dry_run" == 1 ]]; then log "DRY_RUN code --profile $profile $course_dir"; else "$vscode_cli" --profile "$profile" "$course_dir"; fi
   for extension in "${extensions[@]}"; do
@@ -103,12 +103,11 @@ install_system_tools() {
   if ! check; then log 'INSTALL_STOPPED System requirements did not pass. Nothing was installed.'; exit 2; fi
   formulae=()
   casks=()
-  for cmd in git node pandoc; do
+  for cmd in git pandoc; do
     if have "$cmd"; then log "REUSE $cmd"; else formulae+=("$cmd"); fi
   done
   if have tesseract; then log 'REUSE tesseract'; else formulae+=(tesseract); fi
   if have pdftotext; then log 'REUSE pdftotext'; else formulae+=(poppler); fi
-  if have tesseract && tesseract --list-langs 2>/dev/null | grep -qx tha; then log 'REUSE tesseract-lang tha'; else formulae+=(tesseract-lang); fi
   if [[ "$agent" != antigravity ]]; then
     if have code || [[ -d '/Applications/Visual Studio Code.app' ]]; then log 'REUSE code'; else casks+=(visual-studio-code); fi
   fi
@@ -117,7 +116,12 @@ install_system_tools() {
     log 'INSTALL Homebrew; its official installer may ask for your password.'
     brew_script="$(mktemp)"
     curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh -o "$brew_script"
-    /bin/bash "$brew_script"
+    if [[ "$mode" == --install ]]; then
+      sudo -v
+      NONINTERACTIVE=1 /bin/bash "$brew_script"
+    else
+      /bin/bash "$brew_script"
+    fi
     rm -f "$brew_script"
     if [[ -x /opt/homebrew/bin/brew ]]; then eval "$(/opt/homebrew/bin/brew shellenv)"; else eval "$(/usr/local/bin/brew shellenv)"; fi
   fi
@@ -137,10 +141,9 @@ install_system_tools() {
   log 'System tools ready. Legacy two-phase setup: open Terminal normally, then run --setup-user.'
 }
 setup_user() {
-  if [[ -z "$agent" ]]; then read -r -p 'Choose AI frontend [codex/claude/openrouter/antigravity]: ' agent; fi
+  if [[ -z "$agent" ]]; then read -r -p 'Choose AI frontend [claude/codex/openrouter]: ' agent; fi
   [[ "$agent" =~ ^(codex|claude|openrouter|antigravity)$ ]] || { log 'AI frontend must be codex, claude, openrouter, or antigravity.'; exit 2; }
   make_workspace
-  [[ "$agent" == antigravity ]] || have npm || { log 'PREREQUISITE_MISSING npm is not on PATH. Close Terminal, open a new Terminal, then rerun --setup-user.'; exit 2; }
   if [[ "$dry_run" == 1 ]]; then
     log 'DRY_RUN runtime Python 3.12 + user-owned TinyTeX + scoped Codex permissions'
   else
@@ -160,6 +163,7 @@ setup_user() {
     rm -f "$runtime_script"
     source "$course_dir/tools/runtime-env.sh"
   fi
+  [[ "$agent" == antigravity ]] || have npm || { log 'PREREQUISITE_MISSING npm is not on PATH. Close Terminal, open a new Terminal, then rerun --setup-user.'; exit 2; }
   case "$agent" in
     openrouter) log 'OPENROUTER_READY Cline extension; configure provider OpenRouter and your own key in the IDE.' ;;
     codex) if have codex; then log 'REUSE codex'; else log 'INSTALL codex'; run_npm_install @openai/codex; fi ;;
@@ -173,7 +177,7 @@ setup_user() {
 case "$mode" in
   --install)
     [[ "$EUID" != 0 ]] || { log 'Run --install as your normal user; sudo is requested only for system tools.'; exit 2; }
-    [[ -n "$agent" ]] || read -r -p 'Choose AI frontend [codex/claude/openrouter/antigravity]: ' agent
+    [[ -n "$agent" ]] || read -r -p 'Choose AI frontend [claude/codex/openrouter]: ' agent
     install_system_tools
     export PATH="$HOME/.local/bin:/Applications/Visual Studio Code.app/Contents/Resources/app/bin:$PATH"
     setup_user

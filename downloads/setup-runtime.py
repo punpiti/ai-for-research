@@ -53,7 +53,7 @@ def ensure_node(root, agent):
     for candidate in candidates:
         try:
             version = run(candidate, '-p', 'process.versions.node', capture_output=True, text=True).stdout.strip()
-            if int(version.split('.')[0]) >= minimum:
+            if int(version.split('.')[0]) >= minimum and shutil.which('npm'):
                 log(f'REUSE Node {version} ({candidate}); no automatic update.')
                 return candidate.parent
         except (OSError, ValueError, subprocess.CalledProcessError):
@@ -201,6 +201,14 @@ def main():
     }
     for value in env.values():
         Path(value).mkdir(parents=True, exist_ok=True)
+    if platform.system() == 'Darwin':
+        env['TESSDATA_PREFIX'] = str(root / 'tessdata')
+        Path(env['TESSDATA_PREFIX']).mkdir(parents=True, exist_ok=True)
+        for language in ('eng', 'tha'):
+            data = Path(env['TESSDATA_PREFIX']) / f'{language}.traineddata'
+            if not data.exists() or data.stat().st_size == 0:
+                log(f'INSTALL OCR language {language}; only English/Thai data are downloaded.')
+                urllib.request.urlretrieve(f'https://github.com/tesseract-ocr/tessdata_fast/raw/4.1.0/{language}.traineddata', data)
     os.environ.update(env)
     uv = shutil.which('uv')
     if not uv:

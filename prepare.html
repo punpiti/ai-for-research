@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/styles.css?v=20260805-16">
-  <script src="assets/app.js?v=20260805-16" defer></script>
+  <script src="assets/app.js?v=20261007-3" defer></script>
   <script src="assets/site-shell.js?v=20260805-5"></script>
 </head>
 <body class="prepare-page">
@@ -22,6 +22,7 @@
       <p class="eyebrow">Module 1 · First class</p>
       <h1>Prepare Your<br>AI Research Workspace</h1>
       <p>ทำตามทีละขั้นเพื่อเตรียมเครื่อง เชื่อมต่อ AI และสร้าง PDF ตัวอย่างชิ้นแรก ไม่จำเป็นต้องมีพื้นฐานการเขียนโปรแกรม</p>
+      <div class="notice"><strong>สำหรับผู้เริ่มต้นที่ใช้ Windows:</strong> ใช้ Windows 11 และ PowerShell ปกติได้เลย คอร์ส Introduction ไม่ต้องติดตั้ง WSL2 ส่วนผู้ใช้ macOS หรือ Linux เลือกระบบของตนเองด้านล่าง</div>
     </section>
 
     <section class="section" id="prerequisites">
@@ -50,7 +51,7 @@
         <div class="platform-picker on-dark" role="group" aria-label="เลือกระบบปฏิบัติการสำหรับการเปิด Terminal">
           <button type="button" data-platform-button="windows">Windows 11</button>
           <button type="button" data-platform-button="macos">macOS</button>
-          <button type="button" data-platform-button="linux">Linux / WSL2</button>
+          <button type="button" data-platform-button="linux">Linux (Ubuntu/Debian)</button>
         </div>
         <div class="open-terminal-grid">
           <article data-platform-panel="windows">
@@ -94,17 +95,16 @@
             </ul>
           </article>
           <article data-platform-panel="linux">
-            <p class="platform-label">Linux / WSL2</p>
-            <h4>เปิด Terminal หรือ Ubuntu</h4>
+            <p class="platform-label">Linux (Ubuntu/Debian)</p>
+            <h4>เปิด Terminal</h4>
             <ol>
               <li><span>1</span><div>Linux: เปิดแอป <strong>Terminal</strong></div></li>
-              <li><span>2</span><div>WSL2: กด Start แล้วเปิด <strong>Ubuntu</strong></div></li>
-              <li><span>3</span><div>รอจนเห็นบรรทัด prompt</div></li>
-              <li><span>4</span><div>ยังไม่พิมพ์ <code>sudo</code> ในขั้นนี้</div></li>
+              <li><span>2</span><div>รอจนเห็นบรรทัด prompt</div></li>
+              <li><span>3</span><div>ยังไม่พิมพ์ <code>sudo</code> ในขั้นนี้</div></li>
             </ol>
             <p class="terminal-check">พร้อมเมื่อเห็นชื่อผู้ใช้และเครื่องตามด้วย <code>$</code></p>
-            <div class="terminal-anatomy" aria-label="ตัวอย่าง Terminal บน Linux หรือ WSL2">
-              <span>ตัวอย่าง Linux / WSL2 Terminal</span><code>student@ubuntu:~$ <b>▌</b></code><small><strong>student@ubuntu</strong> = ผู้ใช้และชื่อเครื่อง · <strong>~</strong> = home folder · <strong>$</strong> = พร้อมรับคำสั่ง</small>
+            <div class="terminal-anatomy" aria-label="ตัวอย่าง Terminal บน Linux">
+              <span>ตัวอย่าง Linux (Ubuntu/Debian) Terminal</span><code>student@ubuntu:~$ <b>▌</b></code><small><strong>student@ubuntu</strong> = ผู้ใช้และชื่อเครื่อง · <strong>~</strong> = home folder · <strong>$</strong> = พร้อมรับคำสั่ง</small>
             </div>
             <ul class="terminal-rules">
               <li><strong>Paste:</strong> Ctrl+Shift+V</li>
@@ -121,9 +121,9 @@
     <section class="section" id="choose-ai">
       <div class="section-heading compact"><p class="eyebrow">ก่อนติดตั้ง</p><h2>คุณจะใช้ AI ตัวไหน?</h2></div>
       <div class="agent-choice">
-        <p>ต้องเลือกตามบัญชีที่มีอยู่ก่อน จึงจะเปิดขั้นตอนติดตั้งและแสดงคำสั่ง CLI ที่ตรงกับ AI นั้น</p>
-        <label><input type="radio" name="agent" value="codex"> <span><strong>บัญชี ChatGPT → Codex</strong><small>เปิดครั้งแรกแล้วเลือก Sign in with ChatGPT</small></span></label>
+        <p>เลือก AI ที่จะใช้ครั้งเดียว จากนั้นคัดลอกคำสั่งติดตั้งที่หน้าเว็บเตรียมให้</p>
         <label><input type="radio" name="agent" value="claude"> <span><strong>บัญชี Claude → Claude Code</strong><small>เปิดครั้งแรกแล้วเลือกบัญชี Claude ที่มีสิทธิ์</small></span></label>
+        <label><input type="radio" name="agent" value="codex"> <span><strong>บัญชี ChatGPT → Codex</strong><small>เปิดครั้งแรกแล้วเลือก Sign in with ChatGPT</small></span></label>
         <label><input type="radio" name="agent" value="openrouter"> <span><strong>บัญชี OpenRouter → Cline</strong><small>ใช้ API key ของตนเอง เลือกโมเดล และตรวจเครดิต/ราคาก่อนเริ่มงาน</small></span></label>
         <p class="expected" data-agent-gate-status role="status" aria-live="polite"><strong>ยังไปต่อไม่ได้:</strong> กรุณาเลือก AI หนึ่งตัว</p>
       </div>
@@ -131,13 +131,14 @@
 
     <section class="section platform-section" id="install" data-agent-required hidden>
       <div class="section-heading compact"><p class="eyebrow">ขั้นที่ 2 · Installation</p><h2>ติดตั้งซอฟต์แวร์</h2></div>
-      <p>ติดตั้งครั้งแรกด้วยคำสั่งเดียวหลังโหลด Script: เตรียม VS Code พร้อม AI extension ที่เลือก, Cline สำหรับ OpenRouter, PDF Viewer, Python 3.12, LaTeX/XeLaTeX ผ่าน TinyTeX, Pandoc และ OCR ไทย–อังกฤษ แล้วให้ AI ดาวน์โหลดไลบรารี Python และแพ็กเกจ LaTeX เพิ่มเมื่อจำเป็น</p>
+      <p>ติดตั้งครั้งแรกด้วยคำสั่งเดียวหลังโหลด Script: เตรียม VS Code พร้อม AI extension ที่เลือก, PDF Viewer, Python 3.12, LaTeX/XeLaTeX ผ่าน TinyTeX, Pandoc และ OCR ไทย–อังกฤษ แล้วให้ AI ดาวน์โหลดไลบรารี Python และแพ็กเกจ LaTeX เพิ่มเมื่อจำเป็น</p>
+      <div class="notice"><strong>ติดตั้งต่อเนื่อง:</strong> Script ติดตั้งสิ่งที่ขาดตาม AI ที่เลือก โดยไม่ถามยืนยันทีละโปรแกรม เมื่อจบแล้วจึง Sign in หรือใส่ API key ไม่ต้องเลือกรุ่น Python, แพ็กเกจ LaTeX หรือ AI ตัวอื่นระหว่างติดตั้ง</div>
       <div class="notice"><strong>สิทธิ์ครั้งแรก:</strong> Windows จะถาม UAC; macOS และ Linux อาจถามรหัสผ่านเพื่อติดตั้งเครื่องมือระบบ จากนั้น Python, TinyTeX และแพ็กเกจเพิ่มเติมใช้พื้นที่ของบัญชีผู้ใช้ปกติ</div>
-      <div class="notice"><strong>ถ้ารันซ้ำหรือแก้ปัญหา:</strong> ต้องคัดลอกคำสั่งโหลด Script ในข้อ 1 ใหม่ก่อนเสมอ แล้วตรวจว่าเห็น <code>SETUP_VERSION 2026.10.07.2</code></div>
+      <div class="notice"><strong>ถ้ารันซ้ำหรือแก้ปัญหา:</strong> ต้องคัดลอกคำสั่งโหลด Script ในข้อ 1 ใหม่ก่อนเสมอ แล้วตรวจว่าเห็น <code>SETUP_VERSION 2026.10.07.3</code></div>
       <div class="platform-picker" role="group" aria-label="เลือกระบบปฏิบัติการสำหรับติดตั้ง software">
         <button type="button" data-platform-button="windows">Windows 11</button>
         <button type="button" data-platform-button="macos">macOS</button>
-        <button type="button" data-platform-button="linux">Linux / WSL2</button>
+        <button type="button" data-platform-button="linux">Linux (Ubuntu/Debian)</button>
       </div>
       <div class="platform-grid">
         <article class="platform-card" data-platform-panel="windows">
@@ -154,16 +155,16 @@
           <div class="command"><code>curl -fL "https://urban.cpe.ku.ac.th/ai-for-research/downloads/setup-macos.sh" -o "$HOME/Downloads/setup-macos.sh"</code><button type="button" data-copy>คัดลอก</button></div>
           <h4 class="phase-title"><span>2</span> รันครั้งเดียว; ใส่รหัสผ่านเมื่อระบบถาม</h4>
           <div class="command"><code data-agent-command data-template="AI_GRAD_AGENT={agent} bash &quot;$HOME/Downloads/setup-macos.sh&quot; --install">AI_GRAD_AGENT=codex bash "$HOME/Downloads/setup-macos.sh" --install</code><button type="button" data-copy>คัดลอก</button></div>
-          <p class="expected">ติดตั้ง Homebrew เมื่อยังไม่มี แล้วเตรียมเครื่องมือระบบและเครื่องมือของผู้ใช้ต่อเนื่อง ต้องเห็น <code>SETUP_VERSION 2026.10.07.2</code>, <code>FONT_READY</code> และ <code>RUNTIME_READY</code> หากเลือก Codex หรือ Claude จะเห็น <code>CREATE VS_CODE_PROFILE</code> ด้วย Script จะเปิด Workspace ใน <span data-workspace-app>VS Code</span> ให้อัตโนมัติ</p>
+          <p class="expected">ติดตั้ง Homebrew เมื่อยังไม่มี แล้วเตรียมเครื่องมือระบบและเครื่องมือของผู้ใช้ต่อเนื่อง ต้องเห็น <code>SETUP_VERSION 2026.10.07.3</code>, <code>FONT_READY</code> และ <code>RUNTIME_READY</code> หากเลือก Codex หรือ Claude จะเห็น <code>CREATE VS_CODE_PROFILE</code> ด้วย Script จะเปิด Workspace ใน <span data-workspace-app>VS Code</span> ให้อัตโนมัติ</p>
         </article>
         <article class="platform-card" data-platform-panel="linux">
-          <p class="platform-label">Linux / WSL2</p><h3>เปิด Terminal / Ubuntu ปกติ</h3>
+          <p class="platform-label">Linux (Ubuntu/Debian)</p><h3>เปิด Terminal ปกติ</h3>
           <h4 class="phase-title"><span>1</span> โหลด Script</h4>
           <div class="command"><code>mkdir -p "$HOME/Downloads"
 curl -fL "https://urban.cpe.ku.ac.th/ai-for-research/downloads/setup-linux.sh" -o "$HOME/Downloads/setup-linux.sh"</code><button type="button" data-copy>คัดลอก</button></div>
           <h4 class="phase-title"><span>2</span> รันครั้งเดียว; ใส่รหัสผ่านเมื่อ sudo ถาม</h4>
           <div class="command"><code data-agent-command data-template="AI_GRAD_AGENT={agent} bash &quot;$HOME/Downloads/setup-linux.sh&quot; --install">AI_GRAD_AGENT=codex bash "$HOME/Downloads/setup-linux.sh" --install</code><button type="button" data-copy>คัดลอก</button></div>
-          <p class="expected">รองรับ Ubuntu/Debian; Python และ TinyTeX ติดตั้งในบัญชีผู้ใช้ปกติ ต้องเห็น <code>RUNTIME_READY</code> สำหรับ WSL2 Script จะเรียก <code>powershell.exe</code> ที่ติดมากับ Windows เพื่อติดตั้ง VS Code และ WSL extension ฝั่ง Windows แล้วกลับมาทำงานใน Ubuntu; ไม่ต้องติดตั้ง PowerShell 7 เพิ่ม</p>
+          <p class="expected">รองรับ Ubuntu/Debian; Python และ TinyTeX ติดตั้งในบัญชีผู้ใช้ปกติ ต้องเห็น <code>RUNTIME_READY</code></p>
         </article>
       </div>
       <div class="notice"><strong>ติดตั้งสำเร็จเมื่อ:</strong> เห็น <code>RUNTIME_READY</code> ซึ่งยืนยัน Python, XeLaTeX และการสร้าง PDF ภาษาไทยผ่าน template จริง แล้ว Workspace เปิดพร้อม AI panel หากขั้นใดล้มเหลว Script จะหยุดและแสดงข้อผิดพลาด</div>
@@ -171,9 +172,13 @@ curl -fL "https://urban.cpe.ku.ac.th/ai-for-research/downloads/setup-linux.sh" -
       <p>Installer ใช้ซอฟต์แวร์ที่มีอยู่และติดตั้งเฉพาะตัวที่ขาด จะไม่อัปเดตทุกโปรแกรมเป็นรุ่นล่าสุด หาก Node รุ่นเดิมต่ำกว่าที่ AI frontend ต้องใช้ จะเตรียม Node LTS ที่รองรับในพื้นที่เครื่องมือของคอร์สโดยเก็บรุ่นระบบไว้ ส่วน Python 3.12 และ TinyTeX ของคอร์สจะใช้ชุดเดิมเมื่อรันซ้ำ</p>
       <p>LaTeX ที่ติดตั้งไว้ระดับระบบอาจยังต้องขอ Admin เมื่อลงแพ็กเกจเพิ่ม จึงเตรียม TinyTeX ที่ผู้ใช้เขียนได้แยกไว้ตั้งแต่ครั้งแรก ผู้เรียนสามารถอัปเดตเครื่องมือภายหลังเมื่อพบปัญหาหรือมีเหตุผลด้านการรองรับงาน โดยบันทึกรุ่นก่อนและหลัง</p>
       <h3>VS Code และ OpenRouter อยู่ในชุดแรก</h3>
-      <p>Windows และ macOS ติดตั้ง VS Code ให้เมื่อยังไม่มี; Linux ติดตั้งแพ็กเกจ VS Code จาก Microsoft ส่วน WSL2 ใช้ VS Code บน Windows เชื่อมกับ VS Code Server ใน Ubuntu เครื่องมือ Python, LaTeX และคำสั่งวิเคราะห์จะรันใน WSL ให้ตรวจมุมล่างซ้ายว่าเป็น <code>WSL: Ubuntu</code> หรือชื่อ distribution ของคุณ</p>
-      <p>Cline extension ติดตั้งให้ทุกโปรไฟล์ หากเลือก OpenRouter ให้เปิด Cline Settings เลือก <code>OpenRouter</code> ใส่ API key ในช่องที่กำหนด เลือกโมเดล และตรวจเครดิต/ราคา Installer เตรียม extension ให้ แต่การใช้โมเดลขึ้นกับบัญชี OpenRouter ของคุณ</p>
-      <p>อ้างอิง: <a href="https://code.visualstudio.com/docs/remote/wsl" target="_blank" rel="noreferrer">VS Code ใน WSL</a> · <a href="https://openrouter.ai/works-with-openrouter/cline" target="_blank" rel="noreferrer">Cline กับ OpenRouter</a></p>
+      <p>Windows และ macOS ติดตั้ง VS Code ให้เมื่อยังไม่มี; Linux ติดตั้งแพ็กเกจ VS Code จาก Microsoft บน Windows โปรแกรมและคำสั่งทั้งหมดทำงานใน Windows โดยตรง</p>
+      <p>หากเลือก OpenRouter จะติดตั้ง Cline extension ให้ จากนั้นเปิด Cline Settings เลือก <code>OpenRouter</code> ใส่ API key ในช่องที่กำหนด เลือกโมเดล และตรวจเครดิต/ราคา Installer เตรียม extension ให้ แต่การใช้โมเดลขึ้นกับบัญชี OpenRouter ของคุณ</p>
+      <p>อ้างอิง: <a href="https://openrouter.ai/works-with-openrouter/cline" target="_blank" rel="noreferrer">Cline กับ OpenRouter</a></p>
+      <details class="fallback-details"><summary>เพิ่มเติม: สำหรับผู้ที่มี WSL2 อยู่แล้ว</summary>
+        <p>WSL2 เป็นทางเลือกสำหรับผู้ที่คุ้นกับ Linux และมี Ubuntu/WSL2 พร้อมใช้งานอยู่แล้ว ใช้ Script ของ Linux ภายใน WSL ได้ โดย Script จะเรียก <code>powershell.exe</code> ของ Windows เพื่อติดตั้ง VS Code และ WSL extension ฝั่ง Windows แล้วกลับมาทำงานใน Ubuntu ไม่ต้องติดตั้ง PowerShell 7 เพิ่ม</p>
+        <p>Python, LaTeX และคำสั่งวิเคราะห์จะรันใน WSL ให้ตรวจมุมล่างซ้ายของ VS Code ว่าเป็น <code>WSL: Ubuntu</code> หรือชื่อ distribution ของคุณ ดู <a href="https://code.visualstudio.com/docs/remote/wsl" target="_blank" rel="noreferrer">คู่มือ VS Code ใน WSL</a></p>
+      </details>
       <h3>ให้ AI ติดตั้งเพิ่มได้เมื่อจำเป็น</h3>
       <p>Python environment, cache และ TinyTeX อยู่ในโฟลเดอร์เครื่องมือของผู้ใช้ แยกจากโฟลเดอร์งานและ OneDrive ไฟล์ <code>tools/runtime-env.json</code> บอกตำแหน่งจริง และ <code>tools/runtime-env.sh</code> / <code>tools/runtime-env.ps1</code> ใช้เปิด environment ซ้ำได้</p>
       <p>Codex: Installer สร้าง <code>.codex/config.toml</code> เฉพาะ Workspace นี้ ให้เขียนไฟล์งานและโฟลเดอร์เครื่องมือ ดาวน์โหลดผ่านเครือข่าย และรันคำสั่งโดยไม่ถามยืนยันซ้ำ ยอมรับความเชื่อถือของ Workspace ครั้งแรก แล้วเริ่ม session ใหม่เพื่อโหลดค่า เครื่ององค์กรอาจมีนโยบายที่ override ค่าเหล่านี้ได้</p>
@@ -189,7 +194,7 @@ curl -fL "https://urban.cpe.ku.ac.th/ai-for-research/downloads/setup-linux.sh" -
       <div class="platform-picker" role="group" aria-label="เลือกระบบปฏิบัติการสำหรับการเปิด workspace">
         <button type="button" data-platform-button="windows">Windows 11</button>
         <button type="button" data-platform-button="macos">macOS</button>
-        <button type="button" data-platform-button="linux">Linux / WSL2</button>
+        <button type="button" data-platform-button="linux">Linux (Ubuntu/Debian)</button>
       </div>
       <div class="open-terminal-grid workspace-open-grid">
         <article data-platform-panel="windows">
@@ -216,12 +221,12 @@ curl -fL "https://urban.cpe.ku.ac.th/ai-for-research/downloads/setup-linux.sh" -
           </div>
         </article>
         <article data-platform-panel="linux">
-          <p class="platform-label">Linux / WSL2</p>
+          <p class="platform-label">Linux (Ubuntu/Debian)</p>
           <h4>เปิดด้วย Terminal</h4>
           <ol>
-            <li><span>1</span><div>เปิด Terminal หรือ Ubuntu/WSL2</div></li>
+            <li><span>1</span><div>เปิด Terminal</div></li>
             <li><span>2</span><div>คัดลอกคำสั่งด้านล่างแล้วกด Enter</div></li>
-            <li><span>3</span><div>รอให้ <span data-workspace-app>VS Code</span> เปิดโฟลเดอร์ผ่าน Linux/WSL2</div></li>
+            <li><span>3</span><div>รอให้ <span data-workspace-app>VS Code</span> เปิดโฟลเดอร์ผ่าน Linux</div></li>
           </ol>
           <div class="command"><code data-agent-command data-template="code --profile &quot;AI for Research - {agent}&quot; &quot;$HOME/ai-for-research-workspace&quot;">code --profile "AI for Research - codex" "$HOME/ai-for-research-workspace"</code><button type="button" data-copy>คัดลอก</button></div>
         </article>
@@ -296,7 +301,7 @@ curl -fL "https://urban.cpe.ku.ac.th/ai-for-research/downloads/setup-linux.sh" -
       <p class="progress" aria-live="polite">ความพร้อม: <strong data-progress>0%</strong></p>
       <h3>เริ่มต้นใหม่หลังติดตั้ง</h3>
       <ol class="readiness-steps">
-        <li><span>01</span><div><strong>เปิด Terminal</strong><br>Windows เปิด PowerShell; macOS เปิด Terminal; Linux/WSL2 เปิด Terminal หรือ Ubuntu</div></li>
+        <li><span>01</span><div><strong>เปิด Terminal</strong><br>Windows เปิด PowerShell; macOS เปิด Terminal; Linux เปิด Terminal</div></li>
         <li><span>02</span><div><strong>เข้าโฟลเดอร์ Workspace</strong><br>ใช้ <code>cd</code> ไปยังโฟลเดอร์งานที่ installer สร้างไว้</div></li>
         <li><span>03</span><div><strong>เปิด Workspace</strong><br>รัน <code data-workspace-open-command>code .</code> เพื่อเปิด <span data-workspace-app>VS Code</span><div class="command"><code data-agent-command data-template="cd &quot;$HOME/ai-for-research-workspace&quot;
 code .">cd "$HOME/ai-for-research-workspace"

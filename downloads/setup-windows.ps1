@@ -6,7 +6,7 @@ param(
 )
 $ErrorActionPreference = 'Stop'
 $DryRun = $env:AI_RESEARCH_DRY_RUN -eq '1'
-$SetupVersion = '2026.10.07.2'
+$SetupVersion = '2026.10.07.3'
 $TestCommands = @($env:AI_RESEARCH_TEST_COMMANDS -split ',' | Where-Object { $_ })
 function Log([string]$Message) { Write-Host "[ai-grad] $Message" }
 Log "SETUP_VERSION $SetupVersion"
@@ -83,9 +83,10 @@ function Configure-VSCode {
   $aiExtension = switch ($Agent) {
     'codex' { 'openai.chatgpt' }
     'claude' { 'anthropic.claude-code' }
+    'openrouter' { 'saoudrizwan.claude-dev' }
     'antigravity' { $null }
   }
-  $extensions = @('saoudrizwan.claude-dev','mathematic.vscode-pdf')
+  $extensions = @('mathematic.vscode-pdf')
   if ($aiExtension) { $extensions = @($aiExtension) + $extensions }
   Log "CREATE VS_CODE_PROFILE profile=$profile workspace=$CourseDir"
   if ($DryRun) { Log "DRY_RUN code --profile $profile $CourseDir" } else { code --profile $profile $CourseDir }
@@ -122,7 +123,6 @@ function Install-SystemTools {
   if ($Mode -ne 'InstallSystem') { $answer = Read-Host 'Continue? [y/N]'; if ($answer -notmatch '^[Yy]$') { return } }
   $packages = @(
     @{ Command = 'git'; Package = 'Git.Git' },
-    @{ Command = 'node'; Package = 'OpenJS.NodeJS.LTS' },
     @{ Command = 'pandoc'; Package = 'JohnMacFarlane.Pandoc' },
     @{ Command = 'tesseract'; Package = 'tesseract-ocr.tesseract' },
     @{ Command = 'pdftotext'; Package = 'oschwartz10612.Poppler' }
@@ -153,9 +153,8 @@ function Install-SystemTools {
 }
 function Install-UserTools {
   if (Is-Admin) { throw 'SetupUser must run in a normal, non-Administrator PowerShell. Close this window and open PowerShell normally.' }
-  if (-not $Agent) { $Agent = Read-Host 'Choose AI frontend [codex/claude/openrouter/antigravity]' }
+  if (-not $Agent) { $Agent = Read-Host 'Choose AI frontend [claude/codex/openrouter]' }
   New-CourseWorkspace
-  if ($Agent -ne 'antigravity' -and -not (Has 'npm')) { throw 'PREREQUISITE_MISSING npm is not on PATH. Close PowerShell, open a new normal PowerShell, then rerun SetupUser.' }
   if ($DryRun) { Log 'DRY_RUN runtime Python 3.12 + user-owned TinyTeX + scoped Codex permissions' }
   else {
     $env:PATH = "$HOME\.local\bin;" + $env:PATH
@@ -178,6 +177,7 @@ function Install-UserTools {
     } finally { Remove-Item $runtimeScript -ErrorAction SilentlyContinue }
     . (Join-Path $CourseDir 'tools\runtime-env.ps1')
   }
+  if ($Agent -ne 'antigravity' -and -not (Has 'npm')) { throw 'PREREQUISITE_MISSING npm is not on PATH. Close PowerShell, open a new normal PowerShell, then rerun SetupUser.' }
   if (Has 'npm') {
     switch ($Agent) {
       'openrouter' { Log 'OPENROUTER_READY Cline extension; configure provider OpenRouter and your own key in the IDE.' }

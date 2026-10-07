@@ -5,7 +5,7 @@ mode="${1:---check}"
 course_dir="${AI_RESEARCH_COURSE_DIR:-${AI_GRAD_COURSE_DIR:-$HOME/ai-for-research-workspace}}"
 agent="${AI_GRAD_AGENT:-}"
 dry_run="${AI_RESEARCH_DRY_RUN:-0}"
-setup_version='2026.10.07.2'
+setup_version='2026.10.07.3'
 test_commands=",${AI_RESEARCH_TEST_COMMANDS:-},"
 
 log() { printf '[ai-grad] %s\n' "$*"; }
@@ -90,8 +90,8 @@ make_workspace() {
 configure_vscode() {
   have code || { log 'PREREQUISITE_MISSING VS Code CLI not found. Finish the VS Code/WSL setup, then rerun --setup-user.'; exit 2; }
   profile="AI for Research - $agent"
-  extensions=(saoudrizwan.claude-dev mathematic.vscode-pdf)
-  case "$agent" in codex) extensions=(openai.chatgpt "${extensions[@]}") ;; claude) extensions=(anthropic.claude-code "${extensions[@]}") ;; esac
+  extensions=(mathematic.vscode-pdf)
+  case "$agent" in codex) extensions=(openai.chatgpt "${extensions[@]}") ;; claude) extensions=(anthropic.claude-code "${extensions[@]}") ;; openrouter) extensions=(saoudrizwan.claude-dev "${extensions[@]}") ;; esac
   log "CREATE VS_CODE_PROFILE profile=$profile workspace=$course_dir"
   if [[ "$dry_run" == 1 ]]; then log "DRY_RUN code --profile $profile $course_dir"; else code --profile "$profile" "$course_dir"; fi
   for extension in "${extensions[@]}"; do
@@ -123,8 +123,6 @@ install_system_tools() {
   done
   have git || packages+=(git)
   have curl || packages+=(curl)
-  have node || packages+=(nodejs)
-  have npm || packages+=(npm)
   have pandoc || packages+=(pandoc)
   have tesseract || packages+=(tesseract-ocr)
   have pdftotext || packages+=(poppler-utils)
@@ -142,7 +140,7 @@ install_system_tools() {
   fi
   if ((${#packages[@]})); then
     sudo apt-get update
-    sudo apt-get install -y "${packages[@]}"
+    sudo env DEBIAN_FRONTEND=noninteractive apt-get -o Dpkg::Options::=--force-confold install -y "${packages[@]}"
   fi
   if [[ "$agent" != antigravity ]]; then
     if is_wsl; then
@@ -156,7 +154,7 @@ install_system_tools() {
       code_deb="$(mktemp --suffix=.deb)"
       curl -fL "https://update.code.visualstudio.com/latest/linux-deb-$vscode_arch/stable" -o "$code_deb"
       chmod 644 "$code_deb"
-      sudo apt-get install -y "$code_deb"
+      sudo env DEBIAN_FRONTEND=noninteractive apt-get -o Dpkg::Options::=--force-confold install -y "$code_deb"
       rm -f "$code_deb"
     fi
   fi
@@ -167,10 +165,9 @@ install_system_tools() {
   log 'System tools ready. Legacy two-phase setup: open Terminal/Ubuntu normally, then run --setup-user.'
 }
 setup_user() {
-  if [[ -z "$agent" ]]; then read -r -p 'Choose AI frontend [codex/claude/openrouter/antigravity]: ' agent; fi
+  if [[ -z "$agent" ]]; then read -r -p 'Choose AI frontend [claude/codex/openrouter]: ' agent; fi
   [[ "$agent" =~ ^(codex|claude|openrouter|antigravity)$ ]] || { log 'AI frontend must be codex, claude, openrouter, or antigravity.'; exit 2; }
   make_workspace
-  [[ "$agent" == antigravity ]] || have npm || { log 'PREREQUISITE_MISSING npm is not on PATH. Close Terminal, open a new Terminal, then rerun --setup-user.'; exit 2; }
   if [[ "$dry_run" == 1 ]]; then
     is_wsl && log 'DRY_RUN WSL extensions install in the remote Linux workspace'
     log 'DRY_RUN runtime Python 3.12 + user-owned TinyTeX + scoped Codex permissions'
@@ -191,6 +188,7 @@ setup_user() {
     rm -f "$runtime_script"
     source "$course_dir/tools/runtime-env.sh"
   fi
+  [[ "$agent" == antigravity ]] || have npm || { log 'PREREQUISITE_MISSING npm is not on PATH. Close Terminal, open a new Terminal, then rerun --setup-user.'; exit 2; }
   case "$agent" in
     openrouter) log 'OPENROUTER_READY Cline extension; configure provider OpenRouter and your own key in the IDE.' ;;
     codex) if have codex; then log 'REUSE codex'; else log 'INSTALL codex'; run_npm_install @openai/codex; fi ;;
@@ -205,7 +203,7 @@ setup_user() {
 case "$mode" in
   --install)
     [[ "$EUID" != 0 ]] || { log 'Run --install as your normal user; sudo is requested only for system tools.'; exit 2; }
-    [[ -n "$agent" ]] || read -r -p 'Choose AI frontend [codex/claude/openrouter/antigravity]: ' agent
+    [[ -n "$agent" ]] || read -r -p 'Choose AI frontend [claude/codex/openrouter]: ' agent
     install_system_tools
     export PATH="$HOME/.local/bin:/Applications/Visual Studio Code.app/Contents/Resources/app/bin:$PATH"
     setup_user
