@@ -9,7 +9,7 @@ param(
 $ErrorActionPreference = 'Stop'
 $ProgressPreference = 'SilentlyContinue'
 $DryRun = $env:AI_RESEARCH_DRY_RUN -eq '1'
-$SetupVersion = '2026.10.07.9'
+$SetupVersion = '2026.10.07.10'
 $TestCommands = @($env:AI_RESEARCH_TEST_COMMANDS -split ',' | Where-Object { $_ })
 function Trace([string]$Action, [string]$Kind, [string]$Target, [string]$Status, [string]$Details = '') {
   if ($DryRun -or -not $TraceFile) { return }
@@ -31,11 +31,11 @@ function Trace-Path([string]$Path, [string]$Stage) {
 function Log([string]$Message) {
   Trace 'message' 'installer' $Mode 'observed' $Message
   if (-not $DryRun -and $Message -like 'AI workspace=*') {
-    Write-Host '[ai-grad] FINAL_RESULT PASS - Setup complete. Open the AI panel in your workspace and sign in or configure your provider.'
+    Write-Host '[AI for Research] FINAL_RESULT PASS - Setup complete. Open the AI panel in your workspace and sign in or configure your provider.'
     return
   }
   if ($DryRun -or $Mode -eq 'Check' -or $Message -match '^(SETUP_VERSION|DEVICE_CHECK|ADMIN_PHASE_REQUIRED|RUNTIME_READY|INSTALL_FAILED|FINAL_RESULT|workspace=|AI workspace=|STEP)') {
-    Write-Host "[ai-grad] $Message"
+    Write-Host "[AI for Research] $Message"
   }
 }
 function Run-Quiet([string]$Step, [scriptblock]$Action, [int[]]$AcceptCodes = @(0)) {
@@ -378,7 +378,7 @@ switch ($Mode) {
   'InstallSystem' {
     if ($SystemLog) { Start-Transcript -Path $SystemLog -Force | Out-Null }
     try { Install-SystemTools }
-    catch { Write-Host "[ai-grad] SYSTEM_INSTALL_FAILED $($_.Exception.Message)"; exit 1 }
+    catch { Write-Host "[AI for Research] SYSTEM_INSTALL_FAILED $($_.Exception.Message)"; exit 1 }
     finally { if ($SystemLog) { Stop-Transcript | Out-Null } }
   }
   'SetupUser' { Install-UserTools }
@@ -388,8 +388,8 @@ if (($Mode -eq 'Check' -or $Mode -eq 'SetupUser') -and -not $DryRun) { if (-not 
 $installSucceeded = $true
 } catch {
   if ($DryRun) { throw }
-  Write-Host "[ai-grad] INSTALL_FAILED $($_.Exception.Message)"
-  if ($TraceFile) { Write-Host ('[ai-grad] Details: ' + [IO.Path]::ChangeExtension($TraceFile, '.log')) }
+  Write-Host "[AI for Research] INSTALL_FAILED $($_.Exception.Message)"
+  if ($TraceFile) { Write-Host ('[AI for Research] Details: ' + [IO.Path]::ChangeExtension($TraceFile, '.log')) }
   exit 1
 } finally {
   foreach ($path in $watchedPaths) { Trace-Path $path 'after' }

@@ -51,7 +51,7 @@ def log(message):
     trace('message', 'installer', 'runtime', 'observed', message)
     diagnostic(message)
     if not os.environ.get('AI_RESEARCH_TRACE_FILE') or message.startswith(('PYTHON_ENV_READY', 'RUNTIME_READY', 'FINAL_RESULT', 'SETUP_FAILED')):
-        print(f'[ai-grad] {message}', flush=True)
+        print(f'[AI for Research] {message}', flush=True)
 
 
 def run(*args, **kwargs):
@@ -365,7 +365,7 @@ if __name__ == '__main__':
     except Exception as error:
         diagnostic(repr(error))
         filename = os.environ.get('AI_RESEARCH_TRACE_FILE')
-        print('[ai-grad] SETUP_FAILED Research runtime setup did not finish.', flush=True)
+        print('[AI for Research] SETUP_FAILED Research runtime setup did not finish.', flush=True)
         if filename:
-            print(f'[ai-grad] Details: {Path(filename).with_suffix(".log")}', flush=True)
+            print(f'[AI for Research] Details: {Path(filename).with_suffix(".log")}', flush=True)
         raise SystemExit(1)

@@ -5,7 +5,7 @@ mode="${1:---check}"
 course_dir="${AI_RESEARCH_COURSE_DIR:-${AI_GRAD_COURSE_DIR:-$HOME/ai-for-research-workspace}}"
 agent="${AI_GRAD_AGENT:-}"
 dry_run="${AI_RESEARCH_DRY_RUN:-0}"
-setup_version='2026.10.07.9'
+setup_version='2026.10.07.10'
 test_commands=",${AI_RESEARCH_TEST_COMMANDS:-},"
 
 trace_platform=linux
@@ -41,22 +41,22 @@ quiet() {
     trace command process "$1" completed
   else
     result=$?; trace command process "$1" failed "$result"
-    printf '[ai-grad] INSTALL_FAILED %s (exit %s). Details: %s\n' "$1" "$result" "${trace_file%.jsonl}.log" >&2
+    printf '[AI for Research] INSTALL_FAILED %s (exit %s). Details: %s\n' "$1" "$result" "${trace_file%.jsonl}.log" >&2
     return "$result"
   fi
 }
 log() {
   trace message installer "$mode" observed "$*"
   if [[ "$dry_run" != 1 && "$*" == AI\ workspace=* ]]; then
-    printf '[ai-grad] FINAL_RESULT PASS - Setup complete. Open the AI panel in your workspace and sign in or configure your provider.\n'
+    printf '[AI for Research] FINAL_RESULT PASS - Setup complete. Open the AI panel in your workspace and sign in or configure your provider.\n'
     return 0
   fi
   if [[ "$*" == *FAILED* || "$*" == *MISSING* || "$*" == INSTALL_STOPPED* || "$*" == FAIL* || "$*" == 'Install Antigravity'* ]]; then
-    printf '[ai-grad] %s\n' "$*"
+    printf '[AI for Research] %s\n' "$*"
     return 0
   fi
   if [[ "$dry_run" == 1 || "$mode" == --check || "$*" =~ ^(SETUP_VERSION|DEVICE_CHECK|ADMIN_PHASE_REQUIRED|RUNTIME_READY|FINAL_RESULT|workspace=|AI\ workspace=|STEP) ]]; then
-    printf '[ai-grad] %s\n' "$*"
+    printf '[AI for Research] %s\n' "$*"
   fi
 }
 watched_paths=()
@@ -80,7 +80,7 @@ if [[ "$dry_run" != 1 && "$mode" != --check ]]; then
     ((result == 0)) || status=failed
     for path in "${watched_paths[@]}"; do trace_path "$path" after; done
     trace phase installer "$mode" "$status" "$result"
-    if ((result != 0)); then printf '[ai-grad] Installation did not finish. Details: %s\n' "${trace_file%.jsonl}.log" >&2; fi
+    if ((result != 0)); then printf '[AI for Research] Installation did not finish. Details: %s\n' "${trace_file%.jsonl}.log" >&2; fi
     return "$result"
   }
   trap finish_trace EXIT
