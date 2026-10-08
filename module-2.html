@@ -226,26 +226,26 @@ https://urban.cpe.ku.ac.th/ai-for-research/downloads/module-02-submission-schema
 - result.human_decision เลือก accept_with_conditions, reject หรือ need_more_evidence
 - declaration ทั้งสามรายการต้องเป็น true หลังจากฉันยืนยันจริงเท่านั้น
 - ห้ามใส่ชื่อ นามสกุล อีเมล เบอร์โทร รหัสนิสิต ข้อมูลลับ หรือข้อมูลส่วนบุคคล
-- ห้ามสร้าง class_code, learner_code, submission_id หรือเวลา submit หน้าเว็บจะเพิ่มให้ภายหลัง
+- ห้ามสร้าง class_code, callsign, submission_id หรือเวลา submit หน้าเว็บจะเพิ่มให้ภายหลัง
 - ห้ามส่งข้อมูลออกจากเครื่อง ให้สร้างไฟล์แล้วสรุปเป็นสามส่วน: ตอบได้แล้ว, ยังตอบไม่ได้, Prompt ที่แนะนำ จากนั้นหยุดและรอฉันตรวจ</code><button type="button" data-copy>คัดลอกคำสั่งสร้าง Markdown และ JSON</button></div></div></li>
       </ol>
     </section>
 
     <section class="section" id="submit">
-      <div class="section-heading compact"><p class="eyebrow">Submit · ส่งหลักฐานการเรียนรู้</p><h2>ตรวจ Markdown และ JSON ก่อนส่ง</h2><p>หน้าเว็บตรวจ schema, SHA-256, จำนวน claims, L1–L4, แหล่งข้อมูลครบห้ารูปแบบ และผลก่อน–หลังของ Prompt ด้วยกติกาตายตัว จากนั้นส่ง JSON พร้อมผล <code>machine_check</code> ไปยังเซิร์ฟเวอร์ ไฟล์ Markdown ฉบับเต็มไม่ถูกอัปโหลด</p><p><a href="downloads/module-02-submission-schema.json" download>ดาวน์โหลด JSON Schema สำหรับ Module 2 →</a></p></div>
-      <div class="notice"><strong>ข้อมูลประจำตัว:</strong> ใช้เฉพาะรหัสคลาสและรหัสผู้เรียนที่ผู้สอนกำหนด ห้ามใช้ชื่อ อีเมล เบอร์โทร หรือรหัสนิสิต ระบบเก็บข้อสรุปเพื่อประเมิน Module 2 และไม่เผยแพร่ในเว็บไซต์</div>
+      <div class="section-heading compact"><p class="eyebrow">Submit · ส่งหลักฐานการเรียนรู้</p><h2>ตรวจในเครื่อง แล้วส่งเฉพาะ JSON</h2><p>หน้าเว็บอ่าน Markdown ในเบราว์เซอร์เพื่อคำนวณ SHA-256 เท่านั้น ไฟล์ Markdown ไม่ออกจากเครื่อง จากนั้นระบบส่งเฉพาะ JSON ซึ่งมีผลแบบมีโครงสร้างและ <code>machine_check</code> ไปยังเซิร์ฟเวอร์</p><p><a href="downloads/module-02-submission-schema.json" download>ดาวน์โหลด JSON Schema สำหรับ Module 2 →</a></p></div>
+      <div class="notice"><strong>Call sign แทนตัวตน:</strong> ตั้งนามเรียกขานใหม่สำหรับคลาสนี้ เช่น <code>green-orbit-7</code> และอย่าใช้ชื่อจริง ชื่อบัญชี อีเมล เบอร์โทร หรือรหัสนิสิต แบบฟอร์มนี้ไม่ขอและ submission record บนเซิร์ฟเวอร์ไม่เก็บข้อมูลส่วนตัวเหล่านั้น โดยเก็บเฉพาะรหัสคลาส, call sign, JSON, เวลา และ submission ID</div>
       <form class="module-submission-form" data-module-2-submission-form>
         <label><span>รหัสคลาส</span><input name="class_code" type="text" required minlength="3" maxlength="40" pattern="[A-Za-z0-9][A-Za-z0-9._-]{2,39}" placeholder="เช่น pilot-01" autocomplete="off"></label>
-        <label><span>รหัสผู้เรียน</span><input name="learner_code" type="text" required minlength="3" maxlength="40" pattern="[A-Za-z0-9][A-Za-z0-9._-]{2,39}" placeholder="รหัสสมมติที่ผู้สอนกำหนด" autocomplete="off"></label>
-        <label><span>ไฟล์ข้อสรุป Markdown</span><input name="markdown_file" type="file" accept=".md,text/markdown,text/plain" required><small>เลือก <code>module-2-conclusion.md</code> ขนาดไม่เกิน 32 KB</small></label>
-        <label><span>ไฟล์ JSON</span><input name="json_file" type="file" accept=".json,application/json" required><small>เลือก <code>module-2-submission.json</code> ขนาดไม่เกิน 64 KB</small></label>
-        <label class="submission-consent"><input name="consent" type="checkbox" required><span>ฉันตรวจไฟล์แล้ว ยืนยันว่าไม่มีข้อมูลส่วนบุคคลหรือข้อมูลลับ และยินยอมส่งข้อสรุปนี้ให้ผู้สอนตรวจ</span></label>
+        <label><span>Call sign (นามเรียกขาน)</span><input name="callsign" type="text" required minlength="3" maxlength="40" pattern="[A-Za-z0-9][A-Za-z0-9._-]{2,39}" placeholder="เช่น green-orbit-7" autocomplete="off"><small>ตั้งใหม่สำหรับคลาสนี้และจดไว้กับตนเอง ห้ามใช้ชื่อจริงหรือ username ที่ใช้ที่อื่น</small></label>
+        <label><span>ไฟล์ Markdown · ตรวจในเครื่องเท่านั้น</span><input name="markdown_file" type="file" accept=".md,text/markdown,text/plain" required><small>เลือก <code>module-2-conclusion.md</code> เพื่อเทียบ SHA-256 ไฟล์นี้ไม่ถูกอัปโหลด</small></label>
+        <label><span>ไฟล์ JSON · ไฟล์เดียวที่ส่ง</span><input name="json_file" type="file" accept=".json,application/json" required><small>เลือก <code>module-2-submission.json</code> ขนาดไม่เกิน 64 KB</small></label>
+        <label class="submission-consent"><input name="consent" type="checkbox" required><span>ฉันตรวจแล้วว่า JSON ไม่มีข้อมูลส่วนบุคคลหรือข้อมูลลับ และยินยอมส่งเฉพาะ JSON ให้ผู้สอนตรวจ</span></label>
         <div class="profile-actions"><button class="button primary" type="submit">ตรวจไฟล์และสร้าง Preview</button><small data-module-2-submission-status role="status" aria-live="polite"></small></div>
       </form>
 
       <div class="submission-preview" data-module-2-submission-preview hidden>
         <h3>JSON ที่พร้อมส่ง</h3>
-        <p>ตรวจรหัสผู้เรียน ข้อสรุป และรายการหลักฐานอีกครั้ง กดส่งเมื่อข้อมูลถูกต้อง</p>
+        <p>ตรวจ call sign ข้อสรุป และรายการหลักฐานอีกครั้ง กดส่งเมื่อข้อมูลถูกต้อง</p>
         <pre><code data-module-2-submission-json></code></pre>
         <button class="button primary" type="button" data-module-2-submit disabled>ส่ง JSON ไปยังเซิร์ฟเวอร์</button>
       </div>

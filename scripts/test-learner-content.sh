@@ -151,6 +151,14 @@ check_file "$site_dir/module-2.html" "M2 open questions" 'open_questions.*ยั
 check_file "$site_dir/module-2.html" "M2 next prompt" 'next_prompt.*ห้ามรัน Prompt'
 check_file "$site_dir/module-2.html" "M2 submission form" 'data-module-2-submission-form'
 check_file "$site_dir/module-2.html" "M2 receipt" 'data-module-2-receipt-download'
+check_file "$site_dir/module-2.html" "M2 call sign" 'Call sign \(นามเรียกขาน\)'
+check_file "$site_dir/module-2.html" "M2 JSON only" 'ไฟล์ JSON · ไฟล์เดียวที่ส่ง'
+check_file "$site_dir/module-2.html" "M2 local Markdown" 'ไฟล์ Markdown · ตรวจในเครื่องเท่านั้น'
+check_file "$site_dir/assets/module-2-submission.js" "M2 call sign payload" 'callsign: safeCode'
+if grep -q 'learner_code\|name="learner_code"\|รหัสผู้เรียน' "$site_dir/module-2.html" "$site_dir/assets/module-2-submission.js"; then
+  printf 'Module 2 submission must use a call sign instead of a learner identity field.\n'
+  failed=1
+fi
 check_file "$site_dir/assets/module-2-submission.js" "M2 server endpoint" 'submissionEndpoint = "/api/log"'
 check_file "$site_dir/assets/module-2-submission.js" "M2 fixed event type" 'ai_for_research_module_2_submission'
 check_file "$site_dir/assets/module-2-submission.js" "M2 hash check" 'crypto\.subtle\.digest\("SHA-256"'
