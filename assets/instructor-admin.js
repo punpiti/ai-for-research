@@ -178,14 +178,19 @@
   function renderSyllabus(data) {
     moduleList.replaceChildren();
     data.syllabus.forEach((module) => {
-      const card = node("article", `instructor-module${module.active ? " is-active" : ""}`);
-      const includeLabel = node("label", "instructor-module-include");
+      const moduleName = `${module.id.replace("module-", "M")} · ${module.title}`;
+      const card = node("article", "instructor-module");
+      const includeLabel = node("label", "instructor-module-choice");
       const checkbox = node("input");
       checkbox.type = "checkbox";
       checkbox.name = "included_module";
       checkbox.value = module.id;
       checkbox.checked = module.included;
-      includeLabel.append(checkbox, node("span", "", "อยู่ใน Syllabus"));
+      checkbox.className = "instructor-module-checkbox";
+      checkbox.setAttribute("aria-label", `${moduleName}: รวมใน Syllabus`);
+      const title = node("strong", "instructor-module-title", moduleName);
+      const inclusionStatus = node("span", "instructor-module-status");
+      includeLabel.append(checkbox, title, inclusionStatus);
       const activeLabel = node("label", "instructor-module-active");
       const radio = node("input");
       radio.type = "radio";
@@ -193,7 +198,27 @@
       radio.value = module.id;
       radio.checked = module.active;
       activeLabel.append(radio, node("span", "", "Active"));
-      card.append(node("strong", "", `${module.id.replace("module-", "M")} · ${module.title}`), includeLabel, activeLabel);
+
+      const syncCard = () => {
+        card.classList.toggle("is-included", checkbox.checked);
+        card.classList.toggle("is-excluded", !checkbox.checked);
+        card.classList.toggle("is-active", radio.checked);
+        inclusionStatus.textContent = checkbox.checked ? "ใน Syllabus" : "ยังไม่รวม";
+      };
+      checkbox.addEventListener("change", () => {
+        if (!checkbox.checked && radio.checked) radio.checked = false;
+        syncCard();
+      });
+      radio.addEventListener("change", () => {
+        if (radio.checked) {
+          checkbox.checked = true;
+          moduleList.querySelectorAll(".instructor-module").forEach((item) => item.classList.remove("is-active"));
+        }
+        syncCard();
+      });
+
+      card.append(includeLabel, activeLabel);
+      syncCard();
       moduleList.append(card);
     });
   }
