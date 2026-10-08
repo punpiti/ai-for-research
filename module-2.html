@@ -39,6 +39,14 @@
         <div><span>03 · Challenge</span><strong>จับคำตอบที่ไม่มีข้อมูลรองรับและถาม AI ให้ชี้แจง</strong></div>
         <div><span>04 · Deliver</span><strong>ปรับ Prompt แล้วสร้างข้อสรุป Markdown กับ JSON ที่ตรวจ hash และส่งได้</strong></div>
       </div>
+      <details class="fallback-details" data-file-structure-explainer>
+        <summary>Markdown (.md) กับ JSON ต่างกันอย่างไร</summary>
+        <div class="concept-grid">
+          <article><h3>Markdown · เขียนให้คนอ่าน</h3><p>เป็นไฟล์ข้อความที่ใช้ <code>#</code> ทำหัวข้อ <code>-</code> ทำรายการ และ backticks ครอบชื่อไฟล์หรือคำสั่ง เหมาะกับข้อสรุปที่ผู้เรียนและผู้สอนอ่านต่อเนื่องได้</p><pre><code># ข้อสรุป&#10;&#10;- ราคาอยู่ในงบ&#10;- ความอิ่มยังยืนยันไม่ได้</code></pre></article>
+          <article><h3>JSON · จัดข้อมูลให้โปรแกรมตรวจ</h3><p>เก็บข้อมูลเป็น <code>"key": value</code> ภายใน object และ array รูปแบบต้องตรงกับ schema จึงเหมาะกับการนับ claims ตรวจ L1–L4 และรับผลบน server</p><pre><code>{&#10;  "decision": "insufficient_evidence",&#10;  "open_questions": 2&#10;}</code></pre></article>
+        </div>
+        <p class="plain-note"><strong>สองไฟล์ทำงานคู่กัน:</strong> Markdown เก็บคำอธิบายฉบับเต็ม ส่วน JSON เก็บผลแบบมีโครงสร้างและ SHA-256 ของ Markdown เพื่อยืนยันว่าอ้างถึงไฟล์รุ่นใด</p>
+      </details>
     </section>
 
     <section class="section" id="sources">

@@ -115,6 +115,20 @@ done
 check_file "$site_dir/module-7.html" "Thai population lab link" 'module-7-thailand-population-lab\.html'
 
 check_file "$site_dir/module-2.html" "shared food case" 'มื้อข้าวไข่เจียวเหมาะกับนักศึกษา'
+check_file "$site_dir/module-2.html" "M2 file explainer" 'data-file-structure-explainer'
+check_file "$site_dir/module-2.html" "M2 Markdown structure" 'Markdown · เขียนให้คนอ่าน'
+check_file "$site_dir/module-2.html" "M2 JSON structure" 'JSON · จัดข้อมูลให้โปรแกรมตรวจ'
+python3 - "$site_dir/module-2.html" <<'PYFILESTRUCTURE'
+import re, sys
+from pathlib import Path
+
+html = Path(sys.argv[1]).read_text(encoding="utf-8")
+first_reference = html.index("ข้อสรุป Markdown กับ JSON")
+explainer = html.index("data-file-structure-explainer")
+assert first_reference < explainer, "file explainer must follow the first Markdown/JSON reference"
+tag = re.search(r"<details[^>]*data-file-structure-explainer[^>]*>", html).group(0)
+assert not re.search(r"\sopen(?:\s|=|>)", tag), "file explainer must be collapsed initially"
+PYFILESTRUCTURE
 for extension in pdf xlsx docx png; do
   check_file "$site_dir/module-2.html" "M2 $extension evidence" "module-02-food-evidence/[^\"]+\.${extension}"
 done
