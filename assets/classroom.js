@@ -65,7 +65,13 @@
     return session.classrooms.find((item) => item.classroom_id === classroomId) || null;
   }
 
-  const testApi = { apiBase, classroomIdFromPage, loginUrl, sessionState, enroll, publicDetails, structuredItem, membershipFor };
+  function moduleContentPath(moduleId) {
+    const match = /^module-([1-9])$/.exec(String(moduleId || ""));
+    if (!match) return "prepare.html";
+    return match[1] === "1" ? "prepare.html" : `module-${match[1]}.html`;
+  }
+
+  const testApi = { apiBase, classroomIdFromPage, loginUrl, sessionState, enroll, publicDetails, structuredItem, membershipFor, moduleContentPath };
   if (typeof module !== "undefined" && module.exports) module.exports = testApi;
   globalObject.classroomTestApi = testApi;
 
@@ -77,6 +83,7 @@
 
   let authenticated = false;
   let instructor = false;
+  let learnerContentHref = "";
   let enrollmentStatus = "open";
 
   function setText(selector, value) {
@@ -198,9 +205,10 @@
     const membership = membershipFor(state, classroomId);
     if (membership?.status === "active") {
       instructor = membership.role === "teacher";
-      button.disabled = !instructor;
-      button.textContent = instructor ? "เปิดหน้าของอาจารย์" : "ลงทะเบียนแล้ว";
-      status.textContent = instructor ? "ลงทะเบียนแล้วในบทบาทผู้สอน" : "ลงทะเบียนเรียบร้อยแล้ว";
+      learnerContentHref = instructor ? "" : moduleContentPath(membership.active_module_id);
+      button.disabled = false;
+      button.textContent = instructor ? "เปิดหน้าของอาจารย์" : "เข้าสู่เนื้อหา";
+      status.textContent = instructor ? "ลงทะเบียนแล้วในบทบาทผู้สอน" : "ได้รับอนุมัติแล้ว พร้อมเข้าสู่เนื้อหาที่กำลังเรียน";
       status.classList.add("is-success");
       return;
     }
@@ -235,6 +243,10 @@
       globalObject.location.assign(`admin/?id=${encodeURIComponent(classroomId)}`);
       return;
     }
+    if (learnerContentHref) {
+      globalObject.location.assign(learnerContentHref);
+      return;
+    }
     if (enrollmentStatus !== "open") {
       renderUnavailableEnrollment();
       return;
@@ -260,8 +272,10 @@
         button.textContent = "รออนุมัติ";
         status.textContent = "ระบบรับคำขอแล้ว ผู้สอนจะตรวจสถานะอาจารย์หรือนักวิจัยก่อนอนุมัติ";
       } else {
-        button.textContent = "ลงทะเบียนแล้ว";
-        status.textContent = "ลงทะเบียนเรียบร้อยแล้ว";
+        learnerContentHref = moduleContentPath(result.active_module_id);
+        button.disabled = false;
+        button.textContent = "เข้าสู่เนื้อหา";
+        status.textContent = "ได้รับอนุมัติแล้ว พร้อมเข้าสู่เนื้อหาที่กำลังเรียน";
       }
       status.classList.add("is-success");
       document.querySelector("site-header")?.updateClassroomCta?.("classroom");

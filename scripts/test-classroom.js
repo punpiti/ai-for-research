@@ -30,6 +30,9 @@ const classroom = require("../assets/classroom.js");
     { classroom_id: "faculty-pilot-2569", role: "teacher", status: "active" },
   );
   assert.equal(classroom.membershipFor({ classrooms: [] }, "faculty-pilot-2569"), null);
+  assert.equal(classroom.moduleContentPath("module-1"), "prepare.html");
+  assert.equal(classroom.moduleContentPath("module-8"), "module-8.html");
+  assert.equal(classroom.moduleContentPath("invalid"), "prepare.html");
 
   const requested = await classroom.enroll("faculty-pilot-2569", async (url, options) => {
     assert.equal(url, "/api/ai-for-research/classrooms/faculty-pilot-2569/enroll");

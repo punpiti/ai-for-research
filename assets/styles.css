@@ -661,6 +661,8 @@ a[data-workspace-download]::after { content:"  ↓"; color:var(--accent); font-w
 .submission-dashboard-block h3 { margin: 0 0 .8rem; font-size: 1.2rem; }
 .submission-module-table td:nth-child(2), .submission-module-table td:nth-child(4), .submission-module-table td:nth-child(5), .submission-module-table td:nth-child(7) { text-align: right; }
 .submission-module-table tr.is-untracked { opacity: .55; }
+.submission-module-link { display: block; color: var(--white); font-weight: 600; line-height: 1.45; text-decoration-color: rgba(135,199,178,.5); text-underline-offset: .2rem; }
+.submission-module-link:hover, .submission-module-link:focus-visible { color: var(--mint); text-decoration-color: currentColor; }
 .submission-progress { width: 9rem; height: .55rem; overflow: hidden; border-radius: 99px; background: rgba(255,255,255,.08); }
 .submission-progress > span { display: block; height: 100%; border-radius: inherit; background: var(--mint); }
 .submission-module-table td:nth-child(3) small { margin-top: .35rem; text-align: right; }

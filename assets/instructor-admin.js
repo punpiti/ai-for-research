@@ -18,6 +18,12 @@
     return `${apiBase}/${encodeURIComponent(classroomId)}/instructor`;
   }
 
+  function moduleContentPath(moduleId) {
+    const match = /^module-([1-9])$/.exec(String(moduleId || ""));
+    if (!match) return "../prepare.html";
+    return match[1] === "1" ? "../prepare.html" : `../module-${match[1]}.html`;
+  }
+
   function formatTokens(value) {
     return Number.isInteger(value) ? new Intl.NumberFormat("th-TH").format(value) : "—";
   }
@@ -35,7 +41,7 @@
     return ({ active: "อนุมัติแล้ว", pending: "รออนุมัติ", rejected: "ไม่อนุมัติ" })[status] || status;
   }
 
-  const testApi = { apiBase, classroomListEndpoint, classroomIdFromSearch, loginPath, dashboardEndpoint, formatTokens, submissionLabel, enrollmentLabel };
+  const testApi = { apiBase, classroomListEndpoint, classroomIdFromSearch, loginPath, dashboardEndpoint, moduleContentPath, formatTokens, submissionLabel, enrollmentLabel };
   if (typeof module !== "undefined" && module.exports) module.exports = testApi;
   globalObject.instructorAdminTestApi = testApi;
 
@@ -398,8 +404,10 @@
     modules.forEach((module) => {
       const row = node("tr");
       const moduleCell = node("td");
+      const moduleLink = node("a", "submission-module-link", `${module.module_id.replace("module-", "M")} · ${module.module_title}`);
+      moduleLink.href = moduleContentPath(module.module_id);
       moduleCell.append(
-        node("strong", "", `${module.module_id.replace("module-", "M")} · ${module.module_title}`),
+        moduleLink,
         node("small", "", module.tracked ? "รับข้อมูลการส่งงาน" : "ยังไม่มีช่องส่งงาน"),
       );
       if (!module.tracked) {
@@ -449,8 +457,10 @@
       person.append(node("strong", "", item.display_name || item.email), node("small", "", item.email));
       const work = node("td");
       const route = item.route ? ` · ${item.route}` : "";
+      const workLink = node("a", "submission-module-link", item.module_title);
+      workLink.href = moduleContentPath(item.module_id);
       work.append(
-        node("strong", "", item.module_title),
+        workLink,
         node("small", "", `${item.module_id.replace("module-", "M")}${route} · ${item.ai_tool || "ไม่ระบุ AI"}`),
       );
       row.append(

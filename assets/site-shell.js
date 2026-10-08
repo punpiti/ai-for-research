@@ -10,6 +10,12 @@ const MODULE_LINKS = [
   [9, "module-9.html", "Personal AI Research Practice"],
 ];
 
+function moduleContentHref(moduleId) {
+  const match = /^module-([1-9])$/.exec(String(moduleId || ""));
+  if (!match) return "prepare.html";
+  return match[1] === "1" ? "prepare.html" : `module-${match[1]}.html`;
+}
+
 const PRODUCTION_BASE = "https://urban.cpe.ku.ac.th/ai-for-research/";
 const GOOGLE_ANALYTICS_ID = "G-BWX7PFH4XM";
 const CLASSROOM_API_BASE = "/api/ai-for-research/classrooms";
@@ -107,12 +113,12 @@ class SiteHeader extends HTMLElement {
           cta.textContent = "หน้าของอาจารย์";
           cta.href = `admin/?id=${encodeURIComponent(targetClassroomId)}`;
         } else {
-          cta.textContent = current === "classroom" ? "ลงทะเบียนแล้ว" : "ห้องเรียนของฉัน";
-          cta.href = current === "classroom" ? "#overview" : classroomHref;
+          cta.textContent = current === "classroom" ? "เข้าสู่เนื้อหา" : "ห้องเรียนของฉัน";
+          cta.href = current === "classroom" ? moduleContentHref(membership.active_module_id) : classroomHref;
         }
       } else if (membership?.status === "pending") {
         cta.textContent = "รออนุมัติ";
-        cta.href = current === "classroom" ? "#overview" : classroomHref;
+        cta.href = current === "classroom" ? "#syllabus" : classroomHref;
       } else {
         cta.textContent = "ลงทะเบียน";
         cta.href = classroomHref;
