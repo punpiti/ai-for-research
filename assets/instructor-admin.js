@@ -77,7 +77,9 @@
   }
 
   function classOption(item) {
-    const option = node("option", "", `${item.title} — ${item.classroom_id}`);
+    const kind = item.classroom_type === "template" ? "ต้นแบบ · " : "";
+    const code = item.course_code ? `${item.course_code} · ` : "";
+    const option = node("option", "", `${kind}${code}${item.title} — ${item.classroom_id}`);
     option.value = item.classroom_id;
     return option;
   }
@@ -90,9 +92,11 @@
       : classes[0]?.classroom_id || "";
     if (!selected) throw new Error("ยังไม่มีคลาสที่คุณเป็นผู้สอน");
     classroomId = selected;
+    const selectedClass = classes.find((item) => item.classroom_id === classroomId);
     classroomSelector.value = classroomId;
     sourceClassroom.value = classroomId;
     publicClassLink.href = `../classroom.html?id=${encodeURIComponent(classroomId)}`;
+    publicClassLink.hidden = selectedClass?.classroom_type === "template";
     const canonicalSearch = `?id=${encodeURIComponent(classroomId)}`;
     if (globalObject.location.search !== canonicalSearch) {
       globalObject.history.replaceState(null, "", canonicalSearch);
@@ -100,7 +104,9 @@
   }
 
   function renderSummary(data) {
-    document.querySelector("[data-class-title]").textContent = data.classroom.title;
+    const code = data.classroom.course_code ? `${data.classroom.course_code} · ` : "";
+    const english = data.classroom.title_en ? ` / ${data.classroom.title_en}` : "";
+    document.querySelector("[data-class-title]").textContent = `${code}${data.classroom.title}${english}`;
     document.querySelector("[data-summary-enrolled]").textContent = data.enrollments.filter((item) => item.status === "active").length;
     document.querySelector("[data-summary-pending]").textContent = data.enrollments.filter((item) => item.status === "pending").length;
     document.querySelector("[data-summary-module]").textContent = data.classroom.active_module_id?.replace("module-", "M") || "—";
