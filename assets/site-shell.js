@@ -91,15 +91,21 @@ class SiteHeader extends HTMLElement {
       });
       if (!response.ok) return;
       const session = await response.json();
+      const requestedClassroomId = current === "classroom"
+        ? new URLSearchParams(location.search).get("id") || ""
+        : FEATURED_CLASSROOM_ID;
+      const targetClassroomId = /^[A-Za-z0-9][A-Za-z0-9._-]{2,63}$/.test(requestedClassroomId)
+        ? requestedClassroomId
+        : FEATURED_CLASSROOM_ID;
       const membership = Array.isArray(session.classrooms)
-        ? session.classrooms.find((item) => item.classroom_id === FEATURED_CLASSROOM_ID)
+        ? session.classrooms.find((item) => item.classroom_id === targetClassroomId)
         : null;
-      const classroomHref = `classroom.html?id=${FEATURED_CLASSROOM_ID}`;
+      const classroomHref = `classroom.html?id=${targetClassroomId}`;
 
       if (membership?.status === "active") {
         if (membership.role === "teacher") {
           cta.textContent = "หน้าของอาจารย์";
-          cta.href = "admin/";
+          cta.href = `admin/?id=${encodeURIComponent(targetClassroomId)}`;
         } else {
           cta.textContent = current === "classroom" ? "ลงทะเบียนแล้ว" : "ห้องเรียนของฉัน";
           cta.href = current === "classroom" ? "#overview" : classroomHref;

@@ -2,6 +2,8 @@ const assert = require("node:assert/strict");
 const classroom = require("../assets/classroom.js");
 
 (async () => {
+  assert.equal(classroom.classroomIdFromPage(null, "?id=class-a1b2c3"), "class-a1b2c3");
+  assert.equal(classroom.classroomIdFromPage({ querySelector: () => ({ dataset: { classroomId: "fallback-class" } }) }, "?id=../../bad"), "fallback-class");
   assert.equal(
     classroom.loginUrl("faculty-pilot-2569"),
     "login.html?next=classroom.html%3Fid%3Dfaculty-pilot-2569%26action%3Denroll",

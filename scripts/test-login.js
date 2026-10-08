@@ -8,6 +8,7 @@ async function expectCode(promise, code) {
 (async () => {
   assert.equal(login.safeNextPath("classroom.html?id=faculty-pilot-2569&action=enroll"), "classroom.html?id=faculty-pilot-2569&action=enroll");
   assert.equal(login.safeNextPath("admin/"), "admin/");
+  assert.equal(login.safeNextPath("admin/?id=class-a1b2c3"), "admin/?id=class-a1b2c3");
   assert.equal(login.safeNextPath("https://attacker.example/"), "");
   assert.equal(login.isLocalPreview("127.0.0.1"), true);
   assert.equal(login.isLocalPreview("localhost"), true);

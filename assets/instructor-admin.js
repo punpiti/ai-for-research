@@ -2,7 +2,17 @@
   "use strict";
 
   const apiBase = "/api/ai-for-research/classrooms";
-  const loginPath = "../login.html?next=admin%2F";
+  const classroomListEndpoint = `${apiBase}/instructor/classes`;
+
+  function classroomIdFromSearch(search, fallback = "") {
+    const value = new URLSearchParams(String(search || "")).get("id") || fallback;
+    return /^[A-Za-z0-9][A-Za-z0-9._-]{2,63}$/.test(value) ? value : "";
+  }
+
+  function loginPath(classroomId) {
+    const next = classroomId ? `admin/?id=${encodeURIComponent(classroomId)}` : "admin/";
+    return `../login.html?next=${encodeURIComponent(next)}`;
+  }
 
   function dashboardEndpoint(classroomId) {
     return `${apiBase}/${encodeURIComponent(classroomId)}/instructor`;
@@ -25,13 +35,19 @@
     return ({ active: "อนุมัติแล้ว", pending: "รออนุมัติ", rejected: "ไม่อนุมัติ" })[status] || status;
   }
 
-  const testApi = { apiBase, dashboardEndpoint, formatTokens, submissionLabel, enrollmentLabel };
+  const testApi = { apiBase, classroomListEndpoint, classroomIdFromSearch, loginPath, dashboardEndpoint, formatTokens, submissionLabel, enrollmentLabel };
   if (typeof module !== "undefined" && module.exports) module.exports = testApi;
   globalObject.instructorAdminTestApi = testApi;
 
   if (typeof document === "undefined") return;
-  const classroomId = document.body.dataset.classroomId;
+  let classroomId = classroomIdFromSearch(globalObject.location.search);
   const pageStatus = document.querySelector("[data-page-status]");
+  const classroomSelector = document.querySelector("[data-classroom-selector]");
+  const sourceClassroom = document.querySelector("[data-source-classroom]");
+  const publicClassLink = document.querySelector("[data-public-class-link]");
+  const createDialog = document.querySelector("[data-create-class-dialog]");
+  const createForm = document.querySelector("[data-create-class-form]");
+  const createStatus = document.querySelector("[data-create-class-status]");
   const enrollmentRows = document.querySelector("[data-enrollment-rows]");
   const submissionRows = document.querySelector("[data-submission-rows]");
   const moduleList = document.querySelector("[data-module-list]");
@@ -53,11 +69,34 @@
     });
     const payload = await response.json().catch(() => ({}));
     if (response.status === 401) {
-      globalObject.location.assign(loginPath);
+      globalObject.location.assign(loginPath(classroomId));
       throw new Error("authentication-required");
     }
     if (!response.ok) throw new Error(payload.detail || "โหลดข้อมูลไม่สำเร็จ");
     return payload;
+  }
+
+  function classOption(item) {
+    const option = node("option", "", `${item.title} — ${item.classroom_id}`);
+    option.value = item.classroom_id;
+    return option;
+  }
+
+  function renderClassroomChoices(classes) {
+    classroomSelector.replaceChildren(...classes.map(classOption));
+    sourceClassroom.replaceChildren(...classes.map(classOption));
+    const selected = classes.some((item) => item.classroom_id === classroomId)
+      ? classroomId
+      : classes[0]?.classroom_id || "";
+    if (!selected) throw new Error("ยังไม่มีคลาสที่คุณเป็นผู้สอน");
+    classroomId = selected;
+    classroomSelector.value = classroomId;
+    sourceClassroom.value = classroomId;
+    publicClassLink.href = `../classroom.html?id=${encodeURIComponent(classroomId)}`;
+    const canonicalSearch = `?id=${encodeURIComponent(classroomId)}`;
+    if (globalObject.location.search !== canonicalSearch) {
+      globalObject.history.replaceState(null, "", canonicalSearch);
+    }
   }
 
   function renderSummary(data) {
@@ -211,6 +250,46 @@
     }
   });
 
+  classroomSelector.addEventListener("change", () => {
+    const selected = classroomIdFromSearch(`?id=${encodeURIComponent(classroomSelector.value)}`);
+    if (selected) globalObject.location.assign(`?id=${encodeURIComponent(selected)}`);
+  });
+
+  document.querySelector("[data-open-create-class]").addEventListener("click", () => {
+    createStatus.textContent = "";
+    createForm.elements.title.value = "";
+    sourceClassroom.value = classroomId;
+    if (typeof createDialog.showModal === "function") createDialog.showModal();
+    else createDialog.setAttribute("open", "");
+  });
+
+  document.querySelector("[data-close-create-class]").addEventListener("click", () => {
+    if (typeof createDialog.close === "function") createDialog.close();
+    else createDialog.removeAttribute("open");
+  });
+
+  createForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    if (!createForm.reportValidity()) return;
+    const submitButton = createForm.querySelector('button[type="submit"]');
+    submitButton.disabled = true;
+    createStatus.textContent = "กำลังสร้างคลาส…";
+    try {
+      const result = await request(classroomListEndpoint, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          title: createForm.elements.title.value.trim(),
+          source_classroom_id: sourceClassroom.value,
+        }),
+      });
+      globalObject.location.assign(`?id=${encodeURIComponent(result.classroom.classroom_id)}`);
+    } catch (error) {
+      if (error.message !== "authentication-required") createStatus.textContent = error.message;
+      submitButton.disabled = false;
+    }
+  });
+
   document.querySelector("[data-logout]").addEventListener("click", async () => {
     try {
       await request(`${apiBase}/auth/logout`, { method: "POST" });
@@ -219,5 +298,18 @@
     }
   });
 
-  loadDashboard();
+  async function initialize() {
+    try {
+      const result = await request(classroomListEndpoint);
+      renderClassroomChoices(result.classes || []);
+      await loadDashboard();
+    } catch (error) {
+      if (error.message !== "authentication-required") {
+        pageStatus.textContent = error.message;
+        pageStatus.classList.add("is-error");
+      }
+    }
+  }
+
+  initialize();
 })(typeof window !== "undefined" ? window : globalThis);

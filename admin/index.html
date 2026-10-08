@@ -9,19 +9,23 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../assets/styles.css?v=20261008-11">
-  <script src="../assets/instructor-admin.js?v=20261008-1" defer></script>
+  <link rel="stylesheet" href="../assets/styles.css?v=20261008-12">
+  <script src="../assets/instructor-admin.js?v=20261008-2" defer></script>
 </head>
-<body class="instructor-body" data-classroom-id="faculty-pilot-2569">
+<body class="instructor-body">
   <a class="skip-link" href="#main">ข้ามไปยังเนื้อหา</a>
   <header class="site-header instructor-header">
     <a class="brand" href="../index.html" aria-label="AI for Research หน้าแรก"><span class="brand-mark">AI</span><span>for Research</span></a>
     <nav aria-label="เมนูอาจารย์">
-      <a href="../classroom.html?id=faculty-pilot-2569">หน้าคลาส</a>
+      <a href="../classroom.html?id=faculty-pilot-2569" data-public-class-link>หน้าคลาส</a>
       <button class="nav-cta instructor-logout" type="button" data-logout>ออกจากระบบ</button>
     </nav>
   </header>
   <main id="main" class="instructor-main">
+    <section class="classroom-switcher" aria-label="เลือกคลาส">
+      <label><span>คลาสที่กำลังจัดการ</span><select data-classroom-selector aria-label="คลาสที่กำลังจัดการ"></select></label>
+      <button class="button primary" type="button" data-open-create-class>+ สร้างคลาสใหม่</button>
+    </section>
     <section class="instructor-title">
       <div>
         <p class="eyebrow">Instructor classroom</p>
@@ -78,5 +82,20 @@
       </div>
     </section>
   </main>
+  <dialog class="create-class-dialog" data-create-class-dialog aria-labelledby="create-class-title">
+    <form method="dialog" data-create-class-form>
+      <div>
+        <p class="eyebrow">New classroom</p>
+        <h2 id="create-class-title">สร้างคลาสใหม่</h2>
+      </div>
+      <label><span>ชื่อคลาส</span><input name="title" maxlength="160" required></label>
+      <label><span>เริ่มจาก Syllabus ของ</span><select name="source_classroom_id" required data-source-classroom></select></label>
+      <p class="create-class-status" data-create-class-status role="status" aria-live="polite"></p>
+      <div class="instructor-actions">
+        <button class="button primary" type="submit">สร้างคลาส</button>
+        <button class="button secondary" type="button" data-close-create-class>ยกเลิก</button>
+      </div>
+    </form>
+  </dialog>
 </body>
 </html>

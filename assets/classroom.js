@@ -3,7 +3,9 @@
 
   const apiBase = "/api/ai-for-research/classrooms";
 
-  function classroomIdFromPage(documentObject) {
+  function classroomIdFromPage(documentObject, search = globalObject.location?.search || "") {
+    const queryId = new URLSearchParams(search).get("id") || "";
+    if (/^[A-Za-z0-9][A-Za-z0-9._-]{2,63}$/.test(queryId)) return queryId;
     return documentObject?.querySelector("[data-classroom-id]")?.dataset.classroomId || "";
   }
 

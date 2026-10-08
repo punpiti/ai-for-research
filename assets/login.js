@@ -15,7 +15,7 @@
 
   function safeNextPath(value) {
     const candidate = String(value || "");
-    return /^(?:classroom\.html\?id=[a-z0-9][a-z0-9-]{2,63}(?:&action=enroll)?|admin\/)$/.test(candidate)
+    return /^(?:classroom\.html\?id=[A-Za-z0-9][A-Za-z0-9._-]{2,63}(?:&action=enroll)?|admin\/(?:\?id=[A-Za-z0-9][A-Za-z0-9._-]{2,63})?)$/.test(candidate)
       ? candidate
       : "";
   }
