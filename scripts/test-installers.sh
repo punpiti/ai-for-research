@@ -127,7 +127,7 @@ grep -q 'ทาง A · เรียนต่อจาก Module 2' "$root/modul
 grep -q 'ทาง B · เริ่มจาก Module 3' "$root/module-3.html"
 grep -q 'ขั้นที่ 2 · จุดนัดพบ' "$root/module-3.html"
 grep -q 'ขั้นที่ 3 · กิจกรรมร่วม' "$root/module-3.html"
-grep -q 'href="module-3.html"' "$root/index.html"
+grep -q 'พัฒนาโจทย์และคำถามวิจัย' "$root/classroom.html"
 grep -q 'Literature Evidence' "$root/module-4.html"
 grep -q 'Discovery Source' "$root/module-4.html"
 grep -q 'fabricated / phantom reference' "$root/module-4.html"
@@ -152,7 +152,7 @@ fi
 grep -q 'output/literature-evidence-table.md' "$root/module-4.html"
 grep -q 'output/citation-self-audit.md' "$root/module-4.html"
 grep -q 'output/citation-verification-checklist.md' "$root/module-4.html"
-grep -q 'href="module-4.html"' "$root/index.html"
+grep -q 'ค้นและตรวจวรรณกรรม' "$root/classroom.html"
 grep -q 'latexdiff old.tex new.tex' "$root/module-8.html"
 grep -q 'diff.tex.*source หลัก' "$root/module-8.html"
 grep -q 'Revision Diff Record' "$root/downloads/module-08-venue-document-workbook.md"
@@ -208,20 +208,10 @@ if rg -n --glob '!test-installers.sh' 'gemini|Gemini CLI|@google/gemini-cli' "$r
   exit 1
 fi
 
-canonical_module_names=(
-  'Prepare Your AI Research Workspace'
-  'Your First AI Research Task'
-  'Problem → Gap → Research Question'
-  'Literature Evidence'
-  'Research Logic'
-  'Experiment Design Stress Test'
-  'Analysis &amp; Visualization'
-  'Document Production'
-  'Personal AI Research Workflow'
-)
-for name in "${canonical_module_names[@]}"; do
-  grep -Fq "$name" "$root/index.html"
-done
+grep -Fq 'พัฒนาโจทย์และคำถามวิจัย' "$root/classroom.html"
+grep -Fq 'ค้นและตรวจวรรณกรรม' "$root/classroom.html"
+grep -Fq 'Non-coding Data Analytics, Visualization &amp; Machine Learning' "$root/classroom.html"
+grep -Fq 'Manuscript Preparation' "$root/classroom.html"
 grep -q 'LOCAL_CHECK PASS/FAIL' "$root/downloads/starter-AGENTS.md"
 for name in \
   'Prepare Your AI Research Workspace' \

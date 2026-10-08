@@ -10,6 +10,8 @@ This repository/folder is a deliberately small public export for GitHub Pages.
 - Public setup/readiness instructions
 - Reviewed learner-facing setup scripts and starter-workspace templates approved for Module 1
 - Browser assets required to render those pages
+- Public Google login shell that sends an ID token once to the same-origin classroom API; it contains no roster, stored credential, session secret, or account-state disclosure
+- Public classroom catalogue/detail pages containing reviewed syllabus summaries and enrollment status, but no roster, private classroom content, learner work, or entitlement data
 - Public JSON schemas and browser code used to validate learner submissions
 - GitHub Pages deployment configuration
 

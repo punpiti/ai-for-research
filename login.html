@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="เข้าสู่ห้องเรียน AI for Research ด้วยบัญชี Google ของมหาวิทยาลัยเกษตรศาสตร์">
+  <meta name="google-signin-client-id" content="823525837756-m5dqech1434vtguqbqdj5d6elat3gcf8.apps.googleusercontent.com">
+  <meta name="theme-color" content="#101817">
+  <meta name="robots" content="noindex,nofollow">
+  <title>เข้าสู่ห้องเรียน · AI for Research</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/styles.css?v=20261008-10">
+  <script src="assets/site-shell.js?v=20261008-4"></script>
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <script src="assets/login.js?v=20261008-2" defer></script>
+</head>
+<body class="login-body">
+  <a class="skip-link" href="#main">ข้ามไปยังเนื้อหา</a>
+  <site-header current="login"></site-header>
+  <main id="main" class="login-page">
+    <section class="login-card" aria-labelledby="login-title">
+      <div class="login-intro">
+        <p class="eyebrow">Classroom access</p>
+        <h1 id="login-title">เข้าสู่<br><span>ห้องเรียน</span></h1>
+        <p>ใช้บัญชี Google ของมหาวิทยาลัยเกษตรศาสตร์เพื่อเข้าสู่ห้องเรียน ไม่ต้องสร้างหรือจำรหัสผ่านใหม่</p>
+        <ul class="login-points">
+          <li>หนึ่งบัญชีเข้าร่วมได้หลายคลาส</li>
+          <li>บทบาทอาจต่างกันในแต่ละคลาส</li>
+          <li>สิทธิ์เข้าถึงกำหนดแยกตามการลงทะเบียนแต่ละคลาส</li>
+        </ul>
+      </div>
+      <div class="login-panel">
+        <p class="login-provider-label">เข้าสู่ระบบด้วย Google</p>
+        <div class="google-login-wrap" data-google-login>
+          <div id="google-signin-button" aria-label="เข้าสู่ระบบด้วยบัญชี Google"></div>
+        </div>
+        <button class="button secondary preview-login" type="button" data-preview-login hidden>ทดลองเข้าสู่ระบบใน Preview</button>
+        <p class="login-help">รอบนี้ใช้บัญชี Google ที่ลงท้ายด้วย <strong>@ku.th</strong> หลังเข้าสู่ระบบแล้วจึงตรวจสิทธิ์ของแต่ละคลาส</p>
+        <p id="login-status" class="login-status" data-login-status role="status" aria-live="polite">กำลังเตรียม Google Sign-In…</p>
+        <div class="login-privacy">
+          <strong>ความเป็นส่วนตัว</strong>
+          <p>ระบบใช้ข้อมูลบัญชี Google เท่าที่จำเป็นสำหรับยืนยันตัวตนและตรวจสิทธิ์เข้าเรียน</p>
+        </div>
+        <noscript><p class="login-status is-error">ต้องเปิด JavaScript เพื่อเข้าสู่ระบบด้วย Google</p></noscript>
+      </div>
+    </section>
+  </main>
+  <site-footer></site-footer>
+</body>
+</html>

@@ -3,14 +3,14 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="AI for Research — ให้ AI ช่วยทำวิจัย โดยหลักฐานและการตัดสินใจยังอยู่ในมือคุณ">
+  <meta name="description" content="AI for Research — ใช้ Markdown, JSON, Python และ LaTeX ทำ Non-coding Data Analytics, Machine Learning และ Manuscript Preparation โดยไม่ต้องเขียนโปรแกรม">
   <meta name="theme-color" content="#101817">
   <link rel="canonical" href="https://urban.cpe.ku.ac.th/ai-for-research/">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="th_TH">
   <meta property="og:site_name" content="AI for Research · ภาควิชาวิศวกรรมคอมพิวเตอร์ มหาวิทยาลัยเกษตรศาสตร์">
   <meta property="og:title" content="AI for Research · Human-Verified Evidence">
-  <meta property="og:description" content="ลงมือทำวิจัยกับ AI ตั้งแต่พัฒนาโจทย์ ตรวจหลักฐาน ออกแบบการศึกษา วิเคราะห์ข้อมูล ไปจนถึงสร้างบทความ โดยคุณยังเป็นผู้ตรวจและตัดสินใจทุกขั้น">
+  <meta property="og:description" content="เพิ่มกำลังการผลิตและคุณภาพของงานวิจัยด้วย Non-coding Data Analytics, Data Visualization, Machine Learning และ Manuscript Preparation">
   <meta property="og:url" content="https://urban.cpe.ku.ac.th/ai-for-research/">
   <meta property="og:image" content="https://urban.cpe.ku.ac.th/ai-for-research/og-image.png">
   <meta property="og:image:secure_url" content="https://urban.cpe.ku.ac.th/ai-for-research/og-image.png">
@@ -20,16 +20,15 @@
   <meta property="og:image:alt" content="AI for Research — Human-Verified Evidence โดยภาควิชาวิศวกรรมคอมพิวเตอร์ มหาวิทยาลัยเกษตรศาสตร์">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="AI for Research · Human-Verified Evidence">
-  <meta name="twitter:description" content="ให้ AI ช่วยทำวิจัย โดยหลักฐานและการตัดสินใจยังอยู่ในมือคุณ">
+  <meta name="twitter:description" content="Non-coding Data Analytics, Data Visualization, Machine Learning และ Manuscript Preparation สำหรับอาจารย์และนักวิจัย">
   <meta name="twitter:image" content="https://urban.cpe.ku.ac.th/ai-for-research/og-image.png">
   <meta name="twitter:image:alt" content="AI for Research — Human-Verified Evidence โดยภาควิชาวิศวกรรมคอมพิวเตอร์ มหาวิทยาลัยเกษตรศาสตร์">
   <title>AI for Research</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/styles.css?v=20260805-22">
-  <script src="assets/app.js?v=20260805-11" defer></script>
-  <script src="assets/site-shell.js?v=20260805-5"></script>
+  <link rel="stylesheet" href="assets/styles.css?v=20261008-8">
+  <script src="assets/site-shell.js?v=20261008-4"></script>
 </head>
 <body>
   <a class="skip-link" href="#main">ข้ามไปยังเนื้อหา</a>
@@ -40,149 +39,63 @@
     <section class="hero" id="top">
       <div class="hero-copy">
         <div class="institution-lockup"><img src="https://upload.wikimedia.org/wikipedia/commons/4/43/Kasetsart_Sublogo-TH.svg" alt="ตราสัญลักษณ์พร้อมชื่อมหาวิทยาลัยเกษตรศาสตร์" width="232" height="300"><span>ภาควิชาวิศวกรรมคอมพิวเตอร์<br>มหาวิทยาลัยเกษตรศาสตร์</span></div>
-        <p class="eyebrow">Hard-core · Hands-on · Research with AI</p>
-        <h1>AI-Assisted Research<br><span>Human-Verified Evidence</span></h1>
-        <p class="hero-lead">ลงมือทำตั้งแต่พัฒนาโจทย์ ตรวจงานเดิม ออกแบบการศึกษา วิเคราะห์ข้อมูล ไปจนถึงสร้างบทความและ PDF โดยให้ AI ช่วยถาม จัดระบบ และลงมือทำ ส่วนคุณตรวจหลักฐานและเป็นผู้ตัดสินใจทุกขั้น</p>
+        <p class="eyebrow">AI-Assisted Research · Human-Verified Evidence</p>
+        <h1>ให้ AI ช่วยทำวิจัย<br><span>โดยคุณยังคุมหลักฐาน</span></h1>
+        <p class="hero-lead">เรียนใช้ AI ตั้งแต่พัฒนาโจทย์ ตรวจวรรณกรรม ออกแบบการศึกษา วิเคราะห์ข้อมูล ไปจนถึงจัดทำต้นฉบับ โดยทุกข้อสรุปต้องย้อนกลับไปยังหลักฐานได้</p>
         <div class="hero-actions">
-          <a class="button primary" href="prepare.html">เริ่มเตรียมตัวเรียน</a>
-          <a class="button secondary" href="#course">เลือกเส้นทางเรียน</a>
+          <a class="button primary" href="#course">ดูคลาสที่เปิดรับ</a>
+          <a class="button secondary" href="login.html">เข้าสู่ห้องเรียน</a>
         </div>
-        <p class="pilot-note"><strong>การบ้านก่อนมาเรียน:</strong> เตรียมเอกสารเรื่องที่สนใจ 6–8 ชิ้น รวมประมาณ 15–20 หน้า โดยต้องเป็นข้อมูลที่นำมาใช้กับ AI ได้</p>
-        <p class="pilot-note">จัด onsite เป็นหลัก ณ ภาควิชาวิศวกรรมคอมพิวเตอร์ มหาวิทยาลัยเกษตรศาสตร์ บางเขน และผสมผสานกิจกรรมออนไลน์ตามความเหมาะสม</p>
       </div>
-      <div class="hero-panel" aria-label="หลักคิดของหลักสูตร">
-        <p class="panel-label">Research workflow</p>
+      <div class="hero-panel" aria-label="จุดเด่นของ AI for Research">
+        <p class="panel-label">What makes it different</p>
         <ol class="chain">
-          <li><span>01</span><div><strong>Research Question</strong><small>ปัญหา · ช่องว่าง · คำถาม</small></div></li>
-          <li><span>02</span><div><strong>Evidence</strong><small>งานเดิม · แหล่งอ้างอิง · ความน่าเชื่อถือ</small></div></li>
-          <li><span>03</span><div><strong>Study Design</strong><small>สมมติฐาน · วิธีวัด · เกณฑ์ตัดสิน</small></div></li>
-          <li><span>04</span><div><strong>Data</strong><small>นำเข้า · ตรวจคุณภาพ · จัดข้อมูล</small></div></li>
-          <li><span>05</span><div><strong>Analysis</strong><small>สถิติ · ตาราง · ภาพ</small></div></li>
-          <li><span>06</span><div><strong>Claim</strong><small>ข้อสรุป · ความไม่แน่นอน · ข้อจำกัด</small></div></li>
-          <li><span>07</span><div><strong>Publication</strong><small>บทความ · PDF · วิธีทำงานที่ใช้ซ้ำได้</small></div></li>
+          <li><span>01</span><div><strong>จากปัญหาถึงคำถามวิจัย</strong><small>สร้าง problem–gap–objective–RQ chain ที่มีหลักฐานรองรับ</small></div></li>
+          <li><span>02</span><div><strong>จากวรรณกรรมถึงแบบการศึกษา</strong><small>ตรวจ citation, novelty, contribution, hypothesis และข้อจำกัดของแบบวิจัย</small></div></li>
+          <li><span>03</span><div><strong>จาก Data Analytics ถึง Manuscript</strong><small>ทำ Data Visualization ทดลอง Machine Learning และเตรียม Word, LaTeX หรือ PDF โดยไม่ต้องเขียนโปรแกรม</small></div></li>
         </ol>
-        <p class="panel-rule">AI assists throughout.<br><span>You verify evidence and decide.</span></p>
+        <p class="panel-rule">AI assists.<br><span>You verify and decide.</span></p>
       </div>
     </section>
 
-    <section class="section" id="research-methodology-review">
+
+
+    <section class="section open-classrooms" id="course">
       <div class="section-heading compact">
-        <p class="eyebrow">ทบทวนก่อนเริ่มเรียน</p>
-        <h2>หิว → กิน → อิ่ม<br>โครงง่าย ๆ ของงานวิจัย</h2>
-        <p>ใช้กรณีใกล้ตัวนี้ทบทวนระเบียบวิธีวิจัยก่อนเลือกคลาสหรือโมดูล เพื่อไม่ให้เริ่มจากเครื่องมือหรือวิธีที่ดูน่าสนใจ แต่ลืมปัญหาและผลที่ต้องการ</p>
+        <p class="eyebrow">Open classrooms</p>
+        <h2>คลาสที่เปิดรับ<br>ตอนนี้</h2>
+        <p>คลาสนี้มุ่งเพิ่มทั้งกำลังการผลิตและคุณภาพของงานวิจัย ให้ AI ช่วยรับงานที่กินเวลา พร้อมวางจุดตรวจหลักฐาน วิธีวิจัย และข้อสรุปก่อนนำผลไปใช้</p>
       </div>
-      <div class="level-grid">
-        <article><span>01</span><div><h3>หิว = ปัญหา</h3><p>เริ่มจากสภาพที่ไม่ต้องการ ใครกำลังหิว หิวเมื่อไร และเกิดผลอย่างไร</p></div></article>
-        <article><span>02</span><div><h3>อิ่ม = ผลที่ต้องการ</h3><p>กำหนดให้ชัดว่า “อิ่ม” หมายถึงอะไร วัดอย่างไร และระดับใดจึงถือว่าสำเร็จ</p></div></article>
-        <article><span>03</span><div><h3>กิน = วิธีหนึ่ง</h3><p>การกิน ร้านอาหาร หรือ AI เป็นเพียงวิธี ต้องตรวจว่าวิธีนั้นพาไปสู่ผลที่ต้องการจริงหรือไม่</p></div></article>
-        <article><span>04</span><div><h3>ตรวจผลก่อนสรุป</h3><p>ทำกิจกรรมครบไม่ได้แปลว่าแก้ปัญหาแล้ว ต้องใช้ข้อมูลและหลักฐานเชื่อมผลกลับไปยังปัญหา</p></div></article>
-      </div>
-      <div class="hero-actions"><a class="button secondary" href="hunger-research-methodology.html">อ่านกรณีหิว–กิน–อิ่มฉบับเต็ม →</a></div>
+      <article class="open-classroom-card">
+        <div>
+          <div class="classroom-status-row"><span class="classroom-status is-open">เปิดรับลงทะเบียน</span><span>อาจารย์/นักวิจัย · 20 พฤศจิกายน 2569</span></div>
+          <h3>AI for Research สำหรับอาจารย์/นักวิจัย 2569</h3>
+          <p class="classroom-value-line">ใช้ AI ช่วยให้งานวิจัยเดินหน้าได้มากขึ้น โดยยังตรวจที่มาของหลักฐาน ความสมเหตุสมผลของวิธีวิจัย และขอบเขตของข้อสรุปได้</p>
+          <ul class="classroom-topic-tags" aria-label="หัวข้อเด่นของคลาส">
+            <li>Non-coding</li><li>Data Analytics</li><li>Data Visualization</li><li>Machine Learning</li><li>Manuscript Preparation</li><li>Markdown</li><li>JSON</li><li>Python</li><li>LaTeX</li>
+          </ul>
+          <p class="no-code-method">ทุกกิจกรรมทำได้โดยไม่ต้องเขียนโปรแกรม AI ช่วยสร้าง Markdown, JSON และ LaTeX พร้อมเขียนและรัน Python ส่วนผู้เรียนกำหนดโจทย์ ตรวจข้อมูล วิธีวิเคราะห์ และผลลัพธ์</p>
+          <p>เวลาที่ใช้ในคลาสจะลงกับหัวข้อ เอกสาร และข้อมูลของตนเอง เพื่อให้ได้งานที่นำกลับไปพัฒนาต่อทันที โดยมีกรณีศึกษาสำรองสำหรับผู้ที่ยังเตรียมงานมาไม่ครบ</p>
+          <p class="classroom-lo-label">เมื่อจบคลาส ผู้เรียนสามารถ</p>
+          <ul class="classroom-highlights" aria-label="ผลลัพธ์การเรียนรู้ของคลาสสำหรับอาจารย์และนักวิจัย 2569">
+            <li>พัฒนาโจทย์ ช่องว่าง วัตถุประสงค์ และคำถามวิจัยให้เชื่อมกับหลักฐาน</li>
+            <li>ค้นและตรวจวรรณกรรม โดยยืนยันแหล่งอ้างอิงและขอบเขตของข้อกล่าวอ้าง</li>
+            <li>ตรวจว่าแบบการศึกษา สมมติฐาน ตัวแปร และวิธีวัดรองรับข้อสรุปที่ต้องการหรือไม่</li>
+            <li>ทำ Non-coding Data Analytics และ Data Visualization จาก Excel, CSV หรือ SPSS โดยให้ AI เขียนและรัน Python พร้อมทดลอง Machine Learning เมื่อเหมาะกับคำถามวิจัย</li>
+            <li>จัดเนื้อหาและผลลัพธ์ด้วย Markdown และ JSON แล้วทำ Manuscript Preparation ด้วย Word หรือ LaTeX โดยไม่ต้องเขียนโค้ด</li>
+            <li>ประเมิน privacy, citation, ethics และการเปิดเผยการใช้ AI ในงานวิจัย</li>
+          </ul>
+        </div>
+        <div class="open-classroom-action">
+          <span>ตรวจสิทธิ์ก่อนเข้าร่วม · ไม่มีค่าใช้จ่าย</span>
+          <a class="button primary" href="classroom.html?id=faculty-pilot-2569">ดูรายละเอียดและลงทะเบียน</a>
+        </div>
+      </article>
     </section>
 
-    <section class="section intro" id="promise">
-      <div class="section-heading">
-        <p class="eyebrow">Course promise</p>
-        <h2>ไม่ใช่คลาสแจก prompt<br>และไม่ใช่คลาสเขียนโปรแกรม</h2>
-      </div>
-      <div class="intro-copy">
-        <p>ผู้เรียนใช้ VS Code เป็นโต๊ะทำงานเอกสาร และใช้ Codex, Claude Code หรือ AI agent ที่รองรับเพื่ออ่านไฟล์ สร้าง review notes ตรวจหลักฐาน วิเคราะห์ข้อมูล และจัดทำเอกสาร</p>
-        <p>ทุกกิจกรรมจบด้วยชิ้นงานที่ตรวจย้อนกลับได้ ไม่ถือว่าคำตอบของ AI เป็นข้อยุติ และไม่ให้ AI แต่ง citation, DOI, result หรือข้อสรุปที่ไม่มีหลักฐาน</p>
-      </div>
-    </section>
 
-    <section class="section course-family" id="course">
-      <div class="section-heading compact">
-        <p class="eyebrow">Course family</p>
-        <h2>สามคลาส<br>เรียนแยกหรือเรียนครบชุด</h2>
-        <p>Formation ใช้เวลา 2 วัน ส่วน Reviews และ Publication ใช้เวลาอย่างละ 1 วัน ทั้งสามคลาสใช้คลังโมดูลร่วมกัน แต่จัดกิจกรรมและชิ้นงานต่างกันตามเป้าหมาย รายชื่อใต้การ์ดแสดงเฉพาะโมดูลที่ใช้จริง: สีส้มคือส่วนที่เน้น และสีขรึมคือส่วนประกอบ</p>
-      </div>
-      <div class="course-grid">
-        <article class="course-card">
-          <span class="course-number">Course 01 · Formation</span>
-          <h3>พัฒนาโจทย์และออกแบบงานวิจัย</h3>
-          <p>เปลี่ยนหัวข้อหรือความสนใจเป็น problem–gap–RQ ตารางหลักฐาน แนวคิด คุณูปการ และแบบการทดลองที่ตรวจตรรกะได้</p>
-          <p class="class-days"><strong>2 วัน</strong><span>วันที่ 1 พัฒนาโจทย์และหลักฐาน · วันที่ 2 ตรวจตรรกะและแบบวิจัย</span></p>
-          <div class="course-modules">
-            <div class="module-legend" aria-label="ความสำคัญของโมดูล"><span class="core-key">เน้นในคลาสนี้</span><span class="support-key">ใช้ประกอบ</span></div>
-            <div class="module-chips"><a class="is-support" href="prepare.html">M1 · Workspace</a><a class="is-core" href="module-2.html">M2 · First Task</a><a class="is-core" href="module-3.html">M3 · Problem → Gap → RQ</a><a class="is-core" href="module-4.html">M4 · Evidence</a><a class="is-core" href="module-5.html">M5 · Research Logic</a><a class="is-core" href="module-6.html">M6 · Study Design</a><a class="is-support" href="module-9.html">M9 · Personal Workflow</a></div>
-          </div>
-          <p class="course-output"><strong>ผลงานหลัก</strong> แผนผังตรรกะของโจทย์ ตารางหลักฐาน และแบบการทดลอง</p>
-        </article>
-        <article class="course-card">
-          <span class="course-number">Course 02 · Reviews</span>
-          <h3>ตรวจสอบคุณภาพงานวิจัย</h3>
-          <p>ตรวจข้อกล่าวอ้าง แหล่งอ้างอิง วิธี ผล และข้อสรุป โดยทุก finding ต้องย้อนกลับไปยังตำแหน่ง หลักฐาน และงานแก้ไขได้</p>
-          <p class="class-days"><strong>1 วัน</strong><span>ตรวจงานอย่างเป็นระบบและจัดลำดับสิ่งที่ต้องแก้</span></p>
-          <div class="course-modules">
-            <div class="module-legend" aria-label="ความสำคัญของโมดูล"><span class="core-key">เน้นในคลาสนี้</span><span class="support-key">ใช้ประกอบ</span></div>
-            <div class="module-chips"><a class="is-support" href="prepare.html">M1 · Workspace</a><a class="is-core" href="module-2.html">M2 · First Task</a><a class="is-support" href="module-3.html">M3 · Problem → Gap → RQ</a><a class="is-core" href="module-4.html">M4 · Evidence</a><a class="is-core" href="module-5.html">M5 · Research Logic</a><a class="is-core" href="module-6.html">M6 · Study Design</a><a class="is-core" href="module-7.html">M7 · Analysis</a><a class="is-support" href="module-9.html">M9 · Personal Workflow</a></div>
-          </div>
-          <p class="course-output"><strong>ผลงานหลัก</strong> รายงานตรวจคุณภาพ บัญชีประเด็นแก้ไข และบันทึกสถานะการทบทวน</p>
-        </article>
-        <article class="course-card">
-          <span class="course-number">Course 03 · Publication</span>
-          <h3>ผลิตและเผยแพร่ผลงานวิจัย</h3>
-          <p>วิเคราะห์ข้อมูล สร้างตารางและภาพ แล้วผลิต Word, LaTeX, PDF หรือสื่อนำเสนอตามข้อกำหนดของแหล่งเผยแพร่</p>
-          <p class="class-days"><strong>1 วัน</strong><span>เปลี่ยนงานที่ตรวจแล้วเป็นเอกสารและสื่อพร้อมส่ง</span></p>
-          <div class="course-modules">
-            <div class="module-legend" aria-label="ความสำคัญของโมดูล"><span class="core-key">เน้นในคลาสนี้</span><span class="support-key">ใช้ประกอบ</span></div>
-            <div class="module-chips"><a class="is-support" href="prepare.html">M1 · Workspace</a><a class="is-core" href="module-2.html">M2 · First Task</a><a class="is-support" href="module-3.html">M3 · Problem → Gap → RQ</a><a class="is-support" href="module-4.html">M4 · Evidence</a><a class="is-support" href="module-5.html">M5 · Research Logic</a><a class="is-support" href="module-6.html">M6 · Study Design</a><a class="is-core" href="module-7.html">M7 · Analysis</a><a class="is-core" href="module-8.html">M8 · Publication</a><a class="is-support" href="module-9.html">M9 · Personal Workflow</a></div>
-          </div>
-          <p class="course-output"><strong>ผลงานหลัก</strong> ชุดเอกสารพร้อมตรวจ แฟ้มภาพ/ตาราง และ workflow รุ่นที่ 1</p>
-        </article>
-      </div>
-      <div class="course-enrollment">
-        <p><strong>สถานะโครงการ:</strong> อยู่ระหว่างเตรียมเสนอขออนุมัติเปิดเป็นรายวิชาและ/หรือคอร์สอบรม ยังไม่เปิดรับสมัครและยังไม่รับชำระเงิน จำนวนวันอบรม อัตราค่าลงทะเบียน และรอบการสอนจะประกาศหลังได้รับอนุมัติ</p>
-      </div>
-    </section>
 
-    <section class="section module-section" id="modules">
-      <div class="section-heading compact">
-        <p class="eyebrow">Learning path</p>
-        <h2>เส้นทางการเรียน<br>ทั้งหมด 9 โมดูล</h2>
-        <p>โมดูลเหล่านี้เป็นคลังบทเรียนร่วมของทั้งสามคลาส เลือกศึกษาแบบ standalone ได้ หรือใช้ต่อเนื่องตามเส้นทางของคลาสที่ลงทะเบียน</p>
-      </div>
-      <div class="module-grid">
-        <article class="module-card setup-card" id="module-1">
-          <span class="module-number">01 · พร้อมเรียน</span>
-          <h3>Prepare Your AI Research Workspace</h3>
-          <p>ติดตั้ง ตรวจเครื่อง และเข้าใจ project, workspace, Markdown, CSV และไฟล์ที่กำกับการทำงานของ AI</p>
-          <a class="module-link" href="prepare.html">เข้า Module 1 →</a>
-        </article>
-        <article class="module-card setup-card" id="module-2"><span class="module-number">02 · เปิดแล้ว</span><h3>Your First AI Research Task</h3><p>ตรวจเรื่องเดียวกันจาก PDF, Excel, Word, ภาพ และเว็บไซต์ แยก L1–L4 แล้วจับคำตอบที่ไม่มีหลักฐาน</p><a class="module-link" href="module-2.html">เข้า Module 2 →</a></article>
-        <article class="module-card setup-card" id="module-3"><span class="module-number">03 · เปิดแล้ว</span><h3>Problem → Gap → Research Question</h3><p>สร้างและพยายามหักล้างสายเหตุผลจากปัญหาถึงคำถามวิจัย</p><a class="module-link" href="module-3.html">เข้า Module 3 →</a></article>
-        <article class="module-card setup-card" id="module-4"><span class="module-number">04 · เปิดแล้ว</span><h3>Literature Evidence</h3><p>ค้น ตรวจ และสังเคราะห์หลักฐาน พร้อมจับ ref ทิพย์จากแหล่งต้นทาง</p><a class="module-link" href="module-4.html">เข้า Module 4 →</a></article>
-        <article class="module-card setup-card" id="module-5"><span class="module-number">05 · เปิดแล้ว</span><h3>Research Logic</h3><p>เชื่อม problem, gap, RQ, design, evidence, claim และ venue</p><a class="module-link" href="module-5.html">เข้า Module 5 →</a></article>
-        <article class="module-card setup-card" id="module-6"><span class="module-number">06 · เปิดแล้ว</span><h3>Experiment Design Stress Test</h3><p>stress-test claim, hypothesis, comparator, instrument และ decision rule</p><a class="module-link" href="module-6.html">เข้า Module 6 →</a></article>
-        <article class="module-card setup-card" id="module-7"><span class="module-number">07 · เปิดแล้ว</span><h3>Analysis &amp; Visualization</h3><p>ตรวจ DataFrame แล้วสร้างตาราง ภาพนิ่ง และภาพโต้ตอบที่รันซ้ำได้</p><a class="module-link" href="module-7.html">เข้า Module 7 →</a></article>
-        <article class="module-card setup-card" id="module-8"><span class="module-number">08 · เปิดแล้ว</span><h3>Document Production</h3><p>สร้าง Word/LaTeX/PDF จาก verified claims ตามข้อกำหนด venue</p><a class="module-link" href="module-8.html">เข้า Module 8 →</a></article>
-        <article class="module-card setup-card" id="module-9"><span class="module-number">09 · เปิดแล้ว</span><h3>Personal AI Research Workflow</h3><p>ประกอบ workflow kit ที่มี guardrails, tests และ run record</p><a class="module-link" href="module-9.html">เข้า Module 9 →</a></article>
-      </div>
-    </section>
 
-    <section class="section requirements" id="requirements">
-      <div class="section-heading compact">
-        <p class="eyebrow">Before you join</p>
-        <h2>เครื่องและบัญชี<br>ต้องพร้อมก่อนเรียน</h2>
-      </div>
-      <div class="requirement-list">
-        <div class="requirement"><span>01</span><div><h3>AI account</h3><p>บัญชีแบบชำระเงินหรือสิทธิ์ใกล้เคียง ChatGPT Plus พร้อม workspace agent ที่รองรับ</p></div></div>
-        <div class="requirement"><span>02</span><div><h3>Supported notebook</h3><p>Windows 11, macOS หรือ Linux/WSL2 ที่รับรอง · RAM ขั้นต่ำ 8 GB แนะนำ 16 GB · พื้นที่ว่าง 20 GB</p></div></div>
-        <div class="requirement"><span>03</span><div><h3>Device pre-check</h3><p>ตรวจว่าเครื่องผ่านข้อกำหนดก่อนวันเรียน แล้วเตรียม workspace ร่วมกันใน Module 1</p></div></div>
-        <div class="requirement"><span>04</span><div><h3>เอกสารสำหรับกิจกรรม</h3><p>ก่อนมาเรียน เตรียมข่าว รายงาน บทความ หรือบทวิจารณ์เรื่องที่สนใจ 6–8 ชิ้น รวมประมาณ 15–20 หน้า โดยไม่มีข้อมูลลับ ข้อมูลส่วนบุคคลที่ห้ามเปิดเผย หรือข้อจำกัดที่ห้ามนำเข้าสู่บริการ AI</p></div></div>
-      </div>
-      <div class="notice">
-        <strong>เครื่องที่ไม่เหมาะ:</strong> Chromebook, tablet, OS ที่หมดระยะสนับสนุน หรือเครื่องที่ติดตั้งซอฟต์แวร์ไม่ได้
-      </div>
-    </section>
-
-    <section class="section final-cta">
-      <p class="eyebrow">Module 1</p>
-      <h2>เริ่มจากการตรวจว่าเครื่องพร้อม</h2>
-      <p>ตรวจเครื่องล่วงหน้า แล้วเรียนการจัด workspace และทำ readiness check ร่วมกันในคาบแรก</p>
-      <div class="hero-actions"><a class="button primary" href="register.html">เตรียมข้อมูลสมัครเป็นกลุ่ม</a><a class="button secondary" href="prepare.html">ไปหน้าเตรียม Workspace</a></div>
-    </section>
   </main>
 
   <site-footer></site-footer>

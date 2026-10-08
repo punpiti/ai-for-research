@@ -7,7 +7,7 @@ const MODULE_LINKS = [
   [6, "module-6.html", "Experiment Design Stress Test"],
   [7, "module-7.html", "Analysis & Visualization"],
   [8, "module-8.html", "Document Production"],
-  [9, "module-9.html", "Personal AI Research Workflow"],
+  [9, "module-9.html", "Personal AI Research Practice"],
 ];
 
 const PRODUCTION_BASE = "https://urban.cpe.ku.ac.th/ai-for-research/";
@@ -35,7 +35,8 @@ analyticsScript.src = `https://www.googletagmanager.com/gtag/js?id=${GOOGLE_ANAL
 document.head.append(analyticsScript);
 
 const LOCAL_LINKS = {
-  home: [["course", "หลักสูตร"], ["requirements", "ข้อกำหนด"]],
+  home: [],
+  classroom: [["overview", "รายละเอียด"], ["prepare", "เตรียมตัว"], ["syllabus", "Syllabus"]],
   1: [["setup", "ก่อนเริ่ม"], ["practice", "ฝึกทำ"], ["homework", "งานท้ายบท"]],
   2: [["sources", "ดาวน์โหลดข้อมูล"], ["json-basics", "รู้จัก MD/JSON"], ["activity", "ลงมือทำ"], ["submit", "ส่งงาน"], ["finish", "ทบทวน"]],
   3: [["start", "ก่อนเริ่ม"], ["activity", "ลงมือทำ"], ["finish", "ทบทวน"]],
@@ -54,6 +55,10 @@ class SiteHeader extends HTMLElement {
   connectedCallback() {
     const current = this.getAttribute("current") || "";
     const isHome = current === "home";
+    const isClassroomEntry = ["home", "classroom", "login"].includes(current);
+    const classroomDirectoryHref = isHome ? "#course" : "index.html#course";
+    const ctaHref = current === "login" ? "classroom.html?id=faculty-pilot-2569" : (isClassroomEntry ? "login.html" : (current === "register" ? "index.html#course" : "register.html"));
+    const ctaLabel = current === "login" ? "ดูรายละเอียดคลาส" : (isClassroomEntry ? "เข้าสู่ระบบ" : (current === "register" ? "ดูคลาสที่เปิดรับ" : "สมัครเป็นกลุ่ม"));
     const moduleLinks = MODULE_LINKS.map(([number, href, label]) => {
       const active = String(number) === current ? ' aria-current="page"' : "";
       return `<a class="available" href="${href}"${active}>${number} · ${label}</a>`;
@@ -65,9 +70,9 @@ class SiteHeader extends HTMLElement {
       <a class="brand" href="${isHome ? "#top" : "index.html"}" aria-label="AI for Research หน้าแรก"><span class="brand-mark">AI</span><span>for Research</span></a>
       <nav aria-label="เมนูหลัก">
         ${isHome ? "" : '<a href="index.html">หน้าหลัก</a>'}
-        <details class="module-menu"><summary>โมดูล 1–9</summary><div>${moduleLinks}</div></details>
+        ${isClassroomEntry ? `<a href="${classroomDirectoryHref}">คลาสที่เปิดรับ</a>` : `<details class="module-menu"><summary>โมดูล 1–9</summary><div>${moduleLinks}</div></details>`}
         ${localLinks}
-        <a class="nav-cta" href="${current === "register" ? "index.html#course" : "register.html"}">${current === "register" ? "ดูรายละเอียดคลาส" : "สมัครเป็นกลุ่ม"}</a>
+        <a class="nav-cta" href="${ctaHref}">${ctaLabel}</a>
       </nav>
     </header>`;
   }
@@ -84,3 +89,13 @@ class SiteFooter extends HTMLElement {
 
 customElements.define("site-header", SiteHeader);
 customElements.define("site-footer", SiteFooter);
+
+// Fragment navigation can run before the custom header/footer have expanded,
+// leaving an old bookmarked anchor at the wrong scroll position. Re-apply it
+// after two layout frames so links such as index.html#course land correctly.
+if (location.hash) {
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    const target = document.getElementById(decodeURIComponent(location.hash.slice(1)));
+    target?.scrollIntoView({ block: "start" });
+  }));
+}

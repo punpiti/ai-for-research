@@ -15,7 +15,6 @@ check_file() {
   fi
 }
 
-check_file "$site_dir/index.html" "hunger review" 'หิว.*กิน.*อิ่ม'
 check_file "$site_dir/hunger-research-methodology.html" "long hunger story" 'id="full-story"'
 check_file "$site_dir/hunger-research-methodology.html" "original hunger image" 'assets/images/hunger-research-facebook-original\.jpg'
 check_file "$site_dir/hunger-research-methodology.html" "original Facebook post" 'facebook\.com/punpiti/posts/10225212568646302'
@@ -367,7 +366,16 @@ check_file "$site_dir/assets/registration.js" "local registration draft" 'ai-for
 check_file "$site_dir/assets/site-shell.js" "registration navigation" 'สมัครเป็นกลุ่ม'
 check_file "$site_dir/assets/site-shell.js" "production base URL" 'https://urban\.cpe\.ku\.ac\.th/ai-for-research/'
 check_file "$site_dir/assets/course-cart.js" "three-course bundle" 'BUNDLE_TOTAL=8900'
-check_file "$site_dir/index.html" "no-sale project status" 'ยังไม่เปิดรับสมัครและยังไม่รับชำระเงิน'
+check_file "$site_dir/index.html" "faculty and researcher classroom" 'AI for Research สำหรับอาจารย์/นักวิจัย 2569'
+check_file "$site_dir/index.html" "class has no fee" 'ไม่มีค่าใช้จ่าย'
+if grep -Eq 'research-methodology-review|id="promise"|class="section course-family"|id="modules"|id="requirements"|class="section final-cta"' "$site_dir/index.html"; then
+  printf 'Archived course-family detail remains on the classroom-first homepage.\n'
+  failed=1
+fi
+if (( $(grep -c 'class="open-classroom-card"' "$site_dir/index.html") != 1 )); then
+  printf 'Homepage must expose exactly one open classroom.\n'
+  failed=1
+fi
 if grep -Eq '[0-9],[0-9]{3} บาท|data-course-card|data-select-course' "$site_dir/index.html"; then
   printf 'Found course pricing/cart markup on index.html. The homepage must not sell before the project is approved — keep pricing in documents/public-site-drafts/index-with-pricing.html instead.\n'
   failed=1
