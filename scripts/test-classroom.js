@@ -43,6 +43,17 @@ const classroom = require("../assets/classroom.js");
 
   const expired = await classroom.enroll("faculty-pilot-2569", async () => ({ ok: false, status: 401 }));
   assert.deepEqual(expired, { authenticated: false });
+
+  const closed = await classroom.enroll("faculty-pilot-2569", async () => ({ ok: false, status: 409 }));
+  assert.deepEqual(closed, { authenticated: true, enrolled: false, closed: true });
+
+  const details = await classroom.publicDetails("class-a1b2c3", async (url, options) => {
+    assert.equal(url, "/api/ai-for-research/classrooms/class-a1b2c3/public");
+    assert.equal(options.credentials, "same-origin");
+    return { ok: true, json: async () => ({ enrollment_status: "draft", details: { public_title: "Test" } }) };
+  });
+  assert.equal(details.enrollment_status, "draft");
+  assert.deepEqual(classroom.structuredItem("หัวข้อ | รายละเอียด"), { title: "หัวข้อ", description: "รายละเอียด" });
   console.log("Classroom enrollment tests passed.");
 })().catch((error) => {
   console.error(error);

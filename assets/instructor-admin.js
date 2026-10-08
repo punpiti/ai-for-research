@@ -59,6 +59,17 @@
   const syllabusActions = document.querySelector("[data-syllabus-actions]");
   const templateNotice = document.querySelector("[data-template-notice]");
   const classOnlyElements = [...document.querySelectorAll("[data-class-only]")];
+  const classDetailsForm = document.querySelector("[data-class-details-form]");
+  const classDetailsStatus = document.querySelector("[data-class-details-status]");
+  const detailStringFields = [
+    "public_title", "cohort_title", "summary", "class_date", "audience", "delivery_mode",
+    "fee", "admission_note", "overview", "scope", "language", "prerequisites",
+    "audience_notice_title", "audience_notice_body", "no_code_method", "preparation_intro",
+    "device_note", "fallback_note",
+  ];
+  const detailLineFields = ["preparation_items", "takeaways", "learning_outcomes"];
+  const adminTabButtons = [...document.querySelectorAll("[data-admin-tab]")];
+  const adminPanels = [...document.querySelectorAll("[data-admin-panel]")];
 
   function node(tag, className = "", text = "") {
     const element = document.createElement(tag);
@@ -90,6 +101,22 @@
     return option;
   }
 
+  function activateAdminTab(tabName) {
+    const selectedTab = classroomType === "template" ? "syllabus" : tabName;
+    adminTabButtons.forEach((button) => {
+      const selected = button.dataset.adminTab === selectedTab;
+      button.setAttribute("aria-selected", selected ? "true" : "false");
+      button.tabIndex = selected ? 0 : -1;
+    });
+    adminPanels.forEach((panel) => {
+      const unavailable = classroomType === "template" && panel.hasAttribute("data-class-only");
+      panel.hidden = unavailable || panel.dataset.adminPanel !== selectedTab;
+    });
+    if (globalObject.history?.replaceState) {
+      globalObject.history.replaceState(null, "", `${globalObject.location.search || ""}#${selectedTab}`);
+    }
+  }
+
   function applyClassroomMode(classroom) {
     classroomType = classroom?.classroom_type === "template" ? "template" : "class";
     const isTemplate = classroomType === "template";
@@ -98,6 +125,9 @@
     syllabusActions.hidden = isTemplate;
     openCreateClass.textContent = isTemplate ? "คัดลอกเป็นคลาสใหม่" : "+ สร้างคลาสใหม่";
     publicClassLink.hidden = isTemplate;
+    const requestedTab = String(globalObject.location.hash || "").replace(/^#/, "");
+    const initialTab = ["details", "enrollment", "syllabus", "status"].includes(requestedTab) ? requestedTab : "details";
+    activateAdminTab(isTemplate ? "syllabus" : initialTab);
   }
 
   function renderClassroomChoices(classes) {
@@ -115,7 +145,7 @@
     publicClassLink.href = `../classroom.html?id=${encodeURIComponent(classroomId)}`;
     const canonicalSearch = `?id=${encodeURIComponent(classroomId)}`;
     if (globalObject.location.search !== canonicalSearch) {
-      globalObject.history.replaceState(null, "", canonicalSearch);
+      globalObject.history.replaceState(null, "", `${canonicalSearch}${globalObject.location.hash || ""}`);
     }
   }
 
@@ -129,6 +159,35 @@
     document.querySelector("[data-active-module]").textContent = data.classroom.active_module_title
       ? `${data.classroom.active_module_id.replace("module-", "M")} · ${data.classroom.active_module_title}`
       : "ยังไม่ได้เลือก";
+  }
+
+  function renderClassDetails(data) {
+    if (data.classroom.classroom_type === "template") return;
+    const details = data.classroom.public_details || {};
+    classDetailsForm.elements.enrollment_status.value = data.classroom.enrollment_status || "draft";
+    detailStringFields.forEach((key) => {
+      classDetailsForm.elements[key].value = details[key] || "";
+    });
+    classDetailsForm.elements.tags.value = Array.isArray(details.tags) ? details.tags.join(", ") : "";
+    detailLineFields.forEach((key) => {
+      classDetailsForm.elements[key].value = Array.isArray(details[key]) ? details[key].join("\n") : "";
+    });
+  }
+
+  function classDetailsPayload() {
+    const details = {};
+    detailStringFields.forEach((key) => { details[key] = classDetailsForm.elements[key].value.trim(); });
+    details.tags = classDetailsForm.elements.tags.value
+      .split(/[,\n]/)
+      .map((item) => item.trim())
+      .filter(Boolean);
+    detailLineFields.forEach((key) => {
+      details[key] = classDetailsForm.elements[key].value
+        .split(/\r?\n/)
+        .map((item) => item.trim())
+        .filter(Boolean);
+    });
+    return { enrollment_status: classDetailsForm.elements.enrollment_status.value, details };
   }
 
   function renderEnrollments(data) {
@@ -278,6 +337,7 @@
     try {
       const data = await request(dashboardEndpoint(classroomId));
       renderSummary(data);
+      renderClassDetails(data);
       renderEnrollments(data);
       renderSyllabus(data);
       renderSubmissions(data);
@@ -318,9 +378,48 @@
     }
   });
 
+  classDetailsForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    if (classroomType === "template" || !classDetailsForm.reportValidity()) return;
+    const submitButton = classDetailsForm.querySelector('button[type="submit"]');
+    submitButton.disabled = true;
+    classDetailsStatus.textContent = "กำลังบันทึก…";
+    try {
+      await request(`${dashboardEndpoint(classroomId)}/details`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(classDetailsPayload()),
+      });
+      classDetailsStatus.textContent = "บันทึกแล้ว";
+      await loadDashboard();
+    } catch (error) {
+      if (error.message !== "authentication-required") classDetailsStatus.textContent = error.message;
+    } finally {
+      submitButton.disabled = false;
+    }
+  });
+
   classroomSelector.addEventListener("change", () => {
     const selected = classroomIdFromSearch(`?id=${encodeURIComponent(classroomSelector.value)}`);
     if (selected) globalObject.location.assign(`?id=${encodeURIComponent(selected)}`);
+  });
+
+  adminTabButtons.forEach((button) => {
+    button.addEventListener("click", () => activateAdminTab(button.dataset.adminTab));
+    button.addEventListener("keydown", (event) => {
+      if (!["ArrowLeft", "ArrowRight", "Home", "End"].includes(event.key)) return;
+      event.preventDefault();
+      const available = adminTabButtons.filter((item) => !item.hidden);
+      const currentIndex = available.indexOf(button);
+      const nextIndex = event.key === "Home"
+        ? 0
+        : event.key === "End"
+          ? available.length - 1
+          : (currentIndex + (event.key === "ArrowRight" ? 1 : -1) + available.length) % available.length;
+      const nextButton = available[nextIndex];
+      activateAdminTab(nextButton.dataset.adminTab);
+      nextButton.focus();
+    });
   });
 
   openCreateClass.addEventListener("click", () => {

@@ -9,8 +9,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../assets/styles.css?v=20261008-14">
-  <script src="../assets/instructor-admin.js?v=20261008-4" defer></script>
+  <link rel="stylesheet" href="../assets/styles.css?v=20261008-15">
+  <script src="../assets/instructor-admin.js?v=20261008-5" defer></script>
 </head>
 <body class="instructor-body">
   <a class="skip-link" href="#main">ข้ามไปยังเนื้อหา</a>
@@ -41,6 +41,13 @@
 
     <p class="instructor-page-status" data-page-status role="status" aria-live="polite">กำลังโหลดข้อมูล…</p>
 
+    <nav class="instructor-tabs" aria-label="ส่วนจัดการคลาส" role="tablist" data-instructor-tabs>
+      <button id="tab-details" type="button" role="tab" data-admin-tab="details" aria-controls="details" aria-selected="true" data-class-only>รายละเอียดคลาส</button>
+      <button id="tab-enrollment" type="button" role="tab" data-admin-tab="enrollment" aria-controls="enrollment" aria-selected="false" data-class-only>ผู้ลงทะเบียน</button>
+      <button id="tab-syllabus" type="button" role="tab" data-admin-tab="syllabus" aria-controls="syllabus" aria-selected="false">Syllabus</button>
+      <button id="tab-status" type="button" role="tab" data-admin-tab="status" aria-controls="status" aria-selected="false" data-class-only>สถานะผู้เรียน</button>
+    </nav>
+
     <section class="template-lock-note" data-template-notice hidden>
       <div>
         <p class="eyebrow">Course template</p>
@@ -49,9 +56,62 @@
       <p>ต้นแบบแก้ไขและรับลงทะเบียนไม่ได้ คัดลอกเป็นคลาสใหม่เพื่อเริ่มใช้งาน</p>
     </section>
 
-    <section class="instructor-section" id="enrollment" aria-labelledby="enrollment-title" data-class-only>
+    <section class="instructor-section" id="details" role="tabpanel" aria-labelledby="tab-details details-title" data-admin-panel="details" data-class-only>
       <div class="instructor-section-heading">
-        <p class="eyebrow">01 · Enrollment</p>
+        <p class="eyebrow">01 · Class details</p>
+        <h2 id="details-title">หน้ารายละเอียดและลงทะเบียน</h2>
+      </div>
+      <form class="class-details-form" data-class-details-form>
+        <div class="class-details-grid">
+          <label><span>สถานะรับลงทะเบียน</span><select name="enrollment_status" required><option value="draft">ฉบับร่าง</option><option value="open">เปิดรับลงทะเบียน</option><option value="closed">ปิดรับลงทะเบียน</option></select></label>
+          <label><span>ชื่อคลาส</span><input name="public_title" maxlength="160" required></label>
+          <label class="span-all"><span>ชื่อรุ่นหรือคำขยายใต้ชื่อคลาส</span><input name="cohort_title" maxlength="160" required></label>
+          <label class="span-all"><span>คำโปรย</span><textarea name="summary" rows="3" maxlength="1200" required></textarea></label>
+          <label><span>วันที่</span><input name="class_date" maxlength="120" required></label>
+          <label><span>กลุ่มผู้เรียน</span><input name="audience" maxlength="160" required></label>
+          <label><span>รูปแบบ</span><input name="delivery_mode" maxlength="160" required></label>
+          <label><span>ค่าใช้จ่าย</span><input name="fee" maxlength="120" required></label>
+          <label class="span-all"><span>การรับเข้า</span><textarea name="admission_note" rows="2" maxlength="1000" required></textarea></label>
+        </div>
+        <details class="class-details-group" open>
+          <summary>ภาพรวมและผู้เรียน</summary>
+          <div class="class-details-grid">
+            <label class="span-all"><span>ภาพรวมคลาส</span><textarea name="overview" rows="4" maxlength="2000" required></textarea></label>
+            <label><span>ขอบเขต</span><input name="scope" maxlength="200" required></label>
+            <label><span>ภาษา</span><input name="language" maxlength="200" required></label>
+            <label class="span-all"><span>พื้นฐานที่ควรมี</span><input name="prerequisites" maxlength="300" required></label>
+            <label class="span-all"><span>หัวข้อประกาศกลุ่มผู้เรียน</span><input name="audience_notice_title" maxlength="300" required></label>
+            <label class="span-all"><span>รายละเอียดกลุ่มผู้เรียน</span><textarea name="audience_notice_body" rows="3" maxlength="1500" required></textarea></label>
+            <label class="span-all"><span>หัวข้อเด่น (คั่นด้วย comma)</span><textarea name="tags" rows="2" required></textarea></label>
+            <label class="span-all"><span>วิธีเรียนแบบ Non-coding</span><textarea name="no_code_method" rows="3" maxlength="1500" required></textarea></label>
+          </div>
+        </details>
+        <details class="class-details-group">
+          <summary>การเตรียมตัว</summary>
+          <div class="class-details-grid">
+            <label class="span-all"><span>ข้อความนำ</span><textarea name="preparation_intro" rows="3" maxlength="1200" required></textarea></label>
+            <label class="span-all"><span>รายการเตรียมตัว — หนึ่งรายการต่อบรรทัด ใช้ | แยกหัวข้อกับรายละเอียด</span><textarea name="preparation_items" rows="6" required></textarea></label>
+            <label class="span-all"><span>คำแนะนำเรื่องอุปกรณ์</span><textarea name="device_note" rows="3" maxlength="1200" required></textarea></label>
+            <label class="span-all"><span>ทางเลือกเมื่องานยังไม่พร้อม</span><textarea name="fallback_note" rows="2" maxlength="800" required></textarea></label>
+          </div>
+        </details>
+        <details class="class-details-group">
+          <summary>สิ่งที่จะได้และผลลัพธ์การเรียนรู้</summary>
+          <div class="class-details-grid">
+            <label class="span-all"><span>สิ่งที่จะได้ — หนึ่งรายการต่อบรรทัด ใช้ | แยกหัวข้อกับรายละเอียด</span><textarea name="takeaways" rows="6" required></textarea></label>
+            <label class="span-all"><span>ผลลัพธ์การเรียนรู้ — หนึ่งรายการต่อบรรทัด ใช้ | แยกหัวข้อกับรายละเอียด</span><textarea name="learning_outcomes" rows="9" required></textarea></label>
+          </div>
+        </details>
+        <div class="instructor-actions">
+          <button class="button primary" type="submit">บันทึกรายละเอียด</button>
+          <p data-class-details-status role="status" aria-live="polite"></p>
+        </div>
+      </form>
+    </section>
+
+    <section class="instructor-section" id="enrollment" role="tabpanel" aria-labelledby="tab-enrollment enrollment-title" data-admin-panel="enrollment" data-class-only hidden>
+      <div class="instructor-section-heading">
+        <p class="eyebrow">02 · Enrollment</p>
         <h2 id="enrollment-title">ผู้ลงทะเบียนและ Token</h2>
       </div>
       <div class="instructor-table-wrap">
@@ -62,9 +122,9 @@
       </div>
     </section>
 
-    <section class="instructor-section" id="syllabus" aria-labelledby="syllabus-title">
+    <section class="instructor-section" id="syllabus" role="tabpanel" aria-labelledby="tab-syllabus syllabus-title" data-admin-panel="syllabus" hidden>
       <div class="instructor-section-heading">
-        <p class="eyebrow">02 · Syllabus</p>
+        <p class="eyebrow">03 · Syllabus</p>
         <h2 id="syllabus-title">โมดูลของคลาส</h2>
       </div>
       <form class="instructor-syllabus" data-syllabus-form>
@@ -76,9 +136,9 @@
       </form>
     </section>
 
-    <section class="instructor-section" id="status" aria-labelledby="status-title" data-class-only>
+    <section class="instructor-section" id="status" role="tabpanel" aria-labelledby="tab-status status-title" data-admin-panel="status" data-class-only hidden>
       <div class="instructor-section-heading">
-        <p class="eyebrow">03 · Current status</p>
+        <p class="eyebrow">04 · Current status</p>
         <h2 id="status-title">Submission ของ Active module</h2>
       </div>
       <div class="active-module-line"><span>Active module</span><strong data-active-module>—</strong></div>

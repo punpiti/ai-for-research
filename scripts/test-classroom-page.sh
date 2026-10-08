@@ -19,7 +19,7 @@ grep -q 'ทุกกิจกรรมทำได้โดยไม่ต้�
 grep -q 'AI ช่วยสร้าง Markdown, JSON และ LaTeX พร้อมเขียนและรัน Python' "$page"
 grep -q 'เก็บเนื้อหาใน Markdown' "$page"
 grep -q 'id="syllabus"' "$page"
-grep -q '<dt>ค่าใช้จ่าย</dt><dd>ไม่มีค่าใช้จ่าย</dd>' "$page"
+grep -q '<dt>ค่าใช้จ่าย</dt><dd data-public-fee>ไม่มีค่าใช้จ่าย</dd>' "$page"
 [[ "$(grep -c '<li><span>0[1-9]</span>' "$page")" -eq 9 ]]
 grep -q 'พัฒนาโจทย์และคำถามวิจัย' "$page"
 grep -q 'Manuscript Preparation' "$page"
@@ -71,6 +71,9 @@ if grep -Eq 'research-methodology-review|id="promise"|class="section course-fami
   exit 1
 fi
 grep -q 'const apiBase = "/api/ai-for-research/classrooms"' "$root/assets/classroom.js"
+grep -q '/public`' "$root/assets/classroom.js"
+grep -q 'data-public-summary' "$root/classroom.html"
+grep -q 'data-public-syllabus' "$root/classroom.html"
 grep -q '\${apiBase}/me' "$root/assets/classroom.js"
 grep -q 'payment: "not-required"' "$root/assets/classroom.js"
 grep -q 'เข้าสู่ระบบเพื่อลงทะเบียน' "$root/assets/classroom.js"
@@ -81,6 +84,6 @@ grep -q 'membership?.status === "active"' "$root/assets/site-shell.js"
 grep -q 'cta.textContent = current === "classroom" ? "ลงทะเบียนแล้ว" : "ห้องเรียนของฉัน"' "$root/assets/site-shell.js"
 grep -q 'cta.textContent = "รออนุมัติ"' "$root/assets/site-shell.js"
 grep -q 'cta.textContent = "หน้าของอาจารย์"' "$root/assets/site-shell.js"
-grep -q 'globalObject.location.assign("admin/")' "$root/assets/classroom.js"
+grep -q 'globalObject.location.assign(`admin/?id=' "$root/assets/classroom.js"
 node "$root/scripts/test-classroom.js"
 echo 'Classroom public-detail and enrollment checks passed.'
