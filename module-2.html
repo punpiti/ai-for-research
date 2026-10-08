@@ -9,8 +9,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/styles.css?v=20261008-22">
-  <script src="assets/app.js?v=20261008-12" defer></script>
+  <link rel="stylesheet" href="assets/styles.css?v=20261008-23">
+  <script src="assets/app.js?v=20261008-13" defer></script>
+  <script src="assets/module-2-steps.js?v=20261008-1" defer></script>
   <script src="assets/module-2-submission.js?v=20261008-3" defer></script>
   <script src="assets/site-shell.js?v=20260805-5"></script>
 </head>
@@ -24,11 +25,11 @@
       <h1>Your First<br><span>AI Research Task</span></h1>
       <p>ให้ AI อ่านเรื่องที่เราสนใจ แล้วพิสูจน์ด้วยตนเองว่าคำตอบส่วนไหนมาจากหลักฐาน ส่วนไหนเป็นการตีความ และส่วนไหนยังไม่ควรเชื่อ</p>
     </section>
-    <section class="section profile-context"><div data-research-profile></div></section>
+    <section class="section profile-context" data-module-2-step="prepare"><div data-research-profile></div></section>
 
-    <section class="section"><div class="plain-note"><strong>ก่อนเริ่ม:</strong> เปิดโปรเจกต์ของคุณและผ่าน <a href="prepare.html#project-basics">Project Basics ใน Module 1</a> เพื่อให้รู้ว่าไฟล์ต้นฉบับ กติกา สถานะ และผลลัพธ์อยู่ที่ใด</div></section>
+    <section class="section" data-module-2-step="prepare"><div class="plain-note"><strong>ก่อนเริ่ม:</strong> เปิดโปรเจกต์ของคุณและผ่าน <a href="prepare.html#project-basics">Project Basics ใน Module 1</a> เพื่อให้รู้ว่าไฟล์ต้นฉบับ กติกา สถานะ และผลลัพธ์อยู่ที่ใด</div></section>
 
-    <section class="section" id="outcomes">
+    <section class="section" id="outcomes" data-module-2-step="prepare">
       <div class="section-heading compact">
         <p class="eyebrow">LO</p>
         <h2>สิ่งที่จะทำได้</h2><p>ไม่ได้แค่รู้ว่า AI ทำอะไรได้ แต่รู้ว่าจะตรวจมันอย่างไร</p>
@@ -49,7 +50,7 @@
       </details>
     </section>
 
-    <section class="section" id="sources">
+    <section class="section" id="sources" data-module-2-step="prepare">
       <div class="section-heading compact"><p class="eyebrow">การเตรียมตัวก่อนเรียน</p><h2>ของต้องมีก่อนเรียน</h2><p>ใช้เรื่องเดียวกันในหลายรูปแบบ ทุกคนเริ่มจากชุดหลักฐานกลางเพื่อให้เปรียบเทียบคำตอบและปัญหาที่พบได้</p></div>
       <p>กรณีร่วมของบทนี้ถามว่า <strong>“มื้อข้าวไข่เจียวเหมาะกับนักศึกษาที่มีงบไม่เกิน 80 บาท มีเวลา 30 นาที และต้องการอิ่มถึง 16:00 หรือไม่”</strong> เรื่องอาหารช่วยให้ตรวจตรรกะได้โดยไม่ต้องมีความรู้เฉพาะสาขา แต่ละไฟล์บอกข้อมูลคนละส่วนและมีทั้งภาษาไทยกับอังกฤษ</p>
       <div class="notice">
@@ -74,7 +75,7 @@
       <div class="notice"><strong>ก่อนเข้าชั้น:</strong> วาง <code>module-02-food-evidence.zip</code> ไว้ใน <code>input/original/</code> และเปิด Workspace ได้ก็พอ ยังไม่ต้องแตกไฟล์ จัดโฟลเดอร์ หรือหาคำตอบ ผู้เรียนที่ผ่านกิจกรรมกลางแล้วจึงทำซ้ำกับเอกสารของตนเอง 6–8 ชิ้นเป็นกิจกรรมต่อยอด</div>
     </section>
 
-    <section class="section" id="levels">
+    <section class="section" id="levels" data-module-2-step="concepts">
       <div class="section-heading compact"><p class="eyebrow">ภาษากลางของบทนี้</p><h2>จัดคำตอบเป็น L1–L4</h2></div>
       <div class="level-grid">
         <article><span>L1</span><div><h3>พบโดยตรง</h3><p>ตัวเลข วันที่ คำพูด หรือข้อความที่ชี้กลับไปยังไฟล์และตำแหน่งในต้นฉบับได้</p></div></article>
@@ -84,7 +85,7 @@
       </div>
     </section>
 
-    <section class="section" id="json-basics">
+    <section class="section" id="json-basics" data-module-2-step="concepts">
       <div class="section-heading compact"><p class="eyebrow">ก่อนสร้างไฟล์ส่ง</p><h2>เปิด Markdown และ JSON อ่านเองก่อน</h2><p>ทั้งสองเป็นไฟล์ข้อความ แต่ใช้คนละหน้าที่ Markdown เก็บคำอธิบายที่คนอ่าน ส่วน JSON เก็บข้อมูลที่โปรแกรมตรวจตามกติกาได้</p></div>
       <h3 class="section-zone-heading">1 · Markdown (.md) คือเอกสารข้อความที่อ่านและแก้ง่าย</h3>
       <p>Markdown ใช้อักขระธรรมดากำหนดโครงสร้างแทนการจัดหน้าด้วยเมนู ไฟล์ยังอ่านรู้เรื่องได้เมื่อเปิดใน text editor และเหมาะกับการบันทึกเหตุผล หลักฐาน และข้อจำกัดฉบับเต็ม</p>
@@ -132,7 +133,7 @@
       <p class="expected"><strong>อย่าส่งไฟล์ตัวอย่าง:</strong> ค่า SHA-256 เป็นเลขศูนย์สำหรับการสอน ผู้เรียนต้องสร้างไฟล์ของตนเองในขั้นที่ 11</p>
     </section>
 
-    <section class="section" id="activity">
+    <section class="section" id="activity" data-module-2-step="practice">
       <div class="section-heading compact"><p class="eyebrow">กิจกรรมหลัก · เปรียบเทียบสองรอบ</p><h2>คำตอบเปลี่ยนอย่างไรเมื่อกำหนดหลักฐานให้ชัด</h2><p>ใช้เอกสารชุดเดียวกันถาม AI สองรอบ รอบแรกใช้คำถามสั้นเพื่อดูพฤติกรรมตามธรรมชาติ จากนั้นตรวจคำตอบกับต้นฉบับ แล้วเขียนคำสั่งรอบใหม่ที่ระบุวิธีใช้หลักฐานให้ชัดเพื่อเปรียบเทียบผล</p></div>
 
       <h3 class="section-zone-heading">ช่วงที่ 1 · ดูคำตอบก่อนกำหนดกติกา</h3>
@@ -258,7 +259,7 @@ https://urban.cpe.ku.ac.th/ai-for-research/downloads/module-02-submission-schema
       </ol>
     </section>
 
-    <section class="section" id="local-validator">
+    <section class="section" id="local-validator" data-module-2-step="submit">
       <div class="section-heading compact"><p class="eyebrow">AI-assisted local check · ไม่อัปโหลดงาน</p><h2>ให้ AI เรียกตัวตรวจให้</h2><p>คุณไม่ต้องเปิด Terminal หรือรันโค้ดเอง ตัวตรวจถูกเตรียมไว้ใน workspace ตั้งแต่ติดตั้ง หาก workspace รุ่นเก่ายังไม่มี AI จะดาวน์โหลดจากเว็บไซต์หลักแล้วรันในเครื่องให้</p></div>
       <div class="command markdown-command"><code>ตรวจงาน Module 2 ในเครื่องให้ฉัน
 
@@ -271,7 +272,7 @@ https://urban.cpe.ku.ac.th/ai-for-research/downloads/module-02-submission-schema
       <p class="expected"><strong>สิ่งที่ผู้เรียนต้องทำ:</strong> อ่านผล <code>LOCAL_CHECK PASS/FAIL</code> และตอบคำถามที่ AI ส่งกลับมาเท่านั้น ไม่ต้องพิมพ์คำสั่ง Python เอง เนื้อหางานยังอยู่ในเครื่อง</p>
     </section>
 
-    <section class="section" id="submit">
+    <section class="section" id="submit" data-module-2-step="submit">
       <div class="section-heading compact"><p class="eyebrow">Submit · ส่งความคืบหน้า</p><h2>ตรวจผลงานในเครื่อง แล้วส่งเฉพาะ Progress JSON</h2><p>หน้าเว็บอ่าน Markdown และ <code>module-2-submission.json</code> ในเบราว์เซอร์เพื่อตรวจความครบและคำนวณ SHA-256 ไฟล์ทั้งสองไม่ออกจากเครื่อง Server ได้รับเพียงผลตรวจแบบสรุปและแบบประเมินการใช้ Module เพื่อแสดงความคืบหน้าของคลาส</p><p><a href="downloads/module-02-submission-schema.json" download>ดาวน์โหลด JSON Schema สำหรับตรวจในเครื่อง →</a></p></div>
       <div class="notice"><strong>Call sign แทนตัวตน:</strong> ตั้งนามเรียกขานใหม่สำหรับคลาสนี้ เช่น <code>green-orbit-7</code> และอย่าใช้ชื่อจริง ชื่อบัญชี อีเมล เบอร์โทร หรือรหัสนิสิต Server เก็บเฉพาะรหัสคลาส, call sign, progress summary, แบบประเมิน Module, เวลา และ submission ID ไม่เก็บ Markdown, claims, คำตอบ หรือรายการหลักฐานของคุณ</div>
       <form class="module-submission-form" data-module-2-submission-form>
@@ -317,7 +318,7 @@ https://urban.cpe.ku.ac.th/ai-for-research/downloads/module-02-submission-schema
       </div>
     </section>
 
-    <section class="section markdown-section" id="finish" aria-labelledby="finish-heading">
+    <section class="section markdown-section" id="finish" aria-labelledby="finish-heading" data-module-2-step="submit">
       <div class="section-heading compact"><p class="eyebrow">Checkpoint</p><h2 id="finish-heading">จบบทเรียน</h2></div>
       <div class="markdown-body">
       <p>ติ๊กเมื่อคุณตรวจชิ้นงานและอธิบายหลักฐานของแต่ละข้อได้ ระบบจะจำสถานะไว้ในเบราว์เซอร์นี้</p>

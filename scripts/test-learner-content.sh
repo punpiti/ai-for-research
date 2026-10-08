@@ -107,17 +107,35 @@ check_file "$site_dir/assets/module-1-submission.js" "M1 progress endpoint" '/ap
 check_file "$site_dir/assets/module-1-submission.js" "M1 progress-only schema" 'ai-for-research\.module-1-progress\.v1'
 node --check "$site_dir/assets/module-1-submission.js"
 node "$site_dir/scripts/test-module-1-submission.js"
-for page in module-2.html module-3.html; do
-  check_file "$site_dir/$page" "action hierarchy JS" 'assets/app\.js\?v=20261008-12'
-  check_file "$site_dir/$page" "action hierarchy CSS" 'assets/styles\.css\?v=20261008-22'
-done
+check_file "$site_dir/module-2.html" "M2 action hierarchy JS" 'assets/app\.js\?v=20261008-13'
+check_file "$site_dir/module-2.html" "M2 step flow JS" 'assets/module-2-steps\.js\?v=20261008-1'
+check_file "$site_dir/module-2.html" "M2 step flow CSS" 'assets/styles\.css\?v=20261008-23'
+check_file "$site_dir/module-3.html" "M3 action hierarchy JS" 'assets/app\.js\?v=20261008-12'
+check_file "$site_dir/module-3.html" "M3 action hierarchy CSS" 'assets/styles\.css\?v=20261008-22'
 check_file "$site_dir/assets/app.js" "module action legend" 'learning-action-legend'
 check_file "$site_dir/assets/app.js" "AI prompt label" 'Prompt ให้ AI'
 check_file "$site_dir/assets/app.js" "example label" 'explicitExample'
-check_file "$site_dir/assets/app.js" "M2 basics collapse" 'json-basics.*เปิดพื้นฐาน Markdown และ JSON'
 check_file "$site_dir/assets/app.js" "M3 route collapse" 'faculty-path.*เปิดเส้นทางอาจารย์ / นักวิจัย'
 check_file "$site_dir/assets/styles.css" "prompt visual" '\.ai-prompt.*#231a31'
 check_file "$site_dir/assets/styles.css" "download visual" '\.download-action'
+check_file "$site_dir/assets/styles.css" "M2 step tabs" '\.module-step-tabs'
+check_file "$site_dir/assets/module-2-steps.js" "M2 sequential lock" 'stageUnlocked'
+check_file "$site_dir/assets/module-2-steps.js" "M2 local checkpoint storage" 'ai-for-research\.module-2\.steps\.v1'
+for step in prepare concepts practice submit; do
+  check_file "$site_dir/module-2.html" "M2 $step content" "data-module-2-step=\"$step\""
+done
+node --check "$site_dir/assets/module-2-steps.js"
+node - "$site_dir/assets/module-2-steps.js" <<'JSM2STEPS'
+const assert = require("node:assert/strict");
+const { validateCheckpoint } = require(process.argv[2]);
+assert.equal(validateCheckpoint("prepare", { evidence_ready: false }).ok, false);
+assert.equal(validateCheckpoint("prepare", { evidence_ready: true }).ok, true);
+assert.equal(validateCheckpoint("concepts", { level: "L3" }).ok, false);
+assert.equal(validateCheckpoint("concepts", { level: "L4" }).ok, true);
+assert.equal(validateCheckpoint("practice", { round1_traceable: "6", round1_unsupported: "2", round2_traceable: "8", round2_unsupported: "1" }).ok, true);
+assert.equal(validateCheckpoint("practice", { round1_traceable: "5", round1_unsupported: "0", round2_traceable: "8", round2_unsupported: "1" }).ok, false);
+console.log("Module 2 step validation tests passed");
+JSM2STEPS
 
 check_file "$site_dir/module-5.html" "standalone M5 path" 'ทาง B — เริ่มที่โมดูล 5'
 check_file "$site_dir/module-5.html" "prior-module M5 path" 'ทาง A — มีผลงานจาก Module 3–4'

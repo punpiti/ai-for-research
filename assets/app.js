@@ -419,9 +419,9 @@ function decorateModuleActions() {
     label.innerHTML = `<span class="content-kind is-input">กรอก</span><strong>ข้อมูลสำหรับตรวจและส่งความคืบหน้า</strong>`;
     form.before(label);
   }
-  const collapsible = moduleNumber === "2"
-    ? [["json-basics", "เปิดพื้นฐาน Markdown และ JSON"]]
-    : [["example", "เปิดตัวอย่าง หิว → กิน → อิ่ม"], ["student-path", "เปิดเส้นทางนักเรียน"], ["faculty-path", "เปิดเส้นทางอาจารย์ / นักวิจัย"]];
+  const collapsible = moduleNumber === "3"
+    ? [["example", "เปิดตัวอย่าง หิว → กิน → อิ่ม"], ["student-path", "เปิดเส้นทางนักเรียน"], ["faculty-path", "เปิดเส้นทางอาจารย์ / นักวิจัย"]]
+    : [];
   for (const [id, summaryText] of collapsible) {
     const section = document.getElementById(id);
     const heading = section?.querySelector(":scope > .section-heading");
