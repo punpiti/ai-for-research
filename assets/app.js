@@ -90,7 +90,7 @@ function renderResearchProfile(host, forceEdit = false) {
       .filter(([key]) => relevantKeys.has(key) && String(profile[key] || "").trim())
       .map(([key, label]) => `<div><dt>${label}</dt><dd>${String(profile[key]).replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;")}</dd></div>`)
       .join("");
-    host.innerHTML = `<div class="profile-status"><div><p class="eyebrow">ข้อมูลผู้เรียนที่บันทึกไว้</p><h3>โมดูลนี้จะใช้ข้อมูลของคุณเป็นเงื่อนไข</h3><p>ข้อมูลมาจากแบบถาม–ตอบในโมดูล 1 และเก็บเฉพาะในเบราว์เซอร์นี้ ระบบเลือกใช้เฉพาะช่องที่เกี่ยวข้องกับโมดูล</p></div><div class="profile-summary-actions"><button type="button" class="button primary" data-profile-copy>คัดลอกข้อมูลให้ AI</button><button type="button" class="button secondary" data-profile-edit>แก้ไขข้อมูล</button><small aria-live="polite"></small></div></div><dl class="profile-summary">${rows}</dl>`;
+    host.innerHTML = `<div class="profile-status"><div><p class="eyebrow">ข้อมูลของคุณ</p><h3>ใช้ข้อมูลนี้กับกิจกรรมในบท</h3><p>เลือกคัดลอกให้ AI เมื่อต้องการ ข้อมูลเก็บอยู่ในเบราว์เซอร์เครื่องนี้</p></div><div class="profile-summary-actions"><button type="button" class="button primary" data-profile-copy>คัดลอกข้อมูลให้ AI</button><button type="button" class="button secondary" data-profile-edit>แก้ไขข้อมูล</button><small aria-live="polite"></small></div></div><dl class="profile-summary">${rows}</dl>`;
     host.querySelector("[data-profile-edit]").addEventListener("click", () => renderResearchProfile(host, true));
     host.querySelector("[data-profile-copy]").addEventListener("click", async () => {
       await navigator.clipboard.writeText(profileContextText(profile));
@@ -103,7 +103,7 @@ function renderResearchProfile(host, forceEdit = false) {
     const control = type === "textarea" ? `<textarea name="${key}" rows="3">${value}</textarea>` : `<input name="${key}" value="${value}">`;
     return `<label><span>${label}</span>${control}</label>`;
   }).join("");
-  host.innerHTML = `<div class="profile-status"><div><p class="eyebrow">ข้อมูลผู้เรียน · เก็บในเครื่องนี้</p><h3>${hasProfile ? "เติมหรือแก้ไขข้อมูลที่ใช้ร่วมกัน" : "ยังไม่พบข้อมูลจากโมดูล 1 — กรุณาตอบและบันทึกก่อนเริ่ม"}</h3><p>คำถามด้านล่างเป็นชุดเดียวกับโมดูล 1 กรอกเท่าที่จำเป็น ข้ามข้อที่ไม่เกี่ยวข้องได้ ห้ามใส่รหัสผ่านหรือข้อมูลส่วนบุคคลที่ไม่จำเป็น เมื่อกดบันทึก โมดูลอื่นจะนำข้อมูลที่เกี่ยวข้องไปใช้เป็นเงื่อนไขของคำสั่ง</p></div></div><form class="profile-form">${fields}<div class="profile-actions"><button class="button primary" type="submit">บันทึกข้อมูลในเครื่องนี้</button>${hasRelevantProfile ? '<button class="button secondary" type="button" data-profile-cancel>ยกเลิก</button>' : ""}<small aria-live="polite"></small></div></form>`;
+  host.innerHTML = `<div class="profile-status"><div><p class="eyebrow">ข้อมูลของคุณ · เก็บในเครื่องนี้</p><h3>${hasProfile ? "ตรวจหรือแก้ไขข้อมูล" : "บอก AI เกี่ยวกับงานของคุณ"}</h3><p>กรอกเท่าที่จำเป็น ข้ามข้อที่ไม่เกี่ยวข้องได้ และห้ามใส่รหัสผ่านหรือข้อมูลส่วนบุคคลที่ไม่จำเป็น</p></div></div><form class="profile-form">${fields}<div class="profile-actions"><button class="button primary" type="submit">บันทึกข้อมูลในเครื่องนี้</button>${hasRelevantProfile ? '<button class="button secondary" type="button" data-profile-cancel>ยกเลิก</button>' : ""}<small aria-live="polite"></small></div></form>`;
   const form = host.querySelector("form");
   form.addEventListener("submit", (event) => {
     event.preventDefault();

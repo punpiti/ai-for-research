@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/styles.css?v=20261008-17">
-  <script src="assets/app.js?v=20261008-7" defer></script>
+  <script src="assets/app.js?v=20261008-8" defer></script>
   <script src="assets/site-shell.js?v=20260805-5"></script>
 </head>
 <body class="prepare-page">
@@ -37,7 +37,7 @@
     <section class="section" id="outcomes">
       <div class="section-heading compact"><p class="eyebrow">LO</p><h2>สิ่งที่จะทำได้</h2></div>
       <div class="check-grid outcome-grid">
-        <div><span>01</span><strong>อธิบายความต่างระหว่าง task, chat, project และ workspace ได้</strong></div>
+        <div><span>01</span><strong>สร้างพื้นที่ทำงานสำหรับงานวิจัยหนึ่งเรื่องได้</strong></div>
         <div><span>02</span><strong>เปิดพื้นที่ทำงานและเชื่อมต่อ AI ได้</strong></div>
         <div><span>03</span><strong>จัดวางและตรวจไฟล์ Markdown, CSV และ PDF ได้</strong></div>
         <div><span>04</span><strong>สร้างข้อมูลผู้เรียนและบริบทสำหรับใช้ในโมดูลถัดไปได้</strong></div>
@@ -132,20 +132,15 @@
 
     <section class="section platform-section" id="install" data-agent-required hidden>
       <div class="section-heading compact"><p class="eyebrow">ขั้นที่ 2 · Installation</p><h2>ติดตั้งซอฟต์แวร์</h2></div>
-      <p>ติดตั้งครั้งแรกด้วยคำสั่งเดียวที่ดาวน์โหลด Script แล้วรันต่อทันที: เตรียม VS Code พร้อม AI extension ที่เลือก, ตัวแสดง usage ของ AI บน status bar, PDF Viewer, Rainbow CSV และ JSON Crack, Python 3.12, LaTeX/XeLaTeX ผ่าน TinyTeX, Pandoc, Poppler สำหรับถอด text layer จาก PDF และ OCR ไทย–อังกฤษ เครื่องมือที่ต้องใช้สิทธิ์ระบบจะติดตั้งให้จบในรอบนี้ ส่วนตัวอ่าน PPTX/XLSX และไลบรารีเฉพาะกิจกรรมให้ AI ติดตั้งเฉพาะส่วนที่ต้องใช้ใน course environment โดยไม่ถามซ้ำเมื่อเริ่มใช้งาน; DOCX อ่านผ่าน Pandoc ที่เตรียมไว้แล้ว</p>
-      <div class="notice"><strong>ติดตั้งต่อเนื่อง:</strong> Script ติดตั้งสิ่งที่ขาดตาม AI ที่เลือก โดยไม่ถามยืนยันทีละโปรแกรม เมื่อจบแล้วจึง Sign in หรือใส่ API key ไม่ต้องเลือกรุ่น Python, แพ็กเกจ LaTeX หรือ AI ตัวอื่นระหว่างติดตั้ง หากเรียก Script เองโดยไม่ระบุชนิด AI จะใช้ OpenRouter เป็นค่าเริ่มต้น</div>
-      <div class="notice"><strong>สิทธิ์ครั้งแรก:</strong> Windows จะถาม UAC เฉพาะเมื่อขาดเครื่องมือระบบ; macOS และ Linux อาจถามรหัสผ่านเพื่อติดตั้งเครื่องมือระบบ ระหว่างช่วงนี้ Script จะแสดง progress และชื่อขั้นตอนที่กำลังทำ เมื่อจบจะเพิ่มโฟลเดอร์โปรแกรมใหม่ลง PATH ของผู้ใช้ให้อัตโนมัติโดยไม่เพิ่มรายการเดิมซ้ำ</div>
-      <p>เลือก extension จากผู้พัฒนา official หรือที่มียอดติดตั้งสูง: <a href="https://marketplace.visualstudio.com/items?itemName=mathematic.vscode-pdf" target="_blank" rel="noopener">PDF Viewer</a> เปิด PDF, <a href="https://marketplace.visualstudio.com/items?itemName=mechatroner.rainbow-csv" target="_blank" rel="noopener">Rainbow CSV</a> แยกสีและจัดแนวคอลัมน์ CSV และ <a href="https://marketplace.visualstudio.com/items?itemName=AykutSarac.jsoncrack-vscode" target="_blank" rel="noopener">JSON Crack</a> ซึ่งเป็น extension official ของโครงการ JSON Crack แสดง JSON เป็นแผนภาพ ทั้งสามตัวติดตั้งพร้อมกันทุกตัวเลือก AI ส่วนการอ่าน จัดรูปแบบ และพับโครงสร้าง JSON มีอยู่ใน VS Code ของ Microsoft แล้ว</p>
-      <p>เปิด PDF หรือ CSV ได้จากรายการไฟล์ สำหรับ CSV ใช้ <code>Rainbow CSV: Virtual Align CSV Columns</code> เพื่อจัดแนวโดยไม่เปลี่ยนข้อมูล สำหรับ JSON เปิดไฟล์แล้วคลิกไอคอน JSON Crack ที่มุมขวาบนของ editor ยอดติดตั้งที่ตรวจเมื่อ 7 ตุลาคม 2026: PDF Viewer ประมาณ 2.8 ล้านครั้ง, Rainbow CSV ประมาณ 24.3 ล้านครั้ง และ JSON Crack ประมาณ 7.8 แสนครั้ง ตัวเลขนี้เป็นยอดติดตั้งสะสม ไม่ใช่จำนวนผู้ใช้ปัจจุบัน</p>
-      <p>ตัวแสดง usage เลือกตาม AI: Claude ใช้ <code>growthjack.claude-code-usage</code>, Codex ใช้ <code>ganymede404.vscode-codex-usage</code> และ OpenRouter ใช้ <code>ThiagoSantosDevBR.openrouter-ai-monitor</code> โดยแสดง quota, เครดิต หรือเวลาที่จะ reset บริเวณ status bar ด้านล่าง ตัว OpenRouter ต้องสั่ง <code>OpenRouter: Set API Key</code> หนึ่งครั้งหลังเปิด VS Code; key เก็บใน Secret Storage ของ VS Code ไม่บันทึกเป็น plain text ใน settings</p>
-      <div class="notice"><strong>ถ้ารันซ้ำหรือแก้ปัญหา:</strong> คัดลอกคำสั่งติดตั้งด้านล่างใหม่แล้วรันได้เลย แล้วตรวจว่าเห็น <code>SETUP_VERSION 2026.10.08.23</code></div>
+      <p>คำสั่งเดียวจะเตรียม VS Code, AI ที่เลือก และเครื่องมือสำหรับอ่าน วิเคราะห์ และสร้างเอกสารที่ใช้ในคลาส</p>
+      <div class="notice"><strong>ระหว่างติดตั้ง:</strong> รอให้แถบความคืบหน้าจบ หากระบบถามสิทธิ์ติดตั้งให้กดยืนยันหรือใส่รหัสผ่านของเครื่อง แล้วกลับมารอที่หน้าต่างเดิม</div>
       <div class="project-name-choice">
         <label for="project-name"><strong>ชื่อโฟลเดอร์โปรเจกต์</strong><span>เว็บจะจำชื่อนี้ในเบราว์เซอร์และใส่ให้ในคำสั่งติดตั้ง คำสั่งเปิด Workspace แผนผัง และจุดตรวจด้านล่างโดยอัตโนมัติ</span></label>
         <div class="project-name-control">
           <input id="project-name" data-project-name-input value="ai-for-research-workspace" autocomplete="off" spellcheck="false" aria-describedby="project-name-status">
           <button type="button" class="button secondary" data-project-name-reset>ใช้ชื่อเริ่มต้น</button>
         </div>
-        <small id="project-name-status" data-project-name-status role="status" aria-live="polite">บันทึกอัตโนมัติในเบราว์เซอร์นี้</small>
+        <small id="project-name-status" data-project-name-status role="status" aria-live="polite">ชื่อนี้จะใช้เป็นโฟลเดอร์งานของคุณ</small>
       </div>
       <div class="platform-picker" role="group" aria-label="เลือกระบบปฏิบัติการสำหรับติดตั้ง software">
         <button type="button" data-platform-button="windows">Windows 11</button>
@@ -157,47 +152,23 @@
           <p class="platform-label">Windows 11</p><h3>เปิด PowerShell ปกติ</h3>
           <h4 class="phase-title"><span>1</span> คัดลอกคำสั่งนี้แล้วกด Enter ครั้งเดียว</h4>
           <div class="command"><code data-agent-command data-template="&amp; { $env:AI_RESEARCH_PROJECT_NAME={projectPs}; $setup = Join-Path $env:TEMP &#x27;ai-research-setup.ps1&#x27;; Invoke-WebRequest -UseBasicParsing -ErrorAction Stop &quot;https://urban.cpe.ku.ac.th/ai-for-research/downloads/setup-windows.ps1&quot; -OutFile $setup; powershell -NoProfile -ExecutionPolicy Bypass -File &quot;$setup&quot; -Mode Install -Agent {agent} }">&amp; { $env:AI_RESEARCH_PROJECT_NAME='ai-for-research-workspace'; $setup = Join-Path $env:TEMP 'ai-research-setup.ps1'; Invoke-WebRequest -UseBasicParsing -ErrorAction Stop "https://urban.cpe.ku.ac.th/ai-for-research/downloads/setup-windows.ps1" -OutFile $setup; powershell -NoProfile -ExecutionPolicy Bypass -File "$setup" -Mode Install -Agent codex }</code><button type="button" data-copy>คัดลอก</button></div>
-          <p class="expected">เริ่มใน PowerShell ปกติเพียงหน้าต่างเดียว หากเครื่องมือระบบยังไม่ครบ Script จะเปิดหน้าต่าง Admin หนึ่งครั้ง ให้ตอบ Yes ที่ UAC แล้วรอให้กลับมาทำงานต่อในหน้าต่างเดิม เมื่อเครื่องมือระบบครบแล้วจะข้าม Admin เมื่อเตรียม Python และ PDF ผ่าน จะเห็น <code>RUNTIME_READY</code></p>
+          <p class="expected">หาก Windows ถามสิทธิ์ ให้ตอบ Yes แล้วรอจน VS Code เปิดขึ้นมา</p>
         </article>
         <article class="platform-card" data-platform-panel="macos">
           <p class="platform-label">macOS</p><h3>เปิด Terminal ปกติ</h3>
           <h4 class="phase-title"><span>1</span> คัดลอกคำสั่งนี้แล้วกด Enter ครั้งเดียว</h4>
           <div class="command"><code data-agent-command data-template="setup=&quot;$(mktemp)&quot; &amp;&amp; curl -fsSL &quot;https://urban.cpe.ku.ac.th/ai-for-research/downloads/setup-macos.sh&quot; -o &quot;$setup&quot; &amp;&amp; AI_RESEARCH_PROJECT_NAME={projectSh} AI_GRAD_AGENT={agent} bash &quot;$setup&quot; --install">setup="$(mktemp)" &amp;&amp; curl -fsSL "https://urban.cpe.ku.ac.th/ai-for-research/downloads/setup-macos.sh" -o "$setup" &amp;&amp; AI_RESEARCH_PROJECT_NAME='ai-for-research-workspace' AI_GRAD_AGENT=codex bash "$setup" --install</code><button type="button" data-copy>คัดลอก</button></div>
-          <p class="expected">ใช้ Terminal ปกติหน้าต่างเดียว ติดตั้ง Homebrew เมื่อยังไม่มีและใส่รหัสผ่านเมื่อระบบขอ จากนั้นเตรียมเครื่องมือของผู้ใช้ต่อเนื่อง เมื่อเตรียม Python และ PDF ผ่าน จะเห็น <code>RUNTIME_READY</code> Script จะเปิด Workspace ใน <span data-workspace-app>VS Code</span> ให้อัตโนมัติ</p>
+          <p class="expected">ใส่รหัสผ่านของเครื่องเมื่อระบบขอ แล้วรอจน VS Code เปิดขึ้นมา</p>
         </article>
         <article class="platform-card" data-platform-panel="linux">
           <p class="platform-label">Linux (Ubuntu/Debian)</p><h3>เปิด Terminal ปกติ</h3>
           <h4 class="phase-title"><span>1</span> คัดลอกคำสั่งนี้แล้วกด Enter ครั้งเดียว</h4>
           <div class="command"><code data-agent-command data-template="setup=&quot;$(mktemp)&quot; &amp;&amp; curl -fsSL &quot;https://urban.cpe.ku.ac.th/ai-for-research/downloads/setup-linux.sh&quot; -o &quot;$setup&quot; &amp;&amp; AI_RESEARCH_PROJECT_NAME={projectSh} AI_GRAD_AGENT={agent} bash &quot;$setup&quot; --install">setup="$(mktemp)" &amp;&amp; curl -fsSL "https://urban.cpe.ku.ac.th/ai-for-research/downloads/setup-linux.sh" -o "$setup" &amp;&amp; AI_RESEARCH_PROJECT_NAME='ai-for-research-workspace' AI_GRAD_AGENT=codex bash "$setup" --install</code><button type="button" data-copy>คัดลอก</button></div>
-          <p class="expected">รองรับ Ubuntu/Debian; ใช้ Terminal ปกติหน้าต่างเดียว Script เรียก sudo หนึ่งช่วงเฉพาะเมื่อขาดเครื่องมือระบบ แล้วเตรียม Python และ TinyTeX ในบัญชีผู้ใช้ปกติ ต้องเห็น <code>RUNTIME_READY</code></p>
+          <p class="expected">ใส่รหัสผ่านของเครื่องเมื่อระบบขอ แล้วรอจน VS Code เปิดขึ้นมา</p>
         </article>
       </div>
-      <div class="notice"><strong>ชื่อโปรเจกต์ที่บันทึกไว้:</strong> <code data-project-name>ai-for-research-workspace</code> คำสั่งด้านบนส่งชื่อนี้ให้ Script โดยตรง จึงไม่ต้องพิมพ์ซ้ำ หากรัน Script แยกจากหน้าเว็บและไม่ได้ส่งชื่อไป Script จะถาม <code>Project folder name [ai-for-research-workspace]</code></div>
-      <div class="notice"><strong>ติดตั้งสำเร็จเมื่อ:</strong> เห็น <code>RUNTIME_READY</code> ซึ่งยืนยัน Python ใน venv, XeLaTeX และการสร้าง PDF ภาษาไทยผ่าน template จริง เครื่องมือระบบจะตรวจ Pandoc, <code>pdftotext</code>, <code>pdftoppm</code>, <code>pdfinfo</code> และ OCR ไทย–อังกฤษก่อนเปิด Workspace พร้อม AI panel หากขั้นใดล้มเหลว Script จะหยุดและแสดงข้อผิดพลาด</div>
-      <p>ระหว่างติดตั้งจะแสดงเฉพาะขั้นหลัก เมื่อเสร็จจะแสดงสรุปเครื่องมือที่ใช้ต่อจากของเดิม รายการที่เพิ่ม และตำแหน่ง log รายละเอียดและประวัติการเปลี่ยนแปลงจะเก็บในเครื่อง หากติดตั้งไม่สำเร็จ Script จะแสดงขั้นที่มีปัญหาและตำแหน่ง log สำหรับตรวจสอบ</p>
-      <h3>มีอยู่แล้วให้ใช้ต่อ</h3>
-      <p>Installer ใช้ซอฟต์แวร์ที่มีอยู่และติดตั้งเฉพาะตัวที่ขาด จะไม่อัปเดตทุกโปรแกรมเป็นรุ่นล่าสุด หาก Node รุ่นเดิมต่ำกว่าที่ AI frontend ต้องใช้ จะเตรียม Node LTS ที่รองรับในพื้นที่เครื่องมือของคอร์สโดยเก็บรุ่นระบบไว้ ส่วน Python 3.12 และ TinyTeX ของคอร์สจะใช้ชุดเดิมเมื่อรันซ้ำ</p>
-      <p>LaTeX ที่ติดตั้งไว้ระดับระบบอาจยังต้องขอ Admin เมื่อลงแพ็กเกจเพิ่ม จึงเตรียม TinyTeX ที่ผู้ใช้เขียนได้แยกไว้ตั้งแต่ครั้งแรก ผู้เรียนสามารถอัปเดตเครื่องมือภายหลังเมื่อพบปัญหาหรือมีเหตุผลด้านการรองรับงาน โดยบันทึกรุ่นก่อนและหลัง</p>
-      <details class="fallback-details"><summary>ถอนชุดทดลองบน Windows จาก installation trace</summary>
-        <p>เปิด PowerShell แบบปกติแล้วรันคำสั่งด้านล่าง Script จะเลือก trace ของการติดตั้งล่าสุดและถามยืนยันก่อนถอน โดยถอนเฉพาะ package, extension, runtime และไฟล์ที่ trace ยืนยันว่าเพิ่มสำเร็จในรอบนั้น แม้การติดตั้งทั้งรอบจะหยุดกลางทาง สิ่งที่มีอยู่ก่อนจะไม่ถูกแตะ และไฟล์ที่แก้หลังติดตั้งจะถูกเก็บไว้</p>
-        <div class="command"><code>&amp; { $setup = Join-Path $env:TEMP 'ai-research-setup.ps1'; Invoke-WebRequest -UseBasicParsing -ErrorAction Stop "https://urban.cpe.ku.ac.th/ai-for-research/downloads/setup-windows.ps1" -OutFile $setup; powershell -NoProfile -ExecutionPolicy Bypass -File "$setup" -Mode Uninstall }</code><button type="button" data-copy>คัดลอก</button></div>
-        <p class="expected">หากมีหลาย trace ให้ใช้ path ที่ installer แสดงหลังคำว่า <code>Trace:</code> แล้วเพิ่ม <code>-InstallTraceFile "path\to\exact-trace.jsonl"</code> เพื่อเลือก receipt ที่ต้องการโดยตรง Workspace หลักจะไม่ถูกลบทั้งโฟลเดอร์</p>
-      </details>
-      <h3>VS Code และ OpenRouter อยู่ในชุดแรก</h3>
-      <p>Windows และ macOS ติดตั้ง VS Code ให้เมื่อยังไม่มี; Linux ติดตั้งแพ็กเกจ VS Code จาก Microsoft บน Windows โปรแกรมและคำสั่งทั้งหมดทำงานใน Windows โดยตรง</p>
-      <p>หากเลือก OpenRouter จะติดตั้ง Cline extension ให้ จากนั้นเปิด Cline Settings เลือก <code>OpenRouter</code> ใส่ API key ในช่องที่กำหนด เลือกโมเดล และตรวจเครดิต/ราคา Installer เตรียม extension ให้ แต่การใช้โมเดลขึ้นกับบัญชี OpenRouter ของคุณ</p>
-      <p>อ้างอิง: <a href="https://openrouter.ai/works-with-openrouter/cline" target="_blank" rel="noreferrer">Cline กับ OpenRouter</a></p>
-      <details class="fallback-details"><summary>เพิ่มเติม: สำหรับผู้ที่มี WSL2 อยู่แล้ว</summary>
-        <p>WSL2 เป็นทางเลือกสำหรับผู้ที่คุ้นกับ Linux และมี Ubuntu/WSL2 พร้อมใช้งานอยู่แล้ว ใช้ Script ของ Linux ภายใน WSL ได้ โดย Script จะเรียก <code>powershell.exe</code> ของ Windows เพื่อติดตั้ง VS Code และ WSL extension ฝั่ง Windows แล้วกลับมาทำงานใน Ubuntu ไม่ต้องติดตั้ง PowerShell 7 เพิ่ม</p>
-        <p>Python, LaTeX และคำสั่งวิเคราะห์จะรันใน WSL ให้ตรวจมุมล่างซ้ายของ VS Code ว่าเป็น <code>WSL: Ubuntu</code> หรือชื่อ distribution ของคุณ ดู <a href="https://code.visualstudio.com/docs/remote/wsl" target="_blank" rel="noreferrer">คู่มือ VS Code ใน WSL</a></p>
-      </details>
-      <h3>ให้ AI ติดตั้งเพิ่มได้เมื่อจำเป็น</h3>
-      <p>Installer สร้างโฟลเดอร์ <code data-project-name>ai-for-research-workspace</code> ในโฟลเดอร์ผู้ใช้บนเครื่อง และใช้ uv จัดการ Python 3.12 กับ venv ของคอร์ส ส่วน environment, cache และ TinyTeX อยู่ในโฟลเดอร์เครื่องมือแยกจากโฟลเดอร์โปรเจกต์ ไฟล์ <code>tools/runtime-env.json</code> บอกตำแหน่งจริง และ <code>tools/runtime-env.sh</code> / <code>tools/runtime-env.ps1</code> ใช้เปิด environment ซ้ำได้</p>
-      <p>Workspace มีโครง Agent Project Kit เฉพาะส่วนที่ช่วยลดค่าใช้ AI ได้แก่ <code>AGENTS.md</code>, state สั้น, token budget, startup contract และ token discipline เท่านั้น ค่าเริ่มต้นคือ Standard + Economy: AI อ่านเฉพาะไฟล์ที่เกี่ยวข้อง ใช้ Markdown ที่ถอดไว้ซ้ำ สรุปสถานะเพื่อไม่เล่าบริบทใหม่ และถามก่อน scan/research/test loop ที่มีต้นทุนสูง โดยไม่ตัดการตรวจหลักฐานหรือ test ที่จำเป็น</p>
-      <p>Codex: Installer สร้าง <code>.codex/config.toml</code> เฉพาะ Workspace นี้ ให้เขียนไฟล์งานและโฟลเดอร์เครื่องมือ ดาวน์โหลดผ่านเครือข่าย และรันคำสั่งโดยไม่ถามยืนยันซ้ำ ยอมรับความเชื่อถือของ Workspace ครั้งแรก แล้วเริ่ม session ใหม่เพื่อโหลดค่า เครื่ององค์กรอาจมีนโยบายที่ override ค่าเหล่านี้ได้</p>
-      <p>Claude Code: เตรียมการอนุญาตเครื่องมือ Python, Pandoc, XeLaTeX, bibliography, <code>latexmk</code> และ <code>latexdiff</code> เฉพาะ Workspace ผ่าน <code>.claude/settings.local.json</code> คำสั่งอื่นอาจยังถาม หากมี config เดิม Installer จะเก็บไว้และแจ้งให้ตรวจค่า</p>
-      <p>Cline/OpenRouter: โหลด environment ของ Workspace ใน Terminal แล้วตั้ง Auto Approve ครั้งแรกใน Cline ให้ตรงกับงาน หากต้องการให้ติดตั้งแพ็กเกจโดยไม่ถาม ต้องเปิดการรันคำสั่งที่ต้องขออนุญาตด้วย เพราะ Cline อาจจัดคำสั่งติดตั้งเป็นกลุ่มนี้ การตั้งค่านี้อนุญาตคำสั่งอื่นด้วย จึงต้องใช้กับ Workspace ที่ไว้วางใจ อ่าน <a href="https://docs.cline.bot/features/auto-approve" target="_blank" rel="noreferrer">คำอธิบาย Auto Approve</a> ก่อนเลือก</p>
-      <p>อ้างอิง: <a href="https://docs.astral.sh/uv/guides/install-python/" target="_blank" rel="noreferrer">Python ผ่าน uv</a> · <a href="https://yihui.org/tinytex/" target="_blank" rel="noreferrer">TinyTeX และ tlmgr</a> · <a href="https://developers.openai.com/codex/config-reference/" target="_blank" rel="noreferrer">สิทธิ์และเครือข่ายของ Codex</a></p>
+      <div class="notice"><strong>ติดตั้งสำเร็จเมื่อ:</strong> VS Code เปิดโฟลเดอร์ <code data-project-name>ai-for-research-workspace</code> และพร้อมให้เชื่อมต่อบัญชี AI</div>
+      <p>หากเลือก OpenRouter ให้เปิด Cline Settings เลือก OpenRouter แล้วใส่ API key ที่ได้รับสำหรับคลาส</p>
     </section>
 
     <section class="section platform-section" id="practice" data-agent-required hidden>
@@ -245,8 +216,7 @@
         </article>
       </div>
       </details>
-      <p class="expected">คำสั่งเปิด Workspace ใช้ชื่อที่เว็บบันทึกไว้: <code data-project-name>ai-for-research-workspace</code> หากกลับมาใช้เบราว์เซอร์นี้ภายหลัง เว็บจะเติมชื่อเดิมให้อัตโนมัติ</p>
-      <div class="plain-note"><strong>พร้อมเมื่อ:</strong> เห็น <code>README.md</code>, <code>content.md</code>, <code>input/original/</code>, <code>input/markdown/</code>, <code>tools/</code> และ <code>output/</code> ใน Explorer</div>
+      <div class="plain-note"><strong>พร้อมเมื่อ:</strong> เห็น <code>README.md</code>, <code>content.md</code>, <code>input/</code> และ <code>output/</code> ใน Explorer</div>
       <h3 class="section-zone-heading">เชื่อมต่อบัญชี AI</h3>
       <ol class="readiness-steps" data-login-steps>
         <li><span>01</span><div><strong>เปิด Codex panel</strong><br>คลิกไอคอน Codex ในแถบด้านข้างของ VS Code</div></li>
@@ -256,98 +226,47 @@
       <p class="expected">รายละเอียดจากผู้ให้บริการ: <a data-login-source href="https://developers.openai.com/codex/" target="_blank" rel="noopener">คู่มือ Codex ของ OpenAI</a></p>
       <div class="plain-note"><strong>พร้อมไปต่อเมื่อ:</strong> Sign in สำเร็จและเห็นช่องสนทนาใน AI panel</div>
       <section id="project-basics" aria-labelledby="project-basics-heading">
-        <h3 class="section-zone-heading" id="project-basics-heading">จาก Workspace สู่ Research Project</h3>
-        <p><strong>โปรเจกต์</strong> คืองานหนึ่งเรื่องที่มีเป้าหมาย ขอบเขต ข้อมูลนำเข้า กติกา สถานะ และผลลัพธ์ของตนเอง ส่วน <strong>Workspace</strong> คือโฟลเดอร์ที่เก็บส่วนประกอบเหล่านี้และเป็นขอบเขตที่ AI ใช้ทำงานร่วมกับเรา การสนทนาเป็นช่องทางสั่งงาน แต่ไฟล์ในโปรเจกต์คือความจำและหลักฐานที่ใช้ต่อข้าม session</p>
-        <div class="check-grid">
-          <div><span>Task</span><strong>งานหนึ่งครั้ง เช่น ตรวจเอกสารหรือสร้างตาราง</strong></div>
-          <div><span>Chat</span><strong>พื้นที่สนทนาเพื่อสั่งงาน อธิบาย และตัดสินใจ</strong></div>
-          <div><span>Project</span><strong>งานต่อเนื่องหนึ่งเรื่องที่มีหลักฐาน กติกา และผลลัพธ์</strong></div>
-          <div><span>Workspace</span><strong>โฟลเดอร์ของโปรเจกต์ที่คนและ AI ใช้ร่วมกัน</strong></div>
-        </div>
+        <h3 class="section-zone-heading" id="project-basics-heading">รู้จักโฟลเดอร์งานของคุณ</h3>
+        <p>ใช้หนึ่งโฟลเดอร์ต่อหนึ่งงานวิจัย เพื่อให้ต้นฉบับและผลงานที่ AI สร้างแยกจากกันและค้นกลับได้ง่าย</p>
         <div class="terminal-primer project-structure">
           <h4>โปรเจกต์นี้อยู่ที่ <code data-project-name>ai-for-research-workspace</code></h4>
           <pre><code><span data-project-name>ai-for-research-workspace</span>/
-├── README.md                 โปรเจกต์นี้คืออะไร
-├── AGENTS.md                 กติกาที่ AI ต้องปฏิบัติตาม
-├── content.md                เนื้อหา Markdown ที่กำลังพัฒนา
-├── .ai/
-│   ├── PROJECT_STATE.md      เป้าหมาย สถานะ และงานถัดไป
-│   └── agent-project-kit/
-│       └── STARTUP.md        สิ่งที่ AI ต้องอ่านเมื่อเริ่ม session
-├── input/
-│   ├── original/             PDF, DOCX, CSV และต้นฉบับที่ไม่เขียนทับ
-│   └── markdown/             ข้อความที่ถอดจากต้นฉบับให้ค้นได้
-├── profile/                  บริบทผู้เรียนที่สร้างหลังอนุมัติ
-├── templates/ และ tools/     รูปแบบเอกสารและเครื่องมือของคอร์ส
-└── output/                   รายงาน ตาราง ภาพ และ PDF ที่สร้างใหม่</code></pre>
+├── README.md        คำอธิบายงาน
+├── content.md       เอกสาร Markdown สำหรับทดลอง
+├── input/           ไฟล์ต้นฉบับ
+└── output/          รายงาน ตาราง ภาพ และ PDF ที่สร้างใหม่</code></pre>
         </div>
-        <p><code>.md</code> เป็นไฟล์ข้อความที่คนและ AI อ่านง่าย เหมาะกับเนื้อหา คำสั่ง และบันทึก ส่วน <code>.csv</code> เป็นข้อมูลตาราง แถวหนึ่งแทนหน่วยข้อมูลหนึ่งหน่วยและคอลัมน์หนึ่งแทนตัวแปรหนึ่งตัว CSV ต้นฉบับให้อยู่ใน <code>input/original/</code> และผลที่ทำความสะอาดหรือวิเคราะห์แล้วให้อยู่ใน <code>output/</code> โดยไม่เขียนทับต้นฉบับ</p>
-        <div class="plain-note"><strong>เมื่อเริ่มงานวิจัยเรื่องใหม่:</strong> ใช้โฟลเดอร์ใหม่และตั้งชื่อให้สื่อถึงงาน เช่น <code>thesis-water-quality</code> หรือ <code>survey-ai-literacy</code> หนึ่งโฟลเดอร์ควรแทนหนึ่งโปรเจกต์ ไม่ควรรวมหลายงานที่มีข้อมูล กติกา หรือผู้ร่วมงานต่างกันไว้ใน <code data-project-name>ai-for-research-workspace</code> เดียว</div>
+        <p>เก็บไฟล์ต้นฉบับไว้ใน <code>input/</code> และให้ AI บันทึกงานใหม่ใน <code>output/</code> โดยไม่เขียนทับต้นฉบับ</p>
         <ol class="readiness-steps">
-          <li><span>01</span><div><strong>เปิด <code>README.md</code></strong><br>ตรวจชื่อโปรเจกต์ เป้าหมาย และสิ่งที่อยู่ในขอบเขต</div></li>
-          <li><span>02</span><div><strong>เปิด <code>AGENTS.md</code></strong><br>ดูว่า AI ได้รับกติกาเรื่องต้นฉบับ ผลลัพธ์ เครื่องมือ และการตรวจหลักฐานอย่างไร</div></li>
-          <li><span>03</span><div><strong>เปิด <code>.ai/PROJECT_STATE.md</code></strong><br>แยกสถานะที่เปลี่ยนตามงานออกจากกติกาถาวรใน <code>AGENTS.md</code></div></li>
-          <li><span>04</span><div><strong>ชี้ตำแหน่งไฟล์ให้ถูก</strong><br>ต้นฉบับไปที่ <code>input/original/</code> ข้อความที่ถอดแล้วไปที่ <code>input/markdown/</code> และงานที่สร้างใหม่ไปที่ <code>output/</code></div></li>
+          <li><span>01</span><div><strong>เปิด <code>README.md</code></strong><br>ดูชื่อและเป้าหมายของงาน</div></li>
+          <li><span>02</span><div><strong>เปิด <code>input/</code></strong><br>ดูตำแหน่งเก็บไฟล์ต้นฉบับ</div></li>
+          <li><span>03</span><div><strong>เปิด <code>output/</code></strong><br>ดูตำแหน่งเก็บผลงานที่สร้างใหม่</div></li>
         </ol>
-        <div class="plain-note"><strong>ผ่านจุดตรวจเมื่อ:</strong> อธิบายได้ว่าโปรเจกต์ต่างจาก task และ chat อย่างไร รู้ว่า Workspace อยู่ที่โฟลเดอร์ใด และเลือกตำแหน่งของไฟล์ต้นฉบับ Markdown, CSV และผลลัพธ์ได้ถูกต้อง</div>
+        <div class="plain-note"><strong>พร้อมเมื่อ:</strong> รู้ว่าไฟล์ต้นฉบับและผลงานใหม่ต้องเก็บไว้ที่ใด</div>
       </section>
       <h3 class="section-zone-heading">ฝึกบอกบริบทของคุณให้ AI</h3>
-      <p>กิจกรรมนี้ฝึกให้ AI รู้ว่าใครกำลังทำงานอะไรและต้องการความช่วยเหลือแบบใด โดยให้ข้อมูลเท่าที่จำเป็น ช่องที่ไม่เกี่ยวข้องข้ามได้ และไม่ต้องระบุรหัสนิสิต เบอร์โทร อีเมล ที่อยู่ credential หรือข้อมูลส่วนบุคคลของผู้อื่น</p>
+      <p>กรอกเฉพาะข้อมูลที่ช่วยให้ AI เข้าใจงานวิจัยและสิ่งที่คุณต้องการ ช่องที่ไม่เกี่ยวข้องข้ามได้ และไม่ต้องใส่รหัสผ่านหรือข้อมูลส่วนบุคคลที่ไม่จำเป็น</p>
       <div data-research-profile data-mode="edit"></div>
       <ol class="readiness-steps">
-        <li><span>01</span><div><strong>คัดลอก Prompt สัมภาษณ์</strong><br>แก้ตัวเลือกใน <code>{{…}}</code> ก่อนส่ง หากยังไม่ทราบให้คงคำว่า “ถามฉัน” ไว้<p class="prompt-edit-note">✎ แก้ก่อนส่ง: เปลี่ยนข้อความใน {{…}} ให้ตรงกับคุณ หรือปล่อยให้ AI ถามทีละข้อ</p><div class="command markdown-command prompt-template"><code>ช่วยสัมภาษณ์ฉันเพื่อสร้าง Learner Profile สำหรับใช้ใน AI for Research โดยถามครั้งละหนึ่งคำถามและรอคำตอบ ห้ามสร้างหรือแก้ไขไฟล์จนกว่าฉันจะตรวจ profile และอนุมัติ
-
-ข้อมูลที่ฉันต้องการให้ถามหรือยืนยัน:
-1. ชื่อภาษาไทย: {{ถามฉัน — ข้ามได้}}
-2. ชื่อภาษาอังกฤษ: {{ถามฉัน — ข้ามได้}}
-3. สังกัด/หน่วยงาน: {{ถามฉัน — ระบุเท่าที่จำเป็น}}
-4. บทบาทหรือระดับการศึกษา: {{เช่น นิสิตปริญญาโท อาจารย์ นักวิจัย หรือบุคคลทั่วไป}}
-5. สาขาหรือความเชี่ยวชาญ: {{ถามฉัน}}
-6. ชื่ออาจารย์ที่ปรึกษา: {{ถามฉันถ้ามีและฉันยินยอมให้ระบุ มิฉะนั้นบันทึกว่าไม่ระบุ}}
-7. หัวข้อวิจัยหรือประเด็นที่สนใจ: {{ถามฉัน}}
-8. ระยะของงานตอนนี้: {{เริ่มหาโจทย์ / ทำ proposal / เก็บข้อมูล / วิเคราะห์ / เขียนเผยแพร่ / อื่น ๆ}}
-9. ผลงานที่อยากได้จากการเรียน: {{ถามฉัน}}
-10. ภาษาที่ต้องการใช้ทำงาน: {{ไทย / อังกฤษ / สองภาษา}}
-11. ข้อจำกัดด้านเวลา เครื่องมือ หรือการเข้าถึงข้อมูล: {{ถามฉัน}}
-12. ระดับความอ่อนไหวของข้อมูล: {{public / internal / confidential / sensitive / ยังไม่แน่ใจ}}
-13. วารสาร การประชุม หรือแหล่งเผยแพร่ที่สนใจ: {{ถามฉัน — หากยังไม่มีให้บันทึกว่า ยังไม่ทราบ}}
-14. กลุ่มผู้อ่านหรือผู้ใช้ผลที่ต้องการสื่อสารด้วย: {{ถามฉัน}}
-
-ก่อนถาม เตือนฉันว่าไม่ต้องให้รหัสนิสิต เบอร์โทร อีเมล ที่อยู่ รหัสผ่าน หรือข้อมูลส่วนบุคคลที่ไม่จำเป็น เมื่อถามครบให้แสดงข้อมูลผู้เรียนฉบับร่าง แยก “ข้อมูลที่ฉันยืนยัน” “ยังไม่ทราบ” และ “ไม่ประสงค์ระบุ” แล้วถามว่าต้องแก้อะไรก่อนบันทึก ห้ามเดาหรือเติมข้อมูลแทนฉัน
-
-เมื่อฉันพิมพ์ว่า “อนุมัติและบันทึก” เท่านั้น ให้สร้างโฟลเดอร์ profile/ และไฟล์ต่อไปนี้:
-1. profile/learner-profile.yaml — ข้อมูลที่ฉันยืนยันในรูปแบบที่โมดูลอื่นอ่านได้
-2. profile/learner-profile.md — ฉบับภาษาไทยที่ฉันอ่านและแก้ไขได้
-3. profile/learning-context.md — วิเคราะห์เฉพาะสิ่งที่ช่วยปรับบทเรียน ได้แก่ ระดับคำอธิบาย ตัวอย่างที่เกี่ยวข้อง ภาษา ข้อจำกัด ข้อมูลที่ห้ามส่งออก ค่าเริ่มต้นที่ใช้ได้ และค่าที่ยังต้องถาม ห้ามวิเคราะห์บุคลิกหรือเดาความสามารถ
-4. profile/author-profile.bib — สร้างเฉพาะเมื่อฉันต้องการ โดยใช้เพียงชื่อ สังกัด ORCID หรือข้อมูลสำหรับเผยแพร่ที่ฉันยืนยัน ห้ามใช้ BibTeX แทน learner-profile.yaml
-
-ก่อนจบ แสดงรายการข้อมูลที่ถูกบันทึก ข้อมูลที่ไม่ได้บันทึก และวิธีแก้ไขไฟล์ในภายหลัง โมดูลถัดไปต้องอ่าน profile/ ก่อนทำงาน หากข้อมูลที่จำเป็นยังไม่ทราบให้ถามฉันทีละข้อและบันทึกหลังฉันอนุมัติ</code><button type="button" data-copy>คัดลอกคำสั่งสร้างข้อมูลผู้เรียน</button></div></div></li>
-        <li><span>02</span><div><strong>ตอบทีละคำถาม</strong><br>วาง Prompt ใน <span data-agent-panel>Codex panel</span> แล้วตอบเฉพาะข้อมูลที่เกี่ยวข้อง คุณสามารถพิมพ์ “ข้าม” หรือ “ไม่ประสงค์ระบุ” ได้ทุกข้อ</div></li>
-        <li><span>03</span><div><strong>ตรวจข้อมูลก่อนอนุมัติ</strong><br>ตรวจการสะกดชื่อ สังกัด บทบาท หัวข้อ เป้าหมาย และระดับความอ่อนไหว แก้สิ่งที่ AI เข้าใจผิด โดย AI ต้องยังไม่สร้างหรือแก้ไขไฟล์</div></li>
-        <li><span>04</span><div><strong>อนุมัติแล้วจึงบันทึก</strong><br>เมื่อข้อมูลถูกต้อง ให้พิมพ์ “อนุมัติและบันทึก” แล้วตรวจว่าเกิด <code>profile/learner-profile.yaml</code>, <code>profile/learner-profile.md</code> และ <code>profile/learning-context.md</code></div></li>
-        <li><span>05</span><div><strong>ตรวจสิ่งที่ AI วิเคราะห์</strong><br>เปิด <code>profile/learning-context.md</code> และลบหรือแก้ข้อความที่เดาเกินข้อมูล ไฟล์นี้ควรบอกเพียงว่าจะปรับภาษา ตัวอย่าง การค้น และค่าเริ่มต้นอย่างไร</div></li>
-        <li><span>06</span><div><strong>สร้างข้อมูลผู้แต่งเมื่อจำเป็น</strong><br>หากต้องใช้ในงานเผยแพร่ จึงให้ AI สร้าง <code>profile/author-profile.bib</code> จากข้อมูลที่ยืนยันแล้ว ไฟล์นี้เป็นข้อมูลผู้แต่ง ไม่ใช่ข้อมูลผู้เรียนหลัก</div></li>
+        <li><span>01</span><div><strong>กรอกข้อมูลเท่าที่จำเป็น</strong><br>เน้นสาขา หัวข้อวิจัย ระยะของงาน และสิ่งที่อยากได้จากคลาส</div></li>
+        <li><span>02</span><div><strong>ตรวจแล้วบันทึก</strong><br>ข้อมูลจะอยู่ในเบราว์เซอร์เครื่องนี้ และแก้ไขได้ภายหลัง</div></li>
       </ol>
-      <div class="plain-note"><strong>กิจกรรมผ่านเมื่อ:</strong> AI ถามทีละข้อ ไม่เดาข้อมูล รอการอนุมัติก่อนสร้างไฟล์ ผู้เรียนเปิดและตรวจข้อมูลทั้งสามไฟล์ได้ และทราบว่าโมดูลถัดไปจะอ่านข้อมูลเหล่านี้เป็นบริบทเพิ่มเติม ส่วน BibTeX เป็นเพียงไฟล์ข้อมูลผู้แต่งที่เลือกสร้างเมื่อจำเป็น</div>
+      <div class="plain-note"><strong>พร้อมเมื่อ:</strong> บันทึกหัวข้อวิจัยและเป้าหมายการเรียนเรียบร้อย</div>
       <h3 class="section-zone-heading">ทดลองไฟล์ Markdown แรก</h3>
       <ol class="readiness-steps">
         <li><span>01</span><div><strong>เปิดและแก้ Markdown</strong><br>คลิก <code>content.md</code> แล้วแก้ข้อความตัวอย่าง</div></li>
         <li><span>02</span><div><strong>ดู Markdown Preview</strong><br>กด Ctrl+Shift+V (macOS: Command+Shift+V) เพื่อดูผลลัพธ์ที่จัดรูปแบบแล้ว</div></li>
-        <li><span>03</span><div><strong>ให้ AI อ่านและสร้าง PDF</strong><br>วาง prompt ด้านล่างใน <span data-agent-panel>Codex panel</span>; agent จะอ่านคำสั่งใน Workspace และใช้ Integrated Terminal เบื้องหลังเมื่อจำเป็น<div class="command"><code>อ่าน content.md แล้วสร้าง output/content.pdf ตามรูปแบบที่กำหนดไว้ใน Workspace โดยไม่เปลี่ยนไฟล์ต้นฉบับ จากนั้นตรวจว่าไฟล์ PDF สร้างสำเร็จ</code><button type="button" data-copy>คัดลอก prompt</button></div></div></li>
-        <li><span>04</span><div><strong>ตรวจสิทธิ์ของ Workspace</strong><br>Codex ที่โหลด config ของคอร์สแล้วจะรันได้ทันที หากยังถาม ให้ยอมรับ Workspace และเริ่ม session ใหม่ สำหรับ Claude ให้ตรวจว่าโหลดการอนุญาต <code>pandoc</code> จาก config ของ Workspace แล้ว</div></li>
-        <li><span>05</span><div><strong>เปิด PDF</strong><br>คลิก <code>output/content.pdf</code> และตรวจว่าเปิดอ่านได้ เป็นกระดาษ A4 ภาษาไทยใช้ Sarabun จาก Google Fonts ที่ติดตั้งพร้อม Workspace และมีรูปแบบสีตาม template</div></li>
+        <li><span>03</span><div><strong>ให้ AI สร้าง PDF</strong><br>วางคำสั่งด้านล่างใน <span data-agent-panel>Codex panel</span><div class="command"><code>อ่าน content.md แล้วสร้าง output/content.pdf โดยไม่เปลี่ยนไฟล์ต้นฉบับ จากนั้นตรวจว่าไฟล์ PDF เปิดอ่านได้</code><button type="button" data-copy>คัดลอก prompt</button></div></div></li>
+        <li><span>04</span><div><strong>เปิด PDF</strong><br>คลิก <code>output/content.pdf</code> และตรวจว่าเนื้อหาครบและภาษาไทยแสดงผลถูกต้อง</div></li>
       </ol>
       <div class="checklist" data-checklist="practice">
         <label><input type="checkbox"> เปิด workspace ใน <span data-workspace-app>VS Code</span> ได้</label>
         <label><input type="checkbox"> <span data-agent-panel>Codex panel</span> เชื่อมต่อบัญชีได้</label>
-        <label><input type="checkbox"> เข้าใจว่าโปรเจกต์นี้อยู่ใน <code data-project-name>ai-for-research-workspace</code> และรู้จักบทบาทของ <code>README.md</code>, <code>AGENTS.md</code> และ <code>PROJECT_STATE.md</code></label>
-        <label><input type="checkbox"> AI ถามข้อมูลทีละข้อและรอฉันอนุมัติก่อนสร้างไฟล์</label>
-        <label><input type="checkbox"> เปิดและตรวจ <code>profile/learner-profile.yaml</code>, <code>profile/learner-profile.md</code> และ <code>profile/learning-context.md</code> แล้ว</label>
-        <label><input type="checkbox"> เข้าใจว่า <code>author-profile.bib</code> เป็นข้อมูลผู้แต่งแบบเลือกทำ ไม่ใช่ข้อมูลผู้เรียนหลัก</label>
+        <label><input type="checkbox"> รู้ตำแหน่ง <code>input/</code> และ <code>output/</code> ของงาน</label>
+        <label><input type="checkbox"> บันทึกหัวข้อวิจัยและเป้าหมายการเรียนแล้ว</label>
         <label><input type="checkbox"> เปิด อ่าน แก้ และ Preview <code>content.md</code> ได้</label>
         <label><input type="checkbox"> AI อ่าน <code>content.md</code> และสร้าง <code>output/content.pdf</code> ได้</label>
-        <label><input type="checkbox"> เปิด PDF แล้วตรวจว่าเป็น A4 ภาษาไทยและรูปแบบถูกต้อง</label>
-        <label><input type="checkbox"> มีเครื่องมือนำเข้าเอกสารและ OCR ภาษาไทย–อังกฤษสำหรับ Module 2</label>
+        <label><input type="checkbox"> เปิด PDF แล้วตรวจว่าเนื้อหาและภาษาไทยถูกต้อง</label>
       </div>
       <p class="progress" aria-live="polite">ความพร้อม: <strong data-progress>0%</strong></p>
       <h3>เริ่มต้นใหม่หลังติดตั้ง</h3>
@@ -363,7 +282,7 @@ code .</code><button type="button" data-copy>คัดลอก</button></div></
     <section class="section" id="homework" data-agent-required hidden>
       <div class="section-heading compact"><p class="eyebrow">Checkpoint</p><h2>จบบทเรียน</h2><p>เปิดซ้ำด้วยตัวเองและตรวจว่าพร้อมใช้ในโมดูลถัดไป</p></div>
       <div class="homework-grid">
-        <article><h3>ทบทวน</h3><p>ปิดแล้วเปิด <span data-workspace-app>VS Code</span> ใหม่ รัน script ในโหมด check และยืนยันว่า workspace, agent และ Markdown ยังทำงาน</p></article>
+        <article><h3>ทบทวน</h3><p>ปิดแล้วเปิด <span data-workspace-app>VS Code</span> ใหม่ และยืนยันว่าเปิดโฟลเดอร์งาน คุยกับ AI และอ่าน Markdown ได้</p></article>
         <article><h3>หากต้องการความช่วยเหลือ</h3><p>เก็บข้อความที่เห็นบนหน้าจอหรือถ่ายภาพไว้ แล้วนำมาถามผู้สอนในชั้นเรียน</p></article>
         <article><h3>เตรียม Module 2</h3><p>Module 2 มีชุดหลักฐานกลางเรื่องการเลือกมื้ออาหาร ทั้ง PDF, Excel, Word, ภาพ และเว็บไซต์ จึงไม่ต้องนำเอกสารส่วนตัวมา หากต้องการต่อยอดจึงค่อยเตรียมเอกสารที่เปิดเผยกับ AI ได้ 6–8 ชิ้น</p></article>
       </div>
