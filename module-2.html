@@ -85,7 +85,19 @@
     </section>
 
     <section class="section" id="json-basics">
-      <div class="section-heading compact"><p class="eyebrow">ก่อนสร้างไฟล์ส่ง</p><h2>เปิด JSON อ่านเองก่อน</h2><p>JSON เป็นไฟล์ข้อความสำหรับส่งข้อมูลที่มีโครงสร้าง คนอ่านได้และโปรแกรมตรวจได้โดยไม่ต้องให้ AI ตีความทุกประโยค</p></div>
+      <div class="section-heading compact"><p class="eyebrow">ก่อนสร้างไฟล์ส่ง</p><h2>เปิด Markdown และ JSON อ่านเองก่อน</h2><p>ทั้งสองเป็นไฟล์ข้อความ แต่ใช้คนละหน้าที่ Markdown เก็บคำอธิบายที่คนอ่าน ส่วน JSON เก็บข้อมูลที่โปรแกรมตรวจตามกติกาได้</p></div>
+      <h3 class="section-zone-heading">1 · Markdown (.md) คือเอกสารข้อความที่อ่านและแก้ง่าย</h3>
+      <p>Markdown ใช้อักขระธรรมดากำหนดโครงสร้างแทนการจัดหน้าด้วยเมนู ไฟล์ยังอ่านรู้เรื่องได้เมื่อเปิดใน text editor และเหมาะกับการบันทึกเหตุผล หลักฐาน และข้อจำกัดฉบับเต็ม</p>
+      <div class="concept-grid">
+        <article><h3><code>#</code> หัวข้อ</h3><p><code>#</code> คือชื่อเอกสาร และ <code>##</code> คือหัวข้อย่อย ช่วยแบ่งข้อสรุปเป็นส่วนที่ค้นง่าย</p></article>
+        <article><h3><code>-</code> รายการ</h3><p>ขีดกลางนำหน้ารายการ เหมาะกับ claims แหล่งหลักฐาน และคำถามที่ยังตอบไม่ได้</p></article>
+        <article><h3><code>|</code> ตาราง</h3><p>เครื่องหมายขีดตั้งแบ่งคอลัมน์ ใช้เทียบ Prompt รอบแรกกับรอบสองหรือสรุป L1–L4</p></article>
+        <article><h3>Backticks สำหรับ code</h3><p>ใช้ backticks ครอบชื่อไฟล์ field หรือคำสั่ง เช่น <code>module-2-submission.json</code></p></article>
+      </div>
+      <div class="command markdown-command"><code># ข้อสรุป Module 2&#10;&#10;## ข้ออ้างที่มีหลักฐาน&#10;&#10;- ราคาเริ่มต้น 55 บาท — `01-lunch-brief-th.pdf`, หน้า 1&#10;&#10;## ยังตอบไม่ได้&#10;&#10;- ทุกคนจะอิ่มถึง 16:00 หรือไม่ เพราะยังไม่มีข้อมูลเพียงพอ</code><button type="button" data-copy>คัดลอกตัวอย่าง Markdown</button></div>
+      <div class="notice"><strong>ลองอ่าน Markdown:</strong> ชี้ชื่อเอกสาร หัวข้อย่อย รายการ และตำแหน่งอ้างอิง จากนั้นสังเกตว่าเนื้อหายังอ่านได้แม้ไม่เปิดโปรแกรมจัดเอกสาร</div>
+      <h3 class="section-zone-heading">2 · JSON คือข้อมูลที่มีโครงสร้างสำหรับโปรแกรม</h3>
+      <p>JSON ใช้ object, array และชนิดข้อมูลที่กำหนดชัด โปรแกรมจึงตรวจจำนวน claims ระดับ L1–L4 และช่องที่ยังไม่ตอบได้โดยไม่ต้องตีความ Markdown ทั้งฉบับ</p>
       <div class="concept-grid">
         <article><h3><code>{ }</code> Object</h3><p>วงเล็บปีกกาครอบข้อมูลหนึ่งชุด ภายในเก็บ <code>"key": value</code> เช่น <code>"level": "L1"</code></p></article>
         <article><h3><code>[ ]</code> Array</h3><p>วงเล็บเหลี่ยมเก็บหลายรายการตามลำดับ เช่น <code>"sources": ["pdf", "xlsx"]</code></p></article>
