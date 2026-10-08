@@ -29,8 +29,8 @@ for number in {2..9}; do
   check_file "$file" "post-lesson result" '<h2[^>]*>จบบทเรียน</h2>'
   check_file "$file" "learner profile" 'data-research-profile'
 done
-check_file "$site_dir/module-3.html" "M3 learner level choice" 'นักเรียน / ผู้เริ่มต้น'
-check_file "$site_dir/module-3.html" "M3 faculty route" 'อาจารย์ / นักวิจัย'
+check_file "$site_dir/assets/instructor-admin.js" "M3 learner route control" 'นักเรียน / ผู้เริ่มต้น'
+check_file "$site_dir/assets/instructor-admin.js" "M3 faculty route control" 'อาจารย์ / นักวิจัย'
 check_file "$site_dir/module-3.html" "M3 own seed paper" 'research article ของตนเอง'
 check_file "$site_dir/module-3.html" "M3 abstract provenance" 'abstract_source|Abstract และ Provenance'
 check_file "$site_dir/module-3.html" "M3 field dimensions" 'method, dataset/material, objective, technique/model'
@@ -110,16 +110,26 @@ node "$site_dir/scripts/test-module-1-submission.js"
 check_file "$site_dir/module-2.html" "M2 action hierarchy JS" 'assets/app\.js\?v=20261008-13'
 check_file "$site_dir/module-2.html" "M2 step flow JS" 'assets/module-2-steps\.js\?v=20261008-1'
 check_file "$site_dir/module-2.html" "M2 step flow CSS" 'assets/styles\.css\?v=20261008-23'
-check_file "$site_dir/module-3.html" "M3 action hierarchy JS" 'assets/app\.js\?v=20261008-14'
-check_file "$site_dir/module-3.html" "M3 action hierarchy CSS" 'assets/styles\.css\?v=20261008-24'
+check_file "$site_dir/module-3.html" "M3 action hierarchy JS" 'assets/app\.js\?v=20261008-15'
+check_file "$site_dir/module-3.html" "M3 access JS" 'assets/module-3-access\.js\?v=20261008-1'
+check_file "$site_dir/module-3.html" "M3 action hierarchy CSS" 'assets/styles\.css\?v=20261008-25'
 check_file "$site_dir/assets/app.js" "module action legend" 'learning-action-legend'
 check_file "$site_dir/assets/app.js" "AI prompt label" 'Prompt ให้ AI'
 check_file "$site_dir/assets/app.js" "example label" 'explicitExample'
 check_file "$site_dir/assets/app.js" "M3 route collapse" 'faculty-path.*เปิดเส้นทางอาจารย์ / นักวิจัย'
-check_file "$site_dir/assets/app.js" "M3 exclusive route group" 'name.*module-3-route'
-check_file "$site_dir/assets/app.js" "M3 selected route opens" 'selectRoute\(target\.id\)'
-check_file "$site_dir/assets/app.js" "M3 unselected route closes" 'route\.details\) route\.details\.open = route\.id === selectedId'
-check_file "$site_dir/assets/styles.css" "M3 selected route style" 'is-selected-route'
+check_file "$site_dir/module-3.html" "M3 classroom access status" 'data-module-3-access-status'
+check_file "$site_dir/assets/module-3-access.js" "M3 server route access" '/modules/module-3/access'
+check_file "$site_dir/assets/module-3-access.js" "M3 route visibility from server" 'payload\.allowed_routes'
+check_file "$site_dir/assets/instructor-admin.js" "M3 admin route controls" 'name = "module3_route"'
+node --check "$site_dir/assets/module-3-access.js"
+node - "$site_dir/assets/module-3-access.js" <<'JSM3ACCESS'
+const assert = require("node:assert/strict");
+const access = require(process.argv[2]);
+assert.equal(access.classroomIdFromSearch("?classroom_id=faculty-pilot-2569"), "faculty-pilot-2569");
+assert.equal(access.classroomIdFromSearch("?classroom_id=../../bad"), "");
+assert.equal(access.accessEndpoint("faculty-pilot-2569"), "/api/ai-for-research/classrooms/faculty-pilot-2569/modules/module-3/access");
+console.log("Module 3 classroom access tests passed");
+JSM3ACCESS
 check_file "$site_dir/assets/styles.css" "prompt visual" '\.ai-prompt.*#231a31'
 check_file "$site_dir/assets/styles.css" "download visual" '\.download-action'
 check_file "$site_dir/assets/styles.css" "M2 step tabs" '\.module-step-tabs'

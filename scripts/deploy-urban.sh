@@ -20,6 +20,7 @@ node scripts/test-module-1-submission.js
 node --check assets/module-2-submission.js
 node scripts/test-module-2-submission.js
 node --check assets/module-2-steps.js
+node --check assets/module-3-access.js
 node --check assets/course-cart.js
 node --check assets/checkout.js
 if [[ -z "$remote_base" ]]; then

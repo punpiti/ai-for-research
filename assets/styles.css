@@ -880,16 +880,32 @@ a[data-workspace-download]::after { content:"  ↓"; color:var(--accent); font-w
 .module-step-checkpoint-actions small.is-error { color: #ff9f84; }
 .module-step-final-note { margin: 24px 0; padding: 13px 16px; border-left: 3px solid var(--mint); background: color-mix(in srgb, var(--mint) 8%, transparent); }
 
-#learner-level article.is-selected-route {
-  border-color: var(--mint);
-  background: color-mix(in srgb, var(--mint) 9%, var(--surface));
-  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--mint) 45%, transparent);
+.module-3-page:not(.module3-access-ready) #student-path,
+.module-3-page:not(.module3-access-ready) #faculty-path { display: none; }
+
+.module3-access-status {
+  padding: 1rem 1.1rem;
+  border: 1px solid var(--line);
+  border-radius: .75rem;
+  background: var(--surface);
 }
 
-#learner-level article.is-selected-route a::before {
-  content: "✓ ";
-  color: var(--mint);
+.module3-access-status.is-success { border-color: var(--mint); }
+.module3-access-status.is-error { border-color: var(--accent); }
+
+.module-route-controls {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: .6rem 1rem;
+  margin: .35rem 0 0 2rem;
+  padding: .75rem 1rem;
+  border: 1px solid var(--line);
+  border-radius: .65rem;
 }
+
+.module-route-controls legend { padding: 0 .35rem; color: var(--ink-soft); font-size: .84rem; }
+.module-route-controls label { display: inline-flex; align-items: center; gap: .45rem; }
 
 @media (max-width: 760px) {
   .module-step-shell { width: min(100% - 24px, 1180px); }

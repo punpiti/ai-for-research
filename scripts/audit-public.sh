@@ -9,7 +9,7 @@ status=0
 while IFS= read -r path; do
   relative="${path#"${site_root}/"}"
   case "${relative}" in
-    admin/index.html|assets/instructor-admin.js|scripts/test-instructor-admin.js|scripts/test-instructor-admin-page.sh) continue ;;
+    admin/index.html|assets/instructor-admin.js|assets/module-3-access.js|scripts/test-instructor-admin.js|scripts/test-instructor-admin-page.sh) continue ;;
   esac
   if [[ ! "${relative}" =~ ${allowed_pattern} ]]; then
     echo "Unexpected public file: ${relative}" >&2

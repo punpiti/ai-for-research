@@ -32,6 +32,7 @@ const classroom = require("../assets/classroom.js");
   assert.equal(classroom.membershipFor({ classrooms: [] }, "faculty-pilot-2569"), null);
   assert.equal(classroom.moduleContentPath("module-1"), "prepare.html");
   assert.equal(classroom.moduleContentPath("module-8"), "module-8.html");
+  assert.equal(classroom.moduleContentPath("module-3", "faculty-pilot-2569"), "module-3.html?classroom_id=faculty-pilot-2569");
   assert.equal(classroom.moduleContentPath("invalid"), "prepare.html");
 
   const requested = await classroom.enroll("faculty-pilot-2569", async (url, options) => {

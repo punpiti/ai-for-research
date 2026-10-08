@@ -65,10 +65,11 @@
     return session.classrooms.find((item) => item.classroom_id === classroomId) || null;
   }
 
-  function moduleContentPath(moduleId) {
+  function moduleContentPath(moduleId, classroomId = "") {
     const match = /^module-([1-9])$/.exec(String(moduleId || ""));
     if (!match) return "prepare.html";
-    return match[1] === "1" ? "prepare.html" : `module-${match[1]}.html`;
+    const path = match[1] === "1" ? "prepare.html" : `module-${match[1]}.html`;
+    return classroomId ? `${path}?classroom_id=${encodeURIComponent(classroomId)}` : path;
   }
 
   const testApi = { apiBase, classroomIdFromPage, loginUrl, sessionState, enroll, publicDetails, structuredItem, membershipFor, moduleContentPath };
@@ -205,7 +206,7 @@
     const membership = membershipFor(state, classroomId);
     if (membership?.status === "active") {
       instructor = membership.role === "teacher";
-      learnerContentHref = instructor ? "" : moduleContentPath(membership.active_module_id);
+      learnerContentHref = instructor ? "" : moduleContentPath(membership.active_module_id, classroomId);
       button.disabled = false;
       button.textContent = instructor ? "เปิดหน้าของอาจารย์" : "เข้าสู่เนื้อหา";
       status.textContent = instructor ? "ลงทะเบียนแล้วในบทบาทผู้สอน" : "ได้รับอนุมัติแล้ว พร้อมเข้าสู่เนื้อหาที่กำลังเรียน";
@@ -272,7 +273,7 @@
         button.textContent = "รออนุมัติ";
         status.textContent = "ระบบรับคำขอแล้ว ผู้สอนจะตรวจสถานะอาจารย์หรือนักวิจัยก่อนอนุมัติ";
       } else {
-        learnerContentHref = moduleContentPath(result.active_module_id);
+        learnerContentHref = moduleContentPath(result.active_module_id, classroomId);
         button.disabled = false;
         button.textContent = "เข้าสู่เนื้อหา";
         status.textContent = "ได้รับอนุมัติแล้ว พร้อมเข้าสู่เนื้อหาที่กำลังเรียน";

@@ -10,10 +10,11 @@ const MODULE_LINKS = [
   [9, "module-9.html", "Personal AI Research Practice"],
 ];
 
-function moduleContentHref(moduleId) {
+function moduleContentHref(moduleId, classroomId = "") {
   const match = /^module-([1-9])$/.exec(String(moduleId || ""));
   if (!match) return "prepare.html";
-  return match[1] === "1" ? "prepare.html" : `module-${match[1]}.html`;
+  const path = match[1] === "1" ? "prepare.html" : `module-${match[1]}.html`;
+  return classroomId ? `${path}?classroom_id=${encodeURIComponent(classroomId)}` : path;
 }
 
 const PRODUCTION_BASE = "https://urban.cpe.ku.ac.th/ai-for-research/";
@@ -67,9 +68,12 @@ class SiteHeader extends HTMLElement {
     const classroomDirectoryHref = isHome ? "#course" : "index.html#course";
     const ctaHref = current === "login" ? "classroom.html?id=faculty-pilot-2569" : (isClassroomEntry ? "login.html" : (current === "register" ? "index.html#course" : "register.html"));
     const ctaLabel = current === "login" ? "ดูรายละเอียดคลาส" : (isClassroomEntry ? "เข้าสู่ระบบ" : (current === "register" ? "ดูคลาสที่เปิดรับ" : "สมัครเป็นกลุ่ม"));
+    const queryClassroomId = new URLSearchParams(location.search).get("classroom_id") || "";
+    const contentClassroomId = /^[A-Za-z0-9][A-Za-z0-9._-]{2,63}$/.test(queryClassroomId) ? queryClassroomId : "";
     const moduleLinks = MODULE_LINKS.map(([number, href, label]) => {
       const active = String(number) === current ? ' aria-current="page"' : "";
-      return `<a class="available" href="${href}"${active}>${number} · ${label}</a>`;
+      const classroomHref = contentClassroomId ? `${href}?classroom_id=${encodeURIComponent(contentClassroomId)}` : href;
+      return `<a class="available" href="${classroomHref}"${active}>${number} · ${label}</a>`;
     }).join("");
     const localLinks = (LOCAL_LINKS[current] || [])
       .map(([id, label]) => `<a href="#${id}">${label}</a>`)
@@ -114,7 +118,7 @@ class SiteHeader extends HTMLElement {
           cta.href = `admin/?id=${encodeURIComponent(targetClassroomId)}`;
         } else {
           cta.textContent = current === "classroom" ? "เข้าสู่เนื้อหา" : "ห้องเรียนของฉัน";
-          cta.href = current === "classroom" ? moduleContentHref(membership.active_module_id) : classroomHref;
+          cta.href = current === "classroom" ? moduleContentHref(membership.active_module_id, targetClassroomId) : classroomHref;
         }
       } else if (membership?.status === "pending") {
         cta.textContent = "รออนุมัติ";
