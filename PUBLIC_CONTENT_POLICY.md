@@ -25,13 +25,14 @@ This repository/folder is a deliberately small public export for GitHub Pages.
 
 ## Module 2 assessment submission
 
-The Module 2 page validates a learner-created Markdown file and JSON record in
-the browser, then sends only a pseudonymous JSON envelope to the site's existing
-`/api/log` endpoint. The envelope contains a class code, instructor-assigned
-learner code, submission UUID, client timestamp, Markdown SHA-256, and the
-learner's conclusion. It must not contain a name, email address, phone number,
-student ID, unpublished research material, or secrets. Original evidence files
-and workspace files remain on the learner's computer.
+The Module 2 page validates a learner-created Markdown file and structured JSON
+record in the browser, then sends only a pseudonymous JSON envelope to the site's
+existing `/api/log` endpoint. The envelope contains a class code,
+instructor-assigned learner code, submission UUID, client timestamp, Markdown
+SHA-256, structured claims, and deterministic machine-check results. It must not
+contain a name, email address, phone number, student ID, unpublished research
+material, or secrets. The Markdown file, original evidence files, and workspace
+files remain on the learner's computer.
 
 Public copy is maintained separately. Do not build the site by recursively copying
 the private course workspace.

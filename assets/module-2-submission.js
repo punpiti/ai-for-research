@@ -8,8 +8,10 @@ const receiptCode = document.querySelector("[data-module-2-receipt-json]");
 const receiptDownload = document.querySelector("[data-module-2-receipt-download]");
 
 const submissionEndpoint = "/api/log";
-const schemaVersion = "ai-for-research.module-2-submission.v1";
+const schemaVersion = "ai-for-research.module-2-submission.v2";
 const eventType = "ai_for_research_module_2_submission";
+const formats = ["pdf", "xlsx", "docx", "image", "web"];
+const levels = ["L1", "L2", "L3", "L4"];
 const maxMarkdownBytes = 32000;
 const maxJsonBytes = 64000;
 let checkedPayload = null;
@@ -17,15 +19,6 @@ let latestReceipt = null;
 
 function text(value) {
   return typeof value === "string" ? value.trim() : "";
-}
-
-function stringArray(value, minimum, label) {
-  if (!Array.isArray(value) || value.length < minimum || value.length > 10) {
-    throw new Error(`${label} ต้องมี ${minimum}–10 รายการ`);
-  }
-  if (value.some((item) => text(item).length < 10 || text(item).length > 800)) {
-    throw new Error(`${label} แต่ละรายการต้องยาว 10–800 ตัวอักษร`);
-  }
 }
 
 function requireText(value, minimum, maximum, label) {
@@ -38,30 +31,73 @@ function requireText(value, minimum, maximum, label) {
 
 function validatePayload(payload) {
   if (!payload || typeof payload !== "object" || Array.isArray(payload)) throw new Error("JSON ต้องเป็น object หนึ่งชุด");
-  requireExactKeys(payload, ["schema_version", "module_id", "artifact", "learning", "self_check"], "JSON ระดับบนสุด");
+  requireExactKeys(payload, ["schema_version", "module_id", "artifact", "result", "declaration"], "JSON ระดับบนสุด");
   if (payload.schema_version !== schemaVersion || payload.module_id !== "module-2") throw new Error("schema_version หรือ module_id ไม่ตรงกับ Module 2");
   const artifact = payload.artifact || {};
-  requireExactKeys(artifact, ["markdown_filename", "markdown_sha256", "markdown_content"], "artifact");
-  if (artifact.markdown_filename !== "module-2-conclusion.md") throw new Error("ชื่อไฟล์ Markdown ต้องเป็น module-2-conclusion.md");
-  if (!/^[a-f0-9]{64}$/.test(text(artifact.markdown_sha256))) throw new Error("markdown_sha256 ต้องเป็น SHA-256 ตัวพิมพ์เล็ก 64 ตัว");
-  requireText(artifact.markdown_content, 200, 30000, "เนื้อหา Markdown");
+  requireExactKeys(artifact, ["filename", "sha256"], "artifact");
+  if (artifact.filename !== "module-2-conclusion.md") throw new Error("artifact.filename ต้องเป็น module-2-conclusion.md");
+  if (!/^[a-f0-9]{64}$/.test(text(artifact.sha256))) throw new Error("artifact.sha256 ต้องเป็น SHA-256 ตัวพิมพ์เล็ก 64 ตัว");
 
-  const learning = payload.learning || {};
-  requireExactKeys(learning, ["question", "conclusion", "supported_claims", "unsupported_claims", "format_findings", "web_provenance", "prompt_revision", "human_decision"], "learning");
-  requireText(learning.question, 20, 500, "คำถาม");
-  requireText(learning.conclusion, 80, 3000, "ข้อสรุป");
-  stringArray(learning.supported_claims, 2, "ข้ออ้างที่มีหลักฐาน");
-  stringArray(learning.unsupported_claims, 1, "ข้ออ้างที่ยังไม่มีหลักฐาน");
-  stringArray(learning.format_findings, 2, "ข้อค้นพบจากชนิดไฟล์");
-  requireText(learning.web_provenance, 20, 1500, "หลักฐานจากเว็บ");
-  requireText(learning.prompt_revision, 40, 3000, "สิ่งที่ปรับใน Prompt");
-  requireText(learning.human_decision, 40, 2000, "สิ่งที่มนุษย์ต้องตัดสินใจ");
-
-  const checks = payload.self_check || {};
-  requireExactKeys(checks, ["originals_preserved", "cross_format_checked", "web_provenance_recorded", "claims_verified", "no_personal_data"], "self_check");
-  for (const key of ["originals_preserved", "cross_format_checked", "web_provenance_recorded", "claims_verified", "no_personal_data"]) {
-    if (checks[key] !== true) throw new Error(`self_check.${key} ต้องเป็น true`);
+  const result = payload.result || {};
+  requireExactKeys(result, ["decision", "reason", "claims", "formats_checked", "web_retrieval", "prompt_test", "human_decision"], "result");
+  if (!["conditional_yes", "conditional_no", "insufficient_evidence"].includes(result.decision)) throw new Error("result.decision ไม่อยู่ในตัวเลือกที่กำหนด");
+  requireText(result.reason, 40, 800, "result.reason");
+  if (!["live", "fallback"].includes(result.web_retrieval)) throw new Error("result.web_retrieval ต้องเป็น live หรือ fallback");
+  if (!["accept_with_conditions", "reject", "need_more_evidence"].includes(result.human_decision)) throw new Error("result.human_decision ไม่อยู่ในตัวเลือกที่กำหนด");
+  validateClaims(result.claims);
+  if (!Array.isArray(result.formats_checked) || result.formats_checked.length !== formats.length || !formats.every((format) => result.formats_checked.includes(format)) || new Set(result.formats_checked).size !== formats.length) {
+    throw new Error("formats_checked ต้องมี pdf, xlsx, docx, image และ web อย่างละหนึ่งครั้ง");
   }
+  validatePromptTest(result.prompt_test, result.claims.length);
+
+  const declaration = payload.declaration || {};
+  requireExactKeys(declaration, ["originals_preserved", "claims_checked_by_learner", "no_personal_data"], "declaration");
+  for (const key of ["originals_preserved", "claims_checked_by_learner", "no_personal_data"]) {
+    if (declaration[key] !== true) throw new Error(`declaration.${key} ต้องเป็น true`);
+  }
+}
+
+function validateClaims(claims) {
+  if (!Array.isArray(claims) || claims.length < 8 || claims.length > 10) throw new Error("result.claims ต้องมี 8–10 ข้อ");
+  const ids = new Set();
+  for (const claim of claims) {
+    requireExactKeys(claim, ["id", "text", "level", "sources", "location"], "claim");
+    if (!/^C(10|[1-9])$/.test(text(claim.id)) || ids.has(claim.id)) throw new Error("claim.id ต้องเป็น C1–C10 และห้ามซ้ำ");
+    ids.add(claim.id);
+    requireText(claim.text, 10, 500, `${claim.id}.text`);
+    if (!levels.includes(claim.level)) throw new Error(`${claim.id}.level ต้องเป็น L1–L4`);
+    if (!Array.isArray(claim.sources) || claim.sources.some((source) => !formats.includes(source)) || new Set(claim.sources).size !== claim.sources.length) throw new Error(`${claim.id}.sources มีค่าที่ไม่รองรับหรือซ้ำกัน`);
+    if (claim.level === "L4") {
+      if (claim.sources.length || text(claim.location)) throw new Error(`${claim.id} ระดับ L4 ต้องไม่มี source และ location`);
+    } else {
+      if (!claim.sources.length || text(claim.location).length < 3) throw new Error(`${claim.id} ระดับ L1–L3 ต้องมี source และ location`);
+      if (claim.level === "L3" && claim.sources.length < 2) throw new Error(`${claim.id} ระดับ L3 ต้องเชื่อมอย่างน้อยสองแหล่ง`);
+    }
+  }
+  if (!levels.every((level) => claims.some((claim) => claim.level === level))) throw new Error("claims ต้องมีตัวอย่าง L1, L2, L3 และ L4 อย่างน้อยระดับละหนึ่งข้อ");
+}
+
+function validatePromptTest(promptTest, claimCount) {
+  requireExactKeys(promptTest, ["round_1_traceable", "round_1_unsupported", "round_2_traceable", "round_2_unsupported"], "prompt_test");
+  for (const [key, value] of Object.entries(promptTest)) {
+    if (!Number.isInteger(value) || value < 0 || value > 10) throw new Error(`prompt_test.${key} ต้องเป็นจำนวนเต็ม 0–10`);
+  }
+  if (promptTest.round_1_traceable + promptTest.round_1_unsupported !== claimCount || promptTest.round_2_traceable + promptTest.round_2_unsupported !== claimCount) throw new Error("จำนวน traceable + unsupported ของแต่ละรอบต้องเท่ากับจำนวน claims");
+  if (promptTest.round_2_traceable <= promptTest.round_1_traceable || promptTest.round_2_unsupported >= promptTest.round_1_unsupported) throw new Error("Prompt รอบสองต้องมี traceable เพิ่มขึ้นและ unsupported ลดลง");
+}
+
+function buildMachineCheck(payload) {
+  const levelCounts = Object.fromEntries(levels.map((level) => [level, payload.result.claims.filter((claim) => claim.level === level).length]));
+  return {
+    passed: true,
+    claim_count: payload.result.claims.length,
+    level_counts: levelCounts,
+    formats_complete: true,
+    source_rules_pass: true,
+    prompt_improved: true,
+    declaration_complete: true,
+    markdown_hash_match: true,
+  };
 }
 
 function requireExactKeys(value, allowedKeys, label) {
@@ -109,8 +145,8 @@ submissionForm?.addEventListener("submit", async (event) => {
     validatePayload(payload);
     const markdownText = await markdownFile.text();
     const markdownHash = await sha256Hex(markdownFile);
-    if (markdownHash !== payload.artifact.markdown_sha256) throw new Error("SHA-256 ใน JSON ไม่ตรงกับไฟล์ Markdown ที่เลือก");
-    if (markdownText !== payload.artifact.markdown_content) throw new Error("เนื้อหา Markdown ใน JSON ไม่ตรงกับไฟล์ที่เลือก");
+    if (markdownHash !== payload.artifact.sha256) throw new Error("SHA-256 ใน JSON ไม่ตรงกับไฟล์ Markdown ที่เลือก");
+    if (markdownText.trim().length < 200) throw new Error("ไฟล์ Markdown ต้องมีเนื้อหาอย่างน้อย 200 ตัวอักษร");
 
     checkedPayload = {
       event_type: eventType,
@@ -118,6 +154,7 @@ submissionForm?.addEventListener("submit", async (event) => {
       class_code: safeCode(submissionForm.elements.class_code.value, "รหัสคลาส"),
       learner_code: safeCode(submissionForm.elements.learner_code.value, "รหัสผู้เรียน"),
       client_submitted_at: new Date().toISOString(),
+      machine_check: buildMachineCheck(payload),
       submission: payload,
     };
     previewCode.textContent = JSON.stringify(checkedPayload, null, 2);
@@ -149,7 +186,8 @@ sendButton?.addEventListener("click", async () => {
       submission_id: checkedPayload.submission_id,
       class_code: checkedPayload.class_code,
       learner_code: checkedPayload.learner_code,
-      markdown_sha256: checkedPayload.submission.artifact.markdown_sha256,
+      markdown_sha256: checkedPayload.submission.artifact.sha256,
+      machine_check_passed: checkedPayload.machine_check.passed,
       submitted_at: new Date().toISOString(),
     };
     localStorage.setItem("ai-research-module-2-last-receipt", JSON.stringify(latestReceipt));

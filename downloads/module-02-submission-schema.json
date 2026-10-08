@@ -1,47 +1,91 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://urban.cpe.ku.ac.th/ai-for-research/downloads/module-02-submission-schema.json",
-  "title": "AI for Research Module 2 submission",
+  "title": "AI for Research Module 2 machine-checkable submission",
   "type": "object",
   "additionalProperties": false,
-  "required": ["schema_version", "module_id", "artifact", "learning", "self_check"],
+  "required": ["schema_version", "module_id", "artifact", "result", "declaration"],
   "properties": {
-    "schema_version": {"const": "ai-for-research.module-2-submission.v1"},
+    "schema_version": {"const": "ai-for-research.module-2-submission.v2"},
     "module_id": {"const": "module-2"},
     "artifact": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["markdown_filename", "markdown_sha256", "markdown_content"],
+      "required": ["filename", "sha256"],
       "properties": {
-        "markdown_filename": {"const": "module-2-conclusion.md"},
-        "markdown_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
-        "markdown_content": {"type": "string", "minLength": 200, "maxLength": 30000}
+        "filename": {"const": "module-2-conclusion.md"},
+        "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
       }
     },
-    "learning": {
+    "result": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["question", "conclusion", "supported_claims", "unsupported_claims", "format_findings", "web_provenance", "prompt_revision", "human_decision"],
+      "required": ["decision", "reason", "claims", "formats_checked", "web_retrieval", "prompt_test", "human_decision"],
       "properties": {
-        "question": {"type": "string", "minLength": 20, "maxLength": 500},
-        "conclusion": {"type": "string", "minLength": 80, "maxLength": 3000},
-        "supported_claims": {"type": "array", "minItems": 2, "maxItems": 10, "items": {"type": "string", "minLength": 10, "maxLength": 800}},
-        "unsupported_claims": {"type": "array", "minItems": 1, "maxItems": 10, "items": {"type": "string", "minLength": 10, "maxLength": 800}},
-        "format_findings": {"type": "array", "minItems": 2, "maxItems": 10, "items": {"type": "string", "minLength": 10, "maxLength": 800}},
-        "web_provenance": {"type": "string", "minLength": 20, "maxLength": 1500},
-        "prompt_revision": {"type": "string", "minLength": 40, "maxLength": 3000},
-        "human_decision": {"type": "string", "minLength": 40, "maxLength": 2000}
+        "decision": {"enum": ["conditional_yes", "conditional_no", "insufficient_evidence"]},
+        "reason": {"type": "string", "minLength": 40, "maxLength": 800},
+        "claims": {
+          "type": "array",
+          "minItems": 8,
+          "maxItems": 10,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["id", "text", "level", "sources", "location"],
+            "properties": {
+              "id": {"type": "string", "pattern": "^C(10|[1-9])$"},
+              "text": {"type": "string", "minLength": 10, "maxLength": 500},
+              "level": {"enum": ["L1", "L2", "L3", "L4"]},
+              "sources": {
+                "type": "array",
+                "maxItems": 5,
+                "uniqueItems": true,
+                "items": {"enum": ["pdf", "xlsx", "docx", "image", "web"]}
+              },
+              "location": {"type": "string", "maxLength": 300}
+            },
+            "allOf": [
+              {
+                "if": {"properties": {"level": {"const": "L4"}}},
+                "then": {"properties": {"sources": {"maxItems": 0}, "location": {"maxLength": 0}}},
+                "else": {"properties": {"sources": {"minItems": 1}, "location": {"minLength": 3}}}
+              },
+              {
+                "if": {"properties": {"level": {"const": "L3"}}},
+                "then": {"properties": {"sources": {"minItems": 2}}}
+              }
+            ]
+          }
+        },
+        "formats_checked": {
+          "type": "array",
+          "minItems": 5,
+          "maxItems": 5,
+          "uniqueItems": true,
+          "items": {"enum": ["pdf", "xlsx", "docx", "image", "web"]}
+        },
+        "web_retrieval": {"enum": ["live", "fallback"]},
+        "prompt_test": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["round_1_traceable", "round_1_unsupported", "round_2_traceable", "round_2_unsupported"],
+          "properties": {
+            "round_1_traceable": {"type": "integer", "minimum": 0, "maximum": 10},
+            "round_1_unsupported": {"type": "integer", "minimum": 0, "maximum": 10},
+            "round_2_traceable": {"type": "integer", "minimum": 0, "maximum": 10},
+            "round_2_unsupported": {"type": "integer", "minimum": 0, "maximum": 10}
+          }
+        },
+        "human_decision": {"enum": ["accept_with_conditions", "reject", "need_more_evidence"]}
       }
     },
-    "self_check": {
+    "declaration": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["originals_preserved", "cross_format_checked", "web_provenance_recorded", "claims_verified", "no_personal_data"],
+      "required": ["originals_preserved", "claims_checked_by_learner", "no_personal_data"],
       "properties": {
         "originals_preserved": {"const": true},
-        "cross_format_checked": {"const": true},
-        "web_provenance_recorded": {"const": true},
-        "claims_verified": {"const": true},
+        "claims_checked_by_learner": {"const": true},
         "no_personal_data": {"const": true}
       }
     }

@@ -11,7 +11,7 @@
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/styles.css?v=20261008-18">
   <script src="assets/app.js?v=20261008-7" defer></script>
-  <script src="assets/module-2-submission.js?v=20261008-1" defer></script>
+  <script src="assets/module-2-submission.js?v=20261008-2" defer></script>
   <script src="assets/site-shell.js?v=20260805-5"></script>
 </head>
 <body>
@@ -156,7 +156,7 @@
 - หากหาแหล่งรองรับไม่ได้ ให้จัดเป็น L4
 - ห้ามใช้ความรู้ภายนอก
 - เตือนให้ฉันเปิดต้นฉบับตรวจผลอีกครั้ง</code><button type="button" data-copy>คัดลอก Prompt เปรียบเทียบ L1–L4</button></div></div></li>
-        <li><span>10</span><div><strong>สร้างข้อสรุปและ JSON สำหรับส่ง</strong><p><strong>ส่งให้ AI:</strong> หลังคุณตรวจและอนุมัติข้อมูลแล้ว ใช้คำสั่งนี้สร้าง Markdown ที่อ่านได้และ JSON ที่มีเนื้อหาเดียวกัน หน้าเว็บจะตรวจ hash ของสองไฟล์ก่อนส่ง</p><p class="expected"><strong>ข้อความด้านล่างเป็นคำสั่งสร้างชิ้นงาน</strong> AI ต้องไม่ส่งข้อมูลไปยังเซิร์ฟเวอร์เอง</p><div class="command markdown-command"><code>งาน: สร้างข้อสรุป Module 2 และ JSON สำหรับให้ฉันตรวจและส่งเอง
+        <li><span>10</span><div><strong>สร้างข้อสรุปและ JSON สำหรับส่ง</strong><p><strong>ส่งให้ AI:</strong> หลังคุณตรวจและอนุมัติข้อมูลแล้ว ใช้คำสั่งนี้สร้าง Markdown ฉบับเต็มและ JSON แบบมีโครงสร้าง หน้าเว็บจะตรวจ hash และใช้กติกาธรรมดาประเมินความครบถ้วนก่อนส่ง</p><p class="expected"><strong>ข้อความด้านล่างเป็นคำสั่งสร้างชิ้นงาน</strong> AI ต้องไม่ส่งข้อมูลไปยังเซิร์ฟเวอร์เอง</p><div class="command markdown-command"><code>งาน: สร้างข้อสรุป Module 2 และ JSON สำหรับให้ฉันตรวจและส่งเอง
 
 อ่านเฉพาะผลที่ฉันตรวจและอนุมัติแล้วจากกิจกรรม Module 2 จากนั้นสร้างไฟล์สองไฟล์:
 
@@ -174,12 +174,19 @@
 https://urban.cpe.ku.ac.th/ai-for-research/downloads/module-02-submission-schema.json
 
 กติกาสำหรับ JSON:
-- schema_version = ai-for-research.module-2-submission.v1 และ module_id = module-2
-- artifact.markdown_filename = module-2-conclusion.md
-- artifact.markdown_content ต้องตรงกับเนื้อหา UTF-8 ของไฟล์ Markdown ทุกตัวอักษร
-- คำนวณ SHA-256 ของไฟล์ Markdown แล้วใส่ใน artifact.markdown_sha256 เป็นตัวพิมพ์เล็ก 64 ตัว
-- learning ต้องมี question, conclusion, supported_claims, unsupported_claims, format_findings, web_provenance, prompt_revision และ human_decision
-- self_check ทั้งห้ารายการต้องเป็น true หลังจากฉันยืนยันจริงเท่านั้น
+- schema_version = ai-for-research.module-2-submission.v2 และ module_id = module-2
+- artifact.filename = module-2-conclusion.md และ artifact.sha256 เป็น SHA-256 ตัวพิมพ์เล็ก 64 ตัว
+- result.decision เลือกหนึ่งค่า: conditional_yes, conditional_no หรือ insufficient_evidence
+- result.reason สรุปเหตุผล 40–800 ตัวอักษร
+- result.claims มี 8–10 ข้อ แต่ละข้อมี id, text, level, sources และ location
+- claims ต้องมี L1, L2, L3 และ L4 อย่างน้อยระดับละหนึ่งข้อ
+- L1–L3 ต้องมี source และ location; L3 ต้องเชื่อมอย่างน้อยสอง source; L4 ต้องใช้ sources = [] และ location = ""
+- source ใช้ได้เฉพาะ pdf, xlsx, docx, image และ web
+- result.formats_checked = ["pdf", "xlsx", "docx", "image", "web"]
+- result.web_retrieval เลือก live หรือ fallback
+- result.prompt_test ใส่จำนวน traceable และ unsupported ของรอบ 1 กับรอบ 2 ผลรวมแต่ละรอบต้องเท่ากับจำนวน claims และรอบ 2 ต้องดีขึ้น
+- result.human_decision เลือก accept_with_conditions, reject หรือ need_more_evidence
+- declaration ทั้งสามรายการต้องเป็น true หลังจากฉันยืนยันจริงเท่านั้น
 - ห้ามใส่ชื่อ นามสกุล อีเมล เบอร์โทร รหัสนิสิต ข้อมูลลับ หรือข้อมูลส่วนบุคคล
 - ห้ามสร้าง class_code, learner_code, submission_id หรือเวลา submit หน้าเว็บจะเพิ่มให้ภายหลัง
 - ห้ามส่งข้อมูลออกจากเครื่อง ให้สร้างไฟล์แล้วแสดงรายการสิ่งที่บันทึก จากนั้นรอฉันตรวจ</code><button type="button" data-copy>คัดลอกคำสั่งสร้าง Markdown และ JSON</button></div></div></li>
@@ -187,7 +194,7 @@ https://urban.cpe.ku.ac.th/ai-for-research/downloads/module-02-submission-schema
     </section>
 
     <section class="section" id="submit">
-      <div class="section-heading compact"><p class="eyebrow">Submit · ส่งหลักฐานการเรียนรู้</p><h2>ตรวจ Markdown และ JSON ก่อนส่ง</h2><p>หน้าเว็บอ่านไฟล์ที่คุณเลือกในเบราว์เซอร์ ตรวจ schema และ SHA-256 แล้วส่งเฉพาะ JSON ไปยังเซิร์ฟเวอร์ เนื้อหา Markdown อยู่ภายใน JSON เพื่อให้ผู้สอนตรวจข้อสรุปได้</p><p><a href="downloads/module-02-submission-schema.json" download>ดาวน์โหลด JSON Schema สำหรับ Module 2 →</a></p></div>
+      <div class="section-heading compact"><p class="eyebrow">Submit · ส่งหลักฐานการเรียนรู้</p><h2>ตรวจ Markdown และ JSON ก่อนส่ง</h2><p>หน้าเว็บตรวจ schema, SHA-256, จำนวน claims, L1–L4, แหล่งข้อมูลครบห้ารูปแบบ และผลก่อน–หลังของ Prompt ด้วยกติกาตายตัว จากนั้นส่ง JSON พร้อมผล <code>machine_check</code> ไปยังเซิร์ฟเวอร์ ไฟล์ Markdown ฉบับเต็มไม่ถูกอัปโหลด</p><p><a href="downloads/module-02-submission-schema.json" download>ดาวน์โหลด JSON Schema สำหรับ Module 2 →</a></p></div>
       <div class="notice"><strong>ข้อมูลประจำตัว:</strong> ใช้เฉพาะรหัสคลาสและรหัสผู้เรียนที่ผู้สอนกำหนด ห้ามใช้ชื่อ อีเมล เบอร์โทร หรือรหัสนิสิต ระบบเก็บข้อสรุปเพื่อประเมิน Module 2 และไม่เผยแพร่ในเว็บไซต์</div>
       <form class="module-submission-form" data-module-2-submission-form>
         <label><span>รหัสคลาส</span><input name="class_code" type="text" required minlength="3" maxlength="40" pattern="[A-Za-z0-9][A-Za-z0-9._-]{2,39}" placeholder="เช่น pilot-01" autocomplete="off"></label>

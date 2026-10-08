@@ -136,16 +136,23 @@ check_file "$site_dir/assets/module-2-submission.js" "M2 server endpoint" 'submi
 check_file "$site_dir/assets/module-2-submission.js" "M2 fixed event type" 'ai_for_research_module_2_submission'
 check_file "$site_dir/assets/module-2-submission.js" "M2 hash check" 'crypto\.subtle\.digest\("SHA-256"'
 check_file "$site_dir/assets/module-2-submission.js" "M2 schema envelope" 'submission: payload'
+check_file "$site_dir/assets/module-2-submission.js" "M2 deterministic result" 'machine_check: buildMachineCheck\(payload\)'
+if grep -q 'markdown_content' "$site_dir/downloads/module-02-submission-schema.json" "$site_dir/assets/module-2-submission.js"; then
+  printf 'Module 2 JSON must not upload full Markdown content.\n'
+  failed=1
+fi
 node --check "$site_dir/assets/module-2-submission.js"
+node "$site_dir/scripts/test-module-2-submission.js"
 python3 - "$site_dir/downloads/module-02-submission-schema.json" <<'PYSCHEMA'
 import json, sys
 from pathlib import Path
 
 schema = json.loads(Path(sys.argv[1]).read_text(encoding="utf-8"))
 assert schema["$schema"] == "https://json-schema.org/draft/2020-12/schema"
-assert schema["properties"]["schema_version"]["const"] == "ai-for-research.module-2-submission.v1"
+assert schema["properties"]["schema_version"]["const"] == "ai-for-research.module-2-submission.v2"
 assert schema["properties"]["module_id"]["const"] == "module-2"
-assert schema["properties"]["artifact"]["properties"]["markdown_filename"]["const"] == "module-2-conclusion.md"
+assert schema["properties"]["artifact"]["properties"]["filename"]["const"] == "module-2-conclusion.md"
+assert schema["properties"]["result"]["properties"]["claims"]["minItems"] == 8
 PYSCHEMA
 check_file "$site_dir/module-2-food-case.html" "fictional source label" 'ข้อมูล ชื่อ และรีวิวทั้งหมดสร้างขึ้นเพื่อการสอน'
 check_file "$site_dir/module-2-food-case.html" "bilingual evidence" 'English review'
