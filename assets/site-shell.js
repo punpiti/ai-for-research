@@ -12,6 +12,8 @@ const MODULE_LINKS = [
 
 const PRODUCTION_BASE = "https://urban.cpe.ku.ac.th/ai-for-research/";
 const GOOGLE_ANALYTICS_ID = "G-BWX7PFH4XM";
+const CLASSROOM_API_BASE = "/api/ai-for-research/classrooms";
+const FEATURED_CLASSROOM_ID = "faculty-pilot-2569";
 const productionFile = location.pathname.endsWith("/") ? "" : location.pathname.split("/").pop();
 const canonical = document.querySelector('link[rel="canonical"]') || document.createElement("link");
 canonical.rel = "canonical";
@@ -75,6 +77,38 @@ class SiteHeader extends HTMLElement {
         <a class="nav-cta" href="${ctaHref}">${ctaLabel}</a>
       </nav>
     </header>`;
+
+    if (isClassroomEntry && current !== "login") this.updateClassroomCta(current);
+  }
+
+  async updateClassroomCta(current) {
+    const cta = this.querySelector(".nav-cta");
+    if (!cta || typeof fetch !== "function") return;
+    try {
+      const response = await fetch(`${CLASSROOM_API_BASE}/me`, {
+        credentials: "same-origin",
+        headers: { "Accept": "application/json" },
+      });
+      if (!response.ok) return;
+      const session = await response.json();
+      const membership = Array.isArray(session.classrooms)
+        ? session.classrooms.find((item) => item.classroom_id === FEATURED_CLASSROOM_ID)
+        : null;
+      const classroomHref = `classroom.html?id=${FEATURED_CLASSROOM_ID}`;
+
+      if (membership?.status === "active") {
+        cta.textContent = current === "classroom" ? "ลงทะเบียนแล้ว" : "ห้องเรียนของฉัน";
+        cta.href = current === "classroom" ? "#overview" : classroomHref;
+      } else if (membership?.status === "pending") {
+        cta.textContent = "รออนุมัติ";
+        cta.href = current === "classroom" ? "#overview" : classroomHref;
+      } else {
+        cta.textContent = "ลงทะเบียน";
+        cta.href = classroomHref;
+      }
+    } catch (_error) {
+      // Keep the server-independent login link when session status is unavailable.
+    }
   }
 }
 

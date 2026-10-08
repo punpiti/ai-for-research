@@ -18,6 +18,17 @@ const classroom = require("../assets/classroom.js");
   assert.equal(member.authenticated, true);
   assert.equal(member.preview, true);
 
+  assert.deepEqual(
+    classroom.membershipFor({
+      classrooms: [
+        { classroom_id: "another-class", status: "active" },
+        { classroom_id: "faculty-pilot-2569", role: "teacher", status: "active" },
+      ],
+    }, "faculty-pilot-2569"),
+    { classroom_id: "faculty-pilot-2569", role: "teacher", status: "active" },
+  );
+  assert.equal(classroom.membershipFor({ classrooms: [] }, "faculty-pilot-2569"), null);
+
   const requested = await classroom.enroll("faculty-pilot-2569", async (url, options) => {
     assert.equal(url, "/api/ai-for-research/classrooms/faculty-pilot-2569/enroll");
     assert.equal(options.method, "POST");

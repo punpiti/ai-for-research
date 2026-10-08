@@ -43,7 +43,12 @@
     throw new Error("enrollment-unavailable");
   }
 
-  const testApi = { apiBase, classroomIdFromPage, loginUrl, sessionState, enroll };
+  function membershipFor(session, classroomId) {
+    if (!Array.isArray(session?.classrooms)) return null;
+    return session.classrooms.find((item) => item.classroom_id === classroomId) || null;
+  }
+
+  const testApi = { apiBase, classroomIdFromPage, loginUrl, sessionState, enroll, membershipFor };
   if (typeof module !== "undefined" && module.exports) module.exports = testApi;
   globalObject.classroomTestApi = testApi;
 
@@ -69,6 +74,20 @@
       return;
     }
     authenticated = true;
+    const membership = membershipFor(state, classroomId);
+    if (membership?.status === "active") {
+      button.disabled = true;
+      button.textContent = "ลงทะเบียนแล้ว";
+      status.textContent = membership.role === "teacher" ? "ลงทะเบียนแล้วในบทบาทผู้สอน" : "ลงทะเบียนเรียบร้อยแล้ว";
+      status.classList.add("is-success");
+      return;
+    }
+    if (membership?.status === "pending") {
+      button.disabled = true;
+      button.textContent = "รออนุมัติ";
+      status.textContent = "ส่งคำขอลงทะเบียนแล้ว อยู่ระหว่างตรวจสอบสถานะอาจารย์หรือนักวิจัย";
+      return;
+    }
     button.disabled = false;
     button.textContent = "ลงทะเบียนคลาสนี้";
     status.textContent = state.preview ? "เข้าสู่ระบบแล้ว · Preview mode" : "เข้าสู่ระบบแล้ว พร้อมส่งคำขอเข้าร่วม";
@@ -88,13 +107,14 @@
         return;
       }
       if (result.pending) {
-        button.textContent = "ส่งคำขอลงทะเบียนแล้ว";
+        button.textContent = "รออนุมัติ";
         status.textContent = "ระบบรับคำขอแล้ว ผู้สอนจะตรวจสถานะอาจารย์หรือนักวิจัยก่อนอนุมัติ";
       } else {
         button.textContent = "ลงทะเบียนแล้ว";
-        status.textContent = "เข้าร่วมห้องเรียนเรียบร้อย ขั้นต่อไปคือเปิดหน้า classroom dashboard";
+        status.textContent = "ลงทะเบียนเรียบร้อยแล้ว";
       }
       status.classList.add("is-success");
+      document.querySelector("site-header")?.updateClassroomCta?.("classroom");
     } catch (_error) {
       button.disabled = false;
       button.textContent = "ลองส่งคำขออีกครั้ง";
