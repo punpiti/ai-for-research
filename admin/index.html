@@ -9,8 +9,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../assets/styles.css?v=20261008-16">
-  <script src="../assets/instructor-admin.js?v=20261008-6" defer></script>
+  <link rel="stylesheet" href="../assets/styles.css?v=20261008-18">
+  <script src="../assets/instructor-admin.js?v=20261008-7" defer></script>
 </head>
 <body class="instructor-body">
   <a class="skip-link" href="#main">ข้ามไปยังเนื้อหา</a>
@@ -46,6 +46,7 @@
       <button id="tab-details" type="button" role="tab" data-admin-tab="details" aria-controls="details" aria-selected="true" data-class-only>รายละเอียดคลาส</button>
       <button id="tab-enrollment" type="button" role="tab" data-admin-tab="enrollment" aria-controls="enrollment" aria-selected="false" data-class-only>ผู้ลงทะเบียน</button>
       <button id="tab-syllabus" type="button" role="tab" data-admin-tab="syllabus" aria-controls="syllabus" aria-selected="false">Syllabus</button>
+      <button id="tab-submissions" type="button" role="tab" data-admin-tab="submissions" aria-controls="submissions" aria-selected="false" data-class-only>ภาพรวมการส่งงาน</button>
       <button id="tab-status" type="button" role="tab" data-admin-tab="status" aria-controls="status" aria-selected="false" data-class-only>สถานะผู้เรียน</button>
     </nav>
 
@@ -163,9 +164,49 @@
       </form>
     </section>
 
+    <section class="instructor-section" id="submissions" role="tabpanel" aria-labelledby="tab-submissions submissions-title" data-admin-panel="submissions" data-class-only hidden>
+      <div class="instructor-section-heading submissions-heading">
+        <div>
+          <p class="eyebrow">04 · Live submissions</p>
+          <h2 id="submissions-title">ภาพรวมการส่งงาน</h2>
+        </div>
+        <div class="submission-live-controls">
+          <p class="submission-live-status" data-submissions-live role="status" aria-live="polite"><span aria-hidden="true"></span>กำลังโหลดข้อมูล</p>
+          <button class="button secondary" type="button" data-refresh-submissions>รีเฟรช</button>
+        </div>
+      </div>
+      <dl class="submission-metrics" aria-label="สถิติการส่งงาน">
+        <div><dt>ผู้เรียน</dt><dd data-submission-active-learners>—</dd></div>
+        <div><dt>ส่งแล้ว</dt><dd data-submission-learners>—</dd></div>
+        <div><dt>ยังไม่ส่ง</dt><dd data-submission-missing>—</dd></div>
+        <div><dt>รายการส่ง</dt><dd data-submission-count>—</dd></div>
+        <div><dt>ทำสำเร็จ</dt><dd data-submission-completed>—</dd></div>
+        <div><dt>Token รวม</dt><dd data-submission-tokens>—</dd></div>
+      </dl>
+      <section class="submission-dashboard-block" aria-labelledby="submission-modules-title">
+        <h3 id="submission-modules-title">แยกตามหัวข้อใน Syllabus</h3>
+        <div class="instructor-table-wrap">
+          <table class="instructor-table submission-module-table">
+            <thead><tr><th>หัวข้อ</th><th>ผู้ส่ง</th><th>ความคืบหน้า</th><th>รายการส่ง</th><th>ทำสำเร็จ</th><th>ส่งล่าสุด</th><th>Token</th></tr></thead>
+            <tbody data-submission-module-rows></tbody>
+          </table>
+        </div>
+      </section>
+      <section class="submission-dashboard-block" aria-labelledby="recent-submissions-title">
+        <h3 id="recent-submissions-title">รายการส่งล่าสุด</h3>
+        <div class="instructor-table-wrap">
+          <table class="instructor-table recent-submission-table">
+            <thead><tr><th>ผู้ส่ง</th><th>ส่งอะไร</th><th>ผล</th><th>ส่งเมื่อ</th><th>Token</th><th>จำนวนครั้ง</th></tr></thead>
+            <tbody data-recent-submission-rows></tbody>
+          </table>
+        </div>
+      </section>
+      <p class="submission-privacy-note">แสดงเฉพาะสถานะและ metadata ของการส่งงาน เนื้อหางานวิจัยยังไม่ถูกนำมาแสดงในหน้านี้</p>
+    </section>
+
     <section class="instructor-section" id="status" role="tabpanel" aria-labelledby="tab-status status-title" data-admin-panel="status" data-class-only hidden>
       <div class="instructor-section-heading">
-        <p class="eyebrow">04 · Current status</p>
+        <p class="eyebrow">05 · Current status</p>
         <h2 id="status-title">Submission ของ Active module</h2>
       </div>
       <div class="active-module-line"><span>Active module</span><strong data-active-module>—</strong></div>

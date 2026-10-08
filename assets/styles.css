@@ -648,6 +648,25 @@ a[data-workspace-download]::after { content:"  ↓"; color:var(--accent); font-w
 .instructor-module-choice:focus-within { outline: 2px solid var(--mint); outline-offset: .35rem; border-radius: .25rem; }
 .instructor-module-active { display: flex; gap: .55rem; align-items: center; color: var(--mint) !important; }
 .instructor-actions { display: flex; align-items: center; gap: 1rem; margin-top: 1.5rem; }
+.submissions-heading { align-items: center; }
+.submission-live-controls { display: flex; align-items: center; gap: .8rem; }
+.submission-live-status { display: flex; align-items: center; gap: .5rem; margin: 0; color: var(--ink-soft); font-size: .82rem; }
+.submission-live-status > span { width: .62rem; height: .62rem; border-radius: 50%; background: var(--mint); box-shadow: 0 0 0 .25rem rgba(135,199,178,.12); }
+.submission-metrics { display: grid; grid-template-columns: repeat(6,minmax(0,1fr)); margin: 0 0 2rem; border: 1px solid var(--line); border-radius: .9rem; overflow: hidden; background: var(--surface-strong); }
+.submission-metrics div { min-width: 0; padding: 1rem; border-right: 1px solid var(--line); }
+.submission-metrics div:last-child { border-right: 0; }
+.submission-metrics dt { color: var(--ink-soft); font-size: .78rem; }
+.submission-metrics dd { margin: .35rem 0 0; color: var(--mint); font: 600 1.45rem/1.2 Inter,sans-serif; overflow-wrap: anywhere; }
+.submission-dashboard-block + .submission-dashboard-block { margin-top: 2.25rem; }
+.submission-dashboard-block h3 { margin: 0 0 .8rem; font-size: 1.2rem; }
+.submission-module-table td:nth-child(2), .submission-module-table td:nth-child(4), .submission-module-table td:nth-child(5), .submission-module-table td:nth-child(7) { text-align: right; }
+.submission-module-table tr.is-untracked { opacity: .55; }
+.submission-progress { width: 9rem; height: .55rem; overflow: hidden; border-radius: 99px; background: rgba(255,255,255,.08); }
+.submission-progress > span { display: block; height: 100%; border-radius: inherit; background: var(--mint); }
+.submission-module-table td:nth-child(3) small { margin-top: .35rem; text-align: right; }
+.recent-submission-table td:nth-child(2) { min-width: 260px; white-space: normal; }
+.submission-empty { padding: 2rem !important; color: var(--ink-soft); text-align: center !important; }
+.submission-privacy-note { margin: 1.5rem 0 0; padding-top: 1rem; border-top: 1px solid var(--line); color: var(--ink-soft); font-size: .82rem; }
 .active-module-line { display: flex; justify-content: space-between; gap: 1rem; margin: 0 0 1rem; padding: .9rem 1rem; border-left: 4px solid var(--accent); background: var(--surface-strong); }
 .active-module-line span { color: var(--ink-soft); }
 .submission-status.is-completed, .submission-status.is-completed_with_help { color: var(--mint); }
@@ -667,6 +686,9 @@ a[data-workspace-download]::after { content:"  ↓"; color:var(--accent); font-w
   .template-facts { grid-template-columns: repeat(2,minmax(0,1fr)); }
   .template-facts div:nth-child(2) { border-right: 0; }
   .template-facts div:nth-child(-n+2) { border-bottom: 1px solid var(--line); }
+  .submission-metrics { grid-template-columns: repeat(3,minmax(0,1fr)); }
+  .submission-metrics div:nth-child(3n) { border-right: 0; }
+  .submission-metrics div:nth-child(-n+3) { border-bottom: 1px solid var(--line); }
   .template-lock-note { grid-template-columns: 1fr; gap: .75rem; }
 }
 @media (max-width: 620px) {
@@ -682,4 +704,9 @@ a[data-workspace-download]::after { content:"  ↓"; color:var(--accent); font-w
   .template-facts { grid-template-columns: 1fr; }
   .template-facts div, .template-facts div:nth-child(2) { border-right: 0; border-bottom: 1px solid var(--line); }
   .template-facts div:last-child { border-bottom: 0; }
+  .submission-live-controls { align-items: flex-start; margin-top: 1rem; }
+  .submission-metrics { grid-template-columns: repeat(2,minmax(0,1fr)); }
+  .submission-metrics div, .submission-metrics div:nth-child(3n) { border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .submission-metrics div:nth-child(2n) { border-right: 0; }
+  .submission-metrics div:nth-last-child(-n+2) { border-bottom: 0; }
 }

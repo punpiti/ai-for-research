@@ -53,6 +53,10 @@
   const createStatus = document.querySelector("[data-create-class-status]");
   const enrollmentRows = document.querySelector("[data-enrollment-rows]");
   const submissionRows = document.querySelector("[data-submission-rows]");
+  const submissionModuleRows = document.querySelector("[data-submission-module-rows]");
+  const recentSubmissionRows = document.querySelector("[data-recent-submission-rows]");
+  const submissionsLive = document.querySelector("[data-submissions-live]");
+  const refreshSubmissions = document.querySelector("[data-refresh-submissions]");
   const moduleList = document.querySelector("[data-module-list]");
   const syllabusForm = document.querySelector("[data-syllabus-form]");
   const syllabusStatus = document.querySelector("[data-syllabus-status]");
@@ -71,6 +75,8 @@
   const detailLineFields = ["preparation_items", "takeaways", "learning_outcomes"];
   const adminTabButtons = [...document.querySelectorAll("[data-admin-tab]")];
   const adminPanels = [...document.querySelectorAll("[data-admin-panel]")];
+  let activeAdminTab = "details";
+  let submissionRefreshTimer = null;
 
   function node(tag, className = "", text = "") {
     const element = document.createElement(tag);
@@ -105,8 +111,9 @@
   function activateAdminTab(tabName) {
     const availableTabs = classroomType === "template"
       ? ["template-details", "syllabus"]
-      : ["details", "enrollment", "syllabus", "status"];
+      : ["details", "enrollment", "syllabus", "submissions", "status"];
     const selectedTab = availableTabs.includes(tabName) ? tabName : availableTabs[0];
+    activeAdminTab = selectedTab;
     adminTabButtons.forEach((button) => {
       const selected = button.dataset.adminTab === selectedTab;
       button.setAttribute("aria-selected", selected ? "true" : "false");
@@ -120,6 +127,7 @@
     if (globalObject.history?.replaceState) {
       globalObject.history.replaceState(null, "", `${globalObject.location.search || ""}#${selectedTab}`);
     }
+    setSubmissionPolling();
   }
 
   function applyClassroomMode(classroom) {
@@ -132,7 +140,7 @@
     openCreateClass.textContent = isTemplate ? "คัดลอกเป็นคลาสใหม่" : "+ สร้างคลาสใหม่";
     publicClassLink.hidden = isTemplate;
     const requestedTab = String(globalObject.location.hash || "").replace(/^#/, "");
-    const knownTabs = ["template-details", "details", "enrollment", "syllabus", "status"];
+    const knownTabs = ["template-details", "details", "enrollment", "syllabus", "submissions", "status"];
     const initialTab = knownTabs.includes(requestedTab)
       ? requestedTab
       : isTemplate ? "template-details" : "details";
@@ -363,7 +371,114 @@
     });
   }
 
-  async function loadDashboard() {
+  function renderSubmissionOverview(data) {
+    const overview = data.submission_overview || {};
+    const summary = overview.summary || {};
+    const metricValues = {
+      "[data-submission-active-learners]": summary.active_learners,
+      "[data-submission-learners]": summary.submitted_learners,
+      "[data-submission-missing]": summary.not_submitted_learners,
+      "[data-submission-count]": summary.submission_count,
+      "[data-submission-completed]": summary.completed_submission_count,
+      "[data-submission-tokens]": formatTokens(summary.total_tokens),
+    };
+    Object.entries(metricValues).forEach(([selector, value]) => {
+      document.querySelector(selector).textContent = value ?? "—";
+    });
+
+    submissionModuleRows.replaceChildren();
+    const modules = Array.isArray(overview.modules) ? overview.modules : [];
+    if (!modules.length) {
+      const row = node("tr");
+      const cell = node("td", "submission-empty", "ยังไม่มีหัวข้อใน Syllabus");
+      cell.colSpan = 7;
+      row.append(cell);
+      submissionModuleRows.append(row);
+    }
+    modules.forEach((module) => {
+      const row = node("tr");
+      const moduleCell = node("td");
+      moduleCell.append(
+        node("strong", "", `${module.module_id.replace("module-", "M")} · ${module.module_title}`),
+        node("small", "", module.tracked ? "รับข้อมูลการส่งงาน" : "ยังไม่มีช่องส่งงาน"),
+      );
+      if (!module.tracked) {
+        row.classList.add("is-untracked");
+        row.append(moduleCell, node("td", "", "—"), node("td", "", "ยังไม่เปิดรับงาน"), node("td", "", "—"), node("td", "", "—"), node("td", "", "—"), node("td", "", "—"));
+        submissionModuleRows.append(row);
+        return;
+      }
+      const learnerCount = module.learner_count || 0;
+      const submitted = module.submitted_learners || 0;
+      const percent = learnerCount ? Math.round((submitted / learnerCount) * 100) : 0;
+      const progressCell = node("td");
+      const progress = node("div", "submission-progress");
+      progress.setAttribute("role", "progressbar");
+      progress.setAttribute("aria-label", `${module.module_title}: ส่งแล้ว ${percent}%`);
+      progress.setAttribute("aria-valuemin", "0");
+      progress.setAttribute("aria-valuemax", "100");
+      progress.setAttribute("aria-valuenow", String(percent));
+      const fill = node("span");
+      fill.style.width = `${percent}%`;
+      progress.append(fill);
+      progressCell.append(progress, node("small", "", `${percent}%`));
+      row.append(
+        moduleCell,
+        node("td", "", `${submitted}/${learnerCount}`),
+        progressCell,
+        node("td", "", String(module.submission_count || 0)),
+        node("td", "", String(module.completed_learners || 0)),
+        node("td", "", module.latest_at ? new Date(module.latest_at).toLocaleString("th-TH") : "—"),
+        node("td", "", formatTokens(module.total_tokens)),
+      );
+      submissionModuleRows.append(row);
+    });
+
+    recentSubmissionRows.replaceChildren();
+    const recent = Array.isArray(overview.recent) ? overview.recent : [];
+    if (!recent.length) {
+      const row = node("tr");
+      const cell = node("td", "submission-empty", "ยังไม่มีการส่งงานจากผู้เรียนที่อนุมัติแล้ว");
+      cell.colSpan = 6;
+      row.append(cell);
+      recentSubmissionRows.append(row);
+    }
+    recent.forEach((item) => {
+      const row = node("tr");
+      const person = node("td");
+      person.append(node("strong", "", item.display_name || item.email), node("small", "", item.email));
+      const work = node("td");
+      const route = item.route ? ` · ${item.route}` : "";
+      work.append(
+        node("strong", "", item.module_title),
+        node("small", "", `${item.module_id.replace("module-", "M")}${route} · ${item.ai_tool || "ไม่ระบุ AI"}`),
+      );
+      row.append(
+        person,
+        work,
+        node("td", `submission-status is-${item.status}`, submissionLabel(item.status)),
+        node("td", "", item.submitted_at ? new Date(item.submitted_at).toLocaleString("th-TH") : "—"),
+        node("td", "", formatTokens(item.total_tokens)),
+        node("td", "", String(item.attempt_count || 1)),
+      );
+      recentSubmissionRows.append(row);
+    });
+    submissionsLive.lastChild.textContent = `อัปเดต ${new Date(data.refreshed_at).toLocaleTimeString("th-TH")} · อัตโนมัติทุก 15 วินาที`;
+  }
+
+  function setSubmissionPolling() {
+    if (submissionRefreshTimer) {
+      globalObject.clearInterval(submissionRefreshTimer);
+      submissionRefreshTimer = null;
+    }
+    if (classroomType !== "template" && activeAdminTab === "submissions") {
+      submissionRefreshTimer = globalObject.setInterval(() => {
+        if (document.visibilityState !== "hidden") loadDashboard({ silent: true });
+      }, 15000);
+    }
+  }
+
+  async function loadDashboard({ silent = false } = {}) {
     try {
       const data = await request(dashboardEndpoint(classroomId));
       renderSummary(data);
@@ -372,13 +487,17 @@
       renderEnrollments(data);
       renderSyllabus(data);
       renderSubmissions(data);
-      pageStatus.textContent = `อัปเดตล่าสุด ${new Date(data.refreshed_at).toLocaleString("th-TH")}`;
+      renderSubmissionOverview(data);
+      if (!silent) pageStatus.textContent = `อัปเดตล่าสุด ${new Date(data.refreshed_at).toLocaleString("th-TH")}`;
     } catch (error) {
       if (error.message !== "authentication-required") {
-        pageStatus.textContent = error.message === "Instructor access is required for this classroom."
-          ? "หน้านี้เปิดสำหรับผู้สอนของคลาสเท่านั้น"
-          : error.message;
-        pageStatus.classList.add("is-error");
+        const message = error.message === "Instructor access is required for this classroom."
+          ? "หน้านี้เปิดสำหรับผู้สอนของคลาสเท่านั้น" : error.message;
+        if (silent && submissionsLive) submissionsLive.lastChild.textContent = `หยุดอัปเดตชั่วคราว · ${message}`;
+        else {
+          pageStatus.textContent = message;
+          pageStatus.classList.add("is-error");
+        }
       }
     }
   }
@@ -436,7 +555,10 @@
   });
 
   adminTabButtons.forEach((button) => {
-    button.addEventListener("click", () => activateAdminTab(button.dataset.adminTab));
+    button.addEventListener("click", () => {
+      activateAdminTab(button.dataset.adminTab);
+      if (button.dataset.adminTab === "submissions") loadDashboard({ silent: true });
+    });
     button.addEventListener("keydown", (event) => {
       if (!["ArrowLeft", "ArrowRight", "Home", "End"].includes(event.key)) return;
       event.preventDefault();
@@ -451,6 +573,22 @@
       activateAdminTab(nextButton.dataset.adminTab);
       nextButton.focus();
     });
+  });
+
+  refreshSubmissions.addEventListener("click", async () => {
+    refreshSubmissions.disabled = true;
+    submissionsLive.lastChild.textContent = "กำลังรีเฟรช…";
+    try {
+      await loadDashboard({ silent: true });
+    } finally {
+      refreshSubmissions.disabled = false;
+    }
+  });
+
+  document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "visible" && activeAdminTab === "submissions") {
+      loadDashboard({ silent: true });
+    }
   });
 
   openCreateClass.addEventListener("click", () => {
