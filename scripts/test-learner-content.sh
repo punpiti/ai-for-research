@@ -130,6 +130,9 @@ check_file "$site_dir/module-2.html" "M2 web fallback" 'หากเข้าไ
 check_file "$site_dir/module-2.html" "M2 conclusion Markdown" 'output/module-2-conclusion\.md'
 check_file "$site_dir/module-2.html" "M2 submission JSON" 'output/module-2-submission\.json'
 check_file "$site_dir/module-2.html" "M2 schema download" 'downloads/module-02-submission-schema\.json'
+check_file "$site_dir/module-2.html" "M2 JSON lesson" 'id="json-basics"'
+check_file "$site_dir/module-2.html" "M2 JSON example" 'downloads/module-02-submission-example\.json'
+check_file "$site_dir/module-2.html" "M2 JSON types" 'Object.*Array|ชนิดของค่า'
 check_file "$site_dir/module-2.html" "M2 submission form" 'data-module-2-submission-form'
 check_file "$site_dir/module-2.html" "M2 receipt" 'data-module-2-receipt-download'
 check_file "$site_dir/assets/module-2-submission.js" "M2 server endpoint" 'submissionEndpoint = "/api/log"'
@@ -154,6 +157,15 @@ assert schema["properties"]["module_id"]["const"] == "module-2"
 assert schema["properties"]["artifact"]["properties"]["filename"]["const"] == "module-2-conclusion.md"
 assert schema["properties"]["result"]["properties"]["claims"]["minItems"] == 8
 PYSCHEMA
+python3 - "$site_dir/downloads/module-02-submission-example.json" <<'PYEXAMPLE'
+import json, sys
+from pathlib import Path
+
+example = json.loads(Path(sys.argv[1]).read_text(encoding="utf-8"))
+assert example["schema_version"] == "ai-for-research.module-2-submission.v2"
+assert len(example["result"]["claims"]) == 8
+assert {claim["level"] for claim in example["result"]["claims"]} == {"L1", "L2", "L3", "L4"}
+PYEXAMPLE
 check_file "$site_dir/module-2-food-case.html" "fictional source label" 'ข้อมูล ชื่อ และรีวิวทั้งหมดสร้างขึ้นเพื่อการสอน'
 check_file "$site_dir/module-2-food-case.html" "bilingual evidence" 'English review'
 check_file "$site_dir/module-2-food-case.html" "source date" 'แก้ไขล่าสุดเมื่อ 6 กันยายน 2569'

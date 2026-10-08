@@ -58,6 +58,8 @@ const validPayload = {
 };
 
 assert.doesNotThrow(() => context.testApi.validatePayload(validPayload));
+const publicExample = JSON.parse(fs.readFileSync(path.join(siteRoot, "downloads/module-02-submission-example.json"), "utf8"));
+assert.doesNotThrow(() => context.testApi.validatePayload(publicExample));
 assert.deepEqual(JSON.parse(JSON.stringify(context.testApi.buildMachineCheck(validPayload))), {
   passed: true,
   claim_count: 8,

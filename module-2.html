@@ -76,6 +76,26 @@
       </div>
     </section>
 
+    <section class="section" id="json-basics">
+      <div class="section-heading compact"><p class="eyebrow">ก่อนสร้างไฟล์ส่ง</p><h2>เปิด JSON อ่านเองก่อน</h2><p>JSON เป็นไฟล์ข้อความสำหรับส่งข้อมูลที่มีโครงสร้าง คนอ่านได้และโปรแกรมตรวจได้โดยไม่ต้องให้ AI ตีความทุกประโยค</p></div>
+      <div class="concept-grid">
+        <article><h3><code>{ }</code> Object</h3><p>วงเล็บปีกกาครอบข้อมูลหนึ่งชุด ภายในเก็บ <code>"key": value</code> เช่น <code>"level": "L1"</code></p></article>
+        <article><h3><code>[ ]</code> Array</h3><p>วงเล็บเหลี่ยมเก็บหลายรายการตามลำดับ เช่น <code>"sources": ["pdf", "xlsx"]</code></p></article>
+        <article><h3>ชนิดของค่า</h3><p>ข้อความอยู่ในเครื่องหมายคำพูด ตัวเลขไม่ใส่คำพูด และ boolean ใช้ <code>true</code> หรือ <code>false</code></p></article>
+        <article><h3>Comma และชื่อ key</h3><p>แต่ละรายการคั่นด้วย comma แต่รายการสุดท้ายไม่ใส่ comma ชื่อ key และตัวพิมพ์เล็ก–ใหญ่ต้องตรงกับ schema</p></article>
+      </div>
+      <div class="command markdown-command"><code>{
+  "id": "C5",
+  "text": "ราคาอยู่ในงบ แต่เวลารออาจเปลี่ยนตามวันที่สังเกต",
+  "level": "L3",
+  "sources": ["pdf", "xlsx"],
+  "location": "เปรียบเทียบตารางราคาและคอลัมน์ wait_minutes"
+}</code><button type="button" data-copy>คัดลอกตัวอย่าง Claim</button></div>
+      <div class="notice"><strong>ลองอ่านก่อน:</strong> Claim นี้มี id อะไร อยู่ระดับใด ใช้กี่แหล่ง และโปรแกรมจะรู้ได้อย่างไรว่าผ่านกติกา L3 จากนั้นดาวน์โหลดไฟล์ตัวอย่าง เปิดใน VS Code แล้วพับ–ขยาย object กับ array เพื่อดูโครงสร้างทั้งไฟล์</div>
+      <div class="hero-actions"><a class="button primary" href="downloads/module-02-submission-example.json" download>ดาวน์โหลด JSON ตัวอย่าง</a><a class="button secondary" href="downloads/module-02-submission-schema.json" download>ดาวน์โหลด JSON Schema</a></div>
+      <p class="expected"><strong>อย่าส่งไฟล์ตัวอย่าง:</strong> ค่า SHA-256 เป็นเลขศูนย์สำหรับการสอน ผู้เรียนต้องสร้างไฟล์ของตนเองในขั้นที่ 10</p>
+    </section>
+
     <section class="section" id="activity">
       <div class="section-heading compact"><p class="eyebrow">กิจกรรมหลัก · เปรียบเทียบสองรอบ</p><h2>คำตอบเปลี่ยนอย่างไรเมื่อกำหนดหลักฐานให้ชัด</h2><p>ใช้เอกสารชุดเดียวกันถาม AI สองรอบ รอบแรกใช้คำถามสั้นเพื่อดูพฤติกรรมตามธรรมชาติ จากนั้นตรวจคำตอบกับต้นฉบับ แล้วเขียนคำสั่งรอบใหม่ที่ระบุวิธีใช้หลักฐานให้ชัดเพื่อเปรียบเทียบผล</p></div>
 
