@@ -427,6 +427,11 @@ a[data-workspace-download]::after { content:"  ↓"; color:var(--accent); font-w
 .content-kind.is-input { color: #ffb89e; background: rgba(239,125,85,.1); }
 .content-kind.is-terminal { color: #a9c7ff; background: rgba(116,169,255,.1); }
 .content-kind.is-prompt { color: #dabdff; background: rgba(181,133,255,.1); }
+.content-kind.is-download { color: #f3d47e; background: rgba(243,212,126,.1); }
+.content-kind.is-action { color: #9fd8ff; background: rgba(105,190,245,.1); }
+.content-kind.is-submit { color: #ffb89e; background: rgba(239,125,85,.13); }
+.learning-action-legend { display: flex; flex-wrap: wrap; gap: .45rem; max-width: var(--max); margin: -2.5rem auto 0; padding: 0 1.25rem 2.5rem; }
+.learning-action-legend .content-kind { margin: 0; }
 .task-heading { display: flex; flex-wrap: wrap; align-items: center; gap: .35rem .65rem; margin: 2rem 0 .8rem; }
 .task-heading .content-kind { margin: 0; }
 .task-heading strong { font-weight: 500; }
@@ -449,6 +454,18 @@ a[data-workspace-download]::after { content:"  ↓"; color:var(--accent); font-w
 .ai-prompt .copy-prompt-heading { border-bottom-color: rgba(218,189,255,.35); }
 .ai-prompt .copy-prompt-heading span, .ai-prompt [data-copy] { color: #dabdff; }
 .ai-prompt code { color: #f2e9ff; }
+.copy-example { border-color: rgba(135,199,178,.55) !important; background: #102722 !important; box-shadow: inset 4px 0 0 var(--mint) !important; }
+.copy-example .copy-prompt-heading span, .copy-example [data-copy] { color: var(--mint); }
+.section-heading > .content-kind { margin-bottom: .75rem; }
+.guided-details { margin-top: 1.25rem; }
+.guided-details > summary { font-size: 1.05rem; font-weight: 600; }
+.guided-details[open] > summary { color: var(--mint); }
+.guided-details { scroll-margin-top: 6rem; }
+#student-path, #faculty-path, #json-basics { scroll-margin-top: 6rem; }
+.form-task-heading { max-width: 980px; }
+.profile-task-heading { max-width: 980px; margin-top: 0; }
+.download-action { display: inline-flex; align-items: center; gap: .35rem; color: #f3d47e; font-weight: 600; text-underline-offset: .2em; }
+.download-action::before { content: "↓"; display: grid; place-items: center; width: 1.35rem; height: 1.35rem; border: 1px solid currentColor; border-radius: 50%; font: 700 .75rem/1 Inter,sans-serif; }
 .plain-note { margin-top: 1rem; padding: 1rem 1.2rem; border: 1px solid rgba(135,199,178,.4); border-radius: .8rem; background: #173a34; }
 .micro-steps { padding-left: 1.2rem; color: var(--ink-soft); }
 .micro-steps li { margin-bottom: .55rem; }

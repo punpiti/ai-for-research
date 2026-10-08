@@ -348,31 +348,112 @@ function formatCopyOnlyPrompts() {
     const code = block.querySelector("code");
     if (!code) continue;
     const original = code.textContent.trim();
+    const copyButton = block.querySelector("[data-copy]");
+    const copyLabel = copyButton?.textContent.trim() || "";
+    const explicitPrompt = block.classList.contains("ai-prompt") || /Prompt|คำสั่งสร้าง/.test(copyLabel);
+    const explicitExample = /ตัวอย่าง|โครงสร้าง/.test(copyLabel);
+    if (explicitPrompt) block.classList.add("ai-prompt");
+    if (explicitExample) block.classList.add("copy-example");
     const isTerminalCommand = code.hasAttribute("data-agent-command")
       || /^(?:curl(?:\.exe)?\s|powershell\s|AI_GRAD_AGENT=|bash\s|code\s|agy-ide\s|cd\s)/.test(original);
     if (isTerminalCommand) {
       block.classList.add("terminal-command");
-      const copyButton = block.querySelector("[data-copy]");
       if (copyButton && copyButton.textContent.trim() === "คัดลอก") copyButton.textContent = "คัดลอกคำสั่ง";
       continue;
     }
     block.classList.add("copy-only-template");
-    if (!promptStart.test(original) || original.length < 120 || original.startsWith("%") || /@\w+\{|curl |├|└/.test(original)) continue;
-    block.classList.add("copy-prompt-readable");
     const heading = nearestPromptHeading(block);
-    let readable = original;
-    if (!original.includes("\n")) readable = original.replace(/\s*(\([1-9]\))/g, "\n$1").replace(breakBefore, "\n\n").trim();
-    if (!/^งาน:/m.test(readable)) readable = `งาน: ${heading}\n\nคำสั่ง:\n${readable}`;
-    code.textContent = readable;
-    const header = document.createElement("div");
-    header.className = "copy-prompt-heading";
-    header.innerHTML = `<span>${block.classList.contains("ai-prompt") ? "Prompt ให้ AI" : "คำสั่งพร้อมใช้"}</span><strong></strong>`;
-    header.querySelector("strong").textContent = heading;
-    block.prepend(header);
+    if (promptStart.test(original) && original.length >= 120 && !original.startsWith("%") && !/@\w+\{|curl |├|└/.test(original)) {
+      block.classList.add("copy-prompt-readable");
+      let readable = original;
+      if (!original.includes("\n")) readable = original.replace(/\s*(\([1-9]\))/g, "\n$1").replace(breakBefore, "\n\n").trim();
+      if (explicitPrompt && !/^งาน:/m.test(readable)) readable = `งาน: ${heading}\n\nคำสั่ง:\n${readable}`;
+      code.textContent = readable;
+    }
+    if (explicitPrompt || explicitExample) {
+      const header = document.createElement("div");
+      header.className = "copy-prompt-heading";
+      header.innerHTML = `<span>${explicitPrompt ? "Prompt ให้ AI" : "ตัวอย่าง"}</span><strong></strong>`;
+      header.querySelector("strong").textContent = heading;
+      block.prepend(header);
+    }
   }
 }
 
 formatCopyOnlyPrompts();
+
+function decorateModuleActions() {
+  const moduleMatch = location.pathname.match(/module-([23])\.html$/);
+  if (!moduleMatch) return;
+  const moduleNumber = moduleMatch[1];
+  const hero = document.querySelector(".module-hero");
+  if (hero) {
+    const legend = document.createElement("div");
+    legend.className = "learning-action-legend";
+    legend.setAttribute("aria-label", "คำอธิบายชนิดของเนื้อหา");
+    legend.innerHTML = `<span class="content-kind is-read">อ่าน</span><span class="content-kind is-input">เลือก / กรอก</span><span class="content-kind is-download">ดาวน์โหลด</span><span class="content-kind is-action">ทำ / ตรวจ</span><span class="content-kind is-prompt">Prompt ให้ AI</span><span class="content-kind is-submit">ส่งงาน</span>`;
+    hero.insertAdjacentElement("afterend", legend);
+  }
+  const maps = {
+    "2": { outcomes:["read","อ่าน"], sources:["download","ดาวน์โหลด"], levels:["read","อ่าน"], "json-basics":["read","อ่าน"], activity:["action","ทำ / ตรวจ"], "local-validator":["prompt","Prompt ให้ AI"], submit:["submit","ส่งงาน"], finish:["action","ตรวจความครบ"] },
+    "3": { "learner-level":["input","เลือก"], start:["read","อ่าน"], outcomes:["read","อ่าน"], concepts:["read","อ่าน"], example:["read","อ่านตัวอย่าง"], "student-path":["action","ทำเส้นทางนี้"], "faculty-path":["action","ทำเส้นทางนี้"], activity:["action","ทำ / ตรวจ"], "submit-module-3":["submit","ส่งงาน"], finish:["action","ตรวจความครบ"] }
+  };
+  for (const [id, [type, label]] of Object.entries(maps[moduleNumber])) {
+    const heading = document.querySelector(`#${id} > .section-heading`);
+    if (!heading || heading.querySelector(".content-kind")) continue;
+    const badge = document.createElement("span");
+    badge.className = `content-kind is-${type}`;
+    badge.textContent = label;
+    heading.prepend(badge);
+  }
+  for (const profile of document.querySelectorAll(".profile-context")) {
+    const label = document.createElement("div");
+    label.className = "task-heading profile-task-heading";
+    label.innerHTML = `<span class="content-kind is-input">เลือก / กรอก</span><strong>ข้อมูลที่จะใช้กับกิจกรรม</strong>`;
+    profile.prepend(label);
+  }
+  for (const link of document.querySelectorAll("a[download]")) link.classList.add("download-action");
+  for (const form of document.querySelectorAll(".module-submission-form")) {
+    const label = document.createElement("div");
+    label.className = "task-heading form-task-heading";
+    label.innerHTML = `<span class="content-kind is-input">กรอก</span><strong>ข้อมูลสำหรับตรวจและส่งความคืบหน้า</strong>`;
+    form.before(label);
+  }
+  const collapsible = moduleNumber === "2"
+    ? [["json-basics", "เปิดพื้นฐาน Markdown และ JSON"]]
+    : [["example", "เปิดตัวอย่าง หิว → กิน → อิ่ม"], ["student-path", "เปิดเส้นทางนักเรียน"], ["faculty-path", "เปิดเส้นทางอาจารย์ / นักวิจัย"]];
+  for (const [id, summaryText] of collapsible) {
+    const section = document.getElementById(id);
+    const heading = section?.querySelector(":scope > .section-heading");
+    if (!section || !heading || section.querySelector(":scope > details.guided-details")) continue;
+    const details = document.createElement("details");
+    details.className = "fallback-details guided-details";
+    const summary = document.createElement("summary");
+    summary.textContent = summaryText;
+    details.append(summary);
+    while (heading.nextSibling) details.append(heading.nextSibling);
+    section.append(details);
+  }
+  const openHashTarget = () => {
+    const target = location.hash && document.querySelector(location.hash);
+    const details = target?.querySelector(":scope > details.guided-details");
+    if (details) {
+      details.open = true;
+      requestAnimationFrame(() => {
+        const root = document.documentElement;
+        const previousScrollBehavior = root.style.scrollBehavior;
+        root.style.scrollBehavior = "auto";
+        target.scrollIntoView({ block: "start" });
+        root.style.scrollBehavior = previousScrollBehavior;
+      });
+    }
+  };
+  openHashTarget();
+  addEventListener("load", () => setTimeout(openHashTarget, 80), { once: true });
+  addEventListener("hashchange", openHashTarget);
+}
+
+decorateModuleActions();
 
 async function copyCommand(event) {
   const button = event.currentTarget;

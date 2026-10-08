@@ -101,6 +101,17 @@ check_file "$site_dir/prepare.html" "learning outcomes" '<h2[^>]*>จบบท�
 check_file "$site_dir/prepare.html" "checkpoint label" '<p class="eyebrow">Checkpoint</p>'
 check_file "$site_dir/prepare.html" "post-lesson result" '<h2[^>]*>จบบทเรียน</h2>'
 check_file "$site_dir/prepare.html" "learner profile" 'data-research-profile'
+for page in module-2.html module-3.html; do
+  check_file "$site_dir/$page" "action hierarchy JS" 'assets/app\.js\?v=20261008-12'
+  check_file "$site_dir/$page" "action hierarchy CSS" 'assets/styles\.css\?v=20261008-22'
+done
+check_file "$site_dir/assets/app.js" "module action legend" 'learning-action-legend'
+check_file "$site_dir/assets/app.js" "AI prompt label" 'Prompt ให้ AI'
+check_file "$site_dir/assets/app.js" "example label" 'explicitExample'
+check_file "$site_dir/assets/app.js" "M2 basics collapse" 'json-basics.*เปิดพื้นฐาน Markdown และ JSON'
+check_file "$site_dir/assets/app.js" "M3 route collapse" 'faculty-path.*เปิดเส้นทางอาจารย์ / นักวิจัย'
+check_file "$site_dir/assets/styles.css" "prompt visual" '\.ai-prompt.*#231a31'
+check_file "$site_dir/assets/styles.css" "download visual" '\.download-action'
 
 check_file "$site_dir/module-5.html" "standalone M5 path" 'ทาง B — เริ่มที่โมดูล 5'
 check_file "$site_dir/module-5.html" "prior-module M5 path" 'ทาง A — มีผลงานจาก Module 3–4'
