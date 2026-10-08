@@ -25,6 +25,17 @@ This repository/folder is a deliberately small public export for GitHub Pages.
 - Pricing strategy, operator notes, private contacts, credentials, tokens, or API keys
 - Files copied from the completed `AI-for-research-reviews` project
 
+## Module 1 progress submission
+
+The Module 1 page sends a short readiness record only after the learner signs
+in and has an active enrollment in the selected classroom. The record contains
+four boolean checkpoint results, completion status, selected AI tool, elapsed
+minutes, optional token usage, a submission UUID, and timestamps. It never
+contains an API key, research file, research profile, prompt text, or learner
+workspace path. Completed status requires all four checkpoints to pass; an
+incomplete learner can still report `could_not_complete` so the instructor can
+see where support is needed.
+
 ## Module 2 assessment submission
 
 The Module 2 page validates a learner-created Markdown file and structured JSON

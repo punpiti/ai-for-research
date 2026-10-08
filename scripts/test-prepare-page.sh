@@ -43,6 +43,13 @@ if grep -q 'open -a &quot;Visual Studio Code&quot; --args' "$page"; then
   exit 1
 fi
 grep -q 'ข้อมูลเกี่ยวกับงานวิจัยของคุณ' "$page"
+grep -q 'data-module-1-submission-form' "$page"
+grep -q 'data-module-1-check="workspace_opened"' "$page"
+grep -q 'ส่งสถานะ Module 1' "$page"
+grep -q 'ไม่ส่ง API key ไฟล์ หรือข้อมูลวิจัย' "$page"
+grep -q '/api/ai-for-research/module-1/submissions' "$root/assets/module-1-submission.js"
+node --check "$root/assets/module-1-submission.js"
+node "$root/scripts/test-module-1-submission.js"
 if grep -qE 'SETUP_VERSION|RUNTIME_READY|installation trace|runtime-env|config\.toml|PROJECT_STATE\.md|AGENTS\.md|token budget|Auto Approve' "$page"; then
   echo 'Internal workflow or diagnostic copy must not appear on the learner page.' >&2
   exit 1

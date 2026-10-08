@@ -9,8 +9,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/styles.css?v=20261008-20">
-  <script src="assets/app.js?v=20261008-9" defer></script>
+  <link rel="stylesheet" href="assets/styles.css?v=20261008-23">
+  <script src="assets/app.js?v=20261008-12" defer></script>
+  <script src="assets/module-1-submission.js?v=20261008-1" defer></script>
   <script src="assets/site-shell.js?v=20260805-5"></script>
 </head>
 <body class="prepare-page">
@@ -160,12 +161,24 @@ code .</code><button type="button" data-copy>คัดลอก</button></div></
     <section class="section" id="homework" data-agent-required hidden>
       <div class="section-heading compact"><p class="eyebrow">Checkpoint</p><h2>จบบทเรียน</h2></div>
       <div class="checklist" data-checklist="practice">
-        <label><input type="checkbox"> เปิด Workspace ใน <span data-workspace-app>VS Code</span> ได้</label>
-        <label><input type="checkbox"> เชื่อมต่อ <span data-agent-panel>AI panel</span> ได้</label>
-        <label><input type="checkbox"> รู้ว่าไฟล์ต้นฉบับอยู่ใน <code>input/</code> และผลงานใหม่อยู่ใน <code>output/</code></label>
-        <label><input type="checkbox"> สร้างและเปิด <code>output/content.pdf</code> ได้</label>
+        <label><input type="checkbox" data-module-1-check="workspace_opened"> เปิด Workspace ใน <span data-workspace-app>VS Code</span> ได้</label>
+        <label><input type="checkbox" data-module-1-check="ai_connected"> เชื่อมต่อ <span data-agent-panel>AI panel</span> ได้</label>
+        <label><input type="checkbox" data-module-1-check="folder_boundary_understood"> รู้ว่าไฟล์ต้นฉบับอยู่ใน <code>input/</code> และผลงานใหม่อยู่ใน <code>output/</code></label>
+        <label><input type="checkbox" data-module-1-check="pdf_created_and_opened"> สร้างและเปิด <code>output/content.pdf</code> ได้</label>
       </div>
       <p class="progress" aria-live="polite">ความพร้อม: <strong data-progress>0%</strong></p>
+      <div class="task-heading"><span class="content-kind is-submit">ส่งงาน</span><strong>ส่งสถานะความพร้อมให้ผู้สอน</strong></div>
+      <p>ระบบผูกสถานะกับบัญชีที่ลงทะเบียน และส่งเฉพาะผล Checkpoint เวลา และ Token usage ไม่ส่ง API key ไฟล์ หรือข้อมูลวิจัย</p>
+      <form class="module-submission-form compact-submission-form" id="submit-module-1" data-module-1-submission-form>
+        <label><span>คลาส</span><select name="classroom_id" required><option value="">กำลังโหลด…</option></select></label>
+        <label><span>สถานะ</span><select name="completion_status" required><option value="completed">พร้อมใช้งาน</option><option value="completed_with_help">พร้อมใช้งานโดยมีผู้ช่วย</option><option value="could_not_complete">ยังทำไม่สำเร็จ</option></select></label>
+        <label><span>เวลาที่ใช้ (นาที)</span><input name="completion_minutes" type="number" min="1" max="600" required></label>
+        <label><span>ข้อมูล Token</span><select name="token_source" required><option value="not_available">ไม่มีข้อมูล</option><option value="provider_reported">ค่าจากผู้ให้บริการ</option><option value="learner_estimate">ค่าประมาณ</option></select></label>
+        <label><span>Total tokens</span><input name="total_tokens" type="number" min="0" max="20000000" disabled><small>กรอกเมื่อเลือกค่าจากผู้ให้บริการหรือค่าประมาณ</small></label>
+        <label class="submission-consent"><input name="consent" type="checkbox" required><span>ฉันตรวจสถานะด้านบนแล้ว และยินยอมส่งผลสรุปให้ผู้สอน</span></label>
+        <div class="profile-actions"><button class="button primary" type="submit" disabled>ส่งสถานะ Module 1</button><small data-module-1-submission-status role="status" aria-live="polite">กำลังตรวจบัญชีและคลาส…</small></div>
+      </form>
+      <p class="module-1-receipt" data-module-1-receipt role="status" hidden></p>
     </section>
   </main>
   <site-footer></site-footer>

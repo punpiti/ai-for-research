@@ -101,6 +101,12 @@ check_file "$site_dir/prepare.html" "learning outcomes" '<h2[^>]*>จบบท�
 check_file "$site_dir/prepare.html" "checkpoint label" '<p class="eyebrow">Checkpoint</p>'
 check_file "$site_dir/prepare.html" "post-lesson result" '<h2[^>]*>จบบทเรียน</h2>'
 check_file "$site_dir/prepare.html" "learner profile" 'data-research-profile'
+check_file "$site_dir/prepare.html" "M1 progress form" 'data-module-1-submission-form'
+check_file "$site_dir/prepare.html" "M1 checkpoint payload fields" 'data-module-1-check="pdf_created_and_opened"'
+check_file "$site_dir/assets/module-1-submission.js" "M1 progress endpoint" '/api/ai-for-research/module-1/submissions'
+check_file "$site_dir/assets/module-1-submission.js" "M1 progress-only schema" 'ai-for-research\.module-1-progress\.v1'
+node --check "$site_dir/assets/module-1-submission.js"
+node "$site_dir/scripts/test-module-1-submission.js"
 for page in module-2.html module-3.html; do
   check_file "$site_dir/$page" "action hierarchy JS" 'assets/app\.js\?v=20261008-12'
   check_file "$site_dir/$page" "action hierarchy CSS" 'assets/styles\.css\?v=20261008-22'

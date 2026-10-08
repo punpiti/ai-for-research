@@ -15,6 +15,8 @@ bash scripts/test-installers.sh
 node --check assets/instructor-admin.js
 bash scripts/test-instructor-admin-page.sh
 node --check assets/site-shell.js
+node --check assets/module-1-submission.js
+node scripts/test-module-1-submission.js
 node --check assets/module-2-submission.js
 node scripts/test-module-2-submission.js
 node --check assets/course-cart.js
