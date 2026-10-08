@@ -9,8 +9,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../assets/styles.css?v=20261008-15">
-  <script src="../assets/instructor-admin.js?v=20261008-5" defer></script>
+  <link rel="stylesheet" href="../assets/styles.css?v=20261008-16">
+  <script src="../assets/instructor-admin.js?v=20261008-6" defer></script>
 </head>
 <body class="instructor-body">
   <a class="skip-link" href="#main">ข้ามไปยังเนื้อหา</a>
@@ -42,6 +42,7 @@
     <p class="instructor-page-status" data-page-status role="status" aria-live="polite">กำลังโหลดข้อมูล…</p>
 
     <nav class="instructor-tabs" aria-label="ส่วนจัดการคลาส" role="tablist" data-instructor-tabs>
+      <button id="tab-template-details" type="button" role="tab" data-admin-tab="template-details" aria-controls="template-details" aria-selected="false" data-template-only hidden>รายละเอียดต้นแบบ</button>
       <button id="tab-details" type="button" role="tab" data-admin-tab="details" aria-controls="details" aria-selected="true" data-class-only>รายละเอียดคลาส</button>
       <button id="tab-enrollment" type="button" role="tab" data-admin-tab="enrollment" aria-controls="enrollment" aria-selected="false" data-class-only>ผู้ลงทะเบียน</button>
       <button id="tab-syllabus" type="button" role="tab" data-admin-tab="syllabus" aria-controls="syllabus" aria-selected="false">Syllabus</button>
@@ -54,6 +55,32 @@
         <h2>ต้นแบบรายวิชา</h2>
       </div>
       <p>ต้นแบบแก้ไขและรับลงทะเบียนไม่ได้ คัดลอกเป็นคลาสใหม่เพื่อเริ่มใช้งาน</p>
+    </section>
+
+    <section class="instructor-section template-details" id="template-details" role="tabpanel" aria-labelledby="tab-template-details template-details-title" data-admin-panel="template-details" data-template-only hidden>
+      <div class="instructor-section-heading">
+        <div>
+          <p class="eyebrow">01 · Template details</p>
+          <h2 id="template-details-title">รายละเอียดต้นแบบ</h2>
+        </div>
+        <p class="template-course-code" data-template-course-code></p>
+      </div>
+      <div class="template-details-lead">
+        <p data-template-cohort></p>
+        <h3 data-template-public-title></h3>
+        <p class="template-tagline" data-template-summary></p>
+      </div>
+      <dl class="template-facts" aria-label="ข้อมูลต้นแบบ">
+        <div><dt>กลุ่มผู้เรียน</dt><dd data-template-audience>—</dd></div>
+        <div><dt>วันที่</dt><dd data-template-date>—</dd></div>
+        <div><dt>รูปแบบ</dt><dd data-template-delivery>—</dd></div>
+        <div><dt>ค่าใช้จ่าย</dt><dd data-template-fee>—</dd></div>
+      </dl>
+      <div class="template-overview">
+        <h3>ภาพรวมคลาส</h3>
+        <p data-template-overview>—</p>
+      </div>
+      <ul class="template-tags" aria-label="หัวข้อเด่น" data-template-tags></ul>
     </section>
 
     <section class="instructor-section" id="details" role="tabpanel" aria-labelledby="tab-details details-title" data-admin-panel="details" data-class-only>

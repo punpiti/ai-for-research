@@ -9,13 +9,16 @@ grep -q 'data-open-create-class' "$page"
 grep -q 'data-create-class-dialog' "$page"
 grep -q 'data-source-classroom' "$page"
 grep -q 'data-template-notice' "$page"
+grep -q 'data-template-only' "$page"
+grep -q 'data-template-summary' "$page"
+grep -q 'รายละเอียดต้นแบบ' "$page"
 grep -q 'ต้นแบบแก้ไขและรับลงทะเบียนไม่ได้' "$page"
 grep -q 'data-class-only' "$page"
 grep -q 'data-syllabus-actions' "$page"
 grep -q 'data-class-details-form' "$page"
 grep -q 'data-instructor-tabs' "$page"
-[[ "$(grep -c 'data-admin-tab=' "$page")" -eq 4 ]]
-[[ "$(grep -c 'data-admin-panel=' "$page")" -eq 4 ]]
+[[ "$(grep -c 'data-admin-tab=' "$page")" -eq 5 ]]
+[[ "$(grep -c 'data-admin-panel=' "$page")" -eq 5 ]]
 grep -q 'หน้ารายละเอียดและลงทะเบียน' "$page"
 grep -q 'name="enrollment_status"' "$page"
 grep -q 'name="summary"' "$page"
@@ -36,6 +39,7 @@ grep -q 'คัดลอกเป็นคลาสใหม่' "$root/assets/i
 grep -q 'classroom_type === "template"' "$root/assets/instructor-admin.js"
 grep -q '/details`' "$root/assets/instructor-admin.js"
 grep -q 'activateAdminTab' "$root/assets/instructor-admin.js"
+grep -q 'renderTemplateDetails' "$root/assets/instructor-admin.js"
 if grep -q '/admin/ai-for-research' "$page" "$root/assets/instructor-admin.js"; then
   echo 'Instructor classroom must not use the Urban admin route.' >&2
   exit 1

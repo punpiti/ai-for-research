@@ -59,6 +59,7 @@
   const syllabusActions = document.querySelector("[data-syllabus-actions]");
   const templateNotice = document.querySelector("[data-template-notice]");
   const classOnlyElements = [...document.querySelectorAll("[data-class-only]")];
+  const templateOnlyElements = [...document.querySelectorAll("[data-template-only]")];
   const classDetailsForm = document.querySelector("[data-class-details-form]");
   const classDetailsStatus = document.querySelector("[data-class-details-status]");
   const detailStringFields = [
@@ -102,14 +103,18 @@
   }
 
   function activateAdminTab(tabName) {
-    const selectedTab = classroomType === "template" ? "syllabus" : tabName;
+    const availableTabs = classroomType === "template"
+      ? ["template-details", "syllabus"]
+      : ["details", "enrollment", "syllabus", "status"];
+    const selectedTab = availableTabs.includes(tabName) ? tabName : availableTabs[0];
     adminTabButtons.forEach((button) => {
       const selected = button.dataset.adminTab === selectedTab;
       button.setAttribute("aria-selected", selected ? "true" : "false");
       button.tabIndex = selected ? 0 : -1;
     });
     adminPanels.forEach((panel) => {
-      const unavailable = classroomType === "template" && panel.hasAttribute("data-class-only");
+      const unavailable = (classroomType === "template" && panel.hasAttribute("data-class-only"))
+        || (classroomType !== "template" && panel.hasAttribute("data-template-only"));
       panel.hidden = unavailable || panel.dataset.adminPanel !== selectedTab;
     });
     if (globalObject.history?.replaceState) {
@@ -122,12 +127,16 @@
     const isTemplate = classroomType === "template";
     templateNotice.hidden = !isTemplate;
     classOnlyElements.forEach((element) => { element.hidden = isTemplate; });
+    templateOnlyElements.forEach((element) => { element.hidden = !isTemplate; });
     syllabusActions.hidden = isTemplate;
     openCreateClass.textContent = isTemplate ? "คัดลอกเป็นคลาสใหม่" : "+ สร้างคลาสใหม่";
     publicClassLink.hidden = isTemplate;
     const requestedTab = String(globalObject.location.hash || "").replace(/^#/, "");
-    const initialTab = ["details", "enrollment", "syllabus", "status"].includes(requestedTab) ? requestedTab : "details";
-    activateAdminTab(isTemplate ? "syllabus" : initialTab);
+    const knownTabs = ["template-details", "details", "enrollment", "syllabus", "status"];
+    const initialTab = knownTabs.includes(requestedTab)
+      ? requestedTab
+      : isTemplate ? "template-details" : "details";
+    activateAdminTab(initialTab);
   }
 
   function renderClassroomChoices(classes) {
@@ -172,6 +181,27 @@
     detailLineFields.forEach((key) => {
       classDetailsForm.elements[key].value = Array.isArray(details[key]) ? details[key].join("\n") : "";
     });
+  }
+
+  function renderTemplateDetails(data) {
+    if (data.classroom.classroom_type !== "template") return;
+    const details = data.classroom.public_details || {};
+    const setText = (selector, value, fallback = "—") => {
+      document.querySelector(selector).textContent = value || fallback;
+    };
+    setText("[data-template-course-code]", data.classroom.course_code);
+    setText("[data-template-public-title]", details.public_title || data.classroom.title);
+    setText("[data-template-cohort]", details.cohort_title, "ต้นแบบรายวิชา");
+    setText("[data-template-summary]", details.summary, "ยังไม่ได้กำหนดคำโปรย");
+    setText("[data-template-audience]", details.audience);
+    setText("[data-template-date]", details.class_date);
+    setText("[data-template-delivery]", details.delivery_mode);
+    setText("[data-template-fee]", details.fee);
+    setText("[data-template-overview]", details.overview);
+    const tags = Array.isArray(details.tags) ? details.tags : [];
+    document.querySelector("[data-template-tags]").replaceChildren(
+      ...tags.map((tag) => node("li", "", tag)),
+    );
   }
 
   function classDetailsPayload() {
@@ -338,6 +368,7 @@
       const data = await request(dashboardEndpoint(classroomId));
       renderSummary(data);
       renderClassDetails(data);
+      renderTemplateDetails(data);
       renderEnrollments(data);
       renderSyllabus(data);
       renderSubmissions(data);
