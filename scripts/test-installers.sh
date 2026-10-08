@@ -18,6 +18,18 @@ grep -q -- '-Mode Uninstall' "$root/prepare.html"
 grep -q 'preserves reused and modified items' "$root/scripts/test-windows-uninstall.ps1"
 grep -q "SetupUser must run in a normal, non-Administrator PowerShell" "$root/downloads/setup-windows.ps1"
 grep -q "InstallSystem requires -Agent codex, claude, openrouter, or antigravity" "$root/downloads/setup-windows.ps1"
+grep -q "\[string\]\$Agent = 'openrouter'" "$root/downloads/setup-windows.ps1"
+grep -q 'Write-Progress.*system installation' "$root/downloads/setup-windows.ps1"
+grep -q 'ADMIN_PROGRESS' "$root/downloads/setup-windows.ps1"
+grep -q '^function Save-UserPath' "$root/downloads/setup-windows.ps1"
+for installer in setup-macos.sh setup-linux.sh; do
+  grep -q 'agent="${AI_GRAD_AGENT:-openrouter}"' "$root/downloads/$installer"
+  grep -q '^show_admin_progress()' "$root/downloads/$installer"
+  grep -q '^persist_user_path()' "$root/downloads/$installer"
+  default_output="$(AI_RESEARCH_DRY_RUN=1 AI_RESEARCH_TEST_COMMANDS='npm,code,uv' AI_RESEARCH_COURSE_DIR="${TMPDIR:-/tmp}/ai-research-default-agent-test" bash "$root/downloads/$installer" --setup-user)"
+  [[ "$default_output" == *'OPENROUTER_READY'* && "$default_output" == *'AI workspace=openrouter'* && "$default_output" == *'PATH_READY'* ]]
+done
+grep -q 'ไม่ระบุชนิด AI จะใช้ OpenRouter เป็นค่าเริ่มต้น' "$root/prepare.html"
 grep -q -- '-Mode Install -Agent {agent}' "$root/prepare.html"
 [[ "$(grep -c 'AI_GRAD_AGENT={agent}.*--install' "$root/prepare.html")" -eq 2 ]]
 grep -q 'setPreference("ai-research-platform"' "$root/assets/app.js"

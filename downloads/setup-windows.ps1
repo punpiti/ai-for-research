@@ -1,7 +1,7 @@
 [CmdletBinding()]
 param(
   [ValidateSet('Check','Install','InstallSystem','SetupUser','Repair','Uninstall','UninstallSystem')][string]$Mode = 'Check',
-  [ValidateSet('codex','claude','openrouter','antigravity')][string]$Agent,
+  [ValidateSet('codex','claude','openrouter','antigravity')][string]$Agent = 'openrouter',
   [string]$CourseDir = (Join-Path $HOME 'ai-for-research-workspace'),
   [string]$SystemLog,
   [string]$TraceFile,
@@ -10,7 +10,7 @@ param(
 $ErrorActionPreference = 'Stop'
 $ProgressPreference = 'SilentlyContinue'
 $DryRun = $env:AI_RESEARCH_DRY_RUN -eq '1'
-$SetupVersion = '2026.10.08.22'
+$SetupVersion = '2026.10.08.23'
 $TestCommands = @($env:AI_RESEARCH_TEST_COMMANDS -split ',' | Where-Object { $_ })
 $DefaultProjectName = 'ai-for-research-workspace'
 $CourseDirWasProvided = $PSBoundParameters.ContainsKey('CourseDir')
@@ -46,7 +46,7 @@ function Log([string]$Message) {
     Write-Host '[AI for Research] FINAL_RESULT PASS - Setup complete. Open the AI panel in your workspace and sign in or configure your provider.'
     return
   }
-  if ($DryRun -or $Mode -eq 'Check' -or $Message -match '^(SETUP_VERSION|DEVICE_CHECK|ADMIN_PHASE_REQUIRED|RUNTIME_READY|INSTALL_FAILED|FINAL_RESULT|UNINSTALL|workspace=|AI workspace=|STEP)') {
+  if ($DryRun -or $Mode -eq 'Check' -or $Message -match '^(SETUP_VERSION|DEVICE_CHECK|ADMIN_PHASE_REQUIRED|RUNTIME_READY|PATH_READY|INSTALL_FAILED|FINAL_RESULT|UNINSTALL|workspace=|AI workspace=|STEP)') {
     Write-Host "[AI for Research] $Message"
   }
 }
@@ -144,6 +144,43 @@ function Refresh-ToolPath {
   $script:DiscoveredToolDirectories = @($directories | Where-Object { Test-Path -LiteralPath $_ -PathType Container } | Select-Object -Unique)
   $allPaths = @($env:PATH -split ';') + @([Environment]::GetEnvironmentVariable('Path','Machine') -split ';') + @([Environment]::GetEnvironmentVariable('Path','User') -split ';') + $script:DiscoveredToolDirectories
   $env:PATH = ($allPaths | Where-Object { $_ } | Select-Object -Unique) -join ';'
+}
+function Normalize-PathEntry([string]$Entry) {
+  if ([string]::IsNullOrWhiteSpace($Entry)) { return '' }
+  $expanded = [Environment]::ExpandEnvironmentVariables($Entry.Trim().Trim('"'))
+  try { return ([IO.Path]::GetFullPath($expanded)).TrimEnd('\','/').ToLowerInvariant() }
+  catch { return $expanded.TrimEnd('\','/').ToLowerInvariant() }
+}
+function Save-UserPath([string[]]$Entries) {
+  $current = @([Environment]::GetEnvironmentVariable('Path','User') -split ';' | Where-Object { $_ })
+  $currentKeys = @{}
+  foreach ($entry in $current) {
+    $key = Normalize-PathEntry $entry
+    if ($key) { $currentKeys[$key] = $true }
+  }
+  $seen = @{}
+  $result = @()
+  $added = 0
+  foreach ($entry in $current + $Entries) {
+    $key = Normalize-PathEntry $entry
+    if (-not $key -or $seen.ContainsKey($key)) { continue }
+    $seen[$key] = $true
+    $result += $entry.Trim().Trim('"').TrimEnd('\','/')
+    if (-not $currentKeys.ContainsKey($key)) { $added += 1 }
+  }
+  if (-not $DryRun) { [Environment]::SetEnvironmentVariable('Path', ($result -join ';'), 'User') }
+  Trace 'modify' 'user-path' 'Path' 'completed' "added=$added; duplicate-additions=0"
+  Log "PATH_READY Installed program folders are available in new terminals; added=$added, duplicate-additions=0."
+}
+function Show-AdminProgress([int]$Current, [int]$Total, [string]$Status, [switch]$Completed) {
+  $savedPreference = $ProgressPreference
+  try {
+    $ProgressPreference = 'Continue'
+    if ($Completed) { Write-Progress -Activity 'AI for Research: system installation' -Completed; return }
+    $percent = if ($Total -gt 0) { [Math]::Min(100, [Math]::Floor(($Current * 100) / $Total)) } else { 100 }
+    Write-Progress -Activity 'AI for Research: system installation' -Status $Status -PercentComplete $percent
+    Write-Host ("[AI for Research] ADMIN_PROGRESS {0}/{1} ({2}%) {3}" -f $Current,$Total,$percent,$Status)
+  } finally { $ProgressPreference = $savedPreference }
 }
 function Confirm-WinGetResult([string]$Command, [string]$Package, [int]$ExitCode) {
   Refresh-ToolPath
@@ -518,8 +555,17 @@ function Install-SystemTools {
   Log "ADMIN PHASE: checks the selected workspace, document, PDF and Thai-English OCR tools; installs only missing items. agent=$Agent"
   if ($Mode -ne 'InstallSystem') { $answer = Read-Host 'Continue? [y/N]'; if ($answer -notmatch '^[Yy]$') { return } }
   $packages = Get-SystemPackages
+  $totalSteps = $packages.Count + 1
+  $currentStep = 0
+  Show-AdminProgress $currentStep $totalSteps 'Starting administrator phase'
   foreach ($item in $packages) {
-    if (Has $item.Command) { Trace 'snapshot' 'system-package' $item.Package 'before' 'present'; Log "REUSE $($item.Command)"; continue }
+    Show-AdminProgress $currentStep $totalSteps "Checking $($item.Package)"
+    if (Has $item.Command) {
+      Trace 'snapshot' 'system-package' $item.Package 'before' 'present'; Log "REUSE $($item.Command)"
+      $currentStep += 1
+      Show-AdminProgress $currentStep $totalSteps "Reused $($item.Package)"
+      continue
+    }
     if (Test-WinGetPackageInstalled $item.Package) {
       Trace 'snapshot' 'system-package' $item.Package 'before' 'present'
       throw "TOOL_NOT_FOUND $($item.Package) was installed before this run but $($item.Command) is unavailable. Repair its PATH or application installation; it will not be claimed or replaced by this installer."
@@ -530,11 +576,14 @@ function Install-SystemTools {
     Run-Quiet "Install $($item.Package)" { winget install --id $item.Package --exact --source winget --accept-package-agreements --accept-source-agreements --silent } @(0,-1978335189)
     Confirm-WinGetResult $item.Command $item.Package $LASTEXITCODE
     Trace 'install' 'system-package' $item.Package 'completed' 'winget; shared-system-software-preserve'
+    $currentStep += 1
+    Show-AdminProgress $currentStep $totalSteps "Installed $($item.Package)"
   }
   $tesseractCommand = Get-Command tesseract -ErrorAction SilentlyContinue
   $tesseractRoot = if ($tesseractCommand) { Split-Path $tesseractCommand.Source } else { Join-Path $env:ProgramFiles 'Tesseract-OCR' }
   $tessdataDir = Join-Path $tesseractRoot 'tessdata'
   $thaiData = Join-Path $tessdataDir 'tha.traineddata'
+  Show-AdminProgress $currentStep $totalSteps 'Checking Thai OCR language data'
   Trace-Path $thaiData 'before'
   if (-not (Test-Path $thaiData)) {
     New-Item -ItemType Directory -Force -Path $tessdataDir | Out-Null
@@ -542,29 +591,21 @@ function Install-SystemTools {
     Invoke-WebRequest -UseBasicParsing -Uri 'https://github.com/tesseract-ocr/tessdata_fast/raw/main/tha.traineddata' -OutFile $thaiData
   } else { Log 'REUSE Tesseract Thai language data' }
   Trace-Path $thaiData 'after'
+  $currentStep += 1
+  Show-AdminProgress $currentStep $totalSteps 'System tools are ready'
   if ($Agent -eq 'antigravity' -and -not (Has 'agy-ide')) {
     Log 'INSTALL Antigravity IDE from the official Google download page; complete its installer before SetupUser.'
     Start-Process 'https://antigravity.google/download#antigravity-ide'
   }
   Log 'System installation finished. Returning to the normal-user installer.'
   Log 'ADMIN_PHASE_COMPLETE The original normal-user window continues automatically in Install mode.'
+  Show-AdminProgress $currentStep $totalSteps 'System tools are ready' -Completed
   return
 }
 function Install-UserTools {
   if (Is-Admin) { throw 'SetupUser must run in a normal, non-Administrator PowerShell. Close this window and open PowerShell normally.' }
-  if (-not $Agent) { $Agent = Read-Host 'Choose AI frontend [claude/codex/openrouter]' }
   Log 'STEP Preparing your workspace files.'
   Refresh-ToolPath
-  if (-not $DryRun) {
-    $userPaths = @([Environment]::GetEnvironmentVariable('Path','User') -split ';' | Where-Object { $_ })
-    $missingPaths = @($script:DiscoveredToolDirectories | Where-Object { $userPaths -notcontains $_ })
-    if ($missingPaths.Count -gt 0) {
-      Trace 'modify' 'user-path' 'Path' 'started' ($missingPaths | ConvertTo-Json -Compress)
-      [Environment]::SetEnvironmentVariable('Path', (($userPaths + $missingPaths) -join ';'), 'User')
-      Trace 'modify' 'user-path' 'Path' 'completed' ($missingPaths | ConvertTo-Json -Compress)
-      Log 'TOOL_PATH_READY Installed document tools added to your user PATH.'
-    }
-  }
   New-CourseWorkspace
   if ($DryRun) { Log 'DRY_RUN runtime Python 3.12 + user-owned TinyTeX + scoped Codex permissions' }
   else {
@@ -604,6 +645,10 @@ function Install-UserTools {
   }
   else { Log 'Node/npm was installed but this shell has not refreshed PATH. Reopen PowerShell and rerun with -Mode Repair.' }
   if ($Agent -eq 'antigravity') { Configure-Antigravity } else { Configure-VSCode }
+  $persistentPaths = @($script:DiscoveredToolDirectories)
+  $persistentPaths += @($env:PATH -split ';' | Where-Object { $_ -and (Test-PathInside $_ $toolRoot) })
+  $persistentPaths += (Join-Path $HOME '.local\bin')
+  Save-UserPath $persistentPaths
   if (-not $DryRun) {
     foreach ($path in $watchedPaths) { Trace-Path $path 'after' }
     $python = Join-Path $env:VIRTUAL_ENV 'Scripts\python.exe'

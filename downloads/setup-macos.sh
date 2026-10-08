@@ -5,9 +5,9 @@ mode="${1:---check}"
 default_project_name='ai-for-research-workspace'
 explicit_course_dir="${AI_RESEARCH_COURSE_DIR:-${AI_GRAD_COURSE_DIR:-}}"
 course_dir="${explicit_course_dir:-$HOME/$default_project_name}"
-agent="${AI_GRAD_AGENT:-}"
+agent="${AI_GRAD_AGENT:-openrouter}"
 dry_run="${AI_RESEARCH_DRY_RUN:-0}"
-setup_version='2026.10.08.22'
+setup_version='2026.10.08.23'
 test_commands=",${AI_RESEARCH_TEST_COMMANDS:-},"
 
 choose_project_dir() {
@@ -72,9 +72,38 @@ log() {
     printf '[AI for Research] %s\n' "$*"
     return 0
   fi
-  if [[ "$dry_run" == 1 || "$mode" == --check || "$*" =~ ^(SETUP_VERSION|DEVICE_CHECK|ADMIN_PHASE_REQUIRED|RUNTIME_READY|FINAL_RESULT|workspace=|AI\ workspace=|STEP) ]]; then
+  if [[ "$dry_run" == 1 || "$mode" == --check || "$*" =~ ^(SETUP_VERSION|DEVICE_CHECK|ADMIN_PHASE_REQUIRED|RUNTIME_READY|PATH_READY|FINAL_RESULT|workspace=|AI\ workspace=|STEP) ]]; then
     printf '[AI for Research] %s\n' "$*"
   fi
+}
+show_admin_progress() {
+  local percent="$1" message="$2" filled empty progress_fill progress_empty
+  filled=$((percent / 5)); empty=$((20 - filled))
+  printf -v progress_fill '%*s' "$filled" ''; progress_fill=${progress_fill// /#}
+  printf -v progress_empty '%*s' "$empty" ''; progress_empty=${progress_empty// /-}
+  printf '[AI for Research] ADMIN_PROGRESS [%s%s] %3d%% %s\n' "$progress_fill" "$progress_empty" "$percent" "$message"
+}
+persist_user_path() {
+  local path_file="$trace_root/path.sh" profile="$HOME/.zprofile" entry source_line
+  local -a entries=("$HOME/.local/bin" "/Applications/Visual Studio Code.app/Contents/Resources/app/bin")
+  while IFS= read -r entry; do [[ "$entry" == "$trace_root"/* ]] && entries+=("$entry"); done < <(printf '%s' "$PATH" | tr ':' '\n')
+  if [[ "$dry_run" == 1 ]]; then log 'PATH_READY DRY_RUN persistent PATH configuration; duplicate-additions=0.'; return; fi
+  mkdir -p "$trace_root"
+  printf '%s\n' '# Managed by AI for Research. Safe to source more than once.' \
+    'ai_research_add_path() {' \
+    '  case ":${PATH:-}:" in *":$1:"*) ;; *) PATH="$1${PATH:+:$PATH}" ;; esac' \
+    '}' > "$path_file"
+  for entry in "${entries[@]}"; do
+    [[ -d "$entry" ]] || continue
+    printf 'ai_research_add_path %q\n' "$entry" >> "$path_file"
+  done
+  printf '%s\n' 'unset -f ai_research_add_path 2>/dev/null || true' 'export PATH' >> "$path_file"
+  source_line='[ -f "$HOME/Library/Application Support/ai-for-research/path.sh" ] && . "$HOME/Library/Application Support/ai-for-research/path.sh"'
+  [[ -e "$profile" ]] || : > "$profile"
+  grep -Fqx "$source_line" "$profile" || printf '\n%s\n' "$source_line" >> "$profile"
+  # shellcheck disable=SC1090
+  source "$path_file"
+  log 'PATH_READY Installed program folders are available in new terminals; duplicate-additions=0.'
 }
 watched_paths=()
 if [[ "$dry_run" != 1 && "$mode" != --check ]]; then
@@ -241,6 +270,7 @@ configure_antigravity() {
 install_system_tools() {
   [[ "$(uname -s)" == Darwin ]] || { log 'This installer requires macOS.'; exit 2; }
   [[ "$agent" =~ ^(codex|claude|openrouter|antigravity)$ ]] || { log 'Set AI_GRAD_AGENT to codex, claude, openrouter, or antigravity.'; exit 2; }
+  show_admin_progress 5 'Checking system requirements'
   if ! check; then log 'INSTALL_STOPPED System requirements did not pass. Nothing was installed.'; exit 2; fi
   formulae=()
   casks=()
@@ -252,8 +282,13 @@ install_system_tools() {
   if [[ "$agent" != antigravity ]]; then
     if have code || [[ -d '/Applications/Visual Studio Code.app' ]]; then log 'REUSE code'; else casks+=(visual-studio-code); fi
   fi
-  if (( ${#formulae[@]} == 0 && ${#casks[@]} == 0 )); then log 'All system software is already available. Nothing to install.'; return 0; fi
+  if (( ${#formulae[@]} == 0 && ${#casks[@]} == 0 )); then
+    show_admin_progress 100 'All system tools are already available'
+    log 'All system software is already available. Nothing to install.'
+    return 0
+  fi
   if ! have brew; then
+    show_admin_progress 20 'Preparing Homebrew'
     log 'INSTALL Homebrew; its official installer may ask for your password.'
     brew_script="$(mktemp)"
     curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh -o "$brew_script"
@@ -274,6 +309,7 @@ install_system_tools() {
     [[ "$answer" =~ ^[Yy]$ ]] || exit 0
   fi
   for package in "${formulae[@]}" "${casks[@]}"; do trace install system-package "$package" started shared-system-software-preserve; done
+  show_admin_progress 45 'Installing missing system software'
   ((${#formulae[@]})) && quiet brew install "${formulae[@]}"
   ((${#casks[@]})) && quiet brew install --cask "${casks[@]}"
   for package in "${formulae[@]}" "${casks[@]}"; do trace install system-package "$package" completed shared-system-software-preserve; done
@@ -281,10 +317,10 @@ install_system_tools() {
     log 'INSTALL Antigravity IDE from the official Google download page; complete its installer before --setup-user.'
     open 'https://antigravity.google/download#antigravity-ide'
   fi
+  show_admin_progress 100 'System tools are ready'
   log 'System tools ready. Legacy two-phase setup: open Terminal normally, then run --setup-user.'
 }
 setup_user() {
-  if [[ -z "$agent" ]]; then read -r -p 'Choose AI frontend [claude/codex/openrouter]: ' agent; fi
   [[ "$agent" =~ ^(codex|claude|openrouter|antigravity)$ ]] || { log 'AI frontend must be codex, claude, openrouter, or antigravity.'; exit 2; }
   log 'STEP Preparing your workspace files.'
   make_workspace
@@ -321,13 +357,13 @@ setup_user() {
     *) log 'AI frontend must be codex, claude, openrouter, or antigravity.'; exit 2 ;;
   esac
   if [[ "$agent" == antigravity ]]; then configure_antigravity; else configure_vscode; fi
+  persist_user_path
   if [[ "$dry_run" != 1 ]]; then "$VIRTUAL_ENV/bin/python" "$course_dir/tools/install-summary.py" --trace "$trace_file"; fi
   log "AI workspace=$agent installed. Next: open the workspace, open its AI panel, and sign in with your own account. The terminal command is only a fallback."
 }
 case "$mode" in
   --install)
     [[ "$EUID" != 0 ]] || { log 'Run --install as your normal user; sudo is requested only for system tools.'; exit 2; }
-    [[ -n "$agent" ]] || read -r -p 'Choose AI frontend [claude/codex/openrouter]: ' agent
     install_system_tools
     export PATH="$HOME/.local/bin:/Applications/Visual Studio Code.app/Contents/Resources/app/bin:$PATH"
     setup_user
