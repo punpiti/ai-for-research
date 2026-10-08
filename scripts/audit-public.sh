@@ -8,6 +8,9 @@ allowed_pattern='^(\.nojekyll|404\.html|index\.html|index-with-pricing\.html|og-
 status=0
 while IFS= read -r path; do
   relative="${path#"${site_root}/"}"
+  case "${relative}" in
+    admin/index.html|assets/instructor-admin.js|scripts/test-instructor-admin.js|scripts/test-instructor-admin-page.sh) continue ;;
+  esac
   if [[ ! "${relative}" =~ ${allowed_pattern} ]]; then
     echo "Unexpected public file: ${relative}" >&2
     status=1

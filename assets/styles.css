@@ -559,3 +559,55 @@ a[data-workspace-download]::after { content:"  ↓"; color:var(--accent); font-w
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
 }
+
+/* Instructor classroom */
+.instructor-body { background: var(--surface-strong); }
+.instructor-header .instructor-logout { border: 0; font: inherit; cursor: pointer; }
+.instructor-main { width: min(1380px, calc(100% - 2rem)); margin: 0 auto; padding: 4rem 0 7rem; }
+.instructor-title { display: grid; grid-template-columns: minmax(0, 1fr) minmax(280px, .55fr); gap: 3rem; align-items: end; padding: 2rem 0 4rem; }
+.instructor-title h1 { margin-bottom: 1rem; font-size: clamp(3.2rem, 8vw, 6.6rem); }
+.instructor-class-title { color: var(--ink-soft); font-size: 1.15rem; }
+.instructor-summary { display: grid; grid-template-columns: repeat(3, 1fr); margin: 0; border: 1px solid var(--line); border-radius: 1rem; overflow: hidden; background: var(--surface); }
+.instructor-summary div { min-width: 0; padding: 1.25rem; border-right: 1px solid var(--line); }
+.instructor-summary div:last-child { border-right: 0; }
+.instructor-summary dt { color: var(--ink-soft); font-size: .82rem; }
+.instructor-summary dd { margin: .4rem 0 0; color: var(--mint); font: 600 1.35rem Inter, sans-serif; overflow-wrap: anywhere; }
+.instructor-page-status { margin: 0 0 1.5rem; color: var(--ink-soft); }
+.instructor-page-status.is-error { color: #ffd8c8; }
+.instructor-section { margin: 0 0 2rem; padding: clamp(1.25rem, 3vw, 2.25rem); border: 1px solid var(--line); border-radius: 1.25rem; background: var(--surface); }
+.instructor-section-heading { display: flex; justify-content: space-between; gap: 2rem; align-items: end; margin-bottom: 1.5rem; }
+.instructor-section-heading .eyebrow { margin: 0; }
+.instructor-section-heading h2 { margin: 0; font-size: clamp(1.7rem, 3vw, 2.5rem); }
+.instructor-table-wrap { overflow-x: auto; }
+.instructor-table { width: 100%; border-collapse: collapse; }
+.instructor-table th, .instructor-table td { padding: .9rem .75rem; border-bottom: 1px solid var(--line); text-align: left; vertical-align: middle; white-space: nowrap; }
+.instructor-table th { color: var(--ink-soft); font-size: .78rem; font-weight: 500; text-transform: uppercase; letter-spacing: .06em; }
+.instructor-table td:first-child { min-width: 240px; white-space: normal; }
+.instructor-table td strong, .instructor-table td small { display: block; }
+.instructor-table td small { margin-top: .2rem; color: var(--ink-soft); font-size: .78rem; }
+.instructor-table select, .instructor-table input { min-height: 2.7rem; padding: .45rem .6rem; border: 1px solid var(--line); border-radius: .55rem; color: var(--ink); background: var(--surface-strong); font: inherit; }
+.instructor-table input { width: 9rem; }
+.instructor-row-save { min-height: 2.5rem; padding: .45rem .75rem; }
+.instructor-module-list { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .8rem; }
+.instructor-module { display: grid; gap: .8rem; padding: 1rem; border: 1px solid var(--line); border-radius: .8rem; background: var(--surface-strong); }
+.instructor-module.is-active { border-color: var(--accent); box-shadow: inset .25rem 0 0 var(--accent); }
+.instructor-module label { display: flex; gap: .55rem; align-items: center; color: var(--ink-soft); font-size: .88rem; }
+.instructor-module-active { color: var(--mint) !important; }
+.instructor-actions { display: flex; align-items: center; gap: 1rem; margin-top: 1.5rem; }
+.active-module-line { display: flex; justify-content: space-between; gap: 1rem; margin: 0 0 1rem; padding: .9rem 1rem; border-left: 4px solid var(--accent); background: var(--surface-strong); }
+.active-module-line span { color: var(--ink-soft); }
+.submission-status.is-completed, .submission-status.is-completed_with_help { color: var(--mint); }
+.submission-status.is-could_not_complete { color: #ffd8c8; }
+.submission-status.is-not_submitted { color: var(--ink-soft); }
+@media (max-width: 900px) {
+  .instructor-title { grid-template-columns: 1fr; }
+  .instructor-module-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 620px) {
+  .instructor-main { width: min(100% - 1rem, 1380px); padding-top: 2rem; }
+  .instructor-summary, .instructor-module-list { grid-template-columns: 1fr; }
+  .instructor-summary div { border-right: 0; border-bottom: 1px solid var(--line); }
+  .instructor-summary div:last-child { border-bottom: 0; }
+  .instructor-section-heading { display: block; }
+  .instructor-section-heading .eyebrow { margin-bottom: .5rem; }
+}

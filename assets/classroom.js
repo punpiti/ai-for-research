@@ -59,6 +59,7 @@
   if (!classroomId || !button || !status) return;
 
   let authenticated = false;
+  let instructor = false;
   function renderGuest(unavailable = false) {
     authenticated = false;
     button.disabled = false;
@@ -76,9 +77,10 @@
     authenticated = true;
     const membership = membershipFor(state, classroomId);
     if (membership?.status === "active") {
-      button.disabled = true;
-      button.textContent = "ลงทะเบียนแล้ว";
-      status.textContent = membership.role === "teacher" ? "ลงทะเบียนแล้วในบทบาทผู้สอน" : "ลงทะเบียนเรียบร้อยแล้ว";
+      instructor = membership.role === "teacher";
+      button.disabled = !instructor;
+      button.textContent = instructor ? "เปิดหน้าของอาจารย์" : "ลงทะเบียนแล้ว";
+      status.textContent = instructor ? "ลงทะเบียนแล้วในบทบาทผู้สอน" : "ลงทะเบียนเรียบร้อยแล้ว";
       status.classList.add("is-success");
       return;
     }
@@ -94,6 +96,10 @@
   });
 
   button.addEventListener("click", async () => {
+    if (instructor) {
+      globalObject.location.assign("admin/");
+      return;
+    }
     if (!authenticated) {
       globalObject.location.assign(loginUrl(classroomId));
       return;

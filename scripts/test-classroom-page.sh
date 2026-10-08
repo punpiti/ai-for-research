@@ -80,5 +80,7 @@ grep -q 'membershipFor(state, classroomId)' "$root/assets/classroom.js"
 grep -q 'membership?.status === "active"' "$root/assets/site-shell.js"
 grep -q 'cta.textContent = current === "classroom" ? "ลงทะเบียนแล้ว" : "ห้องเรียนของฉัน"' "$root/assets/site-shell.js"
 grep -q 'cta.textContent = "รออนุมัติ"' "$root/assets/site-shell.js"
+grep -q 'cta.textContent = "หน้าของอาจารย์"' "$root/assets/site-shell.js"
+grep -q 'globalObject.location.assign("admin/")' "$root/assets/classroom.js"
 node "$root/scripts/test-classroom.js"
 echo 'Classroom public-detail and enrollment checks passed.'

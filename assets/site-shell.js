@@ -97,8 +97,13 @@ class SiteHeader extends HTMLElement {
       const classroomHref = `classroom.html?id=${FEATURED_CLASSROOM_ID}`;
 
       if (membership?.status === "active") {
-        cta.textContent = current === "classroom" ? "ลงทะเบียนแล้ว" : "ห้องเรียนของฉัน";
-        cta.href = current === "classroom" ? "#overview" : classroomHref;
+        if (membership.role === "teacher") {
+          cta.textContent = "หน้าของอาจารย์";
+          cta.href = "admin/";
+        } else {
+          cta.textContent = current === "classroom" ? "ลงทะเบียนแล้ว" : "ห้องเรียนของฉัน";
+          cta.href = current === "classroom" ? "#overview" : classroomHref;
+        }
       } else if (membership?.status === "pending") {
         cta.textContent = "รออนุมัติ";
         cta.href = current === "classroom" ? "#overview" : classroomHref;

@@ -12,6 +12,8 @@ cd "$site_root"
 bash scripts/audit-public.sh
 bash scripts/test-learner-content.sh
 bash scripts/test-installers.sh
+node --check assets/instructor-admin.js
+bash scripts/test-instructor-admin-page.sh
 node --check assets/site-shell.js
 node --check assets/module-2-submission.js
 node scripts/test-module-2-submission.js
@@ -27,5 +29,5 @@ git diff --quiet HEAD -- . ':!404.html' || { echo 'ERROR: commit reviewed site c
 git archive --format=tar HEAD | tar -xf - -C "$stage_dir"
 ssh "${ssh_opts[@]}" "$remote_host" "mkdir -p '$remote_base/releases' '$release_dir'"
 rsync -avz --delete -e "ssh -F $ssh_config_file -o StrictHostKeyChecking=accept-new -o BatchMode=yes -o ConnectTimeout=$connect_timeout" "$stage_dir/" "$remote_host:$release_dir/"
-ssh "${ssh_opts[@]}" "$remote_host" "test -f '$release_dir/index.html' && test -f '$release_dir/checkout.html' && test -f '$release_dir/downloads/setup-windows.ps1' && ln -sfn '$release_dir' '$remote_base/current'"
+ssh "${ssh_opts[@]}" "$remote_host" "test -f '$release_dir/index.html' && test -f '$release_dir/admin/index.html' && test -f '$release_dir/checkout.html' && test -f '$release_dir/downloads/setup-windows.ps1' && ln -sfn '$release_dir' '$remote_base/current'"
 echo "Static release active: $release_dir"

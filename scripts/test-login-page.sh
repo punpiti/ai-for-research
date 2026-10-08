@@ -23,4 +23,5 @@ if grep -Eq 'localStorage|sessionStorage' "$root/assets/login.js"; then
 fi
 
 node "$root/scripts/test-login.js"
+grep -q 'admin' "$root/assets/login.js"
 echo 'Login page checks passed.'

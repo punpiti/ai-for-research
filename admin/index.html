@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101817">
+  <meta name="robots" content="noindex,nofollow">
+  <title>หน้าของอาจารย์ · AI for Research</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/styles.css?v=20261008-11">
+  <script src="../assets/instructor-admin.js?v=20261008-1" defer></script>
+</head>
+<body class="instructor-body" data-classroom-id="faculty-pilot-2569">
+  <a class="skip-link" href="#main">ข้ามไปยังเนื้อหา</a>
+  <header class="site-header instructor-header">
+    <a class="brand" href="../index.html" aria-label="AI for Research หน้าแรก"><span class="brand-mark">AI</span><span>for Research</span></a>
+    <nav aria-label="เมนูอาจารย์">
+      <a href="../classroom.html?id=faculty-pilot-2569">หน้าคลาส</a>
+      <button class="nav-cta instructor-logout" type="button" data-logout>ออกจากระบบ</button>
+    </nav>
+  </header>
+  <main id="main" class="instructor-main">
+    <section class="instructor-title">
+      <div>
+        <p class="eyebrow">Instructor classroom</p>
+        <h1>หน้าของ<br><span>อาจารย์</span></h1>
+        <p class="instructor-class-title" data-class-title>กำลังโหลดข้อมูลคลาส…</p>
+      </div>
+      <dl class="instructor-summary" aria-label="สรุปคลาส">
+        <div><dt>ผู้ลงทะเบียน</dt><dd data-summary-enrolled>—</dd></div>
+        <div><dt>รออนุมัติ</dt><dd data-summary-pending>—</dd></div>
+        <div><dt>Active module</dt><dd data-summary-module>—</dd></div>
+      </dl>
+    </section>
+
+    <p class="instructor-page-status" data-page-status role="status" aria-live="polite">กำลังโหลดข้อมูล…</p>
+
+    <section class="instructor-section" id="enrollment" aria-labelledby="enrollment-title">
+      <div class="instructor-section-heading">
+        <p class="eyebrow">01 · Enrollment</p>
+        <h2 id="enrollment-title">ผู้ลงทะเบียนและ Token</h2>
+      </div>
+      <div class="instructor-table-wrap">
+        <table class="instructor-table">
+          <thead><tr><th>ผู้ลงทะเบียน</th><th>บทบาท</th><th>สถานะ</th><th>Token quota</th><th>Usage</th><th></th></tr></thead>
+          <tbody data-enrollment-rows></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="instructor-section" id="syllabus" aria-labelledby="syllabus-title">
+      <div class="instructor-section-heading">
+        <p class="eyebrow">02 · Syllabus</p>
+        <h2 id="syllabus-title">โมดูลของคลาส</h2>
+      </div>
+      <form class="instructor-syllabus" data-syllabus-form>
+        <div class="instructor-module-list" data-module-list></div>
+        <div class="instructor-actions">
+          <button class="button primary" type="submit">บันทึก Syllabus</button>
+          <p data-syllabus-status role="status" aria-live="polite"></p>
+        </div>
+      </form>
+    </section>
+
+    <section class="instructor-section" id="status" aria-labelledby="status-title">
+      <div class="instructor-section-heading">
+        <p class="eyebrow">03 · Current status</p>
+        <h2 id="status-title">Submission ของ Active module</h2>
+      </div>
+      <div class="active-module-line"><span>Active module</span><strong data-active-module>—</strong></div>
+      <div class="instructor-table-wrap">
+        <table class="instructor-table">
+          <thead><tr><th>ผู้เรียน</th><th>Enrollment</th><th>Submission</th><th>ส่งล่าสุด</th><th>Token</th><th>Attempts</th></tr></thead>
+          <tbody data-submission-rows></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
