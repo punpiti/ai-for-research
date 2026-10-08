@@ -880,6 +880,17 @@ a[data-workspace-download]::after { content:"  ↓"; color:var(--accent); font-w
 .module-step-checkpoint-actions small.is-error { color: #ff9f84; }
 .module-step-final-note { margin: 24px 0; padding: 13px 16px; border-left: 3px solid var(--mint); background: color-mix(in srgb, var(--mint) 8%, transparent); }
 
+#learner-level article.is-selected-route {
+  border-color: var(--mint);
+  background: color-mix(in srgb, var(--mint) 9%, var(--surface));
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--mint) 45%, transparent);
+}
+
+#learner-level article.is-selected-route a::before {
+  content: "✓ ";
+  color: var(--mint);
+}
+
 @media (max-width: 760px) {
   .module-step-shell { width: min(100% - 24px, 1180px); }
   .module-step-tabs { top: 62px; display: flex; overflow-x: auto; scroll-snap-type: x mandatory; }

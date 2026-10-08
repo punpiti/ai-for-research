@@ -434,11 +434,45 @@ function decorateModuleActions() {
     while (heading.nextSibling) details.append(heading.nextSibling);
     section.append(details);
   }
+  const routeIds = moduleNumber === "3" ? ["student-path", "faculty-path"] : [];
+  const routeDetails = routeIds.map((id) => ({
+    id,
+    section: document.getElementById(id),
+    details: document.querySelector(`#${id} > details.guided-details`),
+    link: document.querySelector(`#learner-level a[href="#${id}"]`),
+  }));
+  const markSelectedRoute = (selectedId) => {
+    for (const route of routeDetails) {
+      const selected = route.id === selectedId;
+      route.link?.closest("article")?.classList.toggle("is-selected-route", selected);
+      if (selected) route.link?.setAttribute("aria-current", "step");
+      else route.link?.removeAttribute("aria-current");
+    }
+  };
+  const selectRoute = (selectedId) => {
+    if (!routeIds.includes(selectedId)) return;
+    for (const route of routeDetails) if (route.details) route.details.open = route.id === selectedId;
+    markSelectedRoute(selectedId);
+  };
+  for (const route of routeDetails) {
+    if (!route.details) continue;
+    route.details.setAttribute("name", "module-3-route");
+    route.link?.addEventListener("click", () => selectRoute(route.id));
+    route.details.addEventListener("toggle", () => {
+      if (route.details.open) {
+        for (const other of routeDetails) if (other.id !== route.id && other.details) other.details.open = false;
+        markSelectedRoute(route.id);
+      } else if (!routeDetails.some((item) => item.details?.open)) {
+        markSelectedRoute("");
+      }
+    });
+  }
   const openHashTarget = () => {
     const target = location.hash && document.querySelector(location.hash);
     const details = target?.querySelector(":scope > details.guided-details");
     if (details) {
-      details.open = true;
+      if (routeIds.includes(target.id)) selectRoute(target.id);
+      else details.open = true;
       requestAnimationFrame(() => {
         const root = document.documentElement;
         const previousScrollBehavior = root.style.scrollBehavior;
