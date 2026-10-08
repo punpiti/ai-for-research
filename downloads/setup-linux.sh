@@ -7,7 +7,7 @@ explicit_course_dir="${AI_RESEARCH_COURSE_DIR:-${AI_GRAD_COURSE_DIR:-}}"
 course_dir="${explicit_course_dir:-$HOME/$default_project_name}"
 agent="${AI_GRAD_AGENT:-}"
 dry_run="${AI_RESEARCH_DRY_RUN:-0}"
-setup_version='2026.10.08.20'
+setup_version='2026.10.08.22'
 test_commands=",${AI_RESEARCH_TEST_COMMANDS:-},"
 
 choose_project_dir() {
@@ -87,7 +87,7 @@ if [[ "$dry_run" != 1 && "$mode" != --check ]]; then
   (umask 077; : > "${trace_file%.jsonl}.log")
   trace phase installer "$mode" started "agent=$agent; version=$setup_version"
   trace snapshot workspace "$course_dir" before preserve-personal-files
-  for name in content.md README.md AGENTS.md CLAUDE.md .ai/PROJECT_STATE.md .ai/TOKEN_BUDGET.md .ai/agent-project-kit/STARTUP.md .ai/agent-project-kit/TOKEN_DISCIPLINE.md templates/modern-thai.yaml templates/modern-thai.lua templates/modern-thai.tex templates/fonts/Sarabun-Regular.ttf templates/fonts/Sarabun-Bold.ttf templates/fonts/OFL.txt tools/import-documents.sh tools/import-documents.ps1 tools/import-office.py tools/install-summary.py .vscode/extensions.json; do
+  for name in content.md README.md AGENTS.md CLAUDE.md .ai/PROJECT_STATE.md .ai/TOKEN_BUDGET.md .ai/agent-project-kit/STARTUP.md .ai/agent-project-kit/TOKEN_DISCIPLINE.md templates/modern-thai.yaml templates/modern-thai.lua templates/modern-thai.tex templates/fonts/Sarabun-Regular.ttf templates/fonts/Sarabun-Bold.ttf templates/fonts/OFL.txt tools/import-documents.sh tools/import-documents.ps1 tools/import-office.py tools/validate-module-2.py tools/validate-module-3.py tools/install-summary.py .vscode/extensions.json; do
     watched_paths+=("$course_dir/$name")
   done
   for name in python envs/research TinyTeX node npm uv-tools bin tessdata envs/research/pyvenv.cfg TinyTeX/tlpkg/texlive.tlpdb; do watched_paths+=("$trace_root/$name"); done
@@ -186,6 +186,8 @@ make_workspace() {
   quiet curl -fL 'https://urban.cpe.ku.ac.th/ai-for-research/downloads/import-documents.sh' -o "$course_dir/tools/import-documents.sh"
   quiet curl -fL 'https://urban.cpe.ku.ac.th/ai-for-research/downloads/import-documents.ps1' -o "$course_dir/tools/import-documents.ps1"
   quiet curl -fL 'https://urban.cpe.ku.ac.th/ai-for-research/downloads/import-office.py' -o "$course_dir/tools/import-office.py"
+  quiet curl -fL 'https://urban.cpe.ku.ac.th/ai-for-research/downloads/validate-module-2.py' -o "$course_dir/tools/validate-module-2.py"
+  quiet curl -fL 'https://urban.cpe.ku.ac.th/ai-for-research/downloads/validate-module-3.py' -o "$course_dir/tools/validate-module-3.py"
   quiet curl -fL https://urban.cpe.ku.ac.th/ai-for-research/downloads/setup-summary.py -o "$course_dir/tools/install-summary.py"
   chmod +x "$course_dir/tools/import-documents.sh"
   log "workspace=$course_dir"

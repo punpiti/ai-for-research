@@ -30,6 +30,65 @@ for number in {2..9}; do
   check_file "$file" "post-lesson result" '<h2[^>]*>จบบทเรียน</h2>'
   check_file "$file" "learner profile" 'data-research-profile'
 done
+check_file "$site_dir/module-3.html" "M3 learner level choice" 'นักเรียน / ผู้เริ่มต้น'
+check_file "$site_dir/module-3.html" "M3 faculty route" 'อาจารย์ / นักวิจัย'
+check_file "$site_dir/module-3.html" "M3 own seed paper" 'research article ของตนเอง'
+check_file "$site_dir/module-3.html" "M3 abstract provenance" 'abstract_source|Abstract และ Provenance'
+check_file "$site_dir/module-3.html" "M3 field dimensions" 'method, dataset/material, objective, technique/model'
+check_file "$site_dir/module-3.html" "M3 research map" 'Research Map'
+check_file "$site_dir/module-3.html" "M3 seed problem statement" 'seed-problem-statement\.md'
+check_file "$site_dir/module-3.html" "M3 opportunity critique" 'วิจารณ์โอกาสของโจทย์'
+check_file "$site_dir/module-3.html" "M3 reverse search" 'reverse search'
+check_file "$site_dir/module-3.html" "M3 lawful access" 'เข้าถึงได้อย่างถูกต้อง'
+check_file "$site_dir/module-3.html" "M3 PDF fallback DOI report" 'reference-download-report\.csv.*DOI'
+check_file "$site_dir/module-3.html" "M3 citation audit" 'citation-audit\.csv'
+check_file "$site_dir/module-3.html" "M3 citation without ref" 'citation_without_reference'
+check_file "$site_dir/module-3.html" "M3 unsupported citation" 'not_supported'
+check_file "$site_dir/module-3.html" "M3 reference database check" 'reference_not_found_in_checked_databases'
+check_file "$site_dir/module-3.html" "M3 course search abstraction" 'ระบบสืบค้นของรายวิชา'
+if rg -qi 'openalex' "$site_dir/module-3.html"; then
+  echo "LEAK M3 backend search provider module-3.html" >&2
+  status=1
+fi
+check_file "$site_dir/module-3.html" "M3 reference quality profile" 'reference-quality\.csv'
+check_file "$site_dir/module-3.html" "M3 retraction status" 'retracted'
+check_file "$site_dir/module-3.html" "M3 author prior" 'author-prior\.md'
+check_file "$site_dir/module-3.html" "M3 blind-spot ledger" 'blind-spot-ledger\.csv'
+check_file "$site_dir/module-3.html" "M3 personal learning status" 'new_to_author'
+check_file "$site_dir/module-3.html" "M3 paper-alignment gate" 'opportunity-alignment\.csv'
+check_file "$site_dir/module-3.html" "M3 adjacent opportunity separation" 'adjacent_only'
+check_file "$site_dir/module-3.html" "M3 Introduction paper anchor" 'Introduction ใน input/markdown/seed-paper\.md'
+check_file "$site_dir/module-3.html" "M3 multi-dimensional RQ" 'research-question-candidates\.csv'
+check_file "$site_dir/module-3.html" "M3 learner rating review" 'rq-rating-review\.csv'
+check_file "$site_dir/module-3.html" "M3 RQ rating disagreement" 'partly_agree.*disagree'
+check_file "$site_dir/module-3.html" "M3 completion JSON" 'module-3-completion\.json'
+check_file "$site_dir/module-3.html" "M3 local AI validator" 'tools/validate-module-3\.py'
+check_file "$site_dir/module-3.html" "M3 progress form" 'data-module-3-submission-form'
+check_file "$site_dir/assets/module-3-submission.js" "M3 progress endpoint" '/api/ai-for-research/module-3/submissions'
+node --check "$site_dir/assets/module-3-submission.js"
+python3 - "$site_dir/downloads/validate-module-3.py" <<'PYM3'
+import hashlib, json, subprocess, sys, tempfile
+from pathlib import Path
+
+validator = Path(sys.argv[1])
+names = ("refs.bib", "reference-status.csv", "reference-download-report.csv", "citation-audit.csv", "author-prior.md", "reference-quality.csv", "blind-spot-ledger.csv", "reference-quality-assessment.md", "paper-classification.csv", "research-map.md", "seed-problem-statement.md", "opportunity-alignment.csv", "research-opportunity-brief.md", "research-question-candidates.csv", "rq-rating-review.csv")
+with tempfile.TemporaryDirectory(prefix="module3-validator-test-") as folder:
+    root = Path(folder); out = root / "output/module-3"; out.mkdir(parents=True)
+    artifacts = []
+    for name in names:
+        path = out / name; path.write_text(f"verified test artifact: {name}\n", encoding="utf-8")
+        artifacts.append({"path": f"output/module-3/{name}", "sha256": hashlib.sha256(path.read_bytes()).hexdigest()})
+    metrics = {key: 0 for key in ("reference_count", "reference_verified_count", "reference_not_found_count", "reference_unresolved_count", "pdf_downloaded_count", "pdf_missing_count", "markdown_reference_count", "citation_count", "citation_without_reference_count", "citation_supported_count", "citation_partial_count", "citation_not_supported_count", "citation_not_checkable_count", "quartile_available_count", "quartile_not_applicable_count", "quartile_unresolved_count", "h_index_available_count", "h_index_not_applicable_count", "h_index_unresolved_count", "integrity_retracted_count", "integrity_expression_of_concern_count", "integrity_withdrawn_count", "integrity_corrected_count", "integrity_no_notice_count", "integrity_unresolved_count", "blind_spot_candidate_count", "blind_spot_already_known_count", "blind_spot_new_to_author_count", "blind_spot_rejected_count", "blind_spot_unresolved_count", "classification_dimension_count", "paper_classified_count", "opportunity_candidate_count", "opportunity_weakened_count", "opportunity_rejected_count", "opportunity_directly_aligned_count", "opportunity_extends_scope_count", "opportunity_tests_boundary_count", "opportunity_adjacent_count", "opportunity_unrelated_count", "opportunity_author_endorsed_count", "rq_candidate_count", "rq_dimension_count", "rq_ai_strong_count", "rq_ai_develop_count", "rq_ai_weak_count", "rq_review_agree_count", "rq_review_partly_agree_count", "rq_review_disagree_count", "rq_revised_rating_count", "rq_new_to_author_count", "rq_keep_count", "rq_revise_count", "rq_drop_count")}
+    metrics.update(reference_count=8, reference_verified_count=6, reference_not_found_count=1, reference_unresolved_count=1, pdf_downloaded_count=6, pdf_missing_count=2, markdown_reference_count=6, citation_count=4, citation_without_reference_count=1, citation_supported_count=3, citation_not_checkable_count=1, quartile_available_count=5, quartile_not_applicable_count=1, quartile_unresolved_count=2, h_index_available_count=5, h_index_not_applicable_count=1, h_index_unresolved_count=2, integrity_retracted_count=1, integrity_corrected_count=1, integrity_no_notice_count=5, integrity_unresolved_count=1, blind_spot_candidate_count=4, blind_spot_already_known_count=1, blind_spot_new_to_author_count=1, blind_spot_rejected_count=1, blind_spot_unresolved_count=1, classification_dimension_count=5, paper_classified_count=8, opportunity_candidate_count=1, opportunity_directly_aligned_count=1, opportunity_author_endorsed_count=1, rq_candidate_count=4, rq_dimension_count=4, rq_ai_strong_count=1, rq_ai_develop_count=2, rq_ai_weak_count=1, rq_review_agree_count=1, rq_review_partly_agree_count=2, rq_review_disagree_count=1, rq_revised_rating_count=3, rq_new_to_author_count=2, rq_keep_count=1, rq_revise_count=2, rq_drop_count=1)
+    payload = {"schema_version": "ai-for-research.module-3-completion.v1", "module_id": "module-3", "route": "faculty", "checks": {key: True for key in ("evidence_ready", "problem_statement_reviewed", "candidate_gap_reviewed", "reverse_search_completed", "learner_decision_recorded", "local_validator_passed")}, "metrics": metrics, "artifacts": artifacts}
+    completion = out / "module-3-completion.json"; completion.write_text(json.dumps(payload), encoding="utf-8")
+    passed = subprocess.run([sys.executable, str(validator), str(completion), "--workspace", str(root)], capture_output=True, text=True)
+    assert passed.returncode == 0, passed.stderr
+    assert "LOCAL_CHECK PASS" in passed.stdout
+    payload["metrics"]["citation_count"] = 99; completion.write_text(json.dumps(payload), encoding="utf-8")
+    failed = subprocess.run([sys.executable, str(validator), str(completion), "--workspace", str(root)], capture_output=True, text=True)
+    assert failed.returncode == 1 and "LOCAL_CHECK FAIL" in failed.stderr
+PYM3
 
 for number in {2..9}; do
   file="$site_dir/module-$number.html"
@@ -153,20 +212,33 @@ check_file "$site_dir/module-2.html" "M2 JSON example" 'downloads/module-02-subm
 check_file "$site_dir/module-2.html" "M2 JSON types" 'Object.*Array|ชนิดของค่า'
 check_file "$site_dir/module-2.html" "M2 open questions" 'open_questions.*ยังตอบไม่ได้|ยังไม่ตอบด้วย'
 check_file "$site_dir/module-2.html" "M2 next prompt" 'next_prompt.*ห้ามรัน Prompt'
+check_file "$site_dir/module-2.html" "M2 learner fills unanswered items" 'learner_additions.*ผู้เรียน|ผู้เรียนเขียน.*learner_additions'
 check_file "$site_dir/module-2.html" "M2 submission form" 'data-module-2-submission-form'
 check_file "$site_dir/module-2.html" "M2 receipt" 'data-module-2-receipt-download'
 check_file "$site_dir/module-2.html" "M2 call sign" 'Call sign \(นามเรียกขาน\)'
-check_file "$site_dir/module-2.html" "M2 JSON only" 'ไฟล์ JSON · ไฟล์เดียวที่ส่ง'
+check_file "$site_dir/module-2.html" "M2 local full JSON" 'ไฟล์ JSON · ตรวจในเครื่องเท่านั้น'
+check_file "$site_dir/module-2.html" "M2 progress JSON only" 'ส่งเฉพาะ Progress JSON'
+check_file "$site_dir/module-2.html" "M2 downloadable validator" 'downloads/validate-module-2\.py'
+check_file "$site_dir/module-2.html" "M2 local validator pass" 'LOCAL_CHECK PASS'
 check_file "$site_dir/module-2.html" "M2 local Markdown" 'ไฟล์ Markdown · ตรวจในเครื่องเท่านั้น'
-check_file "$site_dir/assets/module-2-submission.js" "M2 call sign payload" 'callsign: safeCode'
+check_file "$site_dir/assets/module-2-submission.js" "M2 call sign payload" 'const callsign = safeCode'
+check_file "$site_dir/assets/module-2-submission.js" "M2 reserved call sign key" 'enteredCallsignKey \|\| localStorage\.getItem'
+check_file "$site_dir/module-2.html" "M2 receipt key recovery" 'name="callsign_key"'
 if grep -q 'learner_code\|name="learner_code"\|รหัสผู้เรียน' "$site_dir/module-2.html" "$site_dir/assets/module-2-submission.js"; then
   printf 'Module 2 submission must use a call sign instead of a learner identity field.\n'
   failed=1
 fi
-check_file "$site_dir/assets/module-2-submission.js" "M2 server endpoint" 'submissionEndpoint = "/api/log"'
+check_file "$site_dir/assets/module-2-submission.js" "M2 dedicated server endpoint" 'submissionEndpoint = "/api/ai-for-research/module-2/submissions"'
 check_file "$site_dir/assets/module-2-submission.js" "M2 fixed event type" 'ai_for_research_module_2_submission'
+check_file "$site_dir/module-2.html" "M2 module evaluation" 'ประเมินการใช้ AI และ Module นี้'
+check_file "$site_dir/module-2.html" "M2 token source" 'name="token_source"'
+check_file "$site_dir/module-2.html" "M2 difficulty rating" 'name="difficulty_rating"'
+check_file "$site_dir/module-2.html" "M2 usefulness rating" 'name="usefulness_rating"'
+check_file "$site_dir/assets/module-2-submission.js" "M2 class switch status" 'requireOpenClass'
+check_file "$site_dir/assets/module-2-submission.js" "M2 module evaluation payload" 'module_evaluation: buildModuleEvaluation\(\)'
 check_file "$site_dir/assets/module-2-submission.js" "M2 hash check" 'crypto\.subtle\.digest\("SHA-256"'
-check_file "$site_dir/assets/module-2-submission.js" "M2 schema envelope" 'submission: payload'
+check_file "$site_dir/assets/module-2-submission.js" "M2 progress-only envelope" 'progress: buildProgressSummary\(payload\)'
+check_file "$site_dir/module-2.html" "M2 full work remains local" 'ไม่เก็บ Markdown, claims, คำตอบ หรือรายการหลักฐาน'
 check_file "$site_dir/assets/module-2-submission.js" "M2 deterministic result" 'machine_check: buildMachineCheck\(payload\)'
 if grep -q 'markdown_content' "$site_dir/downloads/module-02-submission-schema.json" "$site_dir/assets/module-2-submission.js"; then
   printf 'Module 2 JSON must not upload full Markdown content.\n'
@@ -180,22 +252,47 @@ from pathlib import Path
 
 schema = json.loads(Path(sys.argv[1]).read_text(encoding="utf-8"))
 assert schema["$schema"] == "https://json-schema.org/draft/2020-12/schema"
-assert schema["properties"]["schema_version"]["const"] == "ai-for-research.module-2-submission.v3"
+assert schema["properties"]["schema_version"]["const"] == "ai-for-research.module-2-submission.v4"
 assert schema["properties"]["module_id"]["const"] == "module-2"
 assert schema["properties"]["artifact"]["properties"]["filename"]["const"] == "module-2-conclusion.md"
 assert schema["properties"]["result"]["properties"]["claims"]["minItems"] == 8
 assert schema["properties"]["result"]["properties"]["open_questions"]["minItems"] == 1
+assert schema["properties"]["result"]["properties"]["learner_additions"]["minItems"] == 1
 PYSCHEMA
 python3 - "$site_dir/downloads/module-02-submission-example.json" <<'PYEXAMPLE'
 import json, sys
 from pathlib import Path
 
 example = json.loads(Path(sys.argv[1]).read_text(encoding="utf-8"))
-assert example["schema_version"] == "ai-for-research.module-2-submission.v3"
+assert example["schema_version"] == "ai-for-research.module-2-submission.v4"
 assert len(example["result"]["claims"]) == 8
 assert len(example["result"]["open_questions"]) >= 1
+assert len(example["result"]["learner_additions"]) == len(example["result"]["open_questions"])
+assert example["declaration"]["learner_additions_written_by_learner"] is True
 assert {claim["level"] for claim in example["result"]["claims"]} == {"L1", "L2", "L3", "L4"}
 PYEXAMPLE
+python3 - "$site_dir/downloads/validate-module-2.py" "$site_dir/downloads/module-02-submission-example.json" <<'PYVALIDATOR'
+import hashlib, json, subprocess, sys, tempfile
+from pathlib import Path
+
+validator = Path(sys.argv[1])
+example = json.loads(Path(sys.argv[2]).read_text(encoding="utf-8"))
+with tempfile.TemporaryDirectory(prefix="module2-validator-test-") as folder:
+    root = Path(folder)
+    markdown = root / "module-2-conclusion.md"
+    submission = root / "module-2-submission.json"
+    markdown.write_text("# Module 2\n\n" + ("ข้อความที่ผู้เรียนตรวจแล้วและอ้างกลับไปยังหลักฐานได้ " * 12), encoding="utf-8")
+    example["artifact"]["sha256"] = hashlib.sha256(markdown.read_bytes()).hexdigest()
+    submission.write_text(json.dumps(example, ensure_ascii=False), encoding="utf-8")
+    passed = subprocess.run([sys.executable, str(validator), str(submission), str(markdown)], capture_output=True, text=True)
+    assert passed.returncode == 0, passed.stderr
+    assert "LOCAL_CHECK PASS" in passed.stdout
+    example["result"]["learner_additions"] = []
+    submission.write_text(json.dumps(example, ensure_ascii=False), encoding="utf-8")
+    failed = subprocess.run([sys.executable, str(validator), str(submission), str(markdown)], capture_output=True, text=True)
+    assert failed.returncode == 1
+    assert "LOCAL_CHECK FAIL" in failed.stderr
+PYVALIDATOR
 check_file "$site_dir/module-2-food-case.html" "fictional source label" 'ข้อมูล ชื่อ และรีวิวทั้งหมดสร้างขึ้นเพื่อการสอน'
 check_file "$site_dir/module-2-food-case.html" "bilingual evidence" 'English review'
 check_file "$site_dir/module-2-food-case.html" "source date" 'แก้ไขล่าสุดเมื่อ 6 กันยายน 2569'

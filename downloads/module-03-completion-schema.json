@@ -1,0 +1,101 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://urban.cpe.ku.ac.th/ai-for-research/downloads/module-03-completion-schema.json",
+  "title": "AI for Research Module 3 completion",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "module_id", "route", "checks", "metrics", "artifacts"],
+  "properties": {
+    "schema_version": {"const": "ai-for-research.module-3-completion.v1"},
+    "module_id": {"const": "module-3"},
+    "route": {"enum": ["student", "faculty"]},
+    "checks": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["evidence_ready", "problem_statement_reviewed", "candidate_gap_reviewed", "reverse_search_completed", "learner_decision_recorded", "local_validator_passed"],
+      "properties": {
+        "evidence_ready": {"const": true},
+        "problem_statement_reviewed": {"const": true},
+        "candidate_gap_reviewed": {"const": true},
+        "reverse_search_completed": {"const": true},
+        "learner_decision_recorded": {"const": true},
+        "local_validator_passed": {"const": true}
+      }
+    },
+    "metrics": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["reference_count", "reference_verified_count", "reference_not_found_count", "reference_unresolved_count", "pdf_downloaded_count", "pdf_missing_count", "markdown_reference_count", "citation_count", "citation_without_reference_count", "citation_supported_count", "citation_partial_count", "citation_not_supported_count", "citation_not_checkable_count", "quartile_available_count", "quartile_not_applicable_count", "quartile_unresolved_count", "h_index_available_count", "h_index_not_applicable_count", "h_index_unresolved_count", "integrity_retracted_count", "integrity_expression_of_concern_count", "integrity_withdrawn_count", "integrity_corrected_count", "integrity_no_notice_count", "integrity_unresolved_count", "blind_spot_candidate_count", "blind_spot_already_known_count", "blind_spot_new_to_author_count", "blind_spot_rejected_count", "blind_spot_unresolved_count", "classification_dimension_count", "paper_classified_count", "opportunity_candidate_count", "opportunity_weakened_count", "opportunity_rejected_count", "opportunity_directly_aligned_count", "opportunity_extends_scope_count", "opportunity_tests_boundary_count", "opportunity_adjacent_count", "opportunity_unrelated_count", "opportunity_author_endorsed_count", "rq_candidate_count", "rq_dimension_count", "rq_ai_strong_count", "rq_ai_develop_count", "rq_ai_weak_count", "rq_review_agree_count", "rq_review_partly_agree_count", "rq_review_disagree_count", "rq_revised_rating_count", "rq_new_to_author_count", "rq_keep_count", "rq_revise_count", "rq_drop_count"],
+      "properties": {
+        "reference_count": {"type": "integer", "minimum": 0, "maximum": 1000},
+        "reference_verified_count": {"type": "integer", "minimum": 0, "maximum": 1000},
+        "reference_not_found_count": {"type": "integer", "minimum": 0, "maximum": 1000},
+        "reference_unresolved_count": {"type": "integer", "minimum": 0, "maximum": 1000},
+        "pdf_downloaded_count": {"type": "integer", "minimum": 0, "maximum": 1000},
+        "pdf_missing_count": {"type": "integer", "minimum": 0, "maximum": 1000},
+        "markdown_reference_count": {"type": "integer", "minimum": 0, "maximum": 1000},
+        "citation_count": {"type": "integer", "minimum": 0, "maximum": 5000},
+        "citation_without_reference_count": {"type": "integer", "minimum": 0, "maximum": 5000},
+        "citation_supported_count": {"type": "integer", "minimum": 0, "maximum": 5000},
+        "citation_partial_count": {"type": "integer", "minimum": 0, "maximum": 5000},
+        "citation_not_supported_count": {"type": "integer", "minimum": 0, "maximum": 5000},
+        "citation_not_checkable_count": {"type": "integer", "minimum": 0, "maximum": 5000},
+        "quartile_available_count": {"type": "integer", "minimum": 0, "maximum": 1000},
+        "quartile_not_applicable_count": {"type": "integer", "minimum": 0, "maximum": 1000},
+        "quartile_unresolved_count": {"type": "integer", "minimum": 0, "maximum": 1000},
+        "h_index_available_count": {"type": "integer", "minimum": 0, "maximum": 1000},
+        "h_index_not_applicable_count": {"type": "integer", "minimum": 0, "maximum": 1000},
+        "h_index_unresolved_count": {"type": "integer", "minimum": 0, "maximum": 1000},
+        "integrity_retracted_count": {"type": "integer", "minimum": 0, "maximum": 1000},
+        "integrity_expression_of_concern_count": {"type": "integer", "minimum": 0, "maximum": 1000},
+        "integrity_withdrawn_count": {"type": "integer", "minimum": 0, "maximum": 1000},
+        "integrity_corrected_count": {"type": "integer", "minimum": 0, "maximum": 1000},
+        "integrity_no_notice_count": {"type": "integer", "minimum": 0, "maximum": 1000},
+        "integrity_unresolved_count": {"type": "integer", "minimum": 0, "maximum": 1000},
+        "blind_spot_candidate_count": {"type": "integer", "minimum": 0, "maximum": 100},
+        "blind_spot_already_known_count": {"type": "integer", "minimum": 0, "maximum": 100},
+        "blind_spot_new_to_author_count": {"type": "integer", "minimum": 0, "maximum": 100},
+        "blind_spot_rejected_count": {"type": "integer", "minimum": 0, "maximum": 100},
+        "blind_spot_unresolved_count": {"type": "integer", "minimum": 0, "maximum": 100},
+        "classification_dimension_count": {"type": "integer", "minimum": 0, "maximum": 30},
+        "paper_classified_count": {"type": "integer", "minimum": 0, "maximum": 1000},
+        "opportunity_candidate_count": {"type": "integer", "minimum": 0, "maximum": 4},
+        "opportunity_weakened_count": {"type": "integer", "minimum": 0, "maximum": 4},
+        "opportunity_rejected_count": {"type": "integer", "minimum": 0, "maximum": 4},
+        "opportunity_directly_aligned_count": {"type": "integer", "minimum": 0, "maximum": 4},
+        "opportunity_extends_scope_count": {"type": "integer", "minimum": 0, "maximum": 4},
+        "opportunity_tests_boundary_count": {"type": "integer", "minimum": 0, "maximum": 4},
+        "opportunity_adjacent_count": {"type": "integer", "minimum": 0, "maximum": 4},
+        "opportunity_unrelated_count": {"type": "integer", "minimum": 0, "maximum": 4},
+        "opportunity_author_endorsed_count": {"type": "integer", "minimum": 0, "maximum": 4},
+        "rq_candidate_count": {"type": "integer", "minimum": 0, "maximum": 12},
+        "rq_dimension_count": {"type": "integer", "minimum": 0, "maximum": 12},
+        "rq_ai_strong_count": {"type": "integer", "minimum": 0, "maximum": 12},
+        "rq_ai_develop_count": {"type": "integer", "minimum": 0, "maximum": 12},
+        "rq_ai_weak_count": {"type": "integer", "minimum": 0, "maximum": 12},
+        "rq_review_agree_count": {"type": "integer", "minimum": 0, "maximum": 12},
+        "rq_review_partly_agree_count": {"type": "integer", "minimum": 0, "maximum": 12},
+        "rq_review_disagree_count": {"type": "integer", "minimum": 0, "maximum": 12},
+        "rq_revised_rating_count": {"type": "integer", "minimum": 0, "maximum": 12},
+        "rq_new_to_author_count": {"type": "integer", "minimum": 0, "maximum": 12},
+        "rq_keep_count": {"type": "integer", "minimum": 0, "maximum": 12},
+        "rq_revise_count": {"type": "integer", "minimum": 0, "maximum": 12},
+        "rq_drop_count": {"type": "integer", "minimum": 0, "maximum": 12}
+      }
+    },
+    "artifacts": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 20,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["path", "sha256"],
+        "properties": {
+          "path": {"type": "string", "pattern": "^output/[A-Za-z0-9._/-]+$", "maxLength": 160},
+          "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+        }
+      }
+    }
+  }
+}

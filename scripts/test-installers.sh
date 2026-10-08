@@ -177,6 +177,8 @@ for installer in "$root/downloads/setup-windows.ps1" "$root/downloads/setup-maco
   grep -q 'import-documents.sh' "$installer"
   grep -q 'import-documents.ps1' "$installer"
   grep -q 'import-office.py' "$installer"
+  grep -q 'validate-module-2.py' "$installer"
+  grep -q 'validate-module-3.py' "$installer"
   grep -qi 'tesseract' "$installer"
   grep -qi 'poppler\|pdftotext' "$installer"
   grep -q 'AI for Research - ' "$installer"
@@ -208,6 +210,7 @@ canonical_module_names=(
 for name in "${canonical_module_names[@]}"; do
   grep -Fq "$name" "$root/index.html"
 done
+grep -q 'LOCAL_CHECK PASS/FAIL' "$root/downloads/starter-AGENTS.md"
 for name in \
   'Prepare Your AI Research Workspace' \
   'Your First AI Research Task' \

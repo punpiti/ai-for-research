@@ -10,7 +10,7 @@ const context = {
   console,
 };
 vm.createContext(context);
-vm.runInContext(`${source}\nglobalThis.testApi = { validatePayload, buildMachineCheck };`, context);
+vm.runInContext(`${source}\nglobalThis.testApi = { validatePayload, buildMachineCheck, buildProgressSummary };`, context);
 
 const claim = (id, level, sources, location) => ({
   id,
@@ -21,7 +21,7 @@ const claim = (id, level, sources, location) => ({
 });
 
 const validPayload = {
-  schema_version: "ai-for-research.module-2-submission.v3",
+  schema_version: "ai-for-research.module-2-submission.v4",
   module_id: "module-2",
   artifact: {
     filename: "module-2-conclusion.md",
@@ -48,6 +48,16 @@ const validPayload = {
         next_prompt: "ช่วยออกแบบตารางเก็บข้อมูลความอิ่มทุกหนึ่งชั่วโมง โดยยังไม่สรุปผลหรือสร้างข้อมูลขึ้นเอง",
       },
     ],
+    learner_additions: [
+      {
+        id: "A1",
+        open_question_id: "U1",
+        answer_type: "still_unknown",
+        learner_answer: "ฉันยังตอบเรื่องความอิ่มของผู้เรียนทุกคนไม่ได้จากหลักฐานชุดนี้",
+        basis: "รีวิวมีเพียงสองรายและให้ผลต่างกัน จึงยังใช้แทนผู้เรียนทั้งหมดไม่ได้",
+        sources: [],
+      },
+    ],
     formats_checked: ["pdf", "xlsx", "docx", "image", "web"],
     web_retrieval: "live",
     prompt_test: {
@@ -61,6 +71,7 @@ const validPayload = {
   declaration: {
     originals_preserved: true,
     claims_checked_by_learner: true,
+    learner_additions_written_by_learner: true,
     no_personal_data: true,
   },
 };
@@ -72,11 +83,14 @@ assert.deepEqual(JSON.parse(JSON.stringify(context.testApi.buildMachineCheck(val
   passed: true,
   claim_count: 8,
   open_question_count: 1,
+  learner_addition_count: 1,
   level_counts: { L1: 2, L2: 2, L3: 2, L4: 2 },
   formats_complete: true,
   source_rules_pass: true,
-  prompt_improved: true,
+  prompt_rule_passed: true,
   follow_up_prompts_present: true,
+  unanswered_questions_completed_by_learner: true,
+  learner_authorship_declared: true,
   declaration_complete: true,
   markdown_hash_match: true,
 });
@@ -94,8 +108,34 @@ badPrompt.result.prompt_test = {
 };
 assert.throws(() => context.testApi.validatePayload(badPrompt), /รอบสอง/);
 
+const perfectFirstRound = structuredClone(validPayload);
+perfectFirstRound.result.prompt_test = {
+  round_1_traceable: 8,
+  round_1_unsupported: 0,
+  round_2_traceable: 8,
+  round_2_unsupported: 0,
+};
+assert.doesNotThrow(() => context.testApi.validatePayload(perfectFirstRound));
+
 const missingOpenQuestion = structuredClone(validPayload);
 missingOpenQuestion.result.open_questions = [];
 assert.throws(() => context.testApi.validatePayload(missingOpenQuestion), /open_questions/);
+
+const missingLearnerAddition = structuredClone(validPayload);
+missingLearnerAddition.result.learner_additions = [];
+assert.throws(() => context.testApi.validatePayload(missingLearnerAddition), /learner_additions/);
+
+const aiAuthoredAddition = structuredClone(validPayload);
+aiAuthoredAddition.declaration.learner_additions_written_by_learner = false;
+assert.throws(() => context.testApi.validatePayload(aiAuthoredAddition), /learner_additions_written_by_learner/);
+
+const progress = context.testApi.buildProgressSummary(validPayload);
+assert.equal(progress.schema_version, validPayload.schema_version);
+assert.equal(progress.artifact_sha256, validPayload.artifact.sha256);
+assert.deepEqual([...progress.learner_answer_types], ["still_unknown"]);
+assert.equal("claims" in progress, false);
+assert.equal("open_questions" in progress, false);
+assert.equal("learner_additions" in progress, false);
+assert.equal(JSON.stringify(progress).includes(validPayload.result.learner_additions[0].learner_answer), false);
 
 console.log("Module 2 machine-checkable submission tests passed.");

@@ -10,7 +10,7 @@ param(
 $ErrorActionPreference = 'Stop'
 $ProgressPreference = 'SilentlyContinue'
 $DryRun = $env:AI_RESEARCH_DRY_RUN -eq '1'
-$SetupVersion = '2026.10.08.20'
+$SetupVersion = '2026.10.08.22'
 $TestCommands = @($env:AI_RESEARCH_TEST_COMMANDS -split ',' | Where-Object { $_ })
 $DefaultProjectName = 'ai-for-research-workspace'
 $CourseDirWasProvided = $PSBoundParameters.ContainsKey('CourseDir')
@@ -111,7 +111,7 @@ if (-not $DryRun -and $Mode -ne 'Check') {
 $watchedPaths = @()
 $toolRoot = Join-Path $env:LOCALAPPDATA 'ai-for-research'
 if ($Mode -notin @('Uninstall','UninstallSystem')) {
-  $watchedPaths = @('content.md','README.md','AGENTS.md','CLAUDE.md','.ai\PROJECT_STATE.md','.ai\TOKEN_BUDGET.md','.ai\agent-project-kit\STARTUP.md','.ai\agent-project-kit\TOKEN_DISCIPLINE.md','templates\modern-thai.yaml','templates\modern-thai.lua','templates\modern-thai.tex','templates\fonts\Sarabun-Regular.ttf','templates\fonts\Sarabun-Bold.ttf','templates\fonts\OFL.txt','tools\import-documents.sh','tools\import-documents.ps1','tools\import-office.py','tools\install-summary.py','.vscode\extensions.json') | ForEach-Object { Join-Path $CourseDir $_ }
+  $watchedPaths = @('content.md','README.md','AGENTS.md','CLAUDE.md','.ai\PROJECT_STATE.md','.ai\TOKEN_BUDGET.md','.ai\agent-project-kit\STARTUP.md','.ai\agent-project-kit\TOKEN_DISCIPLINE.md','templates\modern-thai.yaml','templates\modern-thai.lua','templates\modern-thai.tex','templates\fonts\Sarabun-Regular.ttf','templates\fonts\Sarabun-Bold.ttf','templates\fonts\OFL.txt','tools\import-documents.sh','tools\import-documents.ps1','tools\import-office.py','tools\validate-module-2.py','tools\validate-module-3.py','tools\install-summary.py','.vscode\extensions.json') | ForEach-Object { Join-Path $CourseDir $_ }
   $watchedPaths += @('python','envs\research','envs\research\pyvenv.cfg','TinyTeX','TinyTeX\tlpkg\texlive.tlpdb','node','npm','uv-tools','bin','cache','texmf','texmf-var','texmf-config','tessdata') | ForEach-Object { Join-Path $toolRoot $_ }
   foreach ($path in $watchedPaths) { Trace-Path $path 'before' }
   Trace 'snapshot' 'workspace' $CourseDir 'before' 'preserve-personal-files'
@@ -396,6 +396,8 @@ function New-CourseWorkspace {
     @{ Url = 'https://urban.cpe.ku.ac.th/ai-for-research/downloads/import-documents.sh'; Path = (Join-Path $CourseDir 'tools\import-documents.sh') },
     @{ Url = 'https://urban.cpe.ku.ac.th/ai-for-research/downloads/import-documents.ps1'; Path = (Join-Path $CourseDir 'tools\import-documents.ps1') },
     @{ Url = 'https://urban.cpe.ku.ac.th/ai-for-research/downloads/import-office.py'; Path = (Join-Path $CourseDir 'tools\import-office.py') }
+    @{ Url = 'https://urban.cpe.ku.ac.th/ai-for-research/downloads/validate-module-2.py'; Path = (Join-Path $CourseDir 'tools\validate-module-2.py') }
+    @{ Url = 'https://urban.cpe.ku.ac.th/ai-for-research/downloads/validate-module-3.py'; Path = (Join-Path $CourseDir 'tools\validate-module-3.py') }
   )
   foreach ($file in $starterFiles) { Invoke-WebRequest -UseBasicParsing -Uri $file.Url -OutFile $file.Path }
   $projectState = Join-Path $CourseDir '.ai\PROJECT_STATE.md'

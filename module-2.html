@@ -36,8 +36,8 @@
       <div class="check-grid outcome-grid">
         <div><span>01 · Prepare</span><strong>นำเข้า PDF, Excel, Word, รูปภาพ และเว็บไซต์เรื่องเดียวกันให้ค้นและตรวจได้</strong></div>
         <div><span>02 · Read</span><strong>แยกข้อเท็จจริง ความเห็น คำวิจารณ์ และข้อสรุป</strong></div>
-        <div><span>03 · Challenge</span><strong>จับคำตอบที่ไม่มีข้อมูลรองรับและถาม AI ให้ชี้แจง</strong></div>
-        <div><span>04 · Deliver</span><strong>ปรับ Prompt แล้วสร้างข้อสรุป Markdown กับ JSON ที่ตรวจ hash และส่งได้</strong></div>
+        <div><span>03 · Complete</span><strong>หาคำถามที่ AI ตอบไม่ครบ แล้วผู้เรียนเติมคำตอบหรือคำตัดสินด้วยตนเอง</strong></div>
+        <div><span>04 · Deliver</span><strong>ปรับ Prompt แล้วสร้างข้อสรุป Markdown กับ JSON ที่แยกคำตอบของ AI และผู้เรียน</strong></div>
       </div>
       <details class="fallback-details" data-file-structure-explainer>
         <summary>Markdown (.md) กับ JSON ต่างกันอย่างไร</summary>
@@ -112,15 +112,24 @@
   "location": "เปรียบเทียบตารางราคาและคอลัมน์ wait_minutes"
 }</code><button type="button" data-copy>คัดลอกตัวอย่าง Claim</button></div>
       <div class="notice"><strong>ลองอ่านก่อน:</strong> Claim นี้มี id อะไร อยู่ระดับใด ใช้กี่แหล่ง และโปรแกรมจะรู้ได้อย่างไรว่าผ่านกติกา L3 จากนั้นดาวน์โหลดไฟล์ตัวอย่าง เปิดใน VS Code แล้วพับ–ขยาย object กับ array เพื่อดูโครงสร้างทั้งไฟล์</div>
-      <div class="plain-note"><strong>JSON ต้องบอกสิ่งที่ยังไม่ตอบด้วย:</strong> <code>claims</code> เก็บสิ่งที่ตรวจแล้ว ส่วน <code>open_questions</code> เก็บคำถามที่หลักฐานยังตอบไม่ได้ เหตุผลที่ยังตอบไม่ได้ และ <code>next_prompt</code> ที่ผู้เรียนอาจใช้หาหลักฐานเพิ่ม Prompt นี้เป็นข้อเสนอและยังไม่ถูกรัน</div>
+      <div class="plain-note"><strong>JSON ต้องแยกช่องว่างกับคำตอบที่ผู้เรียนเติม:</strong> <code>open_questions</code> เก็บคำถามที่ AI ยังตอบไม่ได้หรือตอบไม่ครบ หลักฐานที่ขาด และ <code>next_prompt</code> ที่ยังไม่ถูกรัน ส่วน <code>learner_additions</code> เก็บคำตอบหรือคำตัดสินที่ผู้เรียนเขียนเองสำหรับคำถามแต่ละข้อ AI ห้ามเขียนส่วนนี้แทน</div>
       <div class="command markdown-command"><code>{
   "id": "U1",
   "question": "ผู้เรียนทุกคนจะอิ่มถึงเวลา 16:00 หรือไม่",
   "missing_evidence": "ยังไม่มีข้อมูลติดตามความอิ่มจากผู้เรียนหลายคน",
   "next_prompt": "ช่วยออกแบบตารางเก็บข้อมูลความอิ่มทุกหนึ่งชั่วโมง โดยยังไม่สรุปผลหรือสร้างข้อมูลขึ้นเอง"
 }</code><button type="button" data-copy>คัดลอกตัวอย่าง Open Question</button></div>
+      <div class="command markdown-command"><code>{
+  "id": "A1",
+  "open_question_id": "U1",
+  "answer_type": "reasoned_judgment",
+  "learner_answer": "ฉันจะยังไม่ใช้ความอิ่มถึง 16:00 เป็นเหตุผลเลือกมื้อนี้จนกว่าจะมีข้อมูลเพิ่ม",
+  "basis": "รีวิวสองรายให้ผลต่างกันและยังแทนผู้เรียนทุกคนไม่ได้",
+  "sources": ["xlsx", "web"]
+}</code><button type="button" data-copy>คัดลอกโครงสร้างคำตอบที่ผู้เรียนต้องเติม</button></div>
+      <div class="notice"><strong>ผู้เรียนต้องเป็นคนเขียน <code>learner_additions</code>:</strong> ทุก <code>open_question_id</code> ต้องมีคำตอบหนึ่งรายการ เลือก <code>evidence_based</code>, <code>reasoned_judgment</code> หรือ <code>still_unknown</code> การตอบว่า “ยังไม่รู้” ใช้ได้เมื่ออธิบายหลักฐานที่ยังขาด ห้ามให้ AI เติมข้อความนี้แทน</div>
       <div class="hero-actions"><a class="button primary" href="downloads/module-02-submission-example.json" download>ดาวน์โหลด JSON ตัวอย่าง</a><a class="button secondary" href="downloads/module-02-submission-schema.json" download>ดาวน์โหลด JSON Schema</a></div>
-      <p class="expected"><strong>อย่าส่งไฟล์ตัวอย่าง:</strong> ค่า SHA-256 เป็นเลขศูนย์สำหรับการสอน ผู้เรียนต้องสร้างไฟล์ของตนเองในขั้นที่ 10</p>
+      <p class="expected"><strong>อย่าส่งไฟล์ตัวอย่าง:</strong> ค่า SHA-256 เป็นเลขศูนย์สำหรับการสอน ผู้เรียนต้องสร้างไฟล์ของตนเองในขั้นที่ 11</p>
     </section>
 
     <section class="section" id="activity">
@@ -184,9 +193,10 @@
 
       <h3 class="section-zone-heading">ช่วงที่ 3 · ปรับคำสั่งแล้วเปรียบเทียบผล</h3>
       <ol class="readiness-steps activity-steps">
-        <li><span>07</span><div><strong>เขียน Prompt รอบสองด้วยตนเอง</strong><p><strong>ผู้เรียนทำ:</strong> เขียน Prompt ใหม่ให้มีงานที่ต้องการ ขอบเขตไฟล์ รูปแบบคำตอบ วิธีระบุแหล่งที่มา และกติกาเมื่อไม่พบข้อมูล ขั้นนี้ไม่มีข้อความให้คัดลอก เพราะเป้าหมายคือให้ผู้เรียนแก้จุดอ่อนที่ตนพบจากรอบแรก</p></div></li>
-        <li><span>08</span><div><strong>ใช้ Prompt รอบสองและเปรียบเทียบ</strong><p><strong>ผู้เรียนทำ:</strong> ส่ง Prompt ที่เขียนในข้อ 7 แล้วเปรียบเทียบกับรอบแรก โดยดูจำนวน Claims ที่ตรวจย้อนกลับได้ ข้อความที่ไม่มีหลักฐาน การแยกข้อเท็จจริงกับความเห็น และจำนวนครั้งที่ต้องถามซ้ำ</p></div></li>
-        <li><span>09</span><div><strong>เปรียบเทียบการจัด L1–L4 กับ AI</strong><p><strong>ส่งให้ AI หลังจากคุณตอบเองแล้ว:</strong> ขอผลจัดระดับเป็นตาราง จากนั้นเปิดต้นฉบับตรวจเฉพาะข้อที่เห็นต่างกัน AI ทำหน้าที่เป็นคู่เปรียบเทียบ ไม่ใช่เฉลยสุดท้าย</p><div class="command markdown-command"><code>งาน: เปรียบเทียบการจัดระดับ L1–L4
+        <li><span>07</span><div><strong>เติมคำตอบที่ AI เว้นไว้ด้วยตนเอง</strong><p><strong>ผู้เรียนทำโดยไม่ใช้ AI เขียนแทน:</strong> เปิดรายการคำถามที่ AI ตอบไม่ครบ แล้วสร้าง <code>notes/learner-additions.md</code> เขียนคำตอบหรือคำตัดสินของตนเองให้ครบทุกข้อ ระบุว่าเป็นคำตอบจากหลักฐาน การตัดสินใจภายใต้ความไม่แน่นอน หรือยังตอบไม่ได้ พร้อมบอกหลักฐานหรือเหตุผล การยืนยันว่า “ยังตอบไม่ได้” ถือเป็นคำตอบได้เมื่อระบุสิ่งที่ต้องหาเพิ่มอย่างชัดเจน</p><p class="expected"><strong>จุดตรวจของกิจกรรม:</strong> AI สร้าง <code>open_questions</code> ได้ แต่ผู้เรียนต้องเขียน <code>learner_additions</code> เองทุกข้อ</p></div></li>
+        <li><span>08</span><div><strong>เขียน Prompt รอบสองด้วยตนเอง</strong><p><strong>ผู้เรียนทำ:</strong> เขียน Prompt ใหม่ให้มีงานที่ต้องการ ขอบเขตไฟล์ รูปแบบคำตอบ วิธีระบุแหล่งที่มา และกติกาเมื่อไม่พบข้อมูล ขั้นนี้ไม่มีข้อความให้คัดลอก เพราะเป้าหมายคือให้ผู้เรียนแก้จุดอ่อนที่ตนพบจากรอบแรก</p></div></li>
+        <li><span>09</span><div><strong>ใช้ Prompt รอบสองและเปรียบเทียบ</strong><p><strong>ผู้เรียนทำ:</strong> ส่ง Prompt ที่เขียนในข้อ 8 แล้วเปรียบเทียบกับรอบแรก โดยดูจำนวน Claims ที่ตรวจย้อนกลับได้ ข้อความที่ไม่มีหลักฐาน การแยกข้อเท็จจริงกับความเห็น และจำนวนครั้งที่ต้องถามซ้ำ</p></div></li>
+        <li><span>10</span><div><strong>เปรียบเทียบการจัด L1–L4 กับ AI</strong><p><strong>ส่งให้ AI หลังจากคุณตอบเองแล้ว:</strong> ขอผลจัดระดับเป็นตาราง จากนั้นเปิดต้นฉบับตรวจเฉพาะข้อที่เห็นต่างกัน AI ทำหน้าที่เป็นคู่เปรียบเทียบ ไม่ใช่เฉลยสุดท้าย</p><div class="command markdown-command"><code>งาน: เปรียบเทียบการจัดระดับ L1–L4
 
 ตอนนี้ฉันจัดระดับ 8–10 ข้ออ้างด้วยตนเองครบแล้ว
 
@@ -203,9 +213,9 @@
 - หากหาแหล่งรองรับไม่ได้ ให้จัดเป็น L4
 - ห้ามใช้ความรู้ภายนอก
 - เตือนให้ฉันเปิดต้นฉบับตรวจผลอีกครั้ง</code><button type="button" data-copy>คัดลอก Prompt เปรียบเทียบ L1–L4</button></div></div></li>
-        <li><span>10</span><div><strong>สร้างข้อสรุปและ JSON สำหรับส่ง</strong><p><strong>ส่งให้ AI:</strong> หลังคุณตรวจและอนุมัติข้อมูลแล้ว ใช้คำสั่งนี้สร้าง Markdown ฉบับเต็มและ JSON แบบมีโครงสร้าง หน้าเว็บจะตรวจ hash และใช้กติกาธรรมดาประเมินความครบถ้วนก่อนส่ง</p><p class="expected"><strong>ข้อความด้านล่างเป็นคำสั่งสร้างชิ้นงาน</strong> AI ต้องไม่ส่งข้อมูลไปยังเซิร์ฟเวอร์เอง</p><div class="command markdown-command"><code>งาน: สร้างข้อสรุป Module 2 และ JSON สำหรับให้ฉันตรวจและส่งเอง
+        <li><span>11</span><div><strong>สร้างข้อสรุปและ JSON สำหรับตรวจในเครื่อง</strong><p><strong>ส่งให้ AI:</strong> หลังคุณตรวจและอนุมัติข้อมูลแล้ว ใช้คำสั่งนี้สร้าง Markdown ฉบับเต็มและ JSON แบบมีโครงสร้าง ตัวตรวจในเครื่องจะตรวจ hash และความครบถ้วน ก่อนหน้าเว็บสร้าง Progress JSON แยกต่างหากสำหรับส่งสถานะ</p><p class="expected"><strong>ข้อความด้านล่างเป็นคำสั่งสร้างชิ้นงาน</strong> AI ต้องไม่ส่งข้อมูลไปยังเซิร์ฟเวอร์เอง และห้ามเขียนคำตอบส่วนของผู้เรียนแทน</p><div class="command markdown-command"><code>งาน: สร้างข้อสรุป Module 2 และ JSON สำหรับให้ฉันตรวจเอง
 
-อ่านเฉพาะผลที่ฉันตรวจและอนุมัติแล้วจากกิจกรรม Module 2 จากนั้นสร้างไฟล์สองไฟล์:
+อ่านเฉพาะผลที่ฉันตรวจและอนุมัติแล้วจากกิจกรรม Module 2 และไฟล์ notes/learner-additions.md ที่ฉันเขียนเอง หากไม่พบไฟล์นี้หรือมีคำถามที่ฉันยังไม่ได้ตอบ ให้หยุดและบอกรายการที่ขาด ห้ามร่างคำตอบแทนฉัน จากนั้นสร้างไฟล์สองไฟล์:
 
 1. output/module-2-conclusion.md โดยมีหัวข้อ:
 - คำถามร่วมของกิจกรรม
@@ -213,6 +223,7 @@
 - ข้ออ้างที่มีหลักฐานรองรับ พร้อมชื่อไฟล์และตำแหน่ง
 - ข้ออ้างที่ยังไม่มีหลักฐานหรือห้ามสรุป
 - คำถามที่หลักฐานยังตอบไม่ได้ เหตุผลที่ยังตอบไม่ได้ และ Prompt ที่แนะนำสำหรับหาหลักฐานเพิ่ม โดยยังไม่รัน Prompt นั้น
+- คำตอบหรือคำตัดสินที่ผู้เรียนเติมเอง โดยคัดลอกจาก notes/learner-additions.md โดยไม่แก้ความหมาย
 - สิ่งที่พบจาก PDF, Excel, Word, ภาพ และเว็บไซต์
 - URL, เวลาเข้าถึง, HTTP status และ hash ของข้อมูลเว็บ หรือเหตุผลที่ใช้สำเนา fallback
 - Prompt รอบแรก จุดอ่อนที่พบ และสิ่งที่แก้ใน Prompt รอบสอง
@@ -222,7 +233,7 @@
 https://urban.cpe.ku.ac.th/ai-for-research/downloads/module-02-submission-schema.json
 
 กติกาสำหรับ JSON:
-- schema_version = ai-for-research.module-2-submission.v3 และ module_id = module-2
+- schema_version = ai-for-research.module-2-submission.v4 และ module_id = module-2
 - artifact.filename = module-2-conclusion.md และ artifact.sha256 เป็น SHA-256 ตัวพิมพ์เล็ก 64 ตัว
 - result.decision เลือกหนึ่งค่า: conditional_yes, conditional_no หรือ insufficient_evidence
 - result.reason สรุปเหตุผล 40–800 ตัวอักษร
@@ -231,40 +242,76 @@ https://urban.cpe.ku.ac.th/ai-for-research/downloads/module-02-submission-schema
 - L1–L3 ต้องมี source และ location; L3 ต้องเชื่อมอย่างน้อยสอง source; L4 ต้องใช้ sources = [] และ location = ""
 - result.open_questions มี 1–3 รายการ แต่ละรายการมี id, question, missing_evidence และ next_prompt
 - next_prompt ต้องเสนอวิธีหาหลักฐานที่ขาด ห้ามรัน Prompt ต่อเอง และห้ามเติมคำตอบที่ยังไม่มีหลักฐาน
+- result.learner_additions ต้องตอบ open_questions ครบทุกข้อ แต่ละรายการมี id, open_question_id, answer_type, learner_answer, basis และ sources
+- answer_type เลือก evidence_based, reasoned_judgment หรือ still_unknown; แบบ evidence_based ต้องมี source อย่างน้อยหนึ่งรายการ
+- คัดลอก learner_answer และ basis จาก notes/learner-additions.md เท่านั้น ห้ามแต่ง เติม หรือปรับคำตอบแทนผู้เรียน
 - source ใช้ได้เฉพาะ pdf, xlsx, docx, image และ web
 - result.formats_checked = ["pdf", "xlsx", "docx", "image", "web"]
 - result.web_retrieval เลือก live หรือ fallback
-- result.prompt_test ใส่จำนวน traceable และ unsupported ของรอบ 1 กับรอบ 2 ผลรวมแต่ละรอบต้องเท่ากับจำนวน claims และรอบ 2 ต้องดีขึ้น
+- result.prompt_test ใส่จำนวน traceable และ unsupported ของรอบ 1 กับรอบ 2 ผลรวมแต่ละรอบต้องเท่ากับจำนวน claims รอบ 2 ต้องดีขึ้น หรือคงผลเดิมได้เมื่อรอบแรก traceable ครบและ unsupported เป็นศูนย์
 - result.human_decision เลือก accept_with_conditions, reject หรือ need_more_evidence
-- declaration ทั้งสามรายการต้องเป็น true หลังจากฉันยืนยันจริงเท่านั้น
+- declaration ทั้งสี่รายการต้องเป็น true หลังจากฉันยืนยันจริงเท่านั้น รวม learner_additions_written_by_learner
 - ห้ามใส่ชื่อ นามสกุล อีเมล เบอร์โทร รหัสนิสิต ข้อมูลลับ หรือข้อมูลส่วนบุคคล
 - ห้ามสร้าง class_code, callsign, submission_id หรือเวลา submit หน้าเว็บจะเพิ่มให้ภายหลัง
-- ห้ามส่งข้อมูลออกจากเครื่อง ให้สร้างไฟล์แล้วสรุปเป็นสามส่วน: ตอบได้แล้ว, ยังตอบไม่ได้, Prompt ที่แนะนำ จากนั้นหยุดและรอฉันตรวจ</code><button type="button" data-copy>คัดลอกคำสั่งสร้าง Markdown และ JSON</button></div></div></li>
+- หลังสร้างไฟล์ ให้ใช้ course Python รัน tools/validate-module-2.py กับไฟล์ทั้งสอง หากตัวตรวจไม่มี ให้ดาวน์โหลดเฉพาะจาก https://urban.cpe.ku.ac.th/ai-for-research/downloads/validate-module-2.py ไปไว้ที่ tools/validate-module-2.py
+- ห้ามส่งข้อมูลออกจากเครื่อง ห้าม submit แทนฉัน และห้ามแก้ learner_additions เอง รายงาน LOCAL_CHECK PASS/FAIL แล้วสรุปเป็นสี่ส่วน: ตอบได้แล้ว, AI ยังตอบไม่ได้, ผู้เรียนเติมอะไร, Prompt ที่แนะนำ จากนั้นหยุดและรอฉันตรวจ</code><button type="button" data-copy>คัดลอกคำสั่งสร้างและตรวจงาน</button></div></div></li>
       </ol>
     </section>
 
+    <section class="section" id="local-validator">
+      <div class="section-heading compact"><p class="eyebrow">AI-assisted local check · ไม่อัปโหลดงาน</p><h2>ให้ AI เรียกตัวตรวจให้</h2><p>คุณไม่ต้องเปิด Terminal หรือรันโค้ดเอง ตัวตรวจถูกเตรียมไว้ใน workspace ตั้งแต่ติดตั้ง หาก workspace รุ่นเก่ายังไม่มี AI จะดาวน์โหลดจากเว็บไซต์หลักแล้วรันในเครื่องให้</p></div>
+      <div class="command markdown-command"><code>ตรวจงาน Module 2 ในเครื่องให้ฉัน
+
+1. อ่านและทำตาม AGENTS.md ก่อน
+2. ตรวจ output/module-2-submission.json และ output/module-2-conclusion.md ด้วย tools/validate-module-2.py โดยใช้ course Python
+3. หากไม่มีตัวตรวจ ให้ดาวน์โหลดเฉพาะจาก https://urban.cpe.ku.ac.th/ai-for-research/downloads/validate-module-2.py ไปไว้ที่ tools/validate-module-2.py แล้วรันในเครื่อง
+4. ห้ามอัปโหลด Markdown, JSON, claims, คำตอบ หรือหลักฐานไปที่ใด
+5. ถ้า FAIL ให้อธิบายทีละข้อ แก้ได้เฉพาะข้อผิดพลาดเชิงโครงสร้างที่ AI สร้างเอง ห้ามแต่งหรือแก้ learner_additions แทนฉัน
+6. ถ้า PASS ให้รายงานจำนวน claims, open questions, learner additions และ SHA-256 แล้วหยุด ห้าม submit แทนฉัน</code><button type="button" data-copy>คัดลอก Prompt ให้ AI ตรวจงาน</button></div>
+      <p class="expected"><strong>สิ่งที่ผู้เรียนต้องทำ:</strong> อ่านผล <code>LOCAL_CHECK PASS/FAIL</code> และตอบคำถามที่ AI ส่งกลับมาเท่านั้น ไม่ต้องพิมพ์คำสั่ง Python เอง เนื้อหางานยังอยู่ในเครื่อง</p>
+    </section>
+
     <section class="section" id="submit">
-      <div class="section-heading compact"><p class="eyebrow">Submit · ส่งหลักฐานการเรียนรู้</p><h2>ตรวจในเครื่อง แล้วส่งเฉพาะ JSON</h2><p>หน้าเว็บอ่าน Markdown ในเบราว์เซอร์เพื่อคำนวณ SHA-256 เท่านั้น ไฟล์ Markdown ไม่ออกจากเครื่อง จากนั้นระบบส่งเฉพาะ JSON ซึ่งมีผลแบบมีโครงสร้างและ <code>machine_check</code> ไปยังเซิร์ฟเวอร์</p><p><a href="downloads/module-02-submission-schema.json" download>ดาวน์โหลด JSON Schema สำหรับ Module 2 →</a></p></div>
-      <div class="notice"><strong>Call sign แทนตัวตน:</strong> ตั้งนามเรียกขานใหม่สำหรับคลาสนี้ เช่น <code>green-orbit-7</code> และอย่าใช้ชื่อจริง ชื่อบัญชี อีเมล เบอร์โทร หรือรหัสนิสิต แบบฟอร์มนี้ไม่ขอและ submission record บนเซิร์ฟเวอร์ไม่เก็บข้อมูลส่วนตัวเหล่านั้น โดยเก็บเฉพาะรหัสคลาส, call sign, JSON, เวลา และ submission ID</div>
+      <div class="section-heading compact"><p class="eyebrow">Submit · ส่งความคืบหน้า</p><h2>ตรวจผลงานในเครื่อง แล้วส่งเฉพาะ Progress JSON</h2><p>หน้าเว็บอ่าน Markdown และ <code>module-2-submission.json</code> ในเบราว์เซอร์เพื่อตรวจความครบและคำนวณ SHA-256 ไฟล์ทั้งสองไม่ออกจากเครื่อง Server ได้รับเพียงผลตรวจแบบสรุปและแบบประเมินการใช้ Module เพื่อแสดงความคืบหน้าของคลาส</p><p><a href="downloads/module-02-submission-schema.json" download>ดาวน์โหลด JSON Schema สำหรับตรวจในเครื่อง →</a></p></div>
+      <div class="notice"><strong>Call sign แทนตัวตน:</strong> ตั้งนามเรียกขานใหม่สำหรับคลาสนี้ เช่น <code>green-orbit-7</code> และอย่าใช้ชื่อจริง ชื่อบัญชี อีเมล เบอร์โทร หรือรหัสนิสิต Server เก็บเฉพาะรหัสคลาส, call sign, progress summary, แบบประเมิน Module, เวลา และ submission ID ไม่เก็บ Markdown, claims, คำตอบ หรือรายการหลักฐานของคุณ</div>
       <form class="module-submission-form" data-module-2-submission-form>
         <label><span>รหัสคลาส</span><input name="class_code" type="text" required minlength="3" maxlength="40" pattern="[A-Za-z0-9][A-Za-z0-9._-]{2,39}" placeholder="เช่น pilot-01" autocomplete="off"></label>
-        <label><span>Call sign (นามเรียกขาน)</span><input name="callsign" type="text" required minlength="3" maxlength="40" pattern="[A-Za-z0-9][A-Za-z0-9._-]{2,39}" placeholder="เช่น green-orbit-7" autocomplete="off"><small>ตั้งใหม่สำหรับคลาสนี้และจดไว้กับตนเอง ห้ามใช้ชื่อจริงหรือ username ที่ใช้ที่อื่น</small></label>
+        <label><span>Call sign (นามเรียกขาน)</span><input name="callsign" type="text" required minlength="3" maxlength="40" pattern="[A-Za-z0-9][A-Za-z0-9._-]{2,39}" placeholder="เช่น green-orbit-7" autocomplete="off"><small>ตั้งใหม่สำหรับคลาสนี้และจดไว้กับตนเอง ห้ามใช้ชื่อจริงหรือ username ที่ใช้ที่อื่น ระบบจะสงวน call sign หลังส่งครั้งแรก</small></label>
+        <label><span>Call sign key · เว้นว่างในการส่งครั้งแรก</span><input name="callsign_key" type="password" maxlength="80" autocomplete="off" placeholder="วาง key จาก Receipt เมื่อต้องส่งซ้ำจากเครื่องอื่น"><small>Browser เดิมจะใช้ key ที่บันทึกไว้ให้อัตโนมัติ หากเปลี่ยนเครื่องให้วาง key จาก Receipt และเก็บ key นี้เป็นความลับ</small></label>
         <label><span>ไฟล์ Markdown · ตรวจในเครื่องเท่านั้น</span><input name="markdown_file" type="file" accept=".md,text/markdown,text/plain" required><small>เลือก <code>module-2-conclusion.md</code> เพื่อเทียบ SHA-256 ไฟล์นี้ไม่ถูกอัปโหลด</small></label>
-        <label><span>ไฟล์ JSON · ไฟล์เดียวที่ส่ง</span><input name="json_file" type="file" accept=".json,application/json" required><small>เลือก <code>module-2-submission.json</code> ขนาดไม่เกิน 64 KB</small></label>
-        <label class="submission-consent"><input name="consent" type="checkbox" required><span>ฉันตรวจแล้วว่า JSON ไม่มีข้อมูลส่วนบุคคลหรือข้อมูลลับ และยินยอมส่งเฉพาะ JSON ให้ผู้สอนตรวจ</span></label>
+        <label><span>ไฟล์ JSON · ตรวจในเครื่องเท่านั้น</span><input name="json_file" type="file" accept=".json,application/json" required><small>เลือก <code>module-2-submission.json</code> ขนาดไม่เกิน 64 KB เนื้อหาในไฟล์นี้ไม่ถูกอัปโหลด</small></label>
+        <fieldset class="module-evaluation-fields">
+          <legend>ประเมินการใช้ AI และ Module นี้</legend>
+          <p class="form-help">กรอกตามการใช้งานจริง หากระบบไม่แสดงจำนวน Token ให้เลือก “ไม่มีข้อมูล” ระบบจะไม่นำค่าประมาณของหลักสูตรมาแทนค่าจริงของคุณ</p>
+          <div class="module-evaluation-grid">
+            <label><span>เครื่องมือ AI หลัก</span><select name="ai_tool" required><option value="">เลือก</option><option value="codex">Codex</option><option value="claude">Claude</option><option value="openrouter">OpenRouter</option><option value="other">อื่น ๆ</option><option value="unknown">ไม่แน่ใจ</option></select></label>
+            <label><span>จำนวนรอบที่ใช้ AI</span><input name="ai_turns" type="number" min="1" max="40" required></label>
+            <label><span>จำนวนครั้งที่ต้องถามซ้ำ/แก้ใหม่</span><input name="retry_count" type="number" min="0" max="20" required></label>
+            <label><span>เวลาที่ใช้ทำ Module (นาที)</span><input name="completion_minutes" type="number" min="1" max="600" required></label>
+            <label><span>แหล่งข้อมูล Token</span><select name="token_source" required><option value="not_available">ระบบไม่แสดงจำนวน Token</option><option value="provider_reported">ตัวเลขจากผู้ให้บริการ</option><option value="learner_estimate">ผู้เรียนประมาณเอง</option></select></label>
+            <label><span>Input tokens (ถ้ามี)</span><input name="input_tokens" type="number" min="0" max="10000000"></label>
+            <label><span>Output tokens (ถ้ามี)</span><input name="output_tokens" type="number" min="0" max="10000000"></label>
+            <label><span>Total tokens</span><input name="total_tokens" type="number" min="0" max="20000000"></label>
+            <label><span>สถานะการทำกิจกรรม</span><select name="completion_status" required><option value="completed">ทำครบด้วยตนเอง</option><option value="completed_with_help">ทำครบโดยได้รับความช่วยเหลือ</option><option value="could_not_complete">ยังทำไม่ครบ</option></select></label>
+            <label><span>ความยาก 1–5</span><input name="difficulty_rating" type="number" min="1" max="5" required></label>
+            <label><span>ประโยชน์ 1–5</span><input name="usefulness_rating" type="number" min="1" max="5" required></label>
+            <label><span>ขั้นที่ยากที่สุด</span><select name="hardest_step" required><option value="none">ไม่มี</option><option value="import_evidence">นำเข้าหลักฐาน</option><option value="check_claims">ตรวจ Claims และ L1–L4</option><option value="learner_additions">เติมคำตอบที่ AI เว้นไว้</option><option value="revise_prompt">เขียน Prompt รอบสอง</option><option value="build_submission">สร้างและส่ง JSON</option></select></label>
+          </div>
+        </fieldset>
+        <label class="submission-consent"><input name="consent" type="checkbox" required><span>ฉันตรวจ Progress JSON ด้านล่างแล้ว และยินยอมส่งผลสรุปกับแบบประเมินให้ผู้สอนดูความคืบหน้าของคลาส</span></label>
         <div class="profile-actions"><button class="button primary" type="submit">ตรวจไฟล์และสร้าง Preview</button><small data-module-2-submission-status role="status" aria-live="polite"></small></div>
       </form>
 
       <div class="submission-preview" data-module-2-submission-preview hidden>
-        <h3>JSON ที่พร้อมส่ง</h3>
-        <p>ตรวจ call sign ข้อสรุป และรายการหลักฐานอีกครั้ง กดส่งเมื่อข้อมูลถูกต้อง</p>
+        <h3>Progress JSON ที่พร้อมส่ง</h3>
+        <p>ข้อมูลนี้ไม่มี Markdown, claims, คำตอบ หรือรายการหลักฐาน ตรวจ call sign ผลตรวจแบบสรุป และแบบประเมินก่อนส่ง</p>
         <pre><code data-module-2-submission-json></code></pre>
         <button class="button primary" type="button" data-module-2-submit disabled>ส่ง JSON ไปยังเซิร์ฟเวอร์</button>
       </div>
 
       <div class="submission-receipt" data-module-2-receipt hidden>
         <h3>เซิร์ฟเวอร์รับข้อมูลแล้ว</h3>
-        <p>ดาวน์โหลด receipt เก็บไว้ หากต้องส่งใหม่ ระบบจะสร้าง submission ID ใหม่และผู้สอนจะเห็นทั้งสองรายการ</p>
+        <p>ดาวน์โหลด receipt เก็บไว้ ภายในมีกุญแจสำหรับยืนยัน call sign ของคุณ หากส่งใหม่ระบบจะสร้าง submission ID ใหม่และผู้สอนจะเห็นทั้งสองรายการ อย่าเผยแพร่กุญแจนี้หรือส่งให้ผู้อื่น</p>
         <pre><code data-module-2-receipt-json></code></pre>
         <button class="button secondary" type="button" data-module-2-receipt-download>ดาวน์โหลด Receipt JSON</button>
       </div>
@@ -281,6 +328,7 @@ https://urban.cpe.ku.ac.th/ai-for-research/downloads/module-02-submission-schema
         <label><input type="checkbox"> ตรวจจุดสำคัญของข้อความ OCR เทียบกับต้นฉบับแล้ว</label>
         <label><input type="checkbox"> ตรวจ 8–10 Claims กับต้นฉบับและแยก L1–L4 ได้</label>
         <label><input type="checkbox"> ทดลองคำถามที่เอกสารตอบไม่ได้ 2 แบบแล้ว</label>
+        <label><input type="checkbox"> เขียน <code>notes/learner-additions.md</code> ด้วยตนเอง และตอบ <code>open_questions</code> ครบทุกข้อแล้ว</label>
         <label><input type="checkbox"> เขียน Prompt รอบสองเองและเปรียบเทียบผลก่อน–หลังแล้ว</label>
         <label><input type="checkbox"> เปิดเฉลย L1–L4 หลังตอบเอง และตรวจข้อที่เห็นต่างกับต้นฉบับแล้ว</label>
         <label><input type="checkbox"> เปิดและตรวจ <code>output/module-2-conclusion.md</code> กับ <code>output/module-2-submission.json</code> แล้ว</label>

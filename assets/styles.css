@@ -283,11 +283,16 @@ a[data-workspace-download]::after { content:"  ↓"; color:var(--accent); font-w
 .module-submission-form { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:1rem; max-width:980px; margin:1.5rem 0; padding:1.35rem; border:1px solid rgba(135,199,178,.4); border-radius:1rem; background:var(--surface); }
 .module-submission-form > label { display:grid; gap:.4rem; min-width:0; }
 .module-submission-form > label > span { color:var(--ink-soft); font-size:.9rem; }
-.module-submission-form input[type="text"] { width:100%; padding:.72rem .8rem; border:1px solid var(--line); border-radius:.55rem; color:var(--ink); background:var(--surface-strong); font:inherit; }
+.module-submission-form input[type="text"],.module-submission-form input[type="number"],.module-submission-form select { width:100%; padding:.72rem .8rem; border:1px solid var(--line); border-radius:.55rem; color:var(--ink); background:var(--surface-strong); font:inherit; }
 .module-submission-form input[type="file"] { width:100%; padding:.65rem; border:1px dashed var(--line); border-radius:.55rem; color:var(--ink); background:var(--surface-strong); font:inherit; }
 .module-submission-form input:focus-visible { outline:2px solid var(--accent); outline-offset:2px; }
 .module-submission-form small { color:var(--ink-soft); line-height:1.5; }
 .module-submission-form .submission-consent { grid-column:1 / -1; display:flex; align-items:flex-start; gap:.7rem; padding:.85rem 1rem; border-left:4px solid var(--accent); background:rgba(239,125,85,.1); }
+.module-evaluation-fields { grid-column:1 / -1; margin:0; padding:1rem; border:1px solid var(--line); border-radius:.8rem; }
+.module-evaluation-fields legend { padding:0 .4rem; color:var(--white); font-weight:700; }
+.module-evaluation-fields .form-help { margin:.1rem 0 1rem; color:var(--ink-soft); }
+.module-evaluation-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:1rem; }
+.module-evaluation-grid label { display:grid; gap:.4rem; min-width:0; color:var(--ink-soft); font-size:.9rem; }
 .submission-consent input { flex:0 0 auto; width:1.15rem; height:1.15rem; margin-top:.2rem; accent-color:var(--accent); }
 .submission-preview, .submission-receipt { max-width:980px; margin:1.5rem 0; padding:1.35rem; border:1px solid var(--line); border-radius:1rem; background:var(--surface); }
 .submission-preview { border-color:rgba(239,125,85,.55); }
@@ -446,6 +451,7 @@ a[data-workspace-download]::after { content:"  ↓"; color:var(--accent); font-w
   .profile-status .button { margin-top: 1rem; }
   .profile-summary, .profile-form { grid-template-columns: 1fr; }
   .module-submission-form { grid-template-columns:1fr; padding:1rem; }
+  .module-evaluation-grid { grid-template-columns:1fr; }
   .module-submission-form .submission-consent, .module-submission-form .profile-actions { grid-column:1; }
   .module-submission-form .button, .submission-preview .button, .submission-receipt .button { width:100%; }
   .project-name-control { align-items:stretch; flex-direction:column; }

@@ -1,5 +1,5 @@
 {
-  "schema_version": "ai-for-research.module-2-submission.v3",
+  "schema_version": "ai-for-research.module-2-submission.v4",
   "module_id": "module-2",
   "artifact": {
     "filename": "module-2-conclusion.md",
@@ -80,6 +80,24 @@
         "next_prompt": "ระบุข้อมูลวัตถุดิบและหลักฐานด้านโภชนาการที่ต้องหาเพิ่มก่อนประเมิน โดยห้ามประมาณค่าที่ไม่มีในเอกสาร"
       }
     ],
+    "learner_additions": [
+      {
+        "id": "A1",
+        "open_question_id": "U1",
+        "answer_type": "reasoned_judgment",
+        "learner_answer": "ฉันจะยังไม่ใช้เงื่อนไขว่าอิ่มถึง 16:00 เป็นเหตุผลเลือกมื้อนี้จนกว่าจะมีข้อมูลเพิ่ม",
+        "basis": "รีวิวสองรายให้เวลาหิวอีกครั้งต่างกัน และข้อมูลสังเกตยังแทนผู้เรียนทุกคนไม่ได้",
+        "sources": ["xlsx", "web"]
+      },
+      {
+        "id": "A2",
+        "open_question_id": "U2",
+        "answer_type": "still_unknown",
+        "learner_answer": "ฉันยังตอบเรื่องความเหมาะสมทางโภชนาการไม่ได้และจะไม่ประมาณค่าจากภาพหรือสูตร",
+        "basis": "ยังไม่มีปริมาณวัตถุดิบที่ตรวจสอบได้หรือผลวิเคราะห์คุณค่าทางโภชนาการ",
+        "sources": []
+      }
+    ],
     "formats_checked": ["pdf", "xlsx", "docx", "image", "web"],
     "web_retrieval": "live",
     "prompt_test": {
@@ -93,6 +111,7 @@
   "declaration": {
     "originals_preserved": true,
     "claims_checked_by_learner": true,
+    "learner_additions_written_by_learner": true,
     "no_personal_data": true
   }
 }
