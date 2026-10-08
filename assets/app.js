@@ -366,7 +366,7 @@ function formatCopyOnlyPrompts() {
     code.textContent = readable;
     const header = document.createElement("div");
     header.className = "copy-prompt-heading";
-    header.innerHTML = `<span>คำสั่งพร้อมใช้</span><strong></strong>`;
+    header.innerHTML = `<span>${block.classList.contains("ai-prompt") ? "Prompt ให้ AI" : "คำสั่งพร้อมใช้"}</span><strong></strong>`;
     header.querySelector("strong").textContent = heading;
     block.prepend(header);
   }
@@ -376,6 +376,7 @@ formatCopyOnlyPrompts();
 
 async function copyCommand(event) {
   const button = event.currentTarget;
+  const idleLabel = button.textContent;
   const command = button.closest(".command");
   const editor = command.querySelector(".prompt-editor");
   const code = command.querySelector("code");
@@ -384,7 +385,7 @@ async function copyCommand(event) {
   if (!editor && needsResearchContext) value = applyProfileToPrompt(value, loadResearchProfile());
   await navigator.clipboard.writeText(value);
   button.textContent = "คัดลอกแล้ว";
-  setTimeout(() => { button.textContent = "คัดลอก"; }, 1500);
+  setTimeout(() => { button.textContent = idleLabel; }, 1500);
 }
 for (const button of document.querySelectorAll("[data-copy]")) {
   button.addEventListener("click", copyCommand);

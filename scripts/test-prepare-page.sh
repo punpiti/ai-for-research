@@ -19,8 +19,8 @@ for platform in windows macos linux; do
   grep -q "data-platform-panel=\"$platform\"" "$page"
 done
 
-grep -q 'รอจน VS Code เปิดขึ้นมา' "$page"
-grep -q 'ตรวจว่า Workspace เปิดแล้ว' "$page"
+grep -q 'คำสั่งเดียวจบ' "$page"
+grep -q 'เชื่อม AI แล้วทดลองสร้าง PDF' "$page"
 grep -q '<details class="fallback-details">' "$page"
 grep -q 'Workspace ไม่เปิดอัตโนมัติ? ดูวิธีเปิดใหม่' "$page"
 grep -q '<code data-project-path>~/ai-for-research-workspace</code>' "$page"
@@ -29,14 +29,20 @@ grep -q 'data-project-name-status' "$page"
 grep -q 'ai-research-project-name' "$root/assets/app.js"
 grep -q 'renderWorkspaceState(projectName)' "$root/assets/app.js"
 grep -q 'id="project-basics"' "$page"
-grep -q 'README.md.*คำอธิบายงาน' "$page"
-grep -q 'input/.*ไฟล์ต้นฉบับ' "$page"
-grep -q 'output/.*รายงาน ตาราง ภาพ และ PDF' "$page"
+grep -q '<th>ใช้ทำอะไร</th><th>ซอฟต์แวร์</th><th>รุ่น</th>' "$page"
+grep -q 'Python 3.12; Node.js 22+' "$page"
+for kind in is-read is-input is-terminal ai-prompt; do
+  grep -q "$kind" "$page"
+done
+grep -q '>คัดลอกคำสั่งติดตั้ง</button>' "$page"
+grep -q '>คัดลอก Prompt</button>' "$page"
+grep -q '<code>input/</code><span>เก็บไฟล์ต้นฉบับ</span>' "$page"
+grep -q '<code>output/</code><span>เก็บงานที่ AI สร้างใหม่</span>' "$page"
 if grep -q 'open -a &quot;Visual Studio Code&quot; --args' "$page"; then
   echo 'macOS learner flow must show the workspace folder path, not reopen VS Code with open -a.' >&2
   exit 1
 fi
-grep -q 'บันทึกหัวข้อวิจัยและเป้าหมายการเรียนแล้ว' "$page"
+grep -q 'ข้อมูลเกี่ยวกับงานวิจัยของคุณ' "$page"
 if grep -qE 'SETUP_VERSION|RUNTIME_READY|installation trace|runtime-env|config\.toml|PROJECT_STATE\.md|AGENTS\.md|token budget|Auto Approve' "$page"; then
   echo 'Internal workflow or diagnostic copy must not appear on the learner page.' >&2
   exit 1
@@ -55,10 +61,9 @@ import re, sys
 from pathlib import Path
 page = Path(sys.argv[1]).read_text()
 assert re.findall(r'name="agent" value="([^"]+)"', page) == ['claude', 'codex', 'openrouter']
-assert 'คอร์ส Introduction ไม่ต้องติดตั้ง WSL2' in page
 assert not re.search(r'data-platform-button="linux">[^<]*WSL', page)
 from html import unescape
-install = page[page.index('คำสั่งเดียวจะเตรียม'):page.index('<div class="notice"><strong>ติดตั้งสำเร็จเมื่อ:')]
+install = page[page.index('<section class="section platform-section" id="install"'):page.index('<div class="notice"><strong>ติดตั้งสำเร็จเมื่อ:')]
 commands = [unescape(x) for x in re.findall(r'data-template="([^"]+)"', install)]
 assert len(commands) == 3, 'One combined download/run command per OS required'
 assert 'Invoke-WebRequest' in commands[0] and '-Mode Install -Agent {agent}' in commands[0]

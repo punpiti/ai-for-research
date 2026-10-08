@@ -95,9 +95,9 @@ for number in {2..9}; do
   check_file "$file" "checkpoint percent" 'ความสำเร็จ <strong data-progress>0%</strong>'
 done
 
-check_file "$site_dir/prepare.html" "preparation" 'ของต้องมีก่อนเรียน'
+check_file "$site_dir/prepare.html" "preparation" 'เตรียมมา 3 อย่าง'
 check_file "$site_dir/prepare.html" "LO label" '<p class="eyebrow">LO</p>'
-check_file "$site_dir/prepare.html" "learning outcomes" '<h2[^>]*>สิ่งที่จะทำได้</h2>'
+check_file "$site_dir/prepare.html" "learning outcomes" '<h2[^>]*>จบบทนี้ คุณจะทำได้</h2>'
 check_file "$site_dir/prepare.html" "checkpoint label" '<p class="eyebrow">Checkpoint</p>'
 check_file "$site_dir/prepare.html" "post-lesson result" '<h2[^>]*>จบบทเรียน</h2>'
 check_file "$site_dir/prepare.html" "learner profile" 'data-research-profile'
@@ -146,7 +146,7 @@ for number in {6..9}; do
   check_file "$site_dir/module-$number.html" "Module $number checkpoint" 'id="finish"'
 done
 check_file "$site_dir/assets/app.js" "guided prompt" 'อ่านไป ทำไป และคิดไปทีละขั้น'
-check_file "$site_dir/prepare.html" "shared copy component" 'class="command"><code>.*</code><button type="button" data-copy'
+check_file "$site_dir/prepare.html" "shared copy component" 'class="command ai-prompt".*data-copy'
 check_file "$site_dir/assets/styles.css" "copy-only visual" 'copy-only-template.*background: #0c2923'
 check_file "$site_dir/assets/app.js" "explicit shared copy-only class" 'classList.add\("copy-only-template"\)'
 check_file "$site_dir/assets/app.js" "copy-only learning structure" 'งาน: \$\{heading\}\\n\\nคำสั่ง:'
