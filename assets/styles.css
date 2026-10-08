@@ -81,6 +81,7 @@
 .classroom-prepare-grid article { padding: 1.4rem; border: 1px solid var(--line); border-radius: 1rem; background: var(--surface); }
 .classroom-prepare-grid article > span { color: var(--mint); font: 600 .78rem/1.4 Inter,sans-serif; letter-spacing: .05em; text-transform: uppercase; }
 .classroom-prepare-grid h3 { margin: .75rem 0 .65rem; font-size: 1.3rem; }
+.classroom-prepare-grid p { margin: 0; color: var(--ink-soft); }
 .classroom-prepare-grid ul { margin: 0; padding-left: 1.15rem; color: var(--ink-soft); }
 .classroom-prepare-grid li + li { margin-top: .45rem; }
 .device-note { display: grid; grid-template-columns: minmax(180px, .35fr) 1fr; gap: 1.2rem; margin-top: 1rem; padding: 1.3rem 1.4rem; border: 1px solid rgba(239,125,85,.55); border-radius: 1rem; background: rgba(239,125,85,.08); }
@@ -101,14 +102,16 @@
 .syllabus-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; padding: 0; list-style: none; }
 .syllabus-list li { display: grid; grid-template-columns: auto 1fr; gap: 1rem; padding: 1.25rem; border: 1px solid var(--line); border-radius: 1rem; background: var(--surface); }
 .syllabus-list li > span { color: var(--accent); font: 600 .8rem/1.5 Inter,sans-serif; }
-.syllabus-list h3 { margin-bottom: .4rem; font-size: 1.25rem; }
+.syllabus-title-row { display: flex; justify-content: space-between; gap: 1rem; align-items: start; margin-bottom: .4rem; }
+.syllabus-title-row h3 { margin: 0; font-size: 1.25rem; }
+.syllabus-title-row > span { flex: 0 0 auto; padding: .2rem .55rem; border: 1px solid rgba(135,199,178,.45); border-radius: 99px; color: var(--mint); font: 600 .75rem/1.4 Inter,sans-serif; white-space: nowrap; }
 .syllabus-list p { margin: 0; color: var(--ink-soft); font-size: .92rem; }
 .classroom-boundary { display: grid; grid-template-columns: .7fr 1.3fr; gap: clamp(2rem, 6vw, 5rem); }
 .boundary-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
 .boundary-grid article { padding: 1.4rem; border: 1px solid var(--line); border-radius: 1rem; background: var(--surface); }
 .boundary-grid p { color: var(--ink-soft); }
 @media (max-width: 850px) { .open-classroom-card, .classroom-hero, .classroom-boundary { grid-template-columns: 1fr; } .open-classroom-action { justify-items: start; } .classroom-facts { grid-template-columns: repeat(2, minmax(0, 1fr)); } .classroom-prepare-grid, .classroom-return-grid { grid-template-columns: 1fr; } }
-@media (max-width: 560px) { .classroom-facts, .syllabus-list, .boundary-grid, .classroom-highlights, .classroom-feature-grid, .audience-note, .device-note { grid-template-columns: 1fr; } .classroom-hero { padding-top: 3rem; } .enroll-panel { box-shadow: .55rem .55rem 0 #25483f; } }
+@media (max-width: 560px) { .classroom-facts, .syllabus-list, .boundary-grid, .classroom-highlights, .classroom-feature-grid, .audience-note, .device-note { grid-template-columns: 1fr; } .classroom-hero { padding-top: 3rem; } .enroll-panel { box-shadow: .55rem .55rem 0 #25483f; } .syllabus-title-row { display: grid; gap: .55rem; } }
 
 * { box-sizing: border-box; }
 site-header, site-footer { display: contents; }

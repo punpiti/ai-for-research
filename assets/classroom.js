@@ -149,11 +149,17 @@
         const number = document.createElement("span");
         number.textContent = String(index + 1).padStart(2, "0");
         const content = document.createElement("div");
+        const titleRow = document.createElement("div");
+        titleRow.className = "syllabus-title-row";
         const heading = document.createElement("h3");
         heading.textContent = module.title;
+        const duration = document.createElement("span");
+        duration.textContent = module.duration || "";
         const paragraph = document.createElement("p");
         paragraph.textContent = module.description;
-        content.append(heading, paragraph);
+        titleRow.append(heading);
+        if (module.duration) titleRow.append(duration);
+        content.append(titleRow, paragraph);
         item.append(number, content);
         return item;
       }));

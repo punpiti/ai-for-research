@@ -12,12 +12,11 @@ grep -q 'สำหรับอาจารย์/นักวิจัย 2569' 
 grep -q 'อาจารย์และนักวิจัย' "$page"
 grep -q 'รุ่นนี้ยังไม่เปิดรับนิสิต' "$page"
 grep -q 'ตรวจสิทธิ์ก่อนเข้าร่วม' "$page"
-grep -q 'Non-coding Data Analytics &amp; Visualization' "$page"
-grep -q 'Machine Learning เมื่อสอดคล้องกับคำถามวิจัย' "$page"
+grep -q 'Non-coding Data Analytics' "$page"
+grep -q 'Data Visualization &amp; Machine Learning' "$page"
 grep -q 'Manuscript Preparation' "$page"
 grep -q 'ทุกกิจกรรมทำได้โดยไม่ต้องเขียนโปรแกรม' "$page"
 grep -q 'AI ช่วยสร้าง Markdown, JSON และ LaTeX พร้อมเขียนและรัน Python' "$page"
-grep -q 'เก็บเนื้อหาใน Markdown' "$page"
 grep -q 'id="syllabus"' "$page"
 grep -q '<dt>ค่าใช้จ่าย</dt><dd data-public-fee>ไม่มีค่าใช้จ่าย</dd>' "$page"
 [[ "$(grep -c '<li><span>0[1-9]</span>' "$page")" -eq 9 ]]
@@ -53,18 +52,20 @@ if sed 's/faculty-pilot-2569//g' "$root/index.html" | grep -Eqi 'M01–M09|workf
 fi
 [[ "$(grep -c 'classroom-feature-grid' "$root/classroom.html")" -eq 1 ]]
 [[ "$(grep -c '<article><span>0[1-6]</span><h3>' "$root/classroom.html")" -eq 6 ]]
-grep -q 'เมื่อจบคลาส' "$root/classroom.html"
-grep -q 'เวลาที่ลงไป' "$root/classroom.html"
-grep -q 'id="prepare"' "$root/classroom.html"
-grep -q 'โน้ตบุ๊กส่วนตัวพร้อมที่ชาร์จ' "$root/classroom.html"
-grep -q 'พื้นที่ว่างอย่างน้อย 20 GB' "$root/classroom.html"
-grep -q 'ไม่แนะนำ tablet, iPad หรือ Chromebook เป็นเครื่องหลัก' "$root/classroom.html"
+grep -q 'id="outcomes"' "$root/classroom.html"
+grep -q 'id="requirements"' "$root/classroom.html"
+grep -q 'Syllabus · 6 hours' "$root/classroom.html"
+[[ "$(grep -oE '[0-9]+ นาที' "$root/classroom.html" | wc -l)" -eq 9 ]]
+grep -q 'Notebook ส่วนตัว' "$root/classroom.html"
+grep -q 'ไม่ใช้ tablet หรือ iPad เป็นเครื่องหลัก' "$root/classroom.html"
+grep -q 'ไม่ต้องมีพื้นฐานเขียนโปรแกรม' "$root/classroom.html"
 grep -q 'กรณีศึกษาและข้อมูลสำรองของคลาส' "$root/classroom.html"
-grep -Fq '["prepare", "เตรียมตัว"]' "$root/assets/site-shell.js"
-grep -q 'งานวิจัยของตนเองเดินหน้าต่อ' "$root/classroom.html"
-grep -q 'ผลิตงานได้ต่อเนื่องขึ้น' "$root/classroom.html"
-grep -q 'มีจุดตรวจคุณภาพก่อนเผยแพร่' "$root/classroom.html"
-[[ "$(grep -c 'class="classroom-return-grid"' "$root/classroom.html")" -eq 1 ]]
+grep -Fq '["outcomes", "Learning outcomes"]' "$root/assets/site-shell.js"
+grep -Fq '["requirements", "Requirements"]' "$root/assets/site-shell.js"
+outcomes_line="$(grep -n 'id="outcomes"' "$root/classroom.html" | cut -d: -f1)"
+syllabus_line="$(grep -n 'id="syllabus"' "$root/classroom.html" | cut -d: -f1)"
+requirements_line="$(grep -n 'id="requirements"' "$root/classroom.html" | cut -d: -f1)"
+[[ "$outcomes_line" -lt "$syllabus_line" && "$syllabus_line" -lt "$requirements_line" ]]
 [[ "$(grep -c 'class="open-classroom-card"' "$root/index.html")" -eq 1 ]]
 if grep -Eq 'research-methodology-review|id="promise"|class="section course-family"|id="modules"|id="requirements"|class="section final-cta"' "$root/index.html"; then
   echo 'Homepage must contain classroom discovery only; detailed course-family sections belong in the private archive.' >&2
@@ -74,6 +75,7 @@ grep -q 'const apiBase = "/api/ai-for-research/classrooms"' "$root/assets/classr
 grep -q '/public`' "$root/assets/classroom.js"
 grep -q 'data-public-summary' "$root/classroom.html"
 grep -q 'data-public-syllabus' "$root/classroom.html"
+grep -q 'module.duration' "$root/assets/classroom.js"
 grep -q '\${apiBase}/me' "$root/assets/classroom.js"
 grep -q 'payment: "not-required"' "$root/assets/classroom.js"
 grep -q 'เข้าสู่ระบบเพื่อลงทะเบียน' "$root/assets/classroom.js"

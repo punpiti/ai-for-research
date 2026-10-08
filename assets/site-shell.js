@@ -38,7 +38,7 @@ document.head.append(analyticsScript);
 
 const LOCAL_LINKS = {
   home: [],
-  classroom: [["overview", "รายละเอียด"], ["prepare", "เตรียมตัว"], ["syllabus", "Syllabus"]],
+  classroom: [["outcomes", "Learning outcomes"], ["syllabus", "Syllabus"], ["requirements", "Requirements"]],
   1: [["setup", "ก่อนเริ่ม"], ["practice", "ฝึกทำ"], ["homework", "งานท้ายบท"]],
   2: [["sources", "ดาวน์โหลดข้อมูล"], ["json-basics", "รู้จัก MD/JSON"], ["activity", "ลงมือทำ"], ["submit", "ส่งงาน"], ["finish", "ทบทวน"]],
   3: [["start", "ก่อนเริ่ม"], ["activity", "ลงมือทำ"], ["finish", "ทบทวน"]],
