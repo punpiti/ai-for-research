@@ -222,7 +222,7 @@ for name in \
   'Experiment Design Stress Test' \
   'Analysis & Visualization' \
   'Document Production' \
-  'Personal AI Research Workflow'; do
+  'Personal AI Research Practice'; do
   grep -Fq "$name" "$root/assets/site-shell.js"
 done
 if rg -n 'M2 · AI Boundaries</a>|M3 · Problem–Gap–RQ</a>|M4 · Literature</a>|M5 · Logic Review</a>|M6 · (Experiment Design|Design Review|Result–Claim)</a>|M7 · (Analysis Review|Analysis &amp; Visuals)</a>|M8 · Document QA</a>|M9 · (Build-up Kit|Reviews Kit|Publication Kit)</a>' "$root/index.html"; then

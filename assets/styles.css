@@ -17,9 +17,6 @@
 .login-intro, .login-panel { padding: clamp(1.6rem, 5vw, 3.5rem); }
 .login-intro { background: var(--surface-strong); }
 .login-intro h1 { margin-bottom: 1.4rem; font-size: clamp(3rem, 7vw, 5.8rem); }
-.login-intro > p:not(.eyebrow), .login-points { color: var(--ink-soft); overflow-wrap: anywhere; }
-.login-points { margin: 2rem 0 0; padding-left: 1.25rem; }
-.login-points li { margin-bottom: .55rem; }
 .login-panel { display: flex; flex-direction: column; justify-content: center; }
 .login-panel form { display: grid; gap: .85rem; }
 .login-provider-label { margin: 0 0 .75rem; font-weight: 600; }
@@ -36,9 +33,6 @@
 .login-status:empty { padding: 0; }
 .login-status.is-success { border: 1px solid rgba(135,199,178,.65); color: #d9f3ea; background: #0c2923; }
 .login-status.is-error { border: 1px solid rgba(239,125,85,.7); color: #ffd8c8; background: #291b17; }
-.login-privacy { margin-top: 1.5rem; padding-top: 1.25rem; border-top: 1px solid var(--line); }
-.login-privacy strong { color: var(--mint); }
-.login-privacy p { margin: .4rem 0 0; color: var(--ink-soft); font-size: .86rem; }
 @media (max-width: 760px) { .login-card { grid-template-columns: minmax(0, 1fr); box-shadow: .65rem .65rem 0 #25483f; } .login-intro, .login-panel { min-width: 0; } .login-intro h1 { font-size: clamp(3rem, 15vw, 5rem); } }
 @media (max-width: 560px) { .login-body .site-header .module-menu, .login-body .site-header .nav-cta { display: none; } .login-page { padding: 2rem .75rem 4rem; } .login-card { width: calc(100% - .65rem); } }
 
