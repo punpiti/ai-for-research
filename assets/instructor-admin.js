@@ -41,11 +41,14 @@
 
   if (typeof document === "undefined") return;
   let classroomId = classroomIdFromSearch(globalObject.location.search);
+  let classroomType = "class";
   const pageStatus = document.querySelector("[data-page-status]");
   const classroomSelector = document.querySelector("[data-classroom-selector]");
   const sourceClassroom = document.querySelector("[data-source-classroom]");
   const publicClassLink = document.querySelector("[data-public-class-link]");
+  const openCreateClass = document.querySelector("[data-open-create-class]");
   const createDialog = document.querySelector("[data-create-class-dialog]");
+  const createDialogTitle = document.querySelector("#create-class-title");
   const createForm = document.querySelector("[data-create-class-form]");
   const createStatus = document.querySelector("[data-create-class-status]");
   const enrollmentRows = document.querySelector("[data-enrollment-rows]");
@@ -53,6 +56,9 @@
   const moduleList = document.querySelector("[data-module-list]");
   const syllabusForm = document.querySelector("[data-syllabus-form]");
   const syllabusStatus = document.querySelector("[data-syllabus-status]");
+  const syllabusActions = document.querySelector("[data-syllabus-actions]");
+  const templateNotice = document.querySelector("[data-template-notice]");
+  const classOnlyElements = [...document.querySelectorAll("[data-class-only]")];
 
   function node(tag, className = "", text = "") {
     const element = document.createElement(tag);
@@ -84,6 +90,16 @@
     return option;
   }
 
+  function applyClassroomMode(classroom) {
+    classroomType = classroom?.classroom_type === "template" ? "template" : "class";
+    const isTemplate = classroomType === "template";
+    templateNotice.hidden = !isTemplate;
+    classOnlyElements.forEach((element) => { element.hidden = isTemplate; });
+    syllabusActions.hidden = isTemplate;
+    openCreateClass.textContent = isTemplate ? "คัดลอกเป็นคลาสใหม่" : "+ สร้างคลาสใหม่";
+    publicClassLink.hidden = isTemplate;
+  }
+
   function renderClassroomChoices(classes) {
     classroomSelector.replaceChildren(...classes.map(classOption));
     sourceClassroom.replaceChildren(...classes.map(classOption));
@@ -93,10 +109,10 @@
     if (!selected) throw new Error("ยังไม่มีคลาสที่คุณเป็นผู้สอน");
     classroomId = selected;
     const selectedClass = classes.find((item) => item.classroom_id === classroomId);
+    applyClassroomMode(selectedClass);
     classroomSelector.value = classroomId;
     sourceClassroom.value = classroomId;
     publicClassLink.href = `../classroom.html?id=${encodeURIComponent(classroomId)}`;
-    publicClassLink.hidden = selectedClass?.classroom_type === "template";
     const canonicalSearch = `?id=${encodeURIComponent(classroomId)}`;
     if (globalObject.location.search !== canonicalSearch) {
       globalObject.history.replaceState(null, "", canonicalSearch);
@@ -117,6 +133,7 @@
 
   function renderEnrollments(data) {
     enrollmentRows.replaceChildren();
+    if (data.classroom.classroom_type === "template") return;
     data.enrollments.forEach((item) => {
       const row = node("tr");
       const person = node("td");
@@ -177,9 +194,25 @@
 
   function renderSyllabus(data) {
     moduleList.replaceChildren();
+    const isTemplate = data.classroom.classroom_type === "template";
     data.syllabus.forEach((module) => {
       const moduleName = `${module.id.replace("module-", "M")} · ${module.title}`;
       const card = node("article", "instructor-module");
+
+      if (isTemplate) {
+        const content = node("div", "instructor-module-choice is-read-only");
+        content.append(
+          node("strong", "instructor-module-title", moduleName),
+          node("span", "instructor-module-status", module.included ? "ใน Syllabus" : "ยังไม่รวม"),
+        );
+        if (module.active) content.append(node("span", "instructor-module-active-label", "โมดูลเริ่มต้น"));
+        card.classList.add(module.included ? "is-included" : "is-excluded");
+        card.classList.toggle("is-active", module.active);
+        card.append(content);
+        moduleList.append(card);
+        return;
+      }
+
       const includeLabel = node("label", "instructor-module-choice");
       const checkbox = node("input");
       checkbox.type = "checkbox";
@@ -261,6 +294,10 @@
 
   syllabusForm.addEventListener("submit", async (event) => {
     event.preventDefault();
+    if (classroomType === "template") {
+      syllabusStatus.textContent = "คัดลอกต้นแบบเป็นคลาสใหม่ก่อนแก้ไข Syllabus";
+      return;
+    }
     const moduleIds = [...syllabusForm.querySelectorAll('input[name="included_module"]:checked')].map((item) => item.value);
     const activeModuleId = syllabusForm.querySelector('input[name="active_module"]:checked')?.value || null;
     if (!moduleIds.length || (activeModuleId && !moduleIds.includes(activeModuleId))) {
@@ -286,10 +323,14 @@
     if (selected) globalObject.location.assign(`?id=${encodeURIComponent(selected)}`);
   });
 
-  document.querySelector("[data-open-create-class]").addEventListener("click", () => {
+  openCreateClass.addEventListener("click", () => {
     createStatus.textContent = "";
     createForm.elements.title.value = "";
     sourceClassroom.value = classroomId;
+    const isTemplate = classroomType === "template";
+    createDialogTitle.textContent = isTemplate ? "คัดลอกเป็นคลาสใหม่" : "สร้างคลาสใหม่";
+    createForm.querySelector('button[type="submit"]').textContent = isTemplate ? "คัดลอกเป็นคลาสใหม่" : "สร้างคลาส";
+    sourceClassroom.disabled = isTemplate;
     if (typeof createDialog.showModal === "function") createDialog.showModal();
     else createDialog.setAttribute("open", "");
   });

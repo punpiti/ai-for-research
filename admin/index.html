@@ -9,8 +9,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../assets/styles.css?v=20261008-13">
-  <script src="../assets/instructor-admin.js?v=20261008-3" defer></script>
+  <link rel="stylesheet" href="../assets/styles.css?v=20261008-14">
+  <script src="../assets/instructor-admin.js?v=20261008-4" defer></script>
 </head>
 <body class="instructor-body">
   <a class="skip-link" href="#main">ข้ามไปยังเนื้อหา</a>
@@ -32,7 +32,7 @@
         <h1>หน้าของ<br><span>อาจารย์</span></h1>
         <p class="instructor-class-title" data-class-title>กำลังโหลดข้อมูลคลาส…</p>
       </div>
-      <dl class="instructor-summary" aria-label="สรุปคลาส">
+      <dl class="instructor-summary" aria-label="สรุปคลาส" data-class-only>
         <div><dt>ผู้ลงทะเบียน</dt><dd data-summary-enrolled>—</dd></div>
         <div><dt>รออนุมัติ</dt><dd data-summary-pending>—</dd></div>
         <div><dt>Active module</dt><dd data-summary-module>—</dd></div>
@@ -41,7 +41,15 @@
 
     <p class="instructor-page-status" data-page-status role="status" aria-live="polite">กำลังโหลดข้อมูล…</p>
 
-    <section class="instructor-section" id="enrollment" aria-labelledby="enrollment-title">
+    <section class="template-lock-note" data-template-notice hidden>
+      <div>
+        <p class="eyebrow">Course template</p>
+        <h2>ต้นแบบรายวิชา</h2>
+      </div>
+      <p>ต้นแบบแก้ไขและรับลงทะเบียนไม่ได้ คัดลอกเป็นคลาสใหม่เพื่อเริ่มใช้งาน</p>
+    </section>
+
+    <section class="instructor-section" id="enrollment" aria-labelledby="enrollment-title" data-class-only>
       <div class="instructor-section-heading">
         <p class="eyebrow">01 · Enrollment</p>
         <h2 id="enrollment-title">ผู้ลงทะเบียนและ Token</h2>
@@ -61,14 +69,14 @@
       </div>
       <form class="instructor-syllabus" data-syllabus-form>
         <div class="instructor-module-list" data-module-list></div>
-        <div class="instructor-actions">
+        <div class="instructor-actions" data-syllabus-actions>
           <button class="button primary" type="submit">บันทึก Syllabus</button>
           <p data-syllabus-status role="status" aria-live="polite"></p>
         </div>
       </form>
     </section>
 
-    <section class="instructor-section" id="status" aria-labelledby="status-title">
+    <section class="instructor-section" id="status" aria-labelledby="status-title" data-class-only>
       <div class="instructor-section-heading">
         <p class="eyebrow">03 · Current status</p>
         <h2 id="status-title">Submission ของ Active module</h2>
