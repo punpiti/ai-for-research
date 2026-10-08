@@ -5,6 +5,10 @@ param(
 $ErrorActionPreference = 'Stop'
 $root = Split-Path -Parent (Split-Path -Parent $MyInvocation.MyCommand.Path)
 $installer = Join-Path $root 'downloads/setup-windows.ps1'
+$portableRoot = Join-Path ([IO.Path]::GetTempPath()) 'ai-research-windows-behavior-test'
+if (-not $env:LOCALAPPDATA) { $env:LOCALAPPDATA = Join-Path $portableRoot 'local' }
+if (-not $env:ProgramFiles) { $env:ProgramFiles = Join-Path $portableRoot 'program-files' }
+if (-not $env:TEMP) { $env:TEMP = Join-Path $portableRoot 'temp' }
 $selectedCommand = if ($Agent -eq 'antigravity') { 'agy-ide' } else { $Agent }
 $commands = switch ($State) {
   'present' { @('npm','code','uv',$selectedCommand) }

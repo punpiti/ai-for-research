@@ -13,6 +13,7 @@ bash scripts/audit-public.sh
 bash scripts/test-learner-content.sh
 bash scripts/test-installers.sh
 node --check assets/site-shell.js
+node --check assets/module-2-submission.js
 node --check assets/course-cart.js
 node --check assets/checkout.js
 if [[ -z "$remote_base" ]]; then

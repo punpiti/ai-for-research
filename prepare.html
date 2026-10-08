@@ -9,8 +9,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/styles.css?v=20260805-16">
-  <script src="assets/app.js?v=20261007-6" defer></script>
+  <link rel="stylesheet" href="assets/styles.css?v=20261008-17">
+  <script src="assets/app.js?v=20261008-7" defer></script>
   <script src="assets/site-shell.js?v=20260805-5"></script>
 </head>
 <body class="prepare-page">
@@ -37,9 +37,10 @@
     <section class="section" id="outcomes">
       <div class="section-heading compact"><p class="eyebrow">LO</p><h2>สิ่งที่จะทำได้</h2></div>
       <div class="check-grid outcome-grid">
-        <div><span>01</span><strong>เปิดพื้นที่ทำงานและเชื่อมต่อ AI ได้</strong></div>
-        <div><span>02</span><strong>สร้างและตรวจไฟล์ Markdown กับ PDF ได้</strong></div>
-        <div><span>03</span><strong>สร้างข้อมูลผู้เรียนและบริบทสำหรับใช้ในโมดูลถัดไปได้</strong></div>
+        <div><span>01</span><strong>อธิบายความต่างระหว่าง task, chat, project และ workspace ได้</strong></div>
+        <div><span>02</span><strong>เปิดพื้นที่ทำงานและเชื่อมต่อ AI ได้</strong></div>
+        <div><span>03</span><strong>จัดวางและตรวจไฟล์ Markdown, CSV และ PDF ได้</strong></div>
+        <div><span>04</span><strong>สร้างข้อมูลผู้เรียนและบริบทสำหรับใช้ในโมดูลถัดไปได้</strong></div>
       </div>
     </section>
 
@@ -137,7 +138,15 @@
       <p>เลือก extension จากผู้พัฒนา official หรือที่มียอดติดตั้งสูง: <a href="https://marketplace.visualstudio.com/items?itemName=mathematic.vscode-pdf" target="_blank" rel="noopener">PDF Viewer</a> เปิด PDF, <a href="https://marketplace.visualstudio.com/items?itemName=mechatroner.rainbow-csv" target="_blank" rel="noopener">Rainbow CSV</a> แยกสีและจัดแนวคอลัมน์ CSV และ <a href="https://marketplace.visualstudio.com/items?itemName=AykutSarac.jsoncrack-vscode" target="_blank" rel="noopener">JSON Crack</a> ซึ่งเป็น extension official ของโครงการ JSON Crack แสดง JSON เป็นแผนภาพ ทั้งสามตัวติดตั้งพร้อมกันทุกตัวเลือก AI ส่วนการอ่าน จัดรูปแบบ และพับโครงสร้าง JSON มีอยู่ใน VS Code ของ Microsoft แล้ว</p>
       <p>เปิด PDF หรือ CSV ได้จากรายการไฟล์ สำหรับ CSV ใช้ <code>Rainbow CSV: Virtual Align CSV Columns</code> เพื่อจัดแนวโดยไม่เปลี่ยนข้อมูล สำหรับ JSON เปิดไฟล์แล้วคลิกไอคอน JSON Crack ที่มุมขวาบนของ editor ยอดติดตั้งที่ตรวจเมื่อ 7 ตุลาคม 2026: PDF Viewer ประมาณ 2.8 ล้านครั้ง, Rainbow CSV ประมาณ 24.3 ล้านครั้ง และ JSON Crack ประมาณ 7.8 แสนครั้ง ตัวเลขนี้เป็นยอดติดตั้งสะสม ไม่ใช่จำนวนผู้ใช้ปัจจุบัน</p>
       <p>ตัวแสดง usage เลือกตาม AI: Claude ใช้ <code>growthjack.claude-code-usage</code>, Codex ใช้ <code>ganymede404.vscode-codex-usage</code> และ OpenRouter ใช้ <code>ThiagoSantosDevBR.openrouter-ai-monitor</code> โดยแสดง quota, เครดิต หรือเวลาที่จะ reset บริเวณ status bar ด้านล่าง ตัว OpenRouter ต้องสั่ง <code>OpenRouter: Set API Key</code> หนึ่งครั้งหลังเปิด VS Code; key เก็บใน Secret Storage ของ VS Code ไม่บันทึกเป็น plain text ใน settings</p>
-      <div class="notice"><strong>ถ้ารันซ้ำหรือแก้ปัญหา:</strong> คัดลอกคำสั่งติดตั้งด้านล่างใหม่แล้วรันได้เลย แล้วตรวจว่าเห็น <code>SETUP_VERSION 2026.10.07.19</code></div>
+      <div class="notice"><strong>ถ้ารันซ้ำหรือแก้ปัญหา:</strong> คัดลอกคำสั่งติดตั้งด้านล่างใหม่แล้วรันได้เลย แล้วตรวจว่าเห็น <code>SETUP_VERSION 2026.10.08.20</code></div>
+      <div class="project-name-choice">
+        <label for="project-name"><strong>ชื่อโฟลเดอร์โปรเจกต์</strong><span>เว็บจะจำชื่อนี้ในเบราว์เซอร์และใส่ให้ในคำสั่งติดตั้ง คำสั่งเปิด Workspace แผนผัง และจุดตรวจด้านล่างโดยอัตโนมัติ</span></label>
+        <div class="project-name-control">
+          <input id="project-name" data-project-name-input value="ai-for-research-workspace" autocomplete="off" spellcheck="false" aria-describedby="project-name-status">
+          <button type="button" class="button secondary" data-project-name-reset>ใช้ชื่อเริ่มต้น</button>
+        </div>
+        <small id="project-name-status" data-project-name-status role="status" aria-live="polite">บันทึกอัตโนมัติในเบราว์เซอร์นี้</small>
+      </div>
       <div class="platform-picker" role="group" aria-label="เลือกระบบปฏิบัติการสำหรับติดตั้ง software">
         <button type="button" data-platform-button="windows">Windows 11</button>
         <button type="button" data-platform-button="macos">macOS</button>
@@ -147,22 +156,23 @@
         <article class="platform-card" data-platform-panel="windows">
           <p class="platform-label">Windows 11</p><h3>เปิด PowerShell ปกติ</h3>
           <h4 class="phase-title"><span>1</span> คัดลอกคำสั่งนี้แล้วกด Enter ครั้งเดียว</h4>
-          <div class="command"><code data-agent-command data-template="&amp; { $setup = Join-Path $env:TEMP &#x27;ai-research-setup.ps1&#x27;; Invoke-WebRequest -UseBasicParsing -ErrorAction Stop &quot;https://urban.cpe.ku.ac.th/ai-for-research/downloads/setup-windows.ps1&quot; -OutFile $setup; powershell -NoProfile -ExecutionPolicy Bypass -File &quot;$setup&quot; -Mode Install -Agent {agent} }">&amp; { $setup = Join-Path $env:TEMP 'ai-research-setup.ps1'; Invoke-WebRequest -UseBasicParsing -ErrorAction Stop "https://urban.cpe.ku.ac.th/ai-for-research/downloads/setup-windows.ps1" -OutFile $setup; powershell -NoProfile -ExecutionPolicy Bypass -File "$setup" -Mode Install -Agent codex }</code><button type="button" data-copy>คัดลอก</button></div>
+          <div class="command"><code data-agent-command data-template="&amp; { $env:AI_RESEARCH_PROJECT_NAME={projectPs}; $setup = Join-Path $env:TEMP &#x27;ai-research-setup.ps1&#x27;; Invoke-WebRequest -UseBasicParsing -ErrorAction Stop &quot;https://urban.cpe.ku.ac.th/ai-for-research/downloads/setup-windows.ps1&quot; -OutFile $setup; powershell -NoProfile -ExecutionPolicy Bypass -File &quot;$setup&quot; -Mode Install -Agent {agent} }">&amp; { $env:AI_RESEARCH_PROJECT_NAME='ai-for-research-workspace'; $setup = Join-Path $env:TEMP 'ai-research-setup.ps1'; Invoke-WebRequest -UseBasicParsing -ErrorAction Stop "https://urban.cpe.ku.ac.th/ai-for-research/downloads/setup-windows.ps1" -OutFile $setup; powershell -NoProfile -ExecutionPolicy Bypass -File "$setup" -Mode Install -Agent codex }</code><button type="button" data-copy>คัดลอก</button></div>
           <p class="expected">เริ่มใน PowerShell ปกติเพียงหน้าต่างเดียว หากเครื่องมือระบบยังไม่ครบ Script จะเปิดหน้าต่าง Admin หนึ่งครั้ง ให้ตอบ Yes ที่ UAC แล้วรอให้กลับมาทำงานต่อในหน้าต่างเดิม เมื่อเครื่องมือระบบครบแล้วจะข้าม Admin เมื่อเตรียม Python และ PDF ผ่าน จะเห็น <code>RUNTIME_READY</code></p>
         </article>
         <article class="platform-card" data-platform-panel="macos">
           <p class="platform-label">macOS</p><h3>เปิด Terminal ปกติ</h3>
           <h4 class="phase-title"><span>1</span> คัดลอกคำสั่งนี้แล้วกด Enter ครั้งเดียว</h4>
-          <div class="command"><code data-agent-command data-template="setup=&quot;$(mktemp)&quot; &amp;&amp; curl -fsSL &quot;https://urban.cpe.ku.ac.th/ai-for-research/downloads/setup-macos.sh&quot; -o &quot;$setup&quot; &amp;&amp; AI_GRAD_AGENT={agent} bash &quot;$setup&quot; --install">setup="$(mktemp)" &amp;&amp; curl -fsSL "https://urban.cpe.ku.ac.th/ai-for-research/downloads/setup-macos.sh" -o "$setup" &amp;&amp; AI_GRAD_AGENT=codex bash "$setup" --install</code><button type="button" data-copy>คัดลอก</button></div>
+          <div class="command"><code data-agent-command data-template="setup=&quot;$(mktemp)&quot; &amp;&amp; curl -fsSL &quot;https://urban.cpe.ku.ac.th/ai-for-research/downloads/setup-macos.sh&quot; -o &quot;$setup&quot; &amp;&amp; AI_RESEARCH_PROJECT_NAME={projectSh} AI_GRAD_AGENT={agent} bash &quot;$setup&quot; --install">setup="$(mktemp)" &amp;&amp; curl -fsSL "https://urban.cpe.ku.ac.th/ai-for-research/downloads/setup-macos.sh" -o "$setup" &amp;&amp; AI_RESEARCH_PROJECT_NAME='ai-for-research-workspace' AI_GRAD_AGENT=codex bash "$setup" --install</code><button type="button" data-copy>คัดลอก</button></div>
           <p class="expected">ใช้ Terminal ปกติหน้าต่างเดียว ติดตั้ง Homebrew เมื่อยังไม่มีและใส่รหัสผ่านเมื่อระบบขอ จากนั้นเตรียมเครื่องมือของผู้ใช้ต่อเนื่อง เมื่อเตรียม Python และ PDF ผ่าน จะเห็น <code>RUNTIME_READY</code> Script จะเปิด Workspace ใน <span data-workspace-app>VS Code</span> ให้อัตโนมัติ</p>
         </article>
         <article class="platform-card" data-platform-panel="linux">
           <p class="platform-label">Linux (Ubuntu/Debian)</p><h3>เปิด Terminal ปกติ</h3>
           <h4 class="phase-title"><span>1</span> คัดลอกคำสั่งนี้แล้วกด Enter ครั้งเดียว</h4>
-          <div class="command"><code data-agent-command data-template="setup=&quot;$(mktemp)&quot; &amp;&amp; curl -fsSL &quot;https://urban.cpe.ku.ac.th/ai-for-research/downloads/setup-linux.sh&quot; -o &quot;$setup&quot; &amp;&amp; AI_GRAD_AGENT={agent} bash &quot;$setup&quot; --install">setup="$(mktemp)" &amp;&amp; curl -fsSL "https://urban.cpe.ku.ac.th/ai-for-research/downloads/setup-linux.sh" -o "$setup" &amp;&amp; AI_GRAD_AGENT=codex bash "$setup" --install</code><button type="button" data-copy>คัดลอก</button></div>
+          <div class="command"><code data-agent-command data-template="setup=&quot;$(mktemp)&quot; &amp;&amp; curl -fsSL &quot;https://urban.cpe.ku.ac.th/ai-for-research/downloads/setup-linux.sh&quot; -o &quot;$setup&quot; &amp;&amp; AI_RESEARCH_PROJECT_NAME={projectSh} AI_GRAD_AGENT={agent} bash &quot;$setup&quot; --install">setup="$(mktemp)" &amp;&amp; curl -fsSL "https://urban.cpe.ku.ac.th/ai-for-research/downloads/setup-linux.sh" -o "$setup" &amp;&amp; AI_RESEARCH_PROJECT_NAME='ai-for-research-workspace' AI_GRAD_AGENT=codex bash "$setup" --install</code><button type="button" data-copy>คัดลอก</button></div>
           <p class="expected">รองรับ Ubuntu/Debian; ใช้ Terminal ปกติหน้าต่างเดียว Script เรียก sudo หนึ่งช่วงเฉพาะเมื่อขาดเครื่องมือระบบ แล้วเตรียม Python และ TinyTeX ในบัญชีผู้ใช้ปกติ ต้องเห็น <code>RUNTIME_READY</code></p>
         </article>
       </div>
+      <div class="notice"><strong>ชื่อโปรเจกต์ที่บันทึกไว้:</strong> <code data-project-name>ai-for-research-workspace</code> คำสั่งด้านบนส่งชื่อนี้ให้ Script โดยตรง จึงไม่ต้องพิมพ์ซ้ำ หากรัน Script แยกจากหน้าเว็บและไม่ได้ส่งชื่อไป Script จะถาม <code>Project folder name [ai-for-research-workspace]</code></div>
       <div class="notice"><strong>ติดตั้งสำเร็จเมื่อ:</strong> เห็น <code>RUNTIME_READY</code> ซึ่งยืนยัน Python ใน venv, XeLaTeX และการสร้าง PDF ภาษาไทยผ่าน template จริง เครื่องมือระบบจะตรวจ Pandoc, <code>pdftotext</code>, <code>pdftoppm</code>, <code>pdfinfo</code> และ OCR ไทย–อังกฤษก่อนเปิด Workspace พร้อม AI panel หากขั้นใดล้มเหลว Script จะหยุดและแสดงข้อผิดพลาด</div>
       <p>ระหว่างติดตั้งจะแสดงเฉพาะขั้นหลัก เมื่อเสร็จจะแสดงสรุปเครื่องมือที่ใช้ต่อจากของเดิม รายการที่เพิ่ม และตำแหน่ง log รายละเอียดและประวัติการเปลี่ยนแปลงจะเก็บในเครื่อง หากติดตั้งไม่สำเร็จ Script จะแสดงขั้นที่มีปัญหาและตำแหน่ง log สำหรับตรวจสอบ</p>
       <h3>มีอยู่แล้วให้ใช้ต่อ</h3>
@@ -182,7 +192,7 @@
         <p>Python, LaTeX และคำสั่งวิเคราะห์จะรันใน WSL ให้ตรวจมุมล่างซ้ายของ VS Code ว่าเป็น <code>WSL: Ubuntu</code> หรือชื่อ distribution ของคุณ ดู <a href="https://code.visualstudio.com/docs/remote/wsl" target="_blank" rel="noreferrer">คู่มือ VS Code ใน WSL</a></p>
       </details>
       <h3>ให้ AI ติดตั้งเพิ่มได้เมื่อจำเป็น</h3>
-      <p>Installer สร้างโฟลเดอร์งาน <code>ai-for-research-workspace</code> ในโฟลเดอร์ผู้ใช้บนเครื่อง และใช้ uv จัดการ Python 3.12 กับ venv ของคอร์ส ส่วน environment, cache และ TinyTeX อยู่ในโฟลเดอร์เครื่องมือแยกจากโฟลเดอร์งาน ไฟล์ <code>tools/runtime-env.json</code> บอกตำแหน่งจริง และ <code>tools/runtime-env.sh</code> / <code>tools/runtime-env.ps1</code> ใช้เปิด environment ซ้ำได้</p>
+      <p>Installer สร้างโฟลเดอร์ <code data-project-name>ai-for-research-workspace</code> ในโฟลเดอร์ผู้ใช้บนเครื่อง และใช้ uv จัดการ Python 3.12 กับ venv ของคอร์ส ส่วน environment, cache และ TinyTeX อยู่ในโฟลเดอร์เครื่องมือแยกจากโฟลเดอร์โปรเจกต์ ไฟล์ <code>tools/runtime-env.json</code> บอกตำแหน่งจริง และ <code>tools/runtime-env.sh</code> / <code>tools/runtime-env.ps1</code> ใช้เปิด environment ซ้ำได้</p>
       <p>Workspace มีโครง Agent Project Kit เฉพาะส่วนที่ช่วยลดค่าใช้ AI ได้แก่ <code>AGENTS.md</code>, state สั้น, token budget, startup contract และ token discipline เท่านั้น ค่าเริ่มต้นคือ Standard + Economy: AI อ่านเฉพาะไฟล์ที่เกี่ยวข้อง ใช้ Markdown ที่ถอดไว้ซ้ำ สรุปสถานะเพื่อไม่เล่าบริบทใหม่ และถามก่อน scan/research/test loop ที่มีต้นทุนสูง โดยไม่ตัดการตรวจหลักฐานหรือ test ที่จำเป็น</p>
       <p>Codex: Installer สร้าง <code>.codex/config.toml</code> เฉพาะ Workspace นี้ ให้เขียนไฟล์งานและโฟลเดอร์เครื่องมือ ดาวน์โหลดผ่านเครือข่าย และรันคำสั่งโดยไม่ถามยืนยันซ้ำ ยอมรับความเชื่อถือของ Workspace ครั้งแรก แล้วเริ่ม session ใหม่เพื่อโหลดค่า เครื่ององค์กรอาจมีนโยบายที่ override ค่าเหล่านี้ได้</p>
       <p>Claude Code: เตรียมการอนุญาตเครื่องมือ Python, Pandoc, XeLaTeX, bibliography, <code>latexmk</code> และ <code>latexdiff</code> เฉพาะ Workspace ผ่าน <code>.claude/settings.local.json</code> คำสั่งอื่นอาจยังถาม หากมี config เดิม Installer จะเก็บไว้และแจ้งให้ตรวจค่า</p>
@@ -208,7 +218,7 @@
             <li><span>2</span><div>คัดลอกคำสั่งด้านล่างแล้วกด Enter</div></li>
             <li><span>3</span><div>รอให้ <span data-workspace-app>VS Code</span> เปิดโฟลเดอร์งาน</div></li>
           </ol>
-          <div class="command"><code data-agent-command data-template="code --profile &quot;AI for Research - {agent}&quot; &quot;$HOME\ai-for-research-workspace&quot;">code --profile "AI for Research - codex" "$HOME\ai-for-research-workspace"</code><button type="button" data-copy>คัดลอก</button></div>
+          <div class="command"><code data-agent-command data-template="code --profile &quot;AI for Research - {agent}&quot; (Join-Path $HOME {projectPs})">code --profile "AI for Research - codex" (Join-Path $HOME 'ai-for-research-workspace')</code><button type="button" data-copy>คัดลอก</button></div>
         </article>
         <article data-platform-panel="macos">
           <p class="platform-label">macOS</p>
@@ -220,7 +230,7 @@
               <li><span>3</span><div>กด <strong>Command (⌘) + Shift + G</strong></div></li>
               <li><span>4</span><div>วางตำแหน่งโฟลเดอร์ด้านล่าง กด Enter แล้วกด <strong>Open</strong></div></li>
             </ol>
-            <div class="command"><code>~/ai-for-research-workspace</code><button type="button" data-copy>คัดลอกตำแหน่งโฟลเดอร์</button></div>
+            <div class="command"><code data-project-path>~/ai-for-research-workspace</code><button type="button" data-copy>คัดลอกตำแหน่งโฟลเดอร์</button></div>
           </div>
         </article>
         <article data-platform-panel="linux">
@@ -231,10 +241,11 @@
             <li><span>2</span><div>คัดลอกคำสั่งด้านล่างแล้วกด Enter</div></li>
             <li><span>3</span><div>รอให้ <span data-workspace-app>VS Code</span> เปิดโฟลเดอร์ผ่าน Linux</div></li>
           </ol>
-          <div class="command"><code data-agent-command data-template="code --profile &quot;AI for Research - {agent}&quot; &quot;$HOME/ai-for-research-workspace&quot;">code --profile "AI for Research - codex" "$HOME/ai-for-research-workspace"</code><button type="button" data-copy>คัดลอก</button></div>
+          <div class="command"><code data-agent-command data-template="code --profile &quot;AI for Research - {agent}&quot; &quot;$HOME&quot;/{projectSh}">code --profile "AI for Research - codex" "$HOME"/'ai-for-research-workspace'</code><button type="button" data-copy>คัดลอก</button></div>
         </article>
       </div>
       </details>
+      <p class="expected">คำสั่งเปิด Workspace ใช้ชื่อที่เว็บบันทึกไว้: <code data-project-name>ai-for-research-workspace</code> หากกลับมาใช้เบราว์เซอร์นี้ภายหลัง เว็บจะเติมชื่อเดิมให้อัตโนมัติ</p>
       <div class="plain-note"><strong>พร้อมเมื่อ:</strong> เห็น <code>README.md</code>, <code>content.md</code>, <code>input/original/</code>, <code>input/markdown/</code>, <code>tools/</code> และ <code>output/</code> ใน Explorer</div>
       <h3 class="section-zone-heading">เชื่อมต่อบัญชี AI</h3>
       <ol class="readiness-steps" data-login-steps>
@@ -244,6 +255,42 @@
       </ol>
       <p class="expected">รายละเอียดจากผู้ให้บริการ: <a data-login-source href="https://developers.openai.com/codex/" target="_blank" rel="noopener">คู่มือ Codex ของ OpenAI</a></p>
       <div class="plain-note"><strong>พร้อมไปต่อเมื่อ:</strong> Sign in สำเร็จและเห็นช่องสนทนาใน AI panel</div>
+      <section id="project-basics" aria-labelledby="project-basics-heading">
+        <h3 class="section-zone-heading" id="project-basics-heading">จาก Workspace สู่ Research Project</h3>
+        <p><strong>โปรเจกต์</strong> คืองานหนึ่งเรื่องที่มีเป้าหมาย ขอบเขต ข้อมูลนำเข้า กติกา สถานะ และผลลัพธ์ของตนเอง ส่วน <strong>Workspace</strong> คือโฟลเดอร์ที่เก็บส่วนประกอบเหล่านี้และเป็นขอบเขตที่ AI ใช้ทำงานร่วมกับเรา การสนทนาเป็นช่องทางสั่งงาน แต่ไฟล์ในโปรเจกต์คือความจำและหลักฐานที่ใช้ต่อข้าม session</p>
+        <div class="check-grid">
+          <div><span>Task</span><strong>งานหนึ่งครั้ง เช่น ตรวจเอกสารหรือสร้างตาราง</strong></div>
+          <div><span>Chat</span><strong>พื้นที่สนทนาเพื่อสั่งงาน อธิบาย และตัดสินใจ</strong></div>
+          <div><span>Project</span><strong>งานต่อเนื่องหนึ่งเรื่องที่มีหลักฐาน กติกา และผลลัพธ์</strong></div>
+          <div><span>Workspace</span><strong>โฟลเดอร์ของโปรเจกต์ที่คนและ AI ใช้ร่วมกัน</strong></div>
+        </div>
+        <div class="terminal-primer project-structure">
+          <h4>โปรเจกต์นี้อยู่ที่ <code data-project-name>ai-for-research-workspace</code></h4>
+          <pre><code><span data-project-name>ai-for-research-workspace</span>/
+├── README.md                 โปรเจกต์นี้คืออะไร
+├── AGENTS.md                 กติกาที่ AI ต้องปฏิบัติตาม
+├── content.md                เนื้อหา Markdown ที่กำลังพัฒนา
+├── .ai/
+│   ├── PROJECT_STATE.md      เป้าหมาย สถานะ และงานถัดไป
+│   └── agent-project-kit/
+│       └── STARTUP.md        สิ่งที่ AI ต้องอ่านเมื่อเริ่ม session
+├── input/
+│   ├── original/             PDF, DOCX, CSV และต้นฉบับที่ไม่เขียนทับ
+│   └── markdown/             ข้อความที่ถอดจากต้นฉบับให้ค้นได้
+├── profile/                  บริบทผู้เรียนที่สร้างหลังอนุมัติ
+├── templates/ และ tools/     รูปแบบเอกสารและเครื่องมือของคอร์ส
+└── output/                   รายงาน ตาราง ภาพ และ PDF ที่สร้างใหม่</code></pre>
+        </div>
+        <p><code>.md</code> เป็นไฟล์ข้อความที่คนและ AI อ่านง่าย เหมาะกับเนื้อหา คำสั่ง และบันทึก ส่วน <code>.csv</code> เป็นข้อมูลตาราง แถวหนึ่งแทนหน่วยข้อมูลหนึ่งหน่วยและคอลัมน์หนึ่งแทนตัวแปรหนึ่งตัว CSV ต้นฉบับให้อยู่ใน <code>input/original/</code> และผลที่ทำความสะอาดหรือวิเคราะห์แล้วให้อยู่ใน <code>output/</code> โดยไม่เขียนทับต้นฉบับ</p>
+        <div class="plain-note"><strong>เมื่อเริ่มงานวิจัยเรื่องใหม่:</strong> ใช้โฟลเดอร์ใหม่และตั้งชื่อให้สื่อถึงงาน เช่น <code>thesis-water-quality</code> หรือ <code>survey-ai-literacy</code> หนึ่งโฟลเดอร์ควรแทนหนึ่งโปรเจกต์ ไม่ควรรวมหลายงานที่มีข้อมูล กติกา หรือผู้ร่วมงานต่างกันไว้ใน <code data-project-name>ai-for-research-workspace</code> เดียว</div>
+        <ol class="readiness-steps">
+          <li><span>01</span><div><strong>เปิด <code>README.md</code></strong><br>ตรวจชื่อโปรเจกต์ เป้าหมาย และสิ่งที่อยู่ในขอบเขต</div></li>
+          <li><span>02</span><div><strong>เปิด <code>AGENTS.md</code></strong><br>ดูว่า AI ได้รับกติกาเรื่องต้นฉบับ ผลลัพธ์ เครื่องมือ และการตรวจหลักฐานอย่างไร</div></li>
+          <li><span>03</span><div><strong>เปิด <code>.ai/PROJECT_STATE.md</code></strong><br>แยกสถานะที่เปลี่ยนตามงานออกจากกติกาถาวรใน <code>AGENTS.md</code></div></li>
+          <li><span>04</span><div><strong>ชี้ตำแหน่งไฟล์ให้ถูก</strong><br>ต้นฉบับไปที่ <code>input/original/</code> ข้อความที่ถอดแล้วไปที่ <code>input/markdown/</code> และงานที่สร้างใหม่ไปที่ <code>output/</code></div></li>
+        </ol>
+        <div class="plain-note"><strong>ผ่านจุดตรวจเมื่อ:</strong> อธิบายได้ว่าโปรเจกต์ต่างจาก task และ chat อย่างไร รู้ว่า Workspace อยู่ที่โฟลเดอร์ใด และเลือกตำแหน่งของไฟล์ต้นฉบับ Markdown, CSV และผลลัพธ์ได้ถูกต้อง</div>
+      </section>
       <h3 class="section-zone-heading">ฝึกบอกบริบทของคุณให้ AI</h3>
       <p>กิจกรรมนี้ฝึกให้ AI รู้ว่าใครกำลังทำงานอะไรและต้องการความช่วยเหลือแบบใด โดยให้ข้อมูลเท่าที่จำเป็น ช่องที่ไม่เกี่ยวข้องข้ามได้ และไม่ต้องระบุรหัสนิสิต เบอร์โทร อีเมล ที่อยู่ credential หรือข้อมูลส่วนบุคคลของผู้อื่น</p>
       <div data-research-profile data-mode="edit"></div>
@@ -293,6 +340,7 @@
       <div class="checklist" data-checklist="practice">
         <label><input type="checkbox"> เปิด workspace ใน <span data-workspace-app>VS Code</span> ได้</label>
         <label><input type="checkbox"> <span data-agent-panel>Codex panel</span> เชื่อมต่อบัญชีได้</label>
+        <label><input type="checkbox"> เข้าใจว่าโปรเจกต์นี้อยู่ใน <code data-project-name>ai-for-research-workspace</code> และรู้จักบทบาทของ <code>README.md</code>, <code>AGENTS.md</code> และ <code>PROJECT_STATE.md</code></label>
         <label><input type="checkbox"> AI ถามข้อมูลทีละข้อและรอฉันอนุมัติก่อนสร้างไฟล์</label>
         <label><input type="checkbox"> เปิดและตรวจ <code>profile/learner-profile.yaml</code>, <code>profile/learner-profile.md</code> และ <code>profile/learning-context.md</code> แล้ว</label>
         <label><input type="checkbox"> เข้าใจว่า <code>author-profile.bib</code> เป็นข้อมูลผู้แต่งแบบเลือกทำ ไม่ใช่ข้อมูลผู้เรียนหลัก</label>
@@ -306,8 +354,8 @@
       <ol class="readiness-steps">
         <li><span>01</span><div><strong>เปิด Terminal</strong><br>Windows เปิด PowerShell; macOS เปิด Terminal; Linux เปิด Terminal</div></li>
         <li><span>02</span><div><strong>เข้าโฟลเดอร์ Workspace</strong><br>ใช้ <code>cd</code> ไปยังโฟลเดอร์งานที่ installer สร้างไว้</div></li>
-        <li><span>03</span><div><strong>เปิด Workspace</strong><br>รัน <code data-workspace-open-command>code .</code> เพื่อเปิด <span data-workspace-app>VS Code</span><div class="command"><code data-agent-command data-template="cd &quot;$HOME/ai-for-research-workspace&quot;
-code .">cd "$HOME/ai-for-research-workspace"
+        <li><span>03</span><div><strong>เปิด Workspace</strong><br>รัน <code data-workspace-open-command>code .</code> เพื่อเปิด <span data-workspace-app>VS Code</span><div class="command"><code data-agent-command data-template="cd &quot;$HOME&quot;/{projectSh}
+code .">cd "$HOME"/'ai-for-research-workspace'
 code .</code><button type="button" data-copy>คัดลอก</button></div></div></li>
       </ol>
     </section>
@@ -317,9 +365,9 @@ code .</code><button type="button" data-copy>คัดลอก</button></div></
       <div class="homework-grid">
         <article><h3>ทบทวน</h3><p>ปิดแล้วเปิด <span data-workspace-app>VS Code</span> ใหม่ รัน script ในโหมด check และยืนยันว่า workspace, agent และ Markdown ยังทำงาน</p></article>
         <article><h3>หากต้องการความช่วยเหลือ</h3><p>เก็บข้อความที่เห็นบนหน้าจอหรือถ่ายภาพไว้ แล้วนำมาถามผู้สอนในชั้นเรียน</p></article>
-        <article><h3>เตรียมเอกสารก่อนมาเรียน</h3><p>เลือกเรื่องที่สนใจ แล้วเตรียมข่าว รายงาน บทความ หรือบทวิจารณ์ 6–8 ชิ้น รวมประมาณ 15–20 หน้า เก็บไว้ใน <code>input/original/</code> โดยต้องเป็นข้อมูลที่นำมาใช้กับ AI ได้</p></article>
+        <article><h3>เตรียม Module 2</h3><p>Module 2 มีชุดหลักฐานกลางเรื่องการเลือกมื้ออาหาร ทั้ง PDF, Excel, Word, ภาพ และเว็บไซต์ จึงไม่ต้องนำเอกสารส่วนตัวมา หากต้องการต่อยอดจึงค่อยเตรียมเอกสารที่เปิดเผยกับ AI ได้ 6–8 ชิ้น</p></article>
       </div>
-      <div class="notice"><strong>พร้อมมาเรียนเมื่อ:</strong> เปิด Workspace ได้ คุยกับ AI ได้ อ่าน Markdown และ PDF ได้ และเตรียมเอกสาร 6–8 ชิ้นไว้ใน <code>input/original/</code> แล้ว</div>
+      <div class="notice"><strong>พร้อมมาเรียนเมื่อ:</strong> เปิด Workspace ได้ คุยกับ AI ได้ และอ่าน Markdown กับ PDF ได้ ส่วนชุดเอกสารหลายรูปแบบสำหรับ Module 2 ดาวน์โหลดจากหน้าเรียนได้</div>
     </section>
   </main>
   <site-footer></site-footer>

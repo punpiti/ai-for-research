@@ -2,11 +2,29 @@
 set -euo pipefail
 
 mode="${1:---check}"
-course_dir="${AI_RESEARCH_COURSE_DIR:-${AI_GRAD_COURSE_DIR:-$HOME/ai-for-research-workspace}}"
+default_project_name='ai-for-research-workspace'
+explicit_course_dir="${AI_RESEARCH_COURSE_DIR:-${AI_GRAD_COURSE_DIR:-}}"
+course_dir="${explicit_course_dir:-$HOME/$default_project_name}"
 agent="${AI_GRAD_AGENT:-}"
 dry_run="${AI_RESEARCH_DRY_RUN:-0}"
-setup_version='2026.10.07.19'
+setup_version='2026.10.08.20'
 test_commands=",${AI_RESEARCH_TEST_COMMANDS:-},"
+
+choose_project_dir() {
+  [[ -z "$explicit_course_dir" ]] || return 0
+  [[ "$mode" =~ ^(--install|--setup-user|--repair)$ ]] || return 0
+  local project_name="${AI_RESEARCH_PROJECT_NAME:-}"
+  if [[ -z "$project_name" && "$dry_run" != 1 && -t 0 ]]; then
+    read -r -p "Project folder name [$default_project_name]: " project_name
+  fi
+  [[ -n "${project_name//[[:space:]]/}" ]] || project_name="$default_project_name"
+  if [[ "$project_name" == '.' || "$project_name" == '..' || "$project_name" == *'/'* || "$project_name" == *'\'* || "$project_name" == *':'* || "$project_name" == *'?'* || "$project_name" == *'*'* || "$project_name" == *'"'* || "$project_name" == *'<'* || "$project_name" == *'>'* || "$project_name" == *'|'* || "$project_name" == *'.' || "$project_name" == *' ' ]]; then
+    printf '[AI for Research] PROJECT_NAME_INVALID Use one folder name without path separators or reserved characters.\n' >&2
+    exit 2
+  fi
+  course_dir="$HOME/$project_name"
+}
+choose_project_dir
 trace_platform=macos
 trace_root="$HOME/Library/Application Support/ai-for-research"
 
@@ -132,7 +150,7 @@ make_workspace() {
   [[ -s "$course_dir/templates/fonts/Sarabun-Regular.ttf" && -s "$course_dir/templates/fonts/Sarabun-Bold.ttf" && -s "$course_dir/templates/fonts/OFL.txt" ]] || { log 'FONT_SETUP_FAILED Sarabun files are missing or empty.'; exit 2; }
   log 'FONT_READY Sarabun Regular/Bold bundled in workspace.'
   [[ -e "$course_dir/content.md" ]] || printf '# My AI Research Workspace\n\nDescribe the research task here.\n' > "$course_dir/content.md"
-  [[ -e "$course_dir/README.md" ]] || printf '# AI for Research\n\nKeep permitted inputs in `input/` and generated work in `output/`.\n' > "$course_dir/README.md"
+  [[ -e "$course_dir/README.md" ]] || printf '# %s\n\nThis folder is one AI-assisted research project. Keep permitted source files in `input/original/`, derived Markdown in `input/markdown/`, and generated work in `output/`.\n' "$(basename "$course_dir")" > "$course_dir/README.md"
   quiet curl -fL 'https://urban.cpe.ku.ac.th/ai-for-research/downloads/modern-thai.yaml' -o "$course_dir/templates/modern-thai.yaml"
   quiet curl -fL 'https://urban.cpe.ku.ac.th/ai-for-research/downloads/modern-thai.lua' -o "$course_dir/templates/modern-thai.lua"
   quiet curl -fL 'https://urban.cpe.ku.ac.th/ai-for-research/downloads/modern-thai.tex' -o "$course_dir/templates/modern-thai.tex"

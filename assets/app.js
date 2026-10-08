@@ -409,6 +409,77 @@ for (const checklist of document.querySelectorAll("[data-checklist]")) {
 const agentInputs = [...document.querySelectorAll('input[name="agent"]')];
 const agentRequiredSections = [...document.querySelectorAll("[data-agent-required]")];
 const agentGateStatus = document.querySelector("[data-agent-gate-status]");
+const defaultProjectName = "ai-for-research-workspace";
+const projectNamePreference = "ai-research-project-name";
+
+function validateProjectName(value) {
+  if (!value || value === "." || value === "..") return "กรุณาตั้งชื่อโฟลเดอร์โปรเจกต์";
+  if (/[\\/:*?"<>|\u0000-\u001f]/.test(value) || /[. ]$/.test(value)) {
+    return "ใช้ชื่อโฟลเดอร์เดียว โดยไม่มี / \\ : * ? \" < > | และไม่ลงท้ายด้วยจุดหรือเว้นวรรค";
+  }
+  return "";
+}
+
+function quotePowerShell(value) {
+  return `'${value.replaceAll("'", "''")}'`;
+}
+
+function quotePosix(value) {
+  return `'${value.replaceAll("'", `'"'"'`)}'`;
+}
+
+function savedProjectName() {
+  const saved = getPreference(projectNamePreference) || defaultProjectName;
+  return validateProjectName(saved) ? defaultProjectName : saved;
+}
+
+function renderWorkspaceState(projectName, agent) {
+  const activeAgent = agent || getPreference("ai-research-agent") || "codex";
+  for (const label of document.querySelectorAll("[data-project-name]")) label.textContent = projectName;
+  for (const path of document.querySelectorAll("[data-project-path]")) path.textContent = `~/${projectName}`;
+  for (const command of document.querySelectorAll("[data-agent-command]")) {
+    const template = activeAgent === "antigravity" && command.dataset.antigravityTemplate ? command.dataset.antigravityTemplate : command.dataset.template;
+    command.textContent = template
+      .replaceAll("{agent}", activeAgent)
+      .replaceAll("{projectPs}", quotePowerShell(projectName))
+      .replaceAll("{projectSh}", quotePosix(projectName))
+      .replaceAll("{project}", projectName);
+  }
+}
+
+function setupProjectName() {
+  const input = document.querySelector("[data-project-name-input]");
+  if (!input) return;
+  const status = document.querySelector("[data-project-name-status]");
+  const reset = document.querySelector("[data-project-name-reset]");
+  const commit = () => {
+    const projectName = input.value.trim() || defaultProjectName;
+    const error = validateProjectName(projectName);
+    input.setAttribute("aria-invalid", error ? "true" : "false");
+    if (error) {
+      status.textContent = error;
+      return;
+    }
+    setPreference(projectNamePreference, projectName);
+    renderWorkspaceState(projectName);
+    status.textContent = `บันทึกแล้ว: ${projectName}`;
+  };
+  input.value = savedProjectName();
+  renderWorkspaceState(input.value);
+  input.addEventListener("input", commit);
+  input.addEventListener("blur", () => {
+    if (!input.value.trim()) input.value = defaultProjectName;
+    commit();
+  });
+  reset.addEventListener("click", () => {
+    input.value = defaultProjectName;
+    commit();
+    input.focus();
+  });
+}
+
+setupProjectName();
+
 function selectAgent(agent, persist = false) {
   if (!["codex", "claude", "openrouter"].includes(agent)) return;
   const workspaceApp = agent === "antigravity" ? "Antigravity IDE" : "VS Code";
@@ -418,10 +489,7 @@ function selectAgent(agent, persist = false) {
   for (const label of document.querySelectorAll("[data-workspace-open-command]")) label.textContent = agent === "antigravity" ? "agy-ide ." : "code .";
   const agentPanel = { codex: "Codex panel", claude: "Claude Code panel", openrouter: "Cline panel", antigravity: "Antigravity Agent panel" }[agent];
   for (const label of document.querySelectorAll("[data-agent-panel]")) label.textContent = agentPanel;
-  for (const command of document.querySelectorAll("[data-agent-command]")) {
-    const template = agent === "antigravity" && command.dataset.antigravityTemplate ? command.dataset.antigravityTemplate : command.dataset.template;
-    command.textContent = template.replace("{agent}", agent);
-  }
+  renderWorkspaceState(savedProjectName(), agent);
   const loginSteps = document.querySelector("[data-login-steps]");
   if (loginSteps) {
     const steps = {

@@ -10,8 +10,19 @@ param(
 $ErrorActionPreference = 'Stop'
 $ProgressPreference = 'SilentlyContinue'
 $DryRun = $env:AI_RESEARCH_DRY_RUN -eq '1'
-$SetupVersion = '2026.10.07.19'
+$SetupVersion = '2026.10.08.20'
 $TestCommands = @($env:AI_RESEARCH_TEST_COMMANDS -split ',' | Where-Object { $_ })
+$DefaultProjectName = 'ai-for-research-workspace'
+$CourseDirWasProvided = $PSBoundParameters.ContainsKey('CourseDir')
+if (-not $CourseDirWasProvided -and $Mode -in @('Install','SetupUser','Repair')) {
+  $projectName = $env:AI_RESEARCH_PROJECT_NAME
+  if (-not $projectName -and -not $DryRun) { $projectName = Read-Host "Project folder name [$DefaultProjectName]" }
+  if ([string]::IsNullOrWhiteSpace($projectName)) { $projectName = $DefaultProjectName }
+  if ($projectName -in @('.','..') -or $projectName.IndexOfAny([char[]]'\/:*?"<>|') -ge 0 -or $projectName.EndsWith('.') -or $projectName.EndsWith(' ')) {
+    throw 'PROJECT_NAME_INVALID Use one folder name without path separators, reserved characters, or a trailing dot/space.'
+  }
+  $CourseDir = Join-Path $HOME $projectName
+}
 function Trace([string]$Action, [string]$Kind, [string]$Target, [string]$Status, [string]$Details = '') {
   if ($DryRun -or -not $TraceFile) { return }
   $record = @{ schema = 1; at = [DateTime]::UtcNow.ToString('o'); phase = 'windows'; action = $Action; kind = $Kind; target = $Target; status = $Status; details = $Details }
@@ -370,7 +381,10 @@ function New-CourseWorkspace {
   $content = Join-Path $CourseDir 'content.md'
   $readme = Join-Path $CourseDir 'README.md'
   if (-not (Test-Path $content)) { Set-Content -Encoding utf8 $content "# My AI Research Workspace`n`nDescribe the research task here.`n" }
-  if (-not (Test-Path $readme)) { Set-Content -Encoding utf8 $readme "# AI for Research`n`nKeep permitted inputs in input/ and generated work in output/.`n" }
+  if (-not (Test-Path $readme)) {
+    $projectName = Split-Path -Leaf $CourseDir.TrimEnd('\','/')
+    Set-Content -Encoding utf8 $readme "# $projectName`n`nThis folder is one AI-assisted research project. Keep permitted source files in input/original/, derived Markdown in input/markdown/, and generated work in output/.`n"
+  }
   $starterFiles = @(
     @{ Url = 'https://urban.cpe.ku.ac.th/ai-for-research/downloads/setup-summary.py'; Path = (Join-Path $CourseDir 'tools\install-summary.py') },
     @{ Url = 'https://urban.cpe.ku.ac.th/ai-for-research/downloads/modern-thai.yaml'; Path = (Join-Path $templateDir 'modern-thai.yaml') },

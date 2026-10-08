@@ -113,6 +113,71 @@ for number in {6..9}; do
   check_file "$site_dir/module-$number.html" "M$number shared copy command" "class=\"command markdown-command\" data-m${number}-stage-prompt"
 done
 check_file "$site_dir/module-7.html" "Thai population lab link" 'module-7-thailand-population-lab\.html'
+
+check_file "$site_dir/module-2.html" "shared food case" 'มื้อข้าวไข่เจียวเหมาะกับนักศึกษา'
+for extension in pdf xlsx docx png; do
+  check_file "$site_dir/module-2.html" "M2 $extension evidence" "module-02-food-evidence/[^\"]+\.${extension}"
+done
+check_file "$site_dir/module-2.html" "M2 website evidence" 'module-2-food-case\.html'
+check_file "$site_dir/module-2.html" "M2 prepared download" 'เราเตรียมข้อมูลไว้ให้แล้ว'
+check_file "$site_dir/module-2.html" "M2 bundle download" 'downloads/module-02-food-evidence\.zip'
+check_file "$site_dir/module-2.html" "M2 first data prompt" 'Prompt แรกใช้บริหารจัดการข้อมูล'
+check_file "$site_dir/module-2.html" "M2 safe extraction" 'path ภายในไม่เขียนออกนอกโฟลเดอร์ปลายทาง'
+check_file "$site_dir/module-2.html" "M2 import report" 'import-report\.md'
+check_file "$site_dir/module-2.html" "M2 live web retrieval" '06-web-source\.txt.*live_url|อ่าน 06-web-source\.txt'
+check_file "$site_dir/module-2.html" "M2 web provenance" 'final URL, เวลาเข้าถึง, HTTP status, content type และ SHA-256'
+check_file "$site_dir/module-2.html" "M2 web fallback" 'หากเข้าไม่ได้ให้ใช้สำเนาเดิม'
+check_file "$site_dir/module-2.html" "M2 conclusion Markdown" 'output/module-2-conclusion\.md'
+check_file "$site_dir/module-2.html" "M2 submission JSON" 'output/module-2-submission\.json'
+check_file "$site_dir/module-2.html" "M2 schema download" 'downloads/module-02-submission-schema\.json'
+check_file "$site_dir/module-2.html" "M2 submission form" 'data-module-2-submission-form'
+check_file "$site_dir/module-2.html" "M2 receipt" 'data-module-2-receipt-download'
+check_file "$site_dir/assets/module-2-submission.js" "M2 server endpoint" 'submissionEndpoint = "/api/log"'
+check_file "$site_dir/assets/module-2-submission.js" "M2 fixed event type" 'ai_for_research_module_2_submission'
+check_file "$site_dir/assets/module-2-submission.js" "M2 hash check" 'crypto\.subtle\.digest\("SHA-256"'
+check_file "$site_dir/assets/module-2-submission.js" "M2 schema envelope" 'submission: payload'
+node --check "$site_dir/assets/module-2-submission.js"
+python3 - "$site_dir/downloads/module-02-submission-schema.json" <<'PYSCHEMA'
+import json, sys
+from pathlib import Path
+
+schema = json.loads(Path(sys.argv[1]).read_text(encoding="utf-8"))
+assert schema["$schema"] == "https://json-schema.org/draft/2020-12/schema"
+assert schema["properties"]["schema_version"]["const"] == "ai-for-research.module-2-submission.v1"
+assert schema["properties"]["module_id"]["const"] == "module-2"
+assert schema["properties"]["artifact"]["properties"]["markdown_filename"]["const"] == "module-2-conclusion.md"
+PYSCHEMA
+check_file "$site_dir/module-2-food-case.html" "fictional source label" 'ข้อมูล ชื่อ และรีวิวทั้งหมดสร้างขึ้นเพื่อการสอน'
+check_file "$site_dir/module-2-food-case.html" "bilingual evidence" 'English review'
+check_file "$site_dir/module-2-food-case.html" "source date" 'แก้ไขล่าสุดเมื่อ 6 กันยายน 2569'
+for evidence in 01-lunch-brief-th.pdf 02-menu-observations.xlsx 03-omelette-recipe-bilingual.docx 04-lunch-tray.png 05-canteen-reviews.html 06-web-source.txt README.md; do
+  [[ -s "$site_dir/downloads/module-02-food-evidence/$evidence" ]] || {
+    printf 'Missing or empty Module 2 evidence file: %s\n' "$evidence"
+    failed=1
+  }
+done
+python3 - "$site_dir/downloads/module-02-food-evidence" <<'PYTEST'
+import struct, sys, zipfile
+from pathlib import Path
+
+root = Path(sys.argv[1])
+for name in ("02-menu-observations.xlsx", "03-omelette-recipe-bilingual.docx"):
+    with zipfile.ZipFile(root / name) as archive:
+        assert archive.testzip() is None, name
+png = (root / "04-lunch-tray.png").read_bytes()
+assert png[:8] == b"\x89PNG\r\n\x1a\n"
+assert struct.unpack(">II", png[16:24]) == (1200, 900)
+pdf = (root / "01-lunch-brief-th.pdf").read_bytes()
+assert pdf.startswith(b"%PDF-")
+bundle = root.parent / "module-02-food-evidence.zip"
+with zipfile.ZipFile(bundle) as archive:
+    assert archive.testzip() is None
+    assert set(archive.namelist()) == {
+        "README.md", "01-lunch-brief-th.pdf", "02-menu-observations.xlsx",
+        "03-omelette-recipe-bilingual.docx", "04-lunch-tray.png",
+        "05-canteen-reviews.html", "06-web-source.txt",
+    }
+PYTEST
 for stage in {1..7}; do
   check_file "$site_dir/module-7.html" "M7 Thai stage $stage" "ช่วง $stage —"
 done

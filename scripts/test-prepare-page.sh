@@ -28,7 +28,17 @@ grep -q 'Script จะเปิด Workspace ใน <span data-workspace-app>VS 
 grep -q 'ตรวจว่า Workspace เปิดแล้ว' "$page"
 grep -q '<details class="fallback-details">' "$page"
 grep -q 'Workspace ไม่เปิดอัตโนมัติ? ดูวิธีเปิดใหม่' "$page"
-grep -q '<code>~/ai-for-research-workspace</code>' "$page"
+grep -q '<code data-project-path>~/ai-for-research-workspace</code>' "$page"
+grep -q 'Project folder name \[ai-for-research-workspace\]' "$page"
+grep -q 'data-project-name-input' "$page"
+grep -q 'data-project-name-status' "$page"
+grep -q 'ai-research-project-name' "$root/assets/app.js"
+grep -q 'renderWorkspaceState(projectName)' "$root/assets/app.js"
+grep -q 'id="project-basics"' "$page"
+grep -q 'README.md.*โปรเจกต์นี้คืออะไร' "$page"
+grep -q 'AGENTS.md.*กติกาที่ AI ต้องปฏิบัติตาม' "$page"
+grep -q 'PROJECT_STATE.md.*เป้าหมาย สถานะ และงานถัดไป' "$page"
+grep -q 'หนึ่งโฟลเดอร์ควรแทนหนึ่งโปรเจกต์' "$page"
 if grep -q 'open -a &quot;Visual Studio Code&quot; --args' "$page"; then
   echo 'macOS learner flow must show the workspace folder path, not reopen VS Code with open -a.' >&2
   exit 1
@@ -63,8 +73,10 @@ install = page[page.index('ติดตั้งครั้งแรกด้�
 commands = [unescape(x) for x in re.findall(r'data-template="([^"]+)"', install)]
 assert len(commands) == 3, 'One combined download/run command per OS required'
 assert 'Invoke-WebRequest' in commands[0] and '-Mode Install -Agent {agent}' in commands[0]
+assert 'AI_RESEARCH_PROJECT_NAME={projectPs}' in commands[0]
 for command in commands[1:]:
-    assert 'curl -fsSL' in command and '&& AI_GRAD_AGENT={agent} bash' in command and '--install' in command
+    assert 'curl -fsSL' in command and 'AI_RESEARCH_PROJECT_NAME={projectSh}' in command
+    assert 'AI_GRAD_AGENT={agent} bash' in command and '--install' in command
 assert 'Run as administrator' not in install
 assert 'Downloads' not in '\n'.join(commands)
 PYTEST

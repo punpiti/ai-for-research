@@ -1,0 +1,8 @@
+source_id: module-02-food-case
+source_type: live_web_page
+live_url: https://urban.cpe.ku.ac.th/ai-for-research/module-2-food-case.html
+archived_copy: 05-canteen-reviews.html
+language: th,en
+publisher: AI for Research course
+access_rule: Fetch only this URL. Record access time, final URL, HTTP status, content type, and SHA-256. Do not search for other food or nutrition sources during the import task.
+fallback_rule: If the live URL is unavailable, use the archived copy and report that live retrieval was not verified.

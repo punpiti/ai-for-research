@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://urban.cpe.ku.ac.th/ai-for-research/downloads/module-02-submission-schema.json",
+  "title": "AI for Research Module 2 submission",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "module_id", "artifact", "learning", "self_check"],
+  "properties": {
+    "schema_version": {"const": "ai-for-research.module-2-submission.v1"},
+    "module_id": {"const": "module-2"},
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["markdown_filename", "markdown_sha256", "markdown_content"],
+      "properties": {
+        "markdown_filename": {"const": "module-2-conclusion.md"},
+        "markdown_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "markdown_content": {"type": "string", "minLength": 200, "maxLength": 30000}
+      }
+    },
+    "learning": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["question", "conclusion", "supported_claims", "unsupported_claims", "format_findings", "web_provenance", "prompt_revision", "human_decision"],
+      "properties": {
+        "question": {"type": "string", "minLength": 20, "maxLength": 500},
+        "conclusion": {"type": "string", "minLength": 80, "maxLength": 3000},
+        "supported_claims": {"type": "array", "minItems": 2, "maxItems": 10, "items": {"type": "string", "minLength": 10, "maxLength": 800}},
+        "unsupported_claims": {"type": "array", "minItems": 1, "maxItems": 10, "items": {"type": "string", "minLength": 10, "maxLength": 800}},
+        "format_findings": {"type": "array", "minItems": 2, "maxItems": 10, "items": {"type": "string", "minLength": 10, "maxLength": 800}},
+        "web_provenance": {"type": "string", "minLength": 20, "maxLength": 1500},
+        "prompt_revision": {"type": "string", "minLength": 40, "maxLength": 3000},
+        "human_decision": {"type": "string", "minLength": 40, "maxLength": 2000}
+      }
+    },
+    "self_check": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["originals_preserved", "cross_format_checked", "web_provenance_recorded", "claims_verified", "no_personal_data"],
+      "properties": {
+        "originals_preserved": {"const": true},
+        "cross_format_checked": {"const": true},
+        "web_provenance_recorded": {"const": true},
+        "claims_verified": {"const": true},
+        "no_personal_data": {"const": true}
+      }
+    }
+  }
+}
