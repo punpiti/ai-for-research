@@ -133,6 +133,8 @@ check_file "$site_dir/module-2.html" "M2 schema download" 'downloads/module-02-s
 check_file "$site_dir/module-2.html" "M2 JSON lesson" 'id="json-basics"'
 check_file "$site_dir/module-2.html" "M2 JSON example" 'downloads/module-02-submission-example\.json'
 check_file "$site_dir/module-2.html" "M2 JSON types" 'Object.*Array|ชนิดของค่า'
+check_file "$site_dir/module-2.html" "M2 open questions" 'open_questions.*ยังตอบไม่ได้|ยังไม่ตอบด้วย'
+check_file "$site_dir/module-2.html" "M2 next prompt" 'next_prompt.*ห้ามรัน Prompt'
 check_file "$site_dir/module-2.html" "M2 submission form" 'data-module-2-submission-form'
 check_file "$site_dir/module-2.html" "M2 receipt" 'data-module-2-receipt-download'
 check_file "$site_dir/assets/module-2-submission.js" "M2 server endpoint" 'submissionEndpoint = "/api/log"'
@@ -152,18 +154,20 @@ from pathlib import Path
 
 schema = json.loads(Path(sys.argv[1]).read_text(encoding="utf-8"))
 assert schema["$schema"] == "https://json-schema.org/draft/2020-12/schema"
-assert schema["properties"]["schema_version"]["const"] == "ai-for-research.module-2-submission.v2"
+assert schema["properties"]["schema_version"]["const"] == "ai-for-research.module-2-submission.v3"
 assert schema["properties"]["module_id"]["const"] == "module-2"
 assert schema["properties"]["artifact"]["properties"]["filename"]["const"] == "module-2-conclusion.md"
 assert schema["properties"]["result"]["properties"]["claims"]["minItems"] == 8
+assert schema["properties"]["result"]["properties"]["open_questions"]["minItems"] == 1
 PYSCHEMA
 python3 - "$site_dir/downloads/module-02-submission-example.json" <<'PYEXAMPLE'
 import json, sys
 from pathlib import Path
 
 example = json.loads(Path(sys.argv[1]).read_text(encoding="utf-8"))
-assert example["schema_version"] == "ai-for-research.module-2-submission.v2"
+assert example["schema_version"] == "ai-for-research.module-2-submission.v3"
 assert len(example["result"]["claims"]) == 8
+assert len(example["result"]["open_questions"]) >= 1
 assert {claim["level"] for claim in example["result"]["claims"]} == {"L1", "L2", "L3", "L4"}
 PYEXAMPLE
 check_file "$site_dir/module-2-food-case.html" "fictional source label" 'ข้อมูล ชื่อ และรีวิวทั้งหมดสร้างขึ้นเพื่อการสอน'

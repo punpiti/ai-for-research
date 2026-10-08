@@ -21,7 +21,7 @@ const claim = (id, level, sources, location) => ({
 });
 
 const validPayload = {
-  schema_version: "ai-for-research.module-2-submission.v2",
+  schema_version: "ai-for-research.module-2-submission.v3",
   module_id: "module-2",
   artifact: {
     filename: "module-2-conclusion.md",
@@ -39,6 +39,14 @@ const validPayload = {
       claim("C6", "L3", ["docx", "image"], "เปรียบเทียบสูตรกับภาพ"),
       claim("C7", "L4", [], ""),
       claim("C8", "L4", [], ""),
+    ],
+    open_questions: [
+      {
+        id: "U1",
+        question: "ผู้เรียนทุกคนจะอิ่มถึงเวลา 16:00 หรือไม่",
+        missing_evidence: "ยังไม่มีข้อมูลติดตามความอิ่มจากผู้เรียนหลายคนในเงื่อนไขเดียวกัน",
+        next_prompt: "ช่วยออกแบบตารางเก็บข้อมูลความอิ่มทุกหนึ่งชั่วโมง โดยยังไม่สรุปผลหรือสร้างข้อมูลขึ้นเอง",
+      },
     ],
     formats_checked: ["pdf", "xlsx", "docx", "image", "web"],
     web_retrieval: "live",
@@ -63,10 +71,12 @@ assert.doesNotThrow(() => context.testApi.validatePayload(publicExample));
 assert.deepEqual(JSON.parse(JSON.stringify(context.testApi.buildMachineCheck(validPayload))), {
   passed: true,
   claim_count: 8,
+  open_question_count: 1,
   level_counts: { L1: 2, L2: 2, L3: 2, L4: 2 },
   formats_complete: true,
   source_rules_pass: true,
   prompt_improved: true,
+  follow_up_prompts_present: true,
   declaration_complete: true,
   markdown_hash_match: true,
 });
@@ -83,5 +93,9 @@ badPrompt.result.prompt_test = {
   round_2_unsupported: 4,
 };
 assert.throws(() => context.testApi.validatePayload(badPrompt), /รอบสอง/);
+
+const missingOpenQuestion = structuredClone(validPayload);
+missingOpenQuestion.result.open_questions = [];
+assert.throws(() => context.testApi.validatePayload(missingOpenQuestion), /open_questions/);
 
 console.log("Module 2 machine-checkable submission tests passed.");

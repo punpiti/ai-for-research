@@ -8,7 +8,7 @@ const receiptCode = document.querySelector("[data-module-2-receipt-json]");
 const receiptDownload = document.querySelector("[data-module-2-receipt-download]");
 
 const submissionEndpoint = "/api/log";
-const schemaVersion = "ai-for-research.module-2-submission.v2";
+const schemaVersion = "ai-for-research.module-2-submission.v3";
 const eventType = "ai_for_research_module_2_submission";
 const formats = ["pdf", "xlsx", "docx", "image", "web"];
 const levels = ["L1", "L2", "L3", "L4"];
@@ -39,12 +39,13 @@ function validatePayload(payload) {
   if (!/^[a-f0-9]{64}$/.test(text(artifact.sha256))) throw new Error("artifact.sha256 ต้องเป็น SHA-256 ตัวพิมพ์เล็ก 64 ตัว");
 
   const result = payload.result || {};
-  requireExactKeys(result, ["decision", "reason", "claims", "formats_checked", "web_retrieval", "prompt_test", "human_decision"], "result");
+  requireExactKeys(result, ["decision", "reason", "claims", "open_questions", "formats_checked", "web_retrieval", "prompt_test", "human_decision"], "result");
   if (!["conditional_yes", "conditional_no", "insufficient_evidence"].includes(result.decision)) throw new Error("result.decision ไม่อยู่ในตัวเลือกที่กำหนด");
   requireText(result.reason, 40, 800, "result.reason");
   if (!["live", "fallback"].includes(result.web_retrieval)) throw new Error("result.web_retrieval ต้องเป็น live หรือ fallback");
   if (!["accept_with_conditions", "reject", "need_more_evidence"].includes(result.human_decision)) throw new Error("result.human_decision ไม่อยู่ในตัวเลือกที่กำหนด");
   validateClaims(result.claims);
+  validateOpenQuestions(result.open_questions);
   if (!Array.isArray(result.formats_checked) || result.formats_checked.length !== formats.length || !formats.every((format) => result.formats_checked.includes(format)) || new Set(result.formats_checked).size !== formats.length) {
     throw new Error("formats_checked ต้องมี pdf, xlsx, docx, image และ web อย่างละหนึ่งครั้ง");
   }
@@ -54,6 +55,19 @@ function validatePayload(payload) {
   requireExactKeys(declaration, ["originals_preserved", "claims_checked_by_learner", "no_personal_data"], "declaration");
   for (const key of ["originals_preserved", "claims_checked_by_learner", "no_personal_data"]) {
     if (declaration[key] !== true) throw new Error(`declaration.${key} ต้องเป็น true`);
+  }
+}
+
+function validateOpenQuestions(openQuestions) {
+  if (!Array.isArray(openQuestions) || openQuestions.length < 1 || openQuestions.length > 3) throw new Error("result.open_questions ต้องมี 1–3 ข้อ");
+  const ids = new Set();
+  for (const item of openQuestions) {
+    requireExactKeys(item, ["id", "question", "missing_evidence", "next_prompt"], "open_question");
+    if (!/^U[1-3]$/.test(text(item.id)) || ids.has(item.id)) throw new Error("open_question.id ต้องเป็น U1–U3 และห้ามซ้ำ");
+    ids.add(item.id);
+    requireText(item.question, 15, 300, `${item.id}.question`);
+    requireText(item.missing_evidence, 15, 500, `${item.id}.missing_evidence`);
+    requireText(item.next_prompt, 30, 1000, `${item.id}.next_prompt`);
   }
 }
 
@@ -91,10 +105,12 @@ function buildMachineCheck(payload) {
   return {
     passed: true,
     claim_count: payload.result.claims.length,
+    open_question_count: payload.result.open_questions.length,
     level_counts: levelCounts,
     formats_complete: true,
     source_rules_pass: true,
     prompt_improved: true,
+    follow_up_prompts_present: true,
     declaration_complete: true,
     markdown_hash_match: true,
   };
