@@ -210,7 +210,7 @@ fi
 
 grep -Fq 'พัฒนาโจทย์และคำถามวิจัย' "$root/classroom.html"
 grep -Fq 'ค้นและตรวจวรรณกรรม' "$root/classroom.html"
-grep -Fq 'Non-coding Data Analytics, Visualization &amp; Machine Learning' "$root/classroom.html"
+grep -Fq 'Data Analytics, Visualization &amp; Machine Learning' "$root/classroom.html"
 grep -Fq 'Manuscript Preparation' "$root/classroom.html"
 grep -q 'LOCAL_CHECK PASS/FAIL' "$root/downloads/starter-AGENTS.md"
 for name in \
