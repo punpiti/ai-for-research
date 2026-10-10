@@ -206,8 +206,7 @@
     document.querySelector("[data-active-module]").textContent = data.classroom.active_module_title
       ? `${data.classroom.active_module_id.replace("module-", "M")} · ${data.classroom.active_module_title}`
       : "ยังไม่ได้เลือก";
-    const isAdmin = data.permissions?.can_manage_class_config === true
-      || data.member_management?.can_manage_instructors === true;
+    const isAdmin = data.permissions?.can_manage_class_config === true;
     canManageClassConfig = isAdmin;
     adminOnlyElements.forEach((element) => { element.hidden = !isAdmin; });
     document.querySelector("[data-admin-role-eyebrow]").textContent = isAdmin ? "Administrator · instructor access" : "Instructor classroom";

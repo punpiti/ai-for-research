@@ -75,6 +75,10 @@ grep -q '/details`' "$root/assets/instructor-admin.js"
 grep -q 'activateAdminTab' "$root/assets/instructor-admin.js"
 grep -q 'renderTemplateDetails' "$root/assets/instructor-admin.js"
 grep -q 'can_manage_class_config' "$root/assets/instructor-admin.js"
+if grep -q 'can_manage_class_config.*can_manage_instructors' "$root/assets/instructor-admin.js"; then
+  echo 'Classroom instructor management must not imply global admin UI.' >&2
+  exit 1
+fi
 grep -q '/admin/config`' "$root/assets/instructor-admin.js"
 if grep -q '/admin/ai-for-research' "$page" "$root/assets/instructor-admin.js"; then
   echo 'Instructor classroom must not use the Urban admin route.' >&2
