@@ -9,9 +9,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../assets/styles.css?v=20261010-3">
+  <link rel="stylesheet" href="../assets/styles.css?v=20261010-4">
   <script src="../assets/dev-auth.js?v=20261010-1"></script>
-  <script src="../assets/instructor-admin.js?v=20261010-4" defer></script>
+  <script src="../assets/instructor-admin.js?v=20261010-5" defer></script>
 </head>
 <body class="instructor-body">
   <a class="skip-link" href="#main">ข้ามไปยังเนื้อหา</a>
@@ -91,6 +91,12 @@
         <h2 id="details-title">หน้ารายละเอียดและลงทะเบียน</h2>
       </div>
       <form class="class-details-form" data-class-details-form>
+        <fieldset class="module-route-controls classroom-route-controls class-content-route">
+          <legend>กลุ่มผู้เรียนและตัวอย่างหลักของทั้งคลาส</legend>
+          <p class="instructor-route-help">เลือกหนึ่งแบบ ค่านี้ใช้กับทุกโมดูลและผู้เรียนทุกคนในคลาส</p>
+          <label><input type="radio" name="content_route" value="student" required><span><strong>นิสิต / นักวิจัยมือใหม่</strong><small>แสดงเคสฝึก หิว → กิน → อิ่ม เพื่อปูพื้นฐาน</small></span></label>
+          <label><input type="radio" name="content_route" value="faculty" required><span><strong>อาจารย์ / นักวิจัย</strong><small>ใช้ paper หรือ manuscript ของผู้เรียน และซ่อนเคส หิว → กิน → อิ่ม</small></span></label>
+        </fieldset>
         <div class="class-details-grid">
           <label><span>สถานะรับลงทะเบียน</span><select name="enrollment_status" required><option value="draft">ฉบับร่าง</option><option value="open">เปิดรับลงทะเบียน</option><option value="closed">ปิดรับลงทะเบียน</option></select></label>
           <label><span>ชื่อคลาส</span><input name="public_title" maxlength="160" required></label>

@@ -1003,6 +1003,11 @@ a[data-workspace-download]::after { content:"  ↓"; color:var(--accent); font-w
 
 .module-route-controls legend { padding: 0 .35rem; color: var(--ink-soft); font-size: .84rem; }
 .module-route-controls label { display: inline-flex; align-items: center; gap: .45rem; }
+.class-content-route { margin: 0; padding: 1rem 1.1rem; background: var(--surface); }
+.class-content-route .instructor-route-help { flex-basis: 100%; margin: 0; color: var(--ink-soft); }
+.class-content-route label { flex: 1 1 260px; align-items: flex-start; padding: .75rem; border: 1px solid var(--line); border-radius: .6rem; background: var(--surface-strong); }
+.class-content-route label > span { display: grid; gap: .15rem; }
+.class-content-route label small { color: var(--ink-soft); line-height: 1.45; }
 
 @media (max-width: 760px) {
   .module-step-shell { width: min(100% - 24px, 1180px); }

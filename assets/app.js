@@ -61,7 +61,7 @@ async function resolveClassroomContentRoute() {
   }
 
   try {
-    const response = await fetch(`${classroomApiBase}/${encodeURIComponent(classroomId)}/modules/module-3/access`, {
+    const response = await fetch(`${classroomApiBase}/${encodeURIComponent(classroomId)}/content-route`, {
       credentials: "same-origin",
       headers: { "Accept": "application/json" },
     });

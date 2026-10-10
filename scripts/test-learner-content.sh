@@ -30,8 +30,8 @@ for number in {2..9}; do
   check_file "$file" "post-lesson result" '<h2[^>]*>จบบทเรียน</h2>'
   check_file "$file" "learner profile" 'data-research-profile'
 done
-check_file "$site_dir/assets/instructor-admin.js" "class-wide learner route control" 'นิสิต / นักวิจัยมือใหม่'
-check_file "$site_dir/assets/instructor-admin.js" "M3 faculty route control" 'อาจารย์ / นักวิจัย'
+check_file "$site_dir/admin/index.html" "class-wide learner route control" 'นิสิต / นักวิจัยมือใหม่'
+check_file "$site_dir/admin/index.html" "class-wide faculty route control" 'อาจารย์ / นักวิจัย'
 check_file "$site_dir/module-3.html" "M3 own seed paper" 'research article ของตนเอง'
 check_file "$site_dir/module-3.html" "M3 abstract provenance" 'abstract_source|Abstract และ Provenance'
 check_file "$site_dir/module-3.html" "M3 field dimensions" 'method, dataset/material, objective, technique/model'
@@ -122,7 +122,9 @@ check_file "$site_dir/assets/app.js" "M3 route collapse" 'faculty-path.*เป�
 check_file "$site_dir/module-3.html" "M3 classroom access status" 'data-module-3-access-status'
 check_file "$site_dir/assets/module-3-access.js" "M3 server route access" '/modules/module-3/access'
 check_file "$site_dir/assets/module-3-access.js" "M3 route visibility from server" 'payload\.allowed_routes'
-check_file "$site_dir/assets/instructor-admin.js" "M3 admin route controls" 'name = "module3_route"'
+check_file "$site_dir/admin/index.html" "class-wide learner route control" 'name="content_route" value="student"'
+check_file "$site_dir/assets/instructor-admin.js" "class-wide route endpoint" '/content-route`'
+check_file "$site_dir/assets/app.js" "class-wide route lookup" '/content-route`'
 node --check "$site_dir/assets/module-3-access.js"
 node --check "$site_dir/assets/module-3-steps.js"
 node - "$site_dir/assets/module-3-access.js" <<'JSM3ACCESS'

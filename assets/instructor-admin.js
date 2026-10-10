@@ -100,6 +100,7 @@
   let activeAdminTab = "details";
   let submissionRefreshTimer = null;
   let memberManagementMode = "";
+  let currentContentRoute = "";
 
   function node(tag, className = "", text = "") {
     const element = document.createElement(tag);
@@ -208,6 +209,10 @@
     if (data.classroom.classroom_type === "template") return;
     const details = data.classroom.public_details || {};
     classDetailsForm.elements.enrollment_status.value = data.classroom.enrollment_status || "draft";
+    const contentRoutes = Array.isArray(data.classroom.module3_routes) ? data.classroom.module3_routes : [];
+    currentContentRoute = contentRoutes.length === 1 && ["student", "faculty"].includes(contentRoutes[0])
+      ? contentRoutes[0] : "";
+    for (const input of classDetailsForm.elements.content_route) input.checked = input.value === currentContentRoute;
     detailStringFields.forEach((key) => {
       classDetailsForm.elements[key].value = details[key] || "";
     });
@@ -373,25 +378,6 @@
   function renderSyllabus(data) {
     moduleList.replaceChildren();
     const isTemplate = data.classroom.classroom_type === "template";
-    const module3Routes = new Set(Array.isArray(data.classroom.module3_routes) ? data.classroom.module3_routes : []);
-    if (!isTemplate) {
-      const routeControls = node("fieldset", "module-route-controls classroom-route-controls");
-      routeControls.append(
-        node("legend", "", "เส้นทางเนื้อหาของทั้งคลาส"),
-        node("p", "instructor-route-help", "ตัวเลือกนี้ใช้กับทุกโมดูล คลาสอาจารย์/นักวิจัยจะใช้ paper หรือ manuscript ของผู้เรียนและซ่อนเคสพื้นฐานสำหรับนิสิต"),
-      );
-      for (const [value, label] of [["student", "นิสิต / นักวิจัยมือใหม่"], ["faculty", "อาจารย์ / นักวิจัย"]]) {
-        const routeLabel = node("label");
-        const routeInput = node("input");
-        routeInput.type = "checkbox";
-        routeInput.name = "module3_route";
-        routeInput.value = value;
-        routeInput.checked = module3Routes.has(value);
-        routeLabel.append(routeInput, node("span", "", label));
-        routeControls.append(routeLabel);
-      }
-      moduleList.append(routeControls);
-    }
     data.syllabus.forEach((module) => {
       const moduleName = `${module.id.replace("module-", "M")} · ${module.title}`;
       const card = node("article", "instructor-module");
@@ -613,13 +599,12 @@
     }
     const moduleIds = [...syllabusForm.querySelectorAll('input[name="included_module"]:checked')].map((item) => item.value);
     const activeModuleId = syllabusForm.querySelector('input[name="active_module"]:checked')?.value || null;
-    const module3Routes = [...syllabusForm.querySelectorAll('input[name="module3_route"]:checked')].map((item) => item.value);
     if (!moduleIds.length || (activeModuleId && !moduleIds.includes(activeModuleId))) {
       syllabusStatus.textContent = "Active module ต้องอยู่ใน Syllabus และต้องมีอย่างน้อยหนึ่งโมดูล";
       return;
     }
-    if (!module3Routes.length) {
-      syllabusStatus.textContent = "คลาสต้องเปิดเส้นทางเนื้อหาอย่างน้อยหนึ่งแบบ";
+    if (!currentContentRoute) {
+      syllabusStatus.textContent = "เลือกกลุ่มผู้เรียนในแท็บรายละเอียดคลาสก่อน";
       return;
     }
     syllabusStatus.textContent = "กำลังบันทึก…";
@@ -627,7 +612,7 @@
       await request(`${dashboardEndpoint(classroomId)}/syllabus`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ module_ids: moduleIds, active_module_id: activeModuleId, module3_routes: module3Routes }),
+        body: JSON.stringify({ module_ids: moduleIds, active_module_id: activeModuleId, module3_routes: [currentContentRoute] }),
       });
       syllabusStatus.textContent = "บันทึกแล้ว";
       await loadDashboard();
@@ -643,11 +628,18 @@
     submitButton.disabled = true;
     classDetailsStatus.textContent = "กำลังบันทึก…";
     try {
+      const selectedContentRoute = classDetailsForm.elements.content_route.value;
+      await request(`${dashboardEndpoint(classroomId)}/content-route`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ content_route: selectedContentRoute }),
+      });
       await request(`${dashboardEndpoint(classroomId)}/details`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(classDetailsPayload()),
       });
+      currentContentRoute = selectedContentRoute;
       classDetailsStatus.textContent = "บันทึกแล้ว";
       await loadDashboard();
     } catch (error) {
