@@ -9,8 +9,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../assets/styles.css?v=20261008-25">
-  <script src="../assets/instructor-admin.js?v=20261008-9" defer></script>
+  <link rel="stylesheet" href="../assets/styles.css?v=20261010-3">
+  <script src="../assets/dev-auth.js?v=20261010-1"></script>
+  <script src="../assets/instructor-admin.js?v=20261010-4" defer></script>
 </head>
 <body class="instructor-body">
   <a class="skip-link" href="#main">ข้ามไปยังเนื้อหา</a>
@@ -28,8 +29,8 @@
     </section>
     <section class="instructor-title">
       <div>
-        <p class="eyebrow">Instructor classroom</p>
-        <h1>หน้าของ<br><span>อาจารย์</span></h1>
+        <p class="eyebrow" data-admin-role-eyebrow>Instructor classroom</p>
+        <h1 data-admin-role-title>หน้าของ<br><span>อาจารย์</span></h1>
         <p class="instructor-class-title" data-class-title>กำลังโหลดข้อมูลคลาส…</p>
       </div>
       <dl class="instructor-summary" aria-label="สรุปคลาส" data-class-only>
@@ -140,11 +141,21 @@
     <section class="instructor-section" id="enrollment" role="tabpanel" aria-labelledby="tab-enrollment enrollment-title" data-admin-panel="enrollment" data-class-only hidden>
       <div class="instructor-section-heading">
         <p class="eyebrow">02 · Enrollment</p>
-        <h2 id="enrollment-title">ผู้ลงทะเบียนและ Token</h2>
+        <h2 id="enrollment-title" data-member-management-title>ผู้ลงทะเบียนและ Token</h2>
       </div>
+      <form class="member-management-form" data-member-management-form hidden>
+        <label data-member-single><span data-member-management-label>เลือกบัญชี</span><select name="email" data-member-account></select></label>
+        <label data-member-bulk hidden>
+          <span>เพิ่มผู้เรียนหลายคน</span>
+          <textarea name="emails" data-member-emails rows="5" placeholder="student-001@ku.th&#10;student-002@ku.th"></textarea>
+          <small>วางอีเมลได้ทีละบรรทัด หรือคั่นด้วย comma/semicolon · สูงสุด 100 บัญชี</small>
+        </label>
+        <button class="button primary" type="submit" data-member-add>เพิ่ม</button>
+        <p data-member-management-status role="status" aria-live="polite"></p>
+      </form>
       <div class="instructor-table-wrap">
         <table class="instructor-table">
-          <thead><tr><th>ผู้ลงทะเบียน</th><th>บทบาท</th><th>สถานะ</th><th>Token quota</th><th>Usage</th><th></th></tr></thead>
+          <thead><tr><th>บัญชี</th><th>ชื่อ</th><th>นามสกุล</th><th>บทบาท</th><th>สถานะ</th><th>Token quota</th><th>Usage</th><th></th></tr></thead>
           <tbody data-enrollment-rows></tbody>
         </table>
       </div>

@@ -112,7 +112,10 @@ class SiteHeader extends HTMLElement {
         : null;
       const classroomHref = `classroom.html?id=${targetClassroomId}`;
 
-      if (membership?.status === "active") {
+      if (session.user?.system_role === "admin") {
+        cta.textContent = "จัดการผู้สอน";
+        cta.href = `admin/?id=${encodeURIComponent(targetClassroomId)}`;
+      } else if (membership?.status === "active") {
         if (membership.role === "teacher") {
           cta.textContent = "หน้าของอาจารย์";
           cta.href = `admin/?id=${encodeURIComponent(targetClassroomId)}`;

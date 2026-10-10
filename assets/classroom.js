@@ -65,6 +65,14 @@
     return session.classrooms.find((item) => item.classroom_id === classroomId) || null;
   }
 
+  function shouldAutoEnroll(search, session, classroomId) {
+    const action = new URLSearchParams(String(search || "")).get("action");
+    return action === "enroll"
+      && session?.authenticated === true
+      && session?.user?.system_role !== "admin"
+      && !membershipFor(session, classroomId);
+  }
+
   function moduleContentPath(moduleId, classroomId = "") {
     const match = /^module-([1-9])$/.exec(String(moduleId || ""));
     if (!match) return "prepare.html";
@@ -72,7 +80,7 @@
     return classroomId ? `${path}?classroom_id=${encodeURIComponent(classroomId)}` : path;
   }
 
-  const testApi = { apiBase, classroomIdFromPage, loginUrl, sessionState, enroll, publicDetails, structuredItem, membershipFor, moduleContentPath };
+  const testApi = { apiBase, classroomIdFromPage, loginUrl, sessionState, enroll, publicDetails, structuredItem, membershipFor, shouldAutoEnroll, moduleContentPath };
   if (typeof module !== "undefined" && module.exports) module.exports = testApi;
   globalObject.classroomTestApi = testApi;
 
@@ -234,10 +242,15 @@
     } catch (_error) {
       // Keep the server-rendered fallback so the current class remains readable.
     }
-    renderSession(await sessionState());
+    const state = await sessionState();
+    renderSession(state);
+    if (shouldAutoEnroll(globalObject.location.search, state, classroomId)) {
+      const cleanUrl = new URL(globalObject.location.href);
+      cleanUrl.searchParams.delete("action");
+      globalObject.history?.replaceState?.(null, "", `${cleanUrl.pathname.split("/").pop()}${cleanUrl.search}${cleanUrl.hash}`);
+      button.click();
+    }
   }
-
-  initialize();
 
   button.addEventListener("click", async () => {
     if (instructor) {
@@ -287,4 +300,6 @@
       status.classList.add("is-error");
     }
   });
+
+  initialize();
 })(typeof window !== "undefined" ? window : globalThis);

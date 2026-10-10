@@ -11,10 +11,11 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/styles.css?v=20261008-10">
-  <script src="assets/site-shell.js?v=20261008-7"></script>
+  <link rel="stylesheet" href="assets/styles.css?v=20261010-1">
+  <script src="assets/dev-auth.js?v=20261010-1"></script>
+  <script src="assets/site-shell.js?v=20261010-2"></script>
   <script src="https://accounts.google.com/gsi/client" async defer></script>
-  <script src="assets/login.js?v=20261008-3" defer></script>
+  <script src="assets/login.js?v=20261010-2" defer></script>
 </head>
 <body class="login-body">
   <a class="skip-link" href="#main">ข้ามไปยังเนื้อหา</a>
@@ -26,12 +27,35 @@
         <h1 id="login-title">เข้าสู่<br><span>ห้องเรียน</span></h1>
       </div>
       <div class="login-panel">
-        <p class="login-provider-label">เข้าสู่ระบบด้วย Google</p>
-        <div class="google-login-wrap" data-google-login>
-          <div id="google-signin-button" aria-label="เข้าสู่ระบบด้วยบัญชี Google"></div>
+        <form class="dev-login" data-dev-login hidden>
+          <p class="login-provider-label">Development login</p>
+          <label for="dev-account">ทดสอบในบทบาท</label>
+          <select id="dev-account" name="email" data-dev-account required>
+            <optgroup label="Student">
+              <option value="student-001@ku.th">Student 001 · student-001@ku.th</option>
+              <option value="student-002@ku.th">Student 002 · student-002@ku.th</option>
+              <option value="student-003@ku.th">Student 003 · student-003@ku.th</option>
+              <option value="student-004@ku.th">Student 004 · student-004@ku.th</option>
+              <option value="student-005@ku.th">Student 005 · student-005@ku.th</option>
+            </optgroup>
+            <optgroup label="Instructor">
+              <option value="instructor-001@ku.th">Instructor 001 · เจ้าของวิชา</option>
+              <option value="instructor-002@ku.th">Instructor 002 · ผู้สอนร่วม</option>
+            </optgroup>
+            <optgroup label="Administrator">
+              <option value="admin@ku.th">Admin · admin@ku.th</option>
+            </optgroup>
+          </select>
+          <button class="button primary" type="submit">เข้าสู่ระบบทดสอบ</button>
+          <p class="login-help">ใช้ได้เฉพาะ localhost ข้อมูล session และการแก้ไขจะหายเมื่อปิด dev server</p>
+        </form>
+        <div data-google-login-panel>
+          <p class="login-provider-label">เข้าสู่ระบบด้วย Google</p>
+          <div class="google-login-wrap" data-google-login>
+            <div id="google-signin-button" aria-label="เข้าสู่ระบบด้วยบัญชี Google"></div>
+          </div>
+          <p class="login-help">ใช้บัญชี Google ที่ลงท้ายด้วย <strong>@ku.th</strong></p>
         </div>
-        <button class="button secondary preview-login" type="button" data-preview-login hidden>ทดลองเข้าสู่ระบบใน Preview</button>
-        <p class="login-help">ใช้บัญชี Google ที่ลงท้ายด้วย <strong>@ku.th</strong></p>
         <p id="login-status" class="login-status" data-login-status role="status" aria-live="polite">กำลังเตรียม Google Sign-In…</p>
         <noscript><p class="login-status is-error">ต้องเปิด JavaScript เพื่อเข้าสู่ระบบด้วย Google</p></noscript>
       </div>

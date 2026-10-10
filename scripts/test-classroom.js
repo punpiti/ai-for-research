@@ -30,6 +30,20 @@ const classroom = require("../assets/classroom.js");
     { classroom_id: "faculty-pilot-2569", role: "teacher", status: "active" },
   );
   assert.equal(classroom.membershipFor({ classrooms: [] }, "faculty-pilot-2569"), null);
+assert.equal(classroom.shouldAutoEnroll("?id=faculty-pilot-2569&action=enroll", {
+  authenticated: true,
+  user: { system_role: "user" },
+  classrooms: [],
+}, "faculty-pilot-2569"), true);
+assert.equal(classroom.shouldAutoEnroll("?id=faculty-pilot-2569&action=enroll", {
+  authenticated: true,
+  user: { system_role: "user" },
+  classrooms: [{ classroom_id: "faculty-pilot-2569", role: "student" }],
+}, "faculty-pilot-2569"), false);
+assert.equal(classroom.shouldAutoEnroll("?id=faculty-pilot-2569&action=enroll", {
+  authenticated: false,
+  classrooms: [],
+}, "faculty-pilot-2569"), false);
   assert.equal(classroom.moduleContentPath("module-1"), "prepare.html");
   assert.equal(classroom.moduleContentPath("module-8"), "module-8.html");
   assert.equal(classroom.moduleContentPath("module-3", "faculty-pilot-2569"), "module-3.html?classroom_id=faculty-pilot-2569");

@@ -42,7 +42,11 @@
     return ({ active: "อนุมัติแล้ว", pending: "รออนุมัติ", rejected: "ไม่อนุมัติ" })[status] || status;
   }
 
-  const testApi = { apiBase, classroomListEndpoint, classroomIdFromSearch, loginPath, dashboardEndpoint, moduleContentPath, formatTokens, submissionLabel, enrollmentLabel };
+  function parseBulkEmails(value) {
+    return [...new Set(String(value || "").split(/[\s,;]+/).map((email) => email.trim().toLowerCase()).filter(Boolean))];
+  }
+
+  const testApi = { apiBase, classroomListEndpoint, classroomIdFromSearch, loginPath, dashboardEndpoint, moduleContentPath, formatTokens, submissionLabel, enrollmentLabel, parseBulkEmails };
   if (typeof module !== "undefined" && module.exports) module.exports = testApi;
   globalObject.instructorAdminTestApi = testApi;
 
@@ -59,6 +63,15 @@
   const createForm = document.querySelector("[data-create-class-form]");
   const createStatus = document.querySelector("[data-create-class-status]");
   const enrollmentRows = document.querySelector("[data-enrollment-rows]");
+  const memberManagementForm = document.querySelector("[data-member-management-form]");
+  const memberManagementTitle = document.querySelector("[data-member-management-title]");
+  const memberManagementLabel = document.querySelector("[data-member-management-label]");
+  const memberSingle = document.querySelector("[data-member-single]");
+  const memberBulk = document.querySelector("[data-member-bulk]");
+  const memberAccount = document.querySelector("[data-member-account]");
+  const memberEmails = document.querySelector("[data-member-emails]");
+  const memberAdd = document.querySelector("[data-member-add]");
+  const memberManagementStatus = document.querySelector("[data-member-management-status]");
   const submissionRows = document.querySelector("[data-submission-rows]");
   const submissionModuleRows = document.querySelector("[data-submission-module-rows]");
   const recentSubmissionRows = document.querySelector("[data-recent-submission-rows]");
@@ -84,6 +97,7 @@
   const adminPanels = [...document.querySelectorAll("[data-admin-panel]")];
   let activeAdminTab = "details";
   let submissionRefreshTimer = null;
+  let memberManagementMode = "";
 
   function node(tag, className = "", text = "") {
     const element = document.createElement(tag);
@@ -177,12 +191,15 @@
     const code = data.classroom.course_code ? `${data.classroom.course_code} · ` : "";
     const english = data.classroom.title_en ? ` / ${data.classroom.title_en}` : "";
     document.querySelector("[data-class-title]").textContent = `${code}${data.classroom.title}${english}`;
-    document.querySelector("[data-summary-enrolled]").textContent = data.enrollments.filter((item) => item.status === "active").length;
+    document.querySelector("[data-summary-enrolled]").textContent = data.enrollments.filter((item) => item.role === "student" && item.status === "active").length;
     document.querySelector("[data-summary-pending]").textContent = data.enrollments.filter((item) => item.status === "pending").length;
     document.querySelector("[data-summary-module]").textContent = data.classroom.active_module_id?.replace("module-", "M") || "—";
     document.querySelector("[data-active-module]").textContent = data.classroom.active_module_title
       ? `${data.classroom.active_module_id.replace("module-", "M")} · ${data.classroom.active_module_title}`
       : "ยังไม่ได้เลือก";
+    const isAdmin = data.member_management?.can_manage_instructors === true;
+    document.querySelector("[data-admin-role-eyebrow]").textContent = isAdmin ? "Administrator · instructor access" : "Instructor classroom";
+    document.querySelector("[data-admin-role-title]").innerHTML = isAdmin ? "หน้าของ<br><span>ผู้ดูแลระบบ</span>" : "หน้าของ<br><span>อาจารย์</span>";
   }
 
   function renderClassDetails(data) {
@@ -238,11 +255,42 @@
   function renderEnrollments(data) {
     enrollmentRows.replaceChildren();
     if (data.classroom.classroom_type === "template") return;
-    data.enrollments.forEach((item) => {
+    const management = data.member_management || {};
+    memberManagementMode = management.mode || "";
+    const managesInstructors = management.can_manage_instructors === true;
+    const managesStudents = management.can_manage_students === true;
+    const managedRole = managesInstructors ? "teacher" : managesStudents ? "student" : "";
+    memberManagementForm.hidden = !managedRole;
+    if (managedRole) {
+      memberManagementTitle.textContent = managesInstructors ? "ผู้สอนของคลาส" : "ผู้เรียนของคลาส";
+      memberManagementLabel.textContent = managesInstructors ? "เพิ่มผู้สอน" : "เพิ่มผู้เรียน";
+      memberAdd.textContent = managesInstructors ? "เพิ่ม Instructor" : "เพิ่มผู้เรียนเป็นชุด";
+      memberSingle.hidden = !managesInstructors;
+      memberBulk.hidden = !managesStudents;
+      const accounts = Array.isArray(management.available_accounts) ? management.available_accounts : [];
+      memberAccount.replaceChildren(...accounts.map((account) => {
+        const option = node("option", "", `${account.display_name || account.email} · ${account.email}`);
+        option.value = account.email;
+        return option;
+      }));
+      memberAccount.disabled = !managesInstructors || accounts.length === 0;
+      memberAdd.disabled = managesInstructors && accounts.length === 0;
+      if (managesInstructors && !accounts.length) memberManagementStatus.textContent = "ไม่มีบัญชีที่เพิ่มได้ในขณะนี้";
+    }
+    data.enrollments.filter((item) => !managedRole || item.role === managedRole).forEach((item) => {
       const row = node("tr");
-      const person = node("td");
-      person.append(node("strong", "", item.display_name || item.email), node("small", "", item.email));
-      row.append(person, node("td", "", item.role === "teacher" ? "ผู้สอน" : "ผู้เรียน"));
+      const displayParts = (item.display_name || "").trim().split(/\s+/).filter(Boolean);
+      const givenName = item.given_name || displayParts[0] || "—";
+      const familyName = item.family_name || displayParts.slice(1).join(" ") || "—";
+      const accountCell = node("td");
+      accountCell.append(node("strong", "", item.email));
+      if (item.owner) accountCell.append(node("small", "", "เจ้าของวิชา"));
+      row.append(
+        accountCell,
+        node("td", "", givenName),
+        node("td", "", familyName),
+        node("td", "", item.role === "teacher" ? "ผู้สอน" : "ผู้เรียน"),
+      );
 
       const statusCell = node("td");
       const statusSelect = node("select");
@@ -265,32 +313,56 @@
       quotaInput.value = item.token_quota ?? "";
       quotaInput.placeholder = "ไม่จำกัด";
       quotaInput.setAttribute("aria-label", `Token quota ของ ${item.display_name || item.email}`);
+      if (managesInstructors) quotaInput.disabled = true;
       quotaCell.append(quotaInput);
 
       const usageCell = node("td", "", formatTokens(item.token_usage));
       usageCell.append(node("small", "", item.token_records ? `${item.token_records} records` : "ยังไม่มีข้อมูล"));
 
       const actionCell = node("td");
-      const saveButton = node("button", "button secondary instructor-row-save", "บันทึก");
-      saveButton.type = "button";
-      saveButton.addEventListener("click", async () => {
-        saveButton.disabled = true;
-        saveButton.textContent = "กำลังบันทึก…";
-        try {
-          const rawQuota = quotaInput.value.trim();
-          await request(`${dashboardEndpoint(classroomId)}/enrollments/${encodeURIComponent(item.user_id)}`, {
-            method: "PATCH",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ status: statusSelect.value, token_quota: rawQuota === "" ? null : Number(rawQuota) }),
-          });
-          saveButton.textContent = "บันทึกแล้ว";
-        } catch (error) {
-          saveButton.textContent = error.message === "authentication-required" ? "เข้าสู่ระบบใหม่" : "ลองอีกครั้ง";
-        } finally {
-          saveButton.disabled = false;
-        }
-      });
-      actionCell.append(saveButton);
+      if (!managesInstructors) {
+        const saveButton = node("button", "button secondary instructor-row-save", "บันทึก");
+        saveButton.type = "button";
+        saveButton.addEventListener("click", async () => {
+          saveButton.disabled = true;
+          saveButton.textContent = "กำลังบันทึก…";
+          try {
+            const rawQuota = quotaInput.value.trim();
+            await request(`${dashboardEndpoint(classroomId)}/enrollments/${encodeURIComponent(item.user_id)}`, {
+              method: "PATCH",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ status: statusSelect.value, token_quota: rawQuota === "" ? null : Number(rawQuota) }),
+            });
+            saveButton.textContent = "บันทึกแล้ว";
+            await loadDashboard({ silent: true });
+          } catch (error) {
+            saveButton.textContent = error.message === "authentication-required" ? "เข้าสู่ระบบใหม่" : "ลองอีกครั้ง";
+          } finally {
+            saveButton.disabled = false;
+          }
+        });
+        actionCell.append(saveButton);
+      }
+      if (managedRole) {
+        const removeButton = node("button", "button secondary instructor-row-save", item.owner ? "Owner" : "นำออก");
+        removeButton.type = "button";
+        removeButton.disabled = item.owner === true;
+        removeButton.addEventListener("click", async () => {
+          removeButton.disabled = true;
+          removeButton.textContent = "กำลังนำออก…";
+          try {
+            const collection = managesInstructors ? "instructors" : "students";
+            await request(`${dashboardEndpoint(classroomId)}/${collection}/${encodeURIComponent(item.email)}`, { method: "DELETE" });
+            memberManagementStatus.textContent = `นำ ${item.email} ออกจากคลาสแล้ว`;
+            await loadDashboard({ silent: true });
+          } catch (error) {
+            memberManagementStatus.textContent = error.message;
+            removeButton.disabled = false;
+            removeButton.textContent = "ลองอีกครั้ง";
+          }
+        });
+        actionCell.append(removeButton);
+      }
       row.append(statusCell, quotaCell, usageCell, actionCell);
       enrollmentRows.append(row);
     });
@@ -583,6 +655,36 @@
     }
   });
 
+  memberManagementForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    if (!memberManagementMode) return;
+    const bulkEmails = parseBulkEmails(memberEmails.value);
+    const managesStudents = memberManagementMode === "students";
+    if ((!managesStudents && !memberAccount.value) || (managesStudents && !bulkEmails.length)) {
+      memberManagementStatus.textContent = managesStudents ? "กรอกอีเมลอย่างน้อย 1 บัญชี" : "เลือกบัญชีที่ต้องการเพิ่ม";
+      return;
+    }
+    memberAdd.disabled = true;
+    memberManagementStatus.textContent = "กำลังเพิ่ม…";
+    try {
+      const endpoint = managesStudents ? `${memberManagementMode}/bulk` : memberManagementMode;
+      const result = await request(`${dashboardEndpoint(classroomId)}/${endpoint}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(managesStudents ? { emails: bulkEmails } : { email: memberAccount.value }),
+      });
+      memberManagementStatus.textContent = managesStudents
+        ? `เพิ่ม/อนุมัติผู้เรียน ${result.active_count} บัญชีแล้ว`
+        : `เพิ่ม ${memberAccount.value} แล้ว`;
+      if (managesStudents) memberEmails.value = "";
+      await loadDashboard({ silent: true });
+    } catch (error) {
+      if (error.message !== "authentication-required") memberManagementStatus.textContent = error.message;
+    } finally {
+      memberAdd.disabled = managesStudents ? false : memberAccount.options.length === 0;
+    }
+  });
+
   classroomSelector.addEventListener("change", () => {
     const selected = classroomIdFromSearch(`?id=${encodeURIComponent(classroomSelector.value)}`);
     if (selected) globalObject.location.assign(`?id=${encodeURIComponent(selected)}`);
@@ -668,6 +770,7 @@
     try {
       await request(`${apiBase}/auth/logout`, { method: "POST" });
     } finally {
+      globalObject.aiResearchDevAuth?.clear();
       globalObject.location.assign("../index.html");
     }
   });

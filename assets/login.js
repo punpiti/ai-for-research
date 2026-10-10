@@ -3,7 +3,7 @@
 
   const googleEndpoint = "/api/ai-for-research/classrooms/auth/google";
   const previewEndpoint = "/api/ai-for-research/classrooms/auth/preview";
-  const defaultNext = "classroom.html?id=faculty-pilot-2569";
+  const defaultNext = "index.html#course";
 
   class LoginRequestError extends Error {
     constructor(code, message) {
@@ -15,7 +15,7 @@
 
   function safeNextPath(value) {
     const candidate = String(value || "");
-    return /^(?:classroom\.html\?id=[A-Za-z0-9][A-Za-z0-9._-]{2,63}(?:&action=enroll)?|admin\/(?:\?id=[A-Za-z0-9][A-Za-z0-9._-]{2,63})?)$/.test(candidate)
+    return /^(?:index\.html(?:#course)?|classroom\.html\?id=[A-Za-z0-9][A-Za-z0-9._-]{2,63}(?:&action=enroll)?|admin\/(?:\?id=[A-Za-z0-9][A-Za-z0-9._-]{2,63})?)$/.test(candidate)
       ? candidate
       : "";
   }
@@ -46,6 +46,7 @@
       return {
         authenticated: true,
         preview: payload.preview === true,
+        devSession: String(payload.dev_session || ""),
         next: safeNextPath(payload.next) || safeNextPath(body.next) || defaultNext,
       };
     }
@@ -65,9 +66,13 @@
     return postAuthentication(googleEndpoint, next ? { credential: token, next } : { credential: token }, fetchImpl);
   }
 
-  async function authenticatePreview(fetchImpl = globalObject.fetch, requestedNext = "") {
+  async function authenticatePreview(email, fetchImpl = globalObject.fetch, requestedNext = "") {
+    const selectedEmail = String(email || "").trim().toLowerCase();
+    if (!/^(?:student-00[1-5]|instructor-00[1-2]|admin)@ku\.th$/.test(selectedEmail)) {
+      throw new LoginRequestError("invalid-preview-account", "กรุณาเลือกบัญชีทดสอบจากรายการ");
+    }
     const next = safeNextPath(requestedNext);
-    return postAuthentication(previewEndpoint, next ? { next } : {}, fetchImpl);
+    return postAuthentication(previewEndpoint, next ? { email: selectedEmail, next } : { email: selectedEmail }, fetchImpl);
   }
 
   const testApi = {
@@ -86,11 +91,13 @@
   if (typeof document === "undefined") return;
   const googleContainer = document.querySelector("[data-google-login]");
   const googleButton = document.getElementById("google-signin-button");
-  const previewButton = document.querySelector("[data-preview-login]");
+  const devLoginForm = document.querySelector("[data-dev-login]");
+  const devAccount = document.querySelector("[data-dev-account]");
+  const googlePanel = document.querySelector("[data-google-login-panel]");
   const status = document.querySelector("[data-login-status]");
   const clientId = document.querySelector('meta[name="google-signin-client-id"]')?.content || "";
   const next = safeNextPath(new URLSearchParams(globalObject.location.search).get("next"));
-  if (!googleContainer || !googleButton || !previewButton || !status) return;
+  if (!googleContainer || !googleButton || !devLoginForm || !devAccount || !googlePanel || !status) return;
 
   function setStatus(message, state = "") {
     status.className = "login-status";
@@ -102,6 +109,7 @@
     setStatus("กำลังตรวจบัญชี…");
     try {
       const result = await request;
+      if (result.preview && result.devSession) globalObject.aiResearchDevAuth?.store(result.devSession);
       setStatus(result.preview ? "เข้าสู่ระบบ Preview แล้ว กำลังกลับไปยังหน้าคลาส…" : "เข้าสู่ระบบแล้ว กำลังกลับไปยังหน้าคลาส…", "success");
       globalObject.location.assign(result.next);
     } catch (error) {
@@ -110,8 +118,14 @@
   }
 
   if (isLocalPreview(globalObject.location.hostname)) {
-    previewButton.hidden = false;
-    previewButton.addEventListener("click", () => finishAuthentication(authenticatePreview(globalObject.fetch, next)));
+    devLoginForm.hidden = false;
+    googlePanel.hidden = true;
+    setStatus("เลือกบัญชีเพื่อทดสอบมุมมองและสิทธิ์ของผู้ใช้");
+    devLoginForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+      finishAuthentication(authenticatePreview(devAccount.value, globalObject.fetch, next));
+    });
+    return;
   }
 
   if (!clientId) {

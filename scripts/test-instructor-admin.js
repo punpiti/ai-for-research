@@ -15,6 +15,10 @@ assert.equal(admin.moduleContentPath("module-3", "faculty-pilot-2569"), "../modu
 assert.equal(admin.submissionLabel("completed"), "เสร็จแล้ว");
 assert.equal(admin.submissionLabel("not_submitted"), "ยังไม่ส่ง");
 assert.equal(admin.enrollmentLabel("pending"), "รออนุมัติ");
+assert.deepEqual(
+  admin.parseBulkEmails("Student-001@KU.TH, student-002@ku.th\nstudent-001@ku.th; student-003@ku.th"),
+  ["student-001@ku.th", "student-002@ku.th", "student-003@ku.th"],
+);
 assert.equal(admin.formatTokens(null), "—");
 assert.match(admin.formatTokens(12345), /12.*345/);
 console.log("Instructor admin helper tests passed.");

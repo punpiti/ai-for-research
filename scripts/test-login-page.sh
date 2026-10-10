@@ -5,9 +5,14 @@ root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 page="$root/login.html"
 
 grep -q 'data-google-login' "$page"
+grep -q 'assets/dev-auth.js' "$page"
 grep -q 'https://accounts.google.com/gsi/client' "$page"
 grep -q 'name="google-signin-client-id"' "$page"
-grep -q 'data-preview-login hidden' "$page"
+grep -q 'data-dev-login hidden' "$page"
+grep -q 'data-dev-account' "$page"
+grep -q 'student-005@ku.th' "$page"
+grep -q 'instructor-001@ku.th' "$page"
+grep -q 'admin@ku.th' "$page"
 grep -q 'role="status" aria-live="polite"' "$page"
 grep -q 'noindex,nofollow' "$page"
 grep -q 'body class="login-body"' "$page"
@@ -23,5 +28,6 @@ if grep -Eq 'localStorage|sessionStorage' "$root/assets/login.js"; then
 fi
 
 node "$root/scripts/test-login.js"
+node "$root/scripts/test-dev-auth.js"
 grep -q 'admin' "$root/assets/login.js"
 echo 'Login page checks passed.'

@@ -9,6 +9,7 @@ async function expectCode(promise, code) {
   assert.equal(login.safeNextPath("classroom.html?id=faculty-pilot-2569&action=enroll"), "classroom.html?id=faculty-pilot-2569&action=enroll");
   assert.equal(login.safeNextPath("admin/"), "admin/");
   assert.equal(login.safeNextPath("admin/?id=class-a1b2c3"), "admin/?id=class-a1b2c3");
+  assert.equal(login.safeNextPath("index.html#course"), "index.html#course");
   assert.equal(login.safeNextPath("https://attacker.example/"), "");
   assert.equal(login.isLocalPreview("127.0.0.1"), true);
   assert.equal(login.isLocalPreview("localhost"), true);
@@ -34,14 +35,17 @@ async function expectCode(promise, code) {
   assert.equal(success.next, "classroom.html?id=faculty-pilot-2569&action=enroll");
 
   let previewRequest;
-  const preview = await login.authenticatePreview(async (url, options) => {
+  const preview = await login.authenticatePreview("student-001@ku.th", async (url, options) => {
     previewRequest = { url, options };
     return { ok: true, status: 200, json: async () => ({ preview: true }) };
   });
   assert.equal(previewRequest.url, "/api/ai-for-research/classrooms/auth/preview");
-  assert.deepEqual(JSON.parse(previewRequest.options.body), {});
+  assert.deepEqual(JSON.parse(previewRequest.options.body), { email: "student-001@ku.th" });
   assert.equal(preview.preview, true);
   assert.equal(preview.next, login.defaultNext);
+  assert.equal(login.defaultNext, "index.html#course");
+
+  await expectCode(login.authenticatePreview("unknown@ku.th", async () => ({ ok: true })), "invalid-preview-account");
 
   await expectCode(login.authenticateWithGoogle("token", async () => ({ ok: false, status: 401 })), "not-eligible");
   await expectCode(login.authenticateWithGoogle("token", async () => ({ ok: false, status: 403 })), "not-eligible");
