@@ -1,5 +1,82 @@
 document.documentElement.classList.add("js");
 
+const classroomApiBase = "/api/ai-for-research/classrooms";
+
+function classroomIdFromLocation() {
+  const value = new URLSearchParams(location.search).get("classroom_id") || "";
+  return /^[A-Za-z0-9][A-Za-z0-9._-]{2,63}$/.test(value) ? value : "";
+}
+
+function markNoviceCaseContent() {
+  const caseTerms = /(?:หิว|อิ่ม|เรื่องอาหาร|มื้อข้าว|satiety|fullness|hunger)/i;
+  document.querySelectorAll("p").forEach((paragraph) => {
+    if (/เคสฝึก(?:สำหรับ)?นิสิต|เคสฝึกสำหรับนิสิต|นิสิต\/นักวิจัยมือใหม่/.test(paragraph.textContent) || caseTerms.test(paragraph.textContent)) {
+      paragraph.dataset.audienceRoute = "student";
+    }
+  });
+  document.querySelectorAll(".command, pre").forEach((example) => {
+    if (caseTerms.test(example.textContent)) example.dataset.audienceRoute = "student";
+  });
+  const module3Example = document.querySelector("#example");
+  if (module3Example) module3Example.dataset.audienceRoute = "student";
+  const module5CaseHeading = document.querySelector('[id^="3-เคสฝึก"]');
+  if (module5CaseHeading) {
+    let item = module5CaseHeading;
+    while (item && (item === module5CaseHeading || item.tagName !== "H3")) {
+      item.dataset.audienceRoute = "student";
+      item = item.nextElementSibling;
+    }
+  }
+}
+
+function applyClassroomContentRoutes(routes) {
+  const allowed = new Set(Array.isArray(routes) ? routes : []);
+  const route = allowed.size === 1 && allowed.has("faculty")
+    ? "faculty"
+    : allowed.size === 1 && allowed.has("student") ? "student" : "mixed";
+  document.documentElement.dataset.classroomContentRoute = route;
+  markNoviceCaseContent();
+  document.querySelectorAll("[data-audience-route]").forEach((element) => {
+    const audience = element.dataset.audienceRoute;
+    element.hidden = route !== "mixed" && audience !== route;
+  });
+  if (route === "faculty") {
+    document.querySelectorAll('site-header a[href="#sources"]').forEach((link) => { link.href = "#faculty-sources"; });
+    document.querySelectorAll('site-header a[href="#activity"]').forEach((link) => { link.href = "#faculty-activity"; });
+  }
+  document.dispatchEvent(new CustomEvent("classroom-content-route", { detail: { route, routes: [...allowed] } }));
+  return route;
+}
+
+async function resolveClassroomContentRoute() {
+  const classroomId = classroomIdFromLocation();
+  if (!classroomId) return applyClassroomContentRoutes(["student", "faculty"]);
+
+  // The local preview has no classroom database. Keep its known faculty class
+  // representative while leaving standalone pages available for content review.
+  if (["localhost", "127.0.0.1", "::1"].includes(location.hostname) && classroomId === "faculty-pilot-2569") {
+    return applyClassroomContentRoutes(["faculty"]);
+  }
+
+  try {
+    const response = await fetch(`${classroomApiBase}/${encodeURIComponent(classroomId)}/modules/module-3/access`, {
+      credentials: "same-origin",
+      headers: { "Accept": "application/json" },
+    });
+    if (!response.ok) throw new Error("classroom-content-route-unavailable");
+    const payload = await response.json();
+    const routes = Array.isArray(payload.allowed_routes)
+      ? payload.allowed_routes.filter((route) => route === "student" || route === "faculty")
+      : [];
+    return applyClassroomContentRoutes(routes.length ? routes : ["student", "faculty"]);
+  } catch (_error) {
+    // Standalone/public module pages remain usable when classroom context is unavailable.
+    return applyClassroomContentRoutes(["student", "faculty"]);
+  }
+}
+
+window.classroomContentRouteReady = resolveClassroomContentRoute();
+
 function getCookie(name) {
   const prefix = `${encodeURIComponent(name)}=`;
   const item = document.cookie.split("; ").find((part) => part.startsWith(prefix));
@@ -126,12 +203,14 @@ if (moduleHero && !document.querySelector("[data-hunger-review]")) {
   const review = document.createElement("section");
   review.className = "section hunger-review";
   review.dataset.hungerReview = "";
+  review.dataset.audienceRoute = "student";
   review.innerHTML = `<div class="section-heading compact">
-    <p class="eyebrow">ทบทวนระเบียบวิธีวิจัยก่อนเรียน</p>
+    <p class="eyebrow">เคสฝึกสำหรับนิสิตและนักวิจัยมือใหม่</p>
     <h2>หิว → กิน → อิ่ม</h2>
     <p><strong>หิว</strong> คือปัญหา <strong>อิ่ม</strong> คือผลที่ต้องการ และ <strong>กิน</strong> เป็นเพียงวิธีหนึ่ง ต้องกำหนดว่าใครหิว วัดความอิ่มอย่างไร มีข้อจำกัดอะไร และใช้หลักฐานใดตรวจว่ากินแล้วได้ผลจริง</p>
   </div><div class="plain-note"><strong>จำไว้ตลอดบท:</strong> ทำขั้นตอนครบหรือใช้ AI สำเร็จ ไม่ได้แปลว่าตอบปัญหาวิจัยแล้ว ผลงานท้ายบทต้องเชื่อมกลับไปยังปัญหา วัตถุประสงค์ และหลักฐานเสมอ</div>
-  <div class="hero-actions"><a class="button secondary" href="hunger-research-methodology.html">ทบทวนกรณีฉบับเต็ม →</a></div>`;
+  <div class="hero-actions"><a class="button secondary" href="hunger-research-methodology.html">เปิดเคสฝึกฉบับเต็ม →</a></div>`;
+  review.hidden = document.documentElement.dataset.classroomContentRoute === "faculty";
   moduleHero.insertAdjacentElement("afterend", review);
 }
 
@@ -174,7 +253,7 @@ if (guidedConfig) {
 ในแต่ละขั้น:
 1. อ่านข้อมูลใน profile/ ถ้ามี และถามข้อมูลที่ยังขาดทีละข้อ
 2. บอกชิ้นงานย่อยที่ต้องได้ แล้วอธิบายเฉพาะแนวคิดที่จำเป็นเป็นภาษาไทยไม่เกิน 3 ประโยค
-3. ใช้ตัวอย่าง “หิว → กิน → อิ่ม” เมื่อช่วยให้เห็นปัญหา วิธี ผลที่ต้องการ หรือตัวแปรได้ชัดขึ้น
+3. ใช้กรณีวิจัยที่คลาสกำหนด หรือกรณีวิจัยของฉันเมื่อได้รับอนุญาต โดยไม่เปลี่ยนกรณีศึกษาเอง
 4. ถามฉันเพียงหนึ่งคำถามแล้วรอคำตอบ
 5. แยกข้อมูลที่ตรวจแล้ว การตัดสินใจ สมมติฐาน และสิ่งที่ยังต้องตรวจ
 6. ถามคำถามท้าทายหนึ่งข้อและรอคำตอบ
@@ -420,7 +499,7 @@ function decorateModuleActions() {
     form.before(label);
   }
   const collapsible = moduleNumber === "3"
-    ? [["example", "เปิดตัวอย่าง หิว → กิน → อิ่ม"], ["student-path", "เปิดเส้นทางนักเรียน"], ["faculty-path", "เปิดเส้นทางอาจารย์ / นักวิจัย"]]
+    ? [["example", "เปิดเคสฝึกนิสิต/นักวิจัยมือใหม่"], ["student-path", "เปิดเส้นทางนักเรียน"], ["faculty-path", "เปิดเส้นทางอาจารย์ / นักวิจัย"]]
     : [];
   for (const [id, summaryText] of collapsible) {
     const section = document.getElementById(id);

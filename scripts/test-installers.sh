@@ -107,9 +107,9 @@ grep -q 'Candidate Gap' "$root/module-3.html"
 grep -q 'Gap Prosecutor' "$root/module-3.html"
 grep -q 'หิว → กิน → อิ่ม' "$root/module-3.html"
 grep -q 'ลองหักล้างตัวอย่าง' "$root/module-3.html"
-[[ "$(grep -o 'ตัวอย่างหิว–กิน–อิ่ม:' "$root/module-3.html" | wc -l)" -ge 12 ]]
+[[ "$(grep -o 'เคสฝึกนิสิต/นักวิจัยมือใหม่:' "$root/module-3.html" | wc -l)" -ge 12 ]]
 grep -q 'href="hunger-research-methodology.html"' "$root/module-3.html"
-grep -q 'Research Methodology Review' "$root/hunger-research-methodology.html"
+grep -q 'Student &amp; Novice Researcher Case' "$root/hunger-research-methodology.html"
 grep -q 'Problem Definition' "$root/hunger-research-methodology.html"
 grep -q 'Constraint &amp; Scope' "$root/hunger-research-methodology.html"
 grep -q 'Variable, Indicator &amp; Decision' "$root/hunger-research-methodology.html"
@@ -140,7 +140,7 @@ grep -q 'ห้ามสรุปแทนต้นฉบับ' "$root/module-4
 grep -q 'BibTeX เก็บข้อมูลอ้างอิง, DOI ชี้ตัวเอกสาร' "$root/module-4.html"
 grep -q 'APA คือกติกาการแสดงผล; BibTeX และ RIS คือรูปแบบไฟล์' "$root/module-4.html"
 grep -q 'ตัวอย่างสมมติ—ห้ามนำไปอ้างอิง' "$root/module-4.html"
-grep -q 'Claim ที่ต้องหาหลักฐาน' "$root/module-4.html"
+grep -q 'ค้นหลักฐานใหม่สำหรับ Claim' "$root/module-4.html"
 grep -q 'งานเขียนที่ต้องตรวจ Citation' "$root/module-4.html"
 grep -q 'ตัดสินใจว่าจะเก็บ ปรับ หรือตัด Citation' "$root/module-4.html"
 if grep -q 'จุดนัดพบ\|มาบรรจบกัน\|Module นี้เริ่มเรียนได้โดยตรง\|ผู้เรียนทำ:\|ส่งให้ AI:\|ส่งให้ AI หลังมีแหล่งต้นทาง:\|ผลที่คาดหวัง:' "$root/module-4.html"; then
@@ -214,7 +214,7 @@ grep -q 'LOCAL_CHECK PASS/FAIL' "$root/downloads/starter-AGENTS.md"
 for name in \
   'Prepare Your AI Research Workspace' \
   'Your First AI Research Task' \
-  'Problem → Gap → Research Question' \
+  'Problem Statement → Research Gap' \
   'Literature Evidence' \
   'Research Logic' \
   'Experiment Design Stress Test' \

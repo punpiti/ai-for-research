@@ -1,7 +1,7 @@
 const MODULE_LINKS = [
   [1, "prepare.html", "Prepare Your AI Research Workspace"],
   [2, "module-2.html", "Your First AI Research Task"],
-  [3, "module-3.html", "Problem → Gap → Research Question"],
+  [3, "module-3.html", "Problem Statement → Research Gap"],
   [4, "module-4.html", "Literature Evidence"],
   [5, "module-5.html", "Research Logic"],
   [6, "module-6.html", "Experiment Design Stress Test"],
@@ -46,11 +46,11 @@ document.head.append(analyticsScript);
 const LOCAL_LINKS = {
   home: [],
   classroom: [["outcomes", "Learning outcomes"], ["syllabus", "Syllabus"], ["requirements", "Requirements"]],
-  1: [["setup", "ก่อนเริ่ม"], ["practice", "ฝึกทำ"], ["homework", "งานท้ายบท"]],
-  2: [["sources", "ดาวน์โหลดข้อมูล"], ["json-basics", "รู้จัก MD/JSON"], ["activity", "ลงมือทำ"], ["submit", "ส่งงาน"], ["finish", "ทบทวน"]],
-  3: [["start", "ก่อนเริ่ม"], ["activity", "ลงมือทำ"], ["finish", "ทบทวน"]],
-  4: [["prepare", "ก่อนเริ่ม"], ["shared", "ลงมือทำ"], ["finish", "ทบทวน"]],
-  5: [["start", "ก่อนเริ่ม"], ["activity", "ลงมือทำ"], ["review", "ทบทวน"]],
+  1: [],
+  2: [],
+  3: [],
+  4: [],
+  5: [],
   6: [["start", "ก่อนเริ่ม"], ["activity", "ลงมือทำ"], ["review", "ทบทวน"]],
   7: [["start", "ก่อนเริ่ม"], ["activity", "ลงมือทำ"], ["review", "ทบทวน"]],
   8: [["start", "ก่อนเริ่ม"], ["activity", "ลงมือทำ"], ["review", "ทบทวน"]],
@@ -144,6 +144,21 @@ class SiteFooter extends HTMLElement {
 
 customElements.define("site-header", SiteHeader);
 customElements.define("site-footer", SiteFooter);
+
+// Keep classroom-level content choices when learners move between modules.
+function preserveClassroomContext() {
+  const activeClassroomId = new URLSearchParams(location.search).get("classroom_id") || "";
+  if (!/^[A-Za-z0-9][A-Za-z0-9._-]{2,63}$/.test(activeClassroomId)) return;
+  document.querySelectorAll('a[href^="prepare.html"], a[href^="module-"]').forEach((link) => {
+    const url = new URL(link.getAttribute("href"), location.href);
+    if (url.origin !== location.origin || url.searchParams.has("classroom_id")) return;
+    url.searchParams.set("classroom_id", activeClassroomId);
+    link.href = `${url.pathname.split("/").pop()}${url.search}${url.hash}`;
+  });
+}
+
+if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", preserveClassroomContext);
+else preserveClassroomContext();
 
 // Fragment navigation can run before the custom header/footer have expanded,
 // leaving an old bookmarked anchor at the wrong scroll position. Re-apply it

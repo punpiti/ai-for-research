@@ -7,8 +7,8 @@
   <title>Literature Evidence — AI for Research</title>
   <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/styles.css?v=20260805-16"><script src="assets/app.js?v=20260805-15" defer></script>
-  <script src="assets/site-shell.js?v=20260805-5"></script>
+  <link rel="stylesheet" href="assets/styles.css?v=20261010-7"><script src="assets/app.js?v=20261010-2" defer></script><script src="assets/module-guided-steps.js?v=20261010-1" defer></script>
+  <script src="assets/site-shell.js?v=20261010-2"></script>
 </head>
 <body>
   <a class="skip-link" href="#main">ข้ามไปยังเนื้อหา</a>
@@ -19,7 +19,7 @@
     <section class="section profile-context"><div data-research-profile></div></section>
 
     <section class="section" id="prepare"><div class="section-heading compact"><p class="eyebrow">การเตรียมตัวก่อนเรียน</p><h2>ของต้องมีก่อนเรียน</h2><p>นำข้อความที่ต้องการตรวจหรืองานเขียนของคุณมาใช้ หากใช้เอกสารจริงไม่ได้ ให้ใช้ชุดเอกสารตัวอย่างที่ผู้สอนจัดให้</p></div><div class="concept-grid">
-      <article><h3>Claim ที่ต้องหาหลักฐาน</h3><p>เตรียม claim สำคัญหนึ่งข้อ พร้อมบริบทว่า claim นี้ใช้ตอบ RQ หรือใช้สนับสนุนข้อเสนอใด หากมีผลงานจาก Module 3 ให้นำ <code>output/problem-gap-rq.md</code> มาด้วย</p></article>
+      <article><h3>Candidate Gap หรือ Claim ที่ต้องตรวจ</h3><p>หากมีผลงานจาก Module 3 ให้นำ <code>output/module-3/seed-problem-statement.md</code> และ candidate gap/claim สำคัญหนึ่งข้อมา โดยระบุว่าข้อนี้เชื่อมกับ problem statement อย่างไร หากเริ่มที่ Module 4 ให้ใช้ standalone claim intake หนึ่งหน้า</p></article>
       <article><h3>งานเขียนที่ต้องตรวจ Citation</h3><p>เตรียม manuscript, proposal หรือบทความของตนเองที่มี in-text citations และ reference list พร้อม DOI, official page หรือ full text 5–8 รายการที่ใช้ยืนยัน metadata และ abstract ได้</p></article>
       <article><h3>ข้อมูลที่นำมาใช้ได้</h3><p>ใช้เฉพาะเอกสารที่มีสิทธิ์นำเข้า AI ตัดข้อมูลลับและข้อมูลส่วนบุคคลออก และบันทึกแหล่งที่เข้าไม่ถึง full text ไว้ตามจริง</p></article>
     </div></section>
@@ -42,7 +42,7 @@
       <article><h3>Bibliographic metadata</h3><p>ข้อมูลระบุตัวเอกสาร เช่น ผู้แต่ง ชื่อเรื่อง ปี วารสาร เล่ม ฉบับ หน้า และ DOI ควรเทียบกับ DOI registry, publisher หรือ repository ทางการ</p></article>
       <article><h3>DOI</h3><p>รหัสถาวรที่พาไปยังระเบียนของเอกสาร ช่วยยืนยัน identity และ metadata แต่ DOI ที่ถูกต้องยังไม่พิสูจน์ว่าเนื้อหาสนับสนุน Claim</p></article>
       <article><h3>Abstract และ Full text</h3><p>Abstract เป็นบทสรุปที่ผู้เขียนหรือวารสารเผยแพร่ ส่วน full text มีรายละเอียด method, result และ limitation ที่จำเป็นต่อการตรวจการอ้างเชิงลึก</p></article>
-    </div><div class="plain-note"><strong>ข้อกำหนดของงานนี้:</strong> BibTeX ทุก entry ต้องมี <code>abstract</code> ที่คัดจาก official page หรือ full text ไม่ใช่ข้อความที่ AI สรุปขึ้นใหม่ หากต้นทางไม่มี abstract หรือยังเข้าไม่ถึง ให้บันทึกว่า <code>abstract not found</code> ในรายงานตรวจและกลับมาเติมเมื่อมีหลักฐาน ห้ามแต่งให้ครบ</div><div class="plain-note"><strong>อย่าสับสน:</strong> APA คือกติกาการแสดงผล; BibTeX และ RIS คือรูปแบบไฟล์แลกเปลี่ยนข้อมูลอ้างอิง; Zotero หรือ Mendeley คือโปรแกรมจัดการรายการอ้างอิง; DOI คือรหัสระบุตัวเอกสาร สิ่งเหล่านี้ช่วยจัดการข้อมูล แต่ไม่มีอย่างใดใช้แทนการอ่านหลักฐานได้</div><div class="plain-note"><strong>ตัวอย่างสมมติ—ห้ามนำไปอ้างอิง:</strong> ในเนื้อหาอาจเขียน <code>(Anan, 2025)</code> ส่วน reference list และ BibTeX เก็บรายละเอียดของ “อาหารโปรตีนกับความอิ่มในนักศึกษา” เรื่องเดียวกัน ตัวอย่างจึงมี field <code>abstract</code> แต่ยังไม่ใส่ field <code>doi</code> เพราะยังไม่ยืนยัน</div><div class="command"><code>% ตัวอย่างสมมติ: abstract นี้สร้างเพื่ออธิบายโครงสร้างเท่านั้น<br>@article{anan2025satiety,<br>&nbsp;&nbsp;author = {Anan, K.},<br>&nbsp;&nbsp;title = {Protein Meals and Satiety in Students},<br>&nbsp;&nbsp;journal = {Example Journal},<br>&nbsp;&nbsp;year = {2025},<br>&nbsp;&nbsp;abstract = {This fictional example examines how a protein meal relates to reported satiety among students.}<br>}</code><button type="button" data-copy>คัดลอกตัวอย่าง BibTeX</button></div><div class="level-grid">
+    </div><div class="plain-note"><strong>ข้อกำหนดของงานนี้:</strong> BibTeX ทุก entry ต้องมี <code>abstract</code> ที่คัดจาก official page หรือ full text ไม่ใช่ข้อความที่ AI สรุปขึ้นใหม่ หากต้นทางไม่มี abstract หรือยังเข้าไม่ถึง ให้บันทึกว่า <code>abstract not found</code> ในรายงานตรวจและกลับมาเติมเมื่อมีหลักฐาน ห้ามแต่งให้ครบ</div><div class="plain-note"><strong>อย่าสับสน:</strong> APA คือกติกาการแสดงผล; BibTeX และ RIS คือรูปแบบไฟล์แลกเปลี่ยนข้อมูลอ้างอิง; Zotero หรือ Mendeley คือโปรแกรมจัดการรายการอ้างอิง; DOI คือรหัสระบุตัวเอกสาร สิ่งเหล่านี้ช่วยจัดการข้อมูล แต่ไม่มีอย่างใดใช้แทนการอ่านหลักฐานได้</div><div class="plain-note" data-audience-route="student"><strong>ตัวอย่างสมมติ—ห้ามนำไปอ้างอิง:</strong> ในเนื้อหาอาจเขียน <code>(Anan, 2025)</code> ส่วน reference list และ BibTeX เก็บรายละเอียดของ “อาหารโปรตีนกับความอิ่มในนักศึกษา” เรื่องเดียวกัน ตัวอย่างจึงมี field <code>abstract</code> แต่ยังไม่ใส่ field <code>doi</code> เพราะยังไม่ยืนยัน</div><div class="command"><code>% ตัวอย่างสมมติ: abstract นี้สร้างเพื่ออธิบายโครงสร้างเท่านั้น<br>@article{anan2025satiety,<br>&nbsp;&nbsp;author = {Anan, K.},<br>&nbsp;&nbsp;title = {Protein Meals and Satiety in Students},<br>&nbsp;&nbsp;journal = {Example Journal},<br>&nbsp;&nbsp;year = {2025},<br>&nbsp;&nbsp;abstract = {This fictional example examines how a protein meal relates to reported satiety among students.}<br>}</code><button type="button" data-copy>คัดลอกตัวอย่าง BibTeX</button></div><div class="level-grid">
       <article><span>01</span><div><h3>Claim</h3><p>ข้อความในงานของเรา เช่น “อาหารโปรตีนสูงทำให้อิ่มนานขึ้น”</p></div></article>
       <article><span>02</span><div><h3>Citation</h3><p>เชื่อม Claim ไปยัง reference entry หรือ citation key ที่ระบุแหล่ง</p></div></article>
       <article><span>03</span><div><h3>Identity</h3><p>ใช้ metadata, DOI และ official page ตรวจว่าเอกสารนั้นมีอยู่จริงและเป็นเรื่องเดียวกับที่ระบุ</p></div></article>
@@ -93,8 +93,8 @@
     <section class="section" id="paths"><div class="section-heading compact"><p class="eyebrow">กิจกรรมฝึกตรวจวรรณกรรม</p><h2>เลือกงานที่ตรงกับสิ่งที่ต้องตรวจ</h2><p>หลังทำ OpenAlex crawl ถ้ามี Claim ให้ทำกิจกรรม A เพื่อค้นหลักฐานใหม่ ถ้ามี manuscript หรือ proposal ให้ทำกิจกรรม B เพื่อตรวจการอ้างอิง เมื่อเสร็จแล้วจะสรุปผลด้วย Citation Verification Checklist</p></div></section>
 
     <section class="section" id="path-a"><div class="section-heading compact"><p class="eyebrow">ทาง A</p><h2>ค้นหลักฐานใหม่สำหรับ Claim</h2></div><ol class="readiness-steps activity-steps">
-      <li><span>A1</span><div><strong>เขียน Claim และขอบเขตด้วยตนเอง</strong><p>Claim ที่ตรวจได้ต้องระบุว่าจะใช้ตอบคำถามใด ใครหรืออะไรคือหน่วยที่กล่าวถึง และผลแบบใดที่จะทำให้เรายอมรับ ปรับ หรือปฏิเสธ Claim</p><p><strong>ตัวอย่างหิว–กิน–อิ่ม:</strong> “อาหารที่มีโปรตีนสูงสัมพันธ์กับระยะเวลาก่อนหิวอีกครั้งในนักศึกษา” ต้องระบุนิยามโปรตีนสูง ความหิว และกลุ่มนักศึกษา</p></div></li>
-      <li><span>A2</span><div><strong>สร้างแผนค้นที่มนุษย์ตรวจได้</strong><p>AI ช่วยเสนอ concepts, synonyms และ query หลายแบบได้ แต่ผลลัพธ์ในขั้นนี้เป็นเพียงแผนค้น ยังใช้สรุปไม่ได้ว่ามีหลักฐานหรือไม่มีงาน</p><p><strong>ตัวอย่างหิว–กิน–อิ่ม:</strong> แผนค้นควรแยก <em>student/young adult</em>, <em>protein/high-protein meal</em> และ <em>satiety/fullness/hunger</em> พร้อมอธิบายผลของการใช้คำกว้างหรือแคบ</p><div class="command"><code>งาน: สร้างแผนการค้นสำหรับข้ออ้างที่ฉันให้
+      <li><span>A1</span><div><strong>เขียน Claim และขอบเขตด้วยตนเอง</strong><p>Claim ที่ตรวจได้ต้องระบุว่าจะใช้ตอบคำถามใด ใครหรืออะไรคือหน่วยที่กล่าวถึง และผลแบบใดที่จะทำให้เรายอมรับ ปรับ หรือปฏิเสธ Claim</p><p><strong>เคสฝึกนิสิต/นักวิจัยมือใหม่:</strong> “อาหารที่มีโปรตีนสูงสัมพันธ์กับระยะเวลาก่อนหิวอีกครั้งในนักศึกษา” ต้องระบุนิยามโปรตีนสูง ความหิว และกลุ่มนักศึกษา</p></div></li>
+      <li><span>A2</span><div><strong>สร้างแผนค้นที่มนุษย์ตรวจได้</strong><p>AI ช่วยเสนอ concepts, synonyms และ query หลายแบบได้ แต่ผลลัพธ์ในขั้นนี้เป็นเพียงแผนค้น ยังใช้สรุปไม่ได้ว่ามีหลักฐานหรือไม่มีงาน</p><p><strong>เคสฝึกนิสิต/นักวิจัยมือใหม่:</strong> แผนค้นควรแยก <em>student/young adult</em>, <em>protein/high-protein meal</em> และ <em>satiety/fullness/hunger</em> พร้อมอธิบายผลของการใช้คำกว้างหรือแคบ</p><div class="command"><code>งาน: สร้างแผนการค้นสำหรับข้ออ้างที่ฉันให้
 
 สิ่งที่ต้องแยก:
 - แนวคิดหลัก
@@ -112,7 +112,7 @@
 
 ส่งมอบ: output/search-plan.md</code><button type="button" data-copy>คัดลอก Prompt A2</button></div></div></li>
       <li><span>A3</span><div><strong>ค้นและบันทึก Search Log</strong><p>Search log ทำให้ผู้อื่นย้อนดูได้ว่าเราค้นที่ใด เมื่อใด ใช้ query และตัวกรองอะไร พบกี่รายการ และเลือกหรือตัดแต่ละแหล่งด้วยเหตุผลใด ส่วนหลักฐานที่เก็บต้องย้อนกลับไปยัง DOI, official page หรือ PDF ได้</p></div></li>
-      <li><span>A4</span><div><strong>สร้าง Literature Evidence Table</strong><p>Evidence table ต้องแยก metadata ออกจากข้อความหลักฐานในเนื้อหา ใช้ AI ช่วยจัดรูปแบบได้เมื่อมีแหล่งต้นทางแล้ว แต่ช่องที่ตรวจไม่ได้ต้องคงเป็น not found แทนการเติมให้ครบ</p><p><strong>ตัวอย่างหิว–กิน–อิ่ม:</strong> หนึ่งแถวต้องบอกว่าการศึกษาวัด satiety อย่างไร พบผลอะไร ในประชากรใด และรองรับ Claim ได้ทั้งหมดหรือเพียงบางส่วน</p><div class="command"><code>งาน: สร้างตารางหลักฐานจากเอกสารที่ฉันให้
+      <li><span>A4</span><div><strong>สร้าง Literature Evidence Table</strong><p>Evidence table ต้องแยก metadata ออกจากข้อความหลักฐานในเนื้อหา ใช้ AI ช่วยจัดรูปแบบได้เมื่อมีแหล่งต้นทางแล้ว แต่ช่องที่ตรวจไม่ได้ต้องคงเป็น not found แทนการเติมให้ครบ</p><p><strong>เคสฝึกนิสิต/นักวิจัยมือใหม่:</strong> หนึ่งแถวต้องบอกว่าการศึกษาวัด satiety อย่างไร พบผลอะไร ในประชากรใด และรองรับ Claim ได้ทั้งหมดหรือเพียงบางส่วน</p><div class="command"><code>งาน: สร้างตารางหลักฐานจากเอกสารที่ฉันให้
 
 ใช้เฉพาะ:
 - PDF
@@ -137,7 +137,7 @@
     </ol><div class="plain-note"><strong>บันทึกผลไว้ที่:</strong> <code>output/search-plan.md</code> และ <code>output/literature-evidence-table.md</code></div></section>
 
     <section class="section" id="path-b"><div class="section-heading compact"><p class="eyebrow">ทาง B</p><h2>ตรวจ Reference List ของงานตนเอง</h2></div><ol class="readiness-steps activity-steps">
-      <li><span>B1</span><div><strong>สร้าง BibTeX พร้อม Abstract</strong><p>การแปลงรูปแบบไม่ใช่การยืนยันความจริง แต่ละ entry จึงต้องมี abstract ที่คัดจาก official page หรือ full text พร้อมคง field อื่นที่ขาดไว้ตามจริง AI ห้ามเดา metadata หรือเขียน abstract สรุปแทนต้นฉบับ</p><p><strong>ตัวอย่างหิว–กิน–อิ่ม:</strong> ถ้า reference เรื่อง satiety มี abstract บนหน้าวารสาร ให้คัดข้อความนั้นลง field <code>abstract</code> แต่ถ้าไม่มี DOI ให้รายงานว่า DOI ยังไม่พบ ไม่สร้างรหัสที่ดูคล้าย DOI ขึ้นมา</p><div class="command"><code>งาน: สร้างแฟ้ม BibTeX จากรายการอ้างอิงและแหล่งต้นทางที่ฉันให้
+      <li><span>B1</span><div><strong>สร้าง BibTeX พร้อม Abstract</strong><p>การแปลงรูปแบบไม่ใช่การยืนยันความจริง แต่ละ entry จึงต้องมี abstract ที่คัดจาก official page หรือ full text พร้อมคง field อื่นที่ขาดไว้ตามจริง AI ห้ามเดา metadata หรือเขียน abstract สรุปแทนต้นฉบับ</p><p><strong>เคสฝึกนิสิต/นักวิจัยมือใหม่:</strong> ถ้า reference เรื่อง satiety มี abstract บนหน้าวารสาร ให้คัดข้อความนั้นลง field <code>abstract</code> แต่ถ้าไม่มี DOI ให้รายงานว่า DOI ยังไม่พบ ไม่สร้างรหัสที่ดูคล้าย DOI ขึ้นมา</p><div class="command"><code>งาน: สร้างแฟ้ม BibTeX จากรายการอ้างอิงและแหล่งต้นทางที่ฉันให้
 
 ทำทีละรายการ:
 1. สร้างหนึ่งรายการต่อหนึ่งแหล่ง
@@ -152,7 +152,7 @@
 หากไม่พบบทคัดย่อ ให้เว้นช่องนั้นและทำรายการ “abstract not found”
 
 ส่งมอบ: output/refs.bib</code><button type="button" data-copy>คัดลอก Prompt B1</button></div></div></li>
-      <li><span>B2</span><div><strong>ตรวจคุณภาพ BibTeX และ Abstract</strong><p>การตรวจ BibTeX มีสองชั้น: ตรวจรูปแบบ เช่น field และ key และตรวจข้อเท็จจริงโดยกลับไปหา metadata กับ abstract จากต้นทาง AI ช่วยชี้รายการเสี่ยงได้ แต่ไม่อาจยืนยันชั้นที่สองจากไฟล์ BibTeX เพียงอย่างเดียว</p><p><strong>ตัวอย่างหิว–กิน–อิ่ม:</strong> DOI ที่พิมพ์ผิดรูปแบบเป็น format problem ส่วน DOI ที่เปิดแล้วชี้ไปคนละบทความ หรือ abstract ในไฟล์ไม่ตรงกับหน้าวารสาร เป็น factual verification problem</p><div class="command"><code>งาน: ตรวจคุณภาพ output/refs.bib ทีละรายการ โดยยังไม่แก้ข้อมูล
+      <li><span>B2</span><div><strong>ตรวจคุณภาพ BibTeX และ Abstract</strong><p>การตรวจ BibTeX มีสองชั้น: ตรวจรูปแบบ เช่น field และ key และตรวจข้อเท็จจริงโดยกลับไปหา metadata กับ abstract จากต้นทาง AI ช่วยชี้รายการเสี่ยงได้ แต่ไม่อาจยืนยันชั้นที่สองจากไฟล์ BibTeX เพียงอย่างเดียว</p><p><strong>เคสฝึกนิสิต/นักวิจัยมือใหม่:</strong> DOI ที่พิมพ์ผิดรูปแบบเป็น format problem ส่วน DOI ที่เปิดแล้วชี้ไปคนละบทความ หรือ abstract ในไฟล์ไม่ตรงกับหน้าวารสาร เป็น factual verification problem</p><div class="command"><code>งาน: ตรวจคุณภาพ output/refs.bib ทีละรายการ โดยยังไม่แก้ข้อมูล
 
 ตรวจ:
 - ชนิดเอกสาร
@@ -168,7 +168,7 @@
 2. ปัญหาข้อเท็จจริงที่ต้องกลับไปตรวจต้นทาง
 
 ส่งมอบ: output/bibtex-quality-report.md</code><button type="button" data-copy>คัดลอก Prompt B2</button></div></div></li>
-      <li><span>B3</span><div><strong>ประเมิน Reference Set</strong><p>ความใหม่ ความครอบคลุม คู่แข่งหลัก self-citation และความเกี่ยวข้องช่วยเปิดคำถามสำหรับตรวจต่อ แต่ยังไม่ใช่คำตัดสินจากจำนวน reference หรือชื่อเรื่องเพียงอย่างเดียว</p><p><strong>ตัวอย่างหิว–กิน–อิ่ม:</strong> หาก reference ทั้งหมดพูดเรื่องรสชาติ แต่ Claim พูดเรื่องระยะเวลาก่อนหิว รายงานควรถามว่าขาดงานด้าน satiety หรือไม่ โดยยังไม่สร้างรายชื่อบทความขึ้นเอง</p><div class="command"><code>งาน: ตรวจความครอบคลุมของชุดรายการอ้างอิง
+      <li><span>B3</span><div><strong>ประเมิน Reference Set</strong><p>ความใหม่ ความครอบคลุม คู่แข่งหลัก self-citation และความเกี่ยวข้องช่วยเปิดคำถามสำหรับตรวจต่อ แต่ยังไม่ใช่คำตัดสินจากจำนวน reference หรือชื่อเรื่องเพียงอย่างเดียว</p><p><strong>เคสฝึกนิสิต/นักวิจัยมือใหม่:</strong> หาก reference ทั้งหมดพูดเรื่องรสชาติ แต่ Claim พูดเรื่องระยะเวลาก่อนหิว รายงานควรถามว่าขาดงานด้าน satiety หรือไม่ โดยยังไม่สร้างรายชื่อบทความขึ้นเอง</p><div class="command"><code>งาน: ตรวจความครอบคลุมของชุดรายการอ้างอิง
 
 เปรียบเทียบรายการอ้างอิงกับหัวข้อและข้ออ้างในต้นฉบับ แล้วระบุ:
 - รายการที่อาจเก่าเกินไป
@@ -185,7 +185,7 @@
 
 เพิ่มผลในหัวข้อ Reference Set Review ของ output/bibtex-quality-report.md</code><button type="button" data-copy>คัดลอก Prompt B3</button></div></div></li>
       <li><span>B4</span><div><strong>ยืนยันตัวตนจาก DOI หรือ Official Page</strong><p>Citation สำคัญหรือรายการเสี่ยง 5–8 รายการควรถูกเปิดจากต้นทางจริง แล้วเทียบ author, year, title, venue และ DOI กับ BibTeX ทีละช่อง</p></div></li>
-      <li><span>B5</span><div><strong>ตรวจ In-text Citation กับเนื้อหาจริง</strong><p>ข้อความรอบ citation ต้องตรงกับ method, result และ limitation ของแหล่ง การอ่าน abstract อย่างเดียวไม่พอเมื่อ Claim อาศัยรายละเอียดของผลหรือขอบเขตประชากร</p><p><strong>ตัวอย่างหิว–กิน–อิ่ม:</strong> บทความที่พบความอิ่มเพิ่มเล็กน้อยในผู้ใหญ่ทั่วไป ไม่ควรถูกอ้างว่า “พิสูจน์แล้วว่าอาหารโปรตีนสูงทำให้นักศึกษาทุกคนอิ่มนาน”</p><div class="command"><code>งาน: ตรวจการอ้างในเนื้อหา 5–8 รายการที่ฉันตรวจต้นทางแล้ว
+      <li><span>B5</span><div><strong>ตรวจ In-text Citation กับเนื้อหาจริง</strong><p>ข้อความรอบ citation ต้องตรงกับ method, result และ limitation ของแหล่ง การอ่าน abstract อย่างเดียวไม่พอเมื่อ Claim อาศัยรายละเอียดของผลหรือขอบเขตประชากร</p><p><strong>เคสฝึกนิสิต/นักวิจัยมือใหม่:</strong> บทความที่พบความอิ่มเพิ่มเล็กน้อยในผู้ใหญ่ทั่วไป ไม่ควรถูกอ้างว่า “พิสูจน์แล้วว่าอาหารโปรตีนสูงทำให้นักศึกษาทุกคนอิ่มนาน”</p><div class="command"><code>งาน: ตรวจการอ้างในเนื้อหา 5–8 รายการที่ฉันตรวจต้นทางแล้ว
 
 สร้างตารางที่มี:
 - ข้อความรอบตำแหน่งอ้างอิง
@@ -202,7 +202,7 @@
 ส่งมอบ: output/citation-self-audit.md</code><button type="button" data-copy>คัดลอก Prompt B5</button></div></div></li>
     </ol><div class="plain-note"><strong>บันทึกผลไว้ที่:</strong> <code>output/refs.bib</code>, <code>output/bibtex-quality-report.md</code> และ <code>output/citation-self-audit.md</code></div></section>
 
-    <section class="section" id="shared"><div class="section-heading compact"><p class="eyebrow">สรุปผลการตรวจ</p><h2>ตัดสินใจว่าจะเก็บ ปรับ หรือตัด Citation</h2><p>นำผลจากกิจกรรมที่ทำมาสรุปว่าอะไรตรวจได้ อะไรยังขาด และหลักฐานทำให้ต้องเปลี่ยน Claim อย่างไร</p></div><p><strong>ตัวอย่างหิว–กิน–อิ่ม:</strong> Checklist อาจบันทึกว่า DOI และ metadata ผ่าน แต่ Claim ได้เพียง partially supported เพราะประชากรไม่ใช่นักศึกษา และยังต้องค้นงานที่วัดระยะเวลาก่อนหิวอีกครั้งโดยตรง</p><div class="command"><code>งาน: สรุปผลตรวจรายการอ้างอิงที่ฉันอนุมัติแล้ว
+    <section class="section" id="shared"><div class="section-heading compact"><p class="eyebrow">สรุปผลการตรวจ</p><h2>ตัดสินใจว่าจะเก็บ ปรับ หรือตัด Citation</h2><p>นำผลจากกิจกรรมที่ทำมาสรุปว่าอะไรตรวจได้ อะไรยังขาด และหลักฐานทำให้ต้องเปลี่ยน Claim อย่างไร</p></div><p><strong>เคสฝึกนิสิต/นักวิจัยมือใหม่:</strong> Checklist อาจบันทึกว่า DOI และ metadata ผ่าน แต่ Claim ได้เพียง partially supported เพราะประชากรไม่ใช่นักศึกษา และยังต้องค้นงานที่วัดระยะเวลาก่อนหิวอีกครั้งโดยตรง</p><div class="command"><code>งาน: สรุปผลตรวจรายการอ้างอิงที่ฉันอนุมัติแล้ว
 
 หนึ่งแถวต่อหนึ่งรายการ โดยมี:
 - ข้ออ้าง

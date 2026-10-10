@@ -41,7 +41,7 @@ grep -q 'moduleContentPath(module.module_id, classroomId)' "$root/assets/instruc
 grep -q 'data-enrollment-rows' "$page"
 grep -q 'data-module-list' "$page"
 grep -q 'name = "module3_route"' "$root/assets/instructor-admin.js"
-grep -q 'เส้นทางที่ผู้เรียนในคลาสนี้เปิดดูได้' "$root/assets/instructor-admin.js"
+grep -q 'เส้นทางเนื้อหาของทั้งคลาส' "$root/assets/instructor-admin.js"
 grep -q 'module3_routes: module3Routes' "$root/assets/instructor-admin.js"
 grep -q 'data-submission-rows' "$page"
 grep -q '/api/ai-for-research/classrooms' "$root/assets/instructor-admin.js"

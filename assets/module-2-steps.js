@@ -3,11 +3,15 @@
 
   const storageKey = "ai-for-research.module-2.steps.v1";
   const stages = [
-    { id: "prepare", short: "เตรียมหลักฐาน", title: "เตรียมหลักฐาน" },
-    { id: "concepts", short: "รู้จัก L1–L4", title: "รู้จัก L1–L4 และไฟล์ผลลัพธ์" },
-    { id: "practice", short: "ทดลองสองรอบ", title: "ทดลอง ตรวจ และปรับ Prompt" },
-    { id: "submit", short: "ตรวจและส่ง", title: "ตรวจไฟล์และส่งความคืบหน้า" },
+    { id: "prepare", short: "หลักฐาน", title: "เตรียมหลักฐาน" },
+    { id: "concepts", short: "L1–L4", title: "รู้จัก L1–L4 และไฟล์ผลลัพธ์" },
+    { id: "practice", short: "ทดลอง", title: "ทดลอง ตรวจ และปรับ Prompt" },
+    { id: "submit", short: "ส่งงาน", title: "ตรวจไฟล์และส่งความคืบหน้า" },
   ];
+
+  function facultyRoute() {
+    return typeof document !== "undefined" && document.documentElement.dataset.classroomContentRoute === "faculty";
+  }
 
   function readState() {
     try {
@@ -38,12 +42,12 @@
     if (stageId === "prepare") {
       return values.evidence_ready === true
         ? { ok: true, message: "บันทึกแล้ว: ชุดหลักฐานพร้อมใช้งาน" }
-        : { ok: false, message: "วางไฟล์ ZIP ใน input/original/ แล้วติ๊กยืนยันก่อน" };
+        : { ok: false, message: facultyRoute() ? "เตรียมหลักฐานจากงานของคุณใน input/original/ แล้วติ๊กยืนยันก่อน" : "วางไฟล์ ZIP ใน input/original/ แล้วติ๊กยืนยันก่อน" };
     }
     if (stageId === "concepts") {
       return values.level === "L4"
         ? { ok: true, message: "ถูกต้อง — ข้อสรุปที่หลักฐานยังยืนยันไม่ได้คือ L4" }
-        : { ok: false, message: "ยังไม่ถูก ลองดูว่าหลักฐานยืนยันคำว่า “ทุกคน” ได้หรือไม่" };
+        : { ok: false, message: facultyRoute() ? "ยังไม่ถูก ข้อความที่หลักฐานยังยืนยันไม่ได้ต้องอยู่ L4" : "ยังไม่ถูก ลองดูว่าหลักฐานยืนยันคำว่า “ทุกคน” ได้หรือไม่" };
     }
     if (stageId === "practice") {
       const names = ["round1_traceable", "round1_unsupported", "round2_traceable", "round2_unsupported"];
@@ -65,11 +69,17 @@
 
   function checkpointMarkup(stageId, saved) {
     if (stageId === "prepare") {
-      return `<label class="module-step-confirm"><input type="checkbox" name="evidence_ready" ${saved.evidence_ready ? "checked" : ""}> <span>วาง <code>module-02-food-evidence.zip</code> ใน <code>input/original/</code> แล้ว</span></label>`;
+      const label = facultyRoute()
+        ? "เตรียมหลักฐานห้ารูปแบบจากงานของฉันใน <code>input/original/module-02-own-evidence/</code> แล้ว"
+        : "วาง <code>module-02-food-evidence.zip</code> ใน <code>input/original/</code> แล้ว";
+      return `<label class="module-step-confirm"><input type="checkbox" name="evidence_ready" ${saved.evidence_ready ? "checked" : ""}> <span>${label}</span></label>`;
     }
     if (stageId === "concepts") {
       const options = ["L1", "L2", "L3", "L4"].map((level) => `<label><input type="radio" name="level" value="${level}" ${saved.level === level ? "checked" : ""}> ${level}</label>`).join("");
-      return `<fieldset><legend>“ทุกคนจะอิ่มถึง 16:00” เมื่อหลักฐานยังยืนยันไม่ได้ ควรจัดระดับใด?</legend><div class="module-step-options">${options}</div></fieldset>`;
+      const question = facultyRoute()
+        ? "ข้อความที่ดูสมเหตุสมผล แต่เอกสารชุดนี้ยังยืนยันไม่ได้ ควรจัดระดับใด?"
+        : "“ทุกคนจะอิ่มถึง 16:00” เมื่อหลักฐานยังยืนยันไม่ได้ ควรจัดระดับใด?";
+      return `<fieldset><legend>${question}</legend><div class="module-step-options">${options}</div></fieldset>`;
     }
     if (stageId === "practice") {
       const input = (name, label) => `<label><span>${label}</span><input type="number" name="${name}" min="0" max="10" required value="${saved[name] ?? ""}"></label>`;
@@ -89,19 +99,33 @@
     };
   }
 
-  function init() {
+  async function init() {
+    if (window.classroomContentRouteReady) await window.classroomContentRouteReady;
     const content = document.querySelectorAll("[data-module-2-step]");
     if (!content.length) return;
 
     const state = readState();
+    document.body.classList.add("module-progress-page");
+    const topProgress = document.createElement("nav");
+    topProgress.className = "module-top-progress module-2-top-progress";
+    topProgress.setAttribute("aria-label", "ความก้าวหน้า Module 2");
+    topProgress.innerHTML = `<div class="module-top-tabs" role="tablist" aria-label="4 ขั้นของ Module 2"></div>
+      <span class="module-top-count" data-module-2-progress-label aria-live="polite">0/4</span>
+      <div class="module-top-track" aria-hidden="true"><i data-module-2-progress-bar></i></div>`;
+    const siteHeader = document.querySelector(".site-header");
+    if (siteHeader) siteHeader.append(topProgress);
+    else document.querySelector("site-header")?.after(topProgress);
+
     const shell = document.createElement("section");
-    shell.className = "module-step-shell";
+    shell.className = "module-step-shell module-content-step-shell module-2-step-shell";
     shell.setAttribute("aria-label", "ลำดับกิจกรรม Module 2");
-    shell.innerHTML = `<div class="module-step-intro"><p class="eyebrow">ทำทีละช่วง</p><h2>อ่านเท่าที่ต้องใช้ แล้วส่งผลย่อยเพื่อไปต่อ</h2><p>สถานะของสามจุดตรวจแรกบันทึกเฉพาะในเบราว์เซอร์นี้ ส่วนชิ้นงานจริงส่งในช่วงสุดท้าย</p></div><div class="module-step-tabs" role="tablist" aria-label="ขั้นตอน Module 2"></div><p class="module-step-live" role="status" aria-live="polite"></p>`;
+    shell.innerHTML = `<p class="module-step-live module-compact-step-live" role="status" aria-live="polite"></p>`;
     content[0].before(shell);
 
-    const tablist = shell.querySelector("[role=tablist]");
+    const tablist = topProgress.querySelector("[role=tablist]");
     const live = shell.querySelector(".module-step-live");
+    const progressLabel = topProgress.querySelector("[data-module-2-progress-label]");
+    const progressBar = topProgress.querySelector("[data-module-2-progress-bar]");
     const tabs = [];
     const panels = [];
 
@@ -112,7 +136,7 @@
       tab.className = "module-step-tab";
       tab.setAttribute("role", "tab");
       tab.setAttribute("aria-controls", `module-2-panel-${stage.id}`);
-      tab.innerHTML = `<span>${index + 1}</span><strong>${stage.short}</strong><small></small>`;
+      tab.innerHTML = `<span>${index + 1}</span><strong>${stage.short}</strong>`;
       tablist.append(tab);
       tabs.push(tab);
 
@@ -160,13 +184,18 @@
     });
 
     function render() {
+      const done = stages.filter((stage) => state.completed[stage.id]).length;
+      progressLabel.textContent = `${done}/${stages.length}`;
+      progressBar.style.width = `${done / stages.length * 100}%`;
       stages.forEach((stage, index) => {
         const unlocked = stageUnlocked(index, state);
         const completed = Boolean(state.completed[stage.id]);
         tabs[index].disabled = !unlocked;
         tabs[index].setAttribute("aria-disabled", String(!unlocked));
         tabs[index].classList.toggle("is-complete", completed);
-        tabs[index].querySelector("small").textContent = completed ? "เสร็จแล้ว" : unlocked ? "เปิดได้" : "ยังล็อก";
+        const status = completed ? "เสร็จแล้ว" : unlocked ? "เปิดได้" : "ยังล็อก";
+        tabs[index].setAttribute("aria-label", `ขั้น ${index + 1} ${stage.short}: ${status}`);
+        tabs[index].title = status;
       });
     }
 
@@ -188,7 +217,7 @@
     }
 
     tabs.forEach((tab, index) => {
-      tab.addEventListener("click", () => activate(index, false));
+      tab.addEventListener("click", () => activate(index, true));
       tab.addEventListener("keydown", (event) => {
         if (!["ArrowLeft", "ArrowRight", "Home", "End"].includes(event.key)) return;
         event.preventDefault();
@@ -211,6 +240,15 @@
     }
 
     render();
+    const finalChecks = [...document.querySelectorAll('#finish input[type="checkbox"]')];
+    const syncFinalCompletion = () => {
+      if (finalChecks.length && finalChecks.every((box) => box.checked)) state.completed.submit = true;
+      else delete state.completed.submit;
+      writeState(state);
+      render();
+    };
+    finalChecks.forEach((box) => box.addEventListener("change", syncFinalCompletion));
+    syncFinalCompletion();
     const activeIndex = stages.findIndex((stage, index) => stage.id === state.active && stageUnlocked(index, state));
     activate(activeIndex >= 0 ? activeIndex : 0, false);
     activateHashTarget();

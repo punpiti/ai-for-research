@@ -16,6 +16,7 @@ check_file() {
 }
 
 check_file "$site_dir/hunger-research-methodology.html" "long hunger story" 'id="full-story"'
+check_file "$site_dir/hunger-research-methodology.html" "hunger case audience" 'เคสฝึกสำหรับนิสิตและนักวิจัยมือใหม่'
 check_file "$site_dir/hunger-research-methodology.html" "original hunger image" 'assets/images/hunger-research-facebook-original\.jpg'
 check_file "$site_dir/hunger-research-methodology.html" "original Facebook post" 'facebook\.com/punpiti/posts/10225212568646302'
 check_file "$site_dir/hunger-research-methodology.html" "quick hunger review" 'id="quick-review"'
@@ -29,7 +30,7 @@ for number in {2..9}; do
   check_file "$file" "post-lesson result" '<h2[^>]*>จบบทเรียน</h2>'
   check_file "$file" "learner profile" 'data-research-profile'
 done
-check_file "$site_dir/assets/instructor-admin.js" "M3 learner route control" 'นักเรียน / ผู้เริ่มต้น'
+check_file "$site_dir/assets/instructor-admin.js" "class-wide learner route control" 'นิสิต / นักวิจัยมือใหม่'
 check_file "$site_dir/assets/instructor-admin.js" "M3 faculty route control" 'อาจารย์ / นักวิจัย'
 check_file "$site_dir/module-3.html" "M3 own seed paper" 'research article ของตนเอง'
 check_file "$site_dir/module-3.html" "M3 abstract provenance" 'abstract_source|Abstract และ Provenance'
@@ -107,12 +108,13 @@ check_file "$site_dir/assets/module-1-submission.js" "M1 progress endpoint" '/ap
 check_file "$site_dir/assets/module-1-submission.js" "M1 progress-only schema" 'ai-for-research\.module-1-progress\.v1'
 node --check "$site_dir/assets/module-1-submission.js"
 node "$site_dir/scripts/test-module-1-submission.js"
-check_file "$site_dir/module-2.html" "M2 action hierarchy JS" 'assets/app\.js\?v=20261008-13'
-check_file "$site_dir/module-2.html" "M2 step flow JS" 'assets/module-2-steps\.js\?v=20261008-1'
-check_file "$site_dir/module-2.html" "M2 step flow CSS" 'assets/styles\.css\?v=20261008-23'
-check_file "$site_dir/module-3.html" "M3 action hierarchy JS" 'assets/app\.js\?v=20261008-15'
-check_file "$site_dir/module-3.html" "M3 access JS" 'assets/module-3-access\.js\?v=20261008-1'
-check_file "$site_dir/module-3.html" "M3 action hierarchy CSS" 'assets/styles\.css\?v=20261008-25'
+check_file "$site_dir/module-2.html" "M2 action hierarchy JS" 'assets/app\.js\?v=20261010-2'
+check_file "$site_dir/module-2.html" "M2 step flow JS" 'assets/module-2-steps\.js\?v=20261010-2'
+check_file "$site_dir/module-2.html" "M2 step flow CSS" 'assets/styles\.css\?v=20261010-7'
+check_file "$site_dir/module-3.html" "M3 action hierarchy JS" 'assets/app\.js\?v=20261010-2'
+check_file "$site_dir/module-3.html" "M3 access JS" 'assets/module-3-access\.js\?v=20261010-2'
+check_file "$site_dir/module-3.html" "M3 step flow JS" 'assets/module-3-steps\.js\?v=20261010-1'
+check_file "$site_dir/module-3.html" "M3 action hierarchy CSS" 'assets/styles\.css\?v=20261010-7'
 check_file "$site_dir/assets/app.js" "module action legend" 'learning-action-legend'
 check_file "$site_dir/assets/app.js" "AI prompt label" 'Prompt ให้ AI'
 check_file "$site_dir/assets/app.js" "example label" 'explicitExample'
@@ -122,19 +124,35 @@ check_file "$site_dir/assets/module-3-access.js" "M3 server route access" '/modu
 check_file "$site_dir/assets/module-3-access.js" "M3 route visibility from server" 'payload\.allowed_routes'
 check_file "$site_dir/assets/instructor-admin.js" "M3 admin route controls" 'name = "module3_route"'
 node --check "$site_dir/assets/module-3-access.js"
+node --check "$site_dir/assets/module-3-steps.js"
 node - "$site_dir/assets/module-3-access.js" <<'JSM3ACCESS'
 const assert = require("node:assert/strict");
 const access = require(process.argv[2]);
 assert.equal(access.classroomIdFromSearch("?classroom_id=faculty-pilot-2569"), "faculty-pilot-2569");
+assert.equal(access.isLocalDevelopment("127.0.0.1"), true);
+assert.equal(access.isLocalDevelopment("localhost"), true);
+assert.equal(access.isLocalDevelopment("urban.cpe.ku.ac.th"), false);
 assert.equal(access.classroomIdFromSearch("?classroom_id=../../bad"), "");
 assert.equal(access.accessEndpoint("faculty-pilot-2569"), "/api/ai-for-research/classrooms/faculty-pilot-2569/modules/module-3/access");
 console.log("Module 3 classroom access tests passed");
 JSM3ACCESS
 check_file "$site_dir/assets/styles.css" "prompt visual" '\.ai-prompt.*#231a31'
 check_file "$site_dir/assets/styles.css" "download visual" '\.download-action'
-check_file "$site_dir/assets/styles.css" "M2 step tabs" '\.module-step-tabs'
+check_file "$site_dir/assets/styles.css" "compact module progress tabs" '\.module-top-tabs'
+check_file "$site_dir/assets/module-2-steps.js" "M2 header progress" 'module-top-progress module-2-top-progress'
 check_file "$site_dir/assets/module-2-steps.js" "M2 sequential lock" 'stageUnlocked'
 check_file "$site_dir/assets/module-2-steps.js" "M2 local checkpoint storage" 'ai-for-research\.module-2\.steps\.v1'
+check_file "$site_dir/assets/module-3-steps.js" "M3 header progress" 'module-top-progress module-3-top-progress'
+check_file "$site_dir/assets/module-3-steps.js" "M3 local step storage" 'ai-for-research\.module-3\.steps\.v1'
+for number in 4 5; do
+  check_file "$site_dir/module-$number.html" "M$number guided step flow" 'assets/module-guided-steps\.js\?v=20261010-1'
+  check_file "$site_dir/module-$number.html" "M$number compact progress CSS" 'assets/styles\.css\?v=20261010-7'
+done
+check_file "$site_dir/assets/styles.css" "ultrawide module layout" '@media \(min-width: 1800px\)'
+check_file "$site_dir/assets/module-guided-steps.js" "M4 guided configuration" '"4": \{'
+check_file "$site_dir/assets/module-guided-steps.js" "M5 guided configuration" '"5": \{'
+check_file "$site_dir/assets/module-guided-steps.js" "M4-M5 browser progress storage" 'ai-for-research\.module-\$\{moduleNumber\}\.steps\.v1'
+node --check "$site_dir/assets/module-guided-steps.js"
 for step in prepare concepts practice submit; do
   check_file "$site_dir/module-2.html" "M2 $step content" "data-module-2-step=\"$step\""
 done
@@ -385,8 +403,8 @@ check_file "$site_dir/assets/publication-demo.js" "M8 structured abstract" 'clas
 check_file "$site_dir/assets/publication-demo.js" "M8 body-only columns" 'class="paper-body"'
 check_file "$site_dir/assets/publication-demo.css" "M8 visible overflow" 'overflow:visible'
 check_file "$site_dir/module-9.html" "M9 ready mock case" 'downloads/module-09-mock-workflow-case\.md'
-check_file "$site_dir/downloads/module-08-mock-publication-case.md" "M8 mock content" 'กรณีตัวอย่างโมดูล 8'
-check_file "$site_dir/downloads/module-09-mock-workflow-case.md" "M9 mock content" 'กรณีตัวอย่างโมดูล 9'
+check_file "$site_dir/downloads/module-08-mock-publication-case.md" "M8 mock content" 'เคสฝึกสำหรับนิสิตและนักวิจัยมือใหม่ — โมดูล 8'
+check_file "$site_dir/downloads/module-09-mock-workflow-case.md" "M9 mock content" 'เคสฝึกสำหรับนิสิตและนักวิจัยมือใหม่ — โมดูล 9'
 check_file "$site_dir/module-7-thailand-population-lab.html" "official population data" 'catalog\.nso\.go\.th'
 check_file "$site_dir/module-7-thailand-population-lab.html" "survey statistics" 'ตารางไขว้'
 check_file "$site_dir/module-7-thailand-population-lab.html" "map activity" 'Map: สัดส่วนหญิงรายจังหวัด'

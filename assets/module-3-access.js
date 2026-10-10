@@ -13,6 +13,11 @@
     return `${apiBase}/${encodeURIComponent(classroomId)}/modules/module-3/access`;
   }
 
+  function isLocalDevelopment(hostname = globalObject.location?.hostname || "") {
+    const host = String(hostname).toLowerCase();
+    return host === "localhost" || host === "127.0.0.1" || host === "::1" || host.endsWith(".localhost");
+  }
+
   function setLessonVisibility(allowedRoutes) {
     const allowed = new Set(allowedRoutes);
     for (const [route, sectionId] of Object.entries(routeSections)) {
@@ -38,6 +43,16 @@
   }
 
   async function initialize(fetchImpl = globalObject.fetch) {
+    if (isLocalDevelopment()) {
+      const allowedRoutes = Object.keys(routeSections);
+      setLessonVisibility(allowedRoutes);
+      const status = document.querySelector("[data-module-3-access-status]");
+      if (status) {
+        status.textContent = "โหมดพัฒนา: แสดงเนื้อหาทั้งสองเส้นทางโดยไม่ตรวจสิทธิ์";
+        status.classList.add("is-success");
+      }
+      return;
+    }
     const classroomId = classroomIdFromSearch();
     if (!classroomId) {
       blockLesson("เปิด Module 3 จากห้องเรียนของคุณ เพื่อให้ระบบตรวจเส้นทางที่ผู้สอนอนุญาต");
@@ -70,7 +85,9 @@
     }
   }
 
-  const testApi = { apiBase, classroomIdFromSearch, accessEndpoint };
+  const testApi = { apiBase, classroomIdFromSearch, accessEndpoint, isLocalDevelopment };
   if (typeof module !== "undefined" && module.exports) module.exports = testApi;
-  if (typeof document !== "undefined") document.addEventListener("DOMContentLoaded", () => initialize());
+  if (typeof document !== "undefined") document.addEventListener("DOMContentLoaded", () => {
+    globalObject.module3AccessReady = initialize();
+  });
 })(typeof window !== "undefined" ? window : globalThis);

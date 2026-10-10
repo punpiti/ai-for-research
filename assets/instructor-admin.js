@@ -300,6 +300,24 @@
     moduleList.replaceChildren();
     const isTemplate = data.classroom.classroom_type === "template";
     const module3Routes = new Set(Array.isArray(data.classroom.module3_routes) ? data.classroom.module3_routes : []);
+    if (!isTemplate) {
+      const routeControls = node("fieldset", "module-route-controls classroom-route-controls");
+      routeControls.append(
+        node("legend", "", "เส้นทางเนื้อหาของทั้งคลาส"),
+        node("p", "instructor-route-help", "ตัวเลือกนี้ใช้กับทุกโมดูล คลาสอาจารย์/นักวิจัยจะใช้ paper หรือ manuscript ของผู้เรียนและซ่อนเคสพื้นฐานสำหรับนิสิต"),
+      );
+      for (const [value, label] of [["student", "นิสิต / นักวิจัยมือใหม่"], ["faculty", "อาจารย์ / นักวิจัย"]]) {
+        const routeLabel = node("label");
+        const routeInput = node("input");
+        routeInput.type = "checkbox";
+        routeInput.name = "module3_route";
+        routeInput.value = value;
+        routeInput.checked = module3Routes.has(value);
+        routeLabel.append(routeInput, node("span", "", label));
+        routeControls.append(routeLabel);
+      }
+      moduleList.append(routeControls);
+    }
     data.syllabus.forEach((module) => {
       const moduleName = `${module.id.replace("module-", "M")} · ${module.title}`;
       const card = node("article", "instructor-module");
@@ -336,28 +354,11 @@
       radio.value = module.id;
       radio.checked = module.active;
       activeLabel.append(radio, node("span", "", "Active"));
-      let routeControls = null;
-      if (module.id === "module-3") {
-        routeControls = node("fieldset", "module-route-controls");
-        routeControls.append(node("legend", "", "เส้นทางที่ผู้เรียนในคลาสนี้เปิดดูได้"));
-        for (const [value, label] of [["student", "นักเรียน / ผู้เริ่มต้น"], ["faculty", "อาจารย์ / นักวิจัย"]]) {
-          const routeLabel = node("label");
-          const routeInput = node("input");
-          routeInput.type = "checkbox";
-          routeInput.name = "module3_route";
-          routeInput.value = value;
-          routeInput.checked = module3Routes.has(value);
-          routeLabel.append(routeInput, node("span", "", label));
-          routeControls.append(routeLabel);
-        }
-      }
-
       const syncCard = () => {
         card.classList.toggle("is-included", checkbox.checked);
         card.classList.toggle("is-excluded", !checkbox.checked);
         card.classList.toggle("is-active", radio.checked);
         inclusionStatus.textContent = checkbox.checked ? "ใน Syllabus" : "ยังไม่รวม";
-        routeControls?.querySelectorAll("input").forEach((input) => { input.disabled = !checkbox.checked; });
       };
       checkbox.addEventListener("change", () => {
         if (!checkbox.checked && radio.checked) radio.checked = false;
@@ -372,7 +373,6 @@
       });
 
       card.append(includeLabel, activeLabel);
-      if (routeControls) card.append(routeControls);
       syncCard();
       moduleList.append(card);
     });
@@ -544,8 +544,8 @@
       syllabusStatus.textContent = "Active module ต้องอยู่ใน Syllabus และต้องมีอย่างน้อยหนึ่งโมดูล";
       return;
     }
-    if (moduleIds.includes("module-3") && !module3Routes.length) {
-      syllabusStatus.textContent = "Module 3 ต้องเปิดอย่างน้อยหนึ่งเส้นทาง";
+    if (!module3Routes.length) {
+      syllabusStatus.textContent = "คลาสต้องเปิดเส้นทางเนื้อหาอย่างน้อยหนึ่งแบบ";
       return;
     }
     syllabusStatus.textContent = "กำลังบันทึก…";

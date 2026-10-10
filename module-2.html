@@ -9,11 +9,11 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/styles.css?v=20261008-23">
-  <script src="assets/app.js?v=20261008-13" defer></script>
-  <script src="assets/module-2-steps.js?v=20261008-1" defer></script>
+  <link rel="stylesheet" href="assets/styles.css?v=20261010-7">
+  <script src="assets/app.js?v=20261010-2" defer></script>
+  <script src="assets/module-2-steps.js?v=20261010-2" defer></script>
   <script src="assets/module-2-submission.js?v=20261008-3" defer></script>
-  <script src="assets/site-shell.js?v=20260805-5"></script>
+  <script src="assets/site-shell.js?v=20261010-2"></script>
 </head>
 <body>
   <a class="skip-link" href="#main">ข้ามไปยังเนื้อหา</a>
@@ -50,9 +50,9 @@
       </details>
     </section>
 
-    <section class="section" id="sources" data-module-2-step="prepare">
+    <section class="section" id="sources" data-module-2-step="prepare" data-audience-route="student">
       <div class="section-heading compact"><p class="eyebrow">การเตรียมตัวก่อนเรียน</p><h2>ของต้องมีก่อนเรียน</h2><p>ใช้เรื่องเดียวกันในหลายรูปแบบ ทุกคนเริ่มจากชุดหลักฐานกลางเพื่อให้เปรียบเทียบคำตอบและปัญหาที่พบได้</p></div>
-      <p>กรณีร่วมของบทนี้ถามว่า <strong>“มื้อข้าวไข่เจียวเหมาะกับนักศึกษาที่มีงบไม่เกิน 80 บาท มีเวลา 30 นาที และต้องการอิ่มถึง 16:00 หรือไม่”</strong> เรื่องอาหารช่วยให้ตรวจตรรกะได้โดยไม่ต้องมีความรู้เฉพาะสาขา แต่ละไฟล์บอกข้อมูลคนละส่วนและมีทั้งภาษาไทยกับอังกฤษ</p>
+      <p><strong>เคสฝึกสำหรับนิสิตและนักวิจัยมือใหม่</strong> ถามว่า “มื้อข้าวไข่เจียวเหมาะกับนักศึกษาที่มีงบไม่เกิน 80 บาท มีเวลา 30 นาที และต้องการอิ่มถึง 16:00 หรือไม่” เรื่องอาหารช่วยให้ตรวจตรรกะได้โดยไม่ต้องมีความรู้เฉพาะสาขา แต่ละไฟล์บอกข้อมูลคนละส่วนและมีทั้งภาษาไทยกับอังกฤษ</p>
       <div class="notice">
         <strong>เราเตรียมข้อมูลไว้ให้แล้ว:</strong> ดาวน์โหลดชุดเดียวได้ทันที ภายในมี PDF, Excel, Word, ภาพ, สำเนาหน้าเว็บไซต์, URL สำหรับดึงเว็บจริง และ README เมื่อดาวน์โหลดแล้วให้นำไฟล์ ZIP ไปวางใน <code>input/original/</code> โดยยังไม่ต้องแตกไฟล์ Prompt แรกจะให้ AI ตรวจรายการ แตกไฟล์อย่างปลอดภัย ดึงข้อมูลจาก URL ที่กำหนด และสร้างรายงานการนำเข้า
         <div class="hero-actions"><a class="button primary" href="downloads/module-02-food-evidence.zip" download>ดาวน์โหลดชุดข้อมูล Module 2 (.zip)</a></div>
@@ -73,6 +73,17 @@
         <article><h3>ขอบเขตข้อมูล</h3><p>ไม่ใช้ข้อมูลลับ ข้อมูลส่วนบุคคลที่ห้ามเปิดเผย หรือเอกสารที่ไม่มีสิทธิ์นำเข้าสู่บริการ AI</p></article>
       </div>
       <div class="notice"><strong>ก่อนเข้าชั้น:</strong> วาง <code>module-02-food-evidence.zip</code> ไว้ใน <code>input/original/</code> และเปิด Workspace ได้ก็พอ ยังไม่ต้องแตกไฟล์ จัดโฟลเดอร์ หรือหาคำตอบ ผู้เรียนที่ผ่านกิจกรรมกลางแล้วจึงทำซ้ำกับเอกสารของตนเอง 6–8 ชิ้นเป็นกิจกรรมต่อยอด</div>
+    </section>
+
+    <section class="section" id="faculty-sources" data-module-2-step="prepare" data-audience-route="faculty">
+      <div class="section-heading compact"><p class="eyebrow">การเตรียมตัวก่อนเรียน · อาจารย์/นักวิจัย</p><h2>ใช้หลักฐานจากงานวิจัยของคุณ</h2><p>เลือกประเด็นเดียวจากงานที่กำลังทำ แล้วเตรียมเอกสาร 6–8 ชิ้นที่ได้รับอนุญาตให้ใช้กับ AI</p></div>
+      <div class="concept-grid">
+        <article><h3>ต้นเรื่อง</h3><p>ใช้ manuscript, proposal หรือ seed paper หนึ่งฉบับเพื่อระบุ Claim ที่ต้องการตรวจ</p></article>
+        <article><h3>หลักฐานประกอบ</h3><p>เตรียมบทความ ตาราง รูป ภาคผนวก หรือหน้าเว็บต้นทางที่เกี่ยวข้องกับ Claim เดียวกัน</p></article>
+        <article><h3>หลักฐานครบห้ารูปแบบ</h3><p>เตรียม PDF, DOCX, XLSX, ภาพ และเว็บไซต์จากโครงการเดียวกัน เช่น paper, manuscript, ตารางผล, รูป และหน้าวารสารต้นทาง</p></article>
+        <article><h3>สิทธิและความลับ</h3><p>ตัดข้อมูลส่วนบุคคล ข้อมูลลับ และเอกสารที่ไม่มีสิทธิ์ส่งเข้า AI ออกจากชุดฝึก</p></article>
+      </div>
+      <div class="notice"><strong>ก่อนเข้าชั้น:</strong> เก็บไฟล์ต้นฉบับไว้ใน <code>input/original/module-02-own-evidence/</code> และเขียน Claim ที่ต้องการตรวจหนึ่งข้อใน <code>notes/module-02-claim.md</code> ยังไม่ต้องให้ AI สรุปหรือแก้ Claim</div>
     </section>
 
     <section class="section" id="levels" data-module-2-step="concepts">
@@ -133,7 +144,20 @@
       <p class="expected"><strong>อย่าส่งไฟล์ตัวอย่าง:</strong> ค่า SHA-256 เป็นเลขศูนย์สำหรับการสอน ผู้เรียนต้องสร้างไฟล์ของตนเองในขั้นที่ 11</p>
     </section>
 
-    <section class="section" id="activity" data-module-2-step="practice">
+    <section class="section" id="faculty-activity" data-module-2-step="practice" data-audience-route="faculty">
+      <div class="section-heading compact"><p class="eyebrow">กิจกรรมหลัก · อาจารย์/นักวิจัย</p><h2>ตรวจ Claim จากงานของคุณสองรอบ</h2><p>รอบแรกดูว่า AI ตอบอย่างไรจากชุดเอกสารเดิม จากนั้นตรวจทุกข้อความกับต้นฉบับและเขียน Prompt รอบสองที่บังคับให้แยกหลักฐาน การตีความ และสิ่งที่ยังตอบไม่ได้</p></div>
+      <ol class="readiness-steps activity-steps">
+        <li><span>01</span><div><strong>นำเข้าหลักฐานโดยไม่แก้ต้นฉบับ</strong><div class="command markdown-command"><code>อ่าน AGENTS.md ก่อน แล้วทำ inventory เฉพาะ input/original/module-02-own-evidence/ สร้างสำเนาที่ค้นได้ใน input/markdown/module-02-own-evidence/ พร้อม import-report.md ซึ่งระบุชื่อไฟล์ วิธีอ่าน สิ่งที่สูญหาย และตำแหน่งที่ฉันต้องตรวจเทียบกับต้นฉบับ ห้ามค้นทั้งเครื่อง ห้ามแก้ไฟล์ต้นฉบับ และยังไม่สรุป Claim</code><button type="button" data-copy>คัดลอก Prompt นำเข้าหลักฐาน</button></div></div></li>
+        <li><span>02</span><div><strong>เก็บคำตอบรอบแรก</strong><p>ให้ AI ตอบ Claim ใน <code>notes/module-02-claim.md</code> จากเอกสารชุดนี้ แล้วบันทึกคำตอบเดิมไว้โดยไม่แก้ย้อนหลัง</p></div></li>
+        <li><span>03</span><div><strong>ตรวจข้อความกับต้นฉบับ</strong><p>แยกแต่ละข้อความเป็น L1–L4 และระบุไฟล์ หน้า ตาราง รูป หรือย่อหน้าที่รองรับ ข้อความที่ไม่มีตำแหน่งตรวจกลับต้องอยู่ L4</p></div></li>
+        <li><span>04</span><div><strong>บันทึกสิ่งที่ AI ตอบไม่ได้</strong><p>เขียนคำตอบหรือคำตัดสินของคุณเองใน <code>notes/learner-additions.md</code> พร้อมฐานที่ใช้ตัดสิน ห้ามให้ AI เติมแทน</p></div></li>
+        <li><span>05</span><div><strong>เขียน Prompt รอบสอง</strong><div class="command markdown-command"><code>ตอบ Claim ใน notes/module-02-claim.md อีกครั้งโดยใช้เฉพาะหลักฐานใน input/markdown/module-02-own-evidence/ แยก L1 ข้อความที่พบโดยตรง, L2 ความเห็นของผู้เขียนต้นฉบับ, L3 การสังเคราะห์ และ L4 สิ่งที่ยังไม่มีหลักฐาน ทุกข้อใน L1–L3 ต้องมีไฟล์และตำแหน่งอ้างอิง ห้ามเติมช่องว่าง หากข้อมูลขัดกันให้แสดงทั้งสองด้าน แล้วหยุดให้ฉันตรวจ</code><button type="button" data-copy>คัดลอก Prompt รอบสอง</button></div></div></li>
+        <li><span>06</span><div><strong>เปรียบเทียบสองรอบ</strong><p>นับข้อความที่ตรวจย้อนกลับได้และข้อความที่ไม่มีหลักฐาน บันทึกว่ากติกาใดทำให้คำตอบดีขึ้นหรือทำให้เห็นข้อจำกัดชัดขึ้น</p></div></li>
+        <li><span>07</span><div><strong>สร้างชิ้นงานส่ง</strong><p>สร้าง <code>output/module-2-conclusion.md</code> และ <code>output/module-2-submission.json</code> ด้วย schema เดิม โดยใช้ชื่อชนิดแหล่งที่มีจริงในชุดของคุณและตรวจไฟล์ในเครื่องก่อนส่ง Progress JSON</p></div></li>
+      </ol>
+    </section>
+
+    <section class="section" id="activity" data-module-2-step="practice" data-audience-route="student">
       <div class="section-heading compact"><p class="eyebrow">กิจกรรมหลัก · เปรียบเทียบสองรอบ</p><h2>คำตอบเปลี่ยนอย่างไรเมื่อกำหนดหลักฐานให้ชัด</h2><p>ใช้เอกสารชุดเดียวกันถาม AI สองรอบ รอบแรกใช้คำถามสั้นเพื่อดูพฤติกรรมตามธรรมชาติ จากนั้นตรวจคำตอบกับต้นฉบับ แล้วเขียนคำสั่งรอบใหม่ที่ระบุวิธีใช้หลักฐานให้ชัดเพื่อเปรียบเทียบผล</p></div>
 
       <h3 class="section-zone-heading">ช่วงที่ 1 · ดูคำตอบก่อนกำหนดกติกา</h3>
