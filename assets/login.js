@@ -2,7 +2,6 @@
   "use strict";
 
   const googleEndpoint = "/api/ai-for-research/classrooms/auth/google";
-  const previewEndpoint = "/api/ai-for-research/classrooms/auth/preview";
   const defaultNext = "index.html#course";
 
   class LoginRequestError extends Error {
@@ -18,10 +17,6 @@
     return /^(?:index\.html(?:#course)?|classroom\.html\?id=[A-Za-z0-9][A-Za-z0-9._-]{2,63}(?:&action=enroll)?|admin\/(?:\?id=[A-Za-z0-9][A-Za-z0-9._-]{2,63})?)$/.test(candidate)
       ? candidate
       : "";
-  }
-
-  function isLocalPreview(hostname) {
-    return ["127.0.0.1", "localhost", "::1"].includes(String(hostname || "").toLowerCase());
   }
 
   async function postAuthentication(endpoint, body, fetchImpl = globalObject.fetch) {
@@ -66,23 +61,11 @@
     return postAuthentication(googleEndpoint, next ? { credential: token, next } : { credential: token }, fetchImpl);
   }
 
-  async function authenticatePreview(email, fetchImpl = globalObject.fetch, requestedNext = "") {
-    const selectedEmail = String(email || "").trim().toLowerCase();
-    if (!/^(?:student-00[1-5]|instructor-00[1-2]|admin)@ku\.th$/.test(selectedEmail)) {
-      throw new LoginRequestError("invalid-preview-account", "กรุณาเลือกบัญชีทดสอบจากรายการ");
-    }
-    const next = safeNextPath(requestedNext);
-    return postAuthentication(previewEndpoint, next ? { email: selectedEmail, next } : { email: selectedEmail }, fetchImpl);
-  }
-
   const testApi = {
     googleEndpoint,
-    previewEndpoint,
     defaultNext,
     safeNextPath,
-    isLocalPreview,
     authenticateWithGoogle,
-    authenticatePreview,
     LoginRequestError,
   };
   if (typeof module !== "undefined" && module.exports) module.exports = testApi;
@@ -91,13 +74,11 @@
   if (typeof document === "undefined") return;
   const googleContainer = document.querySelector("[data-google-login]");
   const googleButton = document.getElementById("google-signin-button");
-  const devLoginForm = document.querySelector("[data-dev-login]");
-  const devAccount = document.querySelector("[data-dev-account]");
   const googlePanel = document.querySelector("[data-google-login-panel]");
   const status = document.querySelector("[data-login-status]");
   const clientId = document.querySelector('meta[name="google-signin-client-id"]')?.content || "";
   const next = safeNextPath(new URLSearchParams(globalObject.location.search).get("next"));
-  if (!googleContainer || !googleButton || !devLoginForm || !devAccount || !googlePanel || !status) return;
+  if (!googleContainer || !googleButton || !googlePanel || !status) return;
 
   function setStatus(message, state = "") {
     status.className = "login-status";
@@ -117,13 +98,13 @@
     }
   }
 
-  if (isLocalPreview(globalObject.location.hostname)) {
-    devLoginForm.hidden = false;
-    googlePanel.hidden = true;
-    setStatus("เลือกบัญชีเพื่อทดสอบมุมมองและสิทธิ์ของผู้ใช้");
-    devLoginForm.addEventListener("submit", (event) => {
-      event.preventDefault();
-      finishAuthentication(authenticatePreview(devAccount.value, globalObject.fetch, next));
+  if (typeof globalObject.aiResearchPreviewLogin === "function") {
+    globalObject.aiResearchPreviewLogin({
+      googlePanel,
+      status,
+      next,
+      postAuthentication,
+      finishAuthentication,
     });
     return;
   }

@@ -11,10 +11,6 @@ async function expectCode(promise, code) {
   assert.equal(login.safeNextPath("admin/?id=class-a1b2c3"), "admin/?id=class-a1b2c3");
   assert.equal(login.safeNextPath("index.html#course"), "index.html#course");
   assert.equal(login.safeNextPath("https://attacker.example/"), "");
-  assert.equal(login.isLocalPreview("127.0.0.1"), true);
-  assert.equal(login.isLocalPreview("localhost"), true);
-  assert.equal(login.isLocalPreview("urban.cpe.ku.ac.th"), false);
-
   let called = false;
   await expectCode(login.authenticateWithGoogle("", async () => { called = true; }), "missing-credential");
   assert.equal(called, false, "missing Google credentials must not reach the API");
@@ -33,19 +29,6 @@ async function expectCode(promise, code) {
   });
   assert.equal(success.authenticated, true);
   assert.equal(success.next, "classroom.html?id=faculty-pilot-2569&action=enroll");
-
-  let previewRequest;
-  const preview = await login.authenticatePreview("student-001@ku.th", async (url, options) => {
-    previewRequest = { url, options };
-    return { ok: true, status: 200, json: async () => ({ preview: true }) };
-  });
-  assert.equal(previewRequest.url, "/api/ai-for-research/classrooms/auth/preview");
-  assert.deepEqual(JSON.parse(previewRequest.options.body), { email: "student-001@ku.th" });
-  assert.equal(preview.preview, true);
-  assert.equal(preview.next, login.defaultNext);
-  assert.equal(login.defaultNext, "index.html#course");
-
-  await expectCode(login.authenticatePreview("unknown@ku.th", async () => ({ ok: true })), "invalid-preview-account");
 
   await expectCode(login.authenticateWithGoogle("token", async () => ({ ok: false, status: 401 })), "not-eligible");
   await expectCode(login.authenticateWithGoogle("token", async () => ({ ok: false, status: 403 })), "not-eligible");
