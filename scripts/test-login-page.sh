@@ -24,6 +24,11 @@ grep -q 'aiResearchPreviewLogin' "$root/assets/login.js"
 grep -q 'credentials: "same-origin"' "$root/assets/login.js"
 grep -q 'google.accounts.id.initialize' "$root/assets/login.js"
 grep -q 'google.accounts.id.renderButton' "$root/assets/login.js"
+grep -q '@gmail.com' "$page"
+if grep -q 'บัญชี Google ของมหาวิทยาลัยเกษตรศาสตร์' "$root/assets/login.js"; then
+  echo 'Login error copy must not claim that only KU Google accounts are eligible.' >&2
+  exit 1
+fi
 grep -q 'login-body .*module-menu.*display: none' "$root/assets/styles.css"
 if grep -Eq 'localStorage|sessionStorage' "$root/assets/login.js"; then
   echo 'Login page must not store identity or tokens in browser storage.' >&2

@@ -46,7 +46,7 @@
       };
     }
     if (response.status === 401 || response.status === 403) {
-      throw new LoginRequestError("not-eligible", "กรุณาใช้บัญชี Google ของมหาวิทยาลัยเกษตรศาสตร์ (@ku.th)");
+      throw new LoginRequestError("not-eligible", "ยืนยันบัญชี Google ไม่สำเร็จ กรุณาเลือกบัญชี Gmail หรือ Google Workspace แล้วลองใหม่");
     }
     if (response.status === 429) {
       throw new LoginRequestError("rate-limit", "เข้าสู่ระบบบ่อยเกินไป กรุณารอสักครู่แล้วลองใหม่");
