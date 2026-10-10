@@ -192,7 +192,7 @@
       <div class="notice"><strong>จุดตัดสินของอาจารย์:</strong> ความหมายของ problem statement, taxonomy ที่มีประโยชน์ในสาขา, ความสำคัญของ cell ที่ว่าง, ความเป็นไปได้ และความสนใจส่วนตัวเป็น human judgment ทั้งหมด AI ช่วยสกัด จัด และตั้งข้อโต้แย้งได้ แต่ไม่มีสิทธิ์ยืนยัน problem statement, gap หรือเลือกโจทย์แทน</div>
       <div class="command markdown-command"><code>งาน: สร้างและตรวจ Module 3 Completion JSON
 
-1. อ่าน schema จาก https://urban.cpe.ku.ac.th/ai-for-research/downloads/module-03-completion-schema.json
+1. อ่าน schema จากไฟล์ module-03-completion-schema.json ที่ดาวน์โหลดผ่านลิงก์ในหน้าบทเรียนนี้
 2. คำนวณ SHA-256 ของชิ้นงานปลายทางทุกไฟล์และสร้าง output/module-3/module-3-completion.json
 3. JSON ต้องมีเฉพาะ route, checks, metrics, artifact path และ hash ห้ามใส่ชื่อบทความ abstract claims citation text problem statement หรือเนื้อหางาน
 4. รัน tools/validate-module-3.py output/module-3/module-3-completion.json --workspace . ด้วย course Python
@@ -285,7 +285,7 @@ RQ → Candidate Gap → Research Problem → Practical Problem → Evidence
 ส่งมอบ: output/problem-gap-rq.md และ PDF A4 ภาษาไทย</code><button type="button" data-copy>คัดลอก Prompt 9</button></div></div></li>
     </ol></section>
 
-    <section class="section" id="submit-module-3"><div class="section-heading compact"><p class="eyebrow">Submit · ส่งความคืบหน้า</p><h2>ส่งเฉพาะ Completion JSON</h2><p>AI ตรวจไฟล์ทั้งหมดในเครื่องแล้ว หน้าเว็บส่งเฉพาะจำนวน สถานะ และ hash เพื่อให้ผู้สอนเห็น progress ไม่ส่ง PDF, Markdown, bibliography, citation text, classification, research opportunity, ข้อความ RQ หรือเหตุผลที่ผู้เรียนเห็นด้วย/ไม่เห็นด้วย</p><p><a href="downloads/module-03-completion-schema.json" download>ดาวน์โหลด schema →</a> · <a href="downloads/module-03-completion-example.json" download>ดูตัวอย่าง →</a></p><p class="expected"><strong>ห้ามส่งไฟล์ตัวอย่าง:</strong> ตัวอย่างใช้ SHA-256 เลขศูนย์เพื่ออธิบายโครงสร้าง AI ต้องสร้าง hash จากชิ้นงานจริงในเครื่อง</p></div>
+    <section class="section" id="submit-module-3"><div class="section-heading compact"><p class="eyebrow">Submit · ส่งความคืบหน้า</p><h2>ส่งเฉพาะ Completion JSON</h2><p>AI ตรวจไฟล์ทั้งหมดในเครื่องแล้ว หน้าเว็บส่งเฉพาะจำนวน สถานะ และ hash เพื่อให้ผู้สอนเห็น progress ไม่ส่ง PDF, Markdown, bibliography, citation text, classification, research opportunity, ข้อความ RQ หรือเหตุผลที่ผู้เรียนเห็นด้วย/ไม่เห็นด้วย</p><p><a href="downloads/module-03-completion-schema.json" download>ดาวน์โหลด schema →</a> · <a href="downloads/module-03-completion-example.json" download>ดูตัวอย่าง →</a> · <a href="downloads/validate-module-3.py" download>ดาวน์โหลดตัวตรวจ Module 3 →</a></p><p class="expected"><strong>ห้ามส่งไฟล์ตัวอย่าง:</strong> ตัวอย่างใช้ SHA-256 เลขศูนย์เพื่ออธิบายโครงสร้าง AI ต้องสร้าง hash จากชิ้นงานจริงในเครื่อง</p></div>
       <form class="module-submission-form" data-module-3-submission-form>
         <label><span>รหัสคลาส</span><input name="class_code" type="text" required minlength="3" maxlength="40" pattern="[A-Za-z0-9][A-Za-z0-9._-]{2,39}" autocomplete="off"></label>
         <label><span>Call sign</span><input name="callsign" type="text" required minlength="3" maxlength="40" pattern="[A-Za-z0-9][A-Za-z0-9._-]{2,39}" autocomplete="off"><small>ใช้ call sign เดิมของคลาสถ้ามี ห้ามใช้ชื่อจริง อีเมล หรือรหัสนิสิต</small></label>

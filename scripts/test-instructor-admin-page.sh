@@ -41,6 +41,7 @@ grep -q 'อัตโนมัติทุก 15 วินาที' "$root/asse
 grep -q 'renderSubmissionOverview' "$root/assets/instructor-admin.js"
 grep -q 'submission-module-link' "$root/assets/instructor-admin.js"
 grep -q 'moduleContentPath(module.module_id, classroomId)' "$root/assets/instructor-admin.js"
+grep -q '/content/\${path}?classroom_id=' "$root/assets/instructor-admin.js"
 grep -q 'data-enrollment-rows' "$page"
 grep -q 'data-member-management-form' "$page"
 grep -q 'data-member-account' "$page"

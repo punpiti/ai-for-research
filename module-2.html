@@ -255,8 +255,8 @@
 - Prompt รอบแรก จุดอ่อนที่พบ และสิ่งที่แก้ใน Prompt รอบสอง
 - งานที่ AI ช่วยได้ งานที่ต้องตรวจ และสิ่งที่มนุษย์ต้องตัดสินใจ
 
-2. output/module-2-submission.json ตาม schema ใน
-https://urban.cpe.ku.ac.th/ai-for-research/downloads/module-02-submission-schema.json
+2. output/module-2-submission.json ตาม schema ในไฟล์ module-02-submission-schema.json
+ที่ดาวน์โหลดจากลิงก์ในหน้าบทเรียนนี้และเก็บไว้ในเครื่อง
 
 กติกาสำหรับ JSON:
 - schema_version = ai-for-research.module-2-submission.v4 และ module_id = module-2
@@ -279,7 +279,7 @@ https://urban.cpe.ku.ac.th/ai-for-research/downloads/module-02-submission-schema
 - declaration ทั้งสี่รายการต้องเป็น true หลังจากฉันยืนยันจริงเท่านั้น รวม learner_additions_written_by_learner
 - ห้ามใส่ชื่อ นามสกุล อีเมล เบอร์โทร รหัสนิสิต ข้อมูลลับ หรือข้อมูลส่วนบุคคล
 - ห้ามสร้าง class_code, callsign, submission_id หรือเวลา submit หน้าเว็บจะเพิ่มให้ภายหลัง
-- หลังสร้างไฟล์ ให้ใช้ course Python รัน tools/validate-module-2.py กับไฟล์ทั้งสอง หากตัวตรวจไม่มี ให้ดาวน์โหลดเฉพาะจาก https://urban.cpe.ku.ac.th/ai-for-research/downloads/validate-module-2.py ไปไว้ที่ tools/validate-module-2.py
+- หลังสร้างไฟล์ ให้ใช้ course Python รัน tools/validate-module-2.py กับไฟล์ทั้งสอง หากตัวตรวจไม่มี ให้ดาวน์โหลดจากลิงก์ในหน้าบทเรียนนี้ไปไว้ที่ tools/validate-module-2.py
 - ห้ามส่งข้อมูลออกจากเครื่อง ห้าม submit แทนฉัน และห้ามแก้ learner_additions เอง รายงาน LOCAL_CHECK PASS/FAIL แล้วสรุปเป็นสี่ส่วน: ตอบได้แล้ว, AI ยังตอบไม่ได้, ผู้เรียนเติมอะไร, Prompt ที่แนะนำ จากนั้นหยุดและรอฉันตรวจ</code><button type="button" data-copy>คัดลอกคำสั่งสร้างและตรวจงาน</button></div></div></li>
       </ol>
     </section>
@@ -290,7 +290,7 @@ https://urban.cpe.ku.ac.th/ai-for-research/downloads/module-02-submission-schema
 
 1. อ่านและทำตาม AGENTS.md ก่อน
 2. ตรวจ output/module-2-submission.json และ output/module-2-conclusion.md ด้วย tools/validate-module-2.py โดยใช้ course Python
-3. หากไม่มีตัวตรวจ ให้ดาวน์โหลดเฉพาะจาก https://urban.cpe.ku.ac.th/ai-for-research/downloads/validate-module-2.py ไปไว้ที่ tools/validate-module-2.py แล้วรันในเครื่อง
+3. หากไม่มีตัวตรวจ ให้ดาวน์โหลดจากลิงก์ในหน้าบทเรียนนี้ไปไว้ที่ tools/validate-module-2.py แล้วรันในเครื่อง
 4. ห้ามอัปโหลด Markdown, JSON, claims, คำตอบ หรือหลักฐานไปที่ใด
 5. ถ้า FAIL ให้อธิบายทีละข้อ แก้ได้เฉพาะข้อผิดพลาดเชิงโครงสร้างที่ AI สร้างเอง ห้ามแต่งหรือแก้ learner_additions แทนฉัน
 6. ถ้า PASS ให้รายงานจำนวน claims, open questions, learner additions และ SHA-256 แล้วหยุด ห้าม submit แทนฉัน</code><button type="button" data-copy>คัดลอก Prompt ให้ AI ตรวจงาน</button></div>
@@ -298,7 +298,7 @@ https://urban.cpe.ku.ac.th/ai-for-research/downloads/module-02-submission-schema
     </section>
 
     <section class="section" id="submit" data-module-2-step="submit">
-      <div class="section-heading compact"><p class="eyebrow">Submit · ส่งความคืบหน้า</p><h2>ตรวจผลงานในเครื่อง แล้วส่งเฉพาะ Progress JSON</h2><p>หน้าเว็บอ่าน Markdown และ <code>module-2-submission.json</code> ในเบราว์เซอร์เพื่อตรวจความครบและคำนวณ SHA-256 ไฟล์ทั้งสองไม่ออกจากเครื่อง Server ได้รับเพียงผลตรวจแบบสรุปและแบบประเมินการใช้ Module เพื่อแสดงความคืบหน้าของคลาส</p><p><a href="downloads/module-02-submission-schema.json" download>ดาวน์โหลด JSON Schema สำหรับตรวจในเครื่อง →</a></p></div>
+      <div class="section-heading compact"><p class="eyebrow">Submit · ส่งความคืบหน้า</p><h2>ตรวจผลงานในเครื่อง แล้วส่งเฉพาะ Progress JSON</h2><p>หน้าเว็บอ่าน Markdown และ <code>module-2-submission.json</code> ในเบราว์เซอร์เพื่อตรวจความครบและคำนวณ SHA-256 ไฟล์ทั้งสองไม่ออกจากเครื่อง Server ได้รับเพียงผลตรวจแบบสรุปและแบบประเมินการใช้ Module เพื่อแสดงความคืบหน้าของคลาส</p><p><a href="downloads/module-02-submission-schema.json" download>ดาวน์โหลด JSON Schema สำหรับตรวจในเครื่อง →</a> · <a href="downloads/validate-module-2.py" download>ดาวน์โหลดตัวตรวจ Module 2 →</a></p></div>
       <div class="notice"><strong>Call sign แทนตัวตน:</strong> ตั้งนามเรียกขานใหม่สำหรับคลาสนี้ เช่น <code>green-orbit-7</code> และอย่าใช้ชื่อจริง ชื่อบัญชี อีเมล เบอร์โทร หรือรหัสนิสิต Server เก็บเฉพาะรหัสคลาส, call sign, progress summary, แบบประเมิน Module, เวลา และ submission ID ไม่เก็บ Markdown, claims, คำตอบ หรือรายการหลักฐานของคุณ</div>
       <form class="module-submission-form" data-module-2-submission-form>
         <label><span>รหัสคลาส</span><input name="class_code" type="text" required minlength="3" maxlength="40" pattern="[A-Za-z0-9][A-Za-z0-9._-]{2,39}" placeholder="เช่น pilot-01" autocomplete="off"></label>

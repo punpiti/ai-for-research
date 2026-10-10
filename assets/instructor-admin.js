@@ -21,8 +21,10 @@
   function moduleContentPath(moduleId, classroomId = "") {
     const match = /^module-([1-9])$/.exec(String(moduleId || ""));
     if (!match) return "../prepare.html";
-    const path = match[1] === "1" ? "../prepare.html" : `../module-${match[1]}.html`;
-    return classroomId ? `${path}?classroom_id=${encodeURIComponent(classroomId)}` : path;
+    const path = match[1] === "1" ? "prepare.html" : `module-${match[1]}.html`;
+    return classroomId
+      ? `/api/ai-for-research/classrooms/${encodeURIComponent(classroomId)}/content/${path}?classroom_id=${encodeURIComponent(classroomId)}`
+      : `../${path}`;
   }
 
   function formatTokens(value) {

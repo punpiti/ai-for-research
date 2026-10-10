@@ -70,7 +70,8 @@
   }
 
   function loginUrl() {
-    const requestedClassroom = new URLSearchParams(globalObject.location.search).get("classroom");
+    const requestedClassroom = new URLSearchParams(globalObject.location.search).get("classroom_id")
+      || new URLSearchParams(globalObject.location.search).get("classroom");
     const next = requestedClassroom ? `prepare.html?classroom=${encodeURIComponent(requestedClassroom)}` : "prepare.html";
     return `login.html?next=${encodeURIComponent(next)}`;
   }
@@ -92,7 +93,8 @@
       const classrooms = (payload.classrooms || []).filter((item) => item.status === "active");
       classroomSelect.replaceChildren(new Option("เลือกคลาส", ""));
       classrooms.forEach((item) => classroomSelect.add(new Option(item.classroom_id, item.classroom_id)));
-      const requested = new URLSearchParams(globalObject.location.search).get("classroom");
+      const requested = new URLSearchParams(globalObject.location.search).get("classroom_id")
+        || new URLSearchParams(globalObject.location.search).get("classroom");
       if (requested && classrooms.some((item) => item.classroom_id === requested)) classroomSelect.value = requested;
       else if (classrooms.length === 1) classroomSelect.value = classrooms[0].classroom_id;
       if (!classrooms.length) throw new Error("ยังไม่มีคลาสที่อนุมัติให้คุณส่งงาน");

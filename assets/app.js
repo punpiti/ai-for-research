@@ -3,7 +3,9 @@ document.documentElement.classList.add("js");
 const classroomApiBase = "/api/ai-for-research/classrooms";
 
 function classroomIdFromLocation() {
-  const value = new URLSearchParams(location.search).get("classroom_id") || "";
+  const queryValue = new URLSearchParams(location.search).get("classroom_id") || "";
+  const pathMatch = location.pathname.match(/\/classrooms\/([A-Za-z0-9][A-Za-z0-9._-]{2,63})\/content\//);
+  const value = queryValue || pathMatch?.[1] || "";
   return /^[A-Za-z0-9][A-Za-z0-9._-]{2,63}$/.test(value) ? value : "";
 }
 
