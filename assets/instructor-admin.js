@@ -88,6 +88,9 @@
   const templateOnlyElements = [...document.querySelectorAll("[data-template-only]")];
   const classDetailsForm = document.querySelector("[data-class-details-form]");
   const classDetailsStatus = document.querySelector("[data-class-details-status]");
+  const classConfigForm = document.querySelector("[data-class-config-form]");
+  const classConfigStatus = document.querySelector("[data-class-config-status]");
+  const adminOnlyElements = [...document.querySelectorAll("[data-admin-only]")];
   const detailStringFields = [
     "public_title", "cohort_title", "summary", "class_date", "audience", "delivery_mode",
     "fee", "admission_note", "overview", "scope", "language", "prerequisites",
@@ -101,6 +104,8 @@
   let submissionRefreshTimer = null;
   let memberManagementMode = "";
   let currentContentRoute = "";
+  let currentEnrollmentStatus = "draft";
+  let canManageClassConfig = false;
 
   function node(tag, className = "", text = "") {
     const element = document.createElement(tag);
@@ -134,8 +139,8 @@
 
   function activateAdminTab(tabName) {
     const availableTabs = classroomType === "template"
-      ? ["template-details", "syllabus"]
-      : ["details", "enrollment", "syllabus", "submissions", "status"];
+      ? [...(canManageClassConfig ? ["config"] : []), "template-details", "syllabus"]
+      : [...(canManageClassConfig ? ["config"] : []), "details", "enrollment", "syllabus", "submissions", "status"];
     const selectedTab = availableTabs.includes(tabName) ? tabName : availableTabs[0];
     activeAdminTab = selectedTab;
     adminTabButtons.forEach((button) => {
@@ -164,7 +169,7 @@
     openCreateClass.textContent = isTemplate ? "คัดลอกเป็นคลาสใหม่" : "+ สร้างคลาสใหม่";
     publicClassLink.hidden = isTemplate;
     const requestedTab = String(globalObject.location.hash || "").replace(/^#/, "");
-    const knownTabs = ["template-details", "details", "enrollment", "syllabus", "submissions", "status"];
+    const knownTabs = ["config", "template-details", "details", "enrollment", "syllabus", "submissions", "status"];
     const initialTab = knownTabs.includes(requestedTab)
       ? requestedTab
       : isTemplate ? "template-details" : "details";
@@ -200,7 +205,10 @@
     document.querySelector("[data-active-module]").textContent = data.classroom.active_module_title
       ? `${data.classroom.active_module_id.replace("module-", "M")} · ${data.classroom.active_module_title}`
       : "ยังไม่ได้เลือก";
-    const isAdmin = data.member_management?.can_manage_instructors === true;
+    const isAdmin = data.permissions?.can_manage_class_config === true
+      || data.member_management?.can_manage_instructors === true;
+    canManageClassConfig = isAdmin;
+    adminOnlyElements.forEach((element) => { element.hidden = !isAdmin; });
     document.querySelector("[data-admin-role-eyebrow]").textContent = isAdmin ? "Administrator · instructor access" : "Instructor classroom";
     document.querySelector("[data-admin-role-title]").innerHTML = isAdmin ? "หน้าของ<br><span>ผู้ดูแลระบบ</span>" : "หน้าของ<br><span>อาจารย์</span>";
   }
@@ -208,7 +216,7 @@
   function renderClassDetails(data) {
     if (data.classroom.classroom_type === "template") return;
     const details = data.classroom.public_details || {};
-    classDetailsForm.elements.enrollment_status.value = data.classroom.enrollment_status || "draft";
+    currentEnrollmentStatus = data.classroom.enrollment_status || "draft";
     const contentRoutes = Array.isArray(data.classroom.module3_routes) ? data.classroom.module3_routes : [];
     currentContentRoute = contentRoutes.length === 1 && ["student", "faculty"].includes(contentRoutes[0])
       ? contentRoutes[0] : "";
@@ -220,6 +228,21 @@
     detailLineFields.forEach((key) => {
       classDetailsForm.elements[key].value = Array.isArray(details[key]) ? details[key].join("\n") : "";
     });
+  }
+
+  function renderClassConfig(data) {
+    if (!canManageClassConfig) return;
+    const classroom = data.classroom || {};
+    classConfigForm.elements.classroom_id.value = classroom.classroom_id || classroomId;
+    classConfigForm.elements.subject.value = [classroom.subject_id, classroom.subject_title].filter(Boolean).join(" · ") || "—";
+    classConfigForm.elements.course.value = [classroom.course_code, classroom.course_title || classroom.course_id].filter(Boolean).join(" · ") || "—";
+    classConfigForm.elements.classroom_type.value = classroom.classroom_type === "template" ? "ต้นแบบ (อ่านอย่างเดียว)" : "คลาสใช้งาน";
+    classConfigForm.elements.title.value = classroom.title || "";
+    classConfigForm.elements.enrollment_status.value = classroom.enrollment_status || "draft";
+    const locked = classroom.classroom_type === "template";
+    classConfigForm.elements.title.disabled = locked;
+    classConfigForm.elements.enrollment_status.disabled = locked;
+    classConfigForm.querySelector('button[type="submit"]').hidden = locked;
   }
 
   function renderTemplateDetails(data) {
@@ -256,7 +279,7 @@
         .map((item) => item.trim())
         .filter(Boolean);
     });
-    return { enrollment_status: classDetailsForm.elements.enrollment_status.value, details };
+    return { enrollment_status: currentEnrollmentStatus, details };
   }
 
   function renderEnrollments(data) {
@@ -571,6 +594,8 @@
     try {
       const data = await request(dashboardEndpoint(classroomId));
       renderSummary(data);
+      applyClassroomMode(data.classroom);
+      renderClassConfig(data);
       renderClassDetails(data);
       renderTemplateDetails(data);
       renderEnrollments(data);
@@ -649,6 +674,30 @@
     }
   });
 
+  classConfigForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    if (!canManageClassConfig || classroomType === "template" || !classConfigForm.reportValidity()) return;
+    const submitButton = classConfigForm.querySelector('button[type="submit"]');
+    submitButton.disabled = true;
+    classConfigStatus.textContent = "กำลังบันทึก…";
+    try {
+      await request(`${apiBase}/${encodeURIComponent(classroomId)}/admin/config`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          title: classConfigForm.elements.title.value.trim(),
+          enrollment_status: classConfigForm.elements.enrollment_status.value,
+        }),
+      });
+      classConfigStatus.textContent = "บันทึกแล้ว";
+      await loadDashboard();
+    } catch (error) {
+      if (error.message !== "authentication-required") classConfigStatus.textContent = error.message;
+    } finally {
+      submitButton.disabled = false;
+    }
+  });
+
   memberManagementForm.addEventListener("submit", async (event) => {
     event.preventDefault();
     if (!memberManagementMode) return;
@@ -722,6 +771,7 @@
   });
 
   openCreateClass.addEventListener("click", () => {
+    if (!canManageClassConfig) return;
     createStatus.textContent = "";
     createForm.elements.title.value = "";
     sourceClassroom.value = classroomId;

@@ -11,7 +11,7 @@
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../assets/styles.css?v=20261010-4">
   <script src="../assets/dev-auth.js?v=20261010-1"></script>
-  <script src="../assets/instructor-admin.js?v=20261010-5" defer></script>
+  <script src="../assets/instructor-admin.js?v=20261010-6" defer></script>
 </head>
 <body class="instructor-body">
   <a class="skip-link" href="#main">ข้ามไปยังเนื้อหา</a>
@@ -25,7 +25,7 @@
   <main id="main" class="instructor-main">
     <section class="classroom-switcher" aria-label="เลือกคลาส">
       <label><span>คลาสที่กำลังจัดการ</span><select data-classroom-selector aria-label="คลาสที่กำลังจัดการ"></select></label>
-      <button class="button primary" type="button" data-open-create-class>+ สร้างคลาสใหม่</button>
+      <button class="button primary" type="button" data-open-create-class data-admin-only hidden>+ สร้างคลาสใหม่</button>
     </section>
     <section class="instructor-title">
       <div>
@@ -43,6 +43,7 @@
     <p class="instructor-page-status" data-page-status role="status" aria-live="polite">กำลังโหลดข้อมูล…</p>
 
     <nav class="instructor-tabs" aria-label="ส่วนจัดการคลาส" role="tablist" data-instructor-tabs>
+      <button id="tab-config" type="button" role="tab" data-admin-tab="config" aria-controls="config" aria-selected="false" data-admin-only hidden>ตั้งค่าคลาส</button>
       <button id="tab-template-details" type="button" role="tab" data-admin-tab="template-details" aria-controls="template-details" aria-selected="false" data-template-only hidden>รายละเอียดต้นแบบ</button>
       <button id="tab-details" type="button" role="tab" data-admin-tab="details" aria-controls="details" aria-selected="true" data-class-only>รายละเอียดคลาส</button>
       <button id="tab-enrollment" type="button" role="tab" data-admin-tab="enrollment" aria-controls="enrollment" aria-selected="false" data-class-only>ผู้ลงทะเบียน</button>
@@ -85,6 +86,30 @@
       <ul class="template-tags" aria-label="หัวข้อเด่น" data-template-tags></ul>
     </section>
 
+    <section class="instructor-section" id="config" role="tabpanel" aria-labelledby="tab-config config-title" data-admin-panel="config" data-admin-only hidden>
+      <div class="instructor-section-heading">
+        <div>
+          <p class="eyebrow">Admin · Class config</p>
+          <h2 id="config-title">ตั้งค่าโครงสร้างคลาส</h2>
+        </div>
+      </div>
+      <p class="submission-privacy-note">ผู้ดูแลระบบสร้างคลาส เลือก Course และเปิด–ปิดรับสมัคร ส่วนอาจารย์ดูแลรายละเอียดการสอน Syllabus และผู้เรียนของคลาสที่ได้รับมอบหมาย</p>
+      <form class="class-details-form" data-class-config-form>
+        <div class="class-details-grid">
+          <label><span>Classroom ID</span><input name="classroom_id" readonly></label>
+          <label><span>Subject</span><input name="subject" readonly></label>
+          <label><span>Course</span><input name="course" readonly></label>
+          <label><span>ประเภท</span><input name="classroom_type" readonly></label>
+          <label class="span-all"><span>ชื่อภายในระบบ</span><input name="title" maxlength="160" required></label>
+          <label><span>สถานะรับลงทะเบียน</span><select name="enrollment_status" required><option value="draft">ฉบับร่าง</option><option value="open">เปิดรับลงทะเบียน</option><option value="closed">ปิดรับลงทะเบียน</option></select></label>
+        </div>
+        <div class="instructor-actions">
+          <button class="button primary" type="submit">บันทึก Config</button>
+          <p data-class-config-status role="status" aria-live="polite"></p>
+        </div>
+      </form>
+    </section>
+
     <section class="instructor-section" id="details" role="tabpanel" aria-labelledby="tab-details details-title" data-admin-panel="details" data-class-only>
       <div class="instructor-section-heading">
         <p class="eyebrow">01 · Class details</p>
@@ -98,7 +123,6 @@
           <label><input type="radio" name="content_route" value="faculty" required><span><strong>อาจารย์ / นักวิจัย</strong><small>ใช้ paper หรือ manuscript ของผู้เรียน และซ่อนเคส หิว → กิน → อิ่ม</small></span></label>
         </fieldset>
         <div class="class-details-grid">
-          <label><span>สถานะรับลงทะเบียน</span><select name="enrollment_status" required><option value="draft">ฉบับร่าง</option><option value="open">เปิดรับลงทะเบียน</option><option value="closed">ปิดรับลงทะเบียน</option></select></label>
           <label><span>ชื่อคลาส</span><input name="public_title" maxlength="160" required></label>
           <label class="span-all"><span>ชื่อรุ่นหรือคำขยายใต้ชื่อคลาส</span><input name="cohort_title" maxlength="160" required></label>
           <label class="span-all"><span>คำโปรย</span><textarea name="summary" rows="3" maxlength="1200" required></textarea></label>
@@ -242,7 +266,8 @@
         <h2 id="create-class-title">สร้างคลาสใหม่</h2>
       </div>
       <label><span>ชื่อคลาส</span><input name="title" maxlength="160" required></label>
-      <label><span>เริ่มจาก Syllabus ของ</span><select name="source_classroom_id" required data-source-classroom></select></label>
+      <label><span>Course / ต้นแบบ</span><select name="source_classroom_id" required data-source-classroom></select></label>
+      <small>Course ถูกกำหนดตอนสร้างคลาสและไม่เปลี่ยนภายหลัง เพื่อไม่ให้ข้อมูลผู้เรียนและงานส่งอ้างอิงผิดหลักสูตร</small>
       <p class="create-class-status" data-create-class-status role="status" aria-live="polite"></p>
       <div class="instructor-actions">
         <button class="button primary" type="submit">สร้างคลาส</button>
