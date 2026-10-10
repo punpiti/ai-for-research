@@ -30,6 +30,7 @@
   <link rel="stylesheet" href="assets/styles.css?v=20261008-8">
   <script src="assets/dev-auth.js?v=20261010-1"></script>
   <script src="assets/site-shell.js?v=20261010-2"></script>
+  <script src="assets/my-learning.js?v=20261010-1" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#main">ข้ามไปยังเนื้อหา</a>
@@ -60,6 +61,16 @@
     </section>
 
 
+
+    <section class="section my-learning" id="my-learning" data-my-learning hidden>
+      <div class="section-heading compact">
+        <p class="eyebrow">My learning</p>
+        <h2>วิชาและคลาส<br>ของฉัน</h2>
+        <p>รายการคลาสที่คุณเป็นผู้เรียนหรือผู้สอน รวมทั้งรายการที่กำลังรออนุมัติ</p>
+      </div>
+      <p data-my-learning-status role="status" aria-live="polite">กำลังโหลดรายการ…</p>
+      <div class="my-learning-grid" data-my-learning-list></div>
+    </section>
 
     <section class="section open-classrooms" id="course">
       <div class="section-heading compact">

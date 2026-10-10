@@ -65,15 +65,14 @@
   const createForm = document.querySelector("[data-create-class-form]");
   const createStatus = document.querySelector("[data-create-class-status]");
   const enrollmentRows = document.querySelector("[data-enrollment-rows]");
-  const memberManagementForm = document.querySelector("[data-member-management-form]");
-  const memberManagementTitle = document.querySelector("[data-member-management-title]");
-  const memberManagementLabel = document.querySelector("[data-member-management-label]");
-  const memberSingle = document.querySelector("[data-member-single]");
-  const memberBulk = document.querySelector("[data-member-bulk]");
-  const memberAccount = document.querySelector("[data-member-account]");
-  const memberEmails = document.querySelector("[data-member-emails]");
-  const memberAdd = document.querySelector("[data-member-add]");
-  const memberManagementStatus = document.querySelector("[data-member-management-status]");
+  const instructorManagementForm = document.querySelector("[data-instructor-management-form]");
+  const instructorEmail = document.querySelector("[data-instructor-email]");
+  const instructorAdd = document.querySelector("[data-instructor-add]");
+  const instructorManagementStatus = document.querySelector("[data-instructor-management-status]");
+  const studentManagementForm = document.querySelector("[data-student-management-form]");
+  const studentEmails = document.querySelector("[data-student-emails]");
+  const studentAdd = document.querySelector("[data-student-add]");
+  const studentManagementStatus = document.querySelector("[data-student-management-status]");
   const submissionRows = document.querySelector("[data-submission-rows]");
   const submissionModuleRows = document.querySelector("[data-submission-module-rows]");
   const recentSubmissionRows = document.querySelector("[data-recent-submission-rows]");
@@ -102,7 +101,9 @@
   const adminPanels = [...document.querySelectorAll("[data-admin-panel]")];
   let activeAdminTab = "details";
   let submissionRefreshTimer = null;
-  let memberManagementMode = "";
+  let canManageInstructors = false;
+  let canManageStudents = false;
+  let viewerEmail = "";
   let currentContentRoute = "";
   let currentEnrollmentStatus = "draft";
   let canManageClassConfig = false;
@@ -286,28 +287,12 @@
     enrollmentRows.replaceChildren();
     if (data.classroom.classroom_type === "template") return;
     const management = data.member_management || {};
-    memberManagementMode = management.mode || "";
-    const managesInstructors = management.can_manage_instructors === true;
-    const managesStudents = management.can_manage_students === true;
-    const managedRole = managesInstructors ? "teacher" : managesStudents ? "student" : "";
-    memberManagementForm.hidden = !managedRole;
-    if (managedRole) {
-      memberManagementTitle.textContent = managesInstructors ? "ผู้สอนของคลาส" : "ผู้เรียนของคลาส";
-      memberManagementLabel.textContent = managesInstructors ? "เพิ่มผู้สอน" : "เพิ่มผู้เรียน";
-      memberAdd.textContent = managesInstructors ? "เพิ่ม Instructor" : "เพิ่มผู้เรียนเป็นชุด";
-      memberSingle.hidden = !managesInstructors;
-      memberBulk.hidden = !managesStudents;
-      const accounts = Array.isArray(management.available_accounts) ? management.available_accounts : [];
-      memberAccount.replaceChildren(...accounts.map((account) => {
-        const option = node("option", "", `${account.display_name || account.email} · ${account.email}`);
-        option.value = account.email;
-        return option;
-      }));
-      memberAccount.disabled = !managesInstructors || accounts.length === 0;
-      memberAdd.disabled = managesInstructors && accounts.length === 0;
-      if (managesInstructors && !accounts.length) memberManagementStatus.textContent = "ไม่มีบัญชีที่เพิ่มได้ในขณะนี้";
-    }
-    data.enrollments.filter((item) => !managedRole || item.role === managedRole).forEach((item) => {
+    canManageInstructors = management.can_manage_instructors === true;
+    canManageStudents = management.can_manage_students === true;
+    viewerEmail = String(data.viewer?.email || "").toLowerCase();
+    instructorManagementForm.hidden = !canManageInstructors;
+    studentManagementForm.hidden = !canManageStudents;
+    data.enrollments.forEach((item) => {
       const row = node("tr");
       const displayParts = (item.display_name || "").trim().split(/\s+/).filter(Boolean);
       const givenName = item.given_name || displayParts[0] || "—";
@@ -343,14 +328,14 @@
       quotaInput.value = item.token_quota ?? "";
       quotaInput.placeholder = "ไม่จำกัด";
       quotaInput.setAttribute("aria-label", `Token quota ของ ${item.display_name || item.email}`);
-      if (managesInstructors) quotaInput.disabled = true;
+      if (item.role === "teacher") quotaInput.disabled = true;
       quotaCell.append(quotaInput);
 
       const usageCell = node("td", "", formatTokens(item.token_usage));
       usageCell.append(node("small", "", item.token_records ? `${item.token_records} records` : "ยังไม่มีข้อมูล"));
 
       const actionCell = node("td");
-      if (!managesInstructors) {
+      if (item.role === "student" && canManageStudents) {
         const saveButton = node("button", "button secondary instructor-row-save", "บันทึก");
         saveButton.type = "button";
         saveButton.addEventListener("click", async () => {
@@ -373,20 +358,23 @@
         });
         actionCell.append(saveButton);
       }
-      if (managedRole) {
+      const canRemove = item.role === "teacher" ? canManageInstructors : canManageStudents;
+      if (canRemove) {
         const removeButton = node("button", "button secondary instructor-row-save", item.owner ? "Owner" : "นำออก");
         removeButton.type = "button";
-        removeButton.disabled = item.owner === true;
+        removeButton.disabled = item.owner === true || item.email.toLowerCase() === viewerEmail;
         removeButton.addEventListener("click", async () => {
           removeButton.disabled = true;
           removeButton.textContent = "กำลังนำออก…";
           try {
-            const collection = managesInstructors ? "instructors" : "students";
+            const collection = item.role === "teacher" ? "instructors" : "students";
             await request(`${dashboardEndpoint(classroomId)}/${collection}/${encodeURIComponent(item.email)}`, { method: "DELETE" });
-            memberManagementStatus.textContent = `นำ ${item.email} ออกจากคลาสแล้ว`;
+            const statusNode = item.role === "teacher" ? instructorManagementStatus : studentManagementStatus;
+            statusNode.textContent = `นำ ${item.email} ออกจากคลาสแล้ว`;
             await loadDashboard({ silent: true });
           } catch (error) {
-            memberManagementStatus.textContent = error.message;
+            const statusNode = item.role === "teacher" ? instructorManagementStatus : studentManagementStatus;
+            statusNode.textContent = error.message;
             removeButton.disabled = false;
             removeButton.textContent = "ลองอีกครั้ง";
           }
@@ -698,33 +686,50 @@
     }
   });
 
-  memberManagementForm.addEventListener("submit", async (event) => {
+  instructorManagementForm.addEventListener("submit", async (event) => {
     event.preventDefault();
-    if (!memberManagementMode) return;
-    const bulkEmails = parseBulkEmails(memberEmails.value);
-    const managesStudents = memberManagementMode === "students";
-    if ((!managesStudents && !memberAccount.value) || (managesStudents && !bulkEmails.length)) {
-      memberManagementStatus.textContent = managesStudents ? "กรอกอีเมลอย่างน้อย 1 บัญชี" : "เลือกบัญชีที่ต้องการเพิ่ม";
-      return;
-    }
-    memberAdd.disabled = true;
-    memberManagementStatus.textContent = "กำลังเพิ่ม…";
+    if (!canManageInstructors || !instructorManagementForm.reportValidity()) return;
+    const email = instructorEmail.value.trim().toLowerCase();
+    instructorAdd.disabled = true;
+    instructorManagementStatus.textContent = "กำลังเพิ่ม…";
     try {
-      const endpoint = managesStudents ? `${memberManagementMode}/bulk` : memberManagementMode;
-      const result = await request(`${dashboardEndpoint(classroomId)}/${endpoint}`, {
+      await request(`${dashboardEndpoint(classroomId)}/instructors`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(managesStudents ? { emails: bulkEmails } : { email: memberAccount.value }),
+        body: JSON.stringify({ email }),
       });
-      memberManagementStatus.textContent = managesStudents
-        ? `เพิ่ม/อนุมัติผู้เรียน ${result.active_count} บัญชีแล้ว`
-        : `เพิ่ม ${memberAccount.value} แล้ว`;
-      if (managesStudents) memberEmails.value = "";
+      instructorManagementStatus.textContent = `เพิ่ม ${email} เป็น Instructor แล้ว`;
+      instructorEmail.value = "";
       await loadDashboard({ silent: true });
     } catch (error) {
-      if (error.message !== "authentication-required") memberManagementStatus.textContent = error.message;
+      if (error.message !== "authentication-required") instructorManagementStatus.textContent = error.message;
     } finally {
-      memberAdd.disabled = managesStudents ? false : memberAccount.options.length === 0;
+      instructorAdd.disabled = false;
+    }
+  });
+
+  studentManagementForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const emails = parseBulkEmails(studentEmails.value);
+    if (!canManageStudents || !emails.length) {
+      studentManagementStatus.textContent = "กรอกอีเมลอย่างน้อย 1 บัญชี";
+      return;
+    }
+    studentAdd.disabled = true;
+    studentManagementStatus.textContent = "กำลังเพิ่ม…";
+    try {
+      const result = await request(`${dashboardEndpoint(classroomId)}/students/bulk`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ emails }),
+      });
+      studentManagementStatus.textContent = `เพิ่ม/อนุมัติผู้เรียน ${result.active_count} บัญชีแล้ว`;
+      studentEmails.value = "";
+      await loadDashboard({ silent: true });
+    } catch (error) {
+      if (error.message !== "authentication-required") studentManagementStatus.textContent = error.message;
+    } finally {
+      studentAdd.disabled = false;
     }
   });
 

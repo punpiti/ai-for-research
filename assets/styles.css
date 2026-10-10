@@ -1057,3 +1057,23 @@ a[data-workspace-download]::after { content:"  ↓"; color:var(--accent); font-w
   .module-progress-page .markdown-section > .markdown-body,
   .module-progress-page .markdown-body { max-width: 1100px; }
 }
+.my-learning-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1rem;
+}
+
+.my-learning-card {
+  display: grid;
+  gap: .75rem;
+  align-content: start;
+  padding: 1.25rem;
+  border: 1px solid var(--line, rgba(16, 24, 23, .16));
+  border-radius: 1rem;
+  background: var(--paper, #fff);
+}
+
+.my-learning-card h3,
+.my-learning-card p { margin: 0; }
+.my-learning-card .button { justify-self: start; }
+.my-learning-meta { color: var(--accent, #176b5b); font-weight: 600; }

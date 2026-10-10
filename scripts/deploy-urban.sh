@@ -14,6 +14,7 @@ bash scripts/test-learner-content.sh
 bash scripts/test-installers.sh
 node --check assets/instructor-admin.js
 bash scripts/test-instructor-admin-page.sh
+node scripts/test-my-learning.js
 node --check assets/site-shell.js
 node --check assets/module-1-submission.js
 node scripts/test-module-1-submission.js
