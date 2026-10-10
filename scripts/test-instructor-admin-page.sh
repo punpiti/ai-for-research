@@ -59,6 +59,14 @@ grep -q '/students/bulk`' "$root/assets/instructor-admin.js"
 grep -q 'parseBulkEmails' "$root/assets/instructor-admin.js"
 grep -q 'const emails = parseBulkEmails' "$root/assets/instructor-admin.js"
 grep -q 'method: "DELETE"' "$root/assets/instructor-admin.js"
+grep -q 'statusSelect.addEventListener("change", saveEnrollment)' "$root/assets/instructor-admin.js"
+grep -q 'quotaInput.addEventListener("input"' "$root/assets/instructor-admin.js"
+grep -q 'setTimeout(saveEnrollment, 700)' "$root/assets/instructor-admin.js"
+grep -q 'บันทึกอัตโนมัติ' "$root/assets/instructor-admin.js"
+if grep -q 'const saveButton' "$root/assets/instructor-admin.js"; then
+  echo 'Enrollment rows must auto-save without a save button.' >&2
+  exit 1
+fi
 grep -q 'data-module-list' "$page"
 grep -q 'name="content_route" value="student"' "$page"
 grep -q 'name="content_route" value="faculty"' "$page"

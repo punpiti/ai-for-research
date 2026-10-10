@@ -335,27 +335,54 @@
 
       const actionCell = node("td");
       if (item.role === "student" && canManageStudents) {
-        const saveButton = node("button", "button secondary instructor-row-save", "บันทึก");
-        saveButton.type = "button";
-        saveButton.addEventListener("click", async () => {
-          saveButton.disabled = true;
-          saveButton.textContent = "กำลังบันทึก…";
+        const saveState = node("small", "instructor-row-save-state", "บันทึกอัตโนมัติ");
+        saveState.setAttribute("role", "status");
+        saveState.setAttribute("aria-live", "polite");
+        let savedStatus = item.status;
+        let savedQuota = item.token_quota;
+        let quotaSaveTimer = null;
+        const saveEnrollment = async () => {
+          globalObject.clearTimeout(quotaSaveTimer);
+          const rawQuota = quotaInput.value.trim();
+          const nextQuota = rawQuota === "" ? null : Number(rawQuota);
+          if (statusSelect.value === savedStatus && nextQuota === savedQuota) {
+            saveState.textContent = "บันทึกแล้ว";
+            return;
+          }
+          statusSelect.disabled = true;
+          quotaInput.disabled = true;
+          saveState.textContent = "กำลังบันทึก…";
+          saveState.classList.remove("is-error");
           try {
-            const rawQuota = quotaInput.value.trim();
             await request(`${dashboardEndpoint(classroomId)}/enrollments/${encodeURIComponent(item.user_id)}`, {
               method: "PATCH",
               headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ status: statusSelect.value, token_quota: rawQuota === "" ? null : Number(rawQuota) }),
+              body: JSON.stringify({ status: statusSelect.value, token_quota: nextQuota }),
             });
-            saveButton.textContent = "บันทึกแล้ว";
-            await loadDashboard({ silent: true });
+            savedStatus = statusSelect.value;
+            savedQuota = nextQuota;
+            item.status = savedStatus;
+            item.token_quota = savedQuota;
+            saveState.textContent = "บันทึกแล้ว";
+            renderSummary(data);
           } catch (error) {
-            saveButton.textContent = error.message === "authentication-required" ? "เข้าสู่ระบบใหม่" : "ลองอีกครั้ง";
+            statusSelect.value = savedStatus;
+            quotaInput.value = savedQuota ?? "";
+            saveState.textContent = error.message === "authentication-required" ? "กรุณาเข้าสู่ระบบใหม่" : "บันทึกไม่สำเร็จ";
+            saveState.classList.add("is-error");
           } finally {
-            saveButton.disabled = false;
+            statusSelect.disabled = false;
+            quotaInput.disabled = false;
           }
+        };
+        statusSelect.addEventListener("change", saveEnrollment);
+        quotaInput.addEventListener("input", () => {
+          globalObject.clearTimeout(quotaSaveTimer);
+          saveState.textContent = "รอบันทึก…";
+          quotaSaveTimer = globalObject.setTimeout(saveEnrollment, 700);
         });
-        actionCell.append(saveButton);
+        quotaInput.addEventListener("change", saveEnrollment);
+        actionCell.append(saveState);
       }
       const canRemove = item.role === "teacher" ? canManageInstructors : canManageStudents;
       if (canRemove) {
