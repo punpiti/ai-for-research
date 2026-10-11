@@ -43,7 +43,9 @@
   }
 
   async function initialize(fetchImpl = globalObject.fetch) {
-    if (isLocalDevelopment()) {
+    // Standalone local review shows both routes; classroom URLs always ask the
+    // server so the local preview matches production.
+    if (isLocalDevelopment() && !classroomIdFromSearch()) {
       const allowedRoutes = Object.keys(routeSections);
       setLessonVisibility(allowedRoutes);
       const status = document.querySelector("[data-module-3-access-status]");

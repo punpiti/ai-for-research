@@ -24,7 +24,7 @@ check_file "$site_dir/hunger-research-methodology.html" "quick hunger review" 'i
 for number in {2..9}; do
   file="$site_dir/module-$number.html"
   check_file "$file" "preparation" 'ของต้องมีก่อนเรียน'
-  check_file "$file" "LO label" '<p class="eyebrow">LO</p>'
+  check_file "$file" "LO label" '<p class="eyebrow">(LO|สิ่งที่จะได้)</p>'
   check_file "$file" "learning outcomes" '<h2[^>]*>สิ่งที่จะทำได้</h2>'
   check_file "$file" "checkpoint label" '<p class="eyebrow">Checkpoint</p>'
   check_file "$file" "post-lesson result" '<h2[^>]*>จบบทเรียน</h2>'
@@ -108,12 +108,12 @@ check_file "$site_dir/assets/module-1-submission.js" "M1 progress endpoint" '/ap
 check_file "$site_dir/assets/module-1-submission.js" "M1 progress-only schema" 'ai-for-research\.module-1-progress\.v1'
 node --check "$site_dir/assets/module-1-submission.js"
 node "$site_dir/scripts/test-module-1-submission.js"
-check_file "$site_dir/module-2.html" "M2 action hierarchy JS" 'assets/app\.js\?v=20261011-3'
+check_file "$site_dir/module-2.html" "M2 action hierarchy JS" 'assets/app\.js\?v=20261011-4'
 check_file "$site_dir/module-2.html" "M2 step flow JS" 'assets/module-2-steps\.js\?v=20261011-1'
 check_file "$site_dir/module-2.html" "M2 step flow CSS" 'assets/styles\.css\?v=20261011-1'
-check_file "$site_dir/module-3.html" "M3 action hierarchy JS" 'assets/app\.js\?v=20261011-3'
-check_file "$site_dir/module-3.html" "M3 access JS" 'assets/module-3-access\.js\?v=20261010-2'
-check_file "$site_dir/module-3.html" "M3 step flow JS" 'assets/module-3-steps\.js\?v=20261010-1'
+check_file "$site_dir/module-3.html" "M3 action hierarchy JS" 'assets/app\.js\?v=20261011-4'
+check_file "$site_dir/module-3.html" "M3 access JS" 'assets/module-3-access\.js\?v=20261011-1'
+check_file "$site_dir/module-3.html" "M3 step flow JS" 'assets/module-3-steps\.js\?v=20261011-1'
 check_file "$site_dir/module-3.html" "M3 action hierarchy CSS" 'assets/styles\.css\?v=20261011-1'
 check_file "$site_dir/assets/app.js" "module action legend" 'learning-action-legend'
 check_file "$site_dir/assets/app.js" "AI prompt label" 'Prompt ให้ AI'
@@ -147,7 +147,7 @@ check_file "$site_dir/assets/module-2-steps.js" "M2 local checkpoint storage" 'a
 check_file "$site_dir/assets/module-3-steps.js" "M3 header progress" 'module-top-progress module-3-top-progress'
 check_file "$site_dir/assets/module-3-steps.js" "M3 local step storage" 'ai-for-research\.module-3\.steps\.v1'
 for number in 4 5; do
-  check_file "$site_dir/module-$number.html" "M$number guided step flow" 'assets/module-guided-steps\.js\?v=20261010-1'
+  check_file "$site_dir/module-$number.html" "M$number guided step flow" 'assets/module-guided-steps\.js\?v=20261011-2'
   check_file "$site_dir/module-$number.html" "M$number compact progress CSS" 'assets/styles\.css\?v=20261011-1'
 done
 check_file "$site_dir/assets/styles.css" "ultrawide module layout" '@media \(min-width: 1800px\)'
@@ -178,7 +178,7 @@ if grep -q 'problem-gap-rq-map\.md' "$site_dir/module-5.html"; then
   printf 'Found the retired problem-gap-rq-map.md filename in module-5.html.\n'
   failed=1
 fi
-check_file "$site_dir/module-5.html" "guided AI learning" 'ลงมือพัฒนาโจทย์และแบบวิจัยไปทีละขั้น'
+check_file "$site_dir/module-5.html" "guided AI learning" 'ตั้งค่า AI ให้เป็นผู้ช่วยเรียน'
 check_file "$site_dir/module-5.html" "one-question tutor" 'ถามฉันเพียงหนึ่งคำถาม'
 check_file "$site_dir/module-5.html" "progressive reference" 'เปิดคลังคำอธิบายเมื่อ AI พามาถึงแนวคิดนั้น'
 check_file "$site_dir/module-5.html" "interactive checkpoint" 'class="checklist" data-checklist="module-5"'

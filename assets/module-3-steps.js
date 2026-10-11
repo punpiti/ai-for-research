@@ -3,7 +3,7 @@
 
   const storageKey = "ai-for-research.module-3.steps.v1";
   const stages = [
-    { id: "prepare", short: "เตรียม", title: "เตรียมงานและเลือกเส้นทาง", selectors: ["main > .profile-context", "#learner-level", "#start", "#outcomes"] },
+    { id: "prepare", short: "เตรียม", title: "เตรียมงานและเลือกเส้นทาง", selectors: ["main > .profile-context", "#learner-level", "#faculty-start", "#start", "#outcomes"] },
     { id: "concepts", short: "เข้าใจปัญหา", title: "แยกส่วนของปัญหาและ Gap", selectors: ["#concepts", "#example"] },
     { id: "diagnose", short: "วินิจฉัย", title: "วินิจฉัยเปเปอร์หรือหลักฐาน", selectors: ["#student-path", "#faculty-path"] },
     { id: "challenge", short: "ทดสอบ Gap", title: "สร้างและพยายามหักล้าง Gap", selectors: ["#activity"] },

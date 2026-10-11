@@ -15,8 +15,11 @@
     "5": {
       stages: [
         { id: "prepare", short: "เตรียม", title: "เตรียมโจทย์และเลือกทางเริ่ม", selectors: ["main > .profile-context", "#start", "#ai-start", "#outcomes"] },
-        { id: "concepts", short: "แนวคิด", title: "เรียนแนวคิดที่ต้องใช้กับ AI", selectors: ["#guided-concepts"] },
-        { id: "build", short: "สร้างชิ้นงาน", title: "สร้างโจทย์และแบบวิจัยทีละขั้น", selectors: ["#activity"] },
+        { id: "start", short: "เริ่ม", title: "ตั้งค่า AI และเริ่มบทเรียน", selectors: ["#guided-concepts", "#activity"] },
+        { id: "venue", short: "แหล่งเผยแพร่", title: "เลือกแหล่งเผยแพร่และประเมินความพร้อม", selectors: ["#activity-venue"] },
+        { id: "logic", short: "สายเหตุผล", title: "ตารางจุดตัดและสายเหตุผล", selectors: ["#activity-logic"] },
+        { id: "ideas", short: "คัดแนวคิด", title: "หาจุดขาดและคัดแนวคิด", selectors: ["#activity-ideas"] },
+        { id: "design", short: "แบบวิจัย", title: "ร่างแบบวิจัยและด่านท้าทาย", selectors: ["#activity-design"] },
         { id: "review", short: "ทบทวน", title: "ทบทวนและวางงานต่อ", selectors: ["#การบ้าน", "#review"] },
         { id: "finish", short: "ตรวจจบ", title: "ตรวจชิ้นงานและไปโมดูลถัดไป", selectors: ["#finish", ".final-cta"] },
       ],

@@ -54,11 +54,6 @@ async function resolveClassroomContentRoute() {
   const classroomId = classroomIdFromLocation();
   if (!classroomId) return applyClassroomContentRoutes(["student", "faculty"]);
 
-  // The local preview has no classroom database. Keep its known faculty class
-  // representative while leaving standalone pages available for content review.
-  if (["localhost", "127.0.0.1", "::1"].includes(location.hostname) && classroomId === "faculty-pilot-2569") {
-    return applyClassroomContentRoutes(["faculty"]);
-  }
 
   try {
     const response = await fetch(`${classroomApiBase}/${encodeURIComponent(classroomId)}/content-route`, {

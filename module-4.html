@@ -7,7 +7,7 @@
   <title>Literature Evidence — AI for Research</title>
   <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/styles.css?v=20261011-1"><script src="assets/app.js?v=20261011-3" defer></script><script src="assets/module-guided-steps.js?v=20261010-1" defer></script>
+  <link rel="stylesheet" href="assets/styles.css?v=20261011-1"><script src="assets/app.js?v=20261011-4" defer></script><script src="assets/module-guided-steps.js?v=20261011-2" defer></script>
   <script src="assets/dev-auth.js?v=20261010-1"></script>
   <script src="assets/site-shell.js?v=20261010-2"></script>
 </head>
@@ -19,14 +19,14 @@
     <section class="prepare-hero module-hero"><p class="eyebrow">Module 4</p><h1>Literature<br><span>Evidence</span></h1><p>ค้น ตรวจ และสังเคราะห์วรรณกรรมโดยไม่รับ citation, DOI, metadata, summary หรือ claim ของ AI จนกว่าจะตรวจแหล่งต้นทาง</p></section>
     <section class="section profile-context"><div data-research-profile></div></section>
 
-    <section class="section" id="prepare"><div class="section-heading compact"><p class="eyebrow">การเตรียมตัวก่อนเรียน</p><h2>ของต้องมีก่อนเรียน</h2><p>นำข้อความที่ต้องการตรวจหรืองานเขียนของคุณมาใช้ หากใช้เอกสารจริงไม่ได้ ให้ใช้ชุดเอกสารตัวอย่างที่ผู้สอนจัดให้</p></div><div class="concept-grid">
-      <article><h3>Candidate Gap หรือ Claim ที่ต้องตรวจ</h3><p>หากมีผลงานจาก Module 3 ให้นำ <code>output/module-3/seed-problem-statement.md</code> และ candidate gap/claim สำคัญหนึ่งข้อมา โดยระบุว่าข้อนี้เชื่อมกับ problem statement อย่างไร หากเริ่มที่ Module 4 ให้ใช้ standalone claim intake หนึ่งหน้า</p></article>
-      <article><h3>งานเขียนที่ต้องตรวจ Citation</h3><p>เตรียม manuscript, proposal หรือบทความของตนเองที่มี in-text citations และ reference list พร้อม DOI, official page หรือ full text 5–8 รายการที่ใช้ยืนยัน metadata และ abstract ได้</p></article>
-      <article><h3>ข้อมูลที่นำมาใช้ได้</h3><p>ใช้เฉพาะเอกสารที่มีสิทธิ์นำเข้า AI ตัดข้อมูลลับและข้อมูลส่วนบุคคลออก และบันทึกแหล่งที่เข้าไม่ถึง full text ไว้ตามจริง</p></article>
+    <section class="section" id="prepare"><div class="section-heading compact"><p class="eyebrow">การเตรียมตัวก่อนเรียน</p><h2>ของต้องมีก่อนเรียน</h2><p>เลือกเตรียมอย่างเดียว ตามสิ่งที่อยากทำในขั้นที่ 4 ถ้าใช้เอกสารจริงไม่ได้ ให้ใช้ชุดเอกสารตัวอย่างที่ผู้สอนจัดให้</p></div><div class="concept-grid">
+      <article><h3>มีข้อความที่อยากหาหลักฐาน → กิจกรรม A</h3><p>ข้อความหรือ Claim 1 ข้อที่อยากรู้ว่ามีงานวิจัยรองรับหรือไม่ ถ้าทำ Module 3 มาแล้ว ใช้ gap ที่ได้จาก Module 3 ได้เลย</p></article>
+      <article><h3>มีงานเขียนที่อยากตรวจการอ้างอิง → กิจกรรม B</h3><p>proposal บทความ หรือ manuscript ของคุณที่มีการอ้างอิงและรายการอ้างอิงท้ายเรื่อง พร้อมเข้าถึงบทความที่อ้างถึงได้ 5–8 เรื่อง</p></article>
+      <article><h3>ข้อมูลที่นำมาใช้ได้</h3><p>ใช้เฉพาะเอกสารที่มีสิทธิ์นำเข้า AI ตัดข้อมูลลับและข้อมูลส่วนบุคคลออก และบันทึกตามจริงว่าเรื่องใดเปิดฉบับเต็มไม่ได้</p></article>
     </div></section>
 
-    <section class="section" id="outcomes"><div class="section-heading compact"><p class="eyebrow">LO</p><h2>สิ่งที่จะทำได้</h2><p>จาก “AI บอกว่า” ไปสู่หลักฐานที่เปิดตรวจได้</p></div><div class="check-grid outcome-grid">
-      <div><span>01 · Search</span><strong>แปลง Claim เป็น search concepts, synonyms และ query</strong></div><div><span>02 · Crawl</span><strong>เก็บ candidate metadata จาก OpenAlex API แบบมีขอบเขต</strong></div><div><span>03 · Verify</span><strong>ยืนยันตัวตนและ metadata ของแหล่งจากต้นทาง</strong></div><div><span>04 · Evaluate</span><strong>ตรวจว่าเนื้อหาสนับสนุน Claim จริงหรือถูกอ้างเกิน</strong></div><div><span>05 · Synthesize</span><strong>เปรียบเทียบหลักฐานข้ามงานโดยคง traceability</strong></div>
+    <section class="section" id="outcomes"><div class="section-heading compact"><p class="eyebrow">สิ่งที่จะได้</p><h2>สิ่งที่จะทำได้</h2><p>จาก “AI บอกว่า” ไปสู่หลักฐานที่เปิดตรวจได้</p></div><div class="check-grid outcome-grid">
+      <div><span>01</span><strong>เปลี่ยนข้อความที่อยากตรวจเป็นคำค้น แล้วให้ AI ค้นรายชื่องานที่เกี่ยวข้องแบบมีขอบเขต</strong></div><div><span>02</span><strong>ตรวจว่าบทความที่ได้มีอยู่จริงและข้อมูลตรงกับต้นทาง</strong></div><div><span>03</span><strong>อ่านต้นฉบับแล้วตัดสินว่าบทความรองรับข้อความจริง หรือถูกอ้างเกินกว่าที่เขียน</strong></div><div><span>04</span><strong>สรุปหลักฐานจากหลายงานโดยชี้กลับไปยังต้นทางได้ทุกข้อ</strong></div>
     </div></section>
 
     <section class="section" id="source-types"><div class="section-heading compact"><p class="eyebrow">ก่อนค้น</p><h2>แหล่งที่ช่วย “พบ” ไม่จำเป็นต้องเป็นหลักฐาน</h2></div><div class="level-grid">
@@ -36,19 +36,26 @@
       <article><span>04</span><div><h3>Full-text Evidence</h3><p>PDF หรือ HTML ฉบับเต็มทำให้ตรวจ method, result, limitation และบริบทของข้อความที่ต้องการอ้างได้</p></div></article>
     </div><div class="notice"><strong>กฎสำคัญ:</strong> DOI ที่เปิดได้ยืนยันว่าเอกสารมีอยู่จริง แต่ยังไม่ยืนยันว่าเอกสารนั้นสนับสนุน Claim ต้องอ่านตำแหน่งที่เกี่ยวข้องในต้นฉบับอีกครั้ง</div></section>
 
-    <section class="section" id="citation-anatomy"><div class="section-heading compact"><p class="eyebrow">ศัพท์ที่ต้องแยกให้ออก</p><h2>BibTeX คืออะไร และต่างจาก Citation อย่างไร</h2><p>คำเหล่านี้เชื่อมโยงเอกสารชิ้นเดียวกัน แต่ทำหน้าที่คนละอย่าง การมีรายการที่จัดรูปแบบสวยไม่ได้แปลว่าเอกสารมีอยู่จริงหรือสนับสนุนข้อความที่เราเขียน</p></div><div class="concept-grid">
-      <article><h3>In-text citation</h3><p>เครื่องหมายอ้างอิงในเนื้อหา เช่น <code>(Anan, 2025)</code> บอกผู้อ่านให้ไปหารายละเอียดใน reference list แต่ยังไม่บอกว่าผู้เขียนอ้างตรงกับต้นฉบับหรือไม่</p></article>
-      <article><h3>Reference entry</h3><p>รายการท้ายบทความที่แสดงผู้แต่ง ปี ชื่อเรื่อง และแหล่งพิมพ์ รูปแบบ APA หรือรูปแบบอื่นคือวิธีแสดงผล ไม่ใช่หลักฐานยืนยันความถูกต้อง</p></article>
-      <article><h3>BibTeX entry</h3><p>ระเบียนข้อความแบบมีโครงสร้างในไฟล์ <code>.bib</code> ใช้เก็บ field และสร้าง reference list อัตโนมัติ เช่น <code>@article</code>, citation key, author, title, year, DOI และ <code>abstract</code> โดย citation key เป็นชื่อเรียกภายในไฟล์ ไม่ใช่ DOI</p></article>
-      <article><h3>Bibliographic metadata</h3><p>ข้อมูลระบุตัวเอกสาร เช่น ผู้แต่ง ชื่อเรื่อง ปี วารสาร เล่ม ฉบับ หน้า และ DOI ควรเทียบกับ DOI registry, publisher หรือ repository ทางการ</p></article>
-      <article><h3>DOI</h3><p>รหัสถาวรที่พาไปยังระเบียนของเอกสาร ช่วยยืนยัน identity และ metadata แต่ DOI ที่ถูกต้องยังไม่พิสูจน์ว่าเนื้อหาสนับสนุน Claim</p></article>
-      <article><h3>Abstract และ Full text</h3><p>Abstract เป็นบทสรุปที่ผู้เขียนหรือวารสารเผยแพร่ ส่วน full text มีรายละเอียด method, result และ limitation ที่จำเป็นต่อการตรวจการอ้างเชิงลึก</p></article>
-    </div><div class="plain-note"><strong>ข้อกำหนดของงานนี้:</strong> BibTeX ทุก entry ต้องมี <code>abstract</code> ที่คัดจาก official page หรือ full text ไม่ใช่ข้อความที่ AI สรุปขึ้นใหม่ หากต้นทางไม่มี abstract หรือยังเข้าไม่ถึง ให้บันทึกว่า <code>abstract not found</code> ในรายงานตรวจและกลับมาเติมเมื่อมีหลักฐาน ห้ามแต่งให้ครบ</div><div class="plain-note"><strong>อย่าสับสน:</strong> APA คือกติกาการแสดงผล; BibTeX และ RIS คือรูปแบบไฟล์แลกเปลี่ยนข้อมูลอ้างอิง; Zotero หรือ Mendeley คือโปรแกรมจัดการรายการอ้างอิง; DOI คือรหัสระบุตัวเอกสาร สิ่งเหล่านี้ช่วยจัดการข้อมูล แต่ไม่มีอย่างใดใช้แทนการอ่านหลักฐานได้</div><div class="plain-note" data-audience-route="student"><strong>ตัวอย่างสมมติ—ห้ามนำไปอ้างอิง:</strong> ในเนื้อหาอาจเขียน <code>(Anan, 2025)</code> ส่วน reference list และ BibTeX เก็บรายละเอียดของ “อาหารโปรตีนกับความอิ่มในนักศึกษา” เรื่องเดียวกัน ตัวอย่างจึงมี field <code>abstract</code> แต่ยังไม่ใส่ field <code>doi</code> เพราะยังไม่ยืนยัน</div><div class="command"><code>% ตัวอย่างสมมติ: abstract นี้สร้างเพื่ออธิบายโครงสร้างเท่านั้น<br>@article{anan2025satiety,<br>&nbsp;&nbsp;author = {Anan, K.},<br>&nbsp;&nbsp;title = {Protein Meals and Satiety in Students},<br>&nbsp;&nbsp;journal = {Example Journal},<br>&nbsp;&nbsp;year = {2025},<br>&nbsp;&nbsp;abstract = {This fictional example examines how a protein meal relates to reported satiety among students.}<br>}</code><button type="button" data-copy>คัดลอกตัวอย่าง BibTeX</button></div><div class="level-grid">
-      <article><span>01</span><div><h3>Claim</h3><p>ข้อความในงานของเรา เช่น “อาหารโปรตีนสูงทำให้อิ่มนานขึ้น”</p></div></article>
+    <section class="section" id="citation-anatomy"><div class="section-heading compact"><p class="eyebrow">ศัพท์ที่ต้องแยกให้ออก</p><h2>สี่คำที่ต้องแยกก่อนตรวจการอ้างอิง</h2><p>AI สร้างรายการอ้างอิงที่ดูสวยและครบได้ง่าย แต่ดูสวยไม่ได้แปลว่าบทความมีอยู่จริงหรือรองรับข้อความของเรา สี่คำนี้ช่วยบอกว่ากำลังตรวจชั้นไหน</p></div><div class="concept-grid">
+      <article><h3>In-text citation <small>· การอ้างในเนื้อหา</small></h3><p>เครื่องหมายอ้างอิงในเนื้อหา เช่น <code>(Anan, 2025)</code> บอกผู้อ่านให้ไปหารายละเอียดใน reference list แต่ยังไม่บอกว่าผู้เขียนอ้างตรงกับต้นฉบับหรือไม่</p></article>
+      <article><h3>Reference entry <small>· รายการอ้างอิงท้ายเรื่อง</small></h3><p>รายการท้ายบทความที่แสดงผู้แต่ง ปี ชื่อเรื่อง และแหล่งพิมพ์ รูปแบบ APA หรือรูปแบบอื่นคือวิธีแสดงผล ไม่ใช่หลักฐานยืนยันความถูกต้อง</p></article>
+      <article><h3>DOI <small>· รหัสประจำตัวบทความ</small></h3><p>รหัสถาวรที่พาไปยังระเบียนของเอกสาร ช่วยยืนยัน identity และ metadata แต่ DOI ที่ถูกต้องยังไม่พิสูจน์ว่าเนื้อหาสนับสนุน Claim</p></article>
+      <article><h3>Abstract และ Full text <small>· บทคัดย่อและฉบับเต็ม</small></h3><p>Abstract เป็นบทสรุปที่ผู้เขียนหรือวารสารเผยแพร่ ส่วน full text มีรายละเอียด method, result และ limitation ที่จำเป็นต่อการตรวจการอ้างเชิงลึก</p></article>
+    </div><div class="plain-note"><strong>ข้อกำหนดของงานนี้:</strong> BibTeX ทุก entry ต้องมี <code>abstract</code> ที่คัดจาก official page หรือ full text ไม่ใช่ข้อความที่ AI สรุปขึ้นใหม่ หากต้นทางไม่มี abstract หรือยังเข้าไม่ถึง ให้บันทึกว่า <code>abstract not found</code> ในรายงานตรวจและกลับมาเติมเมื่อมีหลักฐาน ห้ามแต่งให้ครบ</div>
+      <div class="notice"><strong>จำสั้น ๆ:</strong> BibTeX เก็บข้อมูลอ้างอิง, DOI ชี้ตัวเอกสาร, citation เชื่อมข้อความไปหาเอกสาร และ full text ใช้ตัดสินว่าเอกสารรองรับข้อความหรือไม่</div>
+      <details class="fallback-details">
+        <summary>ส่วนขยาย · BibTeX, metadata และสายการตรวจ Claim → Evidence (ไม่บังคับ)</summary>
+        <div class="concept-grid">
+        <article><h3>BibTeX entry</h3><p>ระเบียนข้อความแบบมีโครงสร้างในไฟล์ <code>.bib</code> ใช้เก็บ field และสร้าง reference list อัตโนมัติ เช่น <code>@article</code>, citation key, author, title, year, DOI และ <code>abstract</code> โดย citation key เป็นชื่อเรียกภายในไฟล์ ไม่ใช่ DOI</p></article>
+        <article><h3>Bibliographic metadata</h3><p>ข้อมูลระบุตัวเอกสาร เช่น ผู้แต่ง ชื่อเรื่อง ปี วารสาร เล่ม ฉบับ หน้า และ DOI ควรเทียบกับ DOI registry, publisher หรือ repository ทางการ</p></article>
+        </div><div class="plain-note"><strong>อย่าสับสน:</strong> APA คือกติกาการแสดงผล; BibTeX และ RIS คือรูปแบบไฟล์แลกเปลี่ยนข้อมูลอ้างอิง; Zotero หรือ Mendeley คือโปรแกรมจัดการรายการอ้างอิง; DOI คือรหัสระบุตัวเอกสาร สิ่งเหล่านี้ช่วยจัดการข้อมูล แต่ไม่มีอย่างใดใช้แทนการอ่านหลักฐานได้</div>
+        <div class="level-grid">
+      <article><span>01</span><div><h3>Claim</h3><p>ข้อความในงานของเราที่ต้องมีหลักฐานรองรับ</p></div></article>
       <article><span>02</span><div><h3>Citation</h3><p>เชื่อม Claim ไปยัง reference entry หรือ citation key ที่ระบุแหล่ง</p></div></article>
       <article><span>03</span><div><h3>Identity</h3><p>ใช้ metadata, DOI และ official page ตรวจว่าเอกสารนั้นมีอยู่จริงและเป็นเรื่องเดียวกับที่ระบุ</p></div></article>
       <article><span>04</span><div><h3>Evidence</h3><p>กลับไปอ่าน full text เพื่อดูว่าผล วิธี และขอบเขตสนับสนุน Claim จริงเพียงใด</p></div></article>
-    </div><div class="notice"><strong>จำสั้น ๆ:</strong> BibTeX เก็บข้อมูลอ้างอิง, DOI ชี้ตัวเอกสาร, citation เชื่อมข้อความไปหาเอกสาร และ full text ใช้ตัดสินว่าเอกสารรองรับข้อความหรือไม่</div></section>
+    </div>
+      </details></section>
 
     <section class="section" id="verification"><div class="section-heading compact"><p class="eyebrow">ภาษากลางของบทนี้</p><h2>หกสถานะสำหรับทุก Citation</h2></div><div class="concept-grid">
       <article><h3>verified</h3><p>แหล่งมีอยู่จริง metadata ตรง และข้อความต้นฉบับสนับสนุน claim ในขอบเขตที่อ้าง</p></article><article><h3>partially supported</h3><p>สนับสนุนเพียงบางส่วน บริบท ประชากร วิธี หรือระดับความมั่นใจแคบกว่าข้อความที่เขียน</p></article><article><h3>not supported</h3><p>แหล่งมีอยู่จริง แต่เนื้อหาไม่สนับสนุน claim หรือให้ผลตรงข้าม</p></article><article><h3>not found</h3><p>ยังหาแหล่งหรือ full text ไม่พบ ต้องบันทึกข้อจำกัด ห้ามเปลี่ยนสถานะเป็น “ไม่มีงาน”</p></article><article><h3>outdated or superseded</h3><p>แหล่งเคยใช้ได้ แต่มีหลักฐานใหม่ มาตรฐานใหม่ หรือเวอร์ชันที่มาแทน</p></article><article><h3>fabricated / phantom reference</h3><p>Reference ไม่มีอยู่จริง DOI ผิด หรือ metadata หลายส่วนถูกประกอบขึ้นให้ดูน่าเชื่อ ซึ่งเรียกง่าย ๆ ว่า “ref ทิพย์”</p></article>
@@ -61,11 +68,11 @@
       <article><span>04</span><div><h3>ตรวจเนื้อหา</h3><p>อ่านประชากร อาหารเปรียบเทียบ วิธีวัด satiety ผล และข้อจำกัด หากศึกษาในประชากรอื่นหรือผลไม่ชัด Claim อาจได้เพียง partially supported</p></div></article>
     </div><div class="plain-note"><strong>ตารางที่ตรวจย้อนกลับได้:</strong> Evidence table ไม่ควรมีเพียงชื่อบทความกับ summary แต่ต้องมี Claim ที่ตรวจ, ตำแหน่งในต้นฉบับ, สิ่งที่หลักฐานสนับสนุนจริง, ข้อจำกัด และสถานะการตรวจ</div></section>
 
-    <section class="section" id="openalex"><div class="section-heading compact"><p class="eyebrow">กิจกรรมร่วม · OpenAlex</p><h2>Crawling แบบมีขอบเขตและทำซ้ำได้</h2><p>ทุกคนเก็บ candidate metadata จาก OpenAlex API ก่อนแยกไปทำกิจกรรม A หรือ B โดยกำหนด query, filter, fields และจำนวนระเบียนสูงสุดก่อนรัน</p></div><div class="concept-grid">
-      <article><h3>ขอบเขต</h3><p>ใช้ครั้งละ 100 ระเบียน เดินหน้าด้วย cursor และหยุดเมื่อถึงจำนวนสูงสุดหรือไม่มีผลลัพธ์ ห้ามใช้ cursor เพื่อคัดลอกทั้งฐานข้อมูล</p></article>
-      <article><h3>ความทนทาน</h3><p>ตั้ง timeout และ exponential backoff เมื่อเกิด 429 หรือข้อผิดพลาดชั่วคราว พร้อมบันทึกจำนวน request, retry, error และข้อมูล rate budget</p></article>
-      <article><h3>หลักฐานการรัน</h3><p>เก็บ raw JSONL, candidate CSV และ crawl manifest ที่มี query, filter, fields, เวลา จำนวนที่ขอ/ได้ และเหตุผลที่หยุด โดยไม่บันทึก credential</p></article>
-      <article><h3>ขอบเขตการใช้ข้อมูล</h3><p>OpenAlex เป็น discovery/metadata source ระเบียนต้องผ่านการตรวจ DOI, official page และ full text ก่อนสร้าง <code>refs.bib</code> หรือใช้รองรับ Claim</p></article>
+    <section class="section" id="openalex"><div class="section-heading compact"><p class="eyebrow">กิจกรรมร่วม · ค้นรายชื่องาน</p><h2>ให้ AI ค้นรายชื่องานที่เกี่ยวข้องแบบมีขอบเขต</h2><p>ก่อนแยกไปทำกิจกรรม A หรือ B ให้ AI ค้นรายชื่องานจากระบบสืบค้นของรายวิชา ได้รายการตั้งต้นพร้อมบันทึกการค้นที่ตรวจย้อนได้ คุณไม่ต้องเขียนโปรแกรมเอง</p></div><div class="concept-grid">
+      <article><h3>คุณอนุมัติก่อนค้น</h3><p>AI จะแสดงคำค้น ตัวกรอง และจำนวนสูงสุดให้คุณตรวจก่อนเริ่ม</p></article>
+      <article><h3>ค้นแบบพอดี</h3><p>เก็บไม่เกินจำนวนที่ตั้งไว้ และไม่ดึงข้อมูลทั้งฐาน</p></article>
+      <article><h3>มีบันทึกให้ตรวจ</h3><p>ได้ไฟล์รายชื่องานและบันทึกการค้น ว่าค้นด้วยคำใด เมื่อไร ได้กี่รายการ</p></article>
+      <article><h3>ยังไม่ใช่หลักฐาน</h3><p>รายชื่อที่ได้ต้องตรวจ DOI หน้าทางการ และฉบับเต็มก่อนนำไปอ้างอิงหรือรองรับ Claim</p></article>
     </div><div class="command"><code>งาน: เก็บ candidate metadata จาก OpenAlex API สำหรับคำถามวิจัยของฉัน
 
 ก่อนรัน:
@@ -89,9 +96,9 @@
 หลังรัน:
 - ตรวจ duplicate ด้วย OpenAlex ID และ DOI
 - สรุปจำนวน retrieved, duplicate, missing DOI และ missing abstract
-- จัดรายการเป็น candidate metadata จนกว่าจะตรวจ DOI/official page/full text</code><button type="button" data-copy>คัดลอก Prompt OpenAlex</button></div></section>
+- จัดรายการเป็น candidate metadata จนกว่าจะตรวจ DOI/official page/full text</code><button type="button" data-copy>คัดลอก Prompt ค้นรายชื่องาน</button></div></section>
 
-    <section class="section" id="paths"><div class="section-heading compact"><p class="eyebrow">กิจกรรมฝึกตรวจวรรณกรรม</p><h2>เลือกงานที่ตรงกับสิ่งที่ต้องตรวจ</h2><p>หลังทำ OpenAlex crawl ถ้ามี Claim ให้ทำกิจกรรม A เพื่อค้นหลักฐานใหม่ ถ้ามี manuscript หรือ proposal ให้ทำกิจกรรม B เพื่อตรวจการอ้างอิง เมื่อเสร็จแล้วจะสรุปผลด้วย Citation Verification Checklist</p></div></section>
+    <section class="section" id="paths"><div class="section-heading compact"><p class="eyebrow">กิจกรรมฝึกตรวจวรรณกรรม</p><h2>เลือกงานที่ตรงกับสิ่งที่ต้องตรวจ</h2><p>หลังค้นรายชื่องานแล้ว ถ้ามี Claim ให้ทำกิจกรรม A เพื่อค้นหลักฐานใหม่ ถ้ามี manuscript หรือ proposal ให้ทำกิจกรรม B เพื่อตรวจการอ้างอิง เมื่อเสร็จแล้วจะสรุปผลด้วย Citation Verification Checklist</p></div></section>
 
     <section class="section" id="path-a"><div class="section-heading compact"><p class="eyebrow">ทาง A</p><h2>ค้นหลักฐานใหม่สำหรับ Claim</h2></div><ol class="readiness-steps activity-steps">
       <li><span>A1</span><div><strong>เขียน Claim และขอบเขตด้วยตนเอง</strong><p>Claim ที่ตรวจได้ต้องระบุว่าจะใช้ตอบคำถามใด ใครหรืออะไรคือหน่วยที่กล่าวถึง และผลแบบใดที่จะทำให้เรายอมรับ ปรับ หรือปฏิเสธ Claim</p><p><strong>เคสฝึกนิสิต/นักวิจัยมือใหม่:</strong> “อาหารที่มีโปรตีนสูงสัมพันธ์กับระยะเวลาก่อนหิวอีกครั้งในนักศึกษา” ต้องระบุนิยามโปรตีนสูง ความหิว และกลุ่มนักศึกษา</p></div></li>
@@ -137,8 +144,8 @@
       <li><span>A5</span><div><strong>ตรวจข้อเสนอของ AI กับต้นฉบับ</strong><p>ข้อเสนอของ AI อย่างน้อยหนึ่งรายการต้องถูกเปิดตรวจผ่าน DOI หรือ official page และ full text แล้วบันทึกว่าข้อมูลใดถูก ข้อมูลใดผิด และผลการตรวจทำให้สถานะเปลี่ยนอย่างไร</p></div></li>
     </ol><div class="plain-note"><strong>บันทึกผลไว้ที่:</strong> <code>output/search-plan.md</code> และ <code>output/literature-evidence-table.md</code></div></section>
 
-    <section class="section" id="path-b"><div class="section-heading compact"><p class="eyebrow">ทาง B</p><h2>ตรวจ Reference List ของงานตนเอง</h2></div><ol class="readiness-steps activity-steps">
-      <li><span>B1</span><div><strong>สร้าง BibTeX พร้อม Abstract</strong><p>การแปลงรูปแบบไม่ใช่การยืนยันความจริง แต่ละ entry จึงต้องมี abstract ที่คัดจาก official page หรือ full text พร้อมคง field อื่นที่ขาดไว้ตามจริง AI ห้ามเดา metadata หรือเขียน abstract สรุปแทนต้นฉบับ</p><p><strong>เคสฝึกนิสิต/นักวิจัยมือใหม่:</strong> ถ้า reference เรื่อง satiety มี abstract บนหน้าวารสาร ให้คัดข้อความนั้นลง field <code>abstract</code> แต่ถ้าไม่มี DOI ให้รายงานว่า DOI ยังไม่พบ ไม่สร้างรหัสที่ดูคล้าย DOI ขึ้นมา</p><div class="command"><code>งาน: สร้างแฟ้ม BibTeX จากรายการอ้างอิงและแหล่งต้นทางที่ฉันให้
+    <section class="section" id="path-b"><div class="section-heading compact"><p class="eyebrow">ทาง B</p><h2>ตรวจ Reference List ของงานตนเอง</h2></div><h3 class="section-zone-heading">ช่วง 1 · สร้างและตรวจ BibTeX (B1–B2)</h3><ol class="readiness-steps activity-steps">
+        <li><span>B1</span><div><strong>สร้าง BibTeX พร้อม Abstract</strong><p>การแปลงรูปแบบไม่ใช่การยืนยันความจริง แต่ละ entry จึงต้องมี abstract ที่คัดจาก official page หรือ full text พร้อมคง field อื่นที่ขาดไว้ตามจริง AI ห้ามเดา metadata หรือเขียน abstract สรุปแทนต้นฉบับ</p><p><strong>เคสฝึกนิสิต/นักวิจัยมือใหม่:</strong> ถ้า reference เรื่อง satiety มี abstract บนหน้าวารสาร ให้คัดข้อความนั้นลง field <code>abstract</code> แต่ถ้าไม่มี DOI ให้รายงานว่า DOI ยังไม่พบ ไม่สร้างรหัสที่ดูคล้าย DOI ขึ้นมา</p><div class="command"><code>งาน: สร้างแฟ้ม BibTeX จากรายการอ้างอิงและแหล่งต้นทางที่ฉันให้
 
 ทำทีละรายการ:
 1. สร้างหนึ่งรายการต่อหนึ่งแหล่ง
@@ -153,7 +160,7 @@
 หากไม่พบบทคัดย่อ ให้เว้นช่องนั้นและทำรายการ “abstract not found”
 
 ส่งมอบ: output/refs.bib</code><button type="button" data-copy>คัดลอก Prompt B1</button></div></div></li>
-      <li><span>B2</span><div><strong>ตรวจคุณภาพ BibTeX และ Abstract</strong><p>การตรวจ BibTeX มีสองชั้น: ตรวจรูปแบบ เช่น field และ key และตรวจข้อเท็จจริงโดยกลับไปหา metadata กับ abstract จากต้นทาง AI ช่วยชี้รายการเสี่ยงได้ แต่ไม่อาจยืนยันชั้นที่สองจากไฟล์ BibTeX เพียงอย่างเดียว</p><p><strong>เคสฝึกนิสิต/นักวิจัยมือใหม่:</strong> DOI ที่พิมพ์ผิดรูปแบบเป็น format problem ส่วน DOI ที่เปิดแล้วชี้ไปคนละบทความ หรือ abstract ในไฟล์ไม่ตรงกับหน้าวารสาร เป็น factual verification problem</p><div class="command"><code>งาน: ตรวจคุณภาพ output/refs.bib ทีละรายการ โดยยังไม่แก้ข้อมูล
+        <li><span>B2</span><div><strong>ตรวจคุณภาพ BibTeX และ Abstract</strong><p>การตรวจ BibTeX มีสองชั้น: ตรวจรูปแบบ เช่น field และ key และตรวจข้อเท็จจริงโดยกลับไปหา metadata กับ abstract จากต้นทาง AI ช่วยชี้รายการเสี่ยงได้ แต่ไม่อาจยืนยันชั้นที่สองจากไฟล์ BibTeX เพียงอย่างเดียว</p><p><strong>เคสฝึกนิสิต/นักวิจัยมือใหม่:</strong> DOI ที่พิมพ์ผิดรูปแบบเป็น format problem ส่วน DOI ที่เปิดแล้วชี้ไปคนละบทความ หรือ abstract ในไฟล์ไม่ตรงกับหน้าวารสาร เป็น factual verification problem</p><div class="command"><code>งาน: ตรวจคุณภาพ output/refs.bib ทีละรายการ โดยยังไม่แก้ข้อมูล
 
 ตรวจ:
 - ชนิดเอกสาร
@@ -169,7 +176,9 @@
 2. ปัญหาข้อเท็จจริงที่ต้องกลับไปตรวจต้นทาง
 
 ส่งมอบ: output/bibtex-quality-report.md</code><button type="button" data-copy>คัดลอก Prompt B2</button></div></div></li>
-      <li><span>B3</span><div><strong>ประเมิน Reference Set</strong><p>ความใหม่ ความครอบคลุม คู่แข่งหลัก self-citation และความเกี่ยวข้องช่วยเปิดคำถามสำหรับตรวจต่อ แต่ยังไม่ใช่คำตัดสินจากจำนวน reference หรือชื่อเรื่องเพียงอย่างเดียว</p><p><strong>เคสฝึกนิสิต/นักวิจัยมือใหม่:</strong> หาก reference ทั้งหมดพูดเรื่องรสชาติ แต่ Claim พูดเรื่องระยะเวลาก่อนหิว รายงานควรถามว่าขาดงานด้าน satiety หรือไม่ โดยยังไม่สร้างรายชื่อบทความขึ้นเอง</p><div class="command"><code>งาน: ตรวจความครอบคลุมของชุดรายการอ้างอิง
+      </ol>
+      <h3 class="section-zone-heading">ช่วง 2 · ประเมินและยืนยันการอ้างอิง (B3–B5)</h3><ol class="readiness-steps activity-steps">
+        <li><span>B3</span><div><strong>ประเมิน Reference Set</strong><p>ความใหม่ ความครอบคลุม คู่แข่งหลัก self-citation และความเกี่ยวข้องช่วยเปิดคำถามสำหรับตรวจต่อ แต่ยังไม่ใช่คำตัดสินจากจำนวน reference หรือชื่อเรื่องเพียงอย่างเดียว</p><p><strong>เคสฝึกนิสิต/นักวิจัยมือใหม่:</strong> หาก reference ทั้งหมดพูดเรื่องรสชาติ แต่ Claim พูดเรื่องระยะเวลาก่อนหิว รายงานควรถามว่าขาดงานด้าน satiety หรือไม่ โดยยังไม่สร้างรายชื่อบทความขึ้นเอง</p><div class="command"><code>งาน: ตรวจความครอบคลุมของชุดรายการอ้างอิง
 
 เปรียบเทียบรายการอ้างอิงกับหัวข้อและข้ออ้างในต้นฉบับ แล้วระบุ:
 - รายการที่อาจเก่าเกินไป
@@ -185,8 +194,8 @@
 - ห้ามลบผลตรวจเดิม
 
 เพิ่มผลในหัวข้อ Reference Set Review ของ output/bibtex-quality-report.md</code><button type="button" data-copy>คัดลอก Prompt B3</button></div></div></li>
-      <li><span>B4</span><div><strong>ยืนยันตัวตนจาก DOI หรือ Official Page</strong><p>Citation สำคัญหรือรายการเสี่ยง 5–8 รายการควรถูกเปิดจากต้นทางจริง แล้วเทียบ author, year, title, venue และ DOI กับ BibTeX ทีละช่อง</p></div></li>
-      <li><span>B5</span><div><strong>ตรวจ In-text Citation กับเนื้อหาจริง</strong><p>ข้อความรอบ citation ต้องตรงกับ method, result และ limitation ของแหล่ง การอ่าน abstract อย่างเดียวไม่พอเมื่อ Claim อาศัยรายละเอียดของผลหรือขอบเขตประชากร</p><p><strong>เคสฝึกนิสิต/นักวิจัยมือใหม่:</strong> บทความที่พบความอิ่มเพิ่มเล็กน้อยในผู้ใหญ่ทั่วไป ไม่ควรถูกอ้างว่า “พิสูจน์แล้วว่าอาหารโปรตีนสูงทำให้นักศึกษาทุกคนอิ่มนาน”</p><div class="command"><code>งาน: ตรวจการอ้างในเนื้อหา 5–8 รายการที่ฉันตรวจต้นทางแล้ว
+        <li><span>B4</span><div><strong>ยืนยันตัวตนจาก DOI หรือ Official Page</strong><p>Citation สำคัญหรือรายการเสี่ยง 5–8 รายการควรถูกเปิดจากต้นทางจริง แล้วเทียบ author, year, title, venue และ DOI กับ BibTeX ทีละช่อง</p></div></li>
+        <li><span>B5</span><div><strong>ตรวจ In-text Citation กับเนื้อหาจริง</strong><p>ข้อความรอบ citation ต้องตรงกับ method, result และ limitation ของแหล่ง การอ่าน abstract อย่างเดียวไม่พอเมื่อ Claim อาศัยรายละเอียดของผลหรือขอบเขตประชากร</p><p><strong>เคสฝึกนิสิต/นักวิจัยมือใหม่:</strong> บทความที่พบความอิ่มเพิ่มเล็กน้อยในผู้ใหญ่ทั่วไป ไม่ควรถูกอ้างว่า “พิสูจน์แล้วว่าอาหารโปรตีนสูงทำให้นักศึกษาทุกคนอิ่มนาน”</p><div class="command"><code>งาน: ตรวจการอ้างในเนื้อหา 5–8 รายการที่ฉันตรวจต้นทางแล้ว
 
 สร้างตารางที่มี:
 - ข้อความรอบตำแหน่งอ้างอิง
@@ -201,7 +210,7 @@
 - ห้ามสรุปแทนต้นฉบับ
 
 ส่งมอบ: output/citation-self-audit.md</code><button type="button" data-copy>คัดลอก Prompt B5</button></div></div></li>
-    </ol><div class="plain-note"><strong>บันทึกผลไว้ที่:</strong> <code>output/refs.bib</code>, <code>output/bibtex-quality-report.md</code> และ <code>output/citation-self-audit.md</code></div></section>
+      </ol><div class="plain-note"><strong>บันทึกผลไว้ที่:</strong> <code>output/refs.bib</code>, <code>output/bibtex-quality-report.md</code> และ <code>output/citation-self-audit.md</code></div></section>
 
     <section class="section" id="shared"><div class="section-heading compact"><p class="eyebrow">สรุปผลการตรวจ</p><h2>ตัดสินใจว่าจะเก็บ ปรับ หรือตัด Citation</h2><p>นำผลจากกิจกรรมที่ทำมาสรุปว่าอะไรตรวจได้ อะไรยังขาด และหลักฐานทำให้ต้องเปลี่ยน Claim อย่างไร</p></div><p><strong>เคสฝึกนิสิต/นักวิจัยมือใหม่:</strong> Checklist อาจบันทึกว่า DOI และ metadata ผ่าน แต่ Claim ได้เพียง partially supported เพราะประชากรไม่ใช่นักศึกษา และยังต้องค้นงานที่วัดระยะเวลาก่อนหิวอีกครั้งโดยตรง</p><div class="command"><code>งาน: สรุปผลตรวจรายการอ้างอิงที่ฉันอนุมัติแล้ว
 
@@ -223,7 +232,7 @@
 ส่งมอบ: output/citation-verification-checklist.md</code><button type="button" data-copy>คัดลอก Prompt สรุปผล</button></div></section>
 
     <section class="section markdown-section" id="finish" aria-labelledby="finish-heading"><div class="section-heading compact"><p class="eyebrow">Checkpoint</p><h2 id="finish-heading">จบบทเรียน</h2></div><div class="markdown-body"><p>ติ๊กเมื่อคุณตรวจรายการอ้างอิงและอธิบายหลักฐานของแต่ละข้อได้ ระบบจะจำสถานะไว้ในเบราว์เซอร์นี้</p><p class="progress" aria-live="polite">ความสำเร็จ <strong data-progress>0%</strong></p><div class="checklist" data-checklist="module-4">
-      <label><input type="checkbox"> มี raw JSONL, candidate CSV และ crawl manifest จาก OpenAlex ที่กำหนดขอบเขตไว้</label><label><input type="checkbox"> มี search plan/evidence table หรือ citation self-audit ที่ตรวจได้</label><label><input type="checkbox"> แยก discovery source, metadata, official page และ full text ได้</label><label><input type="checkbox"> BibTeX มี abstract จากต้นทาง หรือบันทึกรายการ <code>abstract not found</code> ไว้แล้ว</label><label><input type="checkbox"> ตรวจ DOI และ metadata จากต้นทาง ไม่รับจาก AI โดยตรง</label><label><input type="checkbox"> ตรวจว่าเนื้อหาต้นฉบับสนับสนุน Claim ในขอบเขตที่อ้าง</label><label><input type="checkbox"> ใช้หนึ่งในหกสถานะกับ Citation ที่ตรวจทุกข้อ</label><label><input type="checkbox"> ยืนยันหรือปฏิเสธข้อเสนอของ AI จากต้นฉบับอย่างน้อยหนึ่งรายการ</label><label><input type="checkbox"> เปิด <code>output/citation-verification-checklist.md</code> ได้</label>
+      <label><input type="checkbox"> มีรายชื่องานและบันทึกการค้นจากระบบสืบค้นของรายวิชาตามขอบเขตที่กำหนดไว้</label><label><input type="checkbox"> มี search plan/evidence table หรือ citation self-audit ที่ตรวจได้</label><label><input type="checkbox"> แยก discovery source, metadata, official page และ full text ได้</label><label><input type="checkbox"> BibTeX มี abstract จากต้นทาง หรือบันทึกรายการ <code>abstract not found</code> ไว้แล้ว</label><label><input type="checkbox"> ตรวจ DOI และ metadata จากต้นทาง ไม่รับจาก AI โดยตรง</label><label><input type="checkbox"> ตรวจว่าเนื้อหาต้นฉบับสนับสนุน Claim ในขอบเขตที่อ้าง</label><label><input type="checkbox"> ใช้หนึ่งในหกสถานะกับ Citation ที่ตรวจทุกข้อ</label><label><input type="checkbox"> ยืนยันหรือปฏิเสธข้อเสนอของ AI จากต้นฉบับอย่างน้อยหนึ่งรายการ</label><label><input type="checkbox"> เปิด <code>output/citation-verification-checklist.md</code> ได้</label>
     </div><div class="notice"><strong>การบ้าน:</strong> ปรับบันทึกการค้น ตารางหลักฐาน หรืองานตรวจการอ้างอิงของตนเอง ตรวจข้อมูลรายการและข้อความอ้างซ้ำ แล้วเลือกข้อค้นพบหนึ่งข้อที่ทำให้ต้องปรับคำถามวิจัย วิธี หรือข้อกล่าวอ้าง สำหรับโมดูล 5 ให้นำวิธี ผล และข้อกล่าวอ้างที่เชื่อมกันประมาณ 2–4 หน้า พร้อมทำเครื่องหมายจุดที่สงสัยเรื่องสิ่งที่ต้องการวัด วิธีวัด จุดเปรียบเทียบ ความไม่แน่นอน หรือขอบเขตการอ้าง</div></div><div class="hero-actions module-next"><a class="button secondary" href="module-3.html">← กลับ Module 3</a><a class="button primary" href="index.html#module-5">ดู Module ถัดไป →</a></div></section>
   </main>
   <site-footer></site-footer>

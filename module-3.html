@@ -6,7 +6,7 @@
   <title>Problem Statement Diagnostics & Research Gap — AI for Research</title>
   <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/styles.css?v=20261011-1"><script src="assets/app.js?v=20261011-3" defer></script><script src="assets/module-3-access.js?v=20261010-2" defer></script><script src="assets/module-3-steps.js?v=20261010-1" defer></script><script src="assets/submission-defaults.js?v=20261011-1" defer></script><script src="assets/module-3-submission.js?v=20261011-1" defer></script>
+  <link rel="stylesheet" href="assets/styles.css?v=20261011-1"><script src="assets/app.js?v=20261011-4" defer></script><script src="assets/module-3-access.js?v=20261011-1" defer></script><script src="assets/module-3-steps.js?v=20261011-1" defer></script><script src="assets/submission-defaults.js?v=20261011-1" defer></script><script src="assets/module-3-submission.js?v=20261011-1" defer></script>
   <script src="assets/dev-auth.js?v=20261010-1"></script>
   <script src="assets/site-shell.js?v=20261010-2"></script>
 </head>
@@ -19,18 +19,23 @@
 
     <section class="section" id="learner-level"><div class="section-heading compact"><p class="eyebrow">Classroom access</p><h2>เส้นทางที่เปิดสำหรับคลาสนี้</h2></div><p class="module3-access-status" data-module-3-access-status role="status" aria-live="polite">กำลังตรวจสิทธิ์จากคลาส…</p></section>
 
-    <section class="section" id="start"><div class="section-heading compact"><p class="eyebrow">การเตรียมตัวก่อนเรียน</p><h2>ของต้องมีก่อนเรียน</h2><p>เลือกเตรียมตามกรณีของคุณเพียงแบบเดียว</p></div><div class="concept-grid">
+    <section class="section" id="faculty-start" data-audience-route="faculty"><div class="section-heading compact"><p class="eyebrow">การเตรียมตัวก่อนเรียน · อาจารย์/นักวิจัย</p><h2>ของต้องมีก่อนเรียน</h2><p>เตรียมแค่บทความวิจัยของคุณเอง 1 เรื่อง ที่อ่านจบแล้วและอธิบายเหตุผล วิธี และข้อจำกัดของงานได้</p></div><div class="concept-grid">
+      <article><h3>บทความของคุณ · 1 เรื่อง</h3><p>ไฟล์ PDF หรือ DOI/ลิงก์ทางการ ถ้ามีผู้ร่วมเขียน ใช้เฉพาะไฟล์ที่คุณมีสิทธิ์นำมาใช้กับ AI</p></article>
+      <article><h3>ไม่ต้องเตรียมอย่างอื่น</h3><p>AI จะช่วยแกะรายการอ้างอิงและหาบทความที่อ้างถึงให้ในขั้นที่ 3 ห้ามให้ AI ดาวน์โหลดไฟล์ที่ต้องเสียเงินหรือไม่มีสิทธิ์เข้าถึง</p></article>
+    </div></section>
+
+    <section class="section" id="start" data-audience-route="student"><div class="section-heading compact"><p class="eyebrow">การเตรียมตัวก่อนเรียน</p><h2>ของต้องมีก่อนเรียน</h2><p>เลือกเตรียมตามกรณีของคุณเพียงแบบเดียว</p></div><div class="concept-grid">
       <article><h3>ยังไม่มีผลงานจาก Module 2</h3><p>เตรียม AI workspace ที่สร้าง Markdown และ PDF ได้ พร้อมเอกสารที่เปิดเผยได้ 4–8 ชิ้น วางต้นฉบับใน <code>input/original/</code> และข้อความใน <code>input/markdown/</code></p></article>
       <article><h3>มีผลงานจาก Module 2 แล้ว</h3><p>เตรียมเอกสารชุดเดิมและไฟล์ <code>output/first-ai-research-task.md</code> โดยจะใช้ผลการแยก L1–L4 จากงานเดิมในกิจกรรมของบทนี้</p></article>
       <article><h3>Evidence Boundary</h3><p>เอกสารไม่กี่ชิ้นช่วยเสนอ <em>candidate gap</em> ได้ แต่ยังยืนยันไม่ได้ว่าเป็นช่องว่างของวรรณกรรมทั้งหมด ต้องค้นและตรวจเพิ่มใน Module 4</p></article>
     </div><div class="notice"><strong>ข้อมูลที่ใช้:</strong> ห้ามนำข้อมูลลับหรือข้อมูลส่วนบุคคลที่ไม่มีสิทธิ์เปิดเผยเข้าสู่ AI หากยังไม่มีเอกสารของตนเอง ให้ใช้เอกสารตัวอย่างที่ผู้สอนจัดให้แทน</div></section>
 
-    <section class="section" id="outcomes"><div class="section-heading compact"><p class="eyebrow">LO</p><h2>สิ่งที่จะทำได้</h2><p>วินิจฉัยงานที่มีอยู่โดยไม่บังคับให้ตกผลึกโจทย์ใหม่ให้เสร็จในคาบ</p></div><div class="check-grid outcome-grid">
-      <div><span>01 · Distinguish</span><strong>แยก topic, problem statement, research problem, gap และ RQ</strong></div><div><span>02 · Diagnose</span><strong>ระบุผู้ได้รับผล สภาวะปัญหา หลักฐาน ผลกระทบ ขอบเขต และสภาพที่ต้องการ</strong></div><div><span>03 · Challenge</span><strong>พยายามหักล้าง candidate gap และลดความมั่นใจเมื่อหลักฐานไม่พอ</strong></div><div><span>04 · Align</span><strong>ตรวจว่า research gap เชื่อมกับ problem statement และหลักฐานจริง</strong></div>
+    <section class="section" id="outcomes"><div class="section-heading compact"><p class="eyebrow">สิ่งที่จะได้</p><h2>สิ่งที่จะทำได้</h2><p>ตรวจงานที่มีอยู่ให้เห็นชัด ยังไม่ต้องได้โจทย์วิจัยใหม่ที่เสร็จสมบูรณ์ในคาบนี้</p></div><div class="check-grid outcome-grid">
+      <div><span>01</span><strong>แยกได้ว่าอะไรคือหัวข้อ ปัญหา ช่องว่างของงานวิจัย (gap) และคำถามวิจัย</strong></div><div><span>02</span><strong>บอกได้ว่าปัญหาในงานกระทบใคร รุนแรงแค่ไหน และมีหลักฐานอะไรรองรับ</strong></div><div><span>03</span><strong>ลองหักล้าง gap ที่คิดว่ามี และลดความมั่นใจลงเมื่อหลักฐานยังไม่พอ</strong></div><div><span>04</span><strong>ตรวจว่า gap ที่เสนอเชื่อมกับปัญหาและหลักฐานจริง ไม่ใช่แค่ฟังดูดี</strong></div>
     </div></section>
 
-    <section class="section" id="concepts"><div class="section-heading compact"><p class="eyebrow">แนวคิดหลัก</p><h2>หกส่วนที่ต้องแยกก่อนตรวจ Gap</h2></div><div class="level-grid">
-      <article><span>01</span><div><h3>Topic</h3><p>พื้นที่ความสนใจ เช่น ความอิ่มหลังอาหารกลางวัน ยังไม่ใช่ข้อความว่ามีปัญหาอะไร</p></div></article><article><span>02</span><div><h3>Practical Problem</h3><p>ใครหรือระบบใดกำลังเผชิญสภาวะที่ไม่พึงประสงค์และเกิดผลเสียอะไรในโลกจริง</p></div></article><article><span>03</span><div><h3>Problem Statement</h3><p>ข้อความบอกเล่าที่ระบุผู้ได้รับผล สภาวะปัญหา หลักฐาน ผลกระทบ ขอบเขต สภาพที่ต้องการ และสิ่งที่ยังไม่ทราบ โดยไม่ผูกปัญหาไว้กับวิธีแก้หนึ่งวิธี</p></div></article><article><span>04</span><div><h3>Research Problem</h3><p>ความเข้าใจหรือความสามารถในการอธิบาย วัด เปรียบเทียบ หรือออกแบบที่ยังไม่เพียงพอ</p></div></article><article><span>05</span><div><h3>Candidate Gap</h3><p>ข้อจำกัด ความขัดแย้ง บริบทที่ยังไม่ครอบคลุม หรือวิธีวัดที่ยังมีปัญหา ตามหลักฐานที่ตรวจพบ</p></div></article><article><span>06</span><div><h3>Research Question</h3><p>คำถามที่พัฒนาภายหลังเพื่อช่วยลด research problem โดย Module 3 ใช้เพียงตรวจความเชื่อมโยง ไม่บังคับให้ได้ RQ ฉบับสุดท้าย</p></div></article>
+    <section class="section" id="concepts"><div class="section-heading compact"><p class="eyebrow">แนวคิดหลัก</p><h2>หกส่วนที่ต้องแยกก่อนตรวจ Gap</h2><p>งานวิจัยจำนวนมากอ่อนตรงที่ปนสิ่งเหล่านี้เข้าด้วยกัน เช่น เขียนหัวข้อแล้วคิดว่าเป็นปัญหา หรือเห็นงานน้อยแล้วเรียกว่า gap การแยกให้ออกช่วยให้ตรวจได้ว่าโจทย์ยืนอยู่บนหลักฐานจริงหรือไม่</p></div><div class="level-grid">
+      <article><span>01</span><div><h3>Topic <small>· หัวข้อ</small></h3><p>พื้นที่ความสนใจ เช่น การใช้ภาพถ่ายตรวจคุณภาพผลไม้ ยังไม่ใช่ข้อความว่ามีปัญหาอะไร</p></div></article><article><span>02</span><div><h3>Practical Problem <small>· ปัญหาในโลกจริง</small></h3><p>ใครหรือระบบใดกำลังเผชิญสภาวะที่ไม่พึงประสงค์และเกิดผลเสียอะไรในโลกจริง</p></div></article><article><span>03</span><div><h3>Problem Statement <small>· ข้อความระบุปัญหา</small></h3><p>ข้อความบอกเล่าที่ระบุผู้ได้รับผล สภาวะปัญหา หลักฐาน ผลกระทบ ขอบเขต สภาพที่ต้องการ และสิ่งที่ยังไม่ทราบ โดยไม่ผูกปัญหาไว้กับวิธีแก้หนึ่งวิธี</p></div></article><article><span>04</span><div><h3>Research Problem <small>· ปัญหาเชิงความรู้</small></h3><p>ความเข้าใจหรือความสามารถในการอธิบาย วัด เปรียบเทียบ หรือออกแบบที่ยังไม่เพียงพอ</p></div></article><article><span>05</span><div><h3>Candidate Gap <small>· ช่องว่างที่เสนอ</small></h3><p>ข้อจำกัด ความขัดแย้ง บริบทที่ยังไม่ครอบคลุม หรือวิธีวัดที่ยังมีปัญหา ตามหลักฐานที่ตรวจพบ</p></div></article><article><span>06</span><div><h3>Research Question <small>· คำถามวิจัย</small></h3><p>คำถามที่พัฒนาภายหลังเพื่อช่วยลด research problem โดย Module 3 ใช้เพียงตรวจความเชื่อมโยง ไม่บังคับให้ได้ RQ ฉบับสุดท้าย</p></div></article>
     </div><div class="plain-note"><strong>สถานะของ Problem Statement:</strong> ผลจากบทนี้เป็น <code>diagnosed</code>, <code>provisional</code> หรือ <code>needs_author_reflection</code> ไม่ใช่ข้อความฉบับสมบูรณ์สำหรับงานใหม่</div><div class="plain-note"><strong>Gap ที่พบบ่อย:</strong> knowledge, contradiction, context/population และ method/measurement คำว่า “มีงานน้อย”, “ยังไม่มีใครศึกษา”, “ผลยังไม่ชัด” หรือ “ควรศึกษาเพิ่ม” ยังไม่ใช่ gap จนกว่าจะบอกว่าค้นที่ไหน พบอะไร และมีหลักฐานใดคัดค้านได้บ้าง</div></section>
 
     <section class="section" id="example"><div class="section-heading compact"><p class="eyebrow">เคสฝึกสำหรับนิสิตและนักวิจัยมือใหม่</p><h2>หิว → กิน → อิ่ม</h2><p>เคสนี้ลดความซับซ้อนเพื่อฝึกเห็นโครงเหตุผลก่อน ผู้เรียนเส้นทางอาจารย์/นักวิจัยใช้เปเปอร์ของตนเองเป็นกรณีหลัก และเปิดเคสนี้เมื่อต้องการทบทวนพื้นฐานเท่านั้น</p></div><div class="level-grid">
@@ -93,66 +98,143 @@
 
     <section class="section" id="faculty-path"><div class="section-heading compact"><p class="eyebrow">Faculty route · เส้นทางอาจารย์/นักวิจัย</p><h2>เริ่มจากบทความของตนเอง แล้วสร้าง Research Map</h2><p>เส้นทางนี้ไม่สอนให้อ่าน seed paper ตั้งแต่ต้น แต่ถือว่าคุณอ่านงานของตนเองจบแล้วและอธิบายเหตุผล วิธี ข้อจำกัด และบริบทของงานได้ หน้าที่ของ AI คือจัด corpus และเปิดมุมเปรียบเทียบ ไม่ใช่ตัดสิน novelty แทนคุณ</p></div>
       <div class="plain-note"><strong>เตรียม:</strong> research article ของตนเอง 1 ชิ้นเป็น PDF, DOI หรือ official URL หากเป็นงานที่มีผู้ร่วมเขียน ให้ใช้เฉพาะไฟล์ที่มีสิทธิ์ประมวลผล ห้ามให้ AI ดาวน์โหลด paywalled PDF หรือสำเนาที่ไม่มีสิทธิ์เข้าถึง</div>
+      <h3 class="section-zone-heading">ช่วง 1 · แปลง seed paper แกะ reference และสร้าง refs.bib</h3>
       <ol class="readiness-steps activity-steps">
         <li><span>01</span><div><strong>ลงทะเบียน Seed Paper</strong><br>วาง PDF ใน <code>input/original/</code> บันทึก DOI/URL เวอร์ชัน และเหตุผลที่เลือกงานนี้ ยืนยันว่าคุณอ่านบทความจบแล้ว จากนั้นให้ AI แปลงสำเนาเป็น <code>input/markdown/seed-paper.md</code> พร้อม page markers และ extraction warnings</div></li>
         <li><span>02</span><div><strong>แกะ Reference List โดยไม่สร้าง citation</strong><br>แยกรายการอ้างอิงจาก seed paper เก็บ raw reference, ลำดับ, DOI/URL ที่พบ และสถานะ resolve ได้/ยังไม่ได้ ห้ามเดาชื่อเรื่อง DOI หรือผู้แต่งที่ข้อความไม่ชัด</div></li>
         <li><span>03</span><div><strong>สร้าง <code>refs.bib</code> พร้อม Abstract และ Provenance</strong><br>ดึง metadata และ abstract จาก DOI, publisher, repository หรือแหล่งทางการเท่านั้น เก็บ <code>abstract_source</code>, URL และวันที่เข้าถึง แยกสถานะ <em>verified</em>, <em>missing abstract</em> และ <em>unresolved</em> ห้ามให้ AI เขียน abstract เอง</div></li>
-        <li><span>04</span><div><strong>ดาวน์โหลดและแปลง Literature Corpus ให้อัตโนมัติ</strong><br>AI ต้องลองดาวน์โหลด PDF จาก DOI, repository หรือ official open-access page ที่เข้าถึงได้อย่างถูกต้อง เก็บใน <code>input/original/references/</code> แล้วแปลงทุกไฟล์ที่โหลดได้เป็น Markdown ใน <code>input/markdown/references/</code> หากโหลดไม่ได้ ให้สร้าง <code>output/module-3/reference-download-report.csv</code> ที่มี citation key, DOI, official URL, access status, failure reason และ suggested filename เพื่อให้อาจารย์ดาวน์โหลดมาเติมเอง</div></li>
-        <li><span>05</span><div><strong>ตรวจ Citation สามชั้น</strong><br>สร้าง <code>citation-audit.csv</code> เพื่อตรวจ (1) in-text citation ทุกจุดจับคู่กับรายการใน reference list ได้หรือไม่ (2) claim รอบ citation ถูกกล่าวหรือรองรับจริงใน reference Markdown หรือไม่ และอยู่ตรงหน้า/ส่วนใด และ (3) reference entry ตรวจพบผ่านระบบสืบค้นของรายวิชาและหน้า publisher หรือไม่ ใช้สถานะ <em>citation_without_reference</em>, <em>supported</em>, <em>partially_supported</em>, <em>not_supported</em>, <em>not_checkable_full_text_missing</em>, <em>reference_verified</em>, <em>reference_not_found_in_checked_databases</em> หรือ <em>metadata_conflict</em> ห้ามตีความว่าชื่อเรื่องคล้ายกันเท่ากับรองรับ claim และห้ามฟันธงว่า reference ไม่มีจริงเพียงเพราะค้นไม่พบ</div></li>
-        <li><span>06</span><div><strong>ทำ Problem Statement Diagnostics และล็อก Paper Anchor</strong><br>อ่าน Introduction ใน <code>input/markdown/seed-paper.md</code> เป็นหลัก แล้วระบุ core statement, ผู้ได้รับผล, สภาวะปัญหา, หลักฐาน, ผลกระทบ, ขอบเขต, สภาพที่ต้องการ, สิ่งที่ยังไม่ทราบ, ประเด็นย่อย และภาษาที่ผูกกับวิธีแก้ พร้อม heading, paragraph และ page marker หาก Markdown แยกหัวข้อผิดหรือข้อความขาดให้ย้อนตรวจ PDF จากนั้นให้ผู้เขียนแก้และยืนยัน <code>seed-problem-statement.md</code> พร้อมสถานะ <em>diagnosed</em>, <em>provisional</em> หรือ <em>needs_author_reflection</em> และเลือกเลนส์ <em>strengthen original problem</em>, <em>extend the same problem</em> หรือ <em>explore adjacent opportunity</em> AI ห้ามเปลี่ยนเลนส์เอง</div></li>
-        <li><span>07</span><div><strong>ล็อกมุมมองเดิมของผู้เขียนก่อนเห็นผล AI</strong><br>ผู้เรียนเขียน <code>author-prior.md</code> ด้วยตนเอง ระบุจุดแข็ง จุดอ่อน ข้อจำกัดของ reference set ประเด็นที่คิดว่าครอบคลุมแล้ว และข้อสงสัยที่ยังมี ขั้นนี้ทำก่อนให้ AI แสดง quality assessment เพื่อป้องกัน hindsight bias และทำให้วัดได้ว่าอะไรใหม่ต่อผู้เขียนจริง</div></li>
-        <li><span>08</span><div><strong>สร้าง Reference Quality Profile</strong><br>สร้าง <code>reference-quality.csv</code> สำหรับ reference ทุกตัว เก็บ quartile ของวารสาร (Q1–Q4), journal/source h-index, ฐานข้อมูล, ปี metric, subject category และวันที่ตรวจ หากใช้ไม่ได้หรือหาไม่พบให้ใช้ <em>not_applicable</em> หรือ <em>unresolved</em> แทนการเดา ตรวจสถานะ publication integrity จากแหล่งที่ตรวจย้อนกลับได้ แล้วจัดสถานะแบบไม่ซ้ำกันตามลำดับ <em>retracted</em>, <em>expression_of_concern</em>, <em>withdrawn</em>, <em>corrected</em>, <em>no_notice_found</em> หรือ <em>unresolved</em> พร้อม URL และวันที่ตรวจ</div></li>
-        <li><span>09</span><div><strong>ออกแบบ Classification ตามสาขา</strong><br>เริ่มจาก method, dataset/material, objective, technique/model และ important parameters แล้วเพิ่มมิติที่มีความหมายในสาขา เช่น population, scale, environment, instrument, evaluation metric หรือ theoretical lens คุณเป็นผู้อนุมัตินิยามและ allowed values ก่อนให้ AI classify</div></li>
-        <li><span>10</span><div><strong>สร้าง Research Map</strong><br>สร้าง paper × dimension matrix, hierarchical taxonomy และ cross-matrix อย่างน้อยสองคู่มิติ แสดงทั้งกลุ่มที่หนาแน่น บาง ขัดแย้ง และว่าง พร้อมแยก <em>not reported</em>, <em>not applicable</em> และ <em>unknown</em> ออกจากกัน</div></li>
-        <li><span>11</span><div><strong>ค้นหา Blind Spot ที่ผู้เขียนอาจไม่เคยนึกถึง</strong><br>AI เปรียบเทียบ <code>author-prior.md</code> กับ citation audit, reference profile, research map และ targeted outside-corpus search เพื่อเสนอ blind-spot hypotheses ที่มีหลักฐาน เช่น การพึ่งวิธี/กลุ่มผู้วิจัย/ประเทศชุดเดิมมากเกินไป ขอบเขตประชากรหรือช่วงเวลาที่หายไป สมมติฐานที่ไม่มีงานคัดค้าน หรือความหมายของคำที่เปลี่ยนตามสาขา ผู้เขียนตัดสินแต่ละข้อใน <code>blind-spot-ledger.csv</code> เป็น <em>already_known</em>, <em>new_to_author</em>, <em>rejected_by_author</em> หรือ <em>unresolved_needs_search</em> พร้อมเหตุผล การเป็น <em>new_to_author</em> คือผลการเรียนรู้ส่วนบุคคล ไม่ใช่หลักฐานว่าเป็น research novelty</div></li>
-        <li><span>12</span><div><strong>ประเมินคุณภาพ References โดยรวม</strong><br>สร้าง <code>reference-quality-assessment.md</code> โดยเทียบกับมุมมองเดิมของผู้เขียน สรุปความตรงประเด็น ความสามารถในการรองรับ claim ความครอบคลุม/ความหลากหลาย ความใหม่ ความเสี่ยงจาก retraction หรือ notice ความครบของ metadata และ blind spots ที่ผู้เขียนยืนยัน ใช้ Q/h-index เป็น hygiene context ของ venue ห้ามเฉลี่ยเป็นคะแนนคุณภาพงานวิจัยหรือใช้แทนการอ่านวิธีวิจัยและหลักฐาน</div></li>
-        <li><span>13</span><div><strong>ผ่าน Paper-Alignment Gate ก่อนเรียกว่า Gap</strong><br>ทุก opportunity hypothesis ต้องลง <code>opportunity-alignment.csv</code> ระบุ paper-anchor element, หลักฐาน และความสัมพันธ์ <em>directly_aligned</em>, <em>extends_scope</em>, <em>tests_boundary</em>, <em>adjacent_only</em> หรือ <em>unrelated</em> พร้อมคำตัดสินของผู้เขียน ประเด็น <em>adjacent_only</em>/<em>unrelated</em> แสดงเป็น side opportunity เท่านั้น ห้ามเรียกว่า gap ของ seed paper</div></li>
-        <li><span>14</span><div><strong>วิจารณ์โอกาสของโจทย์</strong><br>ประเมินเฉพาะตามเลนส์ที่ผู้เขียนเลือก ตรวจ significance, evidence coverage, feasibility, data/resource access, differentiation และ plausible counter-evidence จากนั้นทำ reverse search ก่อนคงไว้เป็น candidate gap หน้าแรกของรายงานต้องบอกว่าเป็น AI-generated hypotheses ที่ผู้เขียนรับรองหรือปฏิเสธ ไม่ใช่คำตัดสิน peer review</div></li>
-        <li><span>15</span><div><strong>ท้าทาย Research Question หลายมิติ แล้วให้ผู้เรียนวิจารณ์คะแนน AI</strong><br>จาก opportunity ที่ผู้เขียนรับรอง ให้ AI สร้าง RQ หลายมิติ เช่น mechanism, boundary condition, contradiction, transfer/generalization, temporal change, measurement validity, robustness/replication หรือ null/negative result โดยทุกข้อยังต้องผ่าน paper-alignment gate เก็บใน <code>research-question-candidates.csv</code> จากนั้น AI ให้คะแนน 1–5 ด้าน alignment, evidence grounding, significance, answerability, feasibility และ differentiation พร้อมเหตุผลและ confidence ผู้เรียนตอบทุกข้อใน <code>rq-rating-review.csv</code> ว่า <em>agree</em>, <em>partly_agree</em> หรือ <em>disagree</em> เพราะอะไร และใส่คะแนนที่แก้เองเมื่อไม่เห็นด้วย</div></li>
-        <li><span>16</span><div><strong>ส่งมอบและสร้าง Completion JSON</strong><br>เก็บ <code>refs.bib</code>, <code>reference-status.csv</code>, <code>reference-download-report.csv</code>, <code>citation-audit.csv</code>, <code>author-prior.md</code>, <code>reference-quality.csv</code>, <code>blind-spot-ledger.csv</code>, <code>reference-quality-assessment.md</code>, <code>paper-classification.csv</code>, <code>research-map.md</code>, <code>seed-problem-statement.md</code>, <code>opportunity-alignment.csv</code>, <code>research-opportunity-brief.md</code>, <code>research-question-candidates.csv</code>, <code>rq-rating-review.csv</code> และ <code>module-3-completion.json</code> โดย JSON เก็บเฉพาะจำนวน/สถานะและ SHA-256 ของ manifest ไม่เก็บตัว RQ หรือเหตุผลของผู้เรียน</div></li>
       </ol>
-      <div class="command markdown-command"><code>งาน: สร้าง literature corpus และ research map จาก research article ของฉัน
+      <div class="command markdown-command"><code>งาน: แปลง seed paper แกะ reference list และสร้าง refs.bib จาก research article ของฉัน
 
 บริบท:
 - ฉันเป็นผู้เขียนหรือมีสิทธิ์ใช้ seed paper นี้ และอ่านบทความจบแล้ว
 - เริ่มจากไฟล์ PDF ใน input/original/ ที่ฉันระบุ ห้ามเลือก seed paper แทนฉัน
 
-ทำเป็นช่วงและหยุดให้ฉันตรวจทุกช่วง:
 1. แปลง seed paper เป็น Markdown พร้อม page markers และ extraction warnings
 2. แกะ reference list เป็น reference-status.csv โดยห้ามเดา metadata
 3. สร้าง refs.bib พร้อม abstract จาก official/DOI/repository source และบันทึก provenance; หากไม่มี abstract ให้ใส่สถานะ missing ห้ามสรุปแต่งแทน
-4. ลองดาวน์โหลด full-text PDF ที่เข้าถึงได้อย่างถูกต้องทุกรายการ แล้วแปลงไฟล์ที่ได้เป็น Markdown อัตโนมัติ
-5. รายการที่โหลดไม่ได้ให้สร้าง output/module-3/reference-download-report.csv พร้อม DOI, official URL, failure reason และ suggested filename เพื่อให้ฉันดาวน์โหลดมาเติม
-6. ตรวจ citation สามชั้นและสร้าง citation-audit.csv:
+
+กติกา:
+- แยก not reported, not applicable และ unknown
+- ห้ามส่งไฟล์หรือเนื้อหาออกจาก workspace นอกจากการขอ metadata/abstract จากแหล่งที่ฉันอนุญาต
+
+หยุดหลังสร้าง refs.bib เพื่อให้ฉันตรวจ</code><button type="button" data-copy>คัดลอก Prompt ช่วง 1</button></div>
+      <h3 class="section-zone-heading">ช่วง 2 · ดาวน์โหลด corpus และตรวจ citation</h3>
+      <ol class="readiness-steps activity-steps">
+        <li><span>04</span><div><strong>ดาวน์โหลดและแปลง Literature Corpus ให้อัตโนมัติ</strong><br>AI ต้องลองดาวน์โหลด PDF จาก DOI, repository หรือ official open-access page ที่เข้าถึงได้อย่างถูกต้อง เก็บใน <code>input/original/references/</code> แล้วแปลงทุกไฟล์ที่โหลดได้เป็น Markdown ใน <code>input/markdown/references/</code> หากโหลดไม่ได้ ให้สร้าง <code>output/module-3/reference-download-report.csv</code> ที่มี citation key, DOI, official URL, access status, failure reason และ suggested filename เพื่อให้อาจารย์ดาวน์โหลดมาเติมเอง</div></li>
+        <li><span>05</span><div><strong>ตรวจ Citation สามชั้น</strong><br>สร้าง <code>citation-audit.csv</code> เพื่อตรวจ (1) in-text citation ทุกจุดจับคู่กับรายการใน reference list ได้หรือไม่ (2) claim รอบ citation ถูกกล่าวหรือรองรับจริงใน reference Markdown หรือไม่ และอยู่ตรงหน้า/ส่วนใด และ (3) reference entry ตรวจพบผ่านระบบสืบค้นของรายวิชาและหน้า publisher หรือไม่ ใช้สถานะ <em>citation_without_reference</em>, <em>supported</em>, <em>partially_supported</em>, <em>not_supported</em>, <em>not_checkable_full_text_missing</em>, <em>reference_verified</em>, <em>reference_not_found_in_checked_databases</em> หรือ <em>metadata_conflict</em> ห้ามตีความว่าชื่อเรื่องคล้ายกันเท่ากับรองรับ claim และห้ามฟันธงว่า reference ไม่มีจริงเพียงเพราะค้นไม่พบ</div></li>
+      </ol>
+      <div class="command markdown-command"><code>งาน: ดาวน์โหลด literature corpus และตรวจ citation สามชั้น
+
+บริบท:
+- ฉันเป็นผู้เขียนหรือมีสิทธิ์ใช้ seed paper นี้ และอ่านบทความจบแล้ว
+- เริ่มจากไฟล์ PDF ใน input/original/ ที่ฉันระบุ ห้ามเลือก seed paper แทนฉัน
+- ใช้ไฟล์จากช่วงก่อนหน้าที่ฉันตรวจแล้ว ห้ามสร้างใหม่ทับโดยไม่ถาม
+
+1. ลองดาวน์โหลด full-text PDF ที่เข้าถึงได้อย่างถูกต้องทุกรายการ แล้วแปลงไฟล์ที่ได้เป็น Markdown อัตโนมัติ
+2. รายการที่โหลดไม่ได้ให้สร้าง output/module-3/reference-download-report.csv พร้อม DOI, official URL, failure reason และ suggested filename เพื่อให้ฉันดาวน์โหลดมาเติม
+3. ตรวจ citation สามชั้นและสร้าง citation-audit.csv:
    - in-text citation ทุกจุดมี bibliography entry ตรงกันหรือเป็น citation_without_reference
    - claim รอบ citation ถูกกล่าว/รองรับใน reference Markdown จริงหรือเป็น supported / partially_supported / not_supported / not_checkable_full_text_missing พร้อม seed/reference location
    - reference entry ตรวจพบผ่านระบบสืบค้นของรายวิชาและหน้า publisher หรือเป็น reference_verified / reference_not_found_in_checked_databases / metadata_conflict พร้อม query, วันที่ค้น และ URL หลักฐานที่ระบบคืนมา
-7. เปิด Introduction ใน input/markdown/seed-paper.md แล้วทำ problem statement diagnostics โดยเก็บ section heading, paragraph และ page marker แยก core declarative statement, affected person/system, undesirable state, evidence, consequence, scope, desired state, unknown, subordinate issues และ solution-loaded language หาก Markdown ขาดหรือหัวข้อผิดให้ตรวจ PDF ต้นฉบับ Abstract ใช้ cross-check เท่านั้น ห้ามใช้แทน Introduction โดยอัตโนมัติ ให้ฉันแก้และยืนยัน seed-problem-statement.md พร้อมสถานะ diagnosed / provisional / needs_author_reflection แล้วถามให้ฉันเลือกเลนส์ strengthen original problem / extend the same problem / explore adjacent opportunity ห้ามเดินต่อก่อนฉันยืนยัน
-8. ให้ฉันเขียน output/module-3/author-prior.md เองก่อนเห็นผลประเมิน โดยถามทีละข้อถึงจุดแข็ง จุดอ่อน ข้อจำกัด ประเด็นที่คิดว่าครบแล้ว และข้อสงสัย ห้าม AI เติมคำตอบแทน
-9. สร้าง reference-quality.csv ให้ครบทุก reference โดยเก็บ:
+
+กติกา:
+- ผล citation audit ต้องชี้กลับไปยังหน้า/ส่วน/abstract ที่รองรับ
+- “ค้นไม่พบ” หมายถึงไม่พบในฐานที่ตรวจและ query ที่บันทึกไว้ ไม่ใช่ข้อพิสูจน์ว่า reference ไม่มีอยู่จริง
+- ห้ามส่งไฟล์หรือเนื้อหาออกจาก workspace นอกจากการขอ metadata/abstract จากแหล่งที่ฉันอนุญาต
+
+หยุดหลังสร้าง citation-audit.csv เพื่อให้ฉันตรวจ</code><button type="button" data-copy>คัดลอก Prompt ช่วง 2</button></div>
+      <h3 class="section-zone-heading">ช่วง 3 · วินิจฉัย problem statement และบันทึกมุมมองเดิมของคุณ</h3>
+      <ol class="readiness-steps activity-steps">
+        <li><span>06</span><div><strong>ทำ Problem Statement Diagnostics และล็อก Paper Anchor</strong><br>อ่าน Introduction ใน <code>input/markdown/seed-paper.md</code> เป็นหลัก แล้วระบุ core statement, ผู้ได้รับผล, สภาวะปัญหา, หลักฐาน, ผลกระทบ, ขอบเขต, สภาพที่ต้องการ, สิ่งที่ยังไม่ทราบ, ประเด็นย่อย และภาษาที่ผูกกับวิธีแก้ พร้อม heading, paragraph และ page marker หาก Markdown แยกหัวข้อผิดหรือข้อความขาดให้ย้อนตรวจ PDF จากนั้นให้ผู้เขียนแก้และยืนยัน <code>seed-problem-statement.md</code> พร้อมสถานะ <em>diagnosed</em>, <em>provisional</em> หรือ <em>needs_author_reflection</em> และเลือกเลนส์ <em>strengthen original problem</em>, <em>extend the same problem</em> หรือ <em>explore adjacent opportunity</em> AI ห้ามเปลี่ยนเลนส์เอง</div></li>
+        <li><span>07</span><div><strong>ล็อกมุมมองเดิมของผู้เขียนก่อนเห็นผล AI</strong><br>ผู้เรียนเขียน <code>author-prior.md</code> ด้วยตนเอง ระบุจุดแข็ง จุดอ่อน ข้อจำกัดของ reference set ประเด็นที่คิดว่าครอบคลุมแล้ว และข้อสงสัยที่ยังมี ขั้นนี้ทำก่อนให้ AI แสดง quality assessment เพื่อป้องกัน hindsight bias และทำให้วัดได้ว่าอะไรใหม่ต่อผู้เขียนจริง</div></li>
+      </ol>
+      <div class="command markdown-command"><code>งาน: วินิจฉัย problem statement ของ seed paper และบันทึกมุมมองเดิมของฉัน
+
+บริบท:
+- ฉันเป็นผู้เขียนหรือมีสิทธิ์ใช้ seed paper นี้ และอ่านบทความจบแล้ว
+- เริ่มจากไฟล์ PDF ใน input/original/ ที่ฉันระบุ ห้ามเลือก seed paper แทนฉัน
+- ใช้ไฟล์จากช่วงก่อนหน้าที่ฉันตรวจแล้ว ห้ามสร้างใหม่ทับโดยไม่ถาม
+
+1. เปิด Introduction ใน input/markdown/seed-paper.md แล้วทำ problem statement diagnostics โดยเก็บ section heading, paragraph และ page marker แยก core declarative statement, affected person/system, undesirable state, evidence, consequence, scope, desired state, unknown, subordinate issues และ solution-loaded language หาก Markdown ขาดหรือหัวข้อผิดให้ตรวจ PDF ต้นฉบับ Abstract ใช้ cross-check เท่านั้น ห้ามใช้แทน Introduction โดยอัตโนมัติ ให้ฉันแก้และยืนยัน seed-problem-statement.md พร้อมสถานะ diagnosed / provisional / needs_author_reflection แล้วถามให้ฉันเลือกเลนส์ strengthen original problem / extend the same problem / explore adjacent opportunity ห้ามเดินต่อก่อนฉันยืนยัน
+2. ให้ฉันเขียน output/module-3/author-prior.md เองก่อนเห็นผลประเมิน โดยถามทีละข้อถึงจุดแข็ง จุดอ่อน ข้อจำกัด ประเด็นที่คิดว่าครบแล้ว และข้อสงสัย ห้าม AI เติมคำตอบแทน
+
+กติกา:
+- Paper anchor ต้องชี้กลับไปยัง Introduction ใน seed Markdown และ PDF fallback ห้ามสร้างจากบทสรุปของ AI
+- ห้ามแสดงผลประเมิน reference หรือ blind spot ก่อนฉันเขียน author-prior.md เสร็จ
+
+หยุดหลังฉันยืนยัน seed-problem-statement.md และเขียน author-prior.md เสร็จ</code><button type="button" data-copy>คัดลอก Prompt ช่วง 3</button></div>
+      <h3 class="section-zone-heading">ช่วง 4 · profile คุณภาพของ reference</h3>
+      <ol class="readiness-steps activity-steps">
+        <li><span>08</span><div><strong>สร้าง Reference Quality Profile</strong><br>สร้าง <code>reference-quality.csv</code> สำหรับ reference ทุกตัว เก็บ quartile ของวารสาร (Q1–Q4), journal/source h-index, ฐานข้อมูล, ปี metric, subject category และวันที่ตรวจ หากใช้ไม่ได้หรือหาไม่พบให้ใช้ <em>not_applicable</em> หรือ <em>unresolved</em> แทนการเดา ตรวจสถานะ publication integrity จากแหล่งที่ตรวจย้อนกลับได้ แล้วจัดสถานะแบบไม่ซ้ำกันตามลำดับ <em>retracted</em>, <em>expression_of_concern</em>, <em>withdrawn</em>, <em>corrected</em>, <em>no_notice_found</em> หรือ <em>unresolved</em> พร้อม URL และวันที่ตรวจ</div></li>
+      </ol>
+      <div class="command markdown-command"><code>งาน: สร้าง reference quality profile
+
+บริบท:
+- ฉันเป็นผู้เขียนหรือมีสิทธิ์ใช้ seed paper นี้ และอ่านบทความจบแล้ว
+- เริ่มจากไฟล์ PDF ใน input/original/ ที่ฉันระบุ ห้ามเลือก seed paper แทนฉัน
+- ใช้ไฟล์จากช่วงก่อนหน้าที่ฉันตรวจแล้ว ห้ามสร้างใหม่ทับโดยไม่ถาม
+
+1. สร้าง reference-quality.csv ให้ครบทุก reference โดยเก็บ:
    - venue quartile: Q1 / Q2 / Q3 / Q4 / not_applicable / unresolved
    - journal/source h-index หรือ not_applicable / unresolved
    - metric source, metric year, subject category และ checked_at; ห้ามผสมค่าจากคนละฐานหรือคนละปีโดยไม่บอก
    - integrity status แบบไม่ซ้ำกัน: retracted / expression_of_concern / withdrawn / corrected / no_notice_found / unresolved พร้อม status source, URL และ checked_at
-10. เสนอ classification dimensions เริ่มจาก method, dataset/material, objective, technique/model และ important parameters แล้วถามฉันว่าควรเพิ่ม/แก้มิติใดตามสาขา ห้าม classify ก่อนฉันอนุมัติ schema
-11. หลังฉันอนุมัติ schema จึงสร้าง paper-classification.csv, hierarchical taxonomy และ research-map.md
-12. เปรียบเทียบ author-prior กับ corpus และ research map แล้วทำ targeted search นอก reference list เพื่อหาหลักฐานคัดค้าน กลุ่ม/วิธี/บริบทที่ถูกมองข้าม และงานใหม่ที่เปลี่ยนการตีความ เสนอเฉพาะ blind-spot hypotheses ที่ชี้หลักฐานได้
-13. ให้ฉันตัดสินทุกข้อใน blind-spot-ledger.csv เป็น already_known / new_to_author / rejected_by_author / unresolved_needs_search พร้อมเหตุผล ห้าม AI ตัดสินแทน
-14. สร้าง reference-quality-assessment.md ประเมิน corpus โดยรวมจาก relevance, claim support, coverage/diversity, recency, metadata completeness, integrity alerts และ blind spots ที่ฉันยืนยัน แยกข้อจำกัดและรายการที่ต้องตรวจต่อ ห้ามใช้ Q หรือ h-index เป็นคะแนนคุณภาพของบทความ
 
 กติกา:
-- แยก not reported, not applicable และ unknown
-- ทุกค่า classification และผล citation audit ต้องชี้กลับไปยังหน้า/ส่วน/abstract ที่รองรับ
-- Paper anchor ต้องชี้กลับไปยัง Introduction ใน seed Markdown และ PDF fallback ห้ามสร้างจากบทสรุปของ AI
 - Q และ h-index ต้องระบุว่าเป็น metric ของ venue พร้อมฐาน หมวด และปี ไม่ใช่ metric ของบทความ และค่า missing ห้ามถูกตีความว่าแหล่งอ้างอิงคุณภาพต่ำ
 - corrected ไม่เท่ากับ retracted ให้ตรวจว่าต้องอ้างฉบับแก้หรือ correction notice เพิ่มหรือไม่
+
+หยุดหลังสร้าง reference-quality.csv เพื่อให้ฉันตรวจ</code><button type="button" data-copy>คัดลอก Prompt ช่วง 4</button></div>
+      <h3 class="section-zone-heading">ช่วง 5 · classification และ research map</h3>
+      <ol class="readiness-steps activity-steps">
+        <li><span>09</span><div><strong>ออกแบบ Classification ตามสาขา</strong><br>เริ่มจาก method, dataset/material, objective, technique/model และ important parameters แล้วเพิ่มมิติที่มีความหมายในสาขา เช่น population, scale, environment, instrument, evaluation metric หรือ theoretical lens คุณเป็นผู้อนุมัตินิยามและ allowed values ก่อนให้ AI classify</div></li>
+        <li><span>10</span><div><strong>สร้าง Research Map</strong><br>สร้าง paper × dimension matrix, hierarchical taxonomy และ cross-matrix อย่างน้อยสองคู่มิติ แสดงทั้งกลุ่มที่หนาแน่น บาง ขัดแย้ง และว่าง พร้อมแยก <em>not reported</em>, <em>not applicable</em> และ <em>unknown</em> ออกจากกัน</div></li>
+      </ol>
+      <div class="command markdown-command"><code>งาน: ออกแบบ classification ตามสาขาและสร้าง research map
+
+บริบท:
+- ฉันเป็นผู้เขียนหรือมีสิทธิ์ใช้ seed paper นี้ และอ่านบทความจบแล้ว
+- เริ่มจากไฟล์ PDF ใน input/original/ ที่ฉันระบุ ห้ามเลือก seed paper แทนฉัน
+- ใช้ไฟล์จากช่วงก่อนหน้าที่ฉันตรวจแล้ว ห้ามสร้างใหม่ทับโดยไม่ถาม
+
+1. เสนอ classification dimensions เริ่มจาก method, dataset/material, objective, technique/model และ important parameters แล้วถามฉันว่าควรเพิ่ม/แก้มิติใดตามสาขา ห้าม classify ก่อนฉันอนุมัติ schema
+2. หลังฉันอนุมัติ schema จึงสร้าง paper-classification.csv, hierarchical taxonomy และ research-map.md
+
+กติกา:
+- ทุกค่า classification ต้องชี้กลับไปยังหน้า/ส่วน/abstract ที่รองรับ
+- ห้ามประกาศ research gap หรือ novelty ในช่วงนี้
+
+หยุดให้ฉันอนุมัติ schema ก่อน classify และหยุดอีกครั้งหลังสร้าง research-map.md</code><button type="button" data-copy>คัดลอก Prompt ช่วง 5</button></div>
+      <h3 class="section-zone-heading">ช่วง 6 · blind spot และประเมินภาพรวมของ reference</h3>
+      <ol class="readiness-steps activity-steps">
+        <li><span>11</span><div><strong>ค้นหา Blind Spot ที่ผู้เขียนอาจไม่เคยนึกถึง</strong><br>AI เปรียบเทียบ <code>author-prior.md</code> กับ citation audit, reference profile, research map และ targeted outside-corpus search เพื่อเสนอ blind-spot hypotheses ที่มีหลักฐาน เช่น การพึ่งวิธี/กลุ่มผู้วิจัย/ประเทศชุดเดิมมากเกินไป ขอบเขตประชากรหรือช่วงเวลาที่หายไป สมมติฐานที่ไม่มีงานคัดค้าน หรือความหมายของคำที่เปลี่ยนตามสาขา ผู้เขียนตัดสินแต่ละข้อใน <code>blind-spot-ledger.csv</code> เป็น <em>already_known</em>, <em>new_to_author</em>, <em>rejected_by_author</em> หรือ <em>unresolved_needs_search</em> พร้อมเหตุผล การเป็น <em>new_to_author</em> คือผลการเรียนรู้ส่วนบุคคล ไม่ใช่หลักฐานว่าเป็น research novelty</div></li>
+        <li><span>12</span><div><strong>ประเมินคุณภาพ References โดยรวม</strong><br>สร้าง <code>reference-quality-assessment.md</code> โดยเทียบกับมุมมองเดิมของผู้เขียน สรุปความตรงประเด็น ความสามารถในการรองรับ claim ความครอบคลุม/ความหลากหลาย ความใหม่ ความเสี่ยงจาก retraction หรือ notice ความครบของ metadata และ blind spots ที่ผู้เขียนยืนยัน ใช้ Q/h-index เป็น hygiene context ของ venue ห้ามเฉลี่ยเป็นคะแนนคุณภาพงานวิจัยหรือใช้แทนการอ่านวิธีวิจัยและหลักฐาน</div></li>
+      </ol>
+      <div class="command markdown-command"><code>งาน: หา blind spot และประเมินคุณภาพ reference โดยรวม
+
+บริบท:
+- ฉันเป็นผู้เขียนหรือมีสิทธิ์ใช้ seed paper นี้ และอ่านบทความจบแล้ว
+- เริ่มจากไฟล์ PDF ใน input/original/ ที่ฉันระบุ ห้ามเลือก seed paper แทนฉัน
+- ใช้ไฟล์จากช่วงก่อนหน้าที่ฉันตรวจแล้ว ห้ามสร้างใหม่ทับโดยไม่ถาม
+
+1. เปรียบเทียบ author-prior กับ corpus และ research map แล้วทำ targeted search นอก reference list เพื่อหาหลักฐานคัดค้าน กลุ่ม/วิธี/บริบทที่ถูกมองข้าม และงานใหม่ที่เปลี่ยนการตีความ เสนอเฉพาะ blind-spot hypotheses ที่ชี้หลักฐานได้
+2. ให้ฉันตัดสินทุกข้อใน blind-spot-ledger.csv เป็น already_known / new_to_author / rejected_by_author / unresolved_needs_search พร้อมเหตุผล ห้าม AI ตัดสินแทน
+3. สร้าง reference-quality-assessment.md ประเมิน corpus โดยรวมจาก relevance, claim support, coverage/diversity, recency, metadata completeness, integrity alerts และ blind spots ที่ฉันยืนยัน แยกข้อจำกัดและรายการที่ต้องตรวจต่อ ห้ามใช้ Q หรือ h-index เป็นคะแนนคุณภาพของบทความ
+
+
+กติกา:
 - เป้าหมายคือหามุมมองใหม่ต่อผู้เขียน ไม่ใช่บังคับให้ต้องพบข้อผิดพลาด หาก hypothesis ไม่มีหลักฐานหรือผู้เขียนอธิบายหักล้างได้ ให้เก็บเป็น rejected_by_author
 - new_to_author เป็น learning outcome ส่วนบุคคล ห้ามรายงานเป็น novelty ของสาขา
-- “ค้นไม่พบ” หมายถึงไม่พบในฐานที่ตรวจและ query ที่บันทึกไว้ ไม่ใช่ข้อพิสูจน์ว่า reference ไม่มีอยู่จริง
 - ห้ามประกาศ research gap หรือ novelty ในช่วงนี้
 - ห้ามส่งไฟล์หรือเนื้อหาออกจาก workspace นอกจากการขอ metadata/abstract จากแหล่งที่ฉันอนุญาต
 
-หยุดตาม approval gates ที่กำหนด และหยุดอีกครั้งหลังสร้าง reference-quality-assessment.md</code><button type="button" data-copy>คัดลอก Prompt สร้าง Research Map</button></div>
+หยุดให้ฉันตัดสิน blind-spot-ledger.csv ทุกข้อ และหยุดอีกครั้งหลังสร้าง reference-quality-assessment.md</code><button type="button" data-copy>คัดลอก Prompt ช่วง 6</button></div>
+      <h3 class="section-zone-heading">ช่วง 7 · วิจารณ์โอกาสวิจัย</h3>
+      <ol class="readiness-steps activity-steps">
+        <li><span>13</span><div><strong>ผ่าน Paper-Alignment Gate ก่อนเรียกว่า Gap</strong><br>ทุก opportunity hypothesis ต้องลง <code>opportunity-alignment.csv</code> ระบุ paper-anchor element, หลักฐาน และความสัมพันธ์ <em>directly_aligned</em>, <em>extends_scope</em>, <em>tests_boundary</em>, <em>adjacent_only</em> หรือ <em>unrelated</em> พร้อมคำตัดสินของผู้เขียน ประเด็น <em>adjacent_only</em>/<em>unrelated</em> แสดงเป็น side opportunity เท่านั้น ห้ามเรียกว่า gap ของ seed paper</div></li>
+        <li><span>14</span><div><strong>วิจารณ์โอกาสของโจทย์</strong><br>ประเมินเฉพาะตามเลนส์ที่ผู้เขียนเลือก ตรวจ significance, evidence coverage, feasibility, data/resource access, differentiation และ plausible counter-evidence จากนั้นทำ reverse search ก่อนคงไว้เป็น candidate gap หน้าแรกของรายงานต้องบอกว่าเป็น AI-generated hypotheses ที่ผู้เขียนรับรองหรือปฏิเสธ ไม่ใช่คำตัดสิน peer review</div></li>
+      </ol>
       <div class="command markdown-command"><code>งาน: วิเคราะห์ความสนใจและวิจารณ์โอกาสวิจัยจาก seed paper กับ research map
 
 1. อ่าน seed-problem-statement.md ที่ฉันยืนยันแล้ว ห้ามแก้ paper anchor หรือเลนส์ที่เลือกเอง
@@ -170,7 +252,11 @@
 - output/module-3/opportunity-alignment.csv
 - output/module-3/research-opportunity-brief.md
 
-หยุดให้ฉันเลือกว่าจะเดินหน้ากับ candidate ใด ห้ามเขียน RQ สุดท้ายแทนฉัน</code><button type="button" data-copy>คัดลอก Prompt วิจารณ์โอกาสวิจัย</button></div>
+หยุดให้ฉันเลือกว่าจะเดินหน้ากับ candidate ใด ห้ามเขียน RQ สุดท้ายแทนฉัน</code><button type="button" data-copy>คัดลอก Prompt ช่วง 7</button></div>
+      <h3 class="section-zone-heading">ช่วง 8 · สร้างและวิจารณ์ RQ</h3>
+      <ol class="readiness-steps activity-steps">
+        <li><span>15</span><div><strong>ท้าทาย Research Question หลายมิติ แล้วให้ผู้เรียนวิจารณ์คะแนน AI</strong><br>จาก opportunity ที่ผู้เขียนรับรอง ให้ AI สร้าง RQ หลายมิติ เช่น mechanism, boundary condition, contradiction, transfer/generalization, temporal change, measurement validity, robustness/replication หรือ null/negative result โดยทุกข้อยังต้องผ่าน paper-alignment gate เก็บใน <code>research-question-candidates.csv</code> จากนั้น AI ให้คะแนน 1–5 ด้าน alignment, evidence grounding, significance, answerability, feasibility และ differentiation พร้อมเหตุผลและ confidence ผู้เรียนตอบทุกข้อใน <code>rq-rating-review.csv</code> ว่า <em>agree</em>, <em>partly_agree</em> หรือ <em>disagree</em> เพราะอะไร และใส่คะแนนที่แก้เองเมื่อไม่เห็นด้วย</div></li>
+      </ol>
       <div class="command markdown-command"><code>งาน: สร้าง RQ หลายมิติ ให้คะแนน และให้ฉันวิจารณ์คะแนนทีละข้อ
 
 1. ใช้เฉพาะ opportunity ที่ฉันรับรองจาก opportunity-alignment.csv
@@ -188,8 +274,11 @@
 - คะแนน AI เป็นข้อเสนอเพื่อให้ผู้เรียนวิจารณ์ ไม่ใช่เกรดหรือคำตัดสินความใหม่
 - เหตุผลของผู้เรียนและข้อความ RQ อยู่ในเครื่อง Completion JSON ส่งเพียงจำนวน/สถานะ/hash
 
-หยุดเมื่อฉัน review ครบทุก RQ ห้ามเลือก RQ สุดท้ายแทนฉัน</code><button type="button" data-copy>คัดลอก Prompt สร้างและวิจารณ์ RQ</button></div>
-      <div class="notice"><strong>จุดตัดสินของอาจารย์:</strong> ความหมายของ problem statement, taxonomy ที่มีประโยชน์ในสาขา, ความสำคัญของ cell ที่ว่าง, ความเป็นไปได้ และความสนใจส่วนตัวเป็น human judgment ทั้งหมด AI ช่วยสกัด จัด และตั้งข้อโต้แย้งได้ แต่ไม่มีสิทธิ์ยืนยัน problem statement, gap หรือเลือกโจทย์แทน</div>
+หยุดเมื่อฉัน review ครบทุก RQ ห้ามเลือก RQ สุดท้ายแทนฉัน</code><button type="button" data-copy>คัดลอก Prompt ช่วง 8</button></div>
+      <h3 class="section-zone-heading">ช่วง 9 · ส่งมอบและสร้าง Completion JSON</h3>
+      <ol class="readiness-steps activity-steps">
+        <li><span>16</span><div><strong>ส่งมอบและสร้าง Completion JSON</strong><br>เก็บ <code>refs.bib</code>, <code>reference-status.csv</code>, <code>reference-download-report.csv</code>, <code>citation-audit.csv</code>, <code>author-prior.md</code>, <code>reference-quality.csv</code>, <code>blind-spot-ledger.csv</code>, <code>reference-quality-assessment.md</code>, <code>paper-classification.csv</code>, <code>research-map.md</code>, <code>seed-problem-statement.md</code>, <code>opportunity-alignment.csv</code>, <code>research-opportunity-brief.md</code>, <code>research-question-candidates.csv</code>, <code>rq-rating-review.csv</code> และ <code>module-3-completion.json</code> โดย JSON เก็บเฉพาะจำนวน/สถานะและ SHA-256 ของ manifest ไม่เก็บตัว RQ หรือเหตุผลของผู้เรียน</div></li>
+      </ol>
       <div class="command markdown-command"><code>งาน: สร้างและตรวจ Module 3 Completion JSON
 
 1. อ่าน schema จากไฟล์ module-03-completion-schema.json ที่ดาวน์โหลดผ่านลิงก์ในหน้าบทเรียนนี้
@@ -197,7 +286,7 @@
 3. JSON ต้องมีเฉพาะ route, checks, metrics, artifact path และ hash ห้ามใส่ชื่อบทความ abstract claims citation text problem statement หรือเนื้อหางาน
 4. รัน tools/validate-module-3.py output/module-3/module-3-completion.json --workspace . ด้วย course Python
 5. ถ้า FAIL ให้แก้เฉพาะโครงสร้าง/จำนวน/hash ที่ตรวจจากไฟล์ได้ ห้ามเปลี่ยนการตัดสินหรือ research interest แทนฉัน
-6. ถ้า PASS รายงานผลและหยุด ห้าม submit แทนฉัน</code><button type="button" data-copy>คัดลอก Prompt สร้างและตรวจ Completion JSON</button></div>
+6. ถ้า PASS รายงานผลและหยุด ห้าม submit แทนฉัน</code><button type="button" data-copy>คัดลอก Prompt ช่วง 9</button></div>
     </section>
 
     <section class="section" id="activity"><div class="section-heading compact"><p class="eyebrow">ขั้นที่ 3 · กิจกรรมร่วม</p><h2>สร้าง แล้วพยายามหักล้าง</h2><p>เมื่อผ่านจุดนัดพบแล้ว ผู้เรียนจากทั้งสองทางทำกิจกรรมเดียวกัน AI ช่วยจัดหลักฐานและถามกลับ แต่มนุษย์เป็นผู้เขียนปัญหา เลือก gap และตัดสินคำถามวิจัย</p></div><ol class="readiness-steps activity-steps">
@@ -285,7 +374,7 @@ RQ → Candidate Gap → Research Problem → Practical Problem → Evidence
 ส่งมอบ: output/problem-gap-rq.md และ PDF A4 ภาษาไทย</code><button type="button" data-copy>คัดลอก Prompt 9</button></div></div></li>
     </ol></section>
 
-    <section class="section" id="submit-module-3"><div class="section-heading compact"><p class="eyebrow">Submit · ส่งความคืบหน้า</p><h2>ส่งเฉพาะ Completion JSON</h2><p>AI ตรวจไฟล์ทั้งหมดในเครื่องแล้ว หน้าเว็บส่งเฉพาะจำนวน สถานะ และ hash เพื่อให้ผู้สอนเห็น progress ไม่ส่ง PDF, Markdown, bibliography, citation text, classification, research opportunity, ข้อความ RQ หรือเหตุผลที่ผู้เรียนเห็นด้วย/ไม่เห็นด้วย</p><p><a href="downloads/module-03-completion-schema.json" download>ดาวน์โหลด schema →</a> · <a href="downloads/module-03-completion-example.json" download>ดูตัวอย่าง →</a> · <a href="downloads/validate-module-3.py" download>ดาวน์โหลดตัวตรวจ Module 3 →</a></p><p class="expected"><strong>ห้ามส่งไฟล์ตัวอย่าง:</strong> ตัวอย่างใช้ SHA-256 เลขศูนย์เพื่ออธิบายโครงสร้าง AI ต้องสร้าง hash จากชิ้นงานจริงในเครื่อง</p></div>
+    <section class="section" id="submit-module-3"><div class="section-heading compact"><p class="eyebrow">Submit · ส่งความคืบหน้า</p><h2>ส่งความคืบหน้า Module 3</h2><p>เลือกไฟล์ <code>module-3-completion.json</code> ที่ AI ตรวจแล้ว ระบบส่งแค่ตัวเลขสรุปและสถานะให้ผู้สอน ไม่ส่งบทความ ไฟล์งาน หรือข้อความที่คุณเขียน</p><p><a href="downloads/module-03-completion-schema.json" download>ดาวน์โหลด schema →</a> · <a href="downloads/module-03-completion-example.json" download>ดูตัวอย่าง →</a> · <a href="downloads/validate-module-3.py" download>ดาวน์โหลดตัวตรวจ Module 3 →</a></p><p class="expected"><strong>ห้ามส่งไฟล์ตัวอย่าง:</strong> ตัวอย่างใช้ SHA-256 เลขศูนย์เพื่ออธิบายโครงสร้าง AI ต้องสร้าง hash จากชิ้นงานจริงในเครื่อง</p></div>
       <form class="module-submission-form" data-module-3-submission-form>
         <label><span>รหัสคลาส</span><input name="class_code" type="text" required minlength="3" maxlength="40" pattern="[A-Za-z0-9][A-Za-z0-9._-]{2,39}" autocomplete="off"></label>
         <label><span>Call sign</span><input name="callsign" type="text" required minlength="3" maxlength="40" pattern="[A-Za-z0-9][A-Za-z0-9._-]{2,39}" autocomplete="off"><small>ใช้ call sign เดิมของคลาสถ้ามี ห้ามใช้ชื่อจริง อีเมล หรือรหัสนิสิต</small></label>
