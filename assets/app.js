@@ -516,7 +516,9 @@ function decorateModuleActions() {
     section.append(details);
   }
   const openHashTarget = () => {
-    const target = location.hash && document.querySelector(location.hash);
+    let target = null;
+    try { target = location.hash ? document.getElementById(decodeURIComponent(location.hash.slice(1))) : null; }
+    catch (_error) { target = null; }
     const details = target?.querySelector(":scope > details.guided-details");
     if (details) {
       details.open = true;

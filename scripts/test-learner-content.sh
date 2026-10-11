@@ -108,13 +108,13 @@ check_file "$site_dir/assets/module-1-submission.js" "M1 progress endpoint" '/ap
 check_file "$site_dir/assets/module-1-submission.js" "M1 progress-only schema" 'ai-for-research\.module-1-progress\.v1'
 node --check "$site_dir/assets/module-1-submission.js"
 node "$site_dir/scripts/test-module-1-submission.js"
-check_file "$site_dir/module-2.html" "M2 action hierarchy JS" 'assets/app\.js\?v=20261010-2'
+check_file "$site_dir/module-2.html" "M2 action hierarchy JS" 'assets/app\.js\?v=20261011-1'
 check_file "$site_dir/module-2.html" "M2 step flow JS" 'assets/module-2-steps\.js\?v=20261010-2'
-check_file "$site_dir/module-2.html" "M2 step flow CSS" 'assets/styles\.css\?v=20261010-7'
-check_file "$site_dir/module-3.html" "M3 action hierarchy JS" 'assets/app\.js\?v=20261010-2'
+check_file "$site_dir/module-2.html" "M2 step flow CSS" 'assets/styles\.css\?v=20261011-1'
+check_file "$site_dir/module-3.html" "M3 action hierarchy JS" 'assets/app\.js\?v=20261011-1'
 check_file "$site_dir/module-3.html" "M3 access JS" 'assets/module-3-access\.js\?v=20261010-2'
 check_file "$site_dir/module-3.html" "M3 step flow JS" 'assets/module-3-steps\.js\?v=20261010-1'
-check_file "$site_dir/module-3.html" "M3 action hierarchy CSS" 'assets/styles\.css\?v=20261010-7'
+check_file "$site_dir/module-3.html" "M3 action hierarchy CSS" 'assets/styles\.css\?v=20261011-1'
 check_file "$site_dir/assets/app.js" "module action legend" 'learning-action-legend'
 check_file "$site_dir/assets/app.js" "AI prompt label" 'Prompt ให้ AI'
 check_file "$site_dir/assets/app.js" "example label" 'explicitExample'
@@ -148,7 +148,7 @@ check_file "$site_dir/assets/module-3-steps.js" "M3 header progress" 'module-top
 check_file "$site_dir/assets/module-3-steps.js" "M3 local step storage" 'ai-for-research\.module-3\.steps\.v1'
 for number in 4 5; do
   check_file "$site_dir/module-$number.html" "M$number guided step flow" 'assets/module-guided-steps\.js\?v=20261010-1'
-  check_file "$site_dir/module-$number.html" "M$number compact progress CSS" 'assets/styles\.css\?v=20261010-7'
+  check_file "$site_dir/module-$number.html" "M$number compact progress CSS" 'assets/styles\.css\?v=20261011-1'
 done
 check_file "$site_dir/assets/styles.css" "ultrawide module layout" '@media \(min-width: 1800px\)'
 check_file "$site_dir/assets/module-guided-steps.js" "M4 guided configuration" '"4": \{'
