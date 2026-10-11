@@ -78,13 +78,14 @@ function formInteger(name, min, max, label) {
 }
 
 function evaluation() {
-  const tokenSource = text(form.elements.token_source.value);
-  const rawTokens = text(form.elements.total_tokens.value);
+  // Token and AI-round fields are optional in the page; absent fields send "not available".
+  const tokenSource = text(form.elements.token_source?.value) || "not_available";
+  const rawTokens = text(form.elements.total_tokens?.value);
   const totalTokens = rawTokens ? integer(Number(rawTokens), 0, 50000000, "Total tokens") : null;
   if (tokenSource === "not_available" && totalTokens !== null) throw new Error("เลือกไม่มีข้อมูล Token แล้วต้องเว้น Total tokens");
   if (tokenSource !== "not_available" && totalTokens === null) throw new Error("กรอก Total tokens หรือเลือกไม่มีข้อมูล");
   return {
-    ai_tool: text(form.elements.ai_tool.value), ai_turns: formInteger("ai_turns", 1, 100, "AI rounds"), retry_count: formInteger("retry_count", 0, 50, "Retries"), completion_minutes: formInteger("completion_minutes", 1, 2400, "เวลา"), token_source: tokenSource, total_tokens: totalTokens,
+    ai_tool: text(form.elements.ai_tool.value), ai_turns: form.elements.ai_turns ? formInteger("ai_turns", 1, 100, "AI rounds") : null, retry_count: form.elements.retry_count ? formInteger("retry_count", 0, 50, "Retries") : null, completion_minutes: formInteger("completion_minutes", 1, 2400, "เวลา"), token_source: tokenSource, total_tokens: totalTokens,
     completion_status: text(form.elements.completion_status.value), difficulty_rating: formInteger("difficulty_rating", 1, 5, "ความยาก"), usefulness_rating: formInteger("usefulness_rating", 1, 5, "ประโยชน์"), hardest_step: text(form.elements.hardest_step.value),
   };
 }

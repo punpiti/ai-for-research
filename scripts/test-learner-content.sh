@@ -96,8 +96,8 @@ for number in {2..9}; do
   check_file "$file" "checkpoint percent" 'ความสำเร็จ <strong data-progress>0%</strong>'
 done
 
-check_file "$site_dir/prepare.html" "preparation" 'เตรียมมา 3 อย่าง'
-check_file "$site_dir/prepare.html" "LO label" '<p class="eyebrow">LO</p>'
+check_file "$site_dir/prepare.html" "preparation" 'ก่อนเริ่ม เตรียมแค่นี้'
+check_file "$site_dir/prepare.html" "LO label" '<p class="eyebrow">สิ่งที่จะได้</p>'
 check_file "$site_dir/prepare.html" "learning outcomes" '<h2[^>]*>จบบทนี้ คุณจะทำได้</h2>'
 check_file "$site_dir/prepare.html" "checkpoint label" '<p class="eyebrow">Checkpoint</p>'
 check_file "$site_dir/prepare.html" "post-lesson result" '<h2[^>]*>จบบทเรียน</h2>'
@@ -108,10 +108,10 @@ check_file "$site_dir/assets/module-1-submission.js" "M1 progress endpoint" '/ap
 check_file "$site_dir/assets/module-1-submission.js" "M1 progress-only schema" 'ai-for-research\.module-1-progress\.v1'
 node --check "$site_dir/assets/module-1-submission.js"
 node "$site_dir/scripts/test-module-1-submission.js"
-check_file "$site_dir/module-2.html" "M2 action hierarchy JS" 'assets/app\.js\?v=20261011-1'
-check_file "$site_dir/module-2.html" "M2 step flow JS" 'assets/module-2-steps\.js\?v=20261010-2'
+check_file "$site_dir/module-2.html" "M2 action hierarchy JS" 'assets/app\.js\?v=20261011-3'
+check_file "$site_dir/module-2.html" "M2 step flow JS" 'assets/module-2-steps\.js\?v=20261011-1'
 check_file "$site_dir/module-2.html" "M2 step flow CSS" 'assets/styles\.css\?v=20261011-1'
-check_file "$site_dir/module-3.html" "M3 action hierarchy JS" 'assets/app\.js\?v=20261011-1'
+check_file "$site_dir/module-3.html" "M3 action hierarchy JS" 'assets/app\.js\?v=20261011-3'
 check_file "$site_dir/module-3.html" "M3 access JS" 'assets/module-3-access\.js\?v=20261010-2'
 check_file "$site_dir/module-3.html" "M3 step flow JS" 'assets/module-3-steps\.js\?v=20261010-1'
 check_file "$site_dir/module-3.html" "M3 action hierarchy CSS" 'assets/styles\.css\?v=20261011-1'
@@ -271,7 +271,7 @@ check_file "$site_dir/module-2.html" "M2 web fallback" 'หากเข้าไ
 check_file "$site_dir/module-2.html" "M2 conclusion Markdown" 'output/module-2-conclusion\.md'
 check_file "$site_dir/module-2.html" "M2 submission JSON" 'output/module-2-submission\.json'
 check_file "$site_dir/module-2.html" "M2 schema download" 'downloads/module-02-submission-schema\.json'
-check_file "$site_dir/module-2.html" "M2 file lesson" 'เปิด Markdown และ JSON อ่านเองก่อน'
+check_file "$site_dir/module-2.html" "M2 file lesson" 'งานของคุณจะถูกเก็บเป็น 2 ไฟล์'
 check_file "$site_dir/module-2.html" "M2 Markdown heading" 'Markdown \(\.md\) คือเอกสารข้อความ'
 check_file "$site_dir/module-2.html" "M2 Markdown syntax" '<code>#</code> หัวข้อ'
 check_file "$site_dir/module-2.html" "M2 Markdown example" 'คัดลอกตัวอย่าง Markdown'
@@ -299,7 +299,8 @@ fi
 check_file "$site_dir/assets/module-2-submission.js" "M2 dedicated server endpoint" 'submissionEndpoint = "/api/ai-for-research/module-2/submissions"'
 check_file "$site_dir/assets/module-2-submission.js" "M2 fixed event type" 'ai_for_research_module_2_submission'
 check_file "$site_dir/module-2.html" "M2 module evaluation" 'ประเมินการใช้ AI และ Module นี้'
-check_file "$site_dir/module-2.html" "M2 token source" 'name="token_source"'
+check_file "$site_dir/module-2.html" "M2 submission defaults" 'assets/submission-defaults\.js'
+check_file "$site_dir/module-3.html" "M3 submission defaults" 'assets/submission-defaults\.js'
 check_file "$site_dir/module-2.html" "M2 difficulty rating" 'name="difficulty_rating"'
 check_file "$site_dir/module-2.html" "M2 usefulness rating" 'name="usefulness_rating"'
 check_file "$site_dir/assets/module-2-submission.js" "M2 class switch status" 'requireOpenClass'

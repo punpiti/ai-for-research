@@ -10,9 +10,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/styles.css?v=20261011-1">
-  <script src="assets/app.js?v=20261011-1" defer></script>
+  <script src="assets/app.js?v=20261011-3" defer></script>
   <script src="assets/module-1-steps.js?v=20261010-3" defer></script>
-  <script src="assets/module-1-submission.js?v=20261008-1" defer></script>
+  <script src="assets/module-1-submission.js?v=20261011-2" defer></script>
   <script src="assets/dev-auth.js?v=20261010-1"></script>
   <script src="assets/site-shell.js?v=20261010-2"></script>
 </head>
@@ -28,20 +28,19 @@
     </section>
 
     <section class="section" id="prerequisites">
-      <div class="section-heading compact"><p class="eyebrow">การเตรียมตัวก่อนเรียน</p><h2>เตรียมมา 3 อย่าง</h2></div>
+      <div class="section-heading compact"><p class="eyebrow">การเตรียมตัวก่อนเรียน</p><h2>ก่อนเริ่ม เตรียมแค่นี้</h2></div>
       <div class="check-grid">
-        <div><span>เครื่อง</span><strong>Notebook ที่ติดตั้งโปรแกรมได้ พื้นที่ว่างอย่างน้อย 20 GB</strong></div>
-        <div><span>บัญชี</span><strong>บัญชี AI ที่จะใช้ และอินเทอร์เน็ต</strong></div>
-        <div><span>ไฟล์</span><strong>เอกสารตัวอย่างที่ไม่มีข้อมูลลับ 1–3 หน้า</strong></div>
+        <div><span>บัญชี AI</span><strong>มี Claude หรือ ChatGPT อยู่แล้ว ใช้ของตัวเองได้ ถ้ายังไม่มี คลาสเตรียมไว้ให้</strong></div>
+        <div><span>อินเทอร์เน็ต</span><strong>ต่อได้ตลอดคาบ เพราะต้องติดตั้งโปรแกรมและคุยกับ AI</strong></div>
       </div>
     </section>
 
     <section class="section" id="outcomes">
-      <div class="section-heading compact"><p class="eyebrow">LO</p><h2>จบบทนี้ คุณจะทำได้</h2></div>
+      <div class="section-heading compact"><p class="eyebrow">สิ่งที่จะได้</p><h2>จบบทนี้ คุณจะทำได้</h2></div>
       <div class="check-grid outcome-grid compact-outcomes">
-        <div><span>01</span><strong>เปิดพื้นที่ทำงานและเชื่อมต่อ AI</strong></div>
-        <div><span>02</span><strong>แยกไฟล์ต้นฉบับออกจากผลงานใหม่</strong></div>
-        <div><span>03</span><strong>แก้ Markdown และสร้าง PDF ด้วย AI</strong></div>
+        <div><span>01</span><strong>ติดตั้งโปรแกรมและเปิดคุยกับ AI บนเครื่องตัวเองได้</strong></div>
+        <div><span>02</span><strong>รู้ว่าไฟล์ต้นฉบับเก็บไว้ที่ไหน และงานที่ AI ทำให้ไปอยู่ที่ไหน</strong></div>
+        <div><span>03</span><strong>สั่ง AI ให้แก้ข้อความแล้วทำออกมาเป็นไฟล์ PDF ได้</strong></div>
       </div>
     </section>
 
@@ -170,13 +169,11 @@ code .</code><button type="button" data-copy>คัดลอก</button></div></
       </div>
       <p class="progress" aria-live="polite">ความพร้อม: <strong data-progress>0%</strong></p>
       <div class="task-heading"><span class="content-kind is-submit">ส่งงาน</span><strong>ส่งสถานะความพร้อมให้ผู้สอน</strong></div>
-      <p>ระบบผูกสถานะกับบัญชีที่ลงทะเบียน และส่งเฉพาะผล Checkpoint เวลา และ Token usage ไม่ส่ง API key ไฟล์ หรือข้อมูลวิจัย</p>
+      <p>บอกผู้สอนว่าคุณพร้อมเรียนหรือยัง ระบบส่งเฉพาะผลเช็กลิสต์ด้านบนและเวลาที่ใช้ ไม่ส่ง API key ไฟล์ หรือข้อมูลวิจัยของคุณ</p>
       <form class="module-submission-form compact-submission-form" id="submit-module-1" data-module-1-submission-form>
         <label><span>คลาส</span><select name="classroom_id" required><option value="">กำลังโหลด…</option></select></label>
         <label><span>สถานะ</span><select name="completion_status" required><option value="completed">พร้อมใช้งาน</option><option value="completed_with_help">พร้อมใช้งานโดยมีผู้ช่วย</option><option value="could_not_complete">ยังทำไม่สำเร็จ</option></select></label>
-        <label><span>เวลาที่ใช้ (นาที)</span><input name="completion_minutes" type="number" min="1" max="600" required></label>
-        <label><span>ข้อมูล Token</span><select name="token_source" required><option value="not_available">ไม่มีข้อมูล</option><option value="provider_reported">ค่าจากผู้ให้บริการ</option><option value="learner_estimate">ค่าประมาณ</option></select></label>
-        <label><span>Total tokens</span><input name="total_tokens" type="number" min="0" max="20000000" disabled><small>กรอกเมื่อเลือกค่าจากผู้ให้บริการหรือค่าประมาณ</small></label>
+        <label><span>เวลาที่ใช้ (นาที)</span><input name="completion_minutes" type="number" min="1" max="600" required><small data-module-1-minutes-hint>นับคร่าว ๆ ตั้งแต่เริ่มทำบทนี้จนถึงตอนนี้</small></label>
         <label class="submission-consent"><input name="consent" type="checkbox" required><span>ฉันตรวจสถานะด้านบนแล้ว และยินยอมส่งผลสรุปให้ผู้สอน</span></label>
         <div class="profile-actions"><button class="button primary" type="submit" disabled>ส่งสถานะ Module 1</button><small data-module-1-submission-status role="status" aria-live="polite">กำลังตรวจบัญชีและคลาส…</small></div>
       </form>

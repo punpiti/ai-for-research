@@ -102,21 +102,26 @@ function setPreference(name, value) {
 }
 
 const researchProfileKey = "ai-research-profile:v1";
+// [key, label, type, example placeholder, options for select]
 const researchProfileFields = [
-  ["thai_name", "ชื่อภาษาไทย", "text"],
-  ["english_name", "ชื่อภาษาอังกฤษ", "text"],
-  ["affiliation", "สังกัด/หน่วยงาน", "text"],
-  ["role", "บทบาทหรือระดับการศึกษา", "text"],
-  ["field", "สาขาหรือความเชี่ยวชาญ", "text"],
-  ["advisor", "อาจารย์ที่ปรึกษา (ถ้ามีและยินยอมระบุ)", "text"],
-  ["research_topic", "หัวข้อวิจัยหรือประเด็นที่สนใจ", "textarea"],
-  ["research_stage", "ระยะของงานตอนนี้", "text"],
-  ["desired_output", "ผลงานที่อยากได้", "text"],
-  ["target_venue", "วารสาร/การประชุม/แหล่งเผยแพร่ที่สนใจ", "text"],
-  ["intended_audience", "กลุ่มผู้อ่านหรือผู้ใช้ผล", "text"],
-  ["working_language", "ภาษาที่ต้องการใช้ทำงาน", "text"],
-  ["constraints", "ข้อจำกัดด้านเวลา เครื่องมือ หรือข้อมูล", "textarea"],
-  ["data_sensitivity", "ระดับความอ่อนไหวของข้อมูล", "text"],
+  ["thai_name", "ชื่อ-นามสกุล ภาษาไทย (ไม่บังคับ)", "text", "ใช้ตอนทำเอกสาร เช่น หน้าปก"],
+  ["english_name", "ชื่อ-นามสกุล ภาษาอังกฤษ (ไม่บังคับ)", "text", "ใช้ตอนทำเอกสารภาษาอังกฤษ"],
+  ["affiliation", "สังกัด", "text", "เช่น ภาควิชาวิศวกรรมเครื่องกล ม.เกษตรศาสตร์"],
+  ["role", "ตอนนี้คุณเป็น", "text", "เช่น นิสิตปริญญาโทปี 1, อาจารย์, นักวิจัย"],
+  ["field", "สาขาที่ทำวิจัย", "text", "เช่น วิทยาศาสตร์การอาหาร, วิศวกรรมโยธา"],
+  ["advisor", "อาจารย์ที่ปรึกษา (ไม่บังคับ)", "text", "เว้นว่างได้ ถ้าไม่ต้องการระบุ"],
+  ["research_topic", "หัวข้อที่ทำหรือสนใจ", "textarea", "1–2 ประโยค เช่น ใช้ภาพถ่ายตรวจความสุกของมะม่วง"],
+  ["research_stage", "งานตอนนี้อยู่ขั้นไหน", "text", "เช่น ยังหาหัวข้อ, อ่านงานวิจัยเก่า, เก็บข้อมูลแล้ว, กำลังเขียนบทความ"],
+  ["desired_output", "อยากได้ผลงานแบบไหน", "text", "เช่น proposal, บทความวารสาร, วิทยานิพนธ์, poster"],
+  ["target_venue", "อยากตีพิมพ์หรือนำเสนอที่ไหน (ถ้ามี)", "text", "ชื่อวารสารหรืองานประชุม หรือเว้นว่าง"],
+  ["intended_audience", "ใครจะอ่านหรือใช้ผลงานนี้", "text", "เช่น กรรมการสอบ, นักวิจัยในสาขา, ผู้ประกอบการ"],
+  ["working_language", "ภาษาที่ใช้เขียนงาน", "text", "เช่น ไทย, อังกฤษ, ไทยปนอังกฤษ"],
+  ["constraints", "ข้อจำกัดที่ AI ควรรู้", "textarea", "เช่น ต้องส่งใน 2 เดือน, ใช้ได้แค่ Excel, ข้อมูลเป็นภาษาไทย"],
+  ["data_sensitivity", "ข้อมูลของคุณมีความลับไหม", "select", "", [
+    "ไม่มีข้อมูลลับ ใช้กับ AI ได้",
+    "มีข้อมูลส่วนบุคคลหรือข้อมูลลับบางส่วน",
+    "ยังไม่แน่ใจ",
+  ]],
 ];
 
 function loadResearchProfile() {
@@ -177,17 +182,27 @@ function renderResearchProfile(host, forceEdit = false) {
     });
     return;
   }
-  const fields = researchProfileFields.map(([key, label, type]) => {
-    const value = String(profile[key] || "").replaceAll("&", "&amp;").replaceAll('"', "&quot;").replaceAll("<", "&lt;").replaceAll(">", "&gt;");
-    const control = type === "textarea" ? `<textarea name="${key}" rows="3">${value}</textarea>` : `<input name="${key}" value="${value}">`;
+  const escapeAttribute = (text) => String(text || "").replaceAll("&", "&amp;").replaceAll('"', "&quot;").replaceAll("<", "&lt;").replaceAll(">", "&gt;");
+  // Ask only what this module uses; Module 1 collects everything once.
+  const visibleFields = researchProfileFields.filter(([key]) => relevantKeys.has(key));
+  const fields = visibleFields.map(([key, label, type, example, options]) => {
+    const value = escapeAttribute(profile[key]);
+    const placeholder = example ? ` placeholder="${escapeAttribute(example)}"` : "";
+    let control = `<input name="${key}" value="${value}"${placeholder}>`;
+    if (type === "textarea") control = `<textarea name="${key}" rows="3"${placeholder}>${value}</textarea>`;
+    if (type === "select") {
+      const choices = [...options];
+      if (profile[key] && !choices.includes(profile[key])) choices.push(profile[key]);
+      control = `<select name="${key}"><option value="">เลือก</option>${choices.map((choice) => `<option${choice === profile[key] ? " selected" : ""}>${escapeAttribute(choice)}</option>`).join("")}</select>`;
+    }
     return `<label><span>${label}</span>${control}</label>`;
   }).join("");
-  host.innerHTML = `<div class="profile-status"><div><p class="eyebrow">ข้อมูลของคุณ · เก็บในเครื่องนี้</p><h3>${hasProfile ? "ตรวจหรือแก้ไขข้อมูล" : "บอก AI เกี่ยวกับงานของคุณ"}</h3><p>กรอกเท่าที่จำเป็น ข้ามข้อที่ไม่เกี่ยวข้องได้ และห้ามใส่รหัสผ่านหรือข้อมูลส่วนบุคคลที่ไม่จำเป็น</p></div></div><form class="profile-form">${fields}<div class="profile-actions"><button class="button primary" type="submit">บันทึกข้อมูลในเครื่องนี้</button>${hasRelevantProfile ? '<button class="button secondary" type="button" data-profile-cancel>ยกเลิก</button>' : ""}<small aria-live="polite"></small></div></form>`;
+  host.innerHTML = `<div class="profile-status"><div><p class="eyebrow">ข้อมูลของคุณ · เก็บในเครื่องนี้</p><h3>${hasProfile ? "ตรวจหรือแก้ไขข้อมูล" : "บอก AI เกี่ยวกับงานของคุณ"}</h3><p>กรอกเท่าที่จำเป็น ข้ามข้อที่ไม่เกี่ยวข้องได้ และห้ามใส่รหัสผ่านหรือข้อมูลส่วนบุคคลที่ไม่จำเป็น</p></div></div><form class="profile-form">${fields}<div class="profile-actions"><button class="button primary" type="submit">บันทึกข้อมูลในเครื่องนี้</button>${hasRelevantProfile ? '<button class="button secondary" type="button" data-profile-cancel>ยกเลิก</button>' : ""}<small aria-live="polite"></small></div><p class="form-help">ข้อมูลนี้เก็บไว้ในเบราว์เซอร์ของเครื่องนี้เท่านั้น ระบบของคลาสไม่ได้รับหรือเก็บไว้บน server ถ้าล้างข้อมูลเบราว์เซอร์หรือเปลี่ยนเครื่อง ต้องกรอกใหม่</p></form>`;
   const form = host.querySelector("form");
   form.addEventListener("submit", (event) => {
     event.preventDefault();
-    const next = {};
-    for (const [key] of researchProfileFields) next[key] = form.elements[key].value.trim();
+    const next = { ...loadResearchProfile() };
+    for (const [key] of visibleFields) next[key] = form.elements[key].value.trim();
     saveResearchProfile(next);
     document.dispatchEvent(new CustomEvent("research-profile-updated", { detail: next }));
     for (const item of document.querySelectorAll("[data-research-profile]")) renderResearchProfile(item);

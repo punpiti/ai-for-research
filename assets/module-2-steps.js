@@ -9,6 +9,40 @@
     { id: "submit", short: "ส่งงาน", title: "ตรวจไฟล์และส่งความคืบหน้า" },
   ];
 
+  const evidenceSetKey = "ai-for-research.module-2.evidence-set";
+
+  function readEvidenceSet() {
+    try { return localStorage.getItem(evidenceSetKey) || "own"; } catch (_error) { return "own"; }
+  }
+
+  function chooseEvidenceSet(value) {
+    try { localStorage.setItem(evidenceSetKey, value); } catch (_error) { /* The choice lasts for this page view only. */ }
+    location.reload();
+  }
+
+  // Faculty learners without their own files can work on the class sample set:
+  // this learner's Module 2 view switches to the sample sections and prompts.
+  function applyEvidenceSetChoice() {
+    const root = document.documentElement;
+    document.querySelector("[data-module-2-use-sample]")?.addEventListener("click", () => chooseEvidenceSet("sample"));
+    if (root.dataset.classroomContentRoute !== "faculty" || readEvidenceSet() !== "sample") return;
+    root.dataset.classroomContentRoute = "student";
+    root.dataset.module2EvidenceSet = "sample";
+    document.querySelectorAll("[data-audience-route]").forEach((element) => {
+      element.hidden = element.dataset.audienceRoute !== "student";
+    });
+    document.querySelectorAll('site-header a[href="#faculty-sources"]').forEach((link) => { link.href = "#sources"; });
+    document.querySelectorAll('site-header a[href="#faculty-activity"]').forEach((link) => { link.href = "#activity"; });
+    const sources = document.getElementById("sources");
+    if (sources && !sources.querySelector("[data-module-2-use-own]")) {
+      const note = document.createElement("div");
+      note.className = "notice evidence-choice";
+      note.innerHTML = '<strong>คุณกำลังใช้ชุดตัวอย่างที่คลาสเตรียมไว้</strong> ถ้าเตรียมไฟล์จากงานของตัวเองแล้ว สลับกลับได้ทุกเมื่อ <div class="hero-actions"><button class="button secondary" type="button" data-module-2-use-own>ใช้ไฟล์จากงานของฉัน</button></div>';
+      sources.querySelector(".section-heading")?.after(note);
+      note.querySelector("button").addEventListener("click", () => chooseEvidenceSet("own"));
+    }
+  }
+
   function facultyRoute() {
     return typeof document !== "undefined" && document.documentElement.dataset.classroomContentRoute === "faculty";
   }
@@ -83,7 +117,7 @@
     }
     if (stageId === "practice") {
       const input = (name, label) => `<label><span>${label}</span><input type="number" name="${name}" min="0" max="10" required value="${saved[name] ?? ""}"></label>`;
-      return `<p>นับ Claims 8–10 ข้อจากแต่ละรอบ แล้วบันทึกผลเปรียบเทียบ</p><div class="module-step-counts">${input("round1_traceable", "รอบแรก · ตรวจย้อนกลับได้")}${input("round1_unsupported", "รอบแรก · ไม่มีหลักฐาน")}${input("round2_traceable", "รอบสอง · ตรวจย้อนกลับได้")}${input("round2_unsupported", "รอบสอง · ไม่มีหลักฐาน")}</div>`;
+      return `<p>ใช้ผลจากขั้นเปรียบเทียบสองรอบ: เปิดคำตอบรอบแรกและรอบสอง แล้วนับว่าแต่ละรอบมีกี่ข้อที่ระบุไฟล์และตำแหน่งได้ (ตรวจย้อนกลับได้) และกี่ข้อที่ไม่มีหลักฐาน</p><div class="module-step-counts">${input("round1_traceable", "รอบแรก · ตรวจย้อนกลับได้")}${input("round1_unsupported", "รอบแรก · ไม่มีหลักฐาน")}${input("round2_traceable", "รอบสอง · ตรวจย้อนกลับได้")}${input("round2_unsupported", "รอบสอง · ไม่มีหลักฐาน")}</div>`;
     }
     return "";
   }
@@ -101,6 +135,7 @@
 
   async function init() {
     if (window.classroomContentRouteReady) await window.classroomContentRouteReady;
+    applyEvidenceSetChoice();
     const content = document.querySelectorAll("[data-module-2-step]");
     if (!content.length) return;
 

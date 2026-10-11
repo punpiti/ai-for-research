@@ -198,7 +198,8 @@ function optionalInteger(name, maximum, label) {
 }
 
 function buildModuleEvaluation() {
-  const tokenSource = text(submissionForm.elements.token_source?.value);
+  // Token and AI-round fields are optional in the page; absent fields send "not available".
+  const tokenSource = text(submissionForm.elements.token_source?.value) || "not_available";
   const inputTokens = optionalInteger("input_tokens", 10000000, "Input tokens");
   const outputTokens = optionalInteger("output_tokens", 10000000, "Output tokens");
   const totalTokens = optionalInteger("total_tokens", 20000000, "Total tokens");
@@ -207,8 +208,8 @@ function buildModuleEvaluation() {
   if (inputTokens !== null && outputTokens !== null && totalTokens !== inputTokens + outputTokens) throw new Error("Total tokens ต้องเท่ากับ Input + Output tokens");
   return {
     ai_tool: text(submissionForm.elements.ai_tool?.value),
-    ai_turns: requiredInteger("ai_turns", 1, 40, "จำนวนรอบที่ใช้ AI"),
-    retry_count: requiredInteger("retry_count", 0, 20, "จำนวนครั้งที่ถามซ้ำ"),
+    ai_turns: submissionForm.elements.ai_turns ? requiredInteger("ai_turns", 1, 40, "จำนวนรอบที่ใช้ AI") : null,
+    retry_count: submissionForm.elements.retry_count ? requiredInteger("retry_count", 0, 20, "จำนวนครั้งที่ถามซ้ำ") : null,
     completion_minutes: requiredInteger("completion_minutes", 1, 600, "เวลาที่ใช้ทำ Module"),
     token_source: tokenSource,
     input_tokens: inputTokens,

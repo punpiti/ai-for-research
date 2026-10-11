@@ -105,7 +105,30 @@
     }
   }
 
-  form.elements.token_source.addEventListener("change", () => {
+  // Suggest elapsed minutes from the first visit; learners can still edit it.
+  const startedKey = "ai-for-research.module-1.started-at";
+  let startedAt = 0;
+  try {
+    startedAt = Number(globalObject.localStorage.getItem(startedKey)) || 0;
+    if (!startedAt) {
+      startedAt = Date.now();
+      globalObject.localStorage.setItem(startedKey, String(startedAt));
+    }
+  } catch (_error) { startedAt = 0; }
+  function suggestMinutes() {
+    const input = form.elements.completion_minutes;
+    if (!startedAt || input.value) return;
+    const minutes = Math.round((Date.now() - startedAt) / 60000);
+    if (minutes >= 1 && minutes <= 600) {
+      input.value = String(minutes);
+      const hint = form.querySelector("[data-module-1-minutes-hint]");
+      if (hint) hint.textContent = "ระบบประมาณจากเวลาที่เปิดบทนี้ครั้งแรก แก้ได้ถ้าไม่ตรง";
+    }
+  }
+  form.addEventListener("focusin", suggestMinutes, { once: true });
+
+  // Token fields are optional in the page; without them the server receives "not_available".
+  form.elements.token_source?.addEventListener("change", () => {
     const unavailable = form.elements.token_source.value === "not_available";
     form.elements.total_tokens.disabled = unavailable;
     form.elements.total_tokens.required = !unavailable;
@@ -127,8 +150,8 @@
         completionStatus: form.elements.completion_status.value,
         aiTool: selectedAgent,
         completionMinutes: form.elements.completion_minutes.value,
-        tokenSource: form.elements.token_source.value,
-        totalTokens: form.elements.total_tokens.value,
+        tokenSource: form.elements.token_source?.value || "not_available",
+        totalTokens: form.elements.total_tokens?.value || "",
         checks,
       });
       sendButton.disabled = true;

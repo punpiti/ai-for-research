@@ -10,9 +10,10 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/styles.css?v=20261011-1">
-  <script src="assets/app.js?v=20261011-1" defer></script>
-  <script src="assets/module-2-steps.js?v=20261010-2" defer></script>
-  <script src="assets/module-2-submission.js?v=20261008-3" defer></script>
+  <script src="assets/app.js?v=20261011-3" defer></script>
+  <script src="assets/module-2-steps.js?v=20261011-1" defer></script>
+  <script src="assets/submission-defaults.js?v=20261011-1" defer></script>
+  <script src="assets/module-2-submission.js?v=20261011-1" defer></script>
   <script src="assets/dev-auth.js?v=20261010-1"></script>
   <script src="assets/site-shell.js?v=20261010-2"></script>
 </head>
@@ -77,18 +78,19 @@
     </section>
 
     <section class="section" id="faculty-sources" data-module-2-step="prepare" data-audience-route="faculty">
-      <div class="section-heading compact"><p class="eyebrow">การเตรียมตัวก่อนเรียน · อาจารย์/นักวิจัย</p><h2>ใช้หลักฐานจากงานวิจัยของคุณ</h2><p>เลือกประเด็นเดียวจากงานที่กำลังทำ แล้วเตรียมเอกสาร 6–8 ชิ้นที่ได้รับอนุญาตให้ใช้กับ AI</p></div>
+      <div class="section-heading compact"><p class="eyebrow">การเตรียมตัวก่อนเรียน · อาจารย์/นักวิจัย</p><h2>ใช้หลักฐานจากงานวิจัยของคุณ</h2><p>เลือกประเด็นเดียวจากงานที่กำลังทำ แล้วเตรียมไฟล์รวม 6–8 ไฟล์ คือ เอกสารหลัก 1 ไฟล์ และหลักฐานประกอบอีก 5–7 ไฟล์</p></div>
       <div class="concept-grid">
-        <article><h3>ต้นเรื่อง</h3><p>ใช้ manuscript, proposal หรือ seed paper หนึ่งฉบับเพื่อระบุ Claim ที่ต้องการตรวจ</p></article>
-        <article><h3>หลักฐานประกอบ</h3><p>เตรียมบทความ ตาราง รูป ภาคผนวก หรือหน้าเว็บต้นทางที่เกี่ยวข้องกับ Claim เดียวกัน</p></article>
-        <article><h3>หลักฐานครบห้ารูปแบบ</h3><p>เตรียม PDF, DOCX, XLSX, ภาพ และเว็บไซต์จากโครงการเดียวกัน เช่น paper, manuscript, ตารางผล, รูป และหน้าวารสารต้นทาง</p></article>
-        <article><h3>สิทธิและความลับ</h3><p>ตัดข้อมูลส่วนบุคคล ข้อมูลลับ และเอกสารที่ไม่มีสิทธิ์ส่งเข้า AI ออกจากชุดฝึก</p></article>
+        <article><h3>1. เอกสารหลัก · 1 ไฟล์</h3><p>manuscript, proposal หรือ paper ของคุณ ใช้หา Claim หนึ่งข้อที่อยากตรวจ</p></article>
+        <article><h3>2. หลักฐานประกอบ · 5–7 ไฟล์</h3><p>ไฟล์ที่ใช้ยืนยันหรือโต้แย้ง Claim เดียวกัน เช่น บทความอ้างอิง ตารางผล รูป ภาคผนวก หรือหน้าเว็บต้นทาง</p></article>
+        <article><h3>3. ทั้งชุดต้องมีครบ 5 แบบ</h3><p>รวมเอกสารหลักแล้ว ต้องมี PDF, Word, Excel, รูปภาพ และหน้าเว็บ (เก็บ URL ไว้ในไฟล์ .txt) อย่างละอย่างน้อย 1</p></article>
+        <article><h3>4. ตัดข้อมูลลับออก</h3><p>เอาข้อมูลส่วนบุคคล ข้อมูลลับ และเอกสารที่ไม่มีสิทธิ์ส่งให้ AI ออกจากชุดนี้</p></article>
       </div>
+      <div class="notice evidence-choice" data-module-2-evidence-choice><strong>ยังไม่มีไฟล์ของตัวเอง?</strong> ใช้ชุดตัวอย่างที่คลาสเตรียมไว้ได้ มี PDF, Excel, Word, รูป และหน้าเว็บครบ พร้อม Prompt ทุกขั้น <div class="hero-actions"><button class="button secondary" type="button" data-module-2-use-sample>ใช้ชุดตัวอย่างที่เตรียมไว้</button></div></div>
       <div class="notice"><strong>ก่อนเข้าชั้น:</strong> เก็บไฟล์ต้นฉบับไว้ใน <code>input/original/module-02-own-evidence/</code> และเขียน Claim ที่ต้องการตรวจหนึ่งข้อใน <code>notes/module-02-claim.md</code> ยังไม่ต้องให้ AI สรุปหรือแก้ Claim</div>
     </section>
 
     <section class="section" id="levels" data-module-2-step="concepts">
-      <div class="section-heading compact"><p class="eyebrow">ภาษากลางของบทนี้</p><h2>จัดคำตอบเป็น L1–L4</h2></div>
+      <div class="section-heading compact"><p class="eyebrow">ภาษากลางของบทนี้</p><h2>จัดคำตอบเป็น L1–L4</h2><p>คำตอบของ AI มักปนกันระหว่างสิ่งที่อยู่ในเอกสารของคุณจริง ความเห็นของผู้เขียน และสิ่งที่ AI เดาหรือแต่งขึ้นเอง ถ้าไม่แยก คุณอาจหยิบข้อความที่ไม่มีหลักฐานไปใช้ในงานโดยไม่รู้ตัว L1–L4 คือป้ายสี่ระดับที่บอกว่าแต่ละข้อความเชื่อได้แค่ไหน และต้องตรวจเพิ่มหรือไม่</p></div>
       <div class="level-grid">
         <article><span>L1</span><div><h3>พบโดยตรง</h3><p>ตัวเลข วันที่ คำพูด หรือข้อความที่ชี้กลับไปยังไฟล์และตำแหน่งในต้นฉบับได้</p></div></article>
         <article><span>L2</span><div><h3>ความเห็นในต้นฉบับ</h3><p>การตีความ คำวิจารณ์ หรือข้อสรุปของผู้เขียน ไม่ใช่ข้อเท็จจริงที่เป็นกลาง</p></div></article>
@@ -98,7 +100,14 @@
     </section>
 
     <section class="section" id="json-basics" data-module-2-step="concepts">
-      <div class="section-heading compact"><p class="eyebrow">ก่อนสร้างไฟล์ส่ง</p><h2>เปิด Markdown และ JSON อ่านเองก่อน</h2><p>ทั้งสองเป็นไฟล์ข้อความ แต่ใช้คนละหน้าที่ Markdown เก็บคำอธิบายที่คนอ่าน ส่วน JSON เก็บข้อมูลที่โปรแกรมตรวจตามกติกาได้</p></div>
+      <div class="section-heading compact"><p class="eyebrow">ก่อนสร้างไฟล์ส่ง</p><h2>งานของคุณจะถูกเก็บเป็น 2 ไฟล์</h2><p>ในขั้นทดลอง AI จะสร้างไฟล์ให้ คุณไม่ต้องเขียนเอง แค่รู้ว่าแต่ละไฟล์มีไว้ทำอะไร</p></div>
+      <div class="concept-grid">
+        <article><h3><code>.md</code> · ให้คนอ่าน</h3><p>ข้อสรุปและเหตุผลของคุณ เปิดอ่านใน VS Code ได้เหมือนเอกสารทั่วไป</p></article>
+        <article><h3><code>.json</code> · ให้ระบบตรวจ</h3><p>สรุป Claim และระดับ L1–L4 ในรูปแบบที่โปรแกรมตรวจความครบได้อัตโนมัติ</p></article>
+      </div>
+      <div class="notice"><strong>สิ่งเดียวที่คุณต้องเขียนเอง:</strong> คำตอบของคำถามที่ AI ตอบไม่ได้ (ใน JSON เรียกว่า <code>learner_additions</code>) AI ช่วยจัดรูปแบบได้ แต่เนื้อคำตอบต้องมาจากคุณ</div>
+      <details class="fallback-details">
+        <summary>ส่วนขยาย · อยากรู้ว่า Markdown และ JSON เขียนอย่างไร (ไม่บังคับ)</summary>
       <h3 class="section-zone-heading">1 · Markdown (.md) คือเอกสารข้อความที่อ่านและแก้ง่าย</h3>
       <p>Markdown ใช้อักขระธรรมดากำหนดโครงสร้างแทนการจัดหน้าด้วยเมนู ไฟล์ยังอ่านรู้เรื่องได้เมื่อเปิดใน text editor และเหมาะกับการบันทึกเหตุผล หลักฐาน และข้อจำกัดฉบับเต็ม</p>
       <div class="concept-grid">
@@ -143,6 +152,7 @@
       <div class="notice"><strong>ผู้เรียนต้องเป็นคนเขียน <code>learner_additions</code>:</strong> ทุก <code>open_question_id</code> ต้องมีคำตอบหนึ่งรายการ เลือก <code>evidence_based</code>, <code>reasoned_judgment</code> หรือ <code>still_unknown</code> การตอบว่า “ยังไม่รู้” ใช้ได้เมื่ออธิบายหลักฐานที่ยังขาด ห้ามให้ AI เติมข้อความนี้แทน</div>
       <div class="hero-actions"><a class="button primary" href="downloads/module-02-submission-example.json" download>ดาวน์โหลด JSON ตัวอย่าง</a><a class="button secondary" href="downloads/module-02-submission-schema.json" download>ดาวน์โหลด JSON Schema</a></div>
       <p class="expected"><strong>อย่าส่งไฟล์ตัวอย่าง:</strong> ค่า SHA-256 เป็นเลขศูนย์สำหรับการสอน ผู้เรียนต้องสร้างไฟล์ของตนเองในขั้นที่ 11</p>
+      </details>
     </section>
 
     <section class="section" id="faculty-activity" data-module-2-step="practice" data-audience-route="faculty">
@@ -308,16 +318,10 @@
         <label><span>ไฟล์ JSON · ตรวจในเครื่องเท่านั้น</span><input name="json_file" type="file" accept=".json,application/json" required><small>เลือก <code>module-2-submission.json</code> ขนาดไม่เกิน 64 KB เนื้อหาในไฟล์นี้ไม่ถูกอัปโหลด</small></label>
         <fieldset class="module-evaluation-fields">
           <legend>ประเมินการใช้ AI และ Module นี้</legend>
-          <p class="form-help">กรอกตามการใช้งานจริง หากระบบไม่แสดงจำนวน Token ให้เลือก “ไม่มีข้อมูล” ระบบจะไม่นำค่าประมาณของหลักสูตรมาแทนค่าจริงของคุณ</p>
+          <p class="form-help">ตอบสั้น ๆ ตามที่รู้สึก ช่วยผู้สอนปรับบทเรียน เวลาที่ใช้ระบบประมาณให้ แก้ได้</p>
           <div class="module-evaluation-grid">
             <label><span>เครื่องมือ AI หลัก</span><select name="ai_tool" required><option value="">เลือก</option><option value="codex">Codex</option><option value="claude">Claude</option><option value="openrouter">OpenRouter</option><option value="other">อื่น ๆ</option><option value="unknown">ไม่แน่ใจ</option></select></label>
-            <label><span>จำนวนรอบที่ใช้ AI</span><input name="ai_turns" type="number" min="1" max="40" required></label>
-            <label><span>จำนวนครั้งที่ต้องถามซ้ำ/แก้ใหม่</span><input name="retry_count" type="number" min="0" max="20" required></label>
             <label><span>เวลาที่ใช้ทำ Module (นาที)</span><input name="completion_minutes" type="number" min="1" max="600" required></label>
-            <label><span>แหล่งข้อมูล Token</span><select name="token_source" required><option value="not_available">ระบบไม่แสดงจำนวน Token</option><option value="provider_reported">ตัวเลขจากผู้ให้บริการ</option><option value="learner_estimate">ผู้เรียนประมาณเอง</option></select></label>
-            <label><span>Input tokens (ถ้ามี)</span><input name="input_tokens" type="number" min="0" max="10000000"></label>
-            <label><span>Output tokens (ถ้ามี)</span><input name="output_tokens" type="number" min="0" max="10000000"></label>
-            <label><span>Total tokens</span><input name="total_tokens" type="number" min="0" max="20000000"></label>
             <label><span>สถานะการทำกิจกรรม</span><select name="completion_status" required><option value="completed">ทำครบด้วยตนเอง</option><option value="completed_with_help">ทำครบโดยได้รับความช่วยเหลือ</option><option value="could_not_complete">ยังทำไม่ครบ</option></select></label>
             <label><span>ความยาก 1–5</span><input name="difficulty_rating" type="number" min="1" max="5" required></label>
             <label><span>ประโยชน์ 1–5</span><input name="usefulness_rating" type="number" min="1" max="5" required></label>
