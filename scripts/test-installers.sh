@@ -129,9 +129,9 @@ grep -q 'พัฒนาโจทย์และคำถามวิจัย' 
 grep -q 'Literature Evidence' "$root/module-4.html"
 grep -q 'Discovery Source' "$root/module-4.html"
 grep -q 'fabricated / phantom reference' "$root/module-4.html"
-grep -q 'BibTeX คืออะไร และต่างจาก Citation อย่างไร' "$root/module-4.html"
+grep -q 'สี่คำที่ต้องแยกก่อนตรวจการอ้างอิง' "$root/module-4.html"
 grep -q 'ข้อกำหนดของงานนี้:</strong> BibTeX ทุก entry ต้องมี <code>abstract</code>' "$root/module-4.html"
-grep -q 'Crawling แบบมีขอบเขตและทำซ้ำได้' "$root/module-4.html"
+grep -q 'ให้ AI ค้นรายชื่องานที่เกี่ยวข้องแบบมีขอบเขต' "$root/module-4.html"
 grep -q 'output/openalex/raw-works.jsonl' "$root/module-4.html"
 grep -q 'per_page=100 และ cursor paging' "$root/module-4.html"
 grep -q 'Use the OpenAlex snapshot instead of cursoring through the whole database' "$root/downloads/starter-AGENTS.md"
@@ -141,7 +141,7 @@ grep -q 'BibTeX เก็บข้อมูลอ้างอิง, DOI ชี�
 grep -q 'APA คือกติกาการแสดงผล; BibTeX และ RIS คือรูปแบบไฟล์' "$root/module-4.html"
 grep -q 'ตัวอย่างสมมติ—ห้ามนำไปอ้างอิง' "$root/module-4.html"
 grep -q 'ค้นหลักฐานใหม่สำหรับ Claim' "$root/module-4.html"
-grep -q 'งานเขียนที่ต้องตรวจ Citation' "$root/module-4.html"
+grep -q 'มีงานเขียนที่อยากตรวจการอ้างอิง' "$root/module-4.html"
 grep -q 'ตัดสินใจว่าจะเก็บ ปรับ หรือตัด Citation' "$root/module-4.html"
 if grep -q 'จุดนัดพบ\|มาบรรจบกัน\|Module นี้เริ่มเรียนได้โดยตรง\|ผู้เรียนทำ:\|ส่งให้ AI:\|ส่งให้ AI หลังมีแหล่งต้นทาง:\|ผลที่คาดหวัง:' "$root/module-4.html"; then
   echo 'Module 4 must use learner-facing language instead of workflow labels.' >&2
