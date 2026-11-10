@@ -13,6 +13,14 @@ grep -q 'module-7-steps.js' "$root/module-7.html"
 grep -q 'setup-module-07-windows.ps1' "$root/module-7.html"
 grep -q 'setup-module-07-macos.sh' "$root/module-7.html"
 grep -q 'setup-module-07-linux.sh' "$root/module-7.html"
+grep -q 'prepare_work_area(workspace)' "$root/downloads/setup-module-07.py"
+grep -q 'Open this folder in VS Code' "$root/downloads/setup-module-07.py"
+[[ "$(grep -o 'workspaceTitle:' "$root/assets/module-7-steps.js" | wc -l)" -eq 5 ]]
+grep -q 'dataset.module7WorkspaceGuide' "$root/assets/module-7-steps.js"
+if grep -q 'href="downloads/' "$root/module-7.html"; then
+  echo 'Module 7 course files must be installed once in the first stage and opened from the VS Code workspace.' >&2
+  exit 1
+fi
 [[ "$(grep -o 'command markdown-command ai-prompt' "$root/module-7.html" | wc -l)" -ge 5 ]]
 [[ "$(grep -o 'command markdown-command copy-example' "$root/module-7.html" | wc -l)" -eq 2 ]]
 if grep -q '<blockquote>' "$root/module-7.html"; then

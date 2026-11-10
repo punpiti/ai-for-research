@@ -13,7 +13,7 @@
   <script src="assets/dev-auth.js?v=20261010-1"></script>
   <script src="assets/site-shell.js?v=20261010-1"></script>
   <script src="assets/app.js?v=20261011-4" defer></script>
-  <script src="assets/module-7-steps.js?v=20261110-2" defer></script>
+  <script src="assets/module-7-steps.js?v=20261111-1" defer></script>
   <script src="assets/module-7-submission.js?v=20261110-1" defer></script>
 </head>
 <body>
@@ -33,13 +33,10 @@
 <ul>
 <li>เลือกข้อมูลจากหนึ่งใน Track A–D พร้อมสิทธิการใช้และพจนานุกรมข้อมูลเมื่อมี</li>
 <li>เตรียมคำถาม สมมติฐาน หรือเป้าหมายการพยากรณ์หนึ่งข้อที่ยังแก้ไขได้</li>
-<li>เปิด AI ที่แนบแฟ้มและดาวน์โหลดผลลัพธ์ได้ ใช้ผ่านเว็บหรือแอปได้</li>
-<li>ดาวน์โหลด <a href="downloads/module-07-data-analysis-visualization-workbook.md">สมุดงาน Module 7</a></li>
-<li>เปิด <a href="downloads/module-07-notebooks/module-07-data-visualization.ipynb">สารบัญ Data Visualization Lab</a> แล้วเรียนตามลำดับ <a href="downloads/module-07-notebooks/module-07a-read-and-audit.ipynb">Part A — อ่านและตรวจกราฟ</a> → <a href="downloads/module-07-notebooks/module-07b-revise-and-publish.ipynb">Part B — ปรับและส่งออก</a> ส่วน <a href="downloads/module-07-notebooks/module-07c-matplotlib-foundations.ipynb">Part C — Matplotlib Foundations</a> เป็นเนื้อหาเลือกเรียนเมื่อต้องเปิดหรือแก้โค้ด</li>
-<li>ใช้ตัวติดตั้งด้านล่างเป็นวิธีหลัก ตัวติดตั้งจะสร้าง environment แยก ติดตั้ง JupyterLab/kernel และดาวน์โหลด notebook ฟอนต์กับแบบฝึกให้ครบ</li>
-<li><a href="downloads/module-07-notebooks/module-07-notebook-bundle.zip">Notebook bundle</a> และ <a href="downloads/module-07-notebooks/module-07-standalone-setup.md">คู่มือติดตั้งแบบ standalone</a> เป็นทางเลือกสำรองสำหรับเครื่องที่ผู้ดูแลต้องการติดตั้งเอง</li>
-<li>ใช้ <a href="downloads/module-07-visualization-workflow-and-prompts.md">Visualization Workflow &amp; Prompt Card</a> สำหรับ Chart Contract, Prompt, Graph Clinic, Colab, export และเกณฑ์ส่งงาน</li>
-<li>เตรียมพื้นที่แยกข้อมูลต้นฉบับ script ที่ AI สร้าง ผลวิเคราะห์ ตาราง ภาพ และบันทึกการตรวจ</li>
+<li>เปิด AI ที่แนบแฟ้มและดาวน์โหลดผลลัพธ์ได้ ใช้ผ่านเว็บ แอป หรือใน VS Code ได้</li>
+<li>รันตัวติดตั้งด้านล่างเพียงครั้งเดียว ตัวติดตั้งจะสร้าง environment และโหลด notebook ฟอนต์ สมุดงาน Prompt Card กับชุดแบบฝึกทั้งหมดเข้า <code>ai-for-research-workspace</code></li>
+<li>เมื่อเห็น <code>FINAL_RESULT PASS</code> ให้เปิดโฟลเดอร์ <code>ai-for-research-workspace</code> ใน VS Code แล้วใช้ Explorer เปิดไฟล์ตาม path ที่แต่ละเมนูระบุ</li>
+<li>บันทึกไฟล์ที่แก้ ผลวิเคราะห์ ตาราง ภาพ และบันทึกการตรวจไว้ใต้ <code>module-07-work/</code> ซึ่งตัวติดตั้งเตรียมให้ โดยไม่แก้ไฟล์ต้นฉบับใน <code>course-materials/</code></li>
 </ul>
 <h3 id="ติดตั้งครั้งเดียวด้วย-terminal">ติดตั้งครั้งเดียวด้วย Terminal</h3>
 <p>เลือก OS แล้วคัดลอกคำสั่งเดียวไปวางใน Terminal หรือ PowerShell แบบปกติ ไม่ต้องเปิดแบบ Administrator คำสั่งจะย้ายไปยังโฟลเดอร์ผู้ใช้ ดาวน์โหลด bootstrap script ก่อน แล้วจึงเรียก script นั้น ไฟล์เรียนจะอยู่ที่ <code>~/ai-for-research-workspace/course-materials/module-07/</code> และ environment จะอยู่ที่ <code>~/ai-for-research-workspace/.venv-module07/</code> โดยไม่แก้ global Python</p>
@@ -67,7 +64,7 @@
   </article>
 </div>
 <div class="notice"><strong>ระหว่างติดตั้ง:</strong> เปิด Terminal ไว้จนจบ ตัวติดตั้งจะรายงานขั้นที่กำลังทำและหยุดพร้อมข้อความแก้ไขหากมีปัญหา</div>
-<div class="notice"><strong>ติดตั้งสำเร็จเมื่อ:</strong> Terminal แสดง <code>FINAL_RESULT PASS</code> แล้วใช้คำสั่งเปิดบทเรียนที่แสดงไว้ท้ายผลลัพธ์ การรันซ้ำจะ reuse ไฟล์ที่ตรงกันและไม่เขียนทับ notebook ที่ผู้เรียนแก้แล้ว</div>
+<div class="notice"><strong>ติดตั้งสำเร็จเมื่อ:</strong> Terminal แสดง <code>FINAL_RESULT PASS</code> แล้วเปิดโฟลเดอร์ <code>ai-for-research-workspace</code> ใน VS Code การรันซ้ำจะ reuse ไฟล์ที่ตรงกันและไม่เขียนทับงานใต้ <code>module-07-work/</code></div>
 <div class="plain-note"><strong>คุณถาม เลือก และตรวจ ส่วน AI ช่วยคำนวณและสร้างภาพ:</strong> ใช้หน้าสนทนากับ AI โปรแกรมดูตาราง และโปรแกรมเปิดภาพหรือ HTML ให้ AI สรุปวิธีวิเคราะห์ รุ่นเครื่องมือ คำเตือน และแฟ้มผลลัพธ์เป็นรายงานอ่านง่าย คำถาม เหตุผลเลือกวิธี และข้อสรุปต้องมาจากคุณ</div>
 </div></section>
 <section class="section markdown-section" id="คำถามแกนของโมดูล" aria-labelledby="คำถามแกนของโมดูล-heading"><div class="section-heading compact"><h2 id="คำถามแกนของโมดูล-heading">คำถามแกนของโมดูล</h2>
@@ -418,7 +415,7 @@
 <p>หากไลบรารีที่ต้องใช้ไม่มีอยู่ AI ต้องเสนอทางเลือกที่มีอยู่หรือแจ้งรายการที่ขาดพร้อมเหตุผล คุณจึงตัดสินใจว่าจะใช้ทางเลือกหรือกลับไปเพิ่มซอฟต์แวร์ผ่าน Module 1 ห้ามให้ AI ติดตั้งแพ็กเกจโดยพลการระหว่างการวิเคราะห์</p>
 </div></section>
 <section class="section markdown-section" id="your-starting-point" aria-labelledby="your-starting-point-heading"><div class="section-heading compact"><h2 id="your-starting-point-heading">เลือกจุดเริ่มต้นของคุณ</h2>
-</div><div class="markdown-body"><p>เลือกหนึ่งเส้นทาง โดยทุกเส้นทางใช้ <a href="downloads/module-07-data-analysis-visualization-workbook.md">สมุดงาน Module 7</a> ชุดเดียวกัน</p>
+</div><div class="markdown-body"><p>เลือกหนึ่งเส้นทาง ทุกเส้นทางใช้สมุดงาน <code>course-materials/module-07/templates/module-07-data-analysis-visualization-workbook.md</code> ใน VS Code workspace ชุดเดียวกัน</p>
 <h3 id="track-a--การจำแนกประเภทแบบ-iris">ทาง A — การจำแนกประเภทแบบ Iris</h3>
 <p>ใช้ชุดข้อมูล Iris หรือชุดข้อมูลหลายกลุ่มที่มีโครงสร้างใกล้เคียงกัน เพื่อเรียนรู้ความแตกต่างระหว่างการอธิบายข้อมูลกับการพยากรณ์</p>
 <ul>
@@ -631,14 +628,14 @@
 </ul>
 </div></section>
 <section class="section markdown-section" id="figure-consistency-audit" aria-labelledby="figure-consistency-audit-heading"><div class="section-heading compact"><p class="eyebrow">แบบฝึกปลายโมดูล</p><h2 id="figure-consistency-audit-heading">Figure Consistency Audit — อ่านทั้งเอกสาร ไม่อ่านกราฟแยกรูป</h2>
-</div><div class="markdown-body"><p>ดาวน์โหลดชุดฝึกซึ่งใช้ข้อมูลจำลองชุดเดียวกันทั้งหมด:</p>
+</div><div class="markdown-body"><p>เปิดชุดฝึกที่ติดตั้งไว้แล้วจาก VS Code workspace ชุดนี้ใช้ข้อมูลจำลองเดียวกันทั้งหมด:</p>
 <ul>
-<li><a href="downloads/module-07-figure-consistency/mock-article-figure-consistency.pdf">Mock article PDF</a></li>
-<li><a href="downloads/module-07-figure-consistency/mock-study-data.csv">Mock study data CSV</a></li>
-<li><a href="downloads/module-07-figure-consistency/figure-consistency-audit-template.md">Audit template</a></li>
+<li><code>course-materials/module-07/examples/figure-consistency/mock-article-figure-consistency.pdf</code></li>
+<li><code>course-materials/module-07/examples/figure-consistency/mock-study-data.csv</code></li>
+<li><code>module-07-work/module-07-figure-audit.md</code></li>
 </ul>
 <p>แต่ละรูปและตารางอาจดูสมเหตุสมผลเมื่อเปิดแยกกัน แต่เมื่ออ่านร่วมกับ Methods, caption และข้อสรุป อาจพบว่าสี นิยาม ทิศทางเครื่องหมาย สถิติ กลุ่มข้อมูล ช่วงแกน หรือประชากรไม่คงที่ เป้าหมายคือค้นหาความไม่สอดคล้องที่เปลี่ยนข้อสรุป ไม่ใช่รวบรวมความชอบด้านรูปแบบ</p>
-<p>ทำ human-first pass ก่อนใช้ AI แล้วกรอก <code>module-07-figure-audit.md</code> ให้มีอย่างน้อย 6 ประเด็น โดยอย่างน้อย 4 ประเด็นต้องอาศัยการอ่านตั้งแต่สองตำแหน่งขึ้นไป และตรวจอย่างน้อย 3 ค่าจาก CSV</p>
+<p>ทำ human-first pass ก่อนใช้ AI แล้วกรอก <code>module-07-work/module-07-figure-audit.md</code> ให้มีอย่างน้อย 6 ประเด็น โดยอย่างน้อย 4 ประเด็นต้องอาศัยการอ่านตั้งแต่สองตำแหน่งขึ้นไป และตรวจอย่างน้อย 3 ค่าจาก CSV</p>
 <h3 id="gatekeeper-submission">ส่งให้ผู้สอนตรวจ</h3>
 <p>แบบฝึกนี้ใช้ข้อมูลจำลอง จึงส่ง Markdown ฉบับเต็มให้ผู้สอนตรวจได้ ห้ามใช้ช่องนี้ส่งข้อมูลวิจัยจริงหรือข้อมูลลับ</p>
 <form class="module-submission-form" data-module-7-submission-form>

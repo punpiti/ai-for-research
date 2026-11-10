@@ -3,11 +3,36 @@
 
   const storageKey = "ai-for-research.module-7.steps.v1";
   const steps = [
-    { id: "start", title: "เตรียมบทเรียน", short: "เตรียม", sections: ["start", "คำถามแกนของโมดูล", "outcomes"] },
-    { id: "learn", title: "Workshop และพื้นฐาน", short: "Workshop", sections: ["no-code-ในโมดูลนี้หมายถึงอะไร", "รู้จักแฟ้มข้อมูลก่อนนำเข้า", "python-ทำงานอยู่เบื้องหลังอย่างไร", "จาก-dataframe-ไปเป็น-visualization"] },
-    { id: "create", title: "สร้างและปรับกราฟ", short: "สร้างกราฟ", sections: ["your-starting-point", "ตั้งสมมติฐานอย่างไร", "activity"] },
-    { id: "audit", title: "ตรวจทั้งภาพและเอกสาร", short: "ตรวจบั๊ก", sections: ["red-team-ก่อนสรุปผล", "figure-consistency-audit"] },
-    { id: "finish", title: "ส่งงานและนำไปใช้ต่อ", short: "ส่งงาน", sections: ["finish", "การบ้าน", "review"] },
+    {
+      id: "start", title: "เตรียมบทเรียน", short: "เตรียม", sections: ["start", "คำถามแกนของโมดูล", "outcomes"],
+      workspaceTitle: "ติดตั้งและโหลดไฟล์ทั้งหมดครั้งเดียวในช่วงนี้",
+      workspaceFiles: ["course-materials/module-07/", "module-07-work/"],
+      workspaceHelp: "เมื่อ Terminal แสดง FINAL_RESULT PASS ให้เปิดโฟลเดอร์ ai-for-research-workspace ใน VS Code เมนูถัดไปจะใช้ไฟล์จาก Explorer โดยไม่ดาวน์โหลดซ้ำ",
+    },
+    {
+      id: "learn", title: "Workshop และพื้นฐาน", short: "Workshop", sections: ["no-code-ในโมดูลนี้หมายถึงอะไร", "รู้จักแฟ้มข้อมูลก่อนนำเข้า", "python-ทำงานอยู่เบื้องหลังอย่างไร", "จาก-dataframe-ไปเป็น-visualization"],
+      workspaceTitle: "เปิดไฟล์ Workshop จาก VS Code Explorer",
+      workspaceFiles: ["course-materials/module-07/notebooks/module-07-data-visualization.ipynb", "course-materials/module-07/notebooks/module-07a-read-and-audit.ipynb", "course-materials/module-07/templates/module-07-data-analysis-visualization-workbook.md"],
+      workspaceHelp: "ใช้ไฟล์ที่ติดตั้งไว้แล้ว และบันทึกงานของคุณใต้ module-07-work/",
+    },
+    {
+      id: "create", title: "สร้างและปรับกราฟ", short: "สร้างกราฟ", sections: ["your-starting-point", "ตั้งสมมติฐานอย่างไร", "activity"],
+      workspaceTitle: "เปิด notebook และ Prompt Card จาก VS Code Explorer",
+      workspaceFiles: ["course-materials/module-07/notebooks/module-07b-revise-and-publish.ipynb", "course-materials/module-07/notebooks/module-07c-matplotlib-foundations.ipynb", "course-materials/module-07/templates/module-07-visualization-workflow-and-prompts.md"],
+      workspaceHelp: "Part C เป็นเนื้อหาเลือกเรียน เปิดเมื่อจำเป็นต้องตรวจหรือแก้โค้ด แล้วเก็บภาพและตารางที่สร้างใน module-07-work/",
+    },
+    {
+      id: "audit", title: "ตรวจทั้งภาพและเอกสาร", short: "ตรวจบั๊ก", sections: ["red-team-ก่อนสรุปผล", "figure-consistency-audit"],
+      workspaceTitle: "ใช้ชุดตรวจบั๊กที่อยู่ใน workspace",
+      workspaceFiles: ["course-materials/module-07/examples/figure-consistency/mock-article-figure-consistency.pdf", "course-materials/module-07/examples/figure-consistency/mock-study-data.csv", "module-07-work/module-07-figure-audit.md"],
+      workspaceHelp: "เปิด PDF, CSV และไฟล์คำตอบจาก VS Code Explorer ชุดนี้ติดตั้งมาจากช่วงแรกแล้ว",
+    },
+    {
+      id: "finish", title: "ส่งงานและนำไปใช้ต่อ", short: "ส่งงาน", sections: ["finish", "การบ้าน", "review"],
+      workspaceTitle: "ตรวจและส่งไฟล์ฉบับสุดท้ายจาก workspace",
+      workspaceFiles: ["module-07-work/module-07-figure-audit.md", "module-07-work/"],
+      workspaceHelp: "ตรวจไฟล์ใน VS Code ให้เรียบร้อย แล้วเลือกไฟล์ module-07-figure-audit.md ในแบบฟอร์มส่งงาน ไม่ต้องดาวน์โหลดชุดเรียนอีกครั้ง",
+    },
   ];
 
   function readState() {
@@ -80,6 +105,13 @@
         const section = document.getElementById(sectionId);
         if (section) panel.append(section);
       }
+
+      const workspaceGuide = document.createElement("div");
+      workspaceGuide.className = "plain-note module-7-workspace-guide";
+      workspaceGuide.dataset.module7WorkspaceGuide = step.id;
+      const fileList = step.workspaceFiles.map((path) => `<li><code>${path}</code></li>`).join("");
+      workspaceGuide.innerHTML = `<strong>${step.workspaceTitle}</strong><p>${step.workspaceHelp}</p><ul>${fileList}</ul>`;
+      panel.prepend(workspaceGuide);
 
       const navigation = document.createElement("nav");
       navigation.className = "module-step-navigation";

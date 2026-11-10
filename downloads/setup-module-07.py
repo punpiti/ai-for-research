@@ -185,6 +185,18 @@ def write_launchers(workspace: Path, python: Path) -> None:
     )
 
 
+def prepare_work_area(workspace: Path) -> Path:
+    work_root = workspace / "module-07-work"
+    work_root.mkdir(parents=True, exist_ok=True)
+    answer = work_root / "module-07-figure-audit.md"
+    template = workspace / "course-materials/module-07/examples/figure-consistency/figure-consistency-audit-template.md"
+    if not answer.exists():
+        if not template.is_file():
+            raise RuntimeError("Figure-consistency audit template is missing after installation.")
+        shutil.copy2(template, answer)
+    return work_root
+
+
 def shlex_quote(value: str) -> str:
     import shlex
 
@@ -207,6 +219,8 @@ def main() -> None:
     manifest = read_manifest(args.manifest_url, args.allowed_url_prefix)
     installed, reused, updates = install_materials(workspace, manifest, args.allowed_url_prefix)
     log(f"Materials ready: installed={installed}, reused={reused}, updates={updates}")
+    work_root = prepare_work_area(workspace)
+    log(f"Learner work area: {work_root}")
 
     environment = workspace / ".venv-module07"
     run(uv, "venv", "--python", "3.12", "--allow-existing", environment)
@@ -235,6 +249,7 @@ def main() -> None:
     if not notebook.is_file():
         raise RuntimeError("Module 7 notebook hub is missing after installation.")
     log("FINAL_RESULT PASS")
+    log(f"Open this folder in VS Code: {workspace}")
     if os.name == "nt":
         log(f"Start later: powershell -ExecutionPolicy Bypass -File \"{workspace / 'tools/start-module-07.ps1'}\"")
     else:
