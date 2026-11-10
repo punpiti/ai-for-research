@@ -43,26 +43,31 @@
 </ul>
 <h3 id="ติดตั้งครั้งเดียวด้วย-terminal">ติดตั้งครั้งเดียวด้วย Terminal</h3>
 <p>เลือก OS แล้วคัดลอกคำสั่งเดียวไปวางใน Terminal หรือ PowerShell แบบปกติ ไม่ต้องเปิดแบบ Administrator คำสั่งจะย้ายไปยังโฟลเดอร์ผู้ใช้ ดาวน์โหลด bootstrap script ก่อน แล้วจึงเรียก script นั้น ไฟล์เรียนจะอยู่ที่ <code>~/ai-for-research-workspace/course-materials/module-07/</code> และ environment จะอยู่ที่ <code>~/ai-for-research-workspace/.venv-module07/</code> โดยไม่แก้ global Python</p>
+<div class="task-heading"><span class="content-kind is-terminal">คำสั่ง Terminal</span><strong>เลือกระบบ แล้วคัดลอกคำสั่งไปวาง</strong></div>
 <div class="platform-picker module-07-platform-picker" role="group" aria-label="เลือกระบบปฏิบัติการสำหรับติดตั้ง Module 7">
   <button type="button" data-platform-button="windows">Windows 11</button>
   <button type="button" data-platform-button="macos">macOS</button>
   <button type="button" data-platform-button="linux">Linux</button>
 </div>
-<div class="platform-grid module-07-install-grid">
+<div class="platform-grid compact-platform-grid module-07-install-grid">
   <article class="platform-card" data-platform-panel="windows">
-    <p class="platform-label">Windows 11</p><h4>เปิด PowerShell แบบปกติ</h4>
+    <p class="platform-label">Windows 11</p><h3>เปิด PowerShell แบบปกติ</h3>
     <div class="command terminal-command"><code>Set-Location $HOME; $setup = Join-Path $env:TEMP 'ai-module07-bootstrap.ps1'; Invoke-WebRequest -UseBasicParsing -ErrorAction Stop 'https://urban.cpe.ku.ac.th/ai-for-research/downloads/setup-module-07-windows.ps1' -OutFile $setup; powershell -NoProfile -ExecutionPolicy Bypass -File $setup -Workspace (Join-Path $HOME 'ai-for-research-workspace')</code><button type="button" data-copy>คัดลอกคำสั่งติดตั้ง</button></div>
+    <p class="expected">วางคำสั่ง กด Enter และรอจนเห็น <code>FINAL_RESULT PASS</code></p>
   </article>
   <article class="platform-card" data-platform-panel="macos">
-    <p class="platform-label">macOS</p><h4>เปิด Terminal</h4>
+    <p class="platform-label">macOS</p><h3>เปิด Terminal</h3>
     <div class="command terminal-command"><code>cd "$HOME" &amp;&amp; setup="$(mktemp)" &amp;&amp; curl -fsSL 'https://urban.cpe.ku.ac.th/ai-for-research/downloads/setup-module-07-macos.sh' -o "$setup" &amp;&amp; bash "$setup" --workspace "$HOME/ai-for-research-workspace"</code><button type="button" data-copy>คัดลอกคำสั่งติดตั้ง</button></div>
+    <p class="expected">วางคำสั่ง กด Enter และรอจนเห็น <code>FINAL_RESULT PASS</code></p>
   </article>
   <article class="platform-card" data-platform-panel="linux">
-    <p class="platform-label">Linux (Ubuntu/Debian)</p><h4>เปิด Terminal</h4>
+    <p class="platform-label">Linux (Ubuntu/Debian)</p><h3>เปิด Terminal</h3>
     <div class="command terminal-command"><code>cd "$HOME" &amp;&amp; setup="$(mktemp)" &amp;&amp; curl -fsSL 'https://urban.cpe.ku.ac.th/ai-for-research/downloads/setup-module-07-linux.sh' -o "$setup" &amp;&amp; bash "$setup" --workspace "$HOME/ai-for-research-workspace"</code><button type="button" data-copy>คัดลอกคำสั่งติดตั้ง</button></div>
+    <p class="expected">วางคำสั่ง กด Enter และรอจนเห็น <code>FINAL_RESULT PASS</code></p>
   </article>
 </div>
-<p class="expected"><strong>สำเร็จเมื่อ:</strong> Terminal แสดง <code>FINAL_RESULT PASS</code> แล้วใช้คำสั่งเปิดบทเรียนที่ installer แสดงไว้ท้ายผลลัพธ์ การรันซ้ำจะ reuse ไฟล์ที่ตรงกันและไม่เขียนทับ notebook ที่ผู้เรียนแก้แล้ว</p>
+<div class="notice"><strong>ระหว่างติดตั้ง:</strong> เปิด Terminal ไว้จนจบ ตัวติดตั้งจะรายงานขั้นที่กำลังทำและหยุดพร้อมข้อความแก้ไขหากมีปัญหา</div>
+<div class="notice"><strong>ติดตั้งสำเร็จเมื่อ:</strong> Terminal แสดง <code>FINAL_RESULT PASS</code> แล้วใช้คำสั่งเปิดบทเรียนที่แสดงไว้ท้ายผลลัพธ์ การรันซ้ำจะ reuse ไฟล์ที่ตรงกันและไม่เขียนทับ notebook ที่ผู้เรียนแก้แล้ว</div>
 <div class="plain-note"><strong>คุณถาม เลือก และตรวจ ส่วน AI ช่วยคำนวณและสร้างภาพ:</strong> ใช้หน้าสนทนากับ AI โปรแกรมดูตาราง และโปรแกรมเปิดภาพหรือ HTML ให้ AI สรุปวิธีวิเคราะห์ รุ่นเครื่องมือ คำเตือน และแฟ้มผลลัพธ์เป็นรายงานอ่านง่าย คำถาม เหตุผลเลือกวิธี และข้อสรุปต้องมาจากคุณ</div>
 </div></section>
 <section class="section markdown-section" id="คำถามแกนของโมดูล" aria-labelledby="คำถามแกนของโมดูล-heading"><div class="section-heading compact"><h2 id="คำถามแกนของโมดูล-heading">คำถามแกนของโมดูล</h2>
@@ -70,14 +75,14 @@
 </div></section>
 <section class="section markdown-section" id="outcomes" aria-labelledby="outcomes-heading"><div class="section-heading compact"><p class="eyebrow">LO</p><h2 id="outcomes-heading">สิ่งที่จะทำได้</h2>
 </div><div class="markdown-body"><p>เมื่อจบโมดูล คุณจะสามารถ</p>
-<ol type="1">
-<li>แปลงคำถามวิจัยเป็นหน่วยวิเคราะห์ ตัวแปร สมมติฐานหรือเป้าหมายการพยากรณ์ และหลักเกณฑ์การแปลผล</li>
-<li>ตรวจโครงสร้างและคุณภาพของข้อมูลจาก Excel, CSV หรือ SPSS ก่อนวิเคราะห์</li>
-<li>สั่งให้ AI วิเคราะห์ข้อมูลและสร้างตารางหรือภาพโดยไม่ต้องเขียนโปรแกรมเอง</li>
-<li>เลือกวิธีวิเคราะห์และรูปแบบการนำเสนอให้เหมาะกับงานวิทยาศาสตร์ งานสังคมศาสตร์ และงานพยากรณ์หรือจำแนกประเภท</li>
-<li>ตรวจตัวเลข วิธีรวมข้อมูล มาตราส่วน สี คำอธิบายภาพ และข้อสรุปย้อนกลับถึงข้อมูลต้นทางได้</li>
-<li>ส่งออกตาราง ภาพนิ่ง และภาพเชิงโต้ตอบในรูปแบบที่พร้อมใช้ในบทความ โปสเตอร์ สไลด์ หรือเว็บไซต์</li>
-</ol>
+<div class="check-grid outcome-grid">
+<div><span>01</span><strong>แปลงคำถามวิจัยเป็นหน่วยวิเคราะห์ ตัวแปร สมมติฐานหรือเป้าหมายการพยากรณ์ และหลักเกณฑ์การแปลผล</strong></div>
+<div><span>02</span><strong>ตรวจโครงสร้างและคุณภาพของข้อมูลจาก Excel, CSV หรือ SPSS ก่อนวิเคราะห์</strong></div>
+<div><span>03</span><strong>สั่งให้ AI วิเคราะห์ข้อมูลและสร้างตารางหรือภาพโดยไม่ต้องเขียนโปรแกรมเอง</strong></div>
+<div><span>04</span><strong>เลือกวิธีวิเคราะห์และรูปแบบการนำเสนอให้เหมาะกับงานวิจัยแต่ละประเภท</strong></div>
+<div><span>05</span><strong>ตรวจตัวเลข การรวมข้อมูล มาตราส่วน สี คำอธิบายภาพ และข้อสรุปย้อนกลับถึงข้อมูลต้นทาง</strong></div>
+<div><span>06</span><strong>ส่งออกตาราง ภาพนิ่ง และภาพโต้ตอบที่พร้อมใช้ในบทความ โปสเตอร์ สไลด์ หรือเว็บไซต์</strong></div>
+</div>
 <p>โมดูลนี้ไม่ทดแทนวิชาสถิติ ระเบียบวิธีวิจัย หรือวิธีวิเคราะห์เฉพาะสาขา AI อาจเสนอและดำเนินการวิเคราะห์ แต่ผู้วิจัยต้องรับผิดชอบความเหมาะสมของวิธี ความถูกต้องของข้อมูล และการแปลผล</p>
 </div></section>
 <section class="section markdown-section" id="no-code-ในโมดูลนี้หมายถึงอะไร" aria-labelledby="no-code-ในโมดูลนี้หมายถึงอะไร-heading"><div class="section-heading compact"><h2 id="no-code-ในโมดูลนี้หมายถึงอะไร-heading">ไม่เขียนโปรแกรมเองในโมดูลนี้หมายถึงอะไร</h2>
