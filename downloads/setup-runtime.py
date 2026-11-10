@@ -16,7 +16,7 @@ import urllib.request
 import zipfile
 
 _tracked_paths = []
-COURSE_MATERIALS_MANIFEST_URL = 'https://urban.cpe.ku.ac.th/ai-for-research/downloads/module-07-materials.json'
+COURSE_MATERIALS_MANIFEST_URL = 'https://urban.cpe.ku.ac.th/ai-for-research/downloads/course-materials.json'
 COURSE_MATERIALS_URL_PREFIX = 'https://urban.cpe.ku.ac.th/ai-for-research/downloads/'
 
 
