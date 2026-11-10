@@ -28,7 +28,7 @@ for number in {2..9}; do
   check_file "$file" "learning outcomes" '<h2[^>]*>สิ่งที่จะทำได้</h2>'
   check_file "$file" "checkpoint label" '<p class="eyebrow">Checkpoint</p>'
   check_file "$file" "post-lesson result" '<h2[^>]*>จบบทเรียน</h2>'
-  check_file "$file" "learner profile" 'data-research-profile'
+  if [[ "$number" != 2 ]]; then check_file "$file" "learner profile" 'data-research-profile'; fi
 done
 check_file "$site_dir/admin/index.html" "class-wide learner route control" 'นิสิต / นักวิจัยมือใหม่'
 check_file "$site_dir/admin/index.html" "class-wide faculty route control" 'อาจารย์ / นักวิจัย'
@@ -108,12 +108,12 @@ check_file "$site_dir/assets/module-1-submission.js" "M1 progress endpoint" '/ap
 check_file "$site_dir/assets/module-1-submission.js" "M1 progress-only schema" 'ai-for-research\.module-1-progress\.v1'
 node --check "$site_dir/assets/module-1-submission.js"
 node "$site_dir/scripts/test-module-1-submission.js"
-check_file "$site_dir/module-2.html" "M2 action hierarchy JS" 'assets/app\.js\?v=20261011-4'
-check_file "$site_dir/module-2.html" "M2 step flow JS" 'assets/module-2-steps\.js\?v=20261011-1'
+check_file "$site_dir/module-2.html" "M2 action hierarchy JS" 'assets/app\.js\?v=20261019-1'
+check_file "$site_dir/module-2.html" "M2 step flow JS" 'assets/module-2-steps\.js\?v=20261019-3'
 check_file "$site_dir/module-2.html" "M2 step flow CSS" 'assets/styles\.css\?v=20261011-1'
 check_file "$site_dir/module-3.html" "M3 action hierarchy JS" 'assets/app\.js\?v=20261011-4'
 check_file "$site_dir/module-3.html" "M3 access JS" 'assets/module-3-access\.js\?v=20261011-1'
-check_file "$site_dir/module-3.html" "M3 step flow JS" 'assets/module-3-steps\.js\?v=20261011-1'
+check_file "$site_dir/module-3.html" "M3 step flow JS" 'assets/module-3-steps\.js\?v=20261019-1'
 check_file "$site_dir/module-3.html" "M3 action hierarchy CSS" 'assets/styles\.css\?v=20261011-1'
 check_file "$site_dir/assets/app.js" "module action legend" 'learning-action-legend'
 check_file "$site_dir/assets/app.js" "AI prompt label" 'Prompt ให้ AI'
@@ -250,7 +250,7 @@ import re, sys
 from pathlib import Path
 
 html = Path(sys.argv[1]).read_text(encoding="utf-8")
-first_reference = html.index("ข้อสรุป Markdown กับ JSON")
+first_reference = html.index("Markdown Preview")
 explainer = html.index("data-file-structure-explainer")
 assert first_reference < explainer, "file explainer must follow the first Markdown/JSON reference"
 tag = re.search(r"<details[^>]*data-file-structure-explainer[^>]*>", html).group(0)
@@ -390,7 +390,7 @@ with zipfile.ZipFile(bundle) as archive:
     assert set(archive.namelist()) == {
         "README.md", "01-lunch-brief-th.pdf", "02-menu-observations.xlsx",
         "03-omelette-recipe-bilingual.docx", "04-lunch-tray.png",
-        "05-canteen-reviews.html", "06-web-source.txt",
+        "05-canteen-reviews.html", "06-web-source.txt", "07-mock-nutrition.csv", "08-example-meal-card.md",
     }
 PYTEST
 for stage in {1..7}; do

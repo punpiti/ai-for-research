@@ -5,8 +5,8 @@
   const stages = [
     { id: "prepare", short: "เตรียม", title: "เตรียมงานและเลือกเส้นทาง", selectors: ["main > .profile-context", "#learner-level", "#faculty-start", "#start", "#outcomes"] },
     { id: "concepts", short: "เข้าใจปัญหา", title: "แยกส่วนของปัญหาและ Gap", selectors: ["#concepts", "#example"] },
-    { id: "diagnose", short: "วินิจฉัย", title: "วินิจฉัยเปเปอร์หรือหลักฐาน", selectors: ["#student-path", "#faculty-path"] },
-    { id: "challenge", short: "ทดสอบ Gap", title: "สร้างและพยายามหักล้าง Gap", selectors: ["#activity"] },
+    { id: "diagnose", short: "วินิจฉัย", title: "ร่าง ตรวจ และแก้ problem statement", selectors: ["#problem-statement-loop", "#student-path", "#faculty-path"] },
+    { id: "challenge", short: "ตรวจต่อยอด", title: "งานเสริม: สร้างข้อโต้แย้งและทดสอบ Gap", selectors: ["#activity"] },
     { id: "finish", short: "ส่งและจบ", title: "ส่งความคืบหน้าและตรวจงาน", selectors: ["#submit-module-3", "#finish"] },
   ];
 

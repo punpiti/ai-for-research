@@ -16,6 +16,8 @@ import urllib.request
 import zipfile
 
 _tracked_paths = []
+COURSE_MATERIALS_MANIFEST_URL = 'https://urban.cpe.ku.ac.th/ai-for-research/downloads/module-07-materials.json'
+COURSE_MATERIALS_URL_PREFIX = 'https://urban.cpe.ku.ac.th/ai-for-research/downloads/'
 
 
 def diagnostic(message):
@@ -78,6 +80,105 @@ def run(*args, **kwargs):
     diagnostic(result.stderr or '')
     trace('command', 'process', target, 'completed', operation)
     return result
+
+
+def _download_verified(url, target, expected_sha256, expected_bytes, allowed_url_prefix):
+    if not isinstance(url, str) or not url.startswith(allowed_url_prefix):
+        raise RuntimeError('Course-material URL is outside the approved download root.')
+    if (not isinstance(expected_sha256, str) or len(expected_sha256) != 64
+            or any(character not in '0123456789abcdef' for character in expected_sha256)):
+        raise RuntimeError('Course-material SHA-256 is invalid.')
+    if not isinstance(expected_bytes, int) or not 0 < expected_bytes <= 32 * 1024 * 1024:
+        raise RuntimeError('Course-material size is invalid.')
+    target.parent.mkdir(parents=True, exist_ok=True)
+    temporary = target.with_name(target.name + '.download')
+    digest = hashlib.sha256(); total = 0
+    try:
+        with urllib.request.urlopen(url, timeout=30) as response, temporary.open('wb') as stream:
+            if not response.geturl().startswith(allowed_url_prefix):
+                raise RuntimeError('Course-material download redirected outside the approved root.')
+            while True:
+                chunk = response.read(1024 * 1024)
+                if not chunk:
+                    break
+                total += len(chunk)
+                if total > expected_bytes or total > 32 * 1024 * 1024:
+                    raise RuntimeError('Course-material download exceeded its manifest size.')
+                digest.update(chunk); stream.write(chunk)
+        if total != expected_bytes or digest.hexdigest() != expected_sha256:
+            raise RuntimeError('Course-material download failed its size/SHA-256 check.')
+        os.replace(temporary, target)
+    finally:
+        if temporary.exists():
+            temporary.unlink()
+
+
+def install_course_materials(workspace, manifest_url=COURSE_MATERIALS_MANIFEST_URL,
+                             allowed_url_prefix=COURSE_MATERIALS_URL_PREFIX):
+    workspace = Path(workspace).resolve()
+    module_root = (workspace / 'course-materials/module-07').resolve()
+    update_root = (workspace / '.course-updates/course-materials/module-07').resolve()
+    if not isinstance(manifest_url, str) or not manifest_url.startswith(allowed_url_prefix):
+        raise RuntimeError('Course-material manifest is outside the approved download root.')
+    with urllib.request.urlopen(manifest_url, timeout=30) as response:
+        if not response.geturl().startswith(allowed_url_prefix):
+            raise RuntimeError('Course-material manifest redirected outside the approved root.')
+        raw = response.read(128 * 1024 + 1)
+    if len(raw) > 128 * 1024:
+        raise RuntimeError('Course-material manifest is too large.')
+    manifest = json.loads(raw.decode('utf-8'))
+    if not isinstance(manifest, dict) or manifest.get('schema_version') != 'ai-for-research.course-materials.v1' or manifest.get('module_id') != 'module-07':
+        raise RuntimeError('Course-material manifest is not supported.')
+    files = manifest.get('files')
+    if not isinstance(files, list) or not 1 <= len(files) <= 40:
+        raise RuntimeError('Course-material manifest has an invalid file list.')
+    if any(not isinstance(item, dict) or not isinstance(item.get('bytes'), int) for item in files):
+        raise RuntimeError('Course-material manifest has an invalid size entry.')
+    total_expected = sum(item['bytes'] for item in files)
+    if total_expected > 64 * 1024 * 1024:
+        raise RuntimeError('Course-material manifest exceeds the download limit.')
+
+    installed = reused = updates = 0
+    receipt_files = []
+    destinations = set()
+    for item in files:
+        if not isinstance(item, dict) or set(item) != {'url', 'path', 'sha256', 'bytes'}:
+            raise RuntimeError('Course-material manifest entry is invalid.')
+        relative = Path(str(item['path']))
+        if relative.is_absolute() or '..' in relative.parts:
+            raise RuntimeError('Course-material destination is unsafe.')
+        if relative in destinations:
+            raise RuntimeError('Course-material manifest contains a duplicate destination.')
+        destinations.add(relative)
+        target = (workspace / relative).resolve()
+        if target != module_root and module_root not in target.parents:
+            raise RuntimeError('Course-material destination is outside Module 7.')
+        current_sha = hashlib.sha256(target.read_bytes()).hexdigest() if target.is_file() else None
+        if current_sha == item['sha256']:
+            reused += 1; status = 'reused'; destination = target
+        elif target.exists():
+            update_target = (update_root / target.relative_to(module_root)).resolve()
+            if update_root not in update_target.parents:
+                raise RuntimeError('Course-material update destination is unsafe.')
+            update_sha = hashlib.sha256(update_target.read_bytes()).hexdigest() if update_target.is_file() else None
+            if update_sha != item['sha256']:
+                _download_verified(item['url'], update_target, item['sha256'], item['bytes'], allowed_url_prefix)
+            updates += 1; status = 'update_available'; destination = update_target
+        else:
+            _download_verified(item['url'], target, item['sha256'], item['bytes'], allowed_url_prefix)
+            installed += 1; status = 'installed'; destination = target
+        receipt_files.append({'path': str(relative), 'status': status, 'destination': str(destination), 'sha256': item['sha256']})
+
+    module_root.mkdir(parents=True, exist_ok=True)
+    receipt = {
+        'schema_version': manifest['schema_version'], 'module_id': 'module-07',
+        'installed': installed, 'reused': reused, 'updates_available': updates,
+        'files': receipt_files,
+    }
+    receipt_path = module_root / 'install-receipt.json'
+    receipt_path.write_text(json.dumps(receipt, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+    log(f'COURSE_MATERIALS_READY Module 7 installed={installed} reused={reused} updates={updates}; receipt={receipt_path}')
+    return receipt
 
 
 def write_new(path, content):
@@ -374,6 +475,7 @@ def main():
         run('pandoc', source, '--defaults', 'templates/modern-thai.yaml', '-o', pdf, cwd=workspace)
         if not pdf.is_file() or pdf.stat().st_size == 0:
             raise RuntimeError('Thai PDF check did not produce a PDF.')
+    install_course_materials(workspace)
     configure(workspace, args.agent, root, env, python_receipt)
     for path in tracked:
         trace_path(path, 'after')

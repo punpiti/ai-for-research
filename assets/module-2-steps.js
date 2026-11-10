@@ -3,49 +3,17 @@
 
   const storageKey = "ai-for-research.module-2.steps.v1";
   const stages = [
-    { id: "prepare", short: "หลักฐาน", title: "เตรียมหลักฐาน" },
-    { id: "concepts", short: "L1–L4", title: "รู้จัก L1–L4 และไฟล์ผลลัพธ์" },
-    { id: "practice", short: "ทดลอง", title: "ทดลอง ตรวจ และปรับ Prompt" },
-    { id: "submit", short: "ส่งงาน", title: "ตรวจไฟล์และส่งความคืบหน้า" },
+    { id: "prepare", short: "ลองถาม", title: "ใช้ Prompt สั้นแล้วดูคำตอบ" },
+    { id: "concepts", short: "เพิ่มกติกา", title: "เพิ่มกติกาแล้วเทียบคำตอบ" },
+    { id: "practice", short: "ดูผลงาน", title: "สร้างและปรับผลงานด้วย Prompt" },
+    { id: "submit", short: "ทำต่อเอง", title: "เตรียมเรื่องของคุณแล้วทำซ้ำ" },
   ];
 
-  const evidenceSetKey = "ai-for-research.module-2.evidence-set";
-
-  function readEvidenceSet() {
-    try { return localStorage.getItem(evidenceSetKey) || "own"; } catch (_error) { return "own"; }
-  }
-
-  function chooseEvidenceSet(value) {
-    try { localStorage.setItem(evidenceSetKey, value); } catch (_error) { /* The choice lasts for this page view only. */ }
-    location.reload();
-  }
-
-  // Faculty learners without their own files can work on the class sample set:
-  // this learner's Module 2 view switches to the sample sections and prompts.
   function applyEvidenceSetChoice() {
-    const root = document.documentElement;
-    document.querySelector("[data-module-2-use-sample]")?.addEventListener("click", () => chooseEvidenceSet("sample"));
-    if (root.dataset.classroomContentRoute !== "faculty" || readEvidenceSet() !== "sample") return;
-    root.dataset.classroomContentRoute = "student";
-    root.dataset.module2EvidenceSet = "sample";
-    document.querySelectorAll("[data-audience-route]").forEach((element) => {
-      element.hidden = element.dataset.audienceRoute !== "student";
-    });
-    document.querySelectorAll('site-header a[href="#faculty-sources"]').forEach((link) => { link.href = "#sources"; });
-    document.querySelectorAll('site-header a[href="#faculty-activity"]').forEach((link) => { link.href = "#activity"; });
-    const sources = document.getElementById("sources");
-    if (sources && !sources.querySelector("[data-module-2-use-own]")) {
-      const note = document.createElement("div");
-      note.className = "notice evidence-choice";
-      note.innerHTML = '<strong>คุณกำลังใช้ชุดตัวอย่างที่คลาสเตรียมไว้</strong> ถ้าเตรียมไฟล์จากงานของตัวเองแล้ว สลับกลับได้ทุกเมื่อ <div class="hero-actions"><button class="button secondary" type="button" data-module-2-use-own>ใช้ไฟล์จากงานของฉัน</button></div>';
-      sources.querySelector(".section-heading")?.after(note);
-      note.querySelector("button").addEventListener("click", () => chooseEvidenceSet("own"));
-    }
+    document.documentElement.dataset.module2EvidenceSet = "sample";
   }
 
-  function facultyRoute() {
-    return typeof document !== "undefined" && document.documentElement.dataset.classroomContentRoute === "faculty";
-  }
+  function facultyRoute() { return false; }
 
   function readState() {
     try {
@@ -69,7 +37,7 @@
   }
 
   function stageUnlocked(index, state) {
-    return index === 0 || Boolean(state.completed[stages[index - 1].id]);
+    return true; // All stages can be viewed during the demonstration; completion stays explicit.
   }
 
   function validateCheckpoint(stageId, values) {
@@ -185,7 +153,13 @@
       panels.push(panel);
       if (stage.id === "prepare") {
         const review = document.querySelector(".hunger-review");
-        if (review) panel.append(review);
+        if (review) {
+          const reviewDetails = document.createElement("details");
+          reviewDetails.className = "fallback-details";
+          reviewDetails.innerHTML = "<summary>ทบทวนเคส หิว → กิน → อิ่ม</summary>";
+          reviewDetails.append(review);
+          panel.append(reviewDetails);
+        }
       }
       document.querySelectorAll(`[data-module-2-step="${stage.id}"]`).forEach((section) => panel.append(section));
 
@@ -194,8 +168,12 @@
         checkpoint.className = "module-step-checkpoint";
         checkpoint.dataset.module2Checkpoint = stage.id;
         checkpoint.noValidate = true;
-        checkpoint.innerHTML = `<div><p class="eyebrow">จุดส่งผลย่อย</p><h3>${stage.id === "prepare" ? "ยืนยันว่าหลักฐานพร้อม" : stage.id === "concepts" ? "ลองจัดระดับหนึ่งข้อ" : "บันทึกผลเปรียบเทียบสองรอบ"}</h3></div>${checkpointMarkup(stage.id, state.answers[stage.id] || {})}<div class="module-step-checkpoint-actions"><button class="button primary" type="submit">บันทึกผลและไปต่อ</button><small role="status" aria-live="polite"></small></div>`;
-        panel.append(checkpoint);
+        checkpoint.innerHTML = `<div><p class="eyebrow">จุดตรวจสำหรับช่วงฝึกภายหลัง · ข้ามไปดูแท็บอื่นได้</p><h3>${stage.id === "prepare" ? "ยืนยันว่าหลักฐานพร้อม" : stage.id === "concepts" ? "ลองจัดระดับหนึ่งข้อ" : "บันทึกผลเปรียบเทียบสองรอบ"}</h3></div>${checkpointMarkup(stage.id, state.answers[stage.id] || {})}<div class="module-step-checkpoint-actions"><button class="button primary" type="submit">บันทึกผลและไปต่อ</button><small role="status" aria-live="polite"></small></div>`;
+        const checkpointDetails = document.createElement("details");
+        checkpointDetails.className = "fallback-details";
+        checkpointDetails.innerHTML = "<summary>แบบตรวจเพิ่มเติม · ทำเมื่อฝึกละเอียด</summary>";
+        checkpointDetails.append(checkpoint);
+        panel.append(checkpointDetails);
         checkpoint.addEventListener("submit", (event) => {
           event.preventDefault();
           const values = formValues(checkpoint, stage.id);
@@ -213,7 +191,7 @@
       } else {
         const note = document.createElement("p");
         note.className = "module-step-final-note";
-        note.textContent = "ผ่านจุดตรวจย่อยแล้ว ตรวจไฟล์ในเครื่องและส่ง Progress JSON ด้านล่าง";
+        note.textContent = "เมื่อเข้าใจตัวอย่างแล้ว ให้เตรียมเอกสารเรื่องของคุณตามกิจกรรมในแท็บนี้ ส่วนตรวจไฟล์และส่งความคืบหน้าด้านล่างใช้กับแบบฝึกชุดอาหารเมื่อทำครบแล้ว";
         panel.prepend(note);
       }
     });

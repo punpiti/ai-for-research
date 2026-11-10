@@ -10,7 +10,7 @@ param(
 $ErrorActionPreference = 'Stop'
 $ProgressPreference = 'SilentlyContinue'
 $DryRun = $env:AI_RESEARCH_DRY_RUN -eq '1'
-$SetupVersion = '2026.10.08.23'
+$SetupVersion = '2026.10.19.1'
 $TestCommands = @($env:AI_RESEARCH_TEST_COMMANDS -split ',' | Where-Object { $_ })
 $DefaultProjectName = 'ai-for-research-workspace'
 $CourseDirWasProvided = $PSBoundParameters.ContainsKey('CourseDir')
@@ -176,11 +176,63 @@ function Show-AdminProgress([int]$Current, [int]$Total, [string]$Status, [switch
   $savedPreference = $ProgressPreference
   try {
     $ProgressPreference = 'Continue'
-    if ($Completed) { Write-Progress -Activity 'AI for Research: system installation' -Completed; return }
+    if ($Completed) { Write-Progress -Id 1 -Activity 'AI for Research: system installation' -Completed; return }
     $percent = if ($Total -gt 0) { [Math]::Min(100, [Math]::Floor(($Current * 100) / $Total)) } else { 100 }
-    Write-Progress -Activity 'AI for Research: system installation' -Status $Status -PercentComplete $percent
+    Write-Progress -Id 1 -Activity 'AI for Research: system installation' -Status $Status -PercentComplete $percent
     Write-Host ("[AI for Research] ADMIN_PROGRESS {0}/{1} ({2}%) {3}" -f $Current,$Total,$percent,$Status)
   } finally { $ProgressPreference = $savedPreference }
+}
+function Wait-AdminProcess($Process, [string]$Status, [int]$Current = 0, [int]$Total = 1, [ValidateRange(1,60)][int]$NoticeEverySeconds = 10) {
+  # Retain the native handle before waiting (Windows PowerShell 5.1 otherwise can lose ExitCode).
+  $null = $Process.Handle
+  Show-AdminProgress $Current $Total $Status
+  $timer = [Diagnostics.Stopwatch]::StartNew()
+  $nextNotice = 0
+  $savedProgress = $ProgressPreference
+  try {
+    $ProgressPreference = 'Continue'
+    do {
+      $elapsed = [int]$timer.Elapsed.TotalSeconds
+      # WinGet does not expose reliable byte totals here. Never invent download percentages.
+      Write-Progress -Id 2 -ParentId 1 -Activity $Status -Status "Downloading/installing; elapsed $elapsed s. Please keep this window open." -PercentComplete -1
+      if ($elapsed -ge $nextNotice) {
+        Write-Host "[AI for Research] ADMIN_WAIT $Status - elapsed $elapsed s (download/install still running)"
+        $nextNotice = $elapsed + $NoticeEverySeconds
+      }
+    } while (-not $Process.WaitForExit(500))
+    $Process.WaitForExit()
+    $Process.Refresh()
+  } finally {
+    Write-Progress -Id 2 -Activity $Status -Completed
+    $ProgressPreference = $savedProgress
+    $timer.Stop()
+  }
+}
+function Run-AdminPackage([string]$Package, [int]$Current, [int]$Total) {
+  $outputLog = [IO.Path]::GetTempFileName()
+  $errorLog = [IO.Path]::GetTempFileName()
+  Trace 'command' 'process' "Install $Package" 'started'
+  try {
+    $process = Start-Process -FilePath (Get-Command winget -ErrorAction Stop).Source -ArgumentList @('install','--id',$Package,'--exact','--source','winget','--accept-package-agreements','--accept-source-agreements','--silent') -NoNewWindow -PassThru -RedirectStandardOutput $outputLog -RedirectStandardError $errorLog
+    Wait-AdminProcess $process "Install $Package" $Current $Total
+    $code = $process.ExitCode
+    if ($null -eq $code -or @(0,-1978335189) -notcontains $code) { throw "Install $Package failed (exit $code)." }
+    Trace 'command' 'process' "Install $Package" 'completed' ([string]$code)
+    $global:LASTEXITCODE = $code
+  } catch {
+    Trace 'command' 'process' "Install $Package" 'failed' $_.Exception.Message
+    if (-not $TraceFile) {
+      Get-Content -LiteralPath $outputLog,$errorLog -Tail 12 -ErrorAction SilentlyContinue | ForEach-Object { Write-Host $_ }
+    }
+    throw
+  } finally {
+    foreach ($log in @($outputLog,$errorLog)) {
+      if ($TraceFile -and (Test-Path -LiteralPath $log)) {
+        [IO.File]::AppendAllText([IO.Path]::ChangeExtension($TraceFile, '.log'), [IO.File]::ReadAllText($log), [Text.UTF8Encoding]::new($false))
+      }
+      Remove-Item -LiteralPath $log -ErrorAction SilentlyContinue
+    }
+  }
 }
 function Confirm-WinGetResult([string]$Command, [string]$Package, [int]$ExitCode) {
   Refresh-ToolPath
@@ -573,7 +625,7 @@ function Install-SystemTools {
     Trace 'snapshot' 'system-package' $item.Package 'before' 'missing'
     Trace 'install' 'system-package' $item.Package 'started' 'winget'
     Log "INSTALL $($item.Package)"
-    Run-Quiet "Install $($item.Package)" { winget install --id $item.Package --exact --source winget --accept-package-agreements --accept-source-agreements --silent } @(0,-1978335189)
+    Run-AdminPackage $item.Package $currentStep $totalSteps
     Confirm-WinGetResult $item.Command $item.Package $LASTEXITCODE
     Trace 'install' 'system-package' $item.Package 'completed' 'winget; shared-system-software-preserve'
     $currentStep += 1
@@ -588,7 +640,18 @@ function Install-SystemTools {
   if (-not (Test-Path $thaiData)) {
     New-Item -ItemType Directory -Force -Path $tessdataDir | Out-Null
     Log 'INSTALL Tesseract Thai language data'
-    Invoke-WebRequest -UseBasicParsing -Uri 'https://github.com/tesseract-ocr/tessdata_fast/raw/main/tha.traineddata' -OutFile $thaiData
+    $savedProgress = $ProgressPreference
+    $thaiDownload = $thaiData + '.' + [guid]::NewGuid() + '.download'
+    try {
+      $ProgressPreference = 'Continue'
+      Write-Host '[AI for Research] Downloading Thai OCR data; download progress appears below.'
+      Invoke-WebRequest -UseBasicParsing -Uri 'https://github.com/tesseract-ocr/tessdata_fast/raw/main/tha.traineddata' -OutFile $thaiDownload
+      if ((Get-Item -LiteralPath $thaiDownload).Length -eq 0) { throw 'Thai OCR download is empty. Rerun Install.' }
+      Move-Item -LiteralPath $thaiDownload -Destination $thaiData
+    } finally {
+      $ProgressPreference = $savedProgress
+      Remove-Item -LiteralPath $thaiDownload -ErrorAction SilentlyContinue
+    }
   } else { Log 'REUSE Tesseract Thai language data' }
   Trace-Path $thaiData 'after'
   $currentStep += 1
@@ -678,9 +741,14 @@ switch ($Mode) {
       $logPath = Join-Path $env:TEMP ('ai-research-system-' + [guid]::NewGuid() + '.log')
       Log "ADMIN_PHASE_LOG $logPath"
       $childArgs = '-NoProfile -ExecutionPolicy Bypass -File "' + $PSCommandPath + '" -Mode InstallSystem -Agent ' + $Agent + ' -CourseDir "' + $CourseDir + '" -SystemLog "' + $logPath + '" -TraceFile "' + $TraceFile + '"'
-      try { $child = Start-Process powershell.exe -Verb RunAs -ArgumentList $childArgs -Wait -PassThru }
+      try {
+        Show-AdminProgress 0 1 'Waiting for administrator installation'
+        $child = Start-Process powershell.exe -Verb RunAs -ArgumentList $childArgs -PassThru
+        Wait-AdminProcess $child 'Administrator window: system tools'
+      }
       catch { throw "Could not start administrator phase (UAC may have been cancelled): $($_.Exception.Message)" }
-      if ($child.ExitCode -ne 0) { throw "System installation failed (exit $($child.ExitCode)). Details: $logPath" }
+      if ($null -eq $child.ExitCode -or $child.ExitCode -ne 0) { throw "System installation failed (exit $($child.ExitCode)). Details: $logPath" }
+      Show-AdminProgress 1 1 'Administrator installation finished' -Completed
       Refresh-ToolPath
     } else { Log 'REUSE_SYSTEM_TOOLS No Administrator phase needed.' }
     Install-UserTools

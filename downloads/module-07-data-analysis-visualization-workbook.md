@@ -2,6 +2,9 @@
 
 ใช้สมุดงานนี้กับ Track A, B, C หรือ D โดยกรอกก่อนสั่งให้ AI วิเคราะห์ข้อมูล
 
+ลำดับกิจกรรม Prompt, Chart Contract, Graph Clinic และเกณฑ์ส่งงานอยู่ที่
+[Module 7 Visualization Workflow & Prompt Card](module-07-visualization-workflow-and-prompts.md)
+
 ## 1. ข้อมูลและสิทธิการใช้
 
 | รายการ | คำตอบ |

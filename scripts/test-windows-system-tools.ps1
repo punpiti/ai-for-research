@@ -11,7 +11,7 @@ $errors = $null
 $ast = [Management.Automation.Language.Parser]::ParseFile($installer, [ref]$tokens, [ref]$errors)
 if ($errors.Count) { throw ($errors | Out-String) }
 # Load only the functions under test; never run installation, elevation or PATH persistence.
-foreach ($name in @('Has','Trace','Trace-Path','Run-Quiet','Log','Refresh-ToolPath','Confirm-WinGetResult','Test-WinGetPackageInstalled','Get-SystemPackages','Needs-SystemSetup')) {
+foreach ($name in @('Has','Trace','Trace-Path','Run-Quiet','Log','Refresh-ToolPath','Confirm-WinGetResult','Test-WinGetPackageInstalled','Get-SystemPackages','Needs-SystemSetup','Show-AdminProgress','Wait-AdminProcess','Run-AdminPackage')) {
   $node = $ast.Find({ param($n) $n -is [Management.Automation.Language.FunctionDefinitionAst] -and $n.Name -eq $name }, $true)
   if (-not $node) { throw "Missing function: $name" }
   Invoke-Expression $node.Extent.Text
@@ -101,4 +101,43 @@ try {
 Write-Host 'PASS Windows off-PATH discovery, WinGet results and Thai-data elevation checks'
 # The test intentionally exercises a failing native command above. GitHub's
 # powershell shell propagates a stale LASTEXITCODE even after we catch it.
+$global:LASTEXITCODE = 0
+
+# Exercise a real long-running child without installing packages or requesting UAC.
+$process = Start-Process -FilePath $env:ComSpec -ArgumentList '/d /c "ping -n 3 127.0.0.1 >nul & exit 7"' -NoNewWindow -PassThru
+$previousProgress = $ProgressPreference
+$ProgressPreference = 'SilentlyContinue'
+$waitOutput = (& { Wait-AdminProcess $process 'Test download' 0 2 1 } 6>&1 | Out-String)
+if ($process.ExitCode -ne 7) { throw 'Progress wait lost the native failure exit code.' }
+if ([regex]::Matches($waitOutput, 'ADMIN_WAIT.*Test download.*elapsed').Count -lt 2) { throw 'The wait must keep emitting heartbeats while the child is silent.' }
+if ($ProgressPreference -ne 'SilentlyContinue') { throw 'Progress preference was not restored.' }
+$ProgressPreference = $previousProgress
+
+# Stub only package launch; preserve real logging, polling and result handling.
+$TraceFile = $null
+$script:packageTestExit = 0
+function Start-Process {
+  param($FilePath,$ArgumentList,[switch]$NoNewWindow,[switch]$PassThru,$RedirectStandardOutput,$RedirectStandardError)
+  if ($ArgumentList -notcontains '--accept-package-agreements' -or $ArgumentList -notcontains '--silent') { throw 'WinGet arguments changed.' }
+  $fake = [pscustomobject]@{ ExitCode = $script:packageTestExit }
+  $fake | Add-Member ScriptMethod WaitForExit { param($Milliseconds) return $true }
+  $fake | Add-Member ScriptMethod Refresh {}
+  return $fake
+}
+function Get-Command { param($Name,$ErrorAction) return [pscustomobject]@{ Source = 'winget.exe' } }
+try {
+  foreach ($value in @(0,-1978335189)) {
+    $script:packageTestExit = $value
+    Run-AdminPackage 'Test.Package' 0 2
+    if ($LASTEXITCODE -ne $value) { throw 'WinGet success/no-update result was not preserved.' }
+  }
+  $script:packageTestExit = 7
+  $failed = $false
+  try { Run-AdminPackage 'Test.Package' 0 2 } catch { $failed = $_.Exception.Message -match 'exit 7' }
+  if (-not $failed) { throw 'WinGet failure must stop installation.' }
+} finally {
+  Remove-Item Function:Start-Process,Function:Get-Command
+  Write-Progress -Id 1 -Activity 'AI for Research: system installation' -Completed
+}
+Write-Host 'PASS Windows live progress, elapsed heartbeat, preference restoration and package failure propagation'
 $global:LASTEXITCODE = 0

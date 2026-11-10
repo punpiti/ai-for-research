@@ -13,6 +13,7 @@
   <script src="assets/dev-auth.js?v=20261010-1"></script>
   <script src="assets/site-shell.js?v=20261010-1"></script>
   <script src="assets/app.js?v=20261011-4" defer></script>
+  <script src="assets/module-7-submission.js?v=20261110-1" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#main">ข้ามไปยังเนื้อหา</a>
@@ -33,6 +34,9 @@
 <li>เตรียมคำถาม สมมติฐาน หรือเป้าหมายการพยากรณ์หนึ่งข้อที่ยังแก้ไขได้</li>
 <li>เปิด AI ที่แนบแฟ้มและดาวน์โหลดผลลัพธ์ได้ ใช้ผ่านเว็บหรือแอปได้</li>
 <li>ดาวน์โหลด <a href="downloads/module-07-data-analysis-visualization-workbook.md">สมุดงาน Module 7</a></li>
+<li>เปิด <a href="downloads/module-07-notebooks/module-07-data-visualization.ipynb">สารบัญ Data Visualization Lab</a> แล้วเรียนตามลำดับ <a href="downloads/module-07-notebooks/module-07a-read-and-audit.ipynb">Part A — อ่านและตรวจกราฟ</a> → <a href="downloads/module-07-notebooks/module-07b-revise-and-publish.ipynb">Part B — ปรับและส่งออก</a> ส่วน <a href="downloads/module-07-notebooks/module-07c-matplotlib-foundations.ipynb">Part C — Matplotlib Foundations</a> เป็นเนื้อหาเลือกเรียนเมื่อต้องเปิดหรือแก้โค้ด</li>
+<li>ดาวน์โหลด <a href="downloads/module-07-notebooks/module-07-notebook-bundle.zip">Notebook bundle</a> ซึ่งรวม notebook, environment, requirements และคู่มือติดตั้งแบบ standalone</li>
+<li>ใช้ <a href="downloads/module-07-visualization-workflow-and-prompts.md">Visualization Workflow &amp; Prompt Card</a> สำหรับ Chart Contract, Prompt, Graph Clinic, Colab, export และเกณฑ์ส่งงาน</li>
 <li>เตรียมพื้นที่แยกข้อมูลต้นฉบับ script ที่ AI สร้าง ผลวิเคราะห์ ตาราง ภาพ และบันทึกการตรวจ</li>
 </ul>
 <div class="plain-note"><strong>คุณถาม เลือก และตรวจ ส่วน AI ช่วยคำนวณและสร้างภาพ:</strong> ใช้หน้าสนทนากับ AI โปรแกรมดูตาราง และโปรแกรมเปิดภาพหรือ HTML ให้ AI สรุปวิธีวิเคราะห์ รุ่นเครื่องมือ คำเตือน และแฟ้มผลลัพธ์เป็นรายงานอ่านง่าย คำถาม เหตุผลเลือกวิธี และข้อสรุปต้องมาจากคุณ</div>
@@ -610,6 +614,49 @@
 <li>ตาราง ภาพ และข้อความรายงานตัวเลขไม่ตรงกัน</li>
 <li>ส่งออกแล้วตัวอักษรขาด สีอ่านไม่ได้ หรือแฟ้มเปิดไม่ได้</li>
 </ul>
+</div></section>
+<section class="section markdown-section" id="figure-consistency-audit" aria-labelledby="figure-consistency-audit-heading"><div class="section-heading compact"><p class="eyebrow">แบบฝึกปลายโมดูล</p><h2 id="figure-consistency-audit-heading">Figure Consistency Audit — อ่านทั้งเอกสาร ไม่อ่านกราฟแยกรูป</h2>
+</div><div class="markdown-body"><p>ดาวน์โหลดชุดฝึกซึ่งใช้ข้อมูลจำลองชุดเดียวกันทั้งหมด:</p>
+<ul>
+<li><a href="downloads/module-07-figure-consistency/mock-article-figure-consistency.pdf">Mock article PDF</a></li>
+<li><a href="downloads/module-07-figure-consistency/mock-study-data.csv">Mock study data CSV</a></li>
+<li><a href="downloads/module-07-figure-consistency/figure-consistency-audit-template.md">Audit template</a></li>
+</ul>
+<p>แต่ละรูปและตารางอาจดูสมเหตุสมผลเมื่อเปิดแยกกัน แต่เมื่ออ่านร่วมกับ Methods, caption และข้อสรุป อาจพบว่าสี นิยาม ทิศทางเครื่องหมาย สถิติ กลุ่มข้อมูล ช่วงแกน หรือประชากรไม่คงที่ เป้าหมายคือค้นหาความไม่สอดคล้องที่เปลี่ยนข้อสรุป ไม่ใช่รวบรวมความชอบด้านรูปแบบ</p>
+<p>ทำ human-first pass ก่อนใช้ AI แล้วกรอก <code>module-07-figure-audit.md</code> ให้มีอย่างน้อย 6 ประเด็น โดยอย่างน้อย 4 ประเด็นต้องอาศัยการอ่านตั้งแต่สองตำแหน่งขึ้นไป และตรวจอย่างน้อย 3 ค่าจาก CSV</p>
+<h3 id="gatekeeper-submission">ส่งให้ผู้สอนตรวจ</h3>
+<p>แบบฝึกนี้ใช้ข้อมูลจำลอง จึงส่ง Markdown ฉบับเต็มให้ผู้สอนตรวจได้ ห้ามใช้ช่องนี้ส่งข้อมูลวิจัยจริงหรือข้อมูลลับ</p>
+<form class="module-submission-form" data-module-7-submission-form>
+  <div class="form-grid">
+    <label>รหัสคลาส<input name="class_code" required pattern="[A-Za-z0-9._-]{3,40}"></label>
+    <label>Call sign<input name="callsign" required pattern="[A-Za-z0-9._-]{3,40}"></label>
+    <label>Call-sign key จาก receipt เดิม ถ้ามี<input name="callsign_key" autocomplete="off"></label>
+    <label>จำนวนประเด็นทั้งหมด<input name="issue_count" type="number" min="6" max="20" required></label>
+    <label>ประเด็นที่เทียบหลายตำแหน่ง<input name="cross_figure_count" type="number" min="4" max="20" required></label>
+    <label>ค่าที่ตรวจจาก CSV<input name="data_check_count" type="number" min="3" max="20" required></label>
+    <label>ใช้ AI หลัง human-first pass หรือไม่
+      <select name="ai_used" required><option value="">เลือก</option><option value="yes">ใช้</option><option value="no">ไม่ใช้</option></select>
+    </label>
+    <label>ไฟล์สุดท้าย<input name="markdown_file" type="file" accept=".md,text/markdown,text/plain" required></label>
+  </div>
+  <label><input name="human_first_confirmed" type="checkbox" required> ฉันเขียน human-first pass ก่อนใช้ AI</label>
+  <label><input name="mock_only_confirmed" type="checkbox" required> ไฟล์นี้ตรวจเฉพาะ mock article และไม่มีข้อมูลจริง/ข้อมูลลับ</label>
+  <label><input name="final_declaration_confirmed" type="checkbox" required> ฉันตรวจตาราง รูป caption Methods และ CSV ร่วมกันแล้ว</label>
+  <div class="submission-actions">
+    <button type="button" data-module-7-check>ตรวจไฟล์และดูสรุป</button>
+    <button type="submit" data-module-7-submit disabled>ส่งให้ผู้สอนตรวจ</button>
+    <button type="button" data-module-7-receipt disabled>ดาวน์โหลด receipt</button>
+  </div>
+  <p data-module-7-submission-status aria-live="polite">ยังไม่ได้ตรวจไฟล์</p>
+  <pre data-module-7-submission-preview hidden></pre>
+</form>
+<p>สถานะ <code>pending_review</code> หมายถึงระบบรับเอกสารแล้วแต่ยังไม่ผ่าน ผู้สอนเป็น gatekeeper และให้ผลได้สามแบบ:</p>
+<ul>
+<li><code>approved</code> — ผ่าน Module 7</li>
+<li><code>revision_requested</code> — แก้ตาม feedback แล้วส่ง attempt ใหม่</li>
+<li><code>rejected</code> — หลักฐานไม่ใช่งานของผู้เรียน มีข้อมูลที่ไม่ควรส่ง หรือไม่ใช่ figure audit ที่ตรวจได้</li>
+</ul>
+<p>Checklist ด้านล่างเป็นเพียงการตรวจตนเองและไม่เปลี่ยนสถานะ gatekeeper</p>
 </div></section>
 <section class="section markdown-section" id="finish" aria-labelledby="finish-heading"><div class="section-heading compact"><p class="eyebrow">Checkpoint</p><h2 id="finish-heading">จบบทเรียน</h2>
 </div><div class="markdown-body"><p>ติ๊กเมื่อคุณตรวจผลจริงและอธิบายที่มาของแต่ละข้อได้ ระบบจะจำสถานะไว้ในเบราว์เซอร์นี้</p>

@@ -62,6 +62,21 @@ grep -q 'High-Cost Consent Rule' "$root/downloads/starter-TOKEN-BUDGET.md"
 grep -q 'T3 Agentic Run' "$root/downloads/starter-TOKEN-DISCIPLINE.md"
 grep -q 'Current objective:' "$root/downloads/starter-PROJECT-STATE.md"
 grep -q 'Read and follow `AGENTS.md`' "$root/downloads/setup-runtime.py"
+grep -q 'install_course_materials(workspace)' "$root/downloads/setup-runtime.py"
+grep -q 'module-07-materials.json' "$root/downloads/setup-runtime.py"
+[[ -s "$root/downloads/module-07-materials.json" ]]
+python3 - "$root/downloads/module-07-materials.json" <<'PY'
+import json
+from pathlib import Path
+import sys
+
+manifest = json.loads(Path(sys.argv[1]).read_text(encoding='utf-8'))
+assert manifest['schema_version'] == 'ai-for-research.course-materials.v1'
+assert manifest['module_id'] == 'module-07'
+assert len(manifest['files']) == 13
+assert all(item['path'].startswith('course-materials/module-07/') for item in manifest['files'])
+assert not any('instructor' in item['path'].lower() for item in manifest['files'])
+PY
 if rg -q 'scripts/context.py|workflow-registry|MACHINE_PROFILE|COMPUTING_ENVIRONMENT_VERSION' "$root/downloads/starter-STARTUP.md" "$root/downloads/starter-TOKEN-BUDGET.md" "$root/downloads/starter-TOKEN-DISCIPLINE.md"; then
   echo 'Token-economy starter must not pull full Agent Project Kit machinery.' >&2
   exit 1
@@ -227,7 +242,7 @@ if rg -n 'M2 · AI Boundaries</a>|M3 · Problem–Gap–RQ</a>|M4 · Literature<
   echo 'Non-canonical module label found on the homepage.' >&2
   exit 1
 fi
-for page in prepare.html module-{2..9}.html; do
+for page in prepare.html module-{3..9}.html; do
   grep -q 'data-research-profile' "$root/$page"
 done
 grep -q 'ai-research-profile:v1' "$root/assets/app.js"

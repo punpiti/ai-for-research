@@ -12,6 +12,7 @@ import tarfile
 import tempfile
 import tomllib
 import unittest
+import hashlib
 from unittest.mock import patch
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -24,6 +25,55 @@ summary_spec.loader.exec_module(summary)
 
 
 class RuntimeTests(unittest.TestCase):
+    def test_module7_material_installer_verifies_hashes_and_preserves_edits(self):
+        with tempfile.TemporaryDirectory(prefix='module7 materials ') as scratch:
+            root = Path(scratch); web = root / 'web'; workspace = root / 'workspace'
+            web.mkdir(); workspace.mkdir()
+            first = web / 'part-a.ipynb'; first.write_bytes(b'notebook-v1')
+            second = web / 'workbook.md'; second.write_bytes(b'workbook-v1')
+            def item(source, destination):
+                content = source.read_bytes()
+                return {'url': source.as_uri(), 'path': destination,
+                        'sha256': hashlib.sha256(content).hexdigest(), 'bytes': len(content)}
+            manifest = {'schema_version':'ai-for-research.course-materials.v1', 'module_id':'module-07', 'files':[
+                item(first, 'course-materials/module-07/notebooks/part-a.ipynb'),
+                item(second, 'course-materials/module-07/templates/workbook.md'),
+            ]}
+            manifest_path = web / 'manifest.json'
+            manifest_path.write_text(json.dumps(manifest), encoding='utf-8')
+            prefix = web.as_uri() + '/'
+            result = runtime.install_course_materials(workspace, manifest_path.as_uri(), prefix)
+            self.assertEqual((result['installed'], result['reused'], result['updates_available']), (2,0,0))
+            learner_copy = workspace / 'course-materials/module-07/notebooks/part-a.ipynb'
+            learner_copy.write_bytes(b'learner edit')
+            first.write_bytes(b'notebook-v2')
+            manifest['files'][0] = item(first, 'course-materials/module-07/notebooks/part-a.ipynb')
+            manifest_path.write_text(json.dumps(manifest), encoding='utf-8')
+            result = runtime.install_course_materials(workspace, manifest_path.as_uri(), prefix)
+            self.assertEqual((result['installed'], result['reused'], result['updates_available']), (0,1,1))
+            self.assertEqual(learner_copy.read_bytes(), b'learner edit')
+            update = workspace / '.course-updates/course-materials/module-07/notebooks/part-a.ipynb'
+            self.assertEqual(update.read_bytes(), b'notebook-v2')
+
+    def test_module7_material_installer_rejects_path_traversal(self):
+        with tempfile.TemporaryDirectory(prefix='module7 unsafe ') as scratch:
+            root=Path(scratch); source=root/'file'; source.write_bytes(b'x')
+            manifest=root/'manifest.json'
+            manifest.write_text(json.dumps({'schema_version':'ai-for-research.course-materials.v1','module_id':'module-07','files':[{
+                'url':source.as_uri(),'path':'../outside','sha256':hashlib.sha256(b'x').hexdigest(),'bytes':1
+            }]}), encoding='utf-8')
+            with self.assertRaises(RuntimeError):
+                runtime.install_course_materials(root/'workspace', manifest.as_uri(), root.as_uri()+'/')
+
+    def test_module7_material_installer_rejects_manifest_outside_download_root(self):
+        with tempfile.TemporaryDirectory(prefix='module7 manifest root ') as scratch:
+            root = Path(scratch)
+            manifest = root / 'manifest.json'
+            manifest.write_text('{}', encoding='utf-8')
+            with self.assertRaisesRegex(RuntimeError, 'outside the approved download root'):
+                runtime.install_course_materials(
+                    root / 'workspace', manifest.as_uri(), (root / 'web').as_uri() + '/')
+
     def test_summary_distinguishes_reuse_additions_and_unconfirmed_attempts(self):
         def event(kind, target, status, details, action='snapshot'):
             return dict(kind=kind, target=target, status=status, details=details, action=action)
@@ -232,7 +282,7 @@ class RuntimeTests(unittest.TestCase):
                     if fail_pdf:
                         raise subprocess.CalledProcessError(1, args)
                     Path(args[-1]).write_bytes(b'%PDF-test')
-            with patch.object(runtime, 'tool_root', return_value=root), patch.object(runtime.shutil, 'which', return_value='/usr/bin/uv'), patch.object(runtime, 'run', side_effect=command), patch.object(runtime, 'ensure_node', return_value=root / 'node/bin'), patch.object(runtime, 'install_tex', return_value=root / 'TinyTeX/bin/test'), patch('sys.argv', ['setup-runtime.py','--workspace',str(workspace),'--agent','codex']), contextlib.redirect_stdout(io.StringIO()) as output:
+            with patch.object(runtime, 'tool_root', return_value=root), patch.object(runtime.shutil, 'which', return_value='/usr/bin/uv'), patch.object(runtime, 'run', side_effect=command), patch.object(runtime, 'ensure_node', return_value=root / 'node/bin'), patch.object(runtime, 'install_tex', return_value=root / 'TinyTeX/bin/test'), patch.object(runtime, 'install_course_materials', return_value={'installed': 13}), patch('sys.argv', ['setup-runtime.py','--workspace',str(workspace),'--agent','codex']), contextlib.redirect_stdout(io.StringIO()) as output:
                 if fail_pdf or python_failure:
                     error = RuntimeError if python_failure == 'environment' else subprocess.CalledProcessError
                     with self.assertRaises(error):

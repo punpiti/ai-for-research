@@ -10,14 +10,14 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/styles.css?v=20261011-1">
-  <script src="assets/app.js?v=20261011-4" defer></script>
-  <script src="assets/module-2-steps.js?v=20261011-1" defer></script>
+  <script src="assets/app.js?v=20261019-1" defer></script>
+  <script src="assets/module-2-steps.js?v=20261019-3" defer></script>
   <script src="assets/submission-defaults.js?v=20261011-1" defer></script>
   <script src="assets/module-2-submission.js?v=20261011-1" defer></script>
   <script src="assets/dev-auth.js?v=20261010-1"></script>
   <script src="assets/site-shell.js?v=20261010-2"></script>
 </head>
-<body>
+<body data-module-2-shared-case>
   <a class="skip-link" href="#main">ข้ามไปยังเนื้อหา</a>
   <site-header current="2"></site-header>
 
@@ -25,22 +25,59 @@
     <section class="prepare-hero module-hero">
       <p class="eyebrow">Module 2</p>
       <h1>Your First<br><span>AI Research Task</span></h1>
-      <p>ให้ AI อ่านเรื่องที่เราสนใจ แล้วพิสูจน์ด้วยตนเองว่าคำตอบส่วนไหนมาจากหลักฐาน ส่วนไหนเป็นการตีความ และส่วนไหนยังไม่ควรเชื่อ</p>
+      <p>หิว → กิน → อิ่ม · คัดลอก Prompt ใช้กับชุดอาหาร แล้วดูว่าคำตอบและผลงานเปลี่ยนอย่างไร</p>
     </section>
-    <section class="section profile-context" data-module-2-step="prepare"><div data-research-profile></div></section>
 
-    <section class="section" data-module-2-step="prepare"><div class="plain-note"><strong>ก่อนเริ่ม:</strong> เปิดโปรเจกต์ของคุณและผ่าน <a href="prepare.html#project-basics">Project Basics ใน Module 1</a> เพื่อให้รู้ว่าไฟล์ต้นฉบับ กติกา สถานะ และผลลัพธ์อยู่ที่ใด</div></section>
+    <section class="section" data-module-2-step="prepare"><div class="plain-note"><strong>ทำตามทีละ Prompt แล้วหยุดดูผล</strong> ใช้ชุดที่ผู้สอนเตรียมให้ ไม่ต้องเตรียมเอกสารของตนเองก่อนเรียน <a href="downloads/module-02-food-evidence.zip" download>ดาวน์โหลด ZIP</a> วางใน <code>input/original/</code> แล้วเริ่มด้านล่าง <a href="prepare.html#project-basics">ทบทวน Module 1</a></div></section>
+
+    <section class="section" data-module-2-step="prepare"><div class="notice"><strong>เลือกตามความพร้อม:</strong> ถ้าใช้ Prompt อ่านไฟล์ เปิดผลงาน และตรวจคำตอบกับต้นฉบับได้แล้ว ข้ามโมดูลนี้ไป Module 3 ได้ หากยังไม่คล่อง ให้ฝึกด้วย mock ที่เตรียมให้ก่อน ท้ายโมดูลค่อยลองเตรียมเอกสารเรื่องของคุณ <a href="module-3.html">ไป Module 3 →</a></div></section>
+    <section class="section" id="prompt-start" data-module-2-step="prepare" data-prompt-observe>
+      <div class="section-heading compact"><h2>เริ่ม · เปิดชุดที่เตรียมให้</h2></div>
+      <div class="command markdown-command"><code>ใช้ module-02-food-evidence.zip ใน input/original/ ตรวจรายการและแตกไฟล์อย่างปลอดภัยโดยไม่เขียนทับต้นฉบับ ถ้าไม่พบ ZIP ให้ถามฉันก่อน
+แสดงรายการไฟล์ที่อ่านได้และอ่านไม่ได้ แล้วหยุดรอ ยังไม่ตอบเรื่องอาหาร</code><button type="button" data-copy>คัดลอก เริ่ม</button></div>
+      <p class="plain-note"><strong>สังเกตผล:</strong> AI พบไฟล์อะไรบ้าง? ถ้าอ่านไฟล์ไม่ได้ บอกตรง ๆ หรือข้ามไปโดยไม่บอก?</p>
+    </section>
+
+    <section class="section" id="prompt-1" data-module-2-step="prepare" data-prompt-observe>
+      <div class="section-heading compact"><h2>Prompt 1 · ลองถามสั้น ๆ</h2></div>
+      <div class="command markdown-command"><code>อ่านชุดอาหารที่เตรียมให้ แล้วสรุปว่าข้าวไข่เจียวมื้อนี้เหมาะกับคนงบ 80 บาท และทำให้อิ่มถึง 16:00 หรือไม่ ตอบสั้น ๆ เก็บคำตอบนี้ไว้เปรียบเทียบรอบต่อไป</code><button type="button" data-copy>คัดลอก Prompt 1</button></div>
+      <p class="plain-note"><strong>สังเกตผล:</strong> มีคำตอบไหนระบุที่มา? มีข้อไหนฟันธงทั้งที่ยังไม่มีข้อมูล? ยังไม่ต้องตัดสินว่า AI จะตอบถูกหรือผิด</p>
+    </section>
+
+    <section class="section" id="prompt-2" data-module-2-step="concepts" data-prompt-observe>
+      <div class="section-heading compact"><h2>Prompt 2 · เพิ่มกติกาเรื่องหลักฐาน</h2></div>
+      <div class="command markdown-command"><code>ตอบคำถามเดิมอีกครั้ง ใช้เฉพาะไฟล์ในชุดอาหาร
+แสดงตารางสั้น ๆ: ข้อสรุป | ไฟล์และตำแหน่งที่รองรับ | สิ่งที่ยังตอบไม่ได้
+แยกข้อมูลในสูตร ตาราง และสิ่งที่เห็นในภาพ ตัวเลขใน 07-mock-nutrition.csv เป็นข้อมูลจำลอง ไม่ใช่ค่าจากอาหารจริง ห้ามเดาข้อมูลที่ขาด
+เทียบกับคำตอบรอบแรกว่ามีข้อไหนที่ต้องแก้หรือยังเหมือนเดิม</code><button type="button" data-copy>คัดลอก Prompt 2</button></div>
+      <p class="plain-note"><strong>สังเกตผล:</strong> เทียบกับ Prompt 1: ที่มาชัดขึ้นหรือไม่? ข้อความเรื่องความอิ่มและตัวเลขโภชนาการเปลี่ยนอย่างไร? ถ้ายังเดา ให้ชี้ข้อนั้นแล้วสั่งแก้</p>
+    </section>
+
+    <section class="section" id="prompt-3" data-module-2-step="practice" data-prompt-observe>
+      <div class="section-heading compact"><h2>Prompt 3 · สั่งให้สร้างผลงานแล้วเปิดดู</h2></div>
+      <div class="command markdown-command"><code>จากข้อมูลที่ตรวจแล้ว สร้าง output/meal-card.md หนึ่งหน้า มีสูตรสำหรับ 2 ที่ ตารางโภชนาการจำลองพร้อมหน่วย และคำบรรยายภาพ ระบุแหล่งข้อมูลและสิ่งที่ยังไม่ทราบ
+บอกชัดว่าตัวเลขโภชนาการแต่งขึ้นเพื่อการสอน ไม่ได้คำนวณจากสูตรหรือภาพ เปิด Markdown Preview ให้ฉันดู แล้วหยุดรอ</code><button type="button" data-copy>คัดลอก Prompt 3</button></div>
+      <p class="plain-note"><strong>สังเกตผล:</strong> เปิดผลงานจริง: สูตรตรงกับ Word หรือไม่? ตัวเลขและหน่วยตรงกับ CSV หรือไม่? คำบรรยายภาพมีสิ่งที่มองไม่เห็นปนมาหรือไม่?</p>
+    </section>
+
+    <section class="section" id="prompt-4" data-module-2-step="practice" data-prompt-observe>
+      <div class="section-heading compact"><h2>Prompt 4 · เปลี่ยนคำสั่งแล้วดูผล</h2></div>
+      <div class="command markdown-command"><code>แก้บัตรอาหารเดิมให้เหลือ 5 บรรทัดสำหรับคนกำลังเลือกมื้อกลางวัน คงตัวเลข หน่วย และป้ายข้อมูลจำลองไว้ ไม่เพิ่มข้อเท็จจริงใหม่
+เก็บฉบับเดิมไว้ แล้วเปิดฉบับย่อเทียบกัน</code><button type="button" data-copy>คัดลอก Prompt 4</button></div>
+      <p class="plain-note"><strong>สังเกตผล:</strong> รูปแบบเปลี่ยนตามคำสั่งไหม? ข้อมูลสำคัญหายหรือถูกเปลี่ยนไหม? ลองเปลี่ยนคำสั่งหนึ่งจุด แล้วดูผลอีกครั้ง</p>
+    </section>
 
     <section class="section" id="outcomes" data-module-2-step="prepare">
+<details class="fallback-details"><summary>อ่านเพิ่ม · สิ่งที่จะได้และชนิดไฟล์</summary>
       <div class="section-heading compact">
         <p class="eyebrow">LO</p>
-        <h2>สิ่งที่จะทำได้</h2><p>ไม่ได้แค่รู้ว่า AI ทำอะไรได้ แต่รู้ว่าจะตรวจมันอย่างไร</p>
+        <h2>สิ่งที่จะทำได้</h2><p>ดูตัวอย่างก่อน แล้วฝึกให้ AI สร้างผลงานง่ายที่เปิดอ่านและตรวจได้</p>
       </div>
       <div class="check-grid outcome-grid">
-        <div><span>01 · Prepare</span><strong>นำเข้า PDF, Excel, Word, รูปภาพ และเว็บไซต์เรื่องเดียวกันให้ค้นและตรวจได้</strong></div>
-        <div><span>02 · Read</span><strong>แยกข้อเท็จจริง ความเห็น คำวิจารณ์ และข้อสรุป</strong></div>
-        <div><span>03 · Complete</span><strong>หาคำถามที่ AI ตอบไม่ครบ แล้วผู้เรียนเติมคำตอบหรือคำตัดสินด้วยตนเอง</strong></div>
-        <div><span>04 · Deliver</span><strong>ปรับ Prompt แล้วสร้างข้อสรุป Markdown กับ JSON ที่แยกคำตอบของ AI และผู้เรียน</strong></div>
+        <div><span>01 · Prepare</span><strong>เปิดดูสูตรอาหาร ตารางโภชนาการจำลอง และภาพจากชุดที่เตรียมให้</strong></div>
+        <div><span>02 · Read</span><strong>บอกได้ว่าส่วนใดมาจากสูตร ตาราง หรือสิ่งที่เห็นในภาพ</strong></div>
+        <div><span>03 · Complete</span><strong>ใช้ Prompt สร้างบัตรสรุปอาหาร แล้วเปิดอ่านผลงานใน Markdown Preview</strong></div>
+        <div><span>04 · Deliver</span><strong>ตรวจสูตร ตัวเลข หน่วย และคำบรรยายภาพกับต้นฉบับ แล้วบอกให้ AI แก้ส่วนที่ผิด</strong></div>
       </div>
       <details class="fallback-details" data-file-structure-explainer>
         <summary>Markdown (.md) กับ JSON ต่างกันอย่างไร</summary>
@@ -50,11 +87,29 @@
         </div>
         <p class="plain-note"><strong>สองไฟล์ทำงานคู่กัน:</strong> Markdown เก็บคำอธิบายฉบับเต็ม ส่วน JSON เก็บผลแบบมีโครงสร้างและ SHA-256 ของ Markdown เพื่อยืนยันว่าอ้างถึงไฟล์รุ่นใด</p>
       </details>
-    </section>
+    </details>
+</section>
 
-    <section class="section" id="sources" data-module-2-step="prepare" data-audience-route="student">
-      <div class="section-heading compact"><p class="eyebrow">การเตรียมตัวก่อนเรียน</p><h2>ของต้องมีก่อนเรียน</h2><p>ใช้เรื่องเดียวกันในหลายรูปแบบ ทุกคนเริ่มจากชุดหลักฐานกลางเพื่อให้เปรียบเทียบคำตอบและปัญหาที่พบได้</p></div>
-      <p><strong>เคสฝึกสำหรับนิสิตและนักวิจัยมือใหม่</strong> ถามว่า “มื้อข้าวไข่เจียวเหมาะกับนักศึกษาที่มีงบไม่เกิน 80 บาท มีเวลา 30 นาที และต้องการอิ่มถึง 16:00 หรือไม่” เรื่องอาหารช่วยให้ตรวจตรรกะได้โดยไม่ต้องมีความรู้เฉพาะสาขา แต่ละไฟล์บอกข้อมูลคนละส่วนและมีทั้งภาษาไทยกับอังกฤษ</p>
+    <section class="section" id="food-demo" data-module-2-step="prepare">
+<details class="fallback-details"><summary>เปิดดูประกอบ · สูตร ตาราง และผลงานต้นแบบ</summary>
+      <div class="section-heading compact"><p class="eyebrow">ดูตัวอย่างร่วมกันก่อน</p><h2>หิว → กิน → อิ่ม: จากไฟล์อาหารสู่ผลงานที่เปิดดูได้</h2><p>ทุกคนใช้ชุดจำลองที่เตรียมให้ครบ ช่วงนี้ดูผู้สอนสาธิตและช่วยกันตรวจ ยังไม่ต้องเตรียม seed paper หรือวิเคราะห์ research gap เลือกแท็บต่าง ๆ เพื่อเปิดดูได้ทันทีโดยไม่ต้องกรอกจุดตรวจ</p></div>
+      <div class="concept-grid">
+        <article><h3>1 · ดูภาพ</h3><img src="downloads/module-02-food-evidence/04-lunch-tray.png" alt="ภาพจำลองถาดอาหาร มีข้าว ไข่เจียว และถ้วยซุป ใช้ฝึกบรรยายสิ่งที่มองเห็น" style="width:100%;height:auto" loading="lazy"><p>ภาพนี้สร้างด้วย AI เพื่อการสอน ให้บรรยายสิ่งที่เห็น แล้วเปิดสูตรเทียบกัน ภาพเพียงอย่างเดียวบอกน้ำหนัก ส่วนผสมทั้งหมด หรือพลังงานไม่ได้</p></article>
+        <article><h3>2 · อ่านสูตร</h3><p>สูตรจำลองสำหรับ 2 ที่: ไข่ไก่ 3 ฟอง น้ำปลา 1 ช้อนชา น้ำมันสำหรับทอด 3 ช้อนโต๊ะ และข้าวสวย 2 จาน ตีไข่กับน้ำปลา ทอดจนสุก แล้วแบ่งเสิร์ฟกับข้าว</p><p>สูตรไม่ได้ระบุน้ำหนักข้าวหรือน้ำมันที่เหลือหลังทอด จึงยังคำนวณพลังงานจริงต่อจานไม่ได้</p><a href="downloads/module-02-food-evidence/03-omelette-recipe-bilingual.docx" download>เปิดไฟล์สูตร Word →</a></article>
+        <article><h3>3 · อ่านตารางโภชนาการจำลอง</h3><p>ตัวเลขต่อไปนี้แต่งขึ้นสำหรับฝึกอ่านตาราง หน่วยเป็นต่อหนึ่งจานสมมติ ใช้ประกอบงานสอนเท่านั้น</p><table><caption>ข้อมูลฝึก ไม่ใช่ค่าที่วัดจากสูตรหรือภาพ</caption><thead><tr><th scope="col">รายการ</th><th scope="col">ค่าจำลอง</th></tr></thead><tbody><tr><th scope="row">พลังงาน</th><td>500 kcal</td></tr><tr><th scope="row">โปรตีน</th><td>18 g</td></tr><tr><th scope="row">คาร์โบไฮเดรต</th><td>62 g</td></tr><tr><th scope="row">ไขมัน</th><td>20 g</td></tr></tbody></table><p>ใช้ฝึกดึงค่าและหน่วยตามตาราง ห้ามนำไปยืนยันโภชนาการของมื้อจริงหรือระยะเวลาที่อิ่ม</p><a href="downloads/module-02-food-evidence/07-mock-nutrition.csv" download>ดาวน์โหลดตารางจำลอง CSV →</a></article>
+      </div>
+      <h3>เปิดดูผลงานต้นแบบ</h3>
+      <div class="plain-note"><h4>บัตรสรุปมื้อข้าวไข่เจียว</h4><p>สูตรสำหรับ 2 ที่ ใช้ไข่ 3 ฟอง น้ำปลา น้ำมัน และข้าว ภาพประกอบแสดงข้าว ไข่เจียว และถ้วยซุป ตารางฝึกระบุพลังงานจำลอง 500 kcal ต่อจาน ซึ่งไม่ได้คำนวณจากสูตรนี้</p><p>ราคาเริ่มต้น 55 บาทอยู่ในงบ 80 บาท แต่ราคาและเวลารออาจเปลี่ยนตามรายการและวัน ข้อมูลชุดนี้ยังยืนยันไม่ได้ว่าผู้กินจะอิ่มถึง 16:00</p><p>ตรวจต้นทาง: สูตร Word ส่วนรายการวัตถุดิบ; ภาพ PNG; ตาราง CSV แถว energy; ประกาศ PDF ส่วนราคาเริ่มต้น ตัวอย่างนี้เป็นผลงานต้นแบบที่เตรียมไว้ ผลที่ AI สร้างจริงอาจต่างออกไป</p><a href="downloads/module-02-food-evidence/08-example-meal-card.md" download>ดาวน์โหลดบัตรสรุปต้นแบบ Markdown →</a></div>
+      <h3>Prompt สำหรับผู้สอนสาธิต</h3>
+      <div class="command markdown-command"><code>ใช้เฉพาะชุด module-02-food-evidence ที่เตรียมไว้ อ่านสูตร Word ตาราง 07-mock-nutrition.csv และภาพ 04-lunch-tray.png แล้วสร้าง output/meal-card.md ภาษาไทยหนึ่งหน้า ให้มีชื่อเมนู สูตรสำหรับ 2 ที่ ตารางโภชนาการจำลองพร้อมหน่วย และคำบรรยายภาพ แยกสิ่งที่เห็นในภาพจากข้อมูลในสูตร ระบุไฟล์และตำแหน่งที่รองรับแต่ละส่วน บอกชัดว่าตัวเลขโภชนาการเป็นข้อมูลสมมติ ไม่ได้คำนวณจากสูตรหรือวัดจากอาหารจริง ห้ามเดาพลังงานจากภาพหรือรับรองว่าอิ่มถึงเวลาใด ถ้าเปิดไฟล์ใดไม่ได้ให้รายงานตรง ๆ จากนั้นเปิด Markdown Preview ให้ฉันตรวจ หยุดรอความเห็นก่อนแก้ไข</code><button type="button" data-copy>คัดลอก Prompt สาธิตบัตรอาหาร</button></div>
+      <p>ผู้สอนเปิดไฟล์ต้นฉบับ → ส่ง Prompt → เปิด Markdown Preview → เทียบสูตร หน่วย และคำบรรยายภาพกับต้นฉบับร่วมกัน จากนั้นผู้เรียนค่อยทดลองด้วยชุดเดียวกันในช่วงฝึกภายหลัง</p>
+    </details>
+</section>
+
+    <section class="section" id="sources" data-module-2-step="prepare">
+<details class="fallback-details"><summary>ชุดไฟล์พร้อมใช้ · ดาวน์โหลดเมื่อจะลองทำตาม</summary>
+      <div class="section-heading compact"><p class="eyebrow">ชุดเอกสารที่ผู้สอนเตรียมให้</p><h2>ของต้องมีก่อนเรียน</h2><p>ใช้เรื่องเดียวกันในหลายรูปแบบ ทุกคนเริ่มจากชุดหลักฐานกลางเพื่อให้เปรียบเทียบคำตอบและปัญหาที่พบได้</p></div>
+      <p><strong>เคสกลางสำหรับผู้เรียนทุกคน รวมถึงอาจารย์และนักวิจัย</strong> ถามว่า “มื้อข้าวไข่เจียวเหมาะกับนักศึกษาที่มีงบไม่เกิน 80 บาท มีเวลา 30 นาที และต้องการอิ่มถึง 16:00 หรือไม่” เรื่องอาหารช่วยให้ตรวจตรรกะได้โดยไม่ต้องมีความรู้เฉพาะสาขา แต่ละไฟล์บอกข้อมูลคนละส่วนและมีทั้งภาษาไทยกับอังกฤษ</p>
       <div class="notice">
         <strong>เราเตรียมข้อมูลไว้ให้แล้ว:</strong> ดาวน์โหลดชุดเดียวได้ทันที ภายในมี PDF, Excel, Word, ภาพ, สำเนาหน้าเว็บไซต์, URL สำหรับดึงเว็บจริง และ README เมื่อดาวน์โหลดแล้วให้นำไฟล์ ZIP ไปวางใน <code>input/original/</code> โดยยังไม่ต้องแตกไฟล์ Prompt แรกจะให้ AI ตรวจรายการ แตกไฟล์อย่างปลอดภัย ดึงข้อมูลจาก URL ที่กำหนด และสร้างรายงานการนำเข้า
         <div class="hero-actions"><a class="button primary" href="downloads/module-02-food-evidence.zip" download>ดาวน์โหลดชุดข้อมูล Module 2 (.zip)</a></div>
@@ -74,22 +129,13 @@
         <article><h3>ไฟล์สำหรับ AI</h3><p>เครื่องมือใน Workspace จะดึงข้อความ ตาราง หรือ OCR แล้วสร้างสำเนาที่ค้นได้ใน <code>input/markdown/</code></p></article>
         <article><h3>ขอบเขตข้อมูล</h3><p>ไม่ใช้ข้อมูลลับ ข้อมูลส่วนบุคคลที่ห้ามเปิดเผย หรือเอกสารที่ไม่มีสิทธิ์นำเข้าสู่บริการ AI</p></article>
       </div>
-      <div class="notice"><strong>ก่อนเข้าชั้น:</strong> วาง <code>module-02-food-evidence.zip</code> ไว้ใน <code>input/original/</code> และเปิด Workspace ได้ก็พอ ยังไม่ต้องแตกไฟล์ จัดโฟลเดอร์ หรือหาคำตอบ ผู้เรียนที่ผ่านกิจกรรมกลางแล้วจึงทำซ้ำกับเอกสารของตนเอง 6–8 ชิ้นเป็นกิจกรรมต่อยอด</div>
-    </section>
+      <div class="notice"><strong>เมื่อลองทำตามในชั้น:</strong> ใช้ ZIP ที่ผู้สอนเตรียมให้ วาง <code>module-02-food-evidence.zip</code> ไว้ใน <code>input/original/</code> และเปิด Workspace ได้ก็พอ ยังไม่ต้องแตกไฟล์ จัดโฟลเดอร์ หรือหาคำตอบ เมื่อเข้าใจตัวอย่างและขั้นตอนแล้ว จึงไปเตรียมเอกสารของตนเองตามกิจกรรมท้ายโมดูล ไม่ต้องเตรียมล่วงหน้า</div>
+    </details>
+</section>
 
-    <section class="section" id="faculty-sources" data-module-2-step="prepare" data-audience-route="faculty">
-      <div class="section-heading compact"><p class="eyebrow">การเตรียมตัวก่อนเรียน · อาจารย์/นักวิจัย</p><h2>ใช้หลักฐานจากงานวิจัยของคุณ</h2><p>เลือกประเด็นเดียวจากงานที่กำลังทำ แล้วเตรียมไฟล์รวม 6–8 ไฟล์ คือ เอกสารหลัก 1 ไฟล์ และหลักฐานประกอบอีก 5–7 ไฟล์</p></div>
-      <div class="concept-grid">
-        <article><h3>1. เอกสารหลัก · 1 ไฟล์</h3><p>manuscript, proposal หรือ paper ของคุณ ใช้หา Claim หนึ่งข้อที่อยากตรวจ</p></article>
-        <article><h3>2. หลักฐานประกอบ · 5–7 ไฟล์</h3><p>ไฟล์ที่ใช้ยืนยันหรือโต้แย้ง Claim เดียวกัน เช่น บทความอ้างอิง ตารางผล รูป ภาคผนวก หรือหน้าเว็บต้นทาง</p></article>
-        <article><h3>3. ทั้งชุดต้องมีครบ 5 แบบ</h3><p>รวมเอกสารหลักแล้ว ต้องมี PDF, Word, Excel, รูปภาพ และหน้าเว็บ (เก็บ URL ไว้ในไฟล์ .txt) อย่างละอย่างน้อย 1</p></article>
-        <article><h3>4. ตัดข้อมูลลับออก</h3><p>เอาข้อมูลส่วนบุคคล ข้อมูลลับ และเอกสารที่ไม่มีสิทธิ์ส่งให้ AI ออกจากชุดนี้</p></article>
-      </div>
-      <div class="notice evidence-choice" data-module-2-evidence-choice><strong>ยังไม่มีไฟล์ของตัวเอง?</strong> ใช้ชุดตัวอย่างที่คลาสเตรียมไว้ได้ มี PDF, Excel, Word, รูป และหน้าเว็บครบ พร้อม Prompt ทุกขั้น <div class="hero-actions"><button class="button secondary" type="button" data-module-2-use-sample>ใช้ชุดตัวอย่างที่เตรียมไว้</button></div></div>
-      <div class="notice"><strong>ก่อนเข้าชั้น:</strong> เก็บไฟล์ต้นฉบับไว้ใน <code>input/original/module-02-own-evidence/</code> และเขียน Claim ที่ต้องการตรวจหนึ่งข้อใน <code>notes/module-02-claim.md</code> ยังไม่ต้องให้ AI สรุปหรือแก้ Claim</div>
-    </section>
 
     <section class="section" id="levels" data-module-2-step="concepts">
+<details class="fallback-details"><summary>อ่านเพิ่ม · L1–L4</summary>
       <div class="section-heading compact"><p class="eyebrow">ภาษากลางของบทนี้</p><h2>จัดคำตอบเป็น L1–L4</h2><p>คำตอบของ AI มักปนกันระหว่างสิ่งที่อยู่ในเอกสารของคุณจริง ความเห็นของผู้เขียน และสิ่งที่ AI เดาหรือแต่งขึ้นเอง ถ้าไม่แยก คุณอาจหยิบข้อความที่ไม่มีหลักฐานไปใช้ในงานโดยไม่รู้ตัว L1–L4 คือป้ายสี่ระดับที่บอกว่าแต่ละข้อความเชื่อได้แค่ไหน และต้องตรวจเพิ่มหรือไม่</p></div>
       <div class="level-grid">
         <article><span>L1</span><div><h3>พบโดยตรง</h3><p>ตัวเลข วันที่ คำพูด หรือข้อความที่ชี้กลับไปยังไฟล์และตำแหน่งในต้นฉบับได้</p></div></article>
@@ -97,9 +143,11 @@
         <article><span>L3</span><div><h3>การสังเคราะห์</h3><p>ข้อสังเกตที่ AI หรือเราสร้างจากหลายเอกสาร ต้องอธิบายเหตุผลและให้มนุษย์ตรวจ</p></div></article>
         <article><span>L4</span><div><h3>ยังไม่มีหลักฐาน</h3><p>คำตอบใหม่ การคาดการณ์ หรือสาเหตุที่เอกสารชุดนี้ยังพิสูจน์ไม่ได้ ต้องระบุว่าไม่ทราบหรือไปค้นเพิ่ม</p></div></article>
       </div>
-    </section>
+    </details>
+</section>
 
     <section class="section" id="json-basics" data-module-2-step="concepts">
+<details class="fallback-details"><summary>อ่านเพิ่มภายหลัง · Markdown และ JSON</summary>
       <div class="section-heading compact"><p class="eyebrow">ก่อนสร้างไฟล์ส่ง</p><h2>งานของคุณจะถูกเก็บเป็น 2 ไฟล์</h2><p>ในขั้นทดลอง AI จะสร้างไฟล์ให้ คุณไม่ต้องเขียนเอง แค่รู้ว่าแต่ละไฟล์มีไว้ทำอะไร</p></div>
       <div class="concept-grid">
         <article><h3><code>.md</code> · ให้คนอ่าน</h3><p>ข้อสรุปและเหตุผลของคุณ เปิดอ่านใน VS Code ได้เหมือนเอกสารทั่วไป</p></article>
@@ -153,23 +201,13 @@
       <div class="hero-actions"><a class="button primary" href="downloads/module-02-submission-example.json" download>ดาวน์โหลด JSON ตัวอย่าง</a><a class="button secondary" href="downloads/module-02-submission-schema.json" download>ดาวน์โหลด JSON Schema</a></div>
       <p class="expected"><strong>อย่าส่งไฟล์ตัวอย่าง:</strong> ค่า SHA-256 เป็นเลขศูนย์สำหรับการสอน ผู้เรียนต้องสร้างไฟล์ของตนเองในขั้นที่ 11</p>
       </details>
-    </section>
+    </details>
+</section>
 
-    <section class="section" id="faculty-activity" data-module-2-step="practice" data-audience-route="faculty">
-      <div class="section-heading compact"><p class="eyebrow">กิจกรรมหลัก · อาจารย์/นักวิจัย</p><h2>ตรวจ Claim จากงานของคุณสองรอบ</h2><p>รอบแรกดูว่า AI ตอบอย่างไรจากชุดเอกสารเดิม จากนั้นตรวจทุกข้อความกับต้นฉบับและเขียน Prompt รอบสองที่บังคับให้แยกหลักฐาน การตีความ และสิ่งที่ยังตอบไม่ได้</p></div>
-      <ol class="readiness-steps activity-steps">
-        <li><span>01</span><div><strong>นำเข้าหลักฐานโดยไม่แก้ต้นฉบับ</strong><div class="command markdown-command"><code>อ่าน AGENTS.md ก่อน แล้วทำ inventory เฉพาะ input/original/module-02-own-evidence/ สร้างสำเนาที่ค้นได้ใน input/markdown/module-02-own-evidence/ พร้อม import-report.md ซึ่งระบุชื่อไฟล์ วิธีอ่าน สิ่งที่สูญหาย และตำแหน่งที่ฉันต้องตรวจเทียบกับต้นฉบับ ห้ามค้นทั้งเครื่อง ห้ามแก้ไฟล์ต้นฉบับ และยังไม่สรุป Claim</code><button type="button" data-copy>คัดลอก Prompt นำเข้าหลักฐาน</button></div></div></li>
-        <li><span>02</span><div><strong>เก็บคำตอบรอบแรก</strong><p>ให้ AI ตอบ Claim ใน <code>notes/module-02-claim.md</code> จากเอกสารชุดนี้ แล้วบันทึกคำตอบเดิมไว้โดยไม่แก้ย้อนหลัง</p></div></li>
-        <li><span>03</span><div><strong>ตรวจข้อความกับต้นฉบับ</strong><p>แยกแต่ละข้อความเป็น L1–L4 และระบุไฟล์ หน้า ตาราง รูป หรือย่อหน้าที่รองรับ ข้อความที่ไม่มีตำแหน่งตรวจกลับต้องอยู่ L4</p></div></li>
-        <li><span>04</span><div><strong>บันทึกสิ่งที่ AI ตอบไม่ได้</strong><p>เขียนคำตอบหรือคำตัดสินของคุณเองใน <code>notes/learner-additions.md</code> พร้อมฐานที่ใช้ตัดสิน ห้ามให้ AI เติมแทน</p></div></li>
-        <li><span>05</span><div><strong>เขียน Prompt รอบสอง</strong><div class="command markdown-command"><code>ตอบ Claim ใน notes/module-02-claim.md อีกครั้งโดยใช้เฉพาะหลักฐานใน input/markdown/module-02-own-evidence/ แยก L1 ข้อความที่พบโดยตรง, L2 ความเห็นของผู้เขียนต้นฉบับ, L3 การสังเคราะห์ และ L4 สิ่งที่ยังไม่มีหลักฐาน ทุกข้อใน L1–L3 ต้องมีไฟล์และตำแหน่งอ้างอิง ห้ามเติมช่องว่าง หากข้อมูลขัดกันให้แสดงทั้งสองด้าน แล้วหยุดให้ฉันตรวจ</code><button type="button" data-copy>คัดลอก Prompt รอบสอง</button></div></div></li>
-        <li><span>06</span><div><strong>เปรียบเทียบสองรอบ</strong><p>นับข้อความที่ตรวจย้อนกลับได้และข้อความที่ไม่มีหลักฐาน บันทึกว่ากติกาใดทำให้คำตอบดีขึ้นหรือทำให้เห็นข้อจำกัดชัดขึ้น</p></div></li>
-        <li><span>07</span><div><strong>สร้างชิ้นงานส่ง</strong><p>สร้าง <code>output/module-2-conclusion.md</code> และ <code>output/module-2-submission.json</code> ด้วย schema เดิม โดยใช้ชื่อชนิดแหล่งที่มีจริงในชุดของคุณและตรวจไฟล์ในเครื่องก่อนส่ง Progress JSON</p></div></li>
-      </ol>
-    </section>
 
-    <section class="section" id="activity" data-module-2-step="practice" data-audience-route="student">
-      <div class="section-heading compact"><p class="eyebrow">กิจกรรมหลัก · เปรียบเทียบสองรอบ</p><h2>คำตอบเปลี่ยนอย่างไรเมื่อกำหนดหลักฐานให้ชัด</h2><p>ใช้เอกสารชุดเดียวกันถาม AI สองรอบ รอบแรกใช้คำถามสั้นเพื่อดูพฤติกรรมตามธรรมชาติ จากนั้นตรวจคำตอบกับต้นฉบับ แล้วเขียนคำสั่งรอบใหม่ที่ระบุวิธีใช้หลักฐานให้ชัดเพื่อเปรียบเทียบผล</p></div>
+    <section class="section" id="activity" data-module-2-step="practice">
+<details class="fallback-details"><summary>ฝึกภายหลัง · ตรวจคำตอบและเปรียบเทียบ Prompt สองรอบ</summary>
+      <div class="section-heading compact"><p class="eyebrow">แบบฝึกต่อยอดภายหลัง · เปรียบเทียบสองรอบ</p><h2>คำตอบเปลี่ยนอย่างไรเมื่อกำหนดหลักฐานให้ชัด</h2><p>ใช้เอกสารชุดเดียวกันถาม AI สองรอบ รอบแรกใช้คำถามสั้นเพื่อดูพฤติกรรมตามธรรมชาติ จากนั้นตรวจคำตอบกับต้นฉบับ แล้วเขียนคำสั่งรอบใหม่ที่ระบุวิธีใช้หลักฐานให้ชัดเพื่อเปรียบเทียบผล</p></div>
 
       <h3 class="section-zone-heading">ช่วงที่ 1 · ดูคำตอบก่อนกำหนดกติกา</h3>
       <ol class="readiness-steps activity-steps">
@@ -292,10 +330,21 @@
 - หลังสร้างไฟล์ ให้ใช้ course Python รัน tools/validate-module-2.py กับไฟล์ทั้งสอง หากตัวตรวจไม่มี ให้ดาวน์โหลดจากลิงก์ในหน้าบทเรียนนี้ไปไว้ที่ tools/validate-module-2.py
 - ห้ามส่งข้อมูลออกจากเครื่อง ห้าม submit แทนฉัน และห้ามแก้ learner_additions เอง รายงาน LOCAL_CHECK PASS/FAIL แล้วสรุปเป็นสี่ส่วน: ตอบได้แล้ว, AI ยังตอบไม่ได้, ผู้เรียนเติมอะไร, Prompt ที่แนะนำ จากนั้นหยุดและรอฉันตรวจ</code><button type="button" data-copy>คัดลอกคำสั่งสร้างและตรวจงาน</button></div></div></li>
       </ol>
+    </details>
+</section>
+
+    <section class="section" id="own-topic" data-module-2-step="submit" aria-labelledby="own-topic-heading">
+      <div class="section-heading compact"><p class="eyebrow">ท้ายโมดูล · ทำซ้ำกับเรื่องของคุณ</p><h2 id="own-topic-heading">เข้าใจตัวอย่างแล้ว ค่อยเตรียมเอกสารของตนเอง</h2><p>กิจกรรมนี้เริ่มหลังจากดูตัวอย่างอาหารและลองทำตามด้วยชุดที่เตรียมให้แล้ว ใช้ขั้นตอนเดิมกับเรื่องที่คุณสนใจ โดยคุณเป็นผู้เลือกเรื่องและรวบรวมเอกสารในช่วงนี้</p></div>
+      <ol><li>เลือกเรื่องและคำถามง่ายหนึ่งข้อ</li><li>ตอนนี้ค่อยเตรียมไฟล์เรื่องเดียวกันที่มีสิทธิ์ใช้ ไม่ต้องครบทุกนามสกุล</li><li>ทำตาม Prompt 1–4 โดยเปลี่ยนจากชุดอาหารเป็นชุดของคุณ แล้วเปิดผลเทียบกัน</li></ol>
+      <div class="command markdown-command"><code>ฉันจะทำขั้นตอนเดียวกับตัวอย่างอาหารกับเรื่อง [ระบุเรื่อง] คำถามคือ [ระบุคำถาม] ไฟล์อยู่ที่ [ระบุโฟลเดอร์]
+ตรวจรายการไฟล์ ถ้าข้อมูลขาดให้ถามและรอฉันเตรียมเพิ่ม ห้ามแต่งข้อมูลแทนหลักฐาน
+ใช้เฉพาะชุดนี้ สรุปพร้อมชื่อไฟล์และตำแหน่งที่รองรับ แยกสิ่งที่ยังตอบไม่ได้ สร้าง output/my-topic-summary.md แล้วเปิด Preview ให้ฉันตรวจ หยุดรอข้อแก้ไข</code><button type="button" data-copy>คัดลอก Prompt สำหรับเรื่องของฉัน</button></div>
+      <p class="plain-note"><strong>สังเกตผล:</strong> เมื่อเพิ่มกติกา คำตอบชัดขึ้นไหม? เมื่อเปลี่ยนรูปแบบ ข้อมูลสำคัญยังอยู่ไหม? เก็บผลงานเรื่องของคุณไว้ในเครื่อง และตัดข้อมูลลับก่อนใช้กับ AI</p>
     </section>
 
     <section class="section" id="local-validator" data-module-2-step="submit">
-      <div class="section-heading compact"><p class="eyebrow">AI-assisted local check · ไม่อัปโหลดงาน</p><h2>ให้ AI เรียกตัวตรวจให้</h2><p>คุณไม่ต้องเปิด Terminal หรือรันโค้ดเอง ตัวตรวจถูกเตรียมไว้ใน workspace ตั้งแต่ติดตั้ง หาก workspace รุ่นเก่ายังไม่มี AI จะดาวน์โหลดจากเว็บไซต์หลักแล้วรันในเครื่องให้</p></div>
+<details class="fallback-details"><summary>หลังทำแบบฝึกครบ · ตรวจไฟล์ในเครื่อง</summary>
+      <div class="section-heading compact"><p class="eyebrow">AI-assisted local check · ไม่อัปโหลดงาน</p><h2>ให้ AI เรียกตัวตรวจหลังทำแบบฝึกครบ</h2><p>คุณไม่ต้องเปิด Terminal หรือรันโค้ดเอง ตัวตรวจถูกเตรียมไว้ใน workspace ตั้งแต่ติดตั้ง หาก workspace รุ่นเก่ายังไม่มี AI จะดาวน์โหลดจากเว็บไซต์หลักแล้วรันในเครื่องให้</p></div>
       <div class="command markdown-command"><code>ตรวจงาน Module 2 ในเครื่องให้ฉัน
 
 1. อ่านและทำตาม AGENTS.md ก่อน
@@ -305,9 +354,11 @@
 5. ถ้า FAIL ให้อธิบายทีละข้อ แก้ได้เฉพาะข้อผิดพลาดเชิงโครงสร้างที่ AI สร้างเอง ห้ามแต่งหรือแก้ learner_additions แทนฉัน
 6. ถ้า PASS ให้รายงานจำนวน claims, open questions, learner additions และ SHA-256 แล้วหยุด ห้าม submit แทนฉัน</code><button type="button" data-copy>คัดลอก Prompt ให้ AI ตรวจงาน</button></div>
       <p class="expected"><strong>สิ่งที่ผู้เรียนต้องทำ:</strong> อ่านผล <code>LOCAL_CHECK PASS/FAIL</code> และตอบคำถามที่ AI ส่งกลับมาเท่านั้น ไม่ต้องพิมพ์คำสั่ง Python เอง เนื้อหางานยังอยู่ในเครื่อง</p>
-    </section>
+    </details>
+</section>
 
     <section class="section" id="submit" data-module-2-step="submit">
+<details class="fallback-details"><summary>หลังทำแบบฝึกครบ · ส่งความคืบหน้า</summary>
       <div class="section-heading compact"><p class="eyebrow">Submit · ส่งความคืบหน้า</p><h2>ตรวจผลงานในเครื่อง แล้วส่งเฉพาะ Progress JSON</h2><p>หน้าเว็บอ่าน Markdown และ <code>module-2-submission.json</code> ในเบราว์เซอร์เพื่อตรวจความครบและคำนวณ SHA-256 ไฟล์ทั้งสองไม่ออกจากเครื่อง Server ได้รับเพียงผลตรวจแบบสรุปและแบบประเมินการใช้ Module เพื่อแสดงความคืบหน้าของคลาส</p><p><a href="downloads/module-02-submission-schema.json" download>ดาวน์โหลด JSON Schema สำหรับตรวจในเครื่อง →</a> · <a href="downloads/validate-module-2.py" download>ดาวน์โหลดตัวตรวจ Module 2 →</a></p></div>
       <div class="notice"><strong>Call sign แทนตัวตน:</strong> ตั้งนามเรียกขานใหม่สำหรับคลาสนี้ เช่น <code>green-orbit-7</code> และอย่าใช้ชื่อจริง ชื่อบัญชี อีเมล เบอร์โทร หรือรหัสนิสิต Server เก็บเฉพาะรหัสคลาส, call sign, progress summary, แบบประเมิน Module, เวลา และ submission ID ไม่เก็บ Markdown, claims, คำตอบ หรือรายการหลักฐานของคุณ</div>
       <form class="module-submission-form" data-module-2-submission-form>
@@ -345,9 +396,11 @@
         <pre><code data-module-2-receipt-json></code></pre>
         <button class="button secondary" type="button" data-module-2-receipt-download>ดาวน์โหลด Receipt JSON</button>
       </div>
-    </section>
+    </details>
+</section>
 
     <section class="section markdown-section" id="finish" aria-labelledby="finish-heading" data-module-2-step="submit">
+<details class="fallback-details"><summary>หลังทำแบบฝึกครบ · เช็กผลงาน</summary>
       <div class="section-heading compact"><p class="eyebrow">Checkpoint</p><h2 id="finish-heading">จบบทเรียน</h2></div>
       <div class="markdown-body">
       <p>ติ๊กเมื่อคุณตรวจชิ้นงานและอธิบายหลักฐานของแต่ละข้อได้ ระบบจะจำสถานะไว้ในเบราว์เซอร์นี้</p>
@@ -366,7 +419,10 @@
       </div>
       </div>
       <div class="hero-actions module-next"><a class="button secondary" href="prepare.html">← กลับ Module 1</a><a class="button primary" href="module-3.html">ไป Module 3 →</a></div>
-    </section>
+    </details>
+</section>
+
+
   </main>
 
   <site-footer></site-footer>

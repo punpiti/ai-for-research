@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://urban.cpe.ku.ac.th/ai-for-research/schemas/module-07-figure-audit.v1.json",
+  "title": "AI for Research Module 7 Figure Audit Submission",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["event_type", "submission_id", "class_code", "callsign", "callsign_key", "client_submitted_at", "artifact"],
+  "properties": {
+    "event_type": {"const": "ai_for_research_module_7_figure_audit"},
+    "submission_id": {"type": "string", "format": "uuid"},
+    "class_code": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{2,39}$"},
+    "callsign": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{2,39}$"},
+    "callsign_key": {"type": ["string", "null"]},
+    "client_submitted_at": {"type": "string", "format": "date-time"},
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["filename", "sha256", "markdown", "issue_count", "cross_figure_count", "data_check_count", "ai_used", "human_first_confirmed", "mock_only_confirmed", "final_declaration_confirmed"],
+      "properties": {
+        "filename": {"const": "module-07-figure-audit.md"},
+        "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "markdown": {"type": "string", "minLength": 800, "maxLength": 65536},
+        "issue_count": {"type": "integer", "minimum": 6, "maximum": 20},
+        "cross_figure_count": {"type": "integer", "minimum": 4, "maximum": 20},
+        "data_check_count": {"type": "integer", "minimum": 3, "maximum": 20},
+        "ai_used": {"enum": ["yes", "no"]},
+        "human_first_confirmed": {"const": true},
+        "mock_only_confirmed": {"const": true},
+        "final_declaration_confirmed": {"const": true}
+      }
+    }
+  }
+}

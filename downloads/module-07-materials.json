@@ -1,0 +1,84 @@
+{
+  "schema_version": "ai-for-research.course-materials.v1",
+  "module_id": "module-07",
+  "files": [
+    {
+      "url": "https://urban.cpe.ku.ac.th/ai-for-research/downloads/module-07-notebooks/module-07-data-visualization.ipynb",
+      "path": "course-materials/module-07/notebooks/module-07-data-visualization.ipynb",
+      "sha256": "13e1ce9a20c7ee7e0afebeed9f0d432c298b2db2ff880145f90bc24a5b707407",
+      "bytes": 10082
+    },
+    {
+      "url": "https://urban.cpe.ku.ac.th/ai-for-research/downloads/module-07-notebooks/module-07a-read-and-audit.ipynb",
+      "path": "course-materials/module-07/notebooks/module-07a-read-and-audit.ipynb",
+      "sha256": "22ac4ab56edae6ee81308788fe8173d86677d95f72abeef9220faea63ff1888a",
+      "bytes": 995628
+    },
+    {
+      "url": "https://urban.cpe.ku.ac.th/ai-for-research/downloads/module-07-notebooks/module-07b-revise-and-publish.ipynb",
+      "path": "course-materials/module-07/notebooks/module-07b-revise-and-publish.ipynb",
+      "sha256": "0537ffdc961c60366a09a5ce72117a33d0478d1208c05a4acfb12ecfc3d94434",
+      "bytes": 5313694
+    },
+    {
+      "url": "https://urban.cpe.ku.ac.th/ai-for-research/downloads/module-07-notebooks/module-07c-matplotlib-foundations.ipynb",
+      "path": "course-materials/module-07/notebooks/module-07c-matplotlib-foundations.ipynb",
+      "sha256": "c076fe6cfa7e942f3ec898284a4f3024f2dbffed3af9c23536675e35b067ab9d",
+      "bytes": 80560
+    },
+    {
+      "url": "https://urban.cpe.ku.ac.th/ai-for-research/downloads/module-07-notebooks/module-07-environment.yml",
+      "path": "course-materials/module-07/notebooks/module-07-environment.yml",
+      "sha256": "52afbe01618b77675586fa316963c192a10d67d505ba351e0203a9c66cb9aab5",
+      "bytes": 351
+    },
+    {
+      "url": "https://urban.cpe.ku.ac.th/ai-for-research/downloads/module-07-notebooks/module-07-requirements.txt",
+      "path": "course-materials/module-07/notebooks/module-07-requirements.txt",
+      "sha256": "c749f4ff5de3e16fbcb786bfb8f1f8532a54c5fd0890e460101d13f0b89ee1bf",
+      "bytes": 118
+    },
+    {
+      "url": "https://urban.cpe.ku.ac.th/ai-for-research/downloads/module-07-notebooks/module-07-standalone-setup.md",
+      "path": "course-materials/module-07/notebooks/module-07-standalone-setup.md",
+      "sha256": "6c0e3b0f1567b05391ae54fae9c8a96675991b845837cc3882d4698c345dcc34",
+      "bytes": 4120
+    },
+    {
+      "url": "https://urban.cpe.ku.ac.th/ai-for-research/downloads/module-07-data-analysis-visualization-workbook.md",
+      "path": "course-materials/module-07/templates/module-07-data-analysis-visualization-workbook.md",
+      "sha256": "0d0aa168bb6ea8ea0e73517b5095ddd20056c257fc96a3fc933fdd5db80eeefd",
+      "bytes": 14249
+    },
+    {
+      "url": "https://urban.cpe.ku.ac.th/ai-for-research/downloads/module-07-visualization-workflow-and-prompts.md",
+      "path": "course-materials/module-07/templates/module-07-visualization-workflow-and-prompts.md",
+      "sha256": "79904b007bd4f6959b84d8cc090724402544fde7e8c0136028eb9ffe28a1db4b",
+      "bytes": 12782
+    },
+    {
+      "url": "https://urban.cpe.ku.ac.th/ai-for-research/downloads/module-07-figure-consistency/README.md",
+      "path": "course-materials/module-07/examples/figure-consistency/README.md",
+      "sha256": "1466c172bfc083263dcfd6783c05108fa98a1c1ab9f0d620212e142e5f60bf91",
+      "bytes": 2529
+    },
+    {
+      "url": "https://urban.cpe.ku.ac.th/ai-for-research/downloads/module-07-figure-consistency/mock-article-figure-consistency.pdf",
+      "path": "course-materials/module-07/examples/figure-consistency/mock-article-figure-consistency.pdf",
+      "sha256": "9f629482c6f5f92e67e497d03ac0cf5c3edf4b3db24398a2f8b1caeb441b2dbb",
+      "bytes": 366002
+    },
+    {
+      "url": "https://urban.cpe.ku.ac.th/ai-for-research/downloads/module-07-figure-consistency/mock-study-data.csv",
+      "path": "course-materials/module-07/examples/figure-consistency/mock-study-data.csv",
+      "sha256": "23d88b118b5afd0626f445f61227646c76c8539a13d4a0575645cfea04609956",
+      "bytes": 42270
+    },
+    {
+      "url": "https://urban.cpe.ku.ac.th/ai-for-research/downloads/module-07-figure-consistency/figure-consistency-audit-template.md",
+      "path": "course-materials/module-07/examples/figure-consistency/figure-consistency-audit-template.md",
+      "sha256": "6cc74aef8e4605c79c86d7553ab15ae622290fb3107aec4921d4c46b090015a0",
+      "bytes": 4255
+    }
+  ]
+}

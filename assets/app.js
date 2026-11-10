@@ -10,6 +10,7 @@ function classroomIdFromLocation() {
 }
 
 function markNoviceCaseContent() {
+  if (document.querySelector("[data-module-2-shared-case]")) return;
   const caseTerms = /(?:หิว|อิ่ม|เรื่องอาหาร|มื้อข้าว|satiety|fullness|hunger)/i;
   document.querySelectorAll("p").forEach((paragraph) => {
     if (/เคสฝึก(?:สำหรับ)?นิสิต|เคสฝึกสำหรับนิสิต|นิสิต\/นักวิจัยมือใหม่/.test(paragraph.textContent) || caseTerms.test(paragraph.textContent)) {
@@ -40,9 +41,10 @@ function applyClassroomContentRoutes(routes) {
   markNoviceCaseContent();
   document.querySelectorAll("[data-audience-route]").forEach((element) => {
     const audience = element.dataset.audienceRoute;
-    element.hidden = route !== "mixed" && audience !== route;
+    const contentRoute = document.querySelector("[data-module-2-shared-case]") ? "student" : route;
+    element.hidden = contentRoute !== "mixed" && audience !== contentRoute;
   });
-  if (route === "faculty") {
+  if (route === "faculty" && !document.querySelector("[data-module-2-shared-case]")) {
     document.querySelectorAll('site-header a[href="#sources"]').forEach((link) => { link.href = "#faculty-sources"; });
     document.querySelectorAll('site-header a[href="#activity"]').forEach((link) => { link.href = "#faculty-activity"; });
   }
@@ -222,7 +224,15 @@ if (moduleHero && !document.querySelector("[data-hunger-review]")) {
     <p><strong>หิว</strong> คือปัญหา <strong>อิ่ม</strong> คือผลที่ต้องการ และ <strong>กิน</strong> เป็นเพียงวิธีหนึ่ง ต้องกำหนดว่าใครหิว วัดความอิ่มอย่างไร มีข้อจำกัดอะไร และใช้หลักฐานใดตรวจว่ากินแล้วได้ผลจริง</p>
   </div><div class="plain-note"><strong>จำไว้ตลอดบท:</strong> ทำขั้นตอนครบหรือใช้ AI สำเร็จ ไม่ได้แปลว่าตอบปัญหาวิจัยแล้ว ผลงานท้ายบทต้องเชื่อมกลับไปยังปัญหา วัตถุประสงค์ และหลักฐานเสมอ</div>
   <div class="hero-actions"><a class="button secondary" href="hunger-research-methodology.html">เปิดเคสฝึกฉบับเต็ม →</a></div>`;
-  review.hidden = document.documentElement.dataset.classroomContentRoute === "faculty";
+  review.hidden = !document.querySelector("[data-module-2-shared-case]") && document.documentElement.dataset.classroomContentRoute === "faculty";
+  if (document.querySelector("[data-module-2-shared-case]")) {
+    review.querySelector(".eyebrow").textContent = "เคสกลางสำหรับผู้เรียนทุกคน";
+    review.querySelector(".section-heading p:last-child").textContent = "หิวคือสิ่งที่อยากแก้ กินคือสิ่งที่ลองทำ และอิ่มคือผลที่อยากได้ เริ่มจากเรื่องใกล้ตัวนี้เพื่อดูว่า AI อ่านสูตร ตาราง และภาพ แล้วสร้างผลงานให้เราเปิดตรวจได้อย่างไร";
+    review.querySelector(".plain-note").textContent = "ช่วงสาธิตดูตัวอย่างร่วมกันก่อน เมื่อฝึกเองให้ใช้ชุดข้อมูลเดียวกัน แล้วตรวจคำตอบกับไฟล์ต้นฉบับ";
+    const caseLink = review.querySelector("a");
+    caseLink.href = "#food-demo";
+    caseLink.textContent = "ดูตัวอย่างอาหารด้านล่าง →";
+  }
   moduleHero.insertAdjacentElement("afterend", review);
 }
 
