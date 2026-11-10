@@ -21,6 +21,10 @@ if grep -q 'href="downloads/' "$root/module-7.html"; then
   echo 'Module 7 course files must be installed once in the first stage and opened from the VS Code workspace.' >&2
   exit 1
 fi
+if grep -q 'class="section final-cta"' "$root/module-7.html"; then
+  echo 'Module 7 must use the classroom/module navigation and must not duplicate previous/next module buttons.' >&2
+  exit 1
+fi
 [[ "$(grep -o 'command markdown-command ai-prompt' "$root/module-7.html" | wc -l)" -ge 5 ]]
 [[ "$(grep -o 'command markdown-command copy-example' "$root/module-7.html" | wc -l)" -eq 2 ]]
 if grep -q '<blockquote>' "$root/module-7.html"; then
