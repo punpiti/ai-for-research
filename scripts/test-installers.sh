@@ -13,6 +13,12 @@ grep -q 'module-7-steps.js' "$root/module-7.html"
 grep -q 'setup-module-07-windows.ps1' "$root/module-7.html"
 grep -q 'setup-module-07-macos.sh' "$root/module-7.html"
 grep -q 'setup-module-07-linux.sh' "$root/module-7.html"
+[[ "$(grep -o 'command markdown-command ai-prompt' "$root/module-7.html" | wc -l)" -ge 5 ]]
+[[ "$(grep -o 'command markdown-command copy-example' "$root/module-7.html" | wc -l)" -eq 2 ]]
+if grep -q '<blockquote>' "$root/module-7.html"; then
+  echo 'Module 7 must use semantic prompt/example/note components instead of ambiguous blockquotes.' >&2
+  exit 1
+fi
 bash "$root/scripts/test-project-name.sh"
 bash -n "$root/downloads/import-documents.sh"
 python3 -c 'import pathlib,sys; p=pathlib.Path(sys.argv[1]); compile(p.read_text(encoding="utf-8"), str(p), "exec")' "$root/downloads/import-office.py"

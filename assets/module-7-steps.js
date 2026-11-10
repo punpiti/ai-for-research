@@ -33,6 +33,7 @@
     if (!firstSection || !moduleContent || document.querySelector("[data-module-7-steps]")) return;
 
     document.body.classList.add("module-progress-page", "module-7-page");
+    document.querySelectorAll("[data-m7-stage-prompt]").forEach((block) => block.classList.add("ai-prompt"));
     const state = readState();
     const topProgress = document.createElement("nav");
     topProgress.className = "module-top-progress module-7-top-progress";
