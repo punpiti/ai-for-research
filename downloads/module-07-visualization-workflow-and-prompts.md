@@ -5,8 +5,10 @@
 
 ## 1. เส้นทางเรียน
 
-ดาวน์โหลด [Notebook bundle](../notebooks/module-07-notebook-bundle.zip) หรือดาวน์โหลด `.ipynb`
-แต่ละ Part พร้อม [คู่มือติดตั้ง standalone](../notebooks/module-07-standalone-setup.md)
+ใช้คำสั่งติดตั้งตาม OS จากหน้า Module 7 เป็นวิธีหลัก ตัวติดตั้งจะดาวน์โหลด notebook, แบบฝึก,
+ฟอนต์ และสร้าง Jupyter environment ให้ครบ หากต้องติดตั้งด้วยตนเองจึงใช้
+[Notebook bundle](../notebooks/module-07-notebook-bundle.zip) และ
+[คู่มือติดตั้ง standalone](../notebooks/module-07-standalone-setup.md)
 
 1. เปิด [Part A — อ่านและตรวจกราฟ](../notebooks/module-07a-read-and-audit.ipynb)
 2. ทำ Graph Clinic โดยเขียนคำตอบของมนุษย์ก่อนใช้ AI
@@ -132,7 +134,9 @@ uncertainty, annotation, caption และ claim ที่ชื่อกรา�
 
 ## 8. ส่งออก
 
-- ตั้ง `PAPER_EXPORT = True` ใน Part B เมื่อต้องการสร้าง PDF/SVG หนึ่งคอลัมน์
+- ตั้ง `PAPER_EXPORT = True` ใน Part B เมือต้องการสร้าง PNG (raster) และ PDF/SVG (vector) ขนาดหนึ่งคอลัมน์
+- บน Google Colab ให้คง `DOWNLOAD_ON_COLAB = True`; notebook จะรวมไฟล์ทั้งสามเป็น ZIP และเรียก browser download ให้ เพราะไฟล์ใน Colab runtime อาจหายเมื่อ session จบ
+- ถ้า browser ถาม ให้อนุญาตการดาวน์โหลดจาก Colab เฉพาะรอบนั้น
 - บันทึกตารางที่ใช้วาดภาพด้วย `plot_df.to_csv("plot-data.csv", index=False)` หลังตรวจโฟลเดอร์ปลายทาง
 - ตรวจภาพที่ขนาดใช้งานจริง ทั้งบน paper, slide และหน้าจอ
 - interaction ให้ส่งเป็น HTML เมื่อ hover/filter/brush มีงานที่ภาพนิ่งทำได้ยากจริง

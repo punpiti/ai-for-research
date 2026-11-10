@@ -9,10 +9,11 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/styles.css?v=20261011-1">
+  <link rel="stylesheet" href="assets/styles.css?v=20261110-2">
   <script src="assets/dev-auth.js?v=20261010-1"></script>
   <script src="assets/site-shell.js?v=20261010-1"></script>
   <script src="assets/app.js?v=20261011-4" defer></script>
+  <script src="assets/module-7-steps.js?v=20261110-1" defer></script>
   <script src="assets/module-7-submission.js?v=20261110-1" defer></script>
 </head>
 <body>
@@ -35,10 +36,33 @@
 <li>เปิด AI ที่แนบแฟ้มและดาวน์โหลดผลลัพธ์ได้ ใช้ผ่านเว็บหรือแอปได้</li>
 <li>ดาวน์โหลด <a href="downloads/module-07-data-analysis-visualization-workbook.md">สมุดงาน Module 7</a></li>
 <li>เปิด <a href="downloads/module-07-notebooks/module-07-data-visualization.ipynb">สารบัญ Data Visualization Lab</a> แล้วเรียนตามลำดับ <a href="downloads/module-07-notebooks/module-07a-read-and-audit.ipynb">Part A — อ่านและตรวจกราฟ</a> → <a href="downloads/module-07-notebooks/module-07b-revise-and-publish.ipynb">Part B — ปรับและส่งออก</a> ส่วน <a href="downloads/module-07-notebooks/module-07c-matplotlib-foundations.ipynb">Part C — Matplotlib Foundations</a> เป็นเนื้อหาเลือกเรียนเมื่อต้องเปิดหรือแก้โค้ด</li>
-<li>ดาวน์โหลด <a href="downloads/module-07-notebooks/module-07-notebook-bundle.zip">Notebook bundle</a> ซึ่งรวม notebook, environment, requirements และคู่มือติดตั้งแบบ standalone</li>
+<li>ใช้ตัวติดตั้งด้านล่างเป็นวิธีหลัก ตัวติดตั้งจะสร้าง environment แยก ติดตั้ง JupyterLab/kernel และดาวน์โหลด notebook ฟอนต์กับแบบฝึกให้ครบ</li>
+<li><a href="downloads/module-07-notebooks/module-07-notebook-bundle.zip">Notebook bundle</a> และ <a href="downloads/module-07-notebooks/module-07-standalone-setup.md">คู่มือติดตั้งแบบ standalone</a> เป็นทางเลือกสำรองสำหรับเครื่องที่ผู้ดูแลต้องการติดตั้งเอง</li>
 <li>ใช้ <a href="downloads/module-07-visualization-workflow-and-prompts.md">Visualization Workflow &amp; Prompt Card</a> สำหรับ Chart Contract, Prompt, Graph Clinic, Colab, export และเกณฑ์ส่งงาน</li>
 <li>เตรียมพื้นที่แยกข้อมูลต้นฉบับ script ที่ AI สร้าง ผลวิเคราะห์ ตาราง ภาพ และบันทึกการตรวจ</li>
 </ul>
+<h3 id="ติดตั้งครั้งเดียวด้วย-terminal">ติดตั้งครั้งเดียวด้วย Terminal</h3>
+<p>เลือก OS แล้วคัดลอกคำสั่งเดียวไปวางใน Terminal หรือ PowerShell แบบปกติ ไม่ต้องเปิดแบบ Administrator คำสั่งจะย้ายไปยังโฟลเดอร์ผู้ใช้ ดาวน์โหลด bootstrap script ก่อน แล้วจึงเรียก script นั้น ไฟล์เรียนจะอยู่ที่ <code>~/ai-for-research-workspace/course-materials/module-07/</code> และ environment จะอยู่ที่ <code>~/ai-for-research-workspace/.venv-module07/</code> โดยไม่แก้ global Python</p>
+<div class="platform-picker module-07-platform-picker" role="group" aria-label="เลือกระบบปฏิบัติการสำหรับติดตั้ง Module 7">
+  <button type="button" data-platform-button="windows">Windows 11</button>
+  <button type="button" data-platform-button="macos">macOS</button>
+  <button type="button" data-platform-button="linux">Linux</button>
+</div>
+<div class="platform-grid module-07-install-grid">
+  <article class="platform-card" data-platform-panel="windows">
+    <p class="platform-label">Windows 11</p><h4>เปิด PowerShell แบบปกติ</h4>
+    <div class="command terminal-command"><code>Set-Location $HOME; $setup = Join-Path $env:TEMP 'ai-module07-bootstrap.ps1'; Invoke-WebRequest -UseBasicParsing -ErrorAction Stop 'https://urban.cpe.ku.ac.th/ai-for-research/downloads/setup-module-07-windows.ps1' -OutFile $setup; powershell -NoProfile -ExecutionPolicy Bypass -File $setup -Workspace (Join-Path $HOME 'ai-for-research-workspace')</code><button type="button" data-copy>คัดลอกคำสั่งติดตั้ง</button></div>
+  </article>
+  <article class="platform-card" data-platform-panel="macos">
+    <p class="platform-label">macOS</p><h4>เปิด Terminal</h4>
+    <div class="command terminal-command"><code>cd "$HOME" &amp;&amp; setup="$(mktemp)" &amp;&amp; curl -fsSL 'https://urban.cpe.ku.ac.th/ai-for-research/downloads/setup-module-07-macos.sh' -o "$setup" &amp;&amp; bash "$setup" --workspace "$HOME/ai-for-research-workspace"</code><button type="button" data-copy>คัดลอกคำสั่งติดตั้ง</button></div>
+  </article>
+  <article class="platform-card" data-platform-panel="linux">
+    <p class="platform-label">Linux (Ubuntu/Debian)</p><h4>เปิด Terminal</h4>
+    <div class="command terminal-command"><code>cd "$HOME" &amp;&amp; setup="$(mktemp)" &amp;&amp; curl -fsSL 'https://urban.cpe.ku.ac.th/ai-for-research/downloads/setup-module-07-linux.sh' -o "$setup" &amp;&amp; bash "$setup" --workspace "$HOME/ai-for-research-workspace"</code><button type="button" data-copy>คัดลอกคำสั่งติดตั้ง</button></div>
+  </article>
+</div>
+<p class="expected"><strong>สำเร็จเมื่อ:</strong> Terminal แสดง <code>FINAL_RESULT PASS</code> แล้วใช้คำสั่งเปิดบทเรียนที่ installer แสดงไว้ท้ายผลลัพธ์ การรันซ้ำจะ reuse ไฟล์ที่ตรงกันและไม่เขียนทับ notebook ที่ผู้เรียนแก้แล้ว</p>
 <div class="plain-note"><strong>คุณถาม เลือก และตรวจ ส่วน AI ช่วยคำนวณและสร้างภาพ:</strong> ใช้หน้าสนทนากับ AI โปรแกรมดูตาราง และโปรแกรมเปิดภาพหรือ HTML ให้ AI สรุปวิธีวิเคราะห์ รุ่นเครื่องมือ คำเตือน และแฟ้มผลลัพธ์เป็นรายงานอ่านง่าย คำถาม เหตุผลเลือกวิธี และข้อสรุปต้องมาจากคุณ</div>
 </div></section>
 <section class="section markdown-section" id="คำถามแกนของโมดูล" aria-labelledby="คำถามแกนของโมดูล-heading"><div class="section-heading compact"><h2 id="คำถามแกนของโมดูล-heading">คำถามแกนของโมดูล</h2>

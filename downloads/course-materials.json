@@ -5,26 +5,26 @@
     {
       "url": "https://urban.cpe.ku.ac.th/ai-for-research/downloads/course-materials/visualization/notebooks/module-07-data-visualization.ipynb",
       "path": "course-materials/module-07/notebooks/module-07-data-visualization.ipynb",
-      "sha256": "13e1ce9a20c7ee7e0afebeed9f0d432c298b2db2ff880145f90bc24a5b707407",
+      "sha256": "70ef0506243f44559c099931a6932454634f39acefb5e774107c68ad02cb1f05",
       "bytes": 10082
     },
     {
       "url": "https://urban.cpe.ku.ac.th/ai-for-research/downloads/course-materials/visualization/notebooks/module-07a-read-and-audit.ipynb",
       "path": "course-materials/module-07/notebooks/module-07a-read-and-audit.ipynb",
-      "sha256": "22ac4ab56edae6ee81308788fe8173d86677d95f72abeef9220faea63ff1888a",
-      "bytes": 995628
+      "sha256": "0da665850d638eab7c5be205075bf3d07a696ec3d1d5806fe915bd4c4ba49b5f",
+      "bytes": 945543
     },
     {
       "url": "https://urban.cpe.ku.ac.th/ai-for-research/downloads/course-materials/visualization/notebooks/module-07b-revise-and-publish.ipynb",
       "path": "course-materials/module-07/notebooks/module-07b-revise-and-publish.ipynb",
-      "sha256": "0537ffdc961c60366a09a5ce72117a33d0478d1208c05a4acfb12ecfc3d94434",
-      "bytes": 5313694
+      "sha256": "a6160c8abff0e63b808f71318d0c6c90541cc87e0f557880f06bc5bcf76fa1b8",
+      "bytes": 5296544
     },
     {
       "url": "https://urban.cpe.ku.ac.th/ai-for-research/downloads/course-materials/visualization/notebooks/module-07c-matplotlib-foundations.ipynb",
       "path": "course-materials/module-07/notebooks/module-07c-matplotlib-foundations.ipynb",
-      "sha256": "c076fe6cfa7e942f3ec898284a4f3024f2dbffed3af9c23536675e35b067ab9d",
-      "bytes": 80560
+      "sha256": "d778564839a84769fdf0de6b2dd5cf30047cb00e9a8e3bb82f231271e6b715d2",
+      "bytes": 86213
     },
     {
       "url": "https://urban.cpe.ku.ac.th/ai-for-research/downloads/course-materials/visualization/notebooks/module-07-environment.yml",
@@ -41,8 +41,26 @@
     {
       "url": "https://urban.cpe.ku.ac.th/ai-for-research/downloads/course-materials/visualization/notebooks/module-07-standalone-setup.md",
       "path": "course-materials/module-07/notebooks/module-07-standalone-setup.md",
-      "sha256": "6c0e3b0f1567b05391ae54fae9c8a96675991b845837cc3882d4698c345dcc34",
-      "bytes": 4120
+      "sha256": "f1885424d6110ee497e91209a32487bf0fa4001dc72b01e35e255001f3fa8b35",
+      "bytes": 5642
+    },
+    {
+      "url": "https://urban.cpe.ku.ac.th/ai-for-research/downloads/course-materials/visualization/fonts/Sarabun-Regular.ttf",
+      "path": "course-materials/module-07/fonts/Sarabun-Regular.ttf",
+      "sha256": "226d4f368fbc0457990ddef2692679badfd2c1a4e89e5ac4d43c10ba7743b2f1",
+      "bytes": 90220
+    },
+    {
+      "url": "https://urban.cpe.ku.ac.th/ai-for-research/downloads/course-materials/visualization/fonts/Sarabun-Bold.ttf",
+      "path": "course-materials/module-07/fonts/Sarabun-Bold.ttf",
+      "sha256": "d38308ca27d067b9a1b79006337c1f9a66c29aa016d96a9d88d3801da7fa83b9",
+      "bytes": 89804
+    },
+    {
+      "url": "https://urban.cpe.ku.ac.th/ai-for-research/downloads/course-materials/visualization/fonts/OFL.txt",
+      "path": "course-materials/module-07/fonts/OFL.txt",
+      "sha256": "b26cae1321380296ba8311b632a397d5eac11b47197f9d0aa0b9310f1531ad60",
+      "bytes": 4387
     },
     {
       "url": "https://urban.cpe.ku.ac.th/ai-for-research/downloads/course-materials/visualization/templates/module-07-data-analysis-visualization-workbook.md",
@@ -53,8 +71,8 @@
     {
       "url": "https://urban.cpe.ku.ac.th/ai-for-research/downloads/course-materials/visualization/templates/module-07-visualization-workflow-and-prompts.md",
       "path": "course-materials/module-07/templates/module-07-visualization-workflow-and-prompts.md",
-      "sha256": "79904b007bd4f6959b84d8cc090724402544fde7e8c0136028eb9ffe28a1db4b",
-      "bytes": 12782
+      "sha256": "094a4110d3cd5c695a1078f0c594949330a27e03217d140b13361ee701d8a774",
+      "bytes": 13545
     },
     {
       "url": "https://urban.cpe.ku.ac.th/ai-for-research/downloads/course-materials/visualization/examples/figure-consistency/README.md",

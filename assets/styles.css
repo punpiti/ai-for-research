@@ -1064,6 +1064,17 @@ a[data-workspace-download]::after { content:"  ↓"; color:var(--accent); font-w
   }
   .module-progress-page .markdown-section > .markdown-body,
   .module-progress-page .markdown-body { max-width: 1100px; }
+
+  /* Module 7 uses ultrawide space for evidence tables, setup and audit forms.
+     Paragraphs and list items keep the readable measure defined above. */
+  .module-7-page .module-7-step-shell { width: min(2280px, calc(100% - 128px)); }
+  .module-7-page .markdown-section > .markdown-body,
+  .module-7-page .markdown-body { max-width: none; }
+  .module-7-page .markdown-body :is(table, .module-07-install-grid, .module-submission-form) {
+    width: min(100%, 1680px);
+  }
+  .module-7-page .module-07-install-grid { grid-template-columns: minmax(0, 1fr); }
+  .module-7-page .module-07-install-grid .command code { white-space: pre-wrap; }
 }
 .my-learning-grid {
   display: grid;
