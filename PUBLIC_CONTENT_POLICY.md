@@ -79,12 +79,26 @@ module evaluation, pseudonymous call sign, and timestamps. The progress schema
 rejects extra content fields. The admin dashboard can open/close Module 3
 separately and display latest-per-callsign progress and aggregate statistics.
 
+## AIRR identity and Modules 1–3 progress submission
+
+AIRR (AI for Research & Review) uses one revocable, class-scoped key for the
+learner modules included in that classroom. The authenticated website creates
+the key; the standard-library VS Code client stores it inside the learner's
+workspace. The server stores only its SHA-256 digest, and keys expire after 90
+days.
+
+For Module 1, AIRR sends checklist state, completion status, tool/time and
+optional token count. For Modules 2 and 3, local validators inspect the learner
+artifacts and hashes, but AIRR sends only the existing bounded progress summary
+and module evaluation. Markdown, claims, answers, papers, citation contexts,
+research questions and evidence files remain local. The account and class from
+the AIRR Key replace manual class-code and call-sign entry. The browser forms
+remain available as a compatibility path for older workspaces.
+
 ## Module 7 highlights submission
 
-Module 7 uses AIRR (AI for Research & Review). A learner creates a revocable,
-class-scoped AIRR Key from the authenticated course website and connects the
-standard-library VS Code client once. The key is shown once and stored
-server-side only as a SHA-256 digest. It expires after 90 days.
+Module 7 uses the same AIRR identity. A learner connects the standard-library
+VS Code client once; the key is shown once on the authenticated website.
 
 AIRR sends `module-07-highlights.md` and one to five PNG, JPEG or WebP graphs
 from the supplied mock-data exercise. Each graph is limited to 2 MB and the
