@@ -17,9 +17,9 @@
     },
     {
       id: "create", title: "สร้างและปรับกราฟ", short: "สร้างกราฟ", sections: ["your-starting-point", "ตั้งสมมติฐานอย่างไร", "activity"],
-      workspaceTitle: "เปิด notebook และ Prompt Card จาก VS Code Explorer",
-      workspaceFiles: ["course-materials/module-07/notebooks/module-07b-revise-and-publish.ipynb", "course-materials/module-07/notebooks/module-07c-matplotlib-foundations.ipynb", "course-materials/module-07/templates/module-07-visualization-workflow-and-prompts.md"],
-      workspaceHelp: "Part C เป็นเนื้อหาเลือกเรียน เปิดเมื่อจำเป็นต้องตรวจหรือแก้โค้ด แล้วเก็บภาพและตารางที่สร้างใน module-07-work/",
+      workspaceTitle: "เปิดข้อมูลแล้วเริ่มจาก Prompt เดียวใน VS Code",
+      workspaceFiles: ["course-materials/module-07/examples/figure-consistency/mock-study-data.csv", "course-materials/module-07/templates/module-07-visualization-workflow-and-prompts.md", "module-07-work/module-07-highlights.md"],
+      workspaceHelp: "ใช้ Prompt ตั้งต้นหนึ่งครั้ง แล้วสำรวจต่อด้วยคำถามของคุณเอง เก็บกราฟและไฟล์ highlights ไว้ใน module-07-work/",
     },
     {
       id: "audit", title: "ตรวจทั้งภาพและเอกสาร", short: "ตรวจบั๊ก", sections: ["red-team-ก่อนสรุปผล", "figure-consistency-audit"],
@@ -28,10 +28,10 @@
       workspaceHelp: "เปิด PDF, CSV และไฟล์คำตอบจาก VS Code Explorer ชุดนี้ติดตั้งมาจากช่วงแรกแล้ว",
     },
     {
-      id: "finish", title: "ส่งงานและนำไปใช้ต่อ", short: "ส่งงาน", sections: ["finish", "การบ้าน", "review"],
+      id: "finish", title: "ส่งงานและนำไปใช้ต่อ", short: "ส่งงาน", sections: ["analysis-highlights-submission", "finish", "การบ้าน", "review"],
       workspaceTitle: "ตรวจและส่งไฟล์ฉบับสุดท้ายจาก workspace",
-      workspaceFiles: ["module-07-work/module-07-figure-audit.md", "module-07-work/"],
-      workspaceHelp: "ตรวจไฟล์ใน VS Code ให้เรียบร้อย แล้วเลือกไฟล์ module-07-figure-audit.md ในแบบฟอร์มส่งงาน ไม่ต้องดาวน์โหลดชุดเรียนอีกครั้ง",
+      workspaceFiles: ["module-07-work/module-07-highlights.md", "module-07-work/"],
+      workspaceHelp: "ตรวจ highlights และข้อสรุปใน VS Code แล้วเลือกไฟล์ module-07-highlights.md ในแบบฟอร์มส่งงาน ระบบไม่รับข้อมูลดิบหรือภาพ",
     },
   ];
 
@@ -58,7 +58,6 @@
     if (!firstSection || !moduleContent || document.querySelector("[data-module-7-steps]")) return;
 
     document.body.classList.add("module-progress-page", "module-7-page");
-    document.querySelectorAll("[data-m7-stage-prompt]").forEach((block) => block.classList.add("ai-prompt"));
     const state = readState();
     const topProgress = document.createElement("nav");
     topProgress.className = "module-top-progress module-7-top-progress";

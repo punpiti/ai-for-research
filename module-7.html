@@ -14,7 +14,7 @@
   <script src="assets/site-shell.js?v=20261010-1"></script>
   <script src="assets/app.js?v=20261011-4" defer></script>
   <script src="assets/module-7-steps.js?v=20261111-1" defer></script>
-  <script src="assets/module-7-submission.js?v=20261110-1" defer></script>
+  <script src="assets/module-7-submission.js?v=20261111-2" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#main">ข้ามไปยังเนื้อหา</a>
@@ -151,7 +151,7 @@
 <li>ค่ารหัสกับป้ายค่า</li>
 <li>วันที่ ภาษาไทย และเลขศูนย์นำหน้า</li>
 </ul>
-<p>เป้าหมายไม่ใช่ทำให้สามแฟ้มเหมือนกันทุกประการ แต่ให้ระบุว่าความหมายใดต้องรักษาและข้อมูลกำกับใดต้องแนบเมื่อเปลี่ยนรูปแบบ</p>
+<p>กิจกรรมนี้ให้ระบุว่าความหมายใดต้องรักษาและข้อมูลกำกับใดต้องแนบเมื่อเปลี่ยนรูปแบบ แม้แฟ้มทั้งสามจะมีโครงสร้างต่างกัน</p>
 </div></section>
 <section class="section markdown-section" id="python-ทำงานอยู่เบื้องหลังอย่างไร" aria-labelledby="python-ทำงานอยู่เบื้องหลังอย่างไร-heading"><div class="section-heading compact"><h2 id="python-ทำงานอยู่เบื้องหลังอย่างไร-heading">Python ทำงานอยู่เบื้องหลังอย่างไร</h2>
 </div><div class="markdown-body"><p>คุณไม่ต้องจำไวยากรณ์ แต่ต้องอธิบายลำดับงานต่อไปนี้ได้</p>
@@ -174,7 +174,7 @@
 </ul>
 </div></section>
 <section class="section markdown-section" id="จาก-dataframe-ไปเป็น-visualization" aria-labelledby="จาก-dataframe-ไปเป็น-visualization-heading"><div class="section-heading compact"><h2 id="จาก-dataframe-ไปเป็น-visualization-heading">จากตารางข้อมูลไปเป็นภาพ</h2>
-</div><div class="markdown-body"><p>DataFrame ไม่ใช่เพียงตารางที่เปิดดูได้ แต่เป็นจุดเชื่อมระหว่างข้อมูลดิบ วิธีวิเคราะห์ และภาพ ทุกภาพต้องตอบได้ว่าใช้แถวใด คอลัมน์ใด มีการกรองหรือรวมค่าอย่างไร และแต่ละส่วนของภาพแทนตัวแปรใด</p>
+</div><div class="markdown-body"><p>DataFrame เชื่อมข้อมูลดิบ วิธีวิเคราะห์ และภาพ ทุกภาพต้องตอบได้ว่าใช้แถวใด คอลัมน์ใด มีการกรองหรือรวมค่าอย่างไร และแต่ละส่วนของภาพแทนตัวแปรใด</p>
 <h3 id="1-โครงสร้างของ-dataframe">1. โครงสร้างของ DataFrame</h3>
 <ul>
 <li><strong>หนึ่งแถว</strong> ควรแทนหน่วยวิเคราะห์หนึ่งหน่วย เช่น ดอกไม้หนึ่งดอก ผู้ตอบแบบสอบถามหนึ่งคน จังหวัดหนึ่งจังหวัด หรือผลการทดลองหนึ่งครั้ง</li>
@@ -502,115 +502,21 @@
 <div class="command markdown-command copy-example"><code>แบบจำลองที่กำหนดล่วงหน้าจะจำแนก ______ บนข้อมูลทดสอบที่แยกไว้ ได้ดีกว่าค่าฐานเปรียบเทียบ ______ เมื่อวัดด้วย ______ โดยไม่มีการรั่วไหลของข้อมูล</code><button type="button" data-copy>คัดลอกแบบประโยค</button></div>
 </div></section>
 <section class="section markdown-section" id="activity" aria-labelledby="activity-heading"><div class="section-heading compact"><h2 id="activity-heading">ลงมือวิเคราะห์และสร้างภาพด้วย AI</h2>
-</div><div class="markdown-body"><p class="prompt-edit-note">✎ แก้ก่อนส่ง: เปลี่ยนข้อความใน {{…}} ให้เป็นข้อมูลของคุณ แล้วจึงคัดลอก Prompt ไปให้ AI</p><div class="command markdown-command prompt-template"><code>ข้อมูลที่ฉันกำหนด:
-- RESEARCH_QUESTION: {{พิมพ์คำถามที่ต้องการให้ข้อมูลช่วยตอบ}}
-- DATA_FILE: {{พิมพ์ชื่อและตำแหน่งแฟ้มข้อมูล}}
-- DATA_RIGHTS: {{ระบุสิทธิหรือข้อจำกัดในการใช้ข้อมูล}}
-- OUTPUT_AUDIENCE: {{พิมพ์ว่าตาราง/ภาพนี้ทำให้ใครอ่าน}}
-
-พาฉันวิเคราะห์ข้อมูลทีละช่วง เริ่มจากถามคำถามวิจัย ชนิดแฟ้ม สิทธิการใช้ และคำอธิบายตัวแปร ก่อนตรวจเครื่องมือและนำเข้าแบบอ่านอย่างเดียว ถามครั้งละหนึ่งคำถามและรอคำตอบ ห้ามติดตั้งส่วนเสริม เขียนทับข้อมูลดิบ เลือกวิธีสถิติ หรือสรุปผลแทนฉัน ทุกช่วงให้แสดงแฟ้ม ตาราง และคำเตือนที่ใช้ตรวจ แยกผลจากการตีความ และให้ฉันอนุมัติก่อนสร้างตารางหรือภาพขั้นถัดไป</code><button type="button" data-copy="">คัดลอก</button></div><h3 id="1-hypothesis-clinic">ช่วง 1 — กำหนดคำถามและสมมติฐาน</h3>
-<p>นำคำถามของคุณหรือคำถามตัวอย่างจากงานวิทยาศาสตร์และสังคมศาสตร์มาจำแนกว่าเป็นงานพรรณนา สำรวจ เปรียบเทียบ ความสัมพันธ์ พยากรณ์ หรือเชิงสาเหตุ จากนั้นเติมแบบประโยคสมมติฐานหรือระบุเหตุผลว่าไม่ควรตั้งสมมติฐาน</p>
-<div class="command markdown-command" data-m7-stage-prompt="1"><code>ถามคำถามวิจัยของฉันก่อน แล้วถามทีละข้อเพื่อจำแนกชนิดคำถาม เสนอเหตุผลแต่ห้ามเลือกแทน เมื่อฉันยืนยันแล้วจึงช่วยร่างสมมติฐาน หรือบันทึกเหตุผลว่าไม่ควรตั้งสมมติฐาน</code><button type="button" data-copy="">คัดลอก</button></div><p><strong>คุณตัดสิน:</strong> ชนิดคำถามและสมมติฐานที่จะใช้</p>
-<h3 id="2-data-intake-and-quality-gate">ช่วง 2 — ตรวจและนำเข้าข้อมูล</h3>
-<p>นำเข้าแฟ้มข้อมูลด้วยภาษาธรรมชาติ แล้วให้ AI จัดทำ</p>
+</div><div class="markdown-body"><h3>โจทย์เดียว</h3>
+<p>สำรวจข้อมูล <code>course-materials/module-07/examples/figure-consistency/mock-study-data.csv</code> แล้วตอบว่า <strong>ค่า PM2.5 เปลี่ยนอย่างไรตามพื้นที่ กลุ่ม ก่อน–หลังมาตรการ และเวลา</strong> เลือกมุมวิเคราะห์ วิธี และชนิดกราฟได้เอง เป้าหมายคือค้นหา 3–5 highlights ที่มีตัวเลขรองรับ และปิดท้ายด้วยข้อสรุปที่บอกชัดว่าข้อมูลสนับสนุนอะไรและยังสรุปอะไรไม่ได้</p>
+<h3>เริ่มใน VS Code</h3>
+<p>เปิด <code>ai-for-research-workspace</code> ใน VS Code แล้วพิมพ์ Prompt ตั้งต้นด้านล่าง หลังจากนั้นถามต่อ ปรับทิศทาง เปลี่ยนกราฟ หรือขอให้ AI ลองวิธีอื่นได้อย่างอิสระ คุณเลือกกราฟเองหรือให้ AI เสนอให้ก็ได้ แต่ต้องอธิบายได้ว่ากราฟช่วยให้เห็นอะไร</p>
+<div class="command markdown-command ai-prompt" data-m7-exploration-prompt><code>เปิดไฟล์ course-materials/module-07/examples/figure-consistency/mock-study-data.csv แล้วช่วยฉันสำรวจว่า PM2.5 เปลี่ยนอย่างไรตาม site, arm, period และ week ตรวจคุณภาพข้อมูลก่อน วิเคราะห์ได้อย่างอิสระ และสร้างกราฟที่เหมาะกับข้อค้นพบ ระหว่างทำให้บอกตัวเลขที่ใช้และเหตุผลที่เลือกกราฟ เมื่อฉันพอใจกับการวิเคราะห์แล้ว ให้บันทึก module-07-work/module-07-highlights.md ซึ่งมีคำถามที่สำรวจ, highlights 3–5 ข้อพร้อมหลักฐานตัวเลข, กราฟที่เลือกและเหตุผล, ข้อสรุปที่ชัดเจน, ข้อจำกัด และสิ่งที่ข้อมูลยังสรุปไม่ได้ เริ่มจากสรุปโครงสร้างข้อมูลสั้น ๆ แล้วชวนฉันเลือกมุมที่อยากสำรวจต่อ</code><button type="button" data-copy>คัดลอก Prompt ตั้งต้น</button></div>
+<h3>สิ่งที่ต้องมีตอนจบ</h3>
 <ul>
-<li>ใบรับการนำเข้าตามชนิดแฟ้ม พร้อมจำนวนแถว × คอลัมน์และคำเตือน</li>
-<li>รายการตัวแปร ชนิดข้อมูล ค่าและหน่วย</li>
-<li>จำนวนแถว หน่วยวิเคราะห์ ค่าซ้ำ และข้อมูลสูญหาย</li>
-<li>ค่าที่อยู่นอกช่วง รหัสพิเศษ และความไม่สอดคล้องระหว่างแบบสอบถามกับแฟ้มข้อมูล</li>
-<li>บันทึกการแปลงข้อมูล โดยห้ามแก้ข้อมูลต้นฉบับ</li>
+<li>กราฟอย่างน้อยหนึ่งภาพที่ตอบคำถามหรือทำให้เห็น highlight ชัดขึ้น</li>
+<li>highlights 3–5 ข้อ แต่ละข้อมีตัวเลขหรือการเปรียบเทียบที่ตรวจย้อนกลับได้</li>
+<li>เหตุผลสั้น ๆ ว่าเลือกกราฟนั้นเพราะอะไร</li>
+<li>ข้อสรุปหนึ่งย่อหน้าที่สอดคล้องกับ highlights</li>
+<li>ข้อจำกัดและสิ่งที่ยังสรุปไม่ได้</li>
+<li>ไฟล์ <code>module-07-work/module-07-highlights.md</code> สำหรับส่งกลับเข้าสู่ระบบ</li>
 </ul>
-<p>หากยังระบุหน่วยวิเคราะห์ ตัวแปรผล หรือที่มาของข้อมูลไม่ได้ จะยังไม่เริ่มสร้างกราฟหรือทดสอบสมมติฐาน</p>
-<p>ก่อนทำต่อ ให้ AI แสดงชื่อ Python environment รุ่นของ Python รายชื่อไลบรารีหลัก และชื่อ script ที่เก็บขั้นตอนการวิเคราะห์ แล้วคุณตรวจว่าตรงกับรายงานหรือไม่</p>
-<div class="command markdown-command" data-m7-stage-prompt="2"><code>นำเข้าแฟ้มแบบอ่านอย่างเดียว ถามเรื่องสิทธิ หน่วยวิเคราะห์ ตัวแปร และรหัสข้อมูลทีละข้อ แล้วแสดงขนาดข้อมูล ชนิดตัวแปร ค่าซ้ำ ข้อมูลสูญหาย ค่านอกช่วง และสิ่งที่แปลง ห้ามแก้ต้นฉบับหรือเริ่มวิเคราะห์จนกว่าฉันอนุมัติ</code><button type="button" data-copy="">คัดลอก</button></div><p><strong>ก่อนผ่าน:</strong> คุณยืนยันสิทธิ หน่วยวิเคราะห์ พจนานุกรมข้อมูล และปัญหาคุณภาพข้อมูล</p>
-<h3 id="21-dataframe-to-visual-bridge">ช่วง 3 — เชื่อมตารางข้อมูลกับภาพ</h3>
-<p>ลองใช้ DataFrame ขนาดเล็กสามแบบ ได้แก่ Iris ข้อมูลแบบสอบถามแบบกว้าง และข้อมูลพิกัด แล้วทำตามขั้นต่อไปนี้โดยยังไม่เรียกไลบรารีสร้างภาพ</p>
-<ol type="1">
-<li>วงว่าแต่ละแถวแทนอะไรและแต่ละคอลัมน์เป็นตัวแปรชนิดใด</li>
-<li>เลือกคอลัมน์ที่ตอบคำถามและตัดคอลัมน์ที่ไม่เกี่ยวข้อง</li>
-<li>ระบุว่าต้องกรอง แปลงจาก wide เป็น long หรือรวมค่าหรือไม่</li>
-<li>เขียน <code>plot_df</code> ตัวอย่าง 5–10 แถว</li>
-<li>ผูกคอลัมน์เข้ากับ <code>x</code>, <code>y</code>, <code>color</code>, <code>size</code>, <code>facet</code> หรือ <code>tooltip</code></li>
-<li>ทำนายหน้าตาภาพ แล้วจึงให้ AI เรียก Seaborn, Plotly หรือ Folium</li>
-</ol>
-<p>เมื่อทำครบ คุณจะเห็นว่าภาพไม่ได้เกิดจากคำสั่ง “ทำกราฟให้สวย” แต่เกิดจากโครงสร้างและการตัดสินใจเกี่ยวกับข้อมูลก่อนวาดภาพ</p>
-<div class="command markdown-command" data-m7-stage-prompt="3"><code>แสดงข้อมูล 5–10 แถว แล้วถามฉันทีละข้อว่าแถวแทนอะไร คอลัมน์ใดตอบคำถาม ต้องกรอง แปลง หรือรวมอย่างไร และคอลัมน์ใดผูกกับแกน สี หรือภาพย่อย ห้ามสร้างภาพจนกว่าฉันอนุมัติตารางสำหรับวาดภาพ</code><button type="button" data-copy="">คัดลอก</button></div><p><strong>คุณตัดสิน:</strong> ตารางที่ใช้สร้างภาพและความหมายขององค์ประกอบภาพ</p>
-<h3 id="3-common-demonstration--classification">ตัวอย่างประกอบ — การจำแนกประเภท</h3>
-<p>ทั้งชั้นทำตัวอย่างแนว Iris ชุดเดียวกัน เพื่อเห็นลำดับคำถาม → ค่าฐานเปรียบเทียบ → แบบจำลอง → ข้อมูลทดสอบ → ตารางผล → เมทริกซ์ความสับสน → ข้อสรุปที่มีขอบเขต</p>
-<p>จุดประสงค์ไม่ใช่แข่งขันหาแบบจำลองที่แม่นที่สุด แต่เพื่อจับการรั่วไหลของข้อมูล การเลือกตัวชี้วัดที่เอื้อผล และการสรุปเกินขอบเขต</p>
-<h3 id="31-visualization-reveal">เปิดดูขั้นตอนสร้างภาพของตัวอย่าง</h3>
-<p>ใช้ข้อมูลชุดเดียวกันสร้างผลสามระดับเพื่อสังเกตว่าการปรับวิธีนำเสนอเปลี่ยนสิ่งที่ผู้อ่านมองเห็นอย่างไร โดยไม่เปลี่ยนข้อมูลหรือข้อสรุป</p>
-<ol type="1">
-<li>ภาพ Matplotlib ค่าเริ่มต้น เพื่อเห็นโครงสร้างพื้นฐานของกราฟ</li>
-<li>ภาพ Seaborn ที่ปรับตระกูลภาพ สี ลำดับ ป้ายกำกับ และความไม่แน่นอนให้ตอบคำถามชัดขึ้น</li>
-<li>ภาพ Plotly ที่ชี้ดูค่าหรือกรองได้ หรือแผนที่ Folium เมื่อข้อมูลมีตำแหน่ง</li>
-</ol>
-<p>เปรียบเทียบว่าอะไรเป็นเพียงความสวยงาม อะไรช่วยให้ตีความง่ายขึ้น และอะไรอาจทำให้เข้าใจผิด คุณจะเห็นประโยชน์ของไลบรารีโดยไม่ต้องเริ่มจากการจำชื่อฟังก์ชัน</p>
-<h3 id="4-analysis-studio">ช่วง 4 — เลือกวิธีวิเคราะห์</h3>
-<p>ถ้าคุณเลือกทาง B, C หรือ D ให้ส่งคำสั่งให้ AI เสนอวิธีวิเคราะห์ไม่เกินสามทางเลือก แต่ละทางเลือกต้องระบุ</p>
-<ul>
-<li>สมมติฐานหรือคำถามที่ตอบ</li>
-<li>เงื่อนไขและข้อสมมติของวิธี</li>
-<li>ตัวแปรและข้อมูลที่จะใช้</li>
-<li>ผลลัพธ์ที่ต้องรายงาน</li>
-<li>ข้อจำกัดและทางเลือกเมื่อเงื่อนไขไม่ผ่าน</li>
-</ul>
-<p>เลือกวิธีจากเหตุผลและความรู้สาขาของคุณ ไม่เลือกจากผลที่ให้ค่านัยสำคัญมากที่สุด</p>
-<div class="command markdown-command" data-m7-stage-prompt="4"><code>เสนอวิธีวิเคราะห์ไม่เกินสามทางเลือก พร้อมเงื่อนไข ตัวแปร ผลที่ต้องรายงาน ข้อจำกัด และทางเลือกเมื่อเงื่อนไขไม่ผ่าน ถามฉันให้เลือกจากเหตุผลทางวิจัยก่อนคำนวณ ห้ามเลือกจากผลที่ดูดีที่สุดหรือสรุปแทนฉัน</code><button type="button" data-copy="">คัดลอก</button></div><p><strong>ก่อนผ่าน:</strong> คุณบันทึกวิธี เหตุผล เงื่อนไข และจุดที่ต้องถามผู้เชี่ยวชาญ</p>
-<h3 id="5-table-and-visualization-studio">ช่วง 5 — สร้างตารางและภาพ</h3>
-<p>สร้างอย่างน้อยหนึ่งตารางและหนึ่งภาพจากผลวิเคราะห์เดียวกัน</p>
-<p><strong>ตาราง</strong> ใช้เมื่อผู้อ่านต้องการค่าที่แน่นอน ต้องมีชื่อ ตารางนิยามตัวแปร หน่วย จำนวนตัวอย่าง ตัวหาร หมายเหตุข้อมูลสูญหาย และระดับความแม่นของตัวเลขที่เหมาะสม</p>
-<p><strong>ภาพ</strong> เลือกจากความสัมพันธ์ของข้อมูล</p>
-<ul>
-<li>แนวโน้มตามเวลา: กราฟเส้นเมื่อมีจุดเวลามากพอ</li>
-<li>เปรียบเทียบกลุ่ม: แผนภูมิแท่ง จุด หรือช่วงความเชื่อมั่น</li>
-<li>การกระจาย: ฮิสโทแกรม แผนภาพกล่อง หรือจุดข้อมูล</li>
-<li>ความสัมพันธ์: แผนภาพการกระจาย พร้อมจำนวนตัวอย่างและข้อควรระวังเรื่องเหตุและผล</li>
-<li>สัดส่วน: แผนภูมิแท่งซ้อน โดยระบุตัวหารให้ชัด</li>
-<li>เชิงพื้นที่: แผนที่เมื่อพิกัดหรือเขตพื้นที่มีความหมายต่อคำถาม และต้องตรวจระบบพิกัด เขตแดน และอัตราต่อประชากร</li>
-<li>ความสัมพันธ์แบบเครือข่าย: กราฟเครือข่ายเมื่อจุดเชื่อมและเส้นเชื่อมมีนิยามทางวิจัย ไม่ใช้เพื่อการตกแต่ง</li>
-</ul>
-<p>ใช้ Seaborn + Matplotlib เป็นค่าเริ่มต้นสำหรับภาพนิ่ง ใช้ Plotly สำหรับกราฟโต้ตอบ และใช้ Folium สำหรับแผนที่ปักหมุดหรือแผนที่ที่ต้องชี้ดูข้อมูล ใช้ D3.js เฉพาะเมื่อเครื่องมือเหล่านี้ไม่สามารถตอบความต้องการด้านปฏิสัมพันธ์ได้</p>
-<div class="command markdown-command" data-m7-stage-prompt="5"><code>ถามว่าผู้อ่านต้องตอบอะไรและต้องการค่าที่แน่นอนหรือเห็นรูปแบบ เสนอรูปแบบตารางหรือภาพไม่เกินสามทางพร้อมความเสี่ยง รอฉันเลือก แล้วสร้างจากผลเดียวกันโดยแสดงข้อมูลที่ใช้วาดภาพ</code><button type="button" data-copy="">คัดลอก</button></div><p><strong>คุณตัดสิน:</strong> รูปแบบที่สื่อคำตอบโดยไม่ทำให้เข้าใจผิด</p>
-<h3 id="6-figure-reverse-engineering">ช่วง 6 — วิเคราะห์ภาพย้อนกลับ</h3>
-<p>คุณวางภาพตัวอย่างจากบทความหรือเว็บไซต์ให้ AI วิเคราะห์ “ไวยากรณ์ของภาพ” ได้ ทั้งชนิดภาพ แกน ตัวแปร การจัดกลุ่ม สี สัญลักษณ์ คำอธิบาย และสารที่ภาพต้องการสื่อ แล้วนำแนวคิดนั้นมาสร้างภาพจากข้อมูลของคุณเอง</p>
-<p>ห้ามสั่งคัดลอกภาพแบบจุดต่อจุด ลบที่มา หรือทำให้ผู้อ่านเข้าใจว่าเป็นภาพต้นฉบับ หากรูปแบบมีลักษณะเฉพาะควรระบุแหล่งที่มาของแรงบันดาลใจ และต้องตรวจว่ารูปแบบที่ยืมมาเหมาะกับข้อมูลใหม่จริง</p>
-<div class="command markdown-command" data-m7-stage-prompt="6"><code>แยกภาพตัวอย่างเป็นชนิดภาพ แกน ตัวแปร การจัดกลุ่ม สี สัญลักษณ์ และสารที่สื่อ แล้วถามฉันว่าองค์ประกอบใดเหมาะกับข้อมูลใหม่ ช่วยสร้างแบบใหม่โดยไม่คัดลอกจุดต่อจุดและเตือนเรื่องการระบุที่มา</code><button type="button" data-copy="">คัดลอก</button></div><p><strong>คุณตัดสิน:</strong> สิ่งที่ยืมเป็นแนวคิดและสิ่งที่ต้องเปลี่ยน</p>
-<h3 id="7-export-and-visual-qa">ช่วง 7 — ส่งออกและตรวจคุณภาพภาพ</h3>
-<p>ส่งออกตามการใช้งาน</p>
-<table>
-<thead>
-<tr class="header">
-<th>การใช้งาน</th>
-<th>รูปแบบแนะนำ</th>
-<th>สิ่งที่ต้องตรวจ</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>บทความและวิทยานิพนธ์</td>
-<td>SVG หรือ PDF; PNG ความละเอียดสูงเมื่อจำเป็น</td>
-<td>ขนาดจริง ตัวอักษร เส้น สี ขาวดำ และข้อกำหนดของแหล่งเผยแพร่</td>
-</tr>
-<tr class="even">
-<td>สไลด์และโปสเตอร์</td>
-<td>PNG พื้นหลังเหมาะสม หรือ SVG</td>
-<td>อัตราส่วน ความคมชัด ระยะอ่าน และการตัดขอบ</td>
-</tr>
-<tr class="odd">
-<td>เว็บไซต์หรือการสำรวจข้อมูล</td>
-<td>HTML แบบอยู่ได้ด้วยตนเอง หรือภาพนิ่งสำรอง</td>
-<td>การกรอง คำอธิบาย การใช้บนจอเล็ก และแฟ้มที่เปิดได้โดยไม่พึ่งบริการภายนอก</td>
-</tr>
-<tr class="even">
-<td>ตาราง</td>
-<td>CSV/XLSX สำหรับตรวจสอบ และตารางจัดรูปแบบสำหรับเอกสาร</td>
-<td>ค่าตรงกัน การปัดเศษ หน่วย หมายเหตุ และการคัดลอกไม่ทำให้คอลัมน์เลื่อน</td>
-</tr>
-</tbody>
-</table>
-<p>ทุกภาพต้องมีชื่อภาพ คำอธิบาย หน่วย แหล่งข้อมูล จำนวนตัวอย่างหรือตัวหารเมื่อจำเป็น และต้องไม่ใช้สีเป็นช่องทางเดียวในการจำแนกความหมาย</p>
-<div class="command markdown-command" data-m7-stage-prompt="7"><code>ส่งออกตารางและภาพตามการใช้งาน แล้วตรวจแฟ้มจริงทีละรายการ: ขนาด ตัวอักษร สี หน่วย ตัวหาร คำอธิบาย ความคมชัด การเปิดบนจอเล็ก และตัวเลขที่ต้องตรงกัน แสดงปัญหาและถามฉันอนุมัติการแก้ทีละข้อ</code><button type="button" data-copy="">คัดลอก</button></div><p><strong>ก่อนจบ:</strong> คุณเปิดแฟ้มจริงและยืนยันว่าตาราง ภาพ และข้อความใช้ตัวเลขตรงกัน</p>
+<p>AI เขียนโค้ด เลือกไลบรารี และสร้างกราฟให้ได้ คุณเป็นผู้กำหนดทิศทาง ตรวจตัวเลข เลือกสิ่งที่จะเรียกว่า highlight และรับรองข้อสรุปสุดท้าย</p>
 </div></section>
 <section class="section markdown-section" id="red-team-ก่อนสรุปผล" aria-labelledby="red-team-ก่อนสรุปผล-heading"><div class="section-heading compact"><h2 id="red-team-ก่อนสรุปผล-heading">ท้าทายข้อสรุป ก่อนสรุปผล</h2>
 </div><div class="markdown-body"><p>ให้ AI และเพื่อนร่วมชั้นพยายามหาข้อผิดพลาดต่อไปนี้</p>
@@ -627,7 +533,7 @@
 <li>ส่งออกแล้วตัวอักษรขาด สีอ่านไม่ได้ หรือแฟ้มเปิดไม่ได้</li>
 </ul>
 </div></section>
-<section class="section markdown-section" id="figure-consistency-audit" aria-labelledby="figure-consistency-audit-heading"><div class="section-heading compact"><p class="eyebrow">แบบฝึกปลายโมดูล</p><h2 id="figure-consistency-audit-heading">Figure Consistency Audit — อ่านทั้งเอกสาร ไม่อ่านกราฟแยกรูป</h2>
+<section class="section markdown-section" id="figure-consistency-audit" aria-labelledby="figure-consistency-audit-heading"><div class="section-heading compact"><p class="eyebrow">กิจกรรมเสริม</p><h2 id="figure-consistency-audit-heading">ตรวจความสอดคล้องของภาพทั้งเอกสาร</h2>
 </div><div class="markdown-body"><p>เปิดชุดฝึกที่ติดตั้งไว้แล้วจาก VS Code workspace ชุดนี้ใช้ข้อมูลจำลองเดียวกันทั้งหมด:</p>
 <ul>
 <li><code>course-materials/module-07/examples/figure-consistency/mock-article-figure-consistency.pdf</code></li>
@@ -635,28 +541,28 @@
 <li><code>module-07-work/module-07-figure-audit.md</code></li>
 </ul>
 <p>แต่ละรูปและตารางอาจดูสมเหตุสมผลเมื่อเปิดแยกกัน แต่เมื่ออ่านร่วมกับ Methods, caption และข้อสรุป อาจพบว่าสี นิยาม ทิศทางเครื่องหมาย สถิติ กลุ่มข้อมูล ช่วงแกน หรือประชากรไม่คงที่ เป้าหมายคือค้นหาความไม่สอดคล้องที่เปลี่ยนข้อสรุป ไม่ใช่รวบรวมความชอบด้านรูปแบบ</p>
-<p>ทำ human-first pass ก่อนใช้ AI แล้วกรอก <code>module-07-work/module-07-figure-audit.md</code> ให้มีอย่างน้อย 6 ประเด็น โดยอย่างน้อย 4 ประเด็นต้องอาศัยการอ่านตั้งแต่สองตำแหน่งขึ้นไป และตรวจอย่างน้อย 3 ค่าจาก CSV</p>
-<h3 id="gatekeeper-submission">ส่งให้ผู้สอนตรวจ</h3>
-<p>แบบฝึกนี้ใช้ข้อมูลจำลอง จึงส่ง Markdown ฉบับเต็มให้ผู้สอนตรวจได้ ห้ามใช้ช่องนี้ส่งข้อมูลวิจัยจริงหรือข้อมูลลับ</p>
+<p>ทำกิจกรรมนี้เมื่อมีเวลาเพิ่ม เริ่มด้วย human-first pass แล้วกรอก <code>module-07-work/module-07-figure-audit.md</code> ให้มีอย่างน้อย 6 ประเด็น โดยอย่างน้อย 4 ประเด็นต้องอาศัยการอ่านตั้งแต่สองตำแหน่งขึ้นไป และตรวจอย่างน้อย 3 ค่าจาก CSV</p>
+</div></section>
+<section class="section markdown-section" id="analysis-highlights-submission" aria-labelledby="analysis-highlights-submission-heading"><div class="section-heading compact"><p class="eyebrow">ส่งงาน</p><h2 id="analysis-highlights-submission-heading">ส่ง Highlights กลับเข้าสู่ระบบ</h2>
+</div><div class="markdown-body"><p>ส่งเฉพาะ <code>module-07-work/module-07-highlights.md</code> จากโจทย์หลัก ระบบไม่รับแฟ้มข้อมูล โค้ด หรือภาพ ไฟล์นี้ใช้ข้อมูลจำลองของบทเรียน จึงส่งข้อความฉบับเต็มให้ผู้สอนตรวจได้ ห้ามใช้ช่องนี้ส่งข้อมูลวิจัยจริงหรือข้อมูลลับ</p>
 <form class="module-submission-form" data-module-7-submission-form>
   <div class="form-grid">
     <label>รหัสคลาส<input name="class_code" required pattern="[A-Za-z0-9._-]{3,40}"></label>
     <label>Call sign<input name="callsign" required pattern="[A-Za-z0-9._-]{3,40}"></label>
     <label>Call-sign key จาก receipt เดิม ถ้ามี<input name="callsign_key" autocomplete="off"></label>
-    <label>จำนวนประเด็นทั้งหมด<input name="issue_count" type="number" min="6" max="20" required></label>
-    <label>ประเด็นที่เทียบหลายตำแหน่ง<input name="cross_figure_count" type="number" min="4" max="20" required></label>
-    <label>ค่าที่ตรวจจาก CSV<input name="data_check_count" type="number" min="3" max="20" required></label>
-    <label>ใช้ AI หลัง human-first pass หรือไม่
+    <label>จำนวน highlights<input name="highlight_count" type="number" min="3" max="5" required></label>
+    <label>จำนวนกราฟที่ใช้<input name="chart_count" type="number" min="1" max="10" required></label>
+    <label>ใช้ AI ช่วยวิเคราะห์หรือสร้างกราฟหรือไม่
       <select name="ai_used" required><option value="">เลือก</option><option value="yes">ใช้</option><option value="no">ไม่ใช้</option></select>
     </label>
     <label>ไฟล์สุดท้าย<input name="markdown_file" type="file" accept=".md,text/markdown,text/plain" required></label>
   </div>
-  <label><input name="human_first_confirmed" type="checkbox" required> ฉันเขียน human-first pass ก่อนใช้ AI</label>
-  <label><input name="mock_only_confirmed" type="checkbox" required> ไฟล์นี้ตรวจเฉพาะ mock article และไม่มีข้อมูลจริง/ข้อมูลลับ</label>
-  <label><input name="final_declaration_confirmed" type="checkbox" required> ฉันตรวจตาราง รูป caption Methods และ CSV ร่วมกันแล้ว</label>
+  <label><input name="evidence_confirmed" type="checkbox" required> ฉันตรวจว่าทุก highlight มีตัวเลขหรือการเปรียบเทียบรองรับ</label>
+  <label><input name="conclusion_confirmed" type="checkbox" required> ฉันตรวจว่าข้อสรุปสอดคล้องกับ highlights และระบุข้อจำกัดแล้ว</label>
+  <label><input name="no_sensitive_data_confirmed" type="checkbox" required> ไฟล์นี้ใช้ข้อมูลจำลองของบทเรียนและไม่มีข้อมูลจริงหรือข้อมูลลับ</label>
   <div class="submission-actions">
     <button type="button" data-module-7-check>ตรวจไฟล์และดูสรุป</button>
-    <button type="submit" data-module-7-submit disabled>ส่งให้ผู้สอนตรวจ</button>
+    <button type="submit" data-module-7-submit disabled>ส่ง Highlights</button>
     <button type="button" data-module-7-receipt disabled>ดาวน์โหลด receipt</button>
   </div>
   <p data-module-7-submission-status aria-live="polite">ยังไม่ได้ตรวจไฟล์</p>
@@ -666,7 +572,7 @@
 <ul>
 <li><code>approved</code> — ผ่าน Module 7</li>
 <li><code>revision_requested</code> — แก้ตาม feedback แล้วส่ง attempt ใหม่</li>
-<li><code>rejected</code> — หลักฐานไม่ใช่งานของผู้เรียน มีข้อมูลที่ไม่ควรส่ง หรือไม่ใช่ figure audit ที่ตรวจได้</li>
+<li><code>rejected</code> — หลักฐานไม่ใช่งานของผู้เรียน มีข้อมูลที่ไม่ควรส่ง หรือไม่มี highlights และข้อสรุปที่ตรวจได้</li>
 </ul>
 <p>Checklist ด้านล่างเป็นเพียงการตรวจตนเองและไม่เปลี่ยนสถานะ gatekeeper</p>
 </div></section>
@@ -674,20 +580,15 @@
 </div><div class="markdown-body"><p>ติ๊กเมื่อคุณตรวจผลจริงและอธิบายที่มาของแต่ละข้อได้ ระบบจะจำสถานะไว้ในเบราว์เซอร์นี้</p>
 <p class="progress" aria-live="polite">ความสำเร็จ <strong data-progress>0%</strong></p>
 <div class="checklist" data-checklist="module-7">
-<label><input type="checkbox"> ระบุคำถาม หน่วยวิเคราะห์ ตัวแปร และเกณฑ์แปลผลแล้ว</label>
-<label><input type="checkbox"> บันทึกที่มา สิทธิการใช้ โครงสร้าง จำนวนแถวและคอลัมน์ ข้อมูลสูญหาย และคำเตือนแล้ว</label>
-<label><input type="checkbox"> มีคำอธิบายตัวแปร ชนิด หน่วย ป้ายค่า และรหัสข้อมูลสูญหายที่จำเป็น</label>
-<label><input type="checkbox"> เก็บข้อมูลต้นฉบับไว้โดยไม่เขียนทับ และบันทึกทุกการจัดหรือแปลงข้อมูล</label>
-<label><input type="checkbox"> AI รายงานวิธี ค่าที่กำหนด รุ่นเครื่องมือ คำเตือน และขั้นตอนเรียกผลซ้ำเป็นภาษาไทย</label>
-<label><input type="checkbox"> ตัวเลขที่ใช้สร้างตารางและภาพตรงกัน พร้อมค่ารวม ตัวหาร จำนวนตัวอย่าง และความไม่แน่นอนที่เกี่ยวข้อง</label>
-<label><input type="checkbox"> มีตารางหรือกราฟพื้นฐานที่ตอบคำถาม และเลือกกราฟขั้นสูงเฉพาะเมื่อช่วยให้เห็นข้อมูลดีขึ้น</label>
-<label><input type="checkbox"> ชื่อแกน หน่วย คำอธิบาย สี และรูปแบบที่ไม่พึ่งสีเพียงอย่างเดียวตรวจแล้ว</label>
-<label><input type="checkbox"> ข้อค้นพบ ความไม่แน่นอน ข้อจำกัด และสิ่งที่ข้อมูลยังตอบไม่ได้สอดคล้องกับผล</label>
-<label><input type="checkbox"> บุคคลอื่นเริ่มจากข้อมูลต้นทางและบันทึกคำสั่งแล้วได้ตัวเลขเดียวกัน</label>
+<label><input type="checkbox"> มี highlights 3–5 ข้อและแต่ละข้อมีตัวเลขรองรับ</label>
+<label><input type="checkbox"> มีกราฟอย่างน้อยหนึ่งภาพและอธิบายเหตุผลที่เลือกได้</label>
+<label><input type="checkbox"> ตัวเลขใน highlights ตรงกับข้อมูลและกราฟ</label>
+<label><input type="checkbox"> ข้อสรุปสอดคล้องกับ highlights และไม่กล่าวเกินหลักฐาน</label>
+<label><input type="checkbox"> บันทึก <code>module-07-work/module-07-highlights.md</code> แล้ว</label>
 </div>
 </div></section>
 <section class="section markdown-section" id="การบ้าน" aria-labelledby="การบ้าน-heading"><div class="section-heading compact"><h2 id="การบ้าน-heading">การบ้าน</h2>
-</div><div class="markdown-body"><p>เลือกหนึ่งตารางหรือภาพ ปรับแก้จากผล ท้าทายข้อสรุป แล้วส่งออกอย่างน้อยสองรูปแบบสำหรับสื่อคนละชนิด พร้อมเขียนคำอธิบายสั้นที่ระบุข้อค้นพบ หลักฐาน ความไม่แน่นอน ข้อจำกัด และสิ่งที่ห้ามสรุป หากเรียนโมดูลนี้เพียงโมดูลเดียว ชุดวิเคราะห์และภาพที่ผ่านการตรวจคือชิ้นงานปลายทางของคุณ</p>
+</div><div class="markdown-body"><p>นำ feedback จากผู้สอนไปปรับ <code>module-07-highlights.md</code> หรือกราฟ แล้วส่ง attempt ใหม่เมื่อได้รับสถานะ <code>revision_requested</code></p>
 </div></section>
 <section class="section markdown-section" id="review" aria-labelledby="review-heading"><div class="section-heading compact"><h2 id="review-heading">คำถามทบทวนท้ายบท</h2>
 </div><div class="markdown-body"><ol type="1">

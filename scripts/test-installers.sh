@@ -14,6 +14,7 @@ grep -q 'setup-module-07-windows.ps1' "$root/module-7.html"
 grep -q 'setup-module-07-macos.sh' "$root/module-7.html"
 grep -q 'setup-module-07-linux.sh' "$root/module-7.html"
 grep -q 'prepare_work_area(workspace)' "$root/downloads/setup-module-07.py"
+grep -q 'module-07-highlights.md' "$root/downloads/setup-module-07.py"
 grep -q 'Open this folder in VS Code' "$root/downloads/setup-module-07.py"
 [[ "$(grep -o 'workspaceTitle:' "$root/assets/module-7-steps.js" | wc -l)" -eq 5 ]]
 grep -q 'dataset.module7WorkspaceGuide' "$root/assets/module-7-steps.js"

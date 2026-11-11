@@ -188,6 +188,18 @@ def write_launchers(workspace: Path, python: Path) -> None:
 def prepare_work_area(workspace: Path) -> Path:
     work_root = workspace / "module-07-work"
     work_root.mkdir(parents=True, exist_ok=True)
+    highlights = work_root / "module-07-highlights.md"
+    if not highlights.exists():
+        highlights.write_text(
+            "# Module 7 — Data Exploration Highlights\n\n"
+            "## คำถามที่สำรวจ\n\n"
+            "## Highlights\n\n"
+            "- \n- \n- \n\n"
+            "## กราฟที่เลือก\n\n"
+            "## ข้อสรุป\n\n"
+            "## ข้อจำกัดและสิ่งที่ยังสรุปไม่ได้\n",
+            encoding="utf-8",
+        )
     answer = work_root / "module-07-figure-audit.md"
     template = workspace / "course-materials/module-07/examples/figure-consistency/figure-consistency-audit-template.md"
     if not answer.exists():

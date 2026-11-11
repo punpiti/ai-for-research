@@ -4,7 +4,7 @@
   const form = document.querySelector("[data-module-7-submission-form]");
   const endpoint = "/api/ai-for-research/module-7/submissions";
   const classStatusBase = "/api/ai-for-research/module-7/classes";
-  const expectedFilename = "module-07-figure-audit.md";
+  const expectedFilename = "module-07-highlights.md";
   const maxFileBytes = 64 * 1024;
   let checkedEnvelope = null;
   let latestReceipt = null;
@@ -22,22 +22,25 @@
   };
   const storageKey = (classCode, callsign) => `ai-for-research:module-7:${classCode}:${callsign}:callsign-key`;
 
+  function section(markdown, heading) {
+    const match = markdown.match(new RegExp(`^##\\s+${heading}\\s*$([\\s\\S]*?)(?=^##\\s+|(?![\\s\\S]))`, "mi"));
+    return match ? match[1].trim() : "";
+  }
+
   function validateMarkdown(markdown) {
     const source = text(markdown);
-    if (new TextEncoder().encode(source).length > maxFileBytes) throw new Error("ไฟล์ต้องมีขนาดไม่เกิน 64 KB");
-    if (source.length < 800) throw new Error("คำตอบสั้นเกินไปสำหรับการตรวจหลักฐานข้ามรูป");
-    const headings = [
-      "Executive diagnosis", "Cross-figure issue ledger", "Required reconciliation checks",
-      "Minimum corrected claim", "Revision plan", "Human–AI comparison", "Final declaration",
-    ];
+    const size = new TextEncoder().encode(source).length;
+    if (size > maxFileBytes) throw new Error("ไฟล์ต้องมีขนาดไม่เกิน 64 KB");
+    if (size < 400) throw new Error("ไฟล์สั้นเกินไปสำหรับ highlights พร้อมหลักฐานและข้อสรุป");
+    const headings = ["คำถามที่สำรวจ", "Highlights", "กราฟที่เลือก", "ข้อสรุป", "ข้อจำกัดและสิ่งที่ยังสรุปไม่ได้"];
     const missing = headings.filter((heading) => !new RegExp(`^##\\s+${heading}\\s*$`, "mi").test(source));
     if (missing.length) throw new Error(`ขาดหัวข้อ: ${missing.join(", ")}`);
-    const ids = [...source.matchAll(/^\|\s*(C\d{2})\s*\|/gmi)].map((match) => match[1].toUpperCase());
-    const uniqueIds = [...new Set(ids)];
-    if (uniqueIds.length < 6) throw new Error("Issue ledger ต้องมีประเด็น C01 เป็นต้นไปอย่างน้อย 6 ประเด็น");
-    const completedDeclarations = (source.match(/^\s*-\s*\[[xX]\]\s+/gm) || []).length;
-    if (completedDeclarations < 5) throw new Error("ทำ Final declaration ให้ครบทั้ง 5 ข้อ");
-    return { issueRows: uniqueIds.length, completedDeclarations };
+    const highlightSection = section(source, "Highlights");
+    const highlightCount = (highlightSection.match(/^\s*(?:[-*]|\d+[.)])\s+\S+/gm) || []).length;
+    if (highlightCount < 3 || highlightCount > 5) throw new Error("หัวข้อ Highlights ต้องมี 3–5 ข้อ");
+    const conclusion = section(source, "ข้อสรุป");
+    if (conclusion.length < 40) throw new Error("ข้อสรุปต้องเป็นข้อความที่ชัดเจนอย่างน้อย 40 ตัวอักษร");
+    return { highlightCount, conclusionCharacters: conclusion.length };
   }
 
   async function sha256(value) {
@@ -75,13 +78,12 @@
       if (file.size > maxFileBytes) throw new Error("ไฟล์ต้องมีขนาดไม่เกิน 64 KB");
       const markdown = await file.text();
       const inspection = validateMarkdown(markdown);
-      const issueCount = integer(form.elements.issue_count.value, 6, 20, "จำนวนประเด็น");
-      const crossFigureCount = integer(form.elements.cross_figure_count.value, 4, issueCount, "ประเด็นข้ามตำแหน่ง");
-      const dataCheckCount = integer(form.elements.data_check_count.value, 3, 20, "ค่าที่ตรวจจาก CSV");
-      if (issueCount > inspection.issueRows) throw new Error("จำนวนประเด็นที่กรอกมากกว่าแถว Cxx ที่พบในไฟล์");
+      const highlightCount = integer(form.elements.highlight_count.value, 3, 5, "จำนวน highlights");
+      const chartCount = integer(form.elements.chart_count.value, 1, 10, "จำนวนกราฟ");
+      if (highlightCount !== inspection.highlightCount) throw new Error("จำนวน highlights ที่กรอกไม่ตรงกับรายการในไฟล์");
       await requireOpenClass(classCode);
       checkedEnvelope = {
-        event_type: "ai_for_research_module_7_figure_audit",
+        event_type: "ai_for_research_module_7_highlights",
         submission_id: crypto.randomUUID(),
         class_code: classCode,
         callsign,
@@ -91,13 +93,12 @@
           filename: expectedFilename,
           sha256: await sha256(markdown),
           markdown,
-          issue_count: issueCount,
-          cross_figure_count: crossFigureCount,
-          data_check_count: dataCheckCount,
+          highlight_count: highlightCount,
+          chart_count: chartCount,
           ai_used: form.elements.ai_used.value,
-          human_first_confirmed: form.elements.human_first_confirmed.checked,
-          mock_only_confirmed: form.elements.mock_only_confirmed.checked,
-          final_declaration_confirmed: form.elements.final_declaration_confirmed.checked,
+          evidence_confirmed: form.elements.evidence_confirmed.checked,
+          conclusion_confirmed: form.elements.conclusion_confirmed.checked,
+          no_sensitive_data_confirmed: form.elements.no_sensitive_data_confirmed.checked,
         },
       };
       preview.textContent = JSON.stringify({ ...checkedEnvelope, artifact: { ...checkedEnvelope.artifact, markdown: `[Markdown ${file.size} bytes]` } }, null, 2);
@@ -120,7 +121,7 @@
       localStorage.setItem(storageKey(checkedEnvelope.class_code, checkedEnvelope.callsign), result.callsign_key);
       latestReceipt = { module_id: "module-7", submission_id: checkedEnvelope.submission_id, class_code: checkedEnvelope.class_code, callsign: checkedEnvelope.callsign, callsign_key: result.callsign_key, review_status: result.review_status, attempt_count: result.attempt_count, received_at: result.received_at };
       receiptButton.disabled = false;
-      statusNode.textContent = "ระบบรับงานแล้ว สถานะ pending_review; งานยังไม่ผ่านจนกว่าผู้สอนจะอนุมัติ";
+      statusNode.textContent = "ระบบรับ highlights แล้ว สถานะ pending_review; งานยังไม่ผ่านจนกว่าผู้สอนจะอนุมัติ";
     } catch (error) {
       submitButton.disabled = false;
       statusNode.textContent = `ส่งไม่สำเร็จ: ${error.message}`;
@@ -136,5 +137,4 @@
     link.click();
     URL.revokeObjectURL(url);
   });
-
 })();

@@ -10,19 +10,35 @@ context.globalThis = context;
 vm.createContext(context);
 vm.runInContext(source, context);
 
-const template = fs.readFileSync(path.join(siteRoot, "..", "documents", "ai-for-grad-students-syllabus", "examples", "module-07-figure-consistency", "figure-consistency-audit-template.md"), "utf8");
-const completed = template
-  .replaceAll("- [ ]", "- [x]")
-  .replaceAll("| C01 | | | | | major/minor | |", `| C01 | Figure 1 + Table 1 | population differs across outputs | CSV n=120 versus n=80 | changes overall claim | major | use one population |`)
-  .replaceAll("| C02 | | | | | major/minor | |", `| C02 | Figure 1 + Figure 2 | color meaning changes | legend inspection | reverses comparison | major | lock palette |`)
-  .replaceAll("| C03 | | | | | major/minor | |", `| C03 | Figure 3 + caption | sign is reversed | recomputed change | labels worsening as improvement | major | correct sign |`)
-  .replaceAll("| C04 | | | | | major/minor | |", `| C04 | Figure 4 + Methods | South is omitted | site count check | hides heterogeneity | major | include South |`)
-  .replaceAll("| C05 | | | | | major/minor | |", `| C05 | Figure 2 panels | axes differ | compare limits | exaggerates slopes | major | share scale |`)
-  .replaceAll("| C06 | | | | | major/minor | |", `| C06 | Results + CSV | all sites claim is false | South rises | invalid generalization | major | report heterogeneity |`)
-  + "\n" + "หลักฐานและคำอธิบายเพิ่มเติม ".repeat(80);
+const completed = `# Module 7 highlights
 
-assert.deepEqual(JSON.parse(JSON.stringify(context.module7SubmissionTestApi.validateMarkdown(completed))), { issueRows: 6, completedDeclarations: 5 });
-assert.throws(() => context.module7SubmissionTestApi.validateMarkdown(completed.replace(/^\| C06 .*$/m, "")), /อย่างน้อย 6/);
-assert.throws(() => context.module7SubmissionTestApi.validateMarkdown(completed.replaceAll("- [x]", "- [ ]")), /Final declaration/);
+## คำถามที่สำรวจ
+
+ค่า PM2.5 เปลี่ยนอย่างไรตามพื้นที่ กลุ่ม ก่อน–หลังมาตรการ และเวลา
+
+## Highlights
+
+- North intervention ลดลง 8.2 µg/m³ หลังมาตรการ เมื่อเทียบค่าเฉลี่ยก่อนและหลัง
+- Central intervention ลดลง 5.1 µg/m³ ขณะที่ control เปลี่ยนเพียง 0.8 µg/m³
+- South มีรูปแบบต่างจากสองพื้นที่แรก โดยค่าเฉลี่ยหลังมาตรการสูงขึ้น 1.4 µg/m³
+
+## กราฟที่เลือก
+
+ใช้กราฟเส้นแยกพื้นที่และกลุ่มเพื่อให้เห็นแนวโน้มรายสัปดาห์ พร้อมกราฟจุดสรุปการเปลี่ยนแปลงก่อนและหลัง
+
+## ข้อสรุป
+
+ข้อมูลจำลองสนับสนุนว่าการเปลี่ยนแปลงหลังมาตรการแตกต่างกันตามพื้นที่ โดย North และ Central ลดลงชัดกว่า South จึงไม่ควรสรุปผลรวมเพียงค่าเดียวสำหรับทุกพื้นที่
+
+## ข้อจำกัดและสิ่งที่ยังสรุปไม่ได้
+
+ข้อมูลนี้เป็นข้อมูลจำลองและไม่ได้ยืนยันเหตุและผล ยังต้องตรวจแบบการศึกษา ตัวแปรกวน และความไม่แน่นอนก่อนนำไปอ้างอิงภายนอกบทเรียน
+`;
+
+const inspection = context.module7SubmissionTestApi.validateMarkdown(completed);
+assert.equal(inspection.highlightCount, 3);
+assert.ok(inspection.conclusionCharacters >= 40);
+assert.throws(() => context.module7SubmissionTestApi.validateMarkdown(completed.replace(/^\- South .*$/m, "")), /3–5/);
+assert.throws(() => context.module7SubmissionTestApi.validateMarkdown(completed.replace("## ข้อสรุป", "## สรุป")), /ขาดหัวข้อ/);
 assert.throws(() => context.module7SubmissionTestApi.safeCode("bad code", "รหัสคลาส"), /3–40/);
 console.log("module-7-submission validator: ok");

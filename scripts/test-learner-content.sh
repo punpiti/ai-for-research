@@ -195,13 +195,14 @@ if (( $(grep -c 'data-m6-stage-prompt' "$site_dir/module-6.html") < 7 )); then
   printf 'Module 6 needs a separate AI interaction prompt for all seven stages.\n'
   failed=1
 fi
-for number in 7 8 9; do
+for number in 8 9; do
   if (( $(grep -c "data-m${number}-stage-prompt" "$site_dir/module-$number.html") < 7 )); then
     printf 'Module %s needs an AI interaction prompt for every guided stage.\n' "$number"
     failed=1
   fi
   check_file "$site_dir/module-$number.html" "M$number learner decision" 'คุณตัดสิน|ผู้เรียนตัดสิน|ก่อนผ่าน|ก่อนจบ'
 done
+check_file "$site_dir/module-7.html" "M7 learner decision" 'คุณเป็นผู้กำหนดทิศทาง'
 check_file "$site_dir/module-8.html" "static M8 checklist" 'class="checklist" data-checklist="module-8"'
 check_file "$site_dir/module-9.html" "static M9 checklist" 'class="checklist" data-checklist="module-9"'
 if grep -Eqi 'Pain-point Inventory|Framework Mapping|Choice Clinic|Kit Assembly|Messy Folder Drill|Dry Run|Chaos Test|Peer Attack|Walkthrough' "$site_dir/module-9.html"; then
@@ -209,7 +210,7 @@ if grep -Eqi 'Pain-point Inventory|Framework Mapping|Choice Clinic|Kit Assembly|
   failed=1
 fi
 
-for number in {6..9}; do
+for number in 6 8 9; do
   check_file "$site_dir/assets/app.js" "guided Module $number" "^  $number: \\{"
   check_file "$site_dir/module-$number.html" "Module $number activity" 'id="activity"'
   check_file "$site_dir/module-$number.html" "Module $number checkpoint" 'id="finish"'
@@ -232,7 +233,7 @@ check_file "$site_dir/module-7.html" "M7 learner-first path" 'คุณถาม
 check_file "$site_dir/module-8.html" "M8 learner-owned content" 'คุณรับผิดชอบเนื้อหา ส่วนแม่แบบช่วยจัดหน้า'
 check_file "$site_dir/module-8.html" "M8 no-code learner path" 'ไม่ต้องแก้โค้ดหรือระบบสร้างเอกสารเอง'
 check_file "$site_dir/module-9.html" "M9 learner-owned method" 'คุณกำหนดวิธีและกติกา ส่วน AI ช่วยจัดชุดใช้งาน'
-for number in {6..9}; do
+for number in 6 8 9; do
   if grep -Eq "class=\"command markdown-command prompt-template\" data-m${number}-stage-prompt" "$site_dir/module-$number.html"; then
     printf 'Module %s stage prompts must use the shared copy-only command component.\n' "$number"
     failed=1
@@ -393,9 +394,14 @@ with zipfile.ZipFile(bundle) as archive:
         "05-canteen-reviews.html", "06-web-source.txt", "07-mock-nutrition.csv", "08-example-meal-card.md",
     }
 PYTEST
-for stage in {1..7}; do
-  check_file "$site_dir/module-7.html" "M7 Thai stage $stage" "ช่วง $stage —"
-done
+check_file "$site_dir/module-7.html" "M7 one open exploration task" 'โจทย์เดียว'
+check_file "$site_dir/module-7.html" "M7 VS Code seed prompt" 'data-m7-exploration-prompt'
+check_file "$site_dir/module-7.html" "M7 highlights artifact" 'module-07-highlights\.md'
+check_file "$site_dir/module-7.html" "M7 highlights submission" 'id="analysis-highlights-submission"'
+if grep -q 'data-m7-stage-prompt' "$site_dir/module-7.html"; then
+  printf 'Module 7 exploration must use one seed prompt instead of staged prompts.\n'
+  failed=1
+fi
 if grep -Eqi 'Hypothesis Clinic|Data Intake and Quality Gate|DataFrame-to-Visual Bridge' "$site_dir/module-7.html"; then
   printf 'Found unnecessary English activity headings in module-7.html.\n'
   failed=1
@@ -473,7 +479,7 @@ for number in {1..9}; do
     failed=1
     continue
   fi
-  check_file "${sources[0]}" "Markdown time" '\*\*(เวลาแกนโมดูล|เวลาที่แนะนำ):\*\*'
+  check_file "${sources[0]}" "Markdown time" '(\*\*)?(เวลาแกนโมดูล|เวลาที่แนะนำ):(\*\*)?'
 done
 
 if grep -Ein 'TODO|FIXME|DEV[-_ ]ONLY|INTERNAL[-_ ]NOTE|workflow message' \

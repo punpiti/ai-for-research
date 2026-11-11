@@ -71,14 +71,14 @@
     {
       "url": "https://urban.cpe.ku.ac.th/ai-for-research/downloads/course-materials/visualization/templates/module-07-visualization-workflow-and-prompts.md",
       "path": "course-materials/module-07/templates/module-07-visualization-workflow-and-prompts.md",
-      "sha256": "094a4110d3cd5c695a1078f0c594949330a27e03217d140b13361ee701d8a774",
-      "bytes": 13545
+      "sha256": "9463cc88ba3cfce36d02daa0b4bfca19b59575877355678d5af790e68c46d935",
+      "bytes": 4960
     },
     {
       "url": "https://urban.cpe.ku.ac.th/ai-for-research/downloads/course-materials/visualization/examples/figure-consistency/README.md",
       "path": "course-materials/module-07/examples/figure-consistency/README.md",
-      "sha256": "1466c172bfc083263dcfd6783c05108fa98a1c1ab9f0d620212e142e5f60bf91",
-      "bytes": 2529
+      "sha256": "4d26533bec20a723f55d427b187d302d5014abff1e27d4071503a4ce3998addd",
+      "bytes": 3009
     },
     {
       "url": "https://urban.cpe.ku.ac.th/ai-for-research/downloads/course-materials/visualization/examples/figure-consistency/mock-article-figure-consistency.pdf",
