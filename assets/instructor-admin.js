@@ -57,6 +57,7 @@
   let classroomType = "class";
   const pageStatus = document.querySelector("[data-page-status]");
   const classroomSelector = document.querySelector("[data-classroom-selector]");
+  const airrAdminLink = document.querySelector("[data-airr-admin-link]");
   const sourceClassroom = document.querySelector("[data-source-classroom]");
   const publicClassLink = document.querySelector("[data-public-class-link]");
   const openCreateClass = document.querySelector("[data-open-create-class]");
@@ -190,6 +191,7 @@
     classroomSelector.value = classroomId;
     sourceClassroom.value = classroomId;
     publicClassLink.href = `../classroom.html?id=${encodeURIComponent(classroomId)}`;
+    if (airrAdminLink) airrAdminLink.href = `airr.html?id=${encodeURIComponent(classroomId)}`;
     const canonicalSearch = `?id=${encodeURIComponent(classroomId)}`;
     if (globalObject.location.search !== canonicalSearch) {
       globalObject.history.replaceState(null, "", `${canonicalSearch}${globalObject.location.hash || ""}`);

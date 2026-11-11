@@ -81,14 +81,18 @@ separately and display latest-per-callsign progress and aggregate statistics.
 
 ## Module 7 highlights submission
 
-Module 7 offers the same submission contract through the browser form and a
-standard-library Python client installed in the learner workspace. Both routes
-send only `module-07-highlights.md` from the supplied mock-data exercise. Raw
-data, analysis code, graph files, workspace paths, names, emails, and research
-material are excluded. The local client validates the Markdown first, asks for
-confirmation, stores the pseudonymous call-sign key in a mode-600 local receipt
-on supported systems, and can retrieve review status and feedback through the
-protected receipt key.
+Module 7 uses AIRR (AI for Research & Review). A learner creates a revocable,
+class-scoped AIRR Key from the authenticated course website and connects the
+standard-library VS Code client once. The key is shown once and stored
+server-side only as a SHA-256 digest. It expires after 90 days.
+
+AIRR sends `module-07-highlights.md` and one to five PNG, JPEG or WebP graphs
+from the supplied mock-data exercise. Each graph is limited to 2 MB and the
+combined graph payload to 8 MB. Raw data, analysis code, unrelated workspace
+files and research material are excluded. The client validates the artifacts,
+shows the submission boundary, asks for confirmation and stores its private
+configuration with mode 600 where supported. Instructors view the submitted
+Markdown and graphs through an enrollment-protected AIRR review page.
 
 Public copy is maintained separately. Do not build the site by recursively copying
 the private course workspace.

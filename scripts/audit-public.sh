@@ -9,7 +9,7 @@ status=0
 while IFS= read -r path; do
   relative="${path#"${site_root}/"}"
   case "${relative}" in
-    admin/index.html|assets/instructor-admin.js|assets/module-3-access.js|assets/my-learning.js|scripts/test-instructor-admin.js|scripts/test-instructor-admin-page.sh|scripts/test-my-learning.js|scripts/test-module-7-cli.py|downloads/course-materials/visualization/tools/ai-for-research-course.py) continue ;;
+    admin/index.html|admin/airr.html|assets/instructor-admin.js|assets/airr-connect.js|assets/airr-instructor.js|assets/module-3-access.js|assets/my-learning.js|scripts/test-instructor-admin.js|scripts/test-instructor-admin-page.sh|scripts/test-my-learning.js|scripts/test-module-7-cli.py|downloads/course-materials/visualization/tools/ai-for-research-course.py) continue ;;
   esac
   if [[ ! "${relative}" =~ ${allowed_pattern} ]]; then
     echo "Unexpected public file: ${relative}" >&2

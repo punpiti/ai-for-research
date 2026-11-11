@@ -5,16 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Module 7 — การวิเคราะห์ข้อมูลและการนำเสนอข้อมูลด้วยภาพโดยใช้ AI">
   <meta name="theme-color" content="#101817">
-  <title>Analysis &amp; Visualization — AI for Research</title>
+  <title>Analysis &amp; Visualization · AIRR</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/styles.css?v=20261110-2">
+  <link rel="stylesheet" href="assets/styles.css?v=20261111-2">
   <script src="assets/dev-auth.js?v=20261010-1"></script>
-  <script src="assets/site-shell.js?v=20261010-1"></script>
+  <script src="assets/site-shell.js?v=20261111-1"></script>
   <script src="assets/app.js?v=20261011-4" defer></script>
   <script src="assets/module-7-steps.js?v=20261111-1" defer></script>
-  <script src="assets/module-7-submission.js?v=20261111-2" defer></script>
+  <script src="assets/airr-connect.js?v=20261111-1" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#main">ข้ามไปยังเนื้อหา</a>
@@ -506,7 +506,7 @@
 <p>สำรวจข้อมูล <code>course-materials/module-07/examples/figure-consistency/mock-study-data.csv</code> แล้วตอบว่า <strong>ค่า PM2.5 เปลี่ยนอย่างไรตามพื้นที่ กลุ่ม ก่อน–หลังมาตรการ และเวลา</strong> เลือกมุมวิเคราะห์ วิธี และชนิดกราฟได้เอง เป้าหมายคือค้นหา 3–5 highlights ที่มีตัวเลขรองรับ และปิดท้ายด้วยข้อสรุปที่บอกชัดว่าข้อมูลสนับสนุนอะไรและยังสรุปอะไรไม่ได้</p>
 <h3>เริ่มใน VS Code</h3>
 <p>เปิด <code>ai-for-research-workspace</code> ใน VS Code แล้วพิมพ์ Prompt ตั้งต้นด้านล่าง หลังจากนั้นถามต่อ ปรับทิศทาง เปลี่ยนกราฟ หรือขอให้ AI ลองวิธีอื่นได้อย่างอิสระ คุณเลือกกราฟเองหรือให้ AI เสนอให้ก็ได้ แต่ต้องอธิบายได้ว่ากราฟช่วยให้เห็นอะไร</p>
-<div class="command markdown-command ai-prompt" data-m7-exploration-prompt><code>เปิดไฟล์ course-materials/module-07/examples/figure-consistency/mock-study-data.csv แล้วช่วยฉันสำรวจว่า PM2.5 เปลี่ยนอย่างไรตาม site, arm, period และ week ตรวจคุณภาพข้อมูลก่อน วิเคราะห์ได้อย่างอิสระ และสร้างกราฟที่เหมาะกับข้อค้นพบ ระหว่างทำให้บอกตัวเลขที่ใช้และเหตุผลที่เลือกกราฟ เมื่อฉันพอใจกับการวิเคราะห์แล้ว ให้บันทึก module-07-work/module-07-highlights.md ซึ่งมีคำถามที่สำรวจ, highlights 3–5 ข้อพร้อมหลักฐานตัวเลข, กราฟที่เลือกและเหตุผล, ข้อสรุปที่ชัดเจน, ข้อจำกัด และสิ่งที่ข้อมูลยังสรุปไม่ได้ เริ่มจากสรุปโครงสร้างข้อมูลสั้น ๆ แล้วชวนฉันเลือกมุมที่อยากสำรวจต่อ</code><button type="button" data-copy>คัดลอก Prompt ตั้งต้น</button></div>
+<div class="command markdown-command ai-prompt" data-m7-exploration-prompt><code>เปิดไฟล์ course-materials/module-07/examples/figure-consistency/mock-study-data.csv แล้วช่วยฉันสำรวจว่า PM2.5 เปลี่ยนอย่างไรตาม site, arm, period และ week ตรวจคุณภาพข้อมูลก่อน วิเคราะห์ได้อย่างอิสระ และสร้างกราฟที่เหมาะกับข้อค้นพบ ระหว่างทำให้บอกตัวเลขที่ใช้และเหตุผลที่เลือกกราฟ เมื่อฉันพอใจกับการวิเคราะห์แล้ว ให้บันทึก module-07-work/module-07-highlights.md ซึ่งมีคำถามที่สำรวจ, highlights 3–5 ข้อพร้อมหลักฐานตัวเลข, กราฟที่เลือกและเหตุผล, ข้อสรุปที่ชัดเจน, ข้อจำกัด และสิ่งที่ข้อมูลยังสรุปไม่ได้ บันทึกกราฟสุดท้าย 1–5 ภาพเป็น PNG, JPEG หรือ WebP ใน module-07-work/figures โดยใช้ชื่อไฟล์ภาษาอังกฤษที่สื่อความหมาย เริ่มจากสรุปโครงสร้างข้อมูลสั้น ๆ แล้วชวนฉันเลือกมุมที่อยากสำรวจต่อ</code><button type="button" data-copy>คัดลอก Prompt ตั้งต้น</button></div>
 <h3>สิ่งที่ต้องมีตอนจบ</h3>
 <ul>
 <li>กราฟอย่างน้อยหนึ่งภาพที่ตอบคำถามหรือทำให้เห็น highlight ชัดขึ้น</li>
@@ -544,44 +544,31 @@
 <p>ทำกิจกรรมนี้เมื่อมีเวลาเพิ่ม เริ่มด้วย human-first pass แล้วกรอก <code>module-07-work/module-07-figure-audit.md</code> ให้มีอย่างน้อย 6 ประเด็น โดยอย่างน้อย 4 ประเด็นต้องอาศัยการอ่านตั้งแต่สองตำแหน่งขึ้นไป และตรวจอย่างน้อย 3 ค่าจาก CSV</p>
 </div></section>
 <section class="section markdown-section" id="analysis-highlights-submission" aria-labelledby="analysis-highlights-submission-heading"><div class="section-heading compact"><p class="eyebrow">ส่งงาน</p><h2 id="analysis-highlights-submission-heading">ส่ง Highlights กลับเข้าสู่ระบบ</h2>
-</div><div class="markdown-body"><p>ส่งเฉพาะ <code>module-07-work/module-07-highlights.md</code> จากโจทย์หลัก ระบบไม่รับแฟ้มข้อมูล โค้ด หรือภาพ ไฟล์นี้ใช้ข้อมูลจำลองของบทเรียน จึงส่งข้อความฉบับเต็มให้ผู้สอนตรวจได้ ห้ามใช้ช่องนี้ส่งข้อมูลวิจัยจริงหรือข้อมูลลับ</p>
-<div class="notice"><strong>เลือกวิธีส่งได้:</strong> ส่งผ่าน VS Code หรือใช้แบบฟอร์มบนเว็บ ทั้งสองวิธีเรียก API เดียวกันและส่งเฉพาะไฟล์ highlights</div>
-<h3>วิธีที่ 1 — ส่งจาก VS Code</h3>
-<p>ตัวติดตั้งเตรียมคำสั่งไว้ใน <code>tools/</code> แล้ว เปิด Terminal ที่โฟลเดอร์ <code>ai-for-research-workspace</code> และตรวจไฟล์ก่อนส่ง:</p>
+</div><div class="markdown-body"><p>AIRR ส่ง <code>module-07-work/module-07-highlights.md</code> พร้อมกราฟ 1–5 ภาพจาก <code>module-07-work/figures/</code> ให้ผู้สอนตรวจ ระบบไม่ส่งข้อมูลดิบ โค้ด หรือไฟล์อื่นใน workspace กิจกรรมนี้ใช้ข้อมูลจำลองของบทเรียน ห้ามส่งข้อมูลวิจัยจริงหรือข้อมูลลับ</p>
+<div class="notice"><strong>AIRR — AI for Research &amp; Review:</strong> เข้าสู่ระบบบนเว็บเพื่อสร้าง AIRR Key หนึ่งครั้ง จากนั้นตรวจ ส่ง และดู feedback ใน VS Code โดยไม่ต้องกรอกรหัสคลาสหรือ Call sign</div>
+<div class="airr-connect" data-airr-connect>
+  <h3>1 — เชื่อม AIRR กับ VS Code</h3>
+  <p>AIRR Key ผูกกับบัญชีและคลาสนี้ เก็บ key ไว้ใน workspace ส่วนตัวและเพิกถอนได้จากหน้านี้ ระบบแสดง key เต็มเพียงครั้งเดียว</p>
+  <button class="button primary" type="button" data-airr-create-key>สร้าง AIRR Key สำหรับ VS Code</button>
+  <div class="airr-key-once" data-airr-key-once hidden><p><strong>คัดลอก AIRR Key ตอนนี้</strong></p><code data-airr-key></code><button class="button secondary" type="button" data-airr-copy-key>คัดลอก AIRR Key</button></div>
+  <div data-airr-key-list></div>
+  <p data-airr-connect-status role="status" aria-live="polite">กำลังตรวจบัญชี AIRR…</p>
+</div>
+<h3>2 — Login ใน VS Code ครั้งเดียว</h3>
+<p>เปิด Terminal ที่โฟลเดอร์ <code>ai-for-research-workspace</code> รันคำสั่ง แล้ววาง AIRR Key เมื่อระบบถาม:</p>
 <p><strong>Windows PowerShell</strong></p>
-<div class="command terminal-command"><code>&amp; .\tools\module-07-course.ps1 check</code><button type="button" data-copy>คัดลอกคำสั่งตรวจไฟล์</button></div>
+<div class="command terminal-command"><code>&amp; .\tools\airr.ps1 login</code><button type="button" data-copy>คัดลอกคำสั่ง AIRR login</button></div>
 <p><strong>macOS / Linux</strong></p>
-<div class="command terminal-command"><code>bash tools/module-07-course.sh check</code><button type="button" data-copy>คัดลอกคำสั่งตรวจไฟล์</button></div>
-<p>เมื่อผ่าน ให้แทน <code>YOUR-CLASS-CODE</code>, <code>YOUR-CALLSIGN</code> และจำนวนกราฟ แล้วรันคำสั่ง <code>submit</code> ระบบจะแสดงสรุปและถามยืนยันก่อนส่ง:</p>
-<div class="command terminal-command"><code>&amp; .\tools\module-07-course.ps1 submit --class-code YOUR-CLASS-CODE --callsign YOUR-CALLSIGN --chart-count 1 --ai-used yes</code><button type="button" data-copy>คัดลอกคำสั่งส่งงาน Windows</button></div>
-<div class="command terminal-command"><code>bash tools/module-07-course.sh submit --class-code YOUR-CLASS-CODE --callsign YOUR-CALLSIGN --chart-count 1 --ai-used yes</code><button type="button" data-copy>คัดลอกคำสั่งส่งงาน macOS / Linux</button></div>
-<p>Receipt จะอยู่ที่ <code>module-07-work/module-07-submission-receipt.json</code> และใช้ตรวจสถานะหรืออ่าน feedback ภายหลัง:</p>
-<div class="command terminal-command"><code>&amp; .\tools\module-07-course.ps1 status</code><button type="button" data-copy>คัดลอกคำสั่งดูสถานะ Windows</button></div>
-<div class="command terminal-command"><code>bash tools/module-07-course.sh status</code><button type="button" data-copy>คัดลอกคำสั่งดูสถานะ macOS / Linux</button></div>
-<h3>วิธีที่ 2 — ส่งผ่านแบบฟอร์มบนเว็บ</h3>
-<form class="module-submission-form" data-module-7-submission-form>
-  <div class="form-grid">
-    <label>รหัสคลาส<input name="class_code" required pattern="[A-Za-z0-9._-]{3,40}"></label>
-    <label>Call sign<input name="callsign" required pattern="[A-Za-z0-9._-]{3,40}"></label>
-    <label>Call-sign key จาก receipt เดิม ถ้ามี<input name="callsign_key" autocomplete="off"></label>
-    <label>จำนวน highlights<input name="highlight_count" type="number" min="3" max="5" required></label>
-    <label>จำนวนกราฟที่ใช้<input name="chart_count" type="number" min="1" max="10" required></label>
-    <label>ใช้ AI ช่วยวิเคราะห์หรือสร้างกราฟหรือไม่
-      <select name="ai_used" required><option value="">เลือก</option><option value="yes">ใช้</option><option value="no">ไม่ใช้</option></select>
-    </label>
-    <label>ไฟล์สุดท้าย<input name="markdown_file" type="file" accept=".md,text/markdown,text/plain" required></label>
-  </div>
-  <label><input name="evidence_confirmed" type="checkbox" required> ฉันตรวจว่าทุก highlight มีตัวเลขหรือการเปรียบเทียบรองรับ</label>
-  <label><input name="conclusion_confirmed" type="checkbox" required> ฉันตรวจว่าข้อสรุปสอดคล้องกับ highlights และระบุข้อจำกัดแล้ว</label>
-  <label><input name="no_sensitive_data_confirmed" type="checkbox" required> ไฟล์นี้ใช้ข้อมูลจำลองของบทเรียนและไม่มีข้อมูลจริงหรือข้อมูลลับ</label>
-  <div class="submission-actions">
-    <button type="button" data-module-7-check>ตรวจไฟล์และดูสรุป</button>
-    <button type="submit" data-module-7-submit disabled>ส่ง Highlights</button>
-    <button type="button" data-module-7-receipt disabled>ดาวน์โหลด receipt</button>
-  </div>
-  <p data-module-7-submission-status aria-live="polite">ยังไม่ได้ตรวจไฟล์</p>
-  <pre data-module-7-submission-preview hidden></pre>
-</form>
+<div class="command terminal-command"><code>bash tools/airr.sh login</code><button type="button" data-copy>คัดลอกคำสั่ง AIRR login</button></div>
+<h3>3 — ตรวจและส่งงาน</h3>
+<p>AIRR อ่าน highlights และกราฟใน <code>module-07-work/figures/</code> อัตโนมัติ:</p>
+<div class="command terminal-command"><code>&amp; .\tools\airr.ps1 check module-7</code><button type="button" data-copy>คัดลอกคำสั่งตรวจงาน Windows</button></div>
+<div class="command terminal-command"><code>&amp; .\tools\airr.ps1 submit module-7</code><button type="button" data-copy>คัดลอกคำสั่งส่งงาน Windows</button></div>
+<div class="command terminal-command"><code>bash tools/airr.sh check module-7</code><button type="button" data-copy>คัดลอกคำสั่งตรวจงาน macOS / Linux</button></div>
+<div class="command terminal-command"><code>bash tools/airr.sh submit module-7</code><button type="button" data-copy>คัดลอกคำสั่งส่งงาน macOS / Linux</button></div>
+<h3>4 — ดูผลตรวจ</h3>
+<div class="command terminal-command"><code>&amp; .\tools\airr.ps1 status module-7</code><button type="button" data-copy>คัดลอกคำสั่งดูสถานะ Windows</button></div>
+<div class="command terminal-command"><code>bash tools/airr.sh status module-7</code><button type="button" data-copy>คัดลอกคำสั่งดูสถานะ macOS / Linux</button></div>
 <p>สถานะ <code>pending_review</code> หมายถึงระบบรับเอกสารแล้วแต่ยังไม่ผ่าน ผู้สอนเป็น gatekeeper และให้ผลได้สามแบบ:</p>
 <ul>
 <li><code>approved</code> — ผ่าน Module 7</li>
@@ -595,7 +582,7 @@
 <p class="progress" aria-live="polite">ความสำเร็จ <strong data-progress>0%</strong></p>
 <div class="checklist" data-checklist="module-7">
 <label><input type="checkbox"> มี highlights 3–5 ข้อและแต่ละข้อมีตัวเลขรองรับ</label>
-<label><input type="checkbox"> มีกราฟอย่างน้อยหนึ่งภาพและอธิบายเหตุผลที่เลือกได้</label>
+<label><input type="checkbox"> มีกราฟ 1–5 ภาพใน <code>module-07-work/figures/</code> และอธิบายเหตุผลที่เลือกได้</label>
 <label><input type="checkbox"> ตัวเลขใน highlights ตรงกับข้อมูลและกราฟ</label>
 <label><input type="checkbox"> ข้อสรุปสอดคล้องกับ highlights และไม่กล่าวเกินหลักฐาน</label>
 <label><input type="checkbox"> บันทึก <code>module-07-work/module-07-highlights.md</code> แล้ว</label>

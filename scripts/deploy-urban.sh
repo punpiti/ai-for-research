@@ -17,6 +17,9 @@ bash scripts/test-instructor-admin-page.sh
 node scripts/test-my-learning.js
 node --check assets/site-shell.js
 node --check assets/module-1-submission.js
+node --check assets/airr-connect.js
+node --check assets/airr-instructor.js
+python3 scripts/test-module-7-cli.py
 node scripts/test-module-1-submission.js
 node --check assets/module-2-submission.js
 node scripts/test-module-2-submission.js

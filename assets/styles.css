@@ -1096,3 +1096,92 @@ a[data-workspace-download]::after { content:"  ↓"; color:var(--accent); font-w
 .my-learning-card p { margin: 0; }
 .my-learning-card .button { justify-self: start; }
 .my-learning-meta { color: var(--accent, #176b5b); font-weight: 600; }
+.airr-connect {
+  margin: 1.5rem 0;
+  padding: 1.25rem;
+  border: 1px solid var(--line, #cad5d2);
+  border-radius: 1rem;
+  background: color-mix(in srgb, var(--surface, #fff) 92%, #55c7ac 8%);
+}
+
+.airr-key-once {
+  margin: 1rem 0;
+  padding: 1rem;
+  border-radius: .75rem;
+  background: #101817;
+  color: #f5fbf9;
+}
+
+.airr-key-once code {
+  display: block;
+  margin: .75rem 0;
+  overflow-wrap: anywhere;
+  user-select: all;
+}
+
+.airr-key-list {
+  display: grid;
+  gap: .75rem;
+  padding: 0;
+  list-style: none;
+}
+
+.airr-key-list li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.airr-submission-list {
+  display: grid;
+  gap: 1rem;
+}
+
+.airr-submission-card {
+  padding: 1rem;
+  border: 1px solid var(--line, #cad5d2);
+  border-radius: 1rem;
+}
+
+.airr-submission-heading {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.airr-review-status {
+  padding: .3rem .65rem;
+  border-radius: 999px;
+  background: #e8eeec;
+  font-size: .8rem;
+}
+
+.airr-review-status.approved { background: #d8f3e8; }
+.airr-review-status.revision_requested { background: #fff0c7; }
+.airr-review-status.rejected { background: #f8d9d7; }
+
+.airr-review-detail {
+  display: grid;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.airr-markdown {
+  max-height: 30rem;
+  overflow: auto;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.airr-graph-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+  gap: 1rem;
+}
+
+.airr-graph-gallery figure { margin: 0; }
+.airr-graph-gallery img { width: 100%; height: auto; border-radius: .75rem; }
+.airr-review-form { display: grid; gap: .75rem; }
+.airr-review-form label { display: grid; gap: .35rem; }

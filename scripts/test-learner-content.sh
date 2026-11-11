@@ -110,11 +110,11 @@ node --check "$site_dir/assets/module-1-submission.js"
 node "$site_dir/scripts/test-module-1-submission.js"
 check_file "$site_dir/module-2.html" "M2 action hierarchy JS" 'assets/app\.js\?v=20261019-1'
 check_file "$site_dir/module-2.html" "M2 step flow JS" 'assets/module-2-steps\.js\?v=20261019-3'
-check_file "$site_dir/module-2.html" "M2 step flow CSS" 'assets/styles\.css\?v=20261011-1'
+check_file "$site_dir/module-2.html" "M2 step flow CSS" 'assets/styles\.css\?v=20261111-2'
 check_file "$site_dir/module-3.html" "M3 action hierarchy JS" 'assets/app\.js\?v=20261011-4'
 check_file "$site_dir/module-3.html" "M3 access JS" 'assets/module-3-access\.js\?v=20261011-1'
 check_file "$site_dir/module-3.html" "M3 step flow JS" 'assets/module-3-steps\.js\?v=20261019-1'
-check_file "$site_dir/module-3.html" "M3 action hierarchy CSS" 'assets/styles\.css\?v=20261011-1'
+check_file "$site_dir/module-3.html" "M3 action hierarchy CSS" 'assets/styles\.css\?v=20261111-2'
 check_file "$site_dir/assets/app.js" "module action legend" 'learning-action-legend'
 check_file "$site_dir/assets/app.js" "AI prompt label" 'Prompt ให้ AI'
 check_file "$site_dir/assets/app.js" "example label" 'explicitExample'
@@ -148,7 +148,7 @@ check_file "$site_dir/assets/module-3-steps.js" "M3 header progress" 'module-top
 check_file "$site_dir/assets/module-3-steps.js" "M3 local step storage" 'ai-for-research\.module-3\.steps\.v1'
 for number in 4 5; do
   check_file "$site_dir/module-$number.html" "M$number guided step flow" 'assets/module-guided-steps\.js\?v=20261011-2'
-  check_file "$site_dir/module-$number.html" "M$number compact progress CSS" 'assets/styles\.css\?v=20261011-1'
+  check_file "$site_dir/module-$number.html" "M$number compact progress CSS" 'assets/styles\.css\?v=20261111-2'
 done
 check_file "$site_dir/assets/styles.css" "ultrawide module layout" '@media \(min-width: 1800px\)'
 check_file "$site_dir/assets/module-guided-steps.js" "M4 guided configuration" '"4": \{'
@@ -398,6 +398,13 @@ check_file "$site_dir/module-7.html" "M7 one open exploration task" 'โจท�
 check_file "$site_dir/module-7.html" "M7 VS Code seed prompt" 'data-m7-exploration-prompt'
 check_file "$site_dir/module-7.html" "M7 highlights artifact" 'module-07-highlights\.md'
 check_file "$site_dir/module-7.html" "M7 highlights submission" 'id="analysis-highlights-submission"'
+check_file "$site_dir/module-7.html" "M7 AIRR identity" 'AIRR — AI for Research &amp; Review'
+check_file "$site_dir/module-7.html" "M7 AIRR key connection" 'data-airr-create-key'
+check_file "$site_dir/module-7.html" "M7 AIRR graph upload" 'module-07-work/figures/'
+if grep -q 'data-module-7-submission-form\|YOUR-CALLSIGN\|YOUR-CLASS-CODE' "$site_dir/module-7.html"; then
+  printf 'Module 7 must use AIRR identity instead of the legacy browser/call-sign form.\n'
+  exit 1
+fi
 if grep -q 'data-m7-stage-prompt' "$site_dir/module-7.html"; then
   printf 'Module 7 exploration must use one seed prompt instead of staged prompts.\n'
   failed=1

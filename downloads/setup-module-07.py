@@ -186,25 +186,35 @@ def write_launchers(workspace: Path, python: Path) -> None:
     course_client = workspace / "course-materials/module-07/tools/ai-for-research-course.py"
     if not course_client.is_file():
         raise RuntimeError("Module 7 course client is missing after installation.")
-    course_shell = tools / "module-07-course.sh"
-    course_powershell = tools / "module-07-course.ps1"
-    course_shell.write_text(
+    course_shell = tools / "airr.sh"
+    course_powershell = tools / "airr.ps1"
+    shell_content = (
         "#!/usr/bin/env bash\nset -euo pipefail\n"
-        f"exec {shlex_quote(str(python))} {shlex_quote(str(course_client))} --workspace {shlex_quote(str(workspace))} \"$@\"\n",
-        encoding="utf-8",
+        f"exec {shlex_quote(str(python))} {shlex_quote(str(course_client))} --workspace {shlex_quote(str(workspace))} \"$@\"\n"
     )
-    course_shell.chmod(0o755)
-    course_powershell.write_text(
+    powershell_content = (
         "$ErrorActionPreference = 'Stop'\n"
         f"& '{str(python).replace("'", "''")}' '{str(course_client).replace("'", "''")}' --workspace '{str(workspace).replace("'", "''")}' @args\n"
-        "exit $LASTEXITCODE\n",
-        encoding="utf-8",
+        "exit $LASTEXITCODE\n"
     )
+    course_shell.write_text(shell_content, encoding="utf-8")
+    course_shell.chmod(0o755)
+    course_powershell.write_text(powershell_content, encoding="utf-8")
+    legacy_shell = tools / "module-07-course.sh"
+    legacy_powershell = tools / "module-07-course.ps1"
+    legacy_shell.write_text(shell_content, encoding="utf-8")
+    legacy_shell.chmod(0o755)
+    legacy_powershell.write_text(powershell_content, encoding="utf-8")
 
 
 def prepare_work_area(workspace: Path) -> Path:
     work_root = workspace / "module-07-work"
     work_root.mkdir(parents=True, exist_ok=True)
+    (work_root / "figures").mkdir(parents=True, exist_ok=True)
+    ignore = workspace / ".gitignore"
+    existing_ignore = ignore.read_text(encoding="utf-8") if ignore.exists() else ""
+    if ".airr/" not in {line.strip() for line in existing_ignore.splitlines()}:
+        ignore.write_text(existing_ignore.rstrip() + "\n.airr/\n", encoding="utf-8")
     highlights = work_root / "module-07-highlights.md"
     if not highlights.exists():
         highlights.write_text(

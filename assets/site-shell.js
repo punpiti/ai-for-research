@@ -81,7 +81,7 @@ class SiteHeader extends HTMLElement {
       .map(([id, label]) => `<a href="#${id}">${label}</a>`)
       .join("");
     this.innerHTML = `<header class="site-header">
-      <a class="brand" href="${isHome ? "#top" : "index.html"}" aria-label="AI for Research หน้าแรก"><span class="brand-mark">AI</span><span>for Research</span></a>
+      <a class="brand" href="${isHome ? "#top" : "index.html"}" aria-label="AIRR หน้าแรก"><span class="brand-mark">A</span><span>AIRR</span></a>
       <nav aria-label="เมนูหลัก">
         ${isHome ? "" : '<a href="index.html">หน้าหลัก</a>'}
         ${isClassroomEntry ? `<a href="${classroomDirectoryHref}">คลาสที่เปิดรับ</a>` : `<details class="module-menu"><summary>โมดูล 1–9</summary><div>${moduleLinks}</div></details>`}
@@ -141,7 +141,7 @@ class SiteHeader extends HTMLElement {
 class SiteFooter extends HTMLElement {
   connectedCallback() {
     this.innerHTML = `<footer>
-      <div class="footer-owner"><p><a href="index.html">AI for Research</a></p><div class="institution-lockup footer-institution"><img src="https://upload.wikimedia.org/wikipedia/commons/4/43/Kasetsart_Sublogo-TH.svg" alt="ตราสัญลักษณ์พร้อมชื่อมหาวิทยาลัยเกษตรศาสตร์" width="232" height="300" loading="lazy"><span>ภาควิชาวิศวกรรมคอมพิวเตอร์<br>มหาวิทยาลัยเกษตรศาสตร์</span></div></div>
+      <div class="footer-owner"><p><a href="index.html">AIRR · AI for Research &amp; Review</a></p><div class="institution-lockup footer-institution"><img src="https://upload.wikimedia.org/wikipedia/commons/4/43/Kasetsart_Sublogo-TH.svg" alt="ตราสัญลักษณ์พร้อมชื่อมหาวิทยาลัยเกษตรศาสตร์" width="232" height="300" loading="lazy"><span>ภาควิชาวิศวกรรมคอมพิวเตอร์<br>มหาวิทยาลัยเกษตรศาสตร์</span></div></div>
       <div class="footer-credit"><p>Developed by One234@KU</p><p>© 2026 พันธุ์ปิติ เปี่ยมสง่า. All rights reserved.</p></div>
     </footer>`;
   }
