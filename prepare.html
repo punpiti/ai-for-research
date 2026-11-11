@@ -13,6 +13,7 @@
   <script src="assets/app.js?v=20261011-4" defer></script>
   <script src="assets/module-1-steps.js?v=20261010-3" defer></script>
   <script src="assets/module-1-submission.js?v=20261011-2" defer></script>
+  <script src="assets/airr-connect.js?v=20261111-2" defer></script>
   <script src="assets/dev-auth.js?v=20261010-1"></script>
   <script src="assets/site-shell.js?v=20261111-1"></script>
 </head>
@@ -170,13 +171,19 @@ code .</code><button type="button" data-copy>คัดลอก</button></div></
       <p class="progress" aria-live="polite">ความพร้อม: <strong data-progress>0%</strong></p>
       <div class="task-heading"><span class="content-kind is-submit">ส่งงาน</span><strong>ส่งสถานะความพร้อมให้ผู้สอน</strong></div>
       <p>บอกผู้สอนว่าคุณพร้อมเรียนหรือยัง ระบบส่งเฉพาะผลเช็กลิสต์ด้านบนและเวลาที่ใช้ ไม่ส่ง API key ไฟล์ หรือข้อมูลวิจัยของคุณ</p>
+      <div class="notice"><strong>AIRR — AI for Research &amp; Review (แนะนำ):</strong> ใช้บัญชีเว็บสร้าง AIRR Key ครั้งเดียว แล้วส่งจาก VS Code โดยไม่ต้องกรอกรหัสคลาสหรือชื่อผู้ส่ง</div>
+      <div class="airr-connect" data-airr-connect><button class="button primary" type="button" data-airr-create-key>สร้าง AIRR Key สำหรับ VS Code</button><div class="airr-key-once" data-airr-key-once hidden><p><strong>คัดลอก AIRR Key ตอนนี้</strong></p><code data-airr-key></code><button class="button secondary" type="button" data-airr-copy-key>คัดลอก AIRR Key</button></div><div data-airr-key-list></div><p data-airr-connect-status role="status" aria-live="polite">กำลังตรวจบัญชี AIRR…</p></div>
+      <p class="form-help">ครั้งแรกให้รัน <code>airr login</code> แล้ววาง AIRR Key; ครั้งต่อไปใช้ key เดิมใน workspace นี้ได้</p>
+      <div class="command terminal-command"><code>&amp; .\tools\airr.ps1 init module-1; &amp; .\tools\airr.ps1 submit module-1</code><button type="button" data-copy>คัดลอกคำสั่ง AIRR สำหรับ Windows</button></div>
+      <div class="command terminal-command"><code>bash tools/airr.sh init module-1 &amp;&amp; bash tools/airr.sh submit module-1</code><button type="button" data-copy>คัดลอกคำสั่ง AIRR สำหรับ macOS / Linux</button></div>
+      <details class="fallback-details"><summary>ส่งผ่านแบบฟอร์มเว็บเดิม</summary>
       <form class="module-submission-form compact-submission-form" id="submit-module-1" data-module-1-submission-form>
         <label><span>คลาส</span><select name="classroom_id" required><option value="">กำลังโหลด…</option></select></label>
         <label><span>สถานะ</span><select name="completion_status" required><option value="completed">พร้อมใช้งาน</option><option value="completed_with_help">พร้อมใช้งานโดยมีผู้ช่วย</option><option value="could_not_complete">ยังทำไม่สำเร็จ</option></select></label>
         <label><span>เวลาที่ใช้ (นาที)</span><input name="completion_minutes" type="number" min="1" max="600" required><small data-module-1-minutes-hint>นับคร่าว ๆ ตั้งแต่เริ่มทำบทนี้จนถึงตอนนี้</small></label>
         <label class="submission-consent"><input name="consent" type="checkbox" required><span>ฉันตรวจสถานะด้านบนแล้ว และยินยอมส่งผลสรุปให้ผู้สอน</span></label>
         <div class="profile-actions"><button class="button primary" type="submit" disabled>ส่งสถานะ Module 1</button><small data-module-1-submission-status role="status" aria-live="polite">กำลังตรวจบัญชีและคลาส…</small></div>
-      </form>
+      </form></details>
       <p class="module-1-receipt" data-module-1-receipt role="status" hidden></p>
     </section>
   </main>

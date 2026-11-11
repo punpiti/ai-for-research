@@ -12,6 +12,7 @@ import json
 import os
 from pathlib import Path
 import re
+import subprocess
 import sys
 from typing import Any
 from urllib.error import HTTPError, URLError
@@ -78,10 +79,96 @@ def resolve_workspace(value: str | None) -> Path:
         script = Path(__file__).resolve()
         if len(script.parents) >= 4:
             candidates.append(script.parents[3])
-        workspace = next((item for item in candidates if (item / "module-07-work").is_dir()), candidates[0])
-    if not (workspace / "module-07-work").is_dir():
-        raise AIRRError("ไม่พบ module-07-work; เปิด Terminal ที่โฟลเดอร์ ai-for-research-workspace")
+        workspace = next((item for item in candidates if (item / "tools").is_dir() or (item / "module-07-work").is_dir()), candidates[0])
+    if not workspace.is_dir():
+        raise AIRRError("ไม่พบ workspace; เปิด Terminal ที่โฟลเดอร์ ai-for-research-workspace")
     return workspace
+
+
+def load_json(path: Path, label: str) -> dict[str, Any]:
+    if not path.is_file():
+        raise AIRRError(f"ไม่พบ {label}: {path}")
+    try:
+        value = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, UnicodeDecodeError, json.JSONDecodeError) as error:
+        raise AIRRError(f"{label} ไม่ใช่ JSON ที่อ่านได้") from error
+    if not isinstance(value, dict):
+        raise AIRRError(f"{label} ต้องเป็น JSON object")
+    return value
+
+
+def evaluation_path(workspace: Path, module: str, value: str | None) -> Path:
+    if value:
+        return Path(value).expanduser().resolve()
+    if module == "module-2":
+        return workspace / "output" / "module-2-evaluation.json"
+    return workspace / "output" / "module-3" / "module-3-evaluation.json"
+
+
+def validate_evaluation(value: dict[str, Any], module: str) -> dict[str, Any]:
+    common = {"ai_tool", "ai_turns", "retry_count", "completion_minutes", "token_source", "total_tokens", "completion_status", "difficulty_rating", "usefulness_rating", "hardest_step"}
+    expected = common | ({"input_tokens", "output_tokens"} if module == "module-2" else set())
+    if set(value) != expected:
+        raise AIRRError(f"ไฟล์ evaluation ของ {module} มี field ไม่ครบหรือเกิน")
+    if value["ai_tool"] not in {"codex", "claude", "openrouter", "other", "unknown"}:
+        raise AIRRError("ai_tool ไม่ถูกต้อง")
+    if value["completion_status"] not in {"completed", "completed_with_help", "could_not_complete"}:
+        raise AIRRError("completion_status ไม่ถูกต้อง")
+    for key, low, high in (("ai_turns", 1, 100), ("retry_count", 0, 50), ("completion_minutes", 1, 2400), ("difficulty_rating", 1, 5), ("usefulness_rating", 1, 5)):
+        if isinstance(value[key], bool) or not isinstance(value[key], int) or not low <= value[key] <= high:
+            raise AIRRError(f"{key} ต้องเป็นจำนวนเต็ม {low}–{high}")
+    if value["token_source"] not in {"provider_reported", "learner_estimate", "not_available"}:
+        raise AIRRError("token_source ไม่ถูกต้อง")
+    total = value["total_tokens"]
+    if value["token_source"] == "not_available" and total is not None or value["token_source"] != "not_available" and not isinstance(total, int):
+        raise AIRRError("total_tokens ไม่สอดคล้องกับ token_source")
+    return value
+
+
+def run_local_validator(workspace: Path, module: str, artifact: Path, markdown: Path | None = None) -> None:
+    validator = workspace / "tools" / f"validate-{module}.py"
+    if not validator.is_file():
+        raise AIRRError(f"ไม่พบ {validator}; รันตัวติดตั้ง course workspace รุ่นล่าสุด")
+    command = [sys.executable, str(validator), str(artifact)]
+    if module == "module-2":
+        if markdown is None:
+            raise AIRRError("Module 2 ต้องมีไฟล์ Markdown")
+        command.append(str(markdown))
+    else:
+        command.extend(["--workspace", str(workspace)])
+    result = subprocess.run(command, cwd=workspace, capture_output=True, text=True, timeout=120, check=False)
+    if result.returncode != 0:
+        raise AIRRError((result.stderr or result.stdout or "LOCAL_CHECK FAIL").strip())
+
+
+def module_payload(workspace: Path, args: argparse.Namespace) -> tuple[dict[str, Any], str]:
+    now = datetime.now(timezone.utc).isoformat()
+    if args.module == "module-1":
+        path = Path(args.file).expanduser().resolve() if args.file else workspace / "output" / "module-1-progress.json"
+        progress = load_json(path, "module-1-progress.json")
+        required = {"schema_version", "module_id", "checks", "completion_status", "ai_tool", "completion_minutes", "token_source", "total_tokens"}
+        if set(progress) != required or progress.get("schema_version") != "ai-for-research.module-1-progress.v1" or progress.get("module_id") != "module-1":
+            raise AIRRError("module-1-progress.json ไม่ตรง schema ของ Module 1")
+        return {"event_type": "ai_for_research_module_1_progress", "submission_id": str(uuid4()), "client_submitted_at": now, "progress": progress}, str(path)
+    if args.module == "module-2":
+        artifact_path = Path(args.file).expanduser().resolve() if args.file else workspace / "output" / "module-2-submission.json"
+        markdown = Path(args.markdown).expanduser().resolve() if args.markdown else workspace / "output" / "module-2-conclusion.md"
+        run_local_validator(workspace, "module-2", artifact_path, markdown)
+        artifact = load_json(artifact_path, "module-2-submission.json")
+        result = artifact["result"]
+        levels = {level: sum(item["level"] == level for item in result["claims"]) for level in ("L1", "L2", "L3", "L4")}
+        machine = {"passed": True, "claim_count": len(result["claims"]), "open_question_count": len(result["open_questions"]), "learner_addition_count": len(result["learner_additions"]), "level_counts": levels,
+                   "formats_complete": True, "source_rules_pass": True, "prompt_rule_passed": True, "follow_up_prompts_present": True, "unanswered_questions_completed_by_learner": True, "learner_authorship_declared": True, "declaration_complete": True, "markdown_hash_match": True}
+        progress = {"schema_version": artifact["schema_version"], "artifact_sha256": artifact["artifact"]["sha256"], "decision": result["decision"], "human_decision": result["human_decision"], "web_retrieval": result["web_retrieval"], "prompt_test": result["prompt_test"], "learner_answer_types": [item["answer_type"] for item in result["learner_additions"]]}
+        evaluation = validate_evaluation(load_json(evaluation_path(workspace, "module-2", args.evaluation), "module-2-evaluation.json"), "module-2")
+        return {"event_type": "ai_for_research_module_2_progress", "submission_id": str(uuid4()), "client_submitted_at": now, "module_evaluation": evaluation, "machine_check": machine, "progress": progress}, f"{artifact_path}, {markdown}"
+    if args.module == "module-3":
+        artifact_path = Path(args.file).expanduser().resolve() if args.file else workspace / "output" / "module-3" / "module-3-completion.json"
+        run_local_validator(workspace, "module-3", artifact_path)
+        progress = load_json(artifact_path, "module-3-completion.json")
+        evaluation = validate_evaluation(load_json(evaluation_path(workspace, "module-3", args.evaluation), "module-3-evaluation.json"), "module-3")
+        return {"event_type": "ai_for_research_module_3_progress", "submission_id": str(uuid4()), "client_submitted_at": now, "module_evaluation": evaluation, "progress": progress}, str(artifact_path)
+    raise AIRRError("module ไม่รองรับ")
 
 
 def highlights_path(workspace: Path, value: str | None) -> Path:
@@ -252,11 +339,39 @@ def command_whoami(args: argparse.Namespace) -> None:
     assert config is not None
     me = request_json("GET", f"{config['api_base']}/me", config["api_key"])
     print(f"AIRR · {me.get('classroom_title')} ({me.get('classroom_id')})")
-    print(f"module-7-open={str(bool(me.get('class', {}).get('is_open'))).lower()}")
+    for module, state in me.get("module_states", {}).items():
+        if state.get("available"):
+            suffix = "" if module == "module-1" else f" open={str(bool(state.get('is_open'))).lower()}"
+            print(f"{module}{suffix}")
+
+
+def command_init(args: argparse.Namespace) -> None:
+    workspace = resolve_workspace(args.workspace)
+    if args.module == "module-1":
+        path = workspace / "output" / "module-1-progress.json"
+        value = {"schema_version": "ai-for-research.module-1-progress.v1", "module_id": "module-1", "checks": {"workspace_opened": False, "ai_connected": False, "folder_boundary_understood": False, "pdf_created_and_opened": False}, "completion_status": "completed", "ai_tool": "codex", "completion_minutes": 1, "token_source": "not_available", "total_tokens": None}
+    elif args.module == "module-2":
+        path = evaluation_path(workspace, "module-2", None)
+        value = {"ai_tool": "codex", "ai_turns": 1, "retry_count": 0, "completion_minutes": 1, "token_source": "not_available", "input_tokens": None, "output_tokens": None, "total_tokens": None, "completion_status": "completed", "difficulty_rating": 3, "usefulness_rating": 3, "hardest_step": "none"}
+    else:
+        path = evaluation_path(workspace, "module-3", None)
+        value = {"ai_tool": "codex", "ai_turns": 1, "retry_count": 0, "completion_minutes": 1, "token_source": "not_available", "total_tokens": None, "completion_status": "completed", "difficulty_rating": 3, "usefulness_rating": 3, "hardest_step": "none"}
+    if path.exists() and not args.force:
+        print(f"AIRR INIT SKIP · มีไฟล์อยู่แล้ว: {path}")
+        return
+    write_private_json(path, value)
+    print(f"AIRR INIT PASS · {args.module}")
+    print(f"edit={path}")
 
 
 def command_check(args: argparse.Namespace) -> None:
     workspace = resolve_workspace(args.workspace)
+    if args.module != "module-7":
+        _, source = module_payload(workspace, args)
+        print(f"AIRR CHECK PASS · {args.module}")
+        print(f"source={source}")
+        print("ไม่มีเนื้อหางานถูกส่งออกจากเครื่อง")
+        return
     path = highlights_path(workspace, args.file)
     graphs = graph_paths(workspace, args.graph)
     inspection = inspect_highlights(path.read_text(encoding="utf-8"))
@@ -268,50 +383,60 @@ def command_check(args: argparse.Namespace) -> None:
         print(f"graph={graph.name} bytes={graph.stat().st_size}")
 
 
-def receipt_path(workspace: Path) -> Path:
-    return workspace / "module-07-work" / "airr-module-07-receipt.json"
+def receipt_path(workspace: Path, module: str) -> Path:
+    if module == "module-7":
+        return workspace / "module-07-work" / "airr-module-07-receipt.json"
+    return workspace / ".airr" / f"{module}-receipt.json"
 
 
 def command_submit(args: argparse.Namespace) -> None:
     workspace = resolve_workspace(args.workspace)
     config = read_config(workspace)
     assert config is not None
-    path = highlights_path(workspace, args.file)
-    graphs = graph_paths(workspace, args.graph)
-    payload, inspection = build_submission(path, graphs)
-    total = sum(graph.stat().st_size for graph in graphs)
-    print(f"AIRR ตรวจผ่าน: {inspection['highlight_count']} highlights, {len(graphs)} กราฟ, ภาพรวม {total} bytes")
-    print("AIRR จะส่ง highlights และกราฟให้ผู้สอน ไม่ส่งข้อมูลดิบ โค้ด หรือไฟล์อื่นใน workspace")
+    if args.module == "module-7":
+        path = highlights_path(workspace, args.file)
+        graphs = graph_paths(workspace, args.graph)
+        payload, inspection = build_submission(path, graphs)
+        total = sum(graph.stat().st_size for graph in graphs)
+        print(f"AIRR ตรวจผ่าน: {inspection['highlight_count']} highlights, {len(graphs)} กราฟ, ภาพรวม {total} bytes")
+        print("AIRR จะส่ง highlights และกราฟให้ผู้สอน ไม่ส่งข้อมูลดิบ โค้ด หรือไฟล์อื่นใน workspace")
+    else:
+        payload, source = module_payload(workspace, args)
+        print(f"AIRR ตรวจผ่าน: {args.module} · {source}")
+        print("AIRR จะส่งเฉพาะ progress summary และแบบประเมิน ไม่ส่งเนื้อหางานหรือไฟล์หลัก")
     if not args.yes and input("ยืนยันส่งงานผ่าน AIRR? [y/N] ").strip().lower() not in {"y", "yes"}:
         print("ยกเลิกการส่งงาน")
         return
-    result = request_json("POST", f"{config['api_base']}/modules/module-7/submissions", config["api_key"], payload)
-    if result.get("review_status") != "pending_review":
-        raise AIRRError("AIRR รับงานแต่ไม่คืนสถานะ pending_review")
+    result = request_json("POST", f"{config['api_base']}/modules/{args.module}/submissions", config["api_key"], payload)
+    if result.get("status") != "accepted" and not (args.module == "module-7" and result.get("review_status") == "pending_review"):
+        raise AIRRError("AIRR ไม่คืนสถานะ accepted")
     receipt = {
-        "schema_version": "airr.module-7-receipt.v1",
+        "schema_version": f"airr.{args.module}-receipt.v1",
         "submission_id": result.get("submission_id"),
         "classroom_id": config.get("classroom_id"),
-        "review_status": result.get("review_status"),
+        "status": result.get("status"),
         "attempt_count": result.get("attempt_count"),
         "received_at": result.get("received_at"),
-        "highlight_sha256": payload["artifact"]["sha256"],
-        "graph_sha256": {item["filename"]: item["sha256"] for item in payload["graphs"]},
     }
-    write_private_json(receipt_path(workspace), receipt)
-    print(f"AIRR SUBMIT PASS · pending_review · attempt={receipt['attempt_count']}")
-    print(f"receipt={receipt_path(workspace)}")
+    if args.module == "module-7":
+        receipt["review_status"] = result.get("review_status")
+        receipt["highlight_sha256"] = payload["artifact"]["sha256"]
+        receipt["graph_sha256"] = {item["filename"]: item["sha256"] for item in payload["graphs"]}
+    target = receipt_path(workspace, args.module)
+    write_private_json(target, receipt)
+    print(f"AIRR SUBMIT PASS · {args.module} · attempt={receipt['attempt_count']}")
+    print(f"receipt={target}")
 
 
 def command_status(args: argparse.Namespace) -> None:
     workspace = resolve_workspace(args.workspace)
     config = read_config(workspace)
     assert config is not None
-    result = request_json("GET", f"{config['api_base']}/modules/module-7/status", config["api_key"])
+    result = request_json("GET", f"{config['api_base']}/modules/{args.module}/status", config["api_key"])
     submissions = result.get("submissions")
     if not isinstance(submissions, list):
         raise AIRRError("AIRR ไม่คืนรายการสถานะที่อ่านได้")
-    print(f"AIRR · module-7 · completed={str(bool(result.get('module_completed'))).lower()} · attempts={len(submissions)}")
+    print(f"AIRR · {args.module} · completed={str(bool(result.get('module_completed'))).lower()} · attempts={len(submissions)}")
     for item in submissions:
         if not isinstance(item, dict):
             continue
@@ -321,9 +446,11 @@ def command_status(args: argparse.Namespace) -> None:
 
 
 def add_module_files(parser: argparse.ArgumentParser) -> None:
-    parser.add_argument("module", choices=("module-7",))
-    parser.add_argument("--file", help="ตำแหน่ง module-07-highlights.md")
+    parser.add_argument("module", choices=("module-1", "module-2", "module-3", "module-7"))
+    parser.add_argument("--file", help="ตำแหน่งไฟล์หลักของโมดูล")
     parser.add_argument("--graph", action="append", help="ระบุกราฟซ้ำได้ 1–5 ครั้ง; ค่าเริ่มต้นอ่าน module-07-work/figures")
+    parser.add_argument("--markdown", help="ตำแหน่ง module-2-conclusion.md")
+    parser.add_argument("--evaluation", help="ตำแหน่งไฟล์ evaluation ของ Module 2 หรือ 3")
 
 
 def parser() -> argparse.ArgumentParser:
@@ -338,6 +465,10 @@ def parser() -> argparse.ArgumentParser:
     logout.set_defaults(handler=command_logout)
     whoami = commands.add_parser("whoami", help="ดูคลาสที่เชื่อมกับ AIRR")
     whoami.set_defaults(handler=command_whoami)
+    init = commands.add_parser("init", help="สร้างไฟล์ progress/evaluation สำหรับแก้ใน VS Code")
+    init.add_argument("module", choices=("module-1", "module-2", "module-3"))
+    init.add_argument("--force", action="store_true", help="เขียนทับไฟล์เดิม")
+    init.set_defaults(handler=command_init)
     check = commands.add_parser("check", help="ตรวจ highlights และกราฟในเครื่อง")
     add_module_files(check)
     check.set_defaults(handler=command_check)
@@ -346,7 +477,7 @@ def parser() -> argparse.ArgumentParser:
     submit.add_argument("--yes", action="store_true", help="ส่งโดยไม่ถามยืนยันซ้ำ")
     submit.set_defaults(handler=command_submit)
     status = commands.add_parser("status", help="ดูผลตรวจและ feedback")
-    status.add_argument("module", choices=("module-7",))
+    status.add_argument("module", choices=("module-1", "module-2", "module-3", "module-7"))
     status.set_defaults(handler=command_status)
     return root
 

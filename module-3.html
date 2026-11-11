@@ -6,7 +6,7 @@
   <title>Problem Statement: Draft, Review &amp; Revise · AIRR</title>
   <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/styles.css?v=20261111-2"><script src="assets/app.js?v=20261011-4" defer></script><script src="assets/module-3-access.js?v=20261011-1" defer></script><script src="assets/module-3-steps.js?v=20261019-1" defer></script><script src="assets/submission-defaults.js?v=20261011-1" defer></script><script src="assets/module-3-submission.js?v=20261011-1" defer></script>
+  <link rel="stylesheet" href="assets/styles.css?v=20261111-2"><script src="assets/app.js?v=20261011-4" defer></script><script src="assets/module-3-access.js?v=20261011-1" defer></script><script src="assets/module-3-steps.js?v=20261019-1" defer></script><script src="assets/submission-defaults.js?v=20261011-1" defer></script><script src="assets/module-3-submission.js?v=20261011-1" defer></script><script src="assets/airr-connect.js?v=20261111-2" defer></script>
   <script src="assets/dev-auth.js?v=20261010-1"></script>
   <script src="assets/site-shell.js?v=20261111-1"></script>
 </head>
@@ -404,6 +404,12 @@ RQ → Candidate Gap → Research Problem → Practical Problem → Evidence
 </section>
 
     <section class="section" id="submit-module-3"><div class="section-heading compact"><p class="eyebrow">Submit · ส่งความคืบหน้า</p><h2>ส่งความคืบหน้า Module 3</h2><p>เลือกไฟล์ <code>module-3-completion.json</code> ที่ AI ตรวจแล้ว ระบบส่งแค่ตัวเลขสรุปและสถานะให้ผู้สอน ไม่ส่งบทความ ไฟล์งาน หรือข้อความที่คุณเขียน</p><p><a href="downloads/module-03-completion-schema.json" download>ดาวน์โหลด schema →</a> · <a href="downloads/module-03-completion-example.json" download>ดูตัวอย่าง →</a> · <a href="downloads/validate-module-3.py" download>ดาวน์โหลดตัวตรวจ Module 3 →</a></p><p class="expected"><strong>ห้ามส่งไฟล์ตัวอย่าง:</strong> ตัวอย่างใช้ SHA-256 เลขศูนย์เพื่ออธิบายโครงสร้าง AI ต้องสร้าง hash จากชิ้นงานจริงในเครื่อง</p></div>
+      <div class="notice"><strong>AIRR — AI for Research &amp; Review (แนะนำ):</strong> สร้าง AIRR Key ด้วยบัญชีเว็บ แล้วส่ง progress summary จาก VS Code; AIRR ตรวจ hash ในเครื่องและไม่อัปโหลดบทความ Markdown หรือข้อความ RQ</div>
+      <div class="airr-connect" data-airr-connect><button class="button primary" type="button" data-airr-create-key>สร้าง AIRR Key สำหรับ VS Code</button><div class="airr-key-once" data-airr-key-once hidden><p><strong>คัดลอก AIRR Key ตอนนี้</strong></p><code data-airr-key></code><button class="button secondary" type="button" data-airr-copy-key>คัดลอก AIRR Key</button></div><div data-airr-key-list></div><p data-airr-connect-status role="status" aria-live="polite">กำลังตรวจบัญชี AIRR…</p></div>
+      <p class="form-help">ครั้งแรกให้รัน <code>airr login</code> แล้ววาง AIRR Key; ครั้งต่อไปใช้ key เดิมใน workspace นี้ได้</p>
+      <div class="command terminal-command"><code>&amp; .\tools\airr.ps1 init module-3; &amp; .\tools\airr.ps1 check module-3; &amp; .\tools\airr.ps1 submit module-3</code><button type="button" data-copy>คัดลอกคำสั่ง AIRR สำหรับ Windows</button></div>
+      <div class="command terminal-command"><code>bash tools/airr.sh init module-3 &amp;&amp; bash tools/airr.sh check module-3 &amp;&amp; bash tools/airr.sh submit module-3</code><button type="button" data-copy>คัดลอกคำสั่ง AIRR สำหรับ macOS / Linux</button></div>
+      <p class="form-help">แก้ไฟล์ evaluation ที่ AIRR สร้างให้ก่อนส่ง และใช้ <code>airr status module-3</code> ดูประวัติได้ แบบฟอร์ม call sign ด้านล่างยังใช้ได้กับ workspace รุ่นเก่า</p>
       <form class="module-submission-form" data-module-3-submission-form>
         <label><span>รหัสคลาส</span><input name="class_code" type="text" required minlength="3" maxlength="40" pattern="[A-Za-z0-9][A-Za-z0-9._-]{2,39}" autocomplete="off"></label>
         <label><span>Call sign</span><input name="callsign" type="text" required minlength="3" maxlength="40" pattern="[A-Za-z0-9][A-Za-z0-9._-]{2,39}" autocomplete="off"><small>ใช้ call sign เดิมของคลาสถ้ามี ห้ามใช้ชื่อจริง อีเมล หรือรหัสนิสิต</small></label>

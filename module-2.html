@@ -13,7 +13,7 @@
   <script src="assets/app.js?v=20261019-1" defer></script>
   <script src="assets/module-2-steps.js?v=20261019-3" defer></script>
   <script src="assets/submission-defaults.js?v=20261011-1" defer></script>
-  <script src="assets/module-2-submission.js?v=20261011-1" defer></script>
+  <script src="assets/module-2-submission.js?v=20261011-1" defer></script><script src="assets/airr-connect.js?v=20261111-2" defer></script>
   <script src="assets/dev-auth.js?v=20261010-1"></script>
   <script src="assets/site-shell.js?v=20261111-1"></script>
 </head>
@@ -360,6 +360,12 @@
     <section class="section" id="submit" data-module-2-step="submit">
 <details class="fallback-details"><summary>หลังทำแบบฝึกครบ · ส่งความคืบหน้า</summary>
       <div class="section-heading compact"><p class="eyebrow">Submit · ส่งความคืบหน้า</p><h2>ตรวจผลงานในเครื่อง แล้วส่งเฉพาะ Progress JSON</h2><p>หน้าเว็บอ่าน Markdown และ <code>module-2-submission.json</code> ในเบราว์เซอร์เพื่อตรวจความครบและคำนวณ SHA-256 ไฟล์ทั้งสองไม่ออกจากเครื่อง Server ได้รับเพียงผลตรวจแบบสรุปและแบบประเมินการใช้ Module เพื่อแสดงความคืบหน้าของคลาส</p><p><a href="downloads/module-02-submission-schema.json" download>ดาวน์โหลด JSON Schema สำหรับตรวจในเครื่อง →</a> · <a href="downloads/validate-module-2.py" download>ดาวน์โหลดตัวตรวจ Module 2 →</a></p></div>
+      <div class="notice"><strong>AIRR — AI for Research &amp; Review (แนะนำ):</strong> สร้าง AIRR Key ด้วยบัญชีเว็บ แล้วใช้ VS Code ตรวจและส่งเฉพาะ progress summary; Markdown, claims, คำตอบ และหลักฐานยังอยู่ในเครื่อง</div>
+      <div class="airr-connect" data-airr-connect><button class="button primary" type="button" data-airr-create-key>สร้าง AIRR Key สำหรับ VS Code</button><div class="airr-key-once" data-airr-key-once hidden><p><strong>คัดลอก AIRR Key ตอนนี้</strong></p><code data-airr-key></code><button class="button secondary" type="button" data-airr-copy-key>คัดลอก AIRR Key</button></div><div data-airr-key-list></div><p data-airr-connect-status role="status" aria-live="polite">กำลังตรวจบัญชี AIRR…</p></div>
+      <p class="form-help">ครั้งแรกให้รัน <code>airr login</code> แล้ววาง AIRR Key; ครั้งต่อไปใช้ key เดิมใน workspace นี้ได้</p>
+      <div class="command terminal-command"><code>&amp; .\tools\airr.ps1 init module-2; &amp; .\tools\airr.ps1 check module-2; &amp; .\tools\airr.ps1 submit module-2</code><button type="button" data-copy>คัดลอกคำสั่ง AIRR สำหรับ Windows</button></div>
+      <div class="command terminal-command"><code>bash tools/airr.sh init module-2 &amp;&amp; bash tools/airr.sh check module-2 &amp;&amp; bash tools/airr.sh submit module-2</code><button type="button" data-copy>คัดลอกคำสั่ง AIRR สำหรับ macOS / Linux</button></div>
+      <p class="form-help">แก้ไฟล์ evaluation ที่ AIRR สร้างให้ก่อนส่ง และใช้ <code>airr status module-2</code> ดูประวัติได้ แบบฟอร์ม call sign ด้านล่างยังเปิดไว้รองรับ workspace รุ่นเก่า</p>
       <div class="notice"><strong>Call sign แทนตัวตน:</strong> ตั้งนามเรียกขานใหม่สำหรับคลาสนี้ เช่น <code>green-orbit-7</code> และอย่าใช้ชื่อจริง ชื่อบัญชี อีเมล เบอร์โทร หรือรหัสนิสิต Server เก็บเฉพาะรหัสคลาส, call sign, progress summary, แบบประเมิน Module, เวลา และ submission ID ไม่เก็บ Markdown, claims, คำตอบ หรือรายการหลักฐานของคุณ</div>
       <form class="module-submission-form" data-module-2-submission-form>
         <label><span>รหัสคลาส</span><input name="class_code" type="text" required minlength="3" maxlength="40" pattern="[A-Za-z0-9][A-Za-z0-9._-]{2,39}" placeholder="เช่น pilot-01" autocomplete="off"></label>

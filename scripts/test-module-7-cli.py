@@ -76,6 +76,9 @@ def run() -> None:
                 return {"key_id": "key_test", "classroom_id": "pilot-07", "classroom_title": "AIRR Pilot", "class": {"is_open": True}}
             if url.endswith("/submissions"):
                 assert api_key == "airr_" + "k" * 48
+                if "/module-1/" in url:
+                    assert payload["progress"]["checks"]["workspace_opened"] is True
+                    return {"status": "accepted", "submission_id": payload["submission_id"], "attempt_count": 1, "received_at": "2026-11-11T00:00:00+00:00"}
                 assert payload["artifact"]["highlight_count"] == 3
                 assert len(payload["graphs"]) == 1
                 return {"review_status": "pending_review", "submission_id": payload["submission_id"], "attempt_count": 1, "received_at": "2026-11-11T00:00:00+00:00"}
@@ -92,6 +95,13 @@ def run() -> None:
                 assert client.main(["--workspace", str(workspace), "check", "module-7"]) == 0
                 assert client.main(["--workspace", str(workspace), "submit", "module-7", "--yes"]) == 0
                 assert client.main(["--workspace", str(workspace), "status", "module-7"]) == 0
+                assert client.main(["--workspace", str(workspace), "init", "module-1"]) == 0
+                module1_path = workspace / "output/module-1-progress.json"
+                module1 = json.loads(module1_path.read_text(encoding="utf-8"))
+                module1["checks"] = {key: True for key in module1["checks"]}
+                module1_path.write_text(json.dumps(module1), encoding="utf-8")
+                assert client.main(["--workspace", str(workspace), "check", "module-1"]) == 0
+                assert client.main(["--workspace", str(workspace), "submit", "module-1", "--yes"]) == 0
             text = output.getvalue()
             assert "AIRR CONNECTED" in text and "AIRR CHECK PASS" in text and "AIRR SUBMIT PASS" in text
             assert "revision_requested" in text and "feedback: เพิ่มหลักฐานตัวเลข" in text
