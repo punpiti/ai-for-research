@@ -1,6 +1,6 @@
-# Module 8 Workbook — Venue-first Document Production
+# Module 8 Workbook — Journal-first LaTeX Research Report
 
-## 1. Venue and Submission Format
+## 1. Journal Dossier and Submission Format
 
 | รายการ | คำตอบ |
 |---|---|
@@ -17,6 +17,28 @@
 | รูป ตาราง สมการ และ supplementary requirements | |
 | Ethics/authorship/AI disclosure requirements | |
 | ชื่อแฟ้มและ submission package | |
+
+| เอกสารทางการที่ต้องเก็บ | URL/แฟ้ม | วันที่เข้าถึง | หลักฐาน/หัวข้อ | สถานะ confirmed/unclear/not found |
+|---|---|---|---|---|
+| Aims & Scope | | | | |
+| Guide for Authors | | | | |
+| Submission Guide/Checklist | | | | |
+| Article type | | | | |
+| Official LaTeX template/author kit | | | | |
+| Peer review/anonymization | | | | |
+| Ethics/authorship/AI disclosure | | | | |
+| Data/code availability and supplementary files | | | | |
+| Figures/tables/reporting guideline | | | | |
+| Open access/APC/license/preprint | | | | |
+| Cover letter/highlights/graphical abstract/reviewers | | | | |
+
+### Fit Decision
+
+| มิติ | fit/conditional/no fit | หลักฐานจากวารสาร | หลักฐาน/ข้อจำกัดของงาน | สิ่งที่ต้องตัดสิน |
+|---|---|---|---|---|
+| Scope | | | | |
+| Audience | | | | |
+| Evidence/article type | | | | |
 
 ## 2. Venue Package Manifest
 
@@ -102,11 +124,11 @@
 | Causal/generalization language within design scope | | |
 | Limitation/boundary retained | | |
 
-## 6. Citation and BibTeX Record
+## 6. Citation and BibTeX Record with Abstract
 
-| Citation key | DOI/source URL | Metadata verified | Cited in section | Appears in PDF | Issue/action |
-|---|---|---|---|---|---|
-| | | | | | |
+| Citation key | DOI/source URL | Metadata verified | Abstract source/accessed | Cited in section | Appears in PDF | Issue/action |
+|---|---|---|---|---|---|---|
+| | | | | | | |
 
 | รายการตรวจ | ผล |
 |---|---|
@@ -115,6 +137,16 @@
 | Undefined citations | |
 | Uncited bibliography entries | |
 | In-text and reference-list agreement | |
+
+## 6.1 Literature Map and Candidate Gap
+
+| Citation key | Problem/outcome | Population/context | Method/design | Finding/direction | Limitation/future work |
+|---|---|---|---|---|---|
+| | | | | | |
+
+| Candidate gap | Evidence in corpus | Counterevidence/search needed | Relation to current study | Status observed/candidate/rejected |
+|---|---|---|---|---|
+| | | | | |
 
 ## 7. Figure Record
 
@@ -175,7 +207,20 @@
 |---|---|---|---|---|
 | | | | | |
 
-## 13. Final Decision
+## 13. Journal Change Impact
+
+| รายการ | วารสารเดิม | วารสารใหม่ | การปรับที่อนุญาต | หลักฐานใหม่/การตัดสินที่ต้องมี |
+|---|---|---|---|---|
+| Scope/audience/article type | | | | |
+| Title/abstract/keywords | | | | |
+| Sections/word or page limit | | | | |
+| Citation engine/style | | | | |
+| Blind review/declarations | | | | |
+| Figures/tables/supplement | | | | |
+| Submission package | | | | |
+| Fee/license/preprint | | | | |
+
+## 14. Final Decision
 
 | รายการ | คำตอบ |
 |---|---|

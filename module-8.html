@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Module 8 — การผลิตบทความวิจัยและสื่อการนำเสนอตามรูปแบบของแหล่งเผยแพร่">
+  <meta name="description" content="Module 8 — เลือกวารสาร วิเคราะห์ BibTeX และผลิตรายงานวิจัยด้วย LaTeX">
   <meta name="theme-color" content="#101817">
   <title>Document Production · AIRR</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -18,7 +18,7 @@
   <a class="skip-link" href="#main">ข้ามไปยังเนื้อหา</a>
   <site-header current="8"></site-header>
   <main id="main">
-    <section class="prepare-hero module-hero"><p class="eyebrow">โมดูล 8</p><h1 aria-label="โมดูล 8 — การผลิตบทความวิจัยและสื่อการนำเสนอตามรูปแบบของแหล่งเผยแพร่">ผลิตเอกสาร<br><span>และสื่อนำเสนอ</span></h1><p>เลือกเรียนต่อจากโมดูลก่อนหน้า หรือเริ่มที่โมดูลนี้ได้ทันที ให้ AI ช่วยถาม จัดโครง และตรวจทีละขั้น โดยคุณเป็นผู้เลือกและยืนยันหลักฐาน</p></section>
+    <section class="prepare-hero module-hero"><p class="eyebrow">โมดูล 8</p><h1 aria-label="โมดูล 8 — การผลิตรายงานวิจัยด้วย LaTeX ตามข้อกำหนดวารสาร">เลือกวารสาร<br><span>สร้างรายงาน LaTeX</span></h1><p>รวบรวมข้อกำหนดวารสาร สร้าง BibTeX พร้อม abstract วิเคราะห์ candidate research gap แล้วให้ AI ผลิตและตรวจต้นฉบับ LaTeX/PDF โดยคุณแก้เนื้อหาหลักใน Markdown</p></section>
     <section class="section profile-context"><div data-research-profile></div></section>
     <div id="module-content">
 <section class="section markdown-section" id="start" aria-labelledby="start-heading"><div class="section-heading compact"><p class="eyebrow">การเตรียมตัวก่อนเรียน</p><h2 id="start-heading">ของต้องมีก่อนเรียน</h2>
@@ -28,29 +28,30 @@
 </ul>
 <h3 id="สิ่งที่ต้องเตรียม">สิ่งที่ต้องเตรียม</h3>
 <ul>
-<li>official author kit ของ venue เป้าหมาย หรือชุดตัวอย่างของบทเรียนเมื่อยังไม่มี venue</li>
-<li>verified content package ที่มี Markdown รูป ตาราง และ BibTeX records ที่ตรวจสอบได้</li>
+<li>journal dossier ของวารสารเป้าหมาย: Aims &amp; Scope, Guide for Authors, Submission Guide, article type, template และนโยบายที่เกี่ยวข้อง</li>
+<li>verified content package ที่มี Markdown รูป ตาราง และ BibTeX records พร้อม abstract ที่ตรวจสอบได้</li>
 <li>โปรแกรมที่เปิดรูปแบบเอกสารตามข้อกำหนดได้ เช่น Word, Overleaf หรือบริการสร้าง PDF ที่ AI ใช้งานได้ พร้อมพื้นที่แยกต้นฉบับ สำเนาทำงาน และผลลัพธ์</li>
 <li>baseline PDF/log, venue compliance checklist, content QA และ visual QA</li>
 <li>สำเนาทดลองสำหรับ break-and-repair ห้ามทดลองกับ template ต้นฉบับหรือเอกสารฉบับส่งจริง</li>
 </ul>
 <div class="plain-note"><strong>คุณรับผิดชอบเนื้อหา ส่วนแม่แบบช่วยจัดหน้า:</strong> เขียนและแก้ข้อความหลัก เหตุผล หลักฐาน ข้อจำกัด และย่อหน้าของคุณใน Word หรือ Markdown ตามรูปแบบที่แหล่งเผยแพร่กำหนด หากใช้ LaTeX คุณให้ AI หรือ Overleaf ประกอบแฟ้มและสร้าง PDF ได้ โดยคุณตรวจเนื้อหาและหน้ากระดาษจากผลลัพธ์ ไม่ต้องแก้โค้ดหรือระบบสร้างเอกสารเอง</div>
+<div class="plain-note"><strong>ชุดฝึกครบ workflow:</strong> <a href="downloads/module-08-mock-publication-case.md" download>โจทย์และ Prompt</a> · <a href="downloads/module-08-mock-journal-a-profile.md" download>Journal A</a> · <a href="downloads/module-08-mock-journal-b-profile.md" download>Journal B</a> · <a href="downloads/module-08-mock-references.bib" download>BibTeX พร้อม abstract</a> · <a href="downloads/module-08-mock-report.tex" download>LaTeX starter</a></div>
 <div class="hero-actions"><a class="button primary" href="module-8-publication-demo.html">ลองแก้ Markdown แล้วเปลี่ยนรูปแบบ PDF →</a></div>
 </div></section>
 <section class="section markdown-section" id="คำถามแกนของโมดูล" aria-labelledby="คำถามแกนของโมดูล-heading"><div class="section-heading compact"><h2 id="คำถามแกนของโมดูล-heading">คำถามแกนของโมดูล</h2>
-</div><div class="markdown-body"><p>จะเปลี่ยนเนื้อหาวิจัยที่ตรวจสอบแล้วให้เป็นบทความ PDF โปสเตอร์ หรือสไลด์ที่ตรงตามข้อกำหนดของแหล่งเผยแพร่ โดยไม่ทำลายแม่แบบ ไม่ทำให้การอ้างอิงผิด และไม่ปล่อยให้รูปแบบบดบังข้อบกพร่องของเนื้อหาได้อย่างไร</p>
+</div><div class="markdown-body"><p>จะเลือกวารสารจากขอบเขตและข้อกำหนดจริง วิเคราะห์วรรณกรรมจาก BibTeX ที่มี abstract เพื่อระบุ candidate research gap แล้วผลิตต้นฉบับ LaTeX/PDF ที่ตรวจความพร้อมส่งได้อย่างไร</p>
 </div></section>
 <section class="section markdown-section" id="outcomes" aria-labelledby="outcomes-heading"><div class="section-heading compact"><p class="eyebrow">LO</p><h2 id="outcomes-heading">สิ่งที่จะทำได้</h2>
 </div><div class="markdown-body"><p>เมื่อจบโมดูล คุณจะสามารถ</p>
 <ol type="1">
-<li>เลือกสายการผลิต Word หรือ LaTeX จากข้อกำหนดทางการของแหล่งเผยแพร่ ไม่เลือกจากความชอบส่วนบุคคล</li>
-<li>ดาวน์โหลดและเก็บชุดแม่แบบทางการ พร้อมบันทึกแหล่งที่มา รุ่น วันที่ และเงื่อนไขการใช้</li>
+<li>เลือกวารสารและ article type จาก Aims &amp; Scope กลุ่มผู้อ่าน และความสอดคล้องกับงาน</li>
+<li>สร้าง journal dossier จากเอกสารทางการ พร้อม URL รุ่น วันที่เข้าถึง และข้อความหลักฐาน</li>
 <li>อธิบายโครงสร้าง LaTeX ในระดับที่สั่ง AI และตรวจตำแหน่งความผิดพลาดได้ โดยไม่ต้องเขียนคำสั่ง LaTeX เอง</li>
-<li>ทดสอบ compile แม่แบบเดิมและ outline ก่อนเพิ่มเนื้อหา</li>
-<li>แปลงข้อค้นพบจากการทดลองเป็น statement และคำอธิบายที่ผูกกับหลักฐาน แล้วให้ AI เรียบเรียงเป็นย่อหน้าโดยไม่เพิ่มข้อกล่าวที่ไม่มีหลักฐาน</li>
-<li>เขียนแต่ละส่วนของบทความเป็น Markdown และให้ AI ประกอบเข้ากับแม่แบบโดยแยก source, template, generated และ build output ออกจากกัน</li>
-<li>แทรกรูป ตาราง และรายการอ้างอิงอย่างตรวจสอบย้อนกลับได้</li>
-<li>ตรวจทั้งความถูกต้องของเนื้อหาและคุณภาพการนำเสนอใน PDF หรือเอกสารที่ส่งจริง</li>
+<li>สร้างและตรวจ <code>references.bib</code> ที่มี abstract โดยไม่แต่ง metadata</li>
+<li>วิเคราะห์ corpus เพื่อสร้าง literature map และ candidate gap พร้อมข้อจำกัดของการค้น</li>
+<li>ใช้ Markdown เป็น source of truth แล้วให้ AI สร้าง LaTeX/PDF ตามแม่แบบ</li>
+<li>ตรวจ claims, citations, figures, tables, declarations, build log และ PDF ก่อนสรุปความพร้อมส่ง</li>
+<li>เปลี่ยนวารสารด้วย dossier และ impact checklist ใหม่ โดยรักษาข้อมูล วิธี ผล และข้อจำกัดเดิม</li>
 </ol>
 <p>โมดูลนี้ไม่รับรองการตอบรับตีพิมพ์ และไม่ถือว่าสร้างเอกสารผ่านเท่ากับบทความถูกต้อง คุณยังรับผิดชอบข้อกล่าวอ้าง ข้อมูล การอ้างอิง ความเป็นผู้ประพันธ์ จริยธรรม และการเปิดเผยการใช้ AI</p>
 </div></section>
@@ -91,7 +92,10 @@
 <p>หลักตัดสินคือ <strong>ใช้รูปแบบที่แหล่งเผยแพร่กำหนด</strong> หาก venue กำหนด Word ให้ใช้ Word หาก venue มี LaTeX template ให้เริ่มจาก template นั้น ไม่ควรแปลง PDF ตัวอย่างกลับเป็นแม่แบบเอง และไม่ควรบังคับ LaTeX เพียงเพราะดูเป็นงานวิชาการ</p>
 </div></section>
 <section class="section markdown-section" id="venue-first-intake" aria-labelledby="venue-first-intake-heading"><div class="section-heading compact"><h2 id="venue-first-intake-heading">เริ่มจากข้อกำหนดของแหล่งเผยแพร่</h2>
-</div><div class="markdown-body"><p>เริ่มจากหน้า Author Guidelines หรือ Submission Guidelines ทางการของ venue แล้วบันทึก</p>
+</div><div class="markdown-body"><p>เลือกวารสารและ article type ก่อนเริ่มเขียน แล้วเก็บเอกสารทางการแยกตามวารสารใน <code>journal-dossiers/&lt;journal-slug&gt;/original/</code></p>
+<ol><li>Aims &amp; Scope</li><li>Guide for Authors / Author Guidelines</li><li>Submission Guide / Checklist</li><li>Article types และ official LaTeX template/author kit</li><li>Peer review และ anonymization</li><li>Authorship, ethics, conflicts, funding, data/code availability และ AI disclosure</li><li>Figures, tables, supplementary files และ reporting guideline</li><li>Open access, fee, copyright/license และ preprint policy</li><li>Cover letter, highlights, graphical abstract หรือ suggested reviewers เมื่อกำหนด</li></ol>
+<p>ทุกข้อใน dossier ต้องมี URL ทางการ วันที่เข้าถึง ข้อความหลักฐาน และสถานะ <code>confirmed / unclear / not found</code> จากนั้นประเมิน scope fit, audience fit และ evidence fit ก่อนเริ่มต้นฉบับ</p>
+<p>จากหน้าและแฟ้มทางการให้บันทึก</p>
 <ul>
 <li>ชื่อแหล่งเผยแพร่ ประเภทบทความ และกลุ่มผู้อ่าน</li>
 <li>URL ทางการ วันที่เข้าถึง และรุ่น/ปีของข้อกำหนด</li>
@@ -111,8 +115,17 @@
 <li>compile ใน environment ที่ Module 1 เตรียมไว้โดยปิดความสามารถเรียกคำสั่งระบบจาก LaTeX หากจำเป็นต้องเปิดความสามารถเพิ่มเติม ให้หยุดและตรวจความเสี่ยงก่อนทุกครั้ง</li>
 </ul>
 </div></section>
+<section class="section markdown-section" id="bibtex-gap" aria-labelledby="bibtex-gap-heading"><div class="section-heading compact"><p class="eyebrow">Literature corpus</p><h2 id="bibtex-gap-heading">BibTeX พร้อม abstract และ candidate research gap</h2></div><div class="markdown-body">
+<p><code>references.bib</code> เป็นทั้งฐาน citation และ corpus สำหรับวิเคราะห์วรรณกรรม แต่ละระเบียนต้องตรวจ author, title, year, venue และ DOI/URL พร้อม abstract จาก publisher หรือฐานข้อมูลที่ตรวจแล้ว บันทึก <code>abstract_source</code> และ <code>accessed</code> ได้ แม้ style ของวารสารจะไม่พิมพ์ field เหล่านี้ใน PDF</p>
+<p>ห้ามสร้าง abstract จากชื่อเรื่อง ระเบียนที่ยังตรวจไม่ได้ให้เว้น abstract และบันทึกใน <code>bibliography-audit.md</code></p>
+<table><thead><tr><th>มิติ</th><th>สิ่งที่สกัด</th><th>คำถามต่อ</th></tr></thead><tbody><tr><td>problem/outcome</td><td>ปัญหา ตัวแปร ผลลัพธ์</td><td>อะไรถูกศึกษาแล้ว</td></tr><tr><td>population/context</td><td>กลุ่ม ประเทศ setting</td><td>บริบทใดขาด</td></tr><tr><td>method/design</td><td>design, instrument, analysis</td><td>วิธีเดิมจำกัดอะไร</td></tr><tr><td>finding/direction</td><td>ผล ทิศทาง เงื่อนไข</td><td>ผลขัดกันตรงไหน</td></tr><tr><td>limitation/future work</td><td>ข้อจำกัดของผู้เขียน</td><td>ประเด็นใดเกิดซ้ำ</td></tr></tbody></table>
+<p>ผลต้องแยก <code>observed in corpus</code>, <code>candidate gap</code>, <code>search needed</code> และ <code>rejected gap</code> การไม่พบใน corpus ชุดเล็กยังไม่ยืนยัน novelty</p>
+<div class="command markdown-command ai-prompt"><code>ตรวจ references.bib กับ DOI/publisher เก็บ abstract ต้นฉบับพร้อมแหล่งและวันที่เข้าถึง แล้ววิเคราะห์ problem/outcome, population/context, method/design, finding/direction และ limitation/future work อ้าง citation key ทุกข้อ สร้าง candidate gaps พร้อม counterevidence และคำค้นต่อ ห้ามยืนยัน novelty จาก corpus ชุดนี้</code><button type="button" data-copy>คัดลอก Prompt วิเคราะห์ BibTeX</button></div>
+</div></section>
 <section class="section markdown-section" id="no-code-latex-หมายถึงอะไร" aria-labelledby="no-code-latex-หมายถึงอะไร-heading"><div class="section-heading compact"><h2 id="no-code-latex-หมายถึงอะไร-heading">ใช้ LaTeX โดยไม่เขียนคำสั่งเองหมายถึงอะไร</h2>
-</div><div class="markdown-body"><p>คุณไม่ต้องเขียนหรือท่องคำสั่ง LaTeX แต่ควรรู้ว่าเนื้อหา แม่แบบ และผลลัพธ์อยู่ในแฟ้มใด เพื่อบอก AI ให้ตรวจถูกจุด และไม่แก้ <code>.cls</code> หรือ <code>.sty</code> เพียงเพื่อให้สร้างเอกสารผ่าน</p>
+</div><div class="markdown-body"><p><strong>ทางหลักของโมดูลนี้คือแก้ Markdown แล้วสร้าง LaTeX ใหม่</strong> ใช้ <code>source/manuscript.md</code> หรือ <code>source/sections/*.md</code> เป็น source of truth, เก็บข้อกำหนดใน journal dossier, เก็บ citation ใน <code>references.bib</code>, ให้ AI สร้าง <code>generated/main.tex</code> และตรวจ <code>build/manuscript.pdf</code> ห้ามแก้ Markdown และ generated LaTeX เป็นต้นฉบับคู่ขนาน หากทีมเลือกทำงานตรงใน Overleaf หรือ LaTeX เพราะต้องร่วมแก้คำสั่งเฉพาะวารสาร ให้ประกาศ <code>.tex</code> เป็น source of truth เพียงชุดเดียวและหยุดแก้ Markdown ฉบับเดิม</p>
+<h3>LaTeX เท่าที่จำเป็นสำหรับผู้ส่งบทความ</h3><ol><li>รู้ว่า title, abstract และแต่ละ section แก้ที่ Markdown แฟ้มใด</li><li>รู้ว่า <code>.cls/.sty/.bst</code> เป็นกฎของวารสารและไม่ควรแก้เพื่อบังคับหน้าตา</li><li>รู้วิธีสั่ง build เปิด PDF และอ่าน error/warning ใน log</li><li>เข้าใจว่า citation key เชื่อมข้อความกับ <code>references.bib</code> อย่างไร</li><li>รู้ที่เก็บรูป/ตารางและตรวจ label, caption, หน่วย ตัวเลข และการอ้างในข้อความ</li><li>เก็บ snapshot ใช้ <code>latexdiff</code> และไม่เขียนทับงานผู้ร่วมเขียน</li><li>แยก blinded manuscript, title page และ final files</li><li>รู้ว่า submission system ต้องการ PDF, source, bibliography, figures และ declarations ใด</li><li>แยกปัญหา content, bibliography, path, template/package และ build environment ก่อนแก้</li><li>เมื่อเปลี่ยนวารสาร ให้เปลี่ยน dossier/template/style/package และประเมิน fit ใหม่ โดยคงข้อมูล วิธี ผล และข้อจำกัด</li></ol>
+<p>ผู้เรียนไม่ต้องเขียน macro สร้าง class/style จำลำดับ compile จัดเลข citation/รูป/ตารางด้วยมือ หรือแก้ PDF โดยตรง</p>
 <div class="command markdown-command"><code>Markdown sections + bibliography + figures + tables
                 ↓
       AI conversion/integration
@@ -497,63 +510,69 @@ Target length and tone:</code><button type="button" data-copy="">คัดลอ
 </div></section>
 <section class="section markdown-section" id="activity" aria-labelledby="activity-heading"><div class="section-heading compact"><h2 id="activity-heading">ลงมือผลิตเอกสารกับ AI ทีละด่าน</h2>
 </div><div class="markdown-body"><p class="prompt-edit-note">✎ แก้ก่อนส่ง: เปลี่ยนข้อความใน {{…}} ให้เป็นข้อมูลของคุณ แล้วจึงคัดลอก Prompt ไปให้ AI</p><div class="command markdown-command prompt-template"><code>ข้อมูลที่ฉันกำหนด:
-- แหล่งเผยแพร่: {{พิมพ์ชื่อ หรือเขียนว่า ยังไม่ทราบ เพื่อให้ AI ถามต่อ}}
-- ชนิดผลงาน: {{บทความ / โปสเตอร์ / สไลด์ / รูปแบบอื่น}}
-- ข้อกำหนดหรือแม่แบบทางการ: {{พิมพ์ตำแหน่งแฟ้มหรือลิงก์ หรือเขียนว่า ยังไม่มี}}
-- ชุดเนื้อหา: {{พิมพ์ตำแหน่งข้อความ รูป ตาราง และรายการอ้างอิงที่ตรวจแล้ว}}
+- วารสารเป้าหมาย: {{ชื่อวารสาร}}
+- ประเภทบทความ: {{article type}}
+- เอกสารทางการของวารสาร: {{ตำแหน่ง Aims &amp; Scope, Author Guide, Submission Guide และ template}}
+- รายการอ้างอิง: {{ตำแหน่ง references.bib}}
+- ข้อมูลและผลที่ตรวจแล้ว: {{ตำแหน่งแฟ้ม}}
+- ต้นฉบับเนื้อหา: source/manuscript.md
 
-พาฉันผลิตเอกสารทีละด่านและหยุดรอการตรวจทุกครั้ง เริ่มจากข้อกำหนดและแม่แบบทางการก่อนแตะเนื้อหา ใช้เฉพาะข้อกล่าวอ้าง ย่อหน้า เอกสารอ้างอิง ภาพ และตารางที่ฉันตรวจแล้ว ห้ามแก้แม่แบบต้นฉบับ แต่งข้อมูล หรือถือว่าสร้าง PDF ผ่านเท่ากับเนื้อหาถูกต้อง ทุกด่านให้รายงานสิ่งที่เปลี่ยน ผลตรวจ และสิ่งที่ฉันต้องตัดสินใจก่อนเดินต่อ</code><button type="button" data-copy="">คัดลอก</button></div>
-<h3>ด่าน 1 — เลือกรูปแบบจากข้อกำหนดจริง</h3><div class="command markdown-command" data-m8-stage-prompt="1"><code>ถามฉันหาแหล่งเผยแพร่และข้อกำหนดทางการก่อน แล้วเปรียบเทียบ Word กับ LaTeX โดยอ้างตำแหน่งข้อความทุกข้อ ห้ามเลือกแทนฉัน สรุปหลักฐานแล้วรอให้ฉันเลือก</code><button type="button" data-copy="">คัดลอก</button></div><p><strong>คุณตัดสิน:</strong> รูปแบบเอกสารและแม่แบบที่จะใช้</p>
-<h3>ด่าน 2 — ตรวจแม่แบบและสร้างฉบับตั้งต้น</h3><div class="command markdown-command" data-m8-stage-prompt="2"><code>สำรวจแฟ้มและอธิบายหน้าที่ทีละแฟ้มโดยยังไม่แก้ จากนั้นสร้างสำเนาแม่แบบเดิมและรายงานผล หากไม่ผ่านให้แสดงสาเหตุและถามฉันก่อนแก้ ห้ามแตะต้นฉบับ</code><button type="button" data-copy="">คัดลอก</button></div><p><strong>ก่อนผ่าน:</strong> มี PDF ตั้งต้นที่เปิดได้และบันทึกผลการสร้าง</p>
-<h3>ด่าน 3 — วางโครงและเขียนทีละย่อหน้า</h3><div class="command markdown-command" data-m8-stage-prompt="3"><code>ถามฉันทีละส่วนเพื่อวางหัวข้อก่อน จากนั้นถามข้อความหลัก หลักฐาน คำอธิบาย ข้อจำกัด และขอบเขต เมื่อครบจึงร่างหนึ่งย่อหน้า ทำเครื่องหมายสิ่งที่ไม่มีหลักฐาน และรอฉันอนุมัติก่อนเขียนต่อ</code><button type="button" data-copy="">คัดลอก</button></div><p><strong>คุณตัดสิน:</strong> โครงเรื่องและทุกประโยคที่จะเก็บไว้</p>
-<h3>ด่าน 4 — ตรวจย่อหน้าและเอกสารอ้างอิงย้อนกลับ</h3><div class="command markdown-command" data-m8-stage-prompt="4"><code>แยกทุกประโยคกลับไปยังหลักฐานที่ฉันให้ และตรวจรายการอ้างอิงทีละรายการ ถ้าย้อนกลับไม่ได้หรือข้อมูลไม่ครบให้หยุดถาม ห้ามสร้างชื่อผู้แต่ง ชื่อเรื่อง DOI หรือ BibTeX เอง</code><button type="button" data-copy="">คัดลอก</button></div><p><strong>ก่อนผ่าน:</strong> ทุกข้อความและการอ้างอิงต้องมีต้นทางที่ตรวจได้</p>
-<h3>ด่าน 5 — เพิ่มภาพและตาราง</h3><div class="command markdown-command" data-m8-stage-prompt="5"><code>ถามหาแฟ้มต้นทางของภาพหรือตารางทีละรายการ ตรวจชื่อ หน่วย ตัวเลข แหล่งข้อมูล และข้อความที่อ้างถึงก่อนเพิ่ม หลังสร้าง PDF ให้เปรียบเทียบกับต้นทางและรายงานความต่าง</code><button type="button" data-copy="">คัดลอก</button></div><p><strong>คุณตัดสิน:</strong> ยืนยันว่าตัวเลขในต้นทาง ตาราง ภาพ และข้อความตรงกัน</p>
-<h3>ด่าน 6 — ทดลองเสียและซ่อมในสำเนา</h3><div class="command markdown-command" data-m8-stage-prompt="6"><code>ทำงานเฉพาะสำเนาทดลอง แสดงอาการ หลักฐาน และต้นเหตุที่เป็นไปได้ก่อนเสนอการแก้ทีละทาง รอฉันอนุมัติก่อนแก้ และสร้าง PDF ใหม่หลังทุกการเปลี่ยนแปลง</code><button type="button" data-copy="">คัดลอก</button></div><p><strong>คุณตัดสิน:</strong> ต้นเหตุและการแก้ที่ยอมรับ</p>
-<h3>ด่าน 7 — ตรวจความต่างของฉบับแก้</h3><div class="command markdown-command" data-m8-stage-prompt="7"><code>เก็บ source ก่อนและหลังเป็น snapshot แยกกัน ใช้ latexdiff สร้าง diff.tex และ marked PDF แล้วตรวจทุกจุดที่เปลี่ยนข้อกล่าวอ้าง ตัวเลข citation หรือข้อจำกัด รายงานสิ่งที่ตั้งใจแก้และสิ่งผิดคาด ห้ามใช้ diff.tex แทน source หลัก</code><button type="button" data-copy="">คัดลอก</button></div><p><strong>ก่อนผ่าน:</strong> การเปลี่ยนเนื้อหาทุกจุดมีเหตุผลและย้อนกลับไปยัง source หลักได้</p>
-<h3>ด่าน 8 — ตรวจ PDF ฉบับจริง</h3><div class="command markdown-command" data-m8-stage-prompt="8"><code>ตรวจ PDF ทีละหน้าเทียบกับข้อกำหนดและแฟ้มเนื้อหาที่ตรวจแล้ว แยกปัญหาเป็นเนื้อหา การอ้างอิง ข้อกำหนด และการจัดหน้า แสดงหลักฐานและถามฉันอนุมัติการแก้ทีละรายการ</code><button type="button" data-copy="">คัดลอก</button></div><p><strong>ก่อนจบ:</strong> สรุปสิ่งที่ผ่าน จุดค้าง และแฟ้มต้นทางที่ต้องแก้ โดยไม่รับรองการตอบรับตีพิมพ์</p>
+พาฉันผลิตบทความทีละด่านและหยุดรอการตรวจทุกครั้ง เริ่มจาก journal dossier และความเหมาะสมของงานกับวารสารก่อน ใช้ source/manuscript.md เป็น source of truth และให้ generated/main.tex เป็นไฟล์ที่สร้างใหม่ได้ ห้ามแก้เนื้อหาคู่กันทั้ง Markdown และ LaTeX ใช้เฉพาะข้อกล่าวอ้าง ข้อมูล ผล เอกสารอ้างอิง ภาพ และตารางที่ฉันตรวจแล้ว ห้ามแก้แม่แบบต้นฉบับ แต่งข้อมูลหรือ abstract และห้ามถือว่าสร้าง PDF ผ่านเท่ากับเนื้อหาถูกต้อง ทุกด่านให้รายงานสิ่งที่เปลี่ยน ผลตรวจ และสิ่งที่ฉันต้องตัดสินใจก่อนเดินต่อ</code><button type="button" data-copy="">คัดลอก</button></div>
+<h3>ด่าน 1 — สร้าง Journal Dossier</h3><div class="command markdown-command ai-prompt" data-m8-stage-prompt="1"><code>ถามชื่อวารสารและ article type จากฉันก่อน แล้วเก็บ Aims &amp; Scope, Guide for Authors, Submission Guide/Checklist, template และนโยบายที่เกี่ยวข้องจากแหล่งทางการ ทุกข้อระบุ URL วันที่ ข้อความหลักฐาน และสถานะ confirmed/unclear/not found ประเมิน scope, audience และ evidence fit แล้วหยุดให้ฉันเลือก</code><button type="button" data-copy="">คัดลอก</button></div><p><strong>คุณตัดสิน:</strong> วารสาร article type และข้อกำหนดที่ยังต้องถาม editor</p>
+<h3>ด่าน 2 — สร้าง BibTeX พร้อม abstract</h3><div class="command markdown-command ai-prompt" data-m8-stage-prompt="2"><code>ตรวจ DOI/publisher ของรายการที่ฉันให้ สร้าง references.bib พร้อม abstract ต้นฉบับ abstract_source และ accessed ห้ามแต่ง metadata หรือ abstract ระเบียนที่ตรวจไม่ได้ให้เว้นและลง bibliography-audit.md</code><button type="button" data-copy="">คัดลอก</button></div><p><strong>ก่อนผ่าน:</strong> metadata และ abstract ทุกระเบียนมีแหล่งตรวจ</p>
+<h3>ด่าน 3 — วิเคราะห์วรรณกรรมและ candidate gap</h3><div class="command markdown-command ai-prompt" data-m8-stage-prompt="3"><code>สร้าง literature map จาก BibTeX แยก problem, context, method, finding และ limitation อ้าง citation key ทุกข้อ เสนอ candidate gaps พร้อม counterevidence และ search-needed status ห้ามยืนยัน novelty แล้วรอฉันตรวจ</code><button type="button" data-copy="">คัดลอก</button></div><p><strong>คุณตัดสิน:</strong> candidate gap ใดสัมพันธ์กับข้อมูลและคำถามของงานจริง</p>
+<h3>ด่าน 4 — ตรวจแม่แบบและสร้างฉบับตั้งต้น</h3><div class="command markdown-command ai-prompt" data-m8-stage-prompt="4"><code>เก็บ author kit เดิมไว้ใน journal dossier สร้าง working copy สำรวจ .tex/.cls/.sty/.bst และ citation engine แล้ว compile pristine template เก็บ PDF/log baseline ห้ามแก้ template เพื่อซ่อน error</code><button type="button" data-copy="">คัดลอก</button></div><p><strong>ก่อนผ่าน:</strong> pristine template สร้าง PDF ได้</p>
+<h3>ด่าน 5 — เขียน Markdown และสร้างรายงาน LaTeX</h3><div class="command markdown-command ai-prompt" data-m8-stage-prompt="5"><code>ใช้ source/manuscript.md เป็น source of truth เขียนจากข้อมูล ผล paragraph contracts และ citations ที่ฉันอนุมัติเท่านั้น สร้าง generated/main.tex ตาม template เพิ่ม references figures และ tables แล้ว compile ห้ามให้ฉันแก้ generated LaTeX เป็นเนื้อหาหลัก</code><button type="button" data-copy="">คัดลอก</button></div><p><strong>คุณแก้:</strong> Markdown; <strong>AI สร้าง:</strong> LaTeX/PDF</p>
+<h3>ด่าน 6 — ตรวจความพร้อมส่ง</h3><div class="command markdown-command ai-prompt" data-m8-stage-prompt="6"><code>ตรวจ scope fit, required sections, claims, citations, abstract/title, figures/tables, declarations, anonymity, build log, PDF QA และ submission files สร้าง submission-readiness.md แยก PASS/FAIL/BLOCKED พร้อมหลักฐาน ห้ามปิด BLOCKED เอง</code><button type="button" data-copy="">คัดลอก</button></div><p><strong>ก่อนผ่าน:</strong> ไม่มี unresolved citation/build error และทุก BLOCKED มีผู้รับผิดชอบ</p>
+<h3>ด่าน 7 — ตรวจฉบับแก้</h3><div class="command markdown-command ai-prompt" data-m8-stage-prompt="7"><code>เก็บ source ก่อนและหลังเป็น snapshot ใช้ latexdiff กับ generated LaTeX เพื่อสร้าง marked PDF ตรวจ claim ตัวเลข citation และ limitation ที่เปลี่ยน ห้ามใช้ diff.tex แทน Markdown source หลัก</code><button type="button" data-copy="">คัดลอก</button></div><p><strong>ก่อนผ่าน:</strong> การเปลี่ยนความหมายทุกจุดได้รับอนุมัติ</p>
+<h3>ด่าน 8 — เปลี่ยนวารสาร</h3><div class="command markdown-command ai-prompt" data-m8-stage-prompt="8"><code>สร้าง dossier ของวารสารใหม่โดยไม่เขียนทับของเดิม ทำ venue-change-impact เปรียบเทียบ scope, structure, limits, style, anonymity, declarations และ package ประเมิน fit ใหม่ แล้วสร้าง LaTeX/PDF จาก Markdown เดิม ห้ามเปลี่ยน data method result หรือ limitation เพื่อให้ดู fit</code><button type="button" data-copy="">คัดลอก</button></div><p><strong>ก่อนจบ:</strong> สองวารสารมี dossier, generated output และ readiness report แยกกัน</p>
 <details class="section concept-reference"><summary>เปิดรายการตรวจละเอียดของแต่ละด่าน</summary><ol type="1">
-<li><strong>เลือกรูปแบบ:</strong> เปรียบเทียบชุดแม่แบบจริงและเลือก Word หรือ LaTeX จากข้อกำหนดของแหล่งเผยแพร่</li>
-<li><strong>สำรวจแม่แบบ:</strong> ระบุแฟ้มหลัก แฟ้มรูปแบบ และระบบอ้างอิง โดยไม่แก้แฟ้มต้นฉบับ</li>
-<li><strong>สร้างฉบับตั้งต้น:</strong> สร้าง PDF จากแม่แบบเดิมและเก็บผลไว้เปรียบเทียบ</li>
-<li><strong>สร้างโครง:</strong> ใส่เฉพาะหัวข้อและช่องรอเนื้อหา แล้วสร้างเอกสารอีกครั้ง</li>
-<li><strong>เขียนทีละย่อหน้า:</strong> ใช้ข้อความหลัก หลักฐาน คำอธิบาย ข้อจำกัด และขอบเขตที่คุณยืนยัน</li>
-<li><strong>ตรวจย่อหน้าย้อนกลับ:</strong> แยกทุกประโยคกลับไปยังข้อมูลต้นทางและตัดสิ่งที่ไม่มีหลักฐาน</li>
-<li><strong>รวมเป็นหนึ่งส่วน:</strong> รวมเฉพาะย่อหน้าที่ผ่านการตรวจและยืนยันว่าความหมายไม่เปลี่ยน</li>
-<li><strong>เพิ่มการอ้างอิง:</strong> เพิ่มเฉพาะรายการที่ตรวจชื่อผู้แต่ง ชื่อเรื่อง ปี และ DOI แล้ว</li>
-<li><strong>เพิ่มรูปและตาราง:</strong> เพิ่มจากแฟ้มต้นทางพร้อมชื่อ หน่วย คำอธิบาย และตำแหน่งอ้างถึง</li>
-<li><strong>ฝึกหาสาเหตุและซ่อม:</strong> ใช้สำเนาทดลองที่มีการอ้างอิงหรือรูปหาย ตารางล้น หรือเนื้อหาหาย ห้ามทำให้ต้นฉบับเสีย</li>
-<li><strong>ตรวจฉบับแก้:</strong> ใช้ <code>latexdiff</code> เปรียบเทียบ snapshot ก่อนและหลัง แล้วตรวจข้อกล่าวอ้าง ตัวเลข citation และข้อจำกัดที่เปลี่ยน</li>
-<li><strong>ตรวจ PDF:</strong> ตรวจเนื้อหา ข้อกำหนด และคุณภาพการจัดหน้าจาก PDF ฉบับจริง</li>
+<li><strong>Journal dossier:</strong> เก็บข้อกำหนดพร้อม URL วันที่ หลักฐาน และสถานะที่ยังไม่ชัด แล้วตัดสิน scope, audience และ evidence fit</li>
+<li><strong>BibTeX:</strong> ตรวจ metadata และ abstract กับแหล่งต้นทาง ระบุ <code>abstract_source</code> และไม่เติมส่วนที่ตรวจไม่ได้</li>
+<li><strong>Candidate gap:</strong> ทำ literature map จาก citation keys พร้อม counterevidence และสิ่งที่ต้องค้นเพิ่ม โดยยังไม่อ้างว่าเป็น novelty</li>
+<li><strong>แม่แบบ:</strong> เก็บ author kit เดิม สำรวจ engine และระบบ citation แล้วสร้าง baseline PDF จาก pristine template</li>
+<li><strong>ต้นฉบับ:</strong> แก้ข้อกล่าวอ้าง ย่อหน้า รูป ตาราง และ citation ใน <code>source/manuscript.md</code> เท่านั้น จากนั้นสร้าง LaTeX/PDF ใหม่</li>
+<li><strong>ความพร้อมส่ง:</strong> ตรวจข้อกำหนด เนื้อหา log และ PDF จริง แล้วแยกผลเป็น PASS/FAIL/BLOCKED พร้อมหลักฐาน</li>
+<li><strong>ฉบับแก้:</strong> เก็บ snapshot และใช้ <code>latexdiff</code> กับ LaTeX ที่สร้างแล้วเพื่อช่วยตรวจ โดยไม่ใช้ <code>diff.tex</code> เป็น source</li>
+<li><strong>เปลี่ยนวารสาร:</strong> สร้าง dossier และ output ชุดใหม่ เปรียบเทียบผลกระทบ แล้วปรับการนำเสนอโดยไม่เปลี่ยนข้อมูล วิธี ผล หรือข้อจำกัด</li>
 </ol></details>
 </div></section>
 <section class="section markdown-section" id="finish" aria-labelledby="finish-heading"><div class="section-heading compact"><p class="eyebrow">Checkpoint</p><h2 id="finish-heading">จบบทเรียน</h2>
 </div><div class="markdown-body"><p>ติ๊กเมื่อคุณตรวจชิ้นงานจริงและอธิบายหลักฐานของแต่ละข้อได้ ระบบจะจำสถานะไว้ในเบราว์เซอร์นี้</p>
 <p class="progress" aria-live="polite">ความสำเร็จ <strong data-progress>0%</strong></p>
 <div class="checklist" data-checklist="module-8">
-<label><input type="checkbox"> บันทึกแหล่งเผยแพร่ ข้อกำหนด และวันที่ตรวจแล้ว</label>
+<label><input type="checkbox"> สร้าง journal dossier จาก Aims &amp; Scope, Author Guide, Submission Guide, template และนโยบายทางการแล้ว</label>
+<label><input type="checkbox"> ประเมิน scope, audience และ evidence fit พร้อมข้อความหลักฐานแล้ว</label>
 <label><input type="checkbox"> แยกแม่แบบต้นฉบับออกจากสำเนาทำงานแล้ว</label>
 <label><input type="checkbox"> สร้างและเปิดเอกสารจากแม่แบบเดิมได้ก่อนเพิ่มเนื้อหา</label>
 <label><input type="checkbox"> โครงเอกสารตรงกับข้อกำหนดของผลงานที่เลือก</label>
+<label><input type="checkbox"> references.bib มี metadata และ abstract ที่ตรวจแหล่งแล้ว พร้อม bibliography audit</label>
+<label><input type="checkbox"> literature map และ candidate gap อ้าง citation keys พร้อม counterevidence/search-needed</label>
+<label><input type="checkbox"> แก้เนื้อหาใน Markdown และสร้าง generated LaTeX ใหม่ โดยไม่แก้สอง source คู่กัน</label>
 <label><input type="checkbox"> ย่อหน้าหลักทุกประโยคย้อนกลับไปยังข้อความหลัก หลักฐาน หรือข้อจำกัดได้</label>
 <label><input type="checkbox"> ตรวจชื่อผู้แต่ง ชื่อเรื่อง ปี DOI และตำแหน่งอ้างในเนื้อหาแล้ว</label>
 <label><input type="checkbox"> ตัวเลข หน่วย และคำอธิบายในรูป ตาราง และข้อความตรงกัน</label>
 <label><input type="checkbox"> ใช้ latexdiff ตรวจ snapshot ก่อนและหลัง โดยเก็บ diff.tex แยกจาก source หลักแล้ว</label>
 <label><input type="checkbox"> เปิดตรวจ PDF ฉบับจริงครบทุกหน้า ไม่ได้ดูเพียงข้อความว่าสร้างสำเร็จ</label>
 <label><input type="checkbox"> บันทึกจุดที่ยังผิด ผู้รับผิดชอบ และสิ่งที่ต้องตรวจภายนอกแล้ว</label>
+<label><input type="checkbox"> submission-readiness แยก PASS/FAIL/BLOCKED และไม่ปิดจุดค้างโดยไม่มีหลักฐาน</label>
+<label><input type="checkbox"> ทดลองเปลี่ยนวารสารด้วย dossier และ venue-change-impact ใหม่ โดยคงข้อมูล วิธี ผล และข้อจำกัดเดิม</label>
 <label><input type="checkbox"> กรอก <a href="downloads/module-08-venue-document-workbook.md">สมุดงาน Module 8</a> ครบ</label>
 <label><input type="checkbox"> ชิ้นงานผ่านการตรวจเนื้อหา ข้อกำหนด และการจัดหน้า โดยไม่มีข้อมูลหรือเอกสารอ้างอิงที่แต่งขึ้น</label>
 </div>
 </div></section>
 <section class="section markdown-section" id="การบ้าน" aria-labelledby="การบ้าน-heading"><div class="section-heading compact"><h2 id="การบ้าน-heading">การบ้าน</h2>
-</div><div class="markdown-body"><p>เพิ่มเนื้อหาอีกหนึ่งส่วน รูปหรือตารางอีกหนึ่งรายการ และการอ้างอิงที่ตรวจแล้ว ให้ AI สร้างเอกสารหลังเปลี่ยนงานแต่ละประเภท จากนั้นใช้ <code>latexdiff</code> เปรียบเทียบ snapshot ก่อนและหลัง พร้อมบันทึกว่าแก้เนื้อหาต้นทางส่วนใด เพราะเหตุใด และตรวจอย่างไรว่าความหมายของงานวิจัยไม่เปลี่ยน</p>
+</div><div class="markdown-body"><p>ใช้เคสตัวอย่างสร้างรายงานสำหรับวารสารจำลอง A จาก <code>source/manuscript.md</code> และ <code>references.bib</code> ให้ครบ journal dossier, candidate gap, LaTeX/PDF และ submission-readiness จากนั้นเปลี่ยนเป็นวารสารจำลอง B ด้วย dossier ใหม่ พร้อมบันทึกว่าแก้ Markdown ส่วนใด เพราะข้อกำหนดใด และตรวจอย่างไรว่าข้อมูล วิธี ผล และข้อจำกัดของงานไม่เปลี่ยน</p>
 </div></section>
 <section class="section markdown-section" id="review" aria-labelledby="review-heading"><div class="section-heading compact"><h2 id="review-heading">คำถามทบทวนท้ายบท</h2>
 </div><div class="markdown-body"><ol type="1">
-<li>ข้อกำหนดใดทำให้คุณเลือก Word หรือ LaTeX และหลักฐานอยู่ที่ใด</li>
+<li>เหตุใดบทเรียนนี้ให้แก้เนื้อหาใน Markdown แต่สร้าง LaTeX ใหม่ และเมื่อใดควรเลือกแก้ LaTeX โดยตรง</li>
 <li>เหตุใดต้องสร้างเอกสารจากแม่แบบเดิมให้สำเร็จก่อนเพิ่มเนื้อหา</li>
 <li>ทุกประโยคในย่อหน้าที่สร้างย้อนกลับไปยังข้อความหลัก หลักฐาน คำอธิบาย หรือขอบเขตใด</li>
 <li>หากสร้าง PDF สำเร็จแต่เนื้อหาหาย คุณจะตรวจเนื้อหาต้นทาง ขั้นประกอบ หรือขั้นสร้างเอกสารก่อน เพราะเหตุใด</li>
 <li>AI ช่วยประกอบและตรวจเอกสารได้อย่างไร โดยไม่รับผิดชอบข้อกล่าวอ้าง การอ้างอิง ความเป็นผู้ประพันธ์ และการทำตามข้อกำหนดแทนคุณ</li>
+<li>การไม่พบหัวข้อหนึ่งใน BibTeX ชุดเล็กต่างจากการยืนยัน research gap อย่างไร</li>
+<li>เมื่อเปลี่ยนวารสาร ส่วนใดปรับได้ และส่วนใดห้ามเปลี่ยนเพื่อทำให้งานดูเหมาะกับวารสารใหม่</li>
 <li>เหตุใด <code>diff.tex</code> จึงเป็นชิ้นงานตรวจทานและไม่ควรแทน source หลักของ manuscript</li>
 </ol>
 </div></section>

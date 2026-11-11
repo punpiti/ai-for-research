@@ -238,7 +238,7 @@ for number in 6 8 9; do
     printf 'Module %s stage prompts must use the shared copy-only command component.\n' "$number"
     failed=1
   fi
-  check_file "$site_dir/module-$number.html" "M$number shared copy command" "class=\"command markdown-command\" data-m${number}-stage-prompt"
+  check_file "$site_dir/module-$number.html" "M$number shared copy command" "class=\"command markdown-command( ai-prompt)?\" data-m${number}-stage-prompt"
 done
 check_file "$site_dir/module-7.html" "Thai population lab link" 'module-7-thailand-population-lab\.html'
 
@@ -415,11 +415,25 @@ if grep -Eqi 'Hypothesis Clinic|Data Intake and Quality Gate|DataFrame-to-Visual
 fi
 check_file "$site_dir/module-8.html" "M8 ready mock case" 'downloads/module-08-mock-publication-case\.md'
 check_file "$site_dir/module-8.html" "M8 publication demo" 'module-8-publication-demo\.html'
+check_file "$site_dir/module-8.html" "M8 journal dossier" 'Aims &amp; Scope'
+check_file "$site_dir/module-8.html" "M8 BibTeX abstract provenance" 'abstract_source'
+check_file "$site_dir/module-8.html" "M8 candidate gap" 'candidate gap'
+check_file "$site_dir/module-8.html" "M8 Markdown source of truth" 'source/manuscript\.md'
+check_file "$site_dir/module-8.html" "M8 journal switch impact" 'venue-change-impact'
+check_file "$site_dir/module-8.html" "M8 readiness states" 'PASS/FAIL/BLOCKED'
+check_file "$site_dir/module-8.html" "M8 mock journal A" 'module-08-mock-journal-a-profile\.md'
+check_file "$site_dir/module-8.html" "M8 mock journal B" 'module-08-mock-journal-b-profile\.md'
+check_file "$site_dir/module-8.html" "M8 mock BibTeX" 'module-08-mock-references\.bib'
+check_file "$site_dir/module-8.html" "M8 mock LaTeX" 'module-08-mock-report\.tex'
 check_file "$site_dir/assets/publication-demo.js" "M8 structured abstract" 'class="abstract"'
 check_file "$site_dir/assets/publication-demo.js" "M8 body-only columns" 'class="paper-body"'
 check_file "$site_dir/assets/publication-demo.css" "M8 visible overflow" 'overflow:visible'
 check_file "$site_dir/module-9.html" "M9 ready mock case" 'downloads/module-09-mock-workflow-case\.md'
 check_file "$site_dir/downloads/module-08-mock-publication-case.md" "M8 mock content" 'เคสฝึกสำหรับนิสิตและนักวิจัยมือใหม่ — โมดูล 8'
+check_file "$site_dir/downloads/module-08-mock-journal-a-profile.md" "M8 mock journal A is synthetic" 'เอกสารจำลอง.*ไม่ใช่วารสารจริง'
+check_file "$site_dir/downloads/module-08-mock-journal-b-profile.md" "M8 mock journal B is synthetic" 'เอกสารจำลอง.*ไม่ใช่วารสารจริง'
+check_file "$site_dir/downloads/module-08-mock-references.bib" "M8 mock BibTeX abstracts" 'abstract_source'
+check_file "$site_dir/downloads/module-08-mock-report.tex" "M8 mock report bibliography" '\\bibliography\{module-08-mock-references\}'
 check_file "$site_dir/downloads/module-09-mock-workflow-case.md" "M9 mock content" 'เคสฝึกสำหรับนิสิตและนักวิจัยมือใหม่ — โมดูล 9'
 check_file "$site_dir/module-7-thailand-population-lab.html" "official population data" 'catalog\.nso\.go\.th'
 check_file "$site_dir/module-7-thailand-population-lab.html" "survey statistics" 'ตารางไขว้'

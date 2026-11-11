@@ -13,6 +13,8 @@ This repository/folder is a deliberately small public export for GitHub Pages.
 - Public Google login shell that sends an ID token once to the same-origin classroom API; it contains no roster, stored credential, session secret, or account-state disclosure
 - Public classroom catalogue/detail pages containing reviewed syllabus summaries and enrollment status, but no roster, private classroom content, learner work, or entitlement data
 - Public JSON schemas and browser code used to validate learner submissions
+- Explicitly labelled synthetic Module 8 journal profiles, bibliography records,
+  data summaries, and LaTeX starter files used only for the publication exercise
 - GitHub Pages deployment configuration
 
 ## Never publish here
