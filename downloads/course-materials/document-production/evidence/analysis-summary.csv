@@ -1,0 +1,17 @@
+site,arm,period,n,mean_pm25,sd_pm25
+All,Comparison,Before,120,37.642,6.377
+All,Comparison,After,120,38.320,6.203
+All,Intervention,Before,120,37.018,7.126
+All,Intervention,After,120,34.357,3.671
+North,Comparison,Before,40,44.343,2.951
+North,Comparison,After,40,44.654,3.176
+North,Intervention,Before,40,44.424,3.274
+North,Intervention,After,40,35.504,3.144
+Central,Comparison,Before,40,38.015,3.105
+Central,Comparison,After,40,38.430,3.987
+Central,Intervention,Before,40,37.406,3.046
+Central,Intervention,After,40,33.005,4.289
+South,Comparison,Before,40,30.569,2.865
+South,Comparison,After,40,31.875,2.770
+South,Intervention,Before,40,29.224,4.028
+South,Intervention,After,40,34.560,3.093

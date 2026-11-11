@@ -8,6 +8,10 @@ bash -n "$root/downloads/setup-macos.sh"
 bash -n "$root/downloads/setup-module-07-linux.sh"
 bash -n "$root/downloads/setup-module-07-macos.sh"
 python3 -c 'import pathlib,sys; p=pathlib.Path(sys.argv[1]); compile(p.read_text(encoding="utf-8"), str(p), "exec")' "$root/downloads/setup-module-07.py"
+python3 -c 'import pathlib,sys; p=pathlib.Path(sys.argv[1]); compile(p.read_text(encoding="utf-8"), str(p), "exec")' "$root/downloads/setup-module-08.py"
+python3 -B "$root/scripts/test-module-8-installer.py"
+bash -n "$root/downloads/setup-module-08-linux.sh"
+bash -n "$root/downloads/setup-module-08-macos.sh"
 python3 -B "$root/scripts/test-module-7-cli.py"
 grep -q 'FINAL_RESULT PASS' "$root/downloads/setup-module-07.py"
 grep -q 'module-7-steps.js' "$root/module-7.html"
@@ -20,6 +24,14 @@ grep -q '\.airr/' "$root/downloads/setup-module-07.py"
 grep -q 'airr.sh' "$root/downloads/setup-module-07.py"
 grep -q 'airr.ps1' "$root/downloads/setup-module-07.py"
 grep -q 'Open this folder in VS Code' "$root/downloads/setup-module-07.py"
+grep -q 'FINAL_RESULT PASS' "$root/downloads/setup-module-08.py"
+grep -q 'setup-module-08-windows.ps1' "$root/module-8.html"
+grep -q 'setup-module-08-macos.sh' "$root/module-8.html"
+grep -q 'setup-module-08-linux.sh' "$root/module-8.html"
+grep -q 'continued-from-module-07' "$root/downloads/setup-module-08.py"
+grep -q 'standalone-example' "$root/downloads/setup-module-08.py"
+grep -q 'module-08-work' "$root/downloads/setup-module-08.py"
+grep -q 'build-module-08.sh' "$root/downloads/setup-module-08.py"
 [[ "$(grep -o 'workspaceTitle:' "$root/assets/module-7-steps.js" | wc -l)" -eq 5 ]]
 grep -q 'dataset.module7WorkspaceGuide' "$root/assets/module-7-steps.js"
 if grep -q 'href="downloads/' "$root/module-7.html"; then
@@ -115,6 +127,37 @@ assert {
     'course-materials/module-07/fonts/OFL.txt',
 } <= paths
 assert 'course-materials/module-07/tools/ai-for-research-course.py' in paths
+PY
+[[ -s "$root/downloads/course-materials-module-08.json" ]]
+python3 - "$root/downloads/course-materials-module-08.json" "$root/downloads/course-materials.json" <<'PY'
+import hashlib, json
+from pathlib import Path
+import sys
+
+module8 = json.loads(Path(sys.argv[1]).read_text(encoding='utf-8'))
+module7 = json.loads(Path(sys.argv[2]).read_text(encoding='utf-8'))
+assert module8['schema_version'] == 'ai-for-research.course-materials.v1'
+assert module8['module_id'] == 'module-08'
+assert len(module8['files']) == 11
+assert all(item['path'].startswith('course-materials/module-08/') for item in module8['files'])
+assert all('/downloads/course-materials/document-production/' in item['url'] for item in module8['files'])
+paths = {item['path'] for item in module8['files']}
+assert {
+    'course-materials/module-08/data/mock-study-data.csv',
+    'course-materials/module-08/evidence/module-07-highlights-example.md',
+    'course-materials/module-08/figures/pm25-before-after.png',
+    'course-materials/module-08/literature/references.bib',
+    'course-materials/module-08/templates/manuscript-starter.md',
+} <= paths
+m7_data = next(item for item in module7['files'] if item['path'].endswith('/mock-study-data.csv'))
+m8_data = next(item for item in module8['files'] if item['path'].endswith('/mock-study-data.csv'))
+assert m7_data['sha256'] == m8_data['sha256']
+for item in module8['files']:
+    relative = item['url'].split('/downloads/', 1)[1]
+    source = Path(sys.argv[1]).parent / relative
+    payload = source.read_bytes()
+    assert len(payload) == item['bytes']
+    assert hashlib.sha256(payload).hexdigest() == item['sha256']
 PY
 if rg -q 'scripts/context.py|workflow-registry|MACHINE_PROFILE|COMPUTING_ENVIRONMENT_VERSION' "$root/downloads/starter-STARTUP.md" "$root/downloads/starter-TOKEN-BUDGET.md" "$root/downloads/starter-TOKEN-DISCIPLINE.md"; then
   echo 'Token-economy starter must not pull full Agent Project Kit machinery.' >&2

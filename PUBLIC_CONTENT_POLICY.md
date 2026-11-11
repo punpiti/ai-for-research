@@ -15,6 +15,8 @@ This repository/folder is a deliberately small public export for GitHub Pages.
 - Public JSON schemas and browser code used to validate learner submissions
 - Explicitly labelled synthetic Module 8 journal profiles, bibliography records,
   data summaries, and LaTeX starter files used only for the publication exercise
+- The Module 8 manifest, checksum-verifying installer, synthetic PM2.5 dataset
+  shared byte-for-byte with Module 7, and learner-safe workspace templates
 - GitHub Pages deployment configuration
 
 ## Never publish here

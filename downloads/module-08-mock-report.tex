@@ -1,38 +1,45 @@
 \documentclass[11pt]{article}
 \usepackage[margin=1in]{geometry}
 \usepackage{booktabs}
-\usepackage{hyperref}
-\title{A Descriptive Before--After Hunger and Satiety Exercise}
-\author{Blinded for review}
+\usepackage{graphicx}
+\usepackage{natbib}
+\usepackage[hidelinks]{hyperref}
+
+\title{Site-specific PM2.5 changes in a synthetic before--after monitoring exercise}
+\author{Anonymous teaching example}
 \date{}
+
 \begin{document}
 \maketitle
+
 \begin{abstract}
-This synthetic teaching case describes group-level hunger and satiety ratings from 30 complete responses. Mean hunger before lunch was 7.2 and mean satiety after lunch was 8.1 on zero-to-ten scales. Participant-level observations, a comparison group, and inferential analyses were unavailable. The exercise supports document-production training and no causal conclusion.
+Pooled summaries can hide differences between monitoring sites. We described 480 synthetic sensor-week observations from three sites, two study arms, and periods before and after a simulated intervention. Mean PM2.5 in the intervention arm changed from 37.02 to 34.36~$\mu$g/m$^3$, while the comparison arm changed from 37.64 to 38.32~$\mu$g/m$^3$. North and Central intervention means decreased, whereas the South intervention mean increased from 29.22 to 34.56~$\mu$g/m$^3$. The exercise supports site-stratified descriptive reporting but does not support causal claims.
 \end{abstract}
+
 \section{Introduction}
-Brief outcome measures can support campus food-service evaluation when their anchors and interpretation limits are explicit \cite{mock2023scale,mock2025service}. The mock corpus contains descriptive campus studies but does not establish whether meal components explain before--after differences \cite{mock2024mealcontext}. This report demonstrates a bounded descriptive account rather than a confirmed research gap.
-\section{Methods}
-The synthetic dataset contains summary statistics for 30 complete responses. Hunger before lunch and satiety after lunch used scales from 0 to 10. No participant-level values, missingness record, comparison group, or inferential test was supplied.
+Overall before--after averages may conceal site heterogeneity \citep{Arun2024CommunityPM}. Repeated sensor observations also require attention to temporal structure and dependence \citep{Chen2023SensorWeeks}. This teaching report demonstrates claim calibration with a synthetic dataset.
+
+\section{Data and Methods}
+The dataset contained 480 observations from North, Central, and South sites. Each site included intervention and comparison arms, eight weeks before and eight weeks after a simulated intervention, and five sensor identifiers per arm-week. We calculated descriptive means by site, arm, and period. The exercise did not provide a random assignment mechanism, calibration records, covariates, or an inferential model.
+
 \section{Results}
-\begin{table}[ht]
-\centering
-\caption{Synthetic summary statistics.}
-\begin{tabular}{lrrr}
-\toprule
-Measure & $n$ & Mean & SD \\
-\midrule
-Hunger before lunch & 30 & 7.2 & 1.4 \\
-Satiety after lunch & 30 & 8.1 & 1.1 \\
-\bottomrule
-\end{tabular}
-\end{table}
+The intervention-arm mean changed from 37.02 to 34.36~$\mu$g/m$^3$; the comparison-arm mean changed from 37.64 to 38.32~$\mu$g/m$^3$. Intervention means decreased in North (44.42 to 35.50) and Central (37.41 to 33.01), while the South mean increased (29.22 to 34.56).
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\linewidth]{course-materials/document-production/figures/pm25-before-after.png}
+  \caption{Site-specific before--after means from the synthetic Module 7 dataset. Lines are descriptive summaries and do not show causal effects or uncertainty.}
+\end{figure}
+
 \section{Discussion}
-The after-lunch satiety mean was 0.9 points higher than the before-lunch hunger mean. The two measures describe different states, and the available summaries do not provide the paired differences or uncertainty required for a statistical comparison.
+The pooled decrease in the intervention arm does not represent every site. South changed in the opposite direction, so a report limited to the overall mean would overstate consistency. Causal language would exceed the available design evidence \citep{Diaz2025BeforeAfter}.
+
 \section{Limitations}
-All data and references in this package are synthetic. The absence of participant-level data, a comparison group, and inferential analysis blocks causal and population-level claims.
+The data are synthetic. The exercise lacks assignment details, calibration records, covariates, missing-data context, and uncertainty estimates that account for repeated sensor-week observations.
+
 \section{Conclusion}
-The case is suitable for practicing journal dossiers, BibTeX analysis, LaTeX builds, and submission-readiness checks. It does not support a claim about a real meal, population, or intervention effect.
-\bibliographystyle{plain}
+The dataset supports a descriptive conclusion that PM2.5 patterns differed by site. Additional design and measurement evidence would be required to attribute changes to the simulated intervention.
+
+\bibliographystyle{plainnat}
 \bibliography{module-08-mock-references}
 \end{document}

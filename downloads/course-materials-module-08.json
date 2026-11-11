@@ -1,0 +1,72 @@
+{
+  "schema_version": "ai-for-research.course-materials.v1",
+  "module_id": "module-08",
+  "files": [
+    {
+      "url": "https://urban.cpe.ku.ac.th/ai-for-research/downloads/course-materials/document-production/README.md",
+      "path": "course-materials/module-08/README.md",
+      "sha256": "13cc7351faa7c4adc2fbe7c6f692b7736d92e365c4138bc79596f3b38ffe26d7",
+      "bytes": 2919
+    },
+    {
+      "url": "https://urban.cpe.ku.ac.th/ai-for-research/downloads/course-materials/document-production/data/mock-study-data.csv",
+      "path": "course-materials/module-08/data/mock-study-data.csv",
+      "sha256": "23d88b118b5afd0626f445f61227646c76c8539a13d4a0575645cfea04609956",
+      "bytes": 42270
+    },
+    {
+      "url": "https://urban.cpe.ku.ac.th/ai-for-research/downloads/course-materials/document-production/evidence/analysis-summary.csv",
+      "path": "course-materials/module-08/evidence/analysis-summary.csv",
+      "sha256": "98493cd3d794f6a97e12b5ed19b1d7c71a3fa7196403f931bfd8e8e3c6a5fd45",
+      "bytes": 688
+    },
+    {
+      "url": "https://urban.cpe.ku.ac.th/ai-for-research/downloads/course-materials/document-production/evidence/module-07-highlights-example.md",
+      "path": "course-materials/module-08/evidence/module-07-highlights-example.md",
+      "sha256": "c4c827b2da6a12460b9b76b14a6d22f198050fef8f3fc166c8e0d07a9236a786",
+      "bytes": 2197
+    },
+    {
+      "url": "https://urban.cpe.ku.ac.th/ai-for-research/downloads/course-materials/document-production/figures/pm25-before-after.png",
+      "path": "course-materials/module-08/figures/pm25-before-after.png",
+      "sha256": "b6309883a7ff1b4b3a4c5b32b21452b7ec214c5be0e81b4bba79729aadc917de",
+      "bytes": 86841
+    },
+    {
+      "url": "https://urban.cpe.ku.ac.th/ai-for-research/downloads/course-materials/document-production/journal-dossiers/journal-a-profile.md",
+      "path": "course-materials/module-08/journal-dossiers/journal-a-profile.md",
+      "sha256": "6fe10f94118eacb896d62837a9a498bb35ccb01f0adf6780a5f4fb1cd35170b2",
+      "bytes": 1980
+    },
+    {
+      "url": "https://urban.cpe.ku.ac.th/ai-for-research/downloads/course-materials/document-production/journal-dossiers/journal-b-profile.md",
+      "path": "course-materials/module-08/journal-dossiers/journal-b-profile.md",
+      "sha256": "376e3e39216246da3e803df8369d67bcbc843daeba71a9a255f85c30b6ea9026",
+      "bytes": 1827
+    },
+    {
+      "url": "https://urban.cpe.ku.ac.th/ai-for-research/downloads/course-materials/document-production/literature/references.bib",
+      "path": "course-materials/module-08/literature/references.bib",
+      "sha256": "c7bddb180016c936b9581049ec0f9ceac7145c8ccfd42092f01e663fbcbf0202",
+      "bytes": 2241
+    },
+    {
+      "url": "https://urban.cpe.ku.ac.th/ai-for-research/downloads/course-materials/document-production/templates/manuscript-starter.md",
+      "path": "course-materials/module-08/templates/manuscript-starter.md",
+      "sha256": "42d98cb95063c73ea890b3a8682bff8ba06bf50b1fc72b55a91c9809a25479b1",
+      "bytes": 2169
+    },
+    {
+      "url": "https://urban.cpe.ku.ac.th/ai-for-research/downloads/course-materials/document-production/templates/submission-readiness-template.md",
+      "path": "course-materials/module-08/templates/submission-readiness-template.md",
+      "sha256": "521d6bfc409d9567529a4244586b7dec84bef86eb4e4389a80c70ccd3537e027",
+      "bytes": 629
+    },
+    {
+      "url": "https://urban.cpe.ku.ac.th/ai-for-research/downloads/course-materials/document-production/templates/venue-change-impact-template.md",
+      "path": "course-materials/module-08/templates/venue-change-impact-template.md",
+      "sha256": "e26ae6476bfd28e2e678bc9b3b52b82edb7d86cecd9fc54a052c170edcd4bbcc",
+      "bytes": 723
+    }
+  ]
+}

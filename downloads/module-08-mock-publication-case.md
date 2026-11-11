@@ -1,54 +1,63 @@
-# เคสฝึกสำหรับนิสิตและนักวิจัยมือใหม่ — โมดูล 8: จาก journal dossier สู่รายงาน LaTeX
+# เคสฝึกสำหรับนิสิตและนักวิจัยมือใหม่ — โมดูล 8
 
-เคสนี้ใช้ข้อมูลและวรรณกรรมสมมติเพื่อฝึก workflow ให้ครบตั้งแต่เลือกวารสาร วิเคราะห์ BibTeX ไปจนถึงสร้าง PDF ห้ามนำชื่อวารสาร ระเบียนอ้างอิง หรือข้อสรุปเรื่อง research gap ในชุดนี้ไปใช้เป็นหลักฐานในงานจริง
+## จากกราฟ Module 7 สู่รายงาน LaTeX
 
-## โจทย์และข้อมูลที่ตรวจแล้ว
+เคสนี้ใช้ข้อมูลจำลอง PM2.5 ชุดเดียวกับ Module 7 จำนวน 480 แถว ครอบคลุม North, Central และ South, กลุ่ม intervention/comparison, ช่วง before/after, 16 สัปดาห์ และ 5 sensors ต่อ site-arm-week
 
-โรงอาหารมหาวิทยาลัยทดลองวัดผู้เข้าร่วม 30 คนก่อนและหลังมื้อกลางวัน คำถามคือ “คะแนนความอิ่มหลังอาหารสูงกว่าคะแนนความหิวก่อนอาหารหรือไม่”
+ผู้เรียนไม่ต้องดาวน์โหลดไฟล์ทีละรายการ ใช้คำสั่งติดตั้งบนหน้า Module 8 เพื่อรับข้อมูล summary, figure, journal profiles, BibTeX และ Markdown starter ผ่าน manifest ของ AIRR พร้อม checksum
 
-| ตัวแปร | จำนวน | ค่าเฉลี่ย | ส่วนเบี่ยงเบนมาตรฐาน |
-|---|---:|---:|---:|
-| ความหิวก่อนอาหาร | 30 | 7.2 | 1.4 |
-| ความอิ่มหลังอาหาร | 30 | 8.1 | 1.1 |
+## ทางเข้าสองแบบ
 
-ข้อมูลมีเฉพาะค่าสรุป ไม่มีข้อมูลรายบุคคล ไม่มีกลุ่มเปรียบเทียบ และยังทดสอบความแตกต่างหรือเหตุและผลไม่ได้ รายงานจึงอธิบายได้เพียงความต่างของค่าเฉลี่ยในเคสสมมติ
+### เรียนต่อจาก Module 7
 
-## แฟ้มของเคส
+ตัวติดตั้งคัดลอก `module-07-work/module-07-highlights.md` และกราฟของผู้เรียนไปที่ `module-08-work/input/` โดยไม่เขียนทับไฟล์เดิม จากนั้นผู้เรียนใช้ผลที่ตนเองตรวจแล้วเขียนรายงาน
 
-- `module-08-mock-journal-a-profile.md` — วารสารจำลอง A เน้นการประเมินบริการอาหารในสถานศึกษา
-- `module-08-mock-journal-b-profile.md` — วารสารจำลอง B เน้นวิธีวิเคราะห์ข้อมูลสุขภาวะนักศึกษา
-- `module-08-mock-references.bib` — ระเบียนจำลองพร้อม abstract สำหรับฝึก literature map
-- `module-08-mock-report.tex` — ต้นฉบับ LaTeX ที่สร้าง PDF ได้และเรียก BibTeX
+### เริ่มที่ Module 8
 
-## งานรอบแรก: Journal A
+ตัวติดตั้งให้ `module-07-highlights-example.md`, `analysis-summary.csv` และ `pm25-before-after.png` ซึ่งคำนวณจากข้อมูล 480 แถวเดียวกัน ผู้เรียนจึงเริ่มจากงานเขียนและ publication workflow ได้ทันที
 
-1. อ่าน profile A แล้วสร้าง `journal-dossiers/mock-journal-a/journal-dossier.md`
-2. ตรวจ `module-08-mock-references.bib` และทำ `bibliography-audit.md`
-3. สกัด problem/outcome, population/context, method/design, finding และ limitation จาก abstract
-4. สร้าง `literature-map.md` และ `candidate-gap.md` โดยติดป้ายว่าเป็นข้อสังเกตภายใน mock corpus
-5. เปรียบเทียบ candidate gap กับข้อมูลที่มี แล้วตัดสิ่งที่ข้อมูลตอบไม่ได้
-6. ใช้ Markdown เป็น source of truth แล้วให้ AI สร้าง LaTeX/PDF ให้ตรง profile A โดยรักษาตัวเลขและข้อจำกัดเดิม
-7. ตรวจ log, citation, ตาราง และข้อความทุกหน้า
-8. สร้าง `submission-readiness.md` แยก PASS, FAIL และ BLOCKED
+## ขอบเขตหลักฐาน
 
-## คำสั่งให้ AI ทำรายงานฉบับแรก
+- Intervention overall mean: 37.02 → 34.36 µg/m³
+- Comparison overall mean: 37.64 → 38.32 µg/m³
+- North intervention: 44.42 → 35.50 µg/m³
+- Central intervention: 37.41 → 33.01 µg/m³
+- South intervention: 29.22 → 34.56 µg/m³
+- ไม่มีรายละเอียดการสุ่ม การมอบหมายมาตรการ ตัวแปรกวน calibration record หรือแบบจำลอง uncertainty
 
-> ทำ Module 8 mock case นี้ใน workspace ให้ครบ เริ่มจากอ่าน journal profile, BibTeX, LaTeX starter และข้อมูลในไฟล์นี้ สร้าง journal dossier พร้อมหลักฐานจาก profile วิเคราะห์ BibTeX จาก abstract เป็น literature map และ candidate gaps โดยห้ามอ้าง novelty จาก mock corpus สร้าง `source/manuscript.md` เป็นเนื้อหาหลัก แล้ว generate LaTeX ใน `generated/` และ compile ด้วย XeLaTeX + BibTeX ตรวจ log และ PDF จริง สร้าง submission-readiness report แยก PASS/FAIL/BLOCKED ห้ามแก้ตัวเลข แต่งสถิติ เพิ่มกลไก หรือรับรองความพร้อมส่งแทนฉัน
+รายงานจึงอธิบาย descriptive contrasts และ heterogeneity ตามพื้นที่ได้ แต่ห้ามสรุปว่ามาตรการเป็นสาเหตุของการเปลี่ยน PM2.5
 
-## งานรอบสอง: เปลี่ยนเป็น Journal B
+## งานรอบที่ 1 — Journal A
 
-เก็บแฟ้ม Journal A ไว้ทั้งหมด แล้วสร้าง dossier และ working copy ใหม่สำหรับ Journal B ทำ `venue-change-impact.md` เปรียบเทียบ scope, audience, structure, abstract length, citation style, anonymity, declarations และ submission files ปรับการนำเสนอเท่าที่ข้อกำหนดรองรับ ห้ามเปลี่ยนข้อมูล วิธี ผล หรือข้อจำกัด
+1. อ่าน `module-08-work/README-FIRST.md`
+2. ประเมิน scope, audience และ evidence fit ของ Journal A
+3. ตรวจ `literature/references.bib` และสร้าง bibliography audit, literature map และ candidate gap
+4. แก้ `source/manuscript.md` ให้เป็นรายงานจากข้อมูล PM2.5
+5. ให้ AI สร้าง `generated/main.tex` และ `build/manuscript.pdf`
+6. กรอก `submission/submission-readiness.md` เป็น PASS/FAIL/BLOCKED พร้อมหลักฐาน
 
-## คำสั่งเปลี่ยนวารสาร
+## งานรอบที่ 2 — เปลี่ยนเป็น Journal B
 
-> เปลี่ยนเป้าหมายจาก Mock Journal A เป็น Mock Journal B โดยไม่เขียนทับ dossier, generated LaTeX, PDF หรือ readiness report เดิม อ่าน profile B แล้วสร้าง dossier ใหม่ ทำ venue-change-impact เทียบทีละข้อ ประเมิน fit ใหม่ และ generate working copy/PDF สำหรับ Journal B จาก Markdown source เดิม ปรับ title, abstract, keywords, section order, template metadata และ submission package ได้ ห้ามเปลี่ยนข้อมูล วิธี ผล หรือข้อจำกัดเพื่อให้ดู fit หากข้อกำหนดใหม่ต้องการหลักฐานที่ไม่มี ให้ติด BLOCKED และบอกว่าต้องเก็บอะไรเพิ่ม
+1. อ่าน dossier ของ Journal B โดยไม่เขียนทับ Journal A
+2. กรอก `submission/venue-change-impact.md`
+3. ปรับ title, abstract, section structure, citation style และ submission package ตามข้อกำหนดใหม่
+4. คงข้อมูล วิธี ผล ตัวเลข และข้อจำกัดเดิม
+5. สร้าง LaTeX/PDF และ readiness report แยกจากรอบ Journal A
+
+## Prompt ตั้งต้น
+
+```text
+เปิด module-08-work/README-FIRST.md แล้วตรวจโครงสร้าง workspace ก่อน ใช้ไฟล์ใน input/ เป็นหลักฐานตั้งต้น ใช้ literature/references.bib เป็น citation corpus และใช้ journal-dossiers/journal-a/original/profile.md เป็นข้อกำหนดรอบแรก
+
+ช่วยฉันทำ journal dossier และ fit decision ก่อน จากนั้นตรวจ BibTeX พร้อม abstract สร้าง literature map และ candidate research gap ที่ยังไม่อ้างว่าเป็น novelty เมื่อฉันอนุมัติแล้ว ให้ช่วยเขียนรายงานที่ source/manuscript.md โดยใช้เฉพาะตัวเลขและข้อจำกัดจาก input/ ให้ไฟล์ Markdown นี้เป็น source of truth สร้าง generated/main.tex และ build/manuscript.pdf ใหม่ ห้ามแก้ Markdown กับ LaTeX เป็นสองต้นฉบับคู่กัน ปิดท้ายด้วย submission/submission-readiness.md ที่แยก PASS/FAIL/BLOCKED พร้อมหลักฐาน
+```
 
 ## เกณฑ์ผ่าน
 
-- dossier ของวารสารทั้งสองแยกกันและมีหลักฐานทุกข้อ
-- BibTeX audit ระบุชัดว่าระเบียนและ abstract เป็นข้อมูลจำลอง
-- candidate gap มี citation keys, counterevidence และ search-needed status
-- Markdown เป็น source of truth และ generated `.tex` ไม่ถูกใช้เป็นต้นฉบับคู่ขนาน
-- PDF ทั้งสองเปิดได้ citation ไม่เป็น `?` และตัวเลขตรงกับเคส
-- venue-change-impact แสดงสิ่งที่เปลี่ยนกับสิ่งที่ต้องคงเดิม
-- readiness report ไม่เปลี่ยน BLOCKED เป็น PASS โดยไม่มีหลักฐาน
+- อธิบายหน้าที่ของแต่ละโฟลเดอร์ได้
+- ตัวเลขในข้อความ ตาราง และรูปตรงกับ input
+- กล่าวถึง South heterogeneity และไม่ใช้ภาษาเชิงเหตุ
+- citation keys ทุกตัวมีใน BibTeX
+- Markdown เป็น source of truth เพียงชุดเดียว
+- PDF และ log ได้รับการตรวจจริง
+- การเปลี่ยนวารสารไม่เปลี่ยนข้อมูล วิธี ผล หรือข้อจำกัด

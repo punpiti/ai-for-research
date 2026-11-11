@@ -1,24 +1,24 @@
-# Mock Journal A — Campus Food Service Research
+# Mock Journal A — Applied Air Quality Practice
 
 เอกสารจำลองสำหรับ Module 8 เท่านั้น ไม่ใช่วารสารจริง
 
 ## Aims & Scope
 
-รับงานประเมินบริการอาหารในสถานศึกษา โดยเน้นผลลัพธ์ที่วัดได้ ประสบการณ์ผู้ใช้ และข้อจำกัดที่นำไปใช้ปรับบริการได้ ผู้อ่านหลักคือผู้บริหารโรงอาหาร นักโภชนาการ และนักวิจัยด้านบริการ
+รับรายงานประเมินคุณภาพอากาศที่เชื่อมผลวิเคราะห์กับการตัดสินใจในหน่วยงานหรือพื้นที่ ผู้อ่านหลักคือผู้จัดการสิ่งแวดล้อม เจ้าหน้าที่สาธารณสุข และนักวิจัยประยุกต์
 
-## Research Note
+## Practice Report
 
-- 1,500 คำ ไม่รวม references
-- Abstract แบบไม่มีหัวข้อย่อย ไม่เกิน 150 คำ
-- หัวข้อ: Introduction, Methods, Results, Discussion, Limitations, Conclusion
-- ตารางรวมไม่เกิน 3 ตาราง รูปรวมไม่เกิน 2 รูป
+- 1,800 คำ ไม่รวม references
+- Abstract แบบไม่มีหัวข้อย่อย ไม่เกิน 180 คำ
+- หัวข้อ: Introduction, Data and Methods, Results, Discussion, Limitations, Conclusion
+- ตารางไม่เกิน 3 ตาราง รูปไม่เกิน 3 รูป
 - ใช้ author–year citations และ BibTeX
-- ฉบับ review ต้องไม่มีชื่อผู้แต่ง สังกัด acknowledgments หรือข้อมูลใน PDF metadata
+- ฉบับ review ต้องไม่มีชื่อผู้แต่ง สังกัด acknowledgments หรือข้อมูลระบุตัวบุคคลใน PDF metadata
 
 ## Submission Package
 
-`manuscript.tex`, `references.bib`, figures, blinded PDF, title page แยก, cover letter, conflicts statement, funding statement, ethics/consent statement, data availability statement และ AI-use disclosure
+`manuscript.tex`, `references.bib`, figures, blinded PDF, title page แยก, cover letter, conflicts, funding, ethics/data statement และ AI-use disclosure
 
-## Readiness Note for the Mock Case
+## Evidence-fit Gate
 
-เคสมีเพียงค่าสรุปก่อน–หลัง ไม่มี participant-level data หรือ inferential analysis จึงรายงานได้เป็น descriptive research note เท่านั้น การอ้างว่ามื้ออาหารทำให้คะแนนเปลี่ยนเป็น BLOCKED
+รายงานข้อมูลเชิงสังเกตหรือการประเมินก่อน–หลังได้ แต่ต้องอธิบายกลุ่ม พื้นที่ เวลา ความไม่แน่นอน และข้อจำกัด ห้ามใช้ถ้อยคำเชิงเหตุเมื่อไม่มีหลักฐานการมอบหมายมาตรการ
