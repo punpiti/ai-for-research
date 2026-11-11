@@ -79,6 +79,17 @@ module evaluation, pseudonymous call sign, and timestamps. The progress schema
 rejects extra content fields. The admin dashboard can open/close Module 3
 separately and display latest-per-callsign progress and aggregate statistics.
 
+## Module 7 highlights submission
+
+Module 7 offers the same submission contract through the browser form and a
+standard-library Python client installed in the learner workspace. Both routes
+send only `module-07-highlights.md` from the supplied mock-data exercise. Raw
+data, analysis code, graph files, workspace paths, names, emails, and research
+material are excluded. The local client validates the Markdown first, asks for
+confirmation, stores the pseudonymous call-sign key in a mode-600 local receipt
+on supported systems, and can retrieve review status and feedback through the
+protected receipt key.
+
 Public copy is maintained separately. Do not build the site by recursively copying
 the private course workspace.
 

@@ -545,6 +545,20 @@
 </div></section>
 <section class="section markdown-section" id="analysis-highlights-submission" aria-labelledby="analysis-highlights-submission-heading"><div class="section-heading compact"><p class="eyebrow">ส่งงาน</p><h2 id="analysis-highlights-submission-heading">ส่ง Highlights กลับเข้าสู่ระบบ</h2>
 </div><div class="markdown-body"><p>ส่งเฉพาะ <code>module-07-work/module-07-highlights.md</code> จากโจทย์หลัก ระบบไม่รับแฟ้มข้อมูล โค้ด หรือภาพ ไฟล์นี้ใช้ข้อมูลจำลองของบทเรียน จึงส่งข้อความฉบับเต็มให้ผู้สอนตรวจได้ ห้ามใช้ช่องนี้ส่งข้อมูลวิจัยจริงหรือข้อมูลลับ</p>
+<div class="notice"><strong>เลือกวิธีส่งได้:</strong> ส่งผ่าน VS Code หรือใช้แบบฟอร์มบนเว็บ ทั้งสองวิธีเรียก API เดียวกันและส่งเฉพาะไฟล์ highlights</div>
+<h3>วิธีที่ 1 — ส่งจาก VS Code</h3>
+<p>ตัวติดตั้งเตรียมคำสั่งไว้ใน <code>tools/</code> แล้ว เปิด Terminal ที่โฟลเดอร์ <code>ai-for-research-workspace</code> และตรวจไฟล์ก่อนส่ง:</p>
+<p><strong>Windows PowerShell</strong></p>
+<div class="command terminal-command"><code>&amp; .\tools\module-07-course.ps1 check</code><button type="button" data-copy>คัดลอกคำสั่งตรวจไฟล์</button></div>
+<p><strong>macOS / Linux</strong></p>
+<div class="command terminal-command"><code>bash tools/module-07-course.sh check</code><button type="button" data-copy>คัดลอกคำสั่งตรวจไฟล์</button></div>
+<p>เมื่อผ่าน ให้แทน <code>YOUR-CLASS-CODE</code>, <code>YOUR-CALLSIGN</code> และจำนวนกราฟ แล้วรันคำสั่ง <code>submit</code> ระบบจะแสดงสรุปและถามยืนยันก่อนส่ง:</p>
+<div class="command terminal-command"><code>&amp; .\tools\module-07-course.ps1 submit --class-code YOUR-CLASS-CODE --callsign YOUR-CALLSIGN --chart-count 1 --ai-used yes</code><button type="button" data-copy>คัดลอกคำสั่งส่งงาน Windows</button></div>
+<div class="command terminal-command"><code>bash tools/module-07-course.sh submit --class-code YOUR-CLASS-CODE --callsign YOUR-CALLSIGN --chart-count 1 --ai-used yes</code><button type="button" data-copy>คัดลอกคำสั่งส่งงาน macOS / Linux</button></div>
+<p>Receipt จะอยู่ที่ <code>module-07-work/module-07-submission-receipt.json</code> และใช้ตรวจสถานะหรืออ่าน feedback ภายหลัง:</p>
+<div class="command terminal-command"><code>&amp; .\tools\module-07-course.ps1 status</code><button type="button" data-copy>คัดลอกคำสั่งดูสถานะ Windows</button></div>
+<div class="command terminal-command"><code>bash tools/module-07-course.sh status</code><button type="button" data-copy>คัดลอกคำสั่งดูสถานะ macOS / Linux</button></div>
+<h3>วิธีที่ 2 — ส่งผ่านแบบฟอร์มบนเว็บ</h3>
 <form class="module-submission-form" data-module-7-submission-form>
   <div class="form-grid">
     <label>รหัสคลาส<input name="class_code" required pattern="[A-Za-z0-9._-]{3,40}"></label>

@@ -8,6 +8,7 @@ bash -n "$root/downloads/setup-macos.sh"
 bash -n "$root/downloads/setup-module-07-linux.sh"
 bash -n "$root/downloads/setup-module-07-macos.sh"
 python3 -c 'import pathlib,sys; p=pathlib.Path(sys.argv[1]); compile(p.read_text(encoding="utf-8"), str(p), "exec")' "$root/downloads/setup-module-07.py"
+python3 -B "$root/scripts/test-module-7-cli.py"
 grep -q 'FINAL_RESULT PASS' "$root/downloads/setup-module-07.py"
 grep -q 'module-7-steps.js' "$root/module-7.html"
 grep -q 'setup-module-07-windows.ps1' "$root/module-7.html"
@@ -15,6 +16,8 @@ grep -q 'setup-module-07-macos.sh' "$root/module-7.html"
 grep -q 'setup-module-07-linux.sh' "$root/module-7.html"
 grep -q 'prepare_work_area(workspace)' "$root/downloads/setup-module-07.py"
 grep -q 'module-07-highlights.md' "$root/downloads/setup-module-07.py"
+grep -q 'module-07-course.sh' "$root/downloads/setup-module-07.py"
+grep -q 'module-07-course.ps1' "$root/downloads/setup-module-07.py"
 grep -q 'Open this folder in VS Code' "$root/downloads/setup-module-07.py"
 [[ "$(grep -o 'workspaceTitle:' "$root/assets/module-7-steps.js" | wc -l)" -eq 5 ]]
 grep -q 'dataset.module7WorkspaceGuide' "$root/assets/module-7-steps.js"
@@ -100,7 +103,7 @@ import sys
 manifest = json.loads(Path(sys.argv[1]).read_text(encoding='utf-8'))
 assert manifest['schema_version'] == 'ai-for-research.course-materials.v1'
 assert manifest['module_id'] == 'module-07'
-assert len(manifest['files']) == 16
+assert len(manifest['files']) == 17
 assert all(item['path'].startswith('course-materials/module-07/') for item in manifest['files'])
 assert all('/downloads/course-materials/visualization/' in item['url'] for item in manifest['files'])
 assert not any('instructor' in item['path'].lower() for item in manifest['files'])
@@ -110,6 +113,7 @@ assert {
     'course-materials/module-07/fonts/Sarabun-Bold.ttf',
     'course-materials/module-07/fonts/OFL.txt',
 } <= paths
+assert 'course-materials/module-07/tools/ai-for-research-course.py' in paths
 PY
 if rg -q 'scripts/context.py|workflow-registry|MACHINE_PROFILE|COMPUTING_ENVIRONMENT_VERSION' "$root/downloads/starter-STARTUP.md" "$root/downloads/starter-TOKEN-BUDGET.md" "$root/downloads/starter-TOKEN-DISCIPLINE.md"; then
   echo 'Token-economy starter must not pull full Agent Project Kit machinery.' >&2

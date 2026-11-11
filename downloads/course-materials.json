@@ -71,8 +71,8 @@
     {
       "url": "https://urban.cpe.ku.ac.th/ai-for-research/downloads/course-materials/visualization/templates/module-07-visualization-workflow-and-prompts.md",
       "path": "course-materials/module-07/templates/module-07-visualization-workflow-and-prompts.md",
-      "sha256": "9463cc88ba3cfce36d02daa0b4bfca19b59575877355678d5af790e68c46d935",
-      "bytes": 4960
+      "sha256": "70aa8ccd3398b9ae5c545f486ad27ed0a66413d2ea224ed72452fbe290a9e565",
+      "bytes": 5287
     },
     {
       "url": "https://urban.cpe.ku.ac.th/ai-for-research/downloads/course-materials/visualization/examples/figure-consistency/README.md",
@@ -97,6 +97,12 @@
       "path": "course-materials/module-07/examples/figure-consistency/figure-consistency-audit-template.md",
       "sha256": "6cc74aef8e4605c79c86d7553ab15ae622290fb3107aec4921d4c46b090015a0",
       "bytes": 4255
+    },
+    {
+      "url": "https://urban.cpe.ku.ac.th/ai-for-research/downloads/course-materials/visualization/tools/ai-for-research-course.py",
+      "path": "course-materials/module-07/tools/ai-for-research-course.py",
+      "sha256": "f3f121c401263094e1ba480bcb779f90f134c5f1d799b2f19b145f7d98c25402",
+      "bytes": 13669
     }
   ]
 }

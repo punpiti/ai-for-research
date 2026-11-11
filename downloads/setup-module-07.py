@@ -183,6 +183,23 @@ def write_launchers(workspace: Path, python: Path) -> None:
         f"& '{str(python).replace("'", "''")}' -m jupyter lab '{str(notebook).replace("'", "''")}'\n",
         encoding="utf-8",
     )
+    course_client = workspace / "course-materials/module-07/tools/ai-for-research-course.py"
+    if not course_client.is_file():
+        raise RuntimeError("Module 7 course client is missing after installation.")
+    course_shell = tools / "module-07-course.sh"
+    course_powershell = tools / "module-07-course.ps1"
+    course_shell.write_text(
+        "#!/usr/bin/env bash\nset -euo pipefail\n"
+        f"exec {shlex_quote(str(python))} {shlex_quote(str(course_client))} --workspace {shlex_quote(str(workspace))} \"$@\"\n",
+        encoding="utf-8",
+    )
+    course_shell.chmod(0o755)
+    course_powershell.write_text(
+        "$ErrorActionPreference = 'Stop'\n"
+        f"& '{str(python).replace("'", "''")}' '{str(course_client).replace("'", "''")}' --workspace '{str(workspace).replace("'", "''")}' @args\n"
+        "exit $LASTEXITCODE\n",
+        encoding="utf-8",
+    )
 
 
 def prepare_work_area(workspace: Path) -> Path:
