@@ -345,3 +345,17 @@ for p in sorted(pathlib.Path(sys.argv[1]).rglob('*.ps1')):
 if bad:
     sys.exit('ERROR: non-ASCII .ps1 without UTF-8 BOM: ' + ', '.join(bad))
 PY
+# Every course-materials manifest entry must match the file it points at
+# (a stale size/SHA makes every fresh Module 7/8 install fail).
+python3 - "$root" <<'PY'
+import hashlib, json, pathlib, sys
+root = pathlib.Path(sys.argv[1]); base = "https://urban.cpe.ku.ac.th/ai-for-research/downloads/"
+bad = []
+for manifest in sorted((root / "downloads").glob("course-materials*.json")):
+    for item in json.loads(manifest.read_text(encoding="utf-8")).get("files", []):
+        data = (root / "downloads" / item["url"][len(base):]).read_bytes()
+        if len(data) != item["bytes"] or hashlib.sha256(data).hexdigest() != item["sha256"]:
+            bad.append(f"{manifest.name}: {item['path']}")
+if bad:
+    sys.exit("ERROR: stale manifest entries (regenerate bytes/sha256): " + ", ".join(bad))
+PY
