@@ -145,6 +145,7 @@ if [[ "$dry_run" != 1 && "$mode" != --check ]]; then
     watched_paths+=("$course_dir/$name")
   done
   for name in python envs/research TinyTeX node npm uv-tools bin tessdata envs/research/pyvenv.cfg TinyTeX/tlpkg/texlive.tlpdb; do watched_paths+=("$trace_root/$name"); done
+  watched_paths+=("$HOME/.ai-for-research/TinyTeX" "$HOME/.ai-for-research/TinyTeX/tlpkg/texlive.tlpdb")
   for path in "${watched_paths[@]}"; do trace_path "$path" before; done
   finish_trace() {
     local result=$? status=completed

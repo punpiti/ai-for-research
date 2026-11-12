@@ -338,8 +338,27 @@ def ensure_node(root, agent):
     return binary
 
 
+def tex_root(root):
+    """TinyTeX location. XeLaTeX runs its PDF driver by absolute path through
+    the shell without quoting, so a path with spaces (macOS "Application
+    Support") fails with Error 32512 / exit 127. Use a space-free folder then."""
+    preferred = Path(root) / 'TinyTeX'
+    if not any(ch.isspace() for ch in str(preferred)):
+        return preferred
+    fallback = Path.home() / '.ai-for-research' / 'TinyTeX'
+    if any(ch.isspace() for ch in str(fallback)):
+        raise RuntimeError('XeLaTeX needs a folder path without spaces for TinyTeX; the home folder path contains spaces.')
+    return fallback
+
+
 def install_tex(root):
-    tex = root / 'TinyTeX'
+    tex = tex_root(root)
+    legacy = Path(root) / 'TinyTeX'
+    if tex != legacy and legacy.is_dir() and not tex.exists():
+        # TinyTeX is relocatable: move an earlier install instead of downloading again.
+        tex.parent.mkdir(parents=True, exist_ok=True)
+        shutil.move(str(legacy), str(tex))
+        log(f'MOVED TinyTeX to a path without spaces: {tex}')
     database = tex / 'tlpkg' / 'texlive.tlpdb'
     def package_names():
         return [line[5:] for line in database.read_text(encoding='utf-8').splitlines() if line.startswith('name ')] if database.exists() else None
@@ -504,7 +523,8 @@ def main():
         trace('phase', 'installer', 'runtime', 'started')
     trace_file = os.environ['AI_RESEARCH_TRACE_FILE']
     log(f'INSTALL_TRACE {trace_file}')
-    tracked = [root / name for name in ('python', 'envs/research', 'envs/research/pyvenv.cfg', 'TinyTeX', 'TinyTeX/tlpkg/texlive.tlpdb', 'node', 'npm', 'uv-tools', 'bin', 'tessdata')]
+    tracked = [root / name for name in ('python', 'envs/research', 'envs/research/pyvenv.cfg', 'node', 'npm', 'uv-tools', 'bin', 'tessdata')]
+    tracked += [tex_root(root), tex_root(root) / 'tlpkg' / 'texlive.tlpdb']
     tracked += [workspace / name for name in ('tools/runtime-env.json', 'tools/runtime-env.sh', 'tools/runtime-env.ps1', '.vscode/settings.json', '.codex/config.toml', '.claude/settings.local.json', '.clinerules/course.md', 'CLAUDE.md', '.gitignore', 'tools/airr.ps1', 'tools/airr.sh', '.airr/config.json')]
     _tracked_paths = tracked
     for path in tracked:

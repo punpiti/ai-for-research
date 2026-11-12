@@ -260,12 +260,15 @@ class RuntimeTests(unittest.TestCase):
                             info = tarfile.TarInfo(f'{folder}/bin/test-platform/{name}')
                             info.mode = 0o755; info.size = 1
                             bundle.addfile(info, io.BytesIO(b'x'))
-                with patch.object(runtime.platform, 'system', return_value=system), patch.object(runtime.platform, 'machine', return_value=arch), patch.object(runtime.urllib.request, 'urlretrieve', side_effect=download), patch.object(runtime, 'run') as command:
+                # The scratch folder contains a space, so TinyTeX must move to a space-free home folder.
+                home = Path(tempfile.mkdtemp(prefix='home-'))
+                with patch.object(runtime.Path, 'home', return_value=home), patch.object(runtime.platform, 'system', return_value=system), patch.object(runtime.platform, 'machine', return_value=arch), patch.object(runtime.urllib.request, 'urlretrieve', side_effect=download), patch.object(runtime, 'run') as command:
                     binary = runtime.install_tex(root)
                     runtime.install_tex(root)
                 self.assertEqual(len(calls), 1)
-                self.assertEqual(binary, root / 'TinyTeX/bin/test-platform')
-                self.assertTrue(all(str(c.args[0]).startswith(str(root)) for c in command.call_args_list))
+                self.assertEqual(binary, home / '.ai-for-research/TinyTeX/bin/test-platform')
+                self.assertNotIn(' ', str(binary))
+                self.assertTrue(all(str(c.args[0]).startswith(str(home)) for c in command.call_args_list))
                 installs = [c.args for c in command.call_args_list if c.args[1] == 'install']
                 self.assertTrue(all('setspace' in args and 'parskip' in args and 'fontsize' in args for args in installs))
                 self.assertTrue(all('dvipdfmx' in args for args in installs))
