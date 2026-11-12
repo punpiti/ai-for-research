@@ -63,7 +63,7 @@
         const message = review.querySelector("p");
         button.disabled = true;
         try {
-          await api(`/api/airr/v1/instructor/classes/${encodeURIComponent(classroomId)}/module-7/submissions/${encodeURIComponent(item.submission_id)}/review`, {
+          await api(`/api/ai-for-research/airr/v1/instructor/classes/${encodeURIComponent(classroomId)}/module-7/submissions/${encodeURIComponent(item.submission_id)}/review`, {
             method: "PUT",
             body: JSON.stringify({ decision: review.elements.decision.value, comment: review.elements.comment.value.trim() }),
           });
@@ -110,7 +110,7 @@
     }
     refresh.disabled = true;
     try {
-      const data = await api(`/api/airr/v1/instructor/classes/${encodeURIComponent(classroomId)}/module-7`);
+      const data = await api(`/api/ai-for-research/airr/v1/instructor/classes/${encodeURIComponent(classroomId)}/module-7`);
       render(data);
       statusNode.textContent = `AIRR โหลด ${data.submissions.length} รายการแล้ว`;
     } catch (error) {

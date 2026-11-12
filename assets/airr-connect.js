@@ -48,7 +48,7 @@
       revoke.addEventListener("click", async () => {
         revoke.disabled = true;
         try {
-          await api(`/api/airr/v1/keys/${encodeURIComponent(item.key_id)}`, { method: "DELETE" });
+          await api(`/api/ai-for-research/airr/v1/keys/${encodeURIComponent(item.key_id)}`, { method: "DELETE" });
           statusNode.textContent = "AIRR เพิกถอน key แล้ว";
           await loadKeys();
         } catch (error) {
@@ -63,7 +63,7 @@
   }
 
   async function loadKeys() {
-    const payload = await api("/api/airr/v1/keys");
+    const payload = await api("/api/ai-for-research/airr/v1/keys");
     renderKeys(Array.isArray(payload.keys) ? payload.keys : []);
   }
 
@@ -91,7 +91,7 @@
     createButton.disabled = true;
     oneTime.hidden = true;
     try {
-      const payload = await api("/api/airr/v1/keys", {
+      const payload = await api("/api/ai-for-research/airr/v1/keys", {
         method: "POST",
         body: JSON.stringify({ classroom_id: classroomId, label: "VS Code" }),
       });
