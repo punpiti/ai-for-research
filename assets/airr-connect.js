@@ -86,6 +86,40 @@
     }
   }
 
+  // One copy, one paste: a ready-made login command that already carries the key.
+  function showLoginCommands(apiKey) {
+    let box = oneTime.querySelector("[data-airr-login-commands]");
+    if (!box) {
+      box = document.createElement("div");
+      box.dataset.airrLoginCommands = "";
+      oneTime.append(box);
+    }
+    box.replaceChildren(text("p", "หรือคัดลอกคำสั่งนี้ไปวางใน Terminal ของ VS Code (ที่โฟลเดอร์ ai-for-research-workspace) ได้เลย ไม่ต้องวาง key เอง:"));
+    const isWindows = /Windows/i.test(navigator.userAgent);
+    const commands = [
+      ["Windows PowerShell", `& .\\tools\\airr.ps1 login --key ${apiKey}`],
+      ["macOS / Linux", `bash tools/airr.sh login --key ${apiKey}`],
+    ];
+    if (!isWindows) commands.reverse();
+    commands.forEach(([label, command]) => {
+      box.append(text("p", label));
+      const row = document.createElement("div");
+      row.className = "command terminal-command";
+      const button = text("button", "คัดลอกคำสั่ง login");
+      button.type = "button";
+      button.addEventListener("click", async () => {
+        try {
+          await navigator.clipboard.writeText(command);
+          button.textContent = "คัดลอกแล้ว";
+        } catch (_error) {
+          statusNode.textContent = "เบราว์เซอร์คัดลอกไม่ได้ กรุณาเลือกคำสั่งแล้วคัดลอกเอง";
+        }
+      });
+      row.append(text("code", command), button);
+      box.append(row);
+    });
+  }
+
   createButton.disabled = true;
   createButton.addEventListener("click", async () => {
     createButton.disabled = true;
@@ -96,8 +130,9 @@
         body: JSON.stringify({ classroom_id: classroomId, label: "VS Code" }),
       });
       keyNode.textContent = payload.api_key;
+      showLoginCommands(payload.api_key);
       oneTime.hidden = false;
-      statusNode.textContent = "AIRR สร้าง key แล้ว คัดลอกไปใช้กับคำสั่ง login ตอนนี้";
+      statusNode.textContent = "AIRR สร้าง key แล้ว คัดลอกคำสั่ง login ด้านบนไปวางใน Terminal ของ VS Code ได้ทันที";
       await loadKeys();
     } catch (error) {
       statusNode.textContent = `สร้าง AIRR Key ไม่สำเร็จ: ${error.message}`;
