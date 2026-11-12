@@ -50,6 +50,30 @@ trace_path() {
   elif [[ -d "$path" ]]; then state=directory; fi
   trace snapshot path "$path" "$stage" "$state"
 }
+report_failure() {
+  # Send a redacted failure report to AIRR automatically (owner decision
+  # 2026-11-13). Never changes the installer's exit status.
+  [[ "$dry_run" == 1 || "${AI_RESEARCH_NO_REPORT:-0}" == 1 || -z "$trace_file" ]] && return 0
+  local log_file="${trace_file%.jsonl}.log" tail_text key="${AI_RESEARCH_AIRR_KEY:-}" payload response ref
+  tail_text="$(tail -n 80 "$log_file" 2>/dev/null | tr -d '\000-\010\013\014\016-\037' \
+    | sed -e "s#$HOME#~#g" -e 's/airr_[A-Za-z0-9_-]\{16,\}/airr_[REDACTED]/g' -e 's/sk-[A-Za-z0-9_-]\{16,\}/sk-[REDACTED]/g' \
+    | tail -c 15000)"
+  if [[ -z "$key" && -f "$course_dir/.airr/config.json" ]]; then
+    key="$(sed -n 's/.*"api_key": *"\(airr_[A-Za-z0-9_-]*\)".*/\1/p' "$course_dir/.airr/config.json" | head -n 1)"
+  fi
+  payload="{\"schema_version\":\"airr.error-report.v1\",\"source\":\"installer-module-1\",\"os\":$(json_string "$(uname -s) $(uname -r)"),\"arch\":$(json_string "$(uname -m)"),\"setup_version\":$(json_string "$setup_version"),\"step\":$(json_string "$1"),\"exit_code\":${2:-null},\"message\":$(json_string "INSTALL_FAILED $1"),\"log_tail\":$(json_string "$tail_text")}"
+  local auth=()
+  [[ -n "$key" ]] && auth=(-H "Authorization: Bearer $key")
+  response="$(curl -fsS --max-time 15 -H 'Content-Type: application/json' ${auth[@]+"${auth[@]}"} \
+    --data-binary "$payload" "${AI_RESEARCH_REPORT_URL:-https://urban.cpe.ku.ac.th/api/airr/v1/error-reports}" 2>/dev/null)" || response=''
+  ref="$(printf '%s' "$response" | sed -n 's/.*"ref_code": *"\([A-Z0-9]*\)".*/\1/p')"
+  if [[ -n "$ref" ]]; then
+    printf '[AI for Research] ERROR_REPORT_SENT ref=%s - the instructor received this error automatically; quote this code when asking for help.\n' "$ref" >&2
+  else
+    printf '[AI for Research] ERROR_REPORT_NOT_SENT - send a screenshot of this window to the instructor.\n' >&2
+  fi
+  return 0
+}
 quiet() {
   if [[ -z "$trace_file" ]]; then "$@"; return; fi
   local result
@@ -59,6 +83,7 @@ quiet() {
   else
     result=$?; trace command process "$1" failed "$result"
     printf '[AI for Research] INSTALL_FAILED %s (exit %s). Details: %s\n' "$1" "$result" "${trace_file%.jsonl}.log" >&2
+    report_failure "$1" "$result"
     return "$result"
   fi
 }
@@ -167,6 +192,7 @@ check() {
   fi
   issue_text="$(IFS=';'; echo "${issues[*]}")"
   log "FINAL_RESULT FAIL - Missing: ${issue_text//;/; }"
+  report_failure "device-check: ${issue_text//;/; }" 1
   return 1
 }
 make_workspace() {
