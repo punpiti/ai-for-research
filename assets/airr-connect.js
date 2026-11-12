@@ -131,6 +131,8 @@
       });
       keyNode.textContent = payload.api_key;
       showLoginCommands(payload.api_key);
+      window.airrInstallKey = payload.api_key;
+      document.dispatchEvent(new CustomEvent("airr:key-created"));
       oneTime.hidden = false;
       statusNode.textContent = "AIRR สร้าง key แล้ว คัดลอกคำสั่ง login ด้านบนไปวางใน Terminal ของ VS Code ได้ทันที";
       await loadKeys();

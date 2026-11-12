@@ -10,10 +10,10 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/styles.css?v=20261111-2">
-  <script src="assets/app.js?v=20261011-4" defer></script>
+  <script src="assets/app.js?v=20261112-1" defer></script>
   <script src="assets/module-1-steps.js?v=20261010-3" defer></script>
   <script src="assets/module-1-submission.js?v=20261011-2" defer></script>
-  <script src="assets/airr-connect.js?v=20261111-2" defer></script>
+  <script src="assets/airr-connect.js?v=20261112-1" defer></script>
   <script src="assets/dev-auth.js?v=20261010-1"></script>
   <script src="assets/site-shell.js?v=20261111-1"></script>
 </head>
@@ -84,6 +84,10 @@
         <small id="project-name-status" data-project-name-status role="status" aria-live="polite">ชื่อนี้จะใช้เป็นโฟลเดอร์งานของคุณ</small>
       </div>
 
+      <div class="task-heading"><span class="content-kind is-terminal">ก่อนติดตั้ง</span><strong>สร้าง AIRR Key ก่อน แล้วคำสั่งติดตั้งจะใส่ key ให้เอง</strong></div>
+      <p>AIRR Key ใช้ส่งงานจาก VS Code ได้ทุกโมดูล ตัวติดตั้งจะเชื่อม workspace ให้ครั้งเดียว ไม่ต้อง login อีก ถ้า workspace นี้เคยเชื่อมแล้ว ตัวติดตั้งจะใช้การเชื่อมเดิมและไม่เขียนทับ ข้ามขั้นนี้ได้ แต่ต้องรัน <code>airr login</code> เองภายหลัง</p>
+      <div class="airr-connect" data-airr-connect><button class="button primary" type="button" data-airr-create-key>สร้าง AIRR Key สำหรับ VS Code</button><div class="airr-key-once" data-airr-key-once hidden><p><strong>คัดลอก AIRR Key ตอนนี้</strong></p><code data-airr-key></code><button class="button secondary" type="button" data-airr-copy-key>คัดลอก AIRR Key</button></div><div data-airr-key-list></div><p data-airr-connect-status role="status" aria-live="polite">กำลังตรวจบัญชี AIRR…</p></div>
+
       <div class="task-heading"><span class="content-kind is-terminal">คำสั่ง Terminal</span><strong>เลือกระบบ แล้วคัดลอกคำสั่งไปวาง</strong></div>
       <div class="platform-picker" role="group" aria-label="เลือกระบบปฏิบัติการ">
         <button type="button" data-platform-button="windows">Windows 11</button>
@@ -93,17 +97,17 @@
       <div class="platform-grid compact-platform-grid">
         <article class="platform-card" data-platform-panel="windows">
           <p class="platform-label">Windows 11</p><h3>เปิด PowerShell แบบปกติ</h3>
-          <div class="command"><code data-agent-command data-template="&amp; { $env:AI_RESEARCH_PROJECT_NAME={projectPs}; $setup = Join-Path $env:TEMP &#x27;ai-research-setup.ps1&#x27;; Invoke-WebRequest -UseBasicParsing -ErrorAction Stop &quot;https://urban.cpe.ku.ac.th/ai-for-research/downloads/setup-windows.ps1&quot; -OutFile $setup; powershell -NoProfile -ExecutionPolicy Bypass -File &quot;$setup&quot; -Mode Install -Agent {agent} }">&amp; { $env:AI_RESEARCH_PROJECT_NAME='ai-for-research-workspace'; $setup = Join-Path $env:TEMP 'ai-research-setup.ps1'; Invoke-WebRequest -UseBasicParsing -ErrorAction Stop "https://urban.cpe.ku.ac.th/ai-for-research/downloads/setup-windows.ps1" -OutFile $setup; powershell -NoProfile -ExecutionPolicy Bypass -File "$setup" -Mode Install -Agent openrouter }</code><button type="button" data-copy>คัดลอกคำสั่งติดตั้ง</button></div>
+          <div class="command"><code data-agent-command data-template="&amp; { $env:AI_RESEARCH_PROJECT_NAME={projectPs}; {airrPs}$setup = Join-Path $env:TEMP &#x27;ai-research-setup.ps1&#x27;; Invoke-WebRequest -UseBasicParsing -ErrorAction Stop &quot;https://urban.cpe.ku.ac.th/ai-for-research/downloads/setup-windows.ps1&quot; -OutFile $setup; powershell -NoProfile -ExecutionPolicy Bypass -File &quot;$setup&quot; -Mode Install -Agent {agent} }">&amp; { $env:AI_RESEARCH_PROJECT_NAME='ai-for-research-workspace'; $setup = Join-Path $env:TEMP 'ai-research-setup.ps1'; Invoke-WebRequest -UseBasicParsing -ErrorAction Stop "https://urban.cpe.ku.ac.th/ai-for-research/downloads/setup-windows.ps1" -OutFile $setup; powershell -NoProfile -ExecutionPolicy Bypass -File "$setup" -Mode Install -Agent openrouter }</code><button type="button" data-copy>คัดลอกคำสั่งติดตั้ง</button></div>
           <p class="expected">วางคำสั่ง กด Enter และตอบ Yes หาก Windows ขอสิทธิ์</p>
         </article>
         <article class="platform-card" data-platform-panel="macos">
           <p class="platform-label">macOS</p><h3>เปิด Terminal</h3>
-          <div class="command"><code data-agent-command data-template="setup=&quot;$(mktemp)&quot; &amp;&amp; curl -fsSL &quot;https://urban.cpe.ku.ac.th/ai-for-research/downloads/setup-macos.sh&quot; -o &quot;$setup&quot; &amp;&amp; AI_RESEARCH_PROJECT_NAME={projectSh} AI_GRAD_AGENT={agent} bash &quot;$setup&quot; --install">setup="$(mktemp)" &amp;&amp; curl -fsSL "https://urban.cpe.ku.ac.th/ai-for-research/downloads/setup-macos.sh" -o "$setup" &amp;&amp; AI_RESEARCH_PROJECT_NAME='ai-for-research-workspace' AI_GRAD_AGENT=openrouter bash "$setup" --install</code><button type="button" data-copy>คัดลอกคำสั่งติดตั้ง</button></div>
+          <div class="command"><code data-agent-command data-template="setup=&quot;$(mktemp)&quot; &amp;&amp; curl -fsSL &quot;https://urban.cpe.ku.ac.th/ai-for-research/downloads/setup-macos.sh&quot; -o &quot;$setup&quot; &amp;&amp; AI_RESEARCH_PROJECT_NAME={projectSh} {airrSh}AI_GRAD_AGENT={agent} bash &quot;$setup&quot; --install">setup="$(mktemp)" &amp;&amp; curl -fsSL "https://urban.cpe.ku.ac.th/ai-for-research/downloads/setup-macos.sh" -o "$setup" &amp;&amp; AI_RESEARCH_PROJECT_NAME='ai-for-research-workspace' AI_GRAD_AGENT=openrouter bash "$setup" --install</code><button type="button" data-copy>คัดลอกคำสั่งติดตั้ง</button></div>
           <p class="expected">วางคำสั่ง กด Enter และใส่รหัสผ่านของเครื่องเมื่อระบบขอ</p>
         </article>
         <article class="platform-card" data-platform-panel="linux">
           <p class="platform-label">Linux (Ubuntu/Debian)</p><h3>เปิด Terminal</h3>
-          <div class="command"><code data-agent-command data-template="setup=&quot;$(mktemp)&quot; &amp;&amp; curl -fsSL &quot;https://urban.cpe.ku.ac.th/ai-for-research/downloads/setup-linux.sh&quot; -o &quot;$setup&quot; &amp;&amp; AI_RESEARCH_PROJECT_NAME={projectSh} AI_GRAD_AGENT={agent} bash &quot;$setup&quot; --install">setup="$(mktemp)" &amp;&amp; curl -fsSL "https://urban.cpe.ku.ac.th/ai-for-research/downloads/setup-linux.sh" -o "$setup" &amp;&amp; AI_RESEARCH_PROJECT_NAME='ai-for-research-workspace' AI_GRAD_AGENT=openrouter bash "$setup" --install</code><button type="button" data-copy>คัดลอกคำสั่งติดตั้ง</button></div>
+          <div class="command"><code data-agent-command data-template="setup=&quot;$(mktemp)&quot; &amp;&amp; curl -fsSL &quot;https://urban.cpe.ku.ac.th/ai-for-research/downloads/setup-linux.sh&quot; -o &quot;$setup&quot; &amp;&amp; AI_RESEARCH_PROJECT_NAME={projectSh} {airrSh}AI_GRAD_AGENT={agent} bash &quot;$setup&quot; --install">setup="$(mktemp)" &amp;&amp; curl -fsSL "https://urban.cpe.ku.ac.th/ai-for-research/downloads/setup-linux.sh" -o "$setup" &amp;&amp; AI_RESEARCH_PROJECT_NAME='ai-for-research-workspace' AI_GRAD_AGENT=openrouter bash "$setup" --install</code><button type="button" data-copy>คัดลอกคำสั่งติดตั้ง</button></div>
           <p class="expected">วางคำสั่ง กด Enter และใส่รหัสผ่านของเครื่องเมื่อระบบขอ</p>
         </article>
       </div>
@@ -172,8 +176,7 @@ code .</code><button type="button" data-copy>คัดลอก</button></div></
       <div class="task-heading"><span class="content-kind is-submit">ส่งงาน</span><strong>ส่งสถานะความพร้อมให้ผู้สอน</strong></div>
       <p>บอกผู้สอนว่าคุณพร้อมเรียนหรือยัง ระบบส่งเฉพาะผลเช็กลิสต์ด้านบนและเวลาที่ใช้ ไม่ส่ง API key ไฟล์ หรือข้อมูลวิจัยของคุณ</p>
       <div class="notice"><strong>AIRR — AI for Research &amp; Review (แนะนำ):</strong> ใช้บัญชีเว็บสร้าง AIRR Key ครั้งเดียว แล้วส่งจาก VS Code โดยไม่ต้องกรอกรหัสคลาสหรือชื่อผู้ส่ง</div>
-      <div class="airr-connect" data-airr-connect><button class="button primary" type="button" data-airr-create-key>สร้าง AIRR Key สำหรับ VS Code</button><div class="airr-key-once" data-airr-key-once hidden><p><strong>คัดลอก AIRR Key ตอนนี้</strong></p><code data-airr-key></code><button class="button secondary" type="button" data-airr-copy-key>คัดลอก AIRR Key</button></div><div data-airr-key-list></div><p data-airr-connect-status role="status" aria-live="polite">กำลังตรวจบัญชี AIRR…</p></div>
-      <p class="form-help">ครั้งแรกให้รัน <code>airr login</code> แล้ววาง AIRR Key; ครั้งต่อไปใช้ key เดิมใน workspace นี้ได้</p>
+      <p class="form-help">ถ้าสร้าง AIRR Key ก่อนติดตั้ง ตัวติดตั้งเชื่อม VS Code ให้แล้ว ใช้คำสั่งด้านล่างได้เลย ถ้ายังไม่ได้เชื่อม ให้กลับไปสร้าง key ที่ขั้น 2 แล้วคัดลอกคำสั่ง login ที่หน้าเว็บแสดง</p>
       <div class="command terminal-command"><code>&amp; .\tools\airr.ps1 init module-1; &amp; .\tools\airr.ps1 submit module-1</code><button type="button" data-copy>คัดลอกคำสั่ง AIRR สำหรับ Windows</button></div>
       <div class="command terminal-command"><code>bash tools/airr.sh init module-1 &amp;&amp; bash tools/airr.sh submit module-1</code><button type="button" data-copy>คัดลอกคำสั่ง AIRR สำหรับ macOS / Linux</button></div>
       <details class="fallback-details"><summary>ส่งผ่านแบบฟอร์มเว็บเดิม</summary>

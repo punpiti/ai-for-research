@@ -24,6 +24,83 @@ summary = importlib.util.module_from_spec(summary_spec)
 summary_spec.loader.exec_module(summary)
 
 
+class AirrSetupTests(unittest.TestCase):
+    """Module 1 connects AIRR once; it never overwrites an earlier install."""
+
+    FAKE_CLIENT = (
+        "import json, pathlib, sys\n"
+        "args = sys.argv[1:]\n"
+        "ws = pathlib.Path(args[args.index('--workspace') + 1])\n"
+        "(ws / 'client-args.json').write_text(json.dumps(args))\n"
+        "if 'login' not in args: sys.exit(0)\n"
+        "key = args[args.index('--key') + 1]\n"
+        "if key == 'airr_bad': print('AIRR Key is invalid', file=sys.stderr); sys.exit(1)\n"
+        "(ws / '.airr').mkdir(exist_ok=True)\n"
+        "(ws / '.airr' / 'config.json').write_text(json.dumps({'api_key': key}))\n"
+        "print('AIRR CONNECTED \u00b7 Pilot (pilot-01)')\n"
+    )
+
+    def workspace(self, folder):
+        ws = Path(folder) / 'ผู้ใช้ ทดสอบ' / 'ai-for-research-workspace'
+        client = ws / runtime.AIRR_CLIENT
+        client.parent.mkdir(parents=True)
+        client.write_text(self.FAKE_CLIENT, encoding='utf-8')
+        return ws
+
+    def setup(self, ws, key=None):
+        out = io.StringIO()
+        env = {k: v for k, v in os.environ.items() if k not in ('AI_RESEARCH_AIRR_KEY', 'AI_RESEARCH_TRACE_FILE')}
+        if key:
+            env['AI_RESEARCH_AIRR_KEY'] = key
+        with patch.dict(os.environ, env, clear=True), contextlib.redirect_stdout(out):
+            runtime.setup_airr(ws, Path(sys.executable))
+            self.assertNotIn('AI_RESEARCH_AIRR_KEY', os.environ)
+        return out.getvalue()
+
+    def test_without_key_creates_launchers_only(self):
+        with tempfile.TemporaryDirectory() as folder:
+            ws = self.workspace(folder)
+            log = self.setup(ws)
+            self.assertIn('AIRR_NOT_CONNECTED', log)
+            self.assertTrue((ws / 'tools/airr.ps1').read_bytes().startswith(b'\xef\xbb\xbf'))
+            self.assertTrue(os.access(ws / 'tools/airr.sh', os.X_OK))
+            self.assertIn('.airr/', (ws / '.gitignore').read_text(encoding='utf-8').splitlines())
+            self.assertFalse((ws / '.airr/config.json').exists())
+
+    def test_key_connects_once_and_is_never_logged(self):
+        with tempfile.TemporaryDirectory() as folder:
+            ws = self.workspace(folder)
+            log = self.setup(ws, 'airr_secret_value')
+            self.assertIn('AIRR_CONNECTED', log)
+            self.assertNotIn('airr_secret_value', log)
+            self.assertEqual(json.loads((ws / 'client-args.json').read_text())[-3:], ['login', '--key', 'airr_secret_value'])
+            launcher = subprocess.run(['bash', str(ws / 'tools/airr.sh'), 'whoami'], capture_output=True, text=True)
+            self.assertEqual(launcher.returncode, 0, launcher.stderr)
+            self.assertEqual(json.loads((ws / 'client-args.json').read_text())[-1], 'whoami')
+
+    def test_bad_key_never_fails_install(self):
+        with tempfile.TemporaryDirectory() as folder:
+            ws = self.workspace(folder)
+            log = self.setup(ws, 'airr_bad')
+            self.assertIn('AIRR_LOGIN_SKIPPED', log)
+            self.assertFalse((ws / '.airr/config.json').exists())
+
+    def test_existing_install_is_never_overwritten(self):
+        with tempfile.TemporaryDirectory() as folder:
+            ws = self.workspace(folder)
+            (ws / 'tools').mkdir()
+            (ws / 'tools/airr.ps1').write_text('# from module 7\n', encoding='utf-8')
+            (ws / 'tools/airr.sh').write_text('# from module 7\n', encoding='utf-8')
+            (ws / '.airr').mkdir()
+            (ws / '.airr/config.json').write_text('{"api_key": "airr_existing"}', encoding='utf-8')
+            log = self.setup(ws, 'airr_new_key')
+            self.assertIn('AIRR_REUSE', log)
+            self.assertEqual((ws / 'tools/airr.ps1').read_text(encoding='utf-8'), '# from module 7\n')
+            self.assertEqual((ws / 'tools/airr.sh').read_text(encoding='utf-8'), '# from module 7\n')
+            self.assertIn('airr_existing', (ws / '.airr/config.json').read_text(encoding='utf-8'))
+            self.assertFalse((ws / 'client-args.json').exists())
+
+
 class RuntimeTests(unittest.TestCase):
     def test_module7_material_installer_verifies_hashes_and_preserves_edits(self):
         with tempfile.TemporaryDirectory(prefix='module7 materials ') as scratch:

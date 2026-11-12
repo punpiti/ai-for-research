@@ -181,14 +181,64 @@ def install_course_materials(workspace, manifest_url=COURSE_MATERIALS_MANIFEST_U
     return receipt
 
 
-def write_new(path, content):
+def write_new(path, content, encoding='utf-8'):
     trace_path(path, 'before')
     path.parent.mkdir(parents=True, exist_ok=True)
     if path.exists():
         log(f'REUSE_CONFIG {path}; check its permissions/environment if downloads are blocked.')
     else:
-        path.write_text(content, encoding='utf-8')
+        # .ps1 files are written with encoding='utf-8-sig': Windows PowerShell 5.1
+        # reads BOM-less scripts as ANSI and breaks on non-ASCII paths.
+        path.write_text(content, encoding=encoding)
     trace_path(path, 'after')
+
+
+AIRR_CLIENT = 'course-materials/module-07/tools/ai-for-research-course.py'
+
+
+def setup_airr(workspace, python):
+    """Create AIRR launchers and connect the workspace once, during Module 1.
+
+    Never replaces existing launchers or an existing .airr/config.json (for
+    example from an earlier Module 7 install), never fails the installer, and
+    never writes the key to logs or traces.
+    """
+    key = os.environ.pop('AI_RESEARCH_AIRR_KEY', '').strip()
+    client = workspace / AIRR_CLIENT
+    if not client.is_file():
+        log('AIRR_SKIPPED AIRR client is missing; rerun the installer later.')
+        return
+    quote_ps = lambda value: "'" + str(value).replace("'", "''") + "'"
+    write_new(workspace / 'tools' / 'airr.ps1',
+              "$ErrorActionPreference = 'Stop'\n"
+              f"& {quote_ps(python)} {quote_ps(client)} --workspace {quote_ps(workspace)} @args\n"
+              "exit $LASTEXITCODE\n", encoding='utf-8-sig')
+    shell = workspace / 'tools' / 'airr.sh'
+    write_new(shell, '#!/usr/bin/env bash\nset -euo pipefail\n'
+              f'exec {shlex.quote(str(python))} {shlex.quote(str(client))} --workspace {shlex.quote(str(workspace))} "$@"\n')
+    shell.chmod(shell.stat().st_mode | 0o755)
+    ignore = workspace / '.gitignore'
+    existing = ignore.read_text(encoding='utf-8') if ignore.exists() else ''
+    if '.airr/' not in {line.strip() for line in existing.splitlines()}:
+        ignore.write_text(existing.rstrip() + '\n.airr/\n', encoding='utf-8')
+    config = workspace / '.airr' / 'config.json'
+    if config.exists():
+        log('AIRR_REUSE This workspace is already connected to AIRR; kept the existing connection.')
+        return
+    if not key:
+        log('AIRR_NOT_CONNECTED Create an AIRR Key on the Module 1 page, then run tools/airr login once.')
+        return
+    try:
+        result = subprocess.run([str(python), str(client), '--workspace', str(workspace), 'login', '--key', key],
+                                capture_output=True, text=True, timeout=60)
+    except (OSError, subprocess.TimeoutExpired) as error:
+        log(f'AIRR_LOGIN_SKIPPED {type(error).__name__}; run tools/airr login later.')
+        return
+    if result.returncode == 0 and config.exists():
+        log('AIRR_CONNECTED ' + ((result.stdout or '').strip().splitlines() or [''])[0])
+    else:
+        reason = ((result.stderr or result.stdout or '').strip().splitlines() or ['unknown error'])[-1]
+        log(f'AIRR_LOGIN_SKIPPED {reason[:200]}; create a new key and run tools/airr login later.')
 
 
 def tool_root():
@@ -424,7 +474,7 @@ def main():
     trace_file = os.environ['AI_RESEARCH_TRACE_FILE']
     log(f'INSTALL_TRACE {trace_file}')
     tracked = [root / name for name in ('python', 'envs/research', 'envs/research/pyvenv.cfg', 'TinyTeX', 'TinyTeX/tlpkg/texlive.tlpdb', 'node', 'npm', 'uv-tools', 'bin', 'tessdata')]
-    tracked += [workspace / name for name in ('tools/runtime-env.json', 'tools/runtime-env.sh', 'tools/runtime-env.ps1', '.vscode/settings.json', '.codex/config.toml', '.claude/settings.local.json', '.clinerules/course.md', 'CLAUDE.md', '.gitignore')]
+    tracked += [workspace / name for name in ('tools/runtime-env.json', 'tools/runtime-env.sh', 'tools/runtime-env.ps1', '.vscode/settings.json', '.codex/config.toml', '.claude/settings.local.json', '.clinerules/course.md', 'CLAUDE.md', '.gitignore', 'tools/airr.ps1', 'tools/airr.sh', '.airr/config.json')]
     _tracked_paths = tracked
     for path in tracked:
         trace_path(path, 'before')
@@ -477,6 +527,7 @@ def main():
             raise RuntimeError('Thai PDF check did not produce a PDF.')
     install_course_materials(workspace)
     configure(workspace, args.agent, root, env, python_receipt)
+    setup_airr(workspace, python_bin / ('python.exe' if os.name == 'nt' else 'python'))
     for path in tracked:
         trace_path(path, 'after')
     trace('snapshot', 'python-packages', env['UV_PROJECT_ENVIRONMENT'], 'after', json.dumps(python_receipt['packages']))

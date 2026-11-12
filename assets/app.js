@@ -628,9 +628,14 @@ function renderWorkspaceState(projectName, agent) {
       .replaceAll("{agent}", activeAgent)
       .replaceAll("{projectPs}", quotePowerShell(projectName))
       .replaceAll("{projectSh}", quotePosix(projectName))
+      .replaceAll("{airrPs}", window.airrInstallKey ? `$env:AI_RESEARCH_AIRR_KEY=${quotePowerShell(window.airrInstallKey)}; ` : "")
+      .replaceAll("{airrSh}", window.airrInstallKey ? `AI_RESEARCH_AIRR_KEY=${quotePosix(window.airrInstallKey)} ` : "")
       .replaceAll("{project}", projectName);
   }
 }
+
+// A key created on this page is put straight into the install commands.
+document.addEventListener("airr:key-created", () => renderWorkspaceState(savedProjectName()));
 
 function setupProjectName() {
   const input = document.querySelector("[data-project-name-input]");
