@@ -39,6 +39,22 @@ jobs:
       - uses: actions/checkout@v4
       - run: bash scripts/test-installer-behavior.sh "${{ matrix.installer }}" "${{ matrix.agent }}" "${{ matrix.state }}"
 
+  module-7-8-platforms:
+    # Learner-facing Module 7/8 bootstraps on the platforms testers use:
+    # macOS stock bash 3.2 and Windows PowerShell 5.1 (not pwsh).
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 scripts/test-module-7-8-platforms.py
+        if: runner.os != 'Windows'
+      - run: python scripts/test-module-7-8-platforms.py
+        if: runner.os == 'Windows'
+        shell: powershell
+
   windows-behavior:
     strategy:
       fail-fast: false
