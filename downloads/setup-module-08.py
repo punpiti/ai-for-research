@@ -249,10 +249,10 @@ def write_build_launchers(workspace: Path) -> None:
         "$workspace = Split-Path -Parent $PSScriptRoot\n"
         "$work = Join-Path $workspace 'module-08-work'\n"
         "$main = Join-Path $work 'generated/main.tex'\n"
-        "if (-not (Test-Path -LiteralPath $main -PathType Leaf)) { throw 'Missing generated/main.tex — ask AI to generate it from source/manuscript.md first.' }\n"
+        "if (-not (Test-Path -LiteralPath $main -PathType Leaf)) { throw 'Missing generated/main.tex - ask AI to generate it from source/manuscript.md first.' }\n"
         "New-Item -ItemType Directory -Force -Path (Join-Path $work 'build') | Out-Null\n"
         "Set-Location $work\nlatexmk -xelatex -bibtex -interaction=nonstopmode -halt-on-error -outdir=build generated/main.tex\n",
-        encoding="utf-8",
+        encoding="utf-8-sig",
     )
 
 

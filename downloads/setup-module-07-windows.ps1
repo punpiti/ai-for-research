@@ -15,7 +15,7 @@ function Find-Uv {
 try {
   $uv = Find-Uv
   if (-not $uv) {
-    Write-Host '[AI for Research · Module 7] Installing uv under the current user account.'
+    Write-Host '[AI for Research - Module 7] Installing uv under the current user account.'
     $uvInstaller = Join-Path $env:TEMP 'ai-module07-install-uv.ps1'
     Invoke-WebRequest -UseBasicParsing -ErrorAction Stop 'https://astral.sh/uv/install.ps1' -OutFile $uvInstaller
     powershell -NoProfile -ExecutionPolicy Bypass -File $uvInstaller
@@ -29,6 +29,6 @@ try {
   & $uv run --no-project --python 3.12 python $setup --workspace $Workspace
   if ($LASTEXITCODE -ne 0) { throw "Module 7 setup failed with exit code $LASTEXITCODE." }
 } catch {
-  Write-Host "[AI for Research · Module 7] FINAL_RESULT FAIL — $($_.Exception.Message)" -ForegroundColor Red
+  Write-Host "[AI for Research - Module 7] FINAL_RESULT FAIL - $($_.Exception.Message)" -ForegroundColor Red
   exit 1
 }

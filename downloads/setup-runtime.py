@@ -352,7 +352,7 @@ def configure(workspace, agent, root, env, python_receipt=None):
     (tools / 'runtime-env.json').write_text(json.dumps(receipt, indent=2), encoding='utf-8')
     (tools / 'runtime-env.sh').write_text('\n'.join(f'export {k}={shlex.quote(v)}' for k, v in env.items()) + '\n', encoding='utf-8')
     ps = '\n'.join("$env:" + k + " = '" + v.replace("'", "''") + "'" for k, v in env.items())
-    (tools / 'runtime-env.ps1').write_text(ps + '\n', encoding='utf-8')
+    (tools / 'runtime-env.ps1').write_text(ps + '\n', encoding='utf-8-sig')
     # Configure only this workspace. Existing user configuration always wins.
     settings = {f'terminal.integrated.env.{p}': env for p in ('windows', 'osx', 'linux')}
     if python_receipt:

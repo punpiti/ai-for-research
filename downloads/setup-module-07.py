@@ -181,7 +181,7 @@ def write_launchers(workspace: Path, python: Path) -> None:
     powershell.write_text(
         "$ErrorActionPreference = 'Stop'\n"
         f"& '{str(python).replace("'", "''")}' -m jupyter lab '{str(notebook).replace("'", "''")}'\n",
-        encoding="utf-8",
+        encoding="utf-8-sig",
     )
     course_client = workspace / "course-materials/module-07/tools/ai-for-research-course.py"
     if not course_client.is_file():
@@ -199,12 +199,12 @@ def write_launchers(workspace: Path, python: Path) -> None:
     )
     course_shell.write_text(shell_content, encoding="utf-8")
     course_shell.chmod(0o755)
-    course_powershell.write_text(powershell_content, encoding="utf-8")
+    course_powershell.write_text(powershell_content, encoding="utf-8-sig")
     legacy_shell = tools / "module-07-course.sh"
     legacy_powershell = tools / "module-07-course.ps1"
     legacy_shell.write_text(shell_content, encoding="utf-8")
     legacy_shell.chmod(0o755)
-    legacy_powershell.write_text(powershell_content, encoding="utf-8")
+    legacy_powershell.write_text(powershell_content, encoding="utf-8-sig")
 
 
 def prepare_work_area(workspace: Path) -> Path:

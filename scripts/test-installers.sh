@@ -332,3 +332,15 @@ grep -q 'คัดลอกข้อมูลให้ AI' "$root/assets/app.js"
 grep -q 'profileContextText' "$root/assets/app.js"
 grep -q 'profileKeysByModule' "$root/assets/app.js"
 echo 'Installer static checks passed.'
+# Windows PowerShell 5.1 reads BOM-less .ps1 as ANSI; UTF-8 punctuation (e.g. an em dash) breaks parsing.
+# Every shipped .ps1 must be pure ASCII or start with a UTF-8 BOM.
+python3 - "$root" <<'PY'
+import pathlib, sys
+bad = []
+for p in sorted(pathlib.Path(sys.argv[1]).rglob('*.ps1')):
+    b = p.read_bytes()
+    if not b.startswith(b'\xef\xbb\xbf') and any(c > 127 for c in b):
+        bad.append(str(p))
+if bad:
+    sys.exit('ERROR: non-ASCII .ps1 without UTF-8 BOM: ' + ', '.join(bad))
+PY
