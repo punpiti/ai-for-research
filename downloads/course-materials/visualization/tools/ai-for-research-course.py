@@ -27,6 +27,7 @@ MAX_GRAPH_BYTES = 2 * 1024 * 1024
 MAX_GRAPH_TOTAL_BYTES = 8 * 1024 * 1024
 MAX_GRAPHS = 5
 MAX_RESPONSE_BYTES = 256 * 1024
+MAX_MATERIAL_BYTES = 10 * 1024 * 1024
 GRAPH_SUFFIXES = {".png": "image/png", ".jpg": "image/jpeg", ".jpeg": "image/jpeg", ".webp": "image/webp"}
 REQUIRED_HEADINGS = (
     "คำถามที่สำรวจ",
@@ -416,6 +417,48 @@ def command_logout(args: argparse.Namespace) -> None:
     print("AIRR DISCONNECTED · key บนเว็บยังใช้งานได้จนกว่าจะกดเพิกถอน")
 
 
+def request_bytes(url: str, api_key: str) -> bytes:
+    request = Request(url, method="GET", headers={"User-Agent": "AIRR-VS-Code/1", "Authorization": f"Bearer {api_key}"})
+    try:
+        with urlopen(request, timeout=60) as response:
+            raw = response.read(MAX_MATERIAL_BYTES + 1)
+    except HTTPError as error:
+        try:
+            detail = json.loads(error.read(MAX_RESPONSE_BYTES).decode("utf-8")).get("detail")
+        except (UnicodeDecodeError, json.JSONDecodeError, AttributeError):
+            detail = None
+        raise AIRRError(str(detail or f"AIRR ตอบ HTTP {error.code}")) from error
+    except (URLError, TimeoutError, OSError) as error:
+        raise AIRRError(f"เชื่อมต่อ AIRR ไม่ได้: {error}") from error
+    if len(raw) > MAX_MATERIAL_BYTES:
+        raise AIRRError("ไฟล์จาก AIRR ใหญ่ผิดปกติ")
+    return raw
+
+
+M4_RULE_FILES = ("citation-audit-rules.md", "citation-register-template.csv")
+
+
+def command_materials(args: argparse.Namespace) -> None:
+    """Fetch Module 4 practice files with the AIRR Key (the course pages are login-protected)."""
+    workspace = resolve_workspace(args.workspace)
+    config = read_config(workspace)
+    assert config is not None
+    targets = [(name, workspace / "course-materials" / "module-04" / name, True) for name in M4_RULE_FILES]
+    if args.thai:
+        targets.append(("mock-paper-th.pdf", workspace / "module-04-work" / "thai-mock" / "input" / "original" / "mock-paper-th.pdf", False))
+    else:
+        targets.append(("mock-paper.pdf", workspace / "module-04-work" / "input" / "original" / "mock-paper.pdf", False))
+    for name, target, replace in targets:
+        if target.exists() and not replace:
+            print(f"AIRR SKIP · มีไฟล์อยู่แล้ว: {target.relative_to(workspace)}")
+            continue
+        content = request_bytes(f"{config['api_base']}/modules/module-4/materials/{name}", config["api_key"])
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_bytes(content)
+        print(f"AIRR GET · {target.relative_to(workspace)} ({len(content)} bytes)")
+    print("AIRR MATERIALS PASS · module-4")
+
+
 def command_whoami(args: argparse.Namespace) -> None:
     workspace = resolve_workspace(args.workspace)
     config = read_config(workspace)
@@ -564,6 +607,10 @@ def parser() -> argparse.ArgumentParser:
     add_module_files(submit)
     submit.add_argument("--yes", action="store_true", help="ส่งโดยไม่ถามยืนยันซ้ำ")
     submit.set_defaults(handler=command_submit)
+    materials = commands.add_parser("materials", help="ดาวน์โหลดไฟล์ฝึกของ Module 4 ด้วย AIRR Key")
+    materials.add_argument("module", choices=("module-4",))
+    materials.add_argument("--thai", action="store_true", help="ดาวน์โหลดบทความจำลองภาษาไทยไปที่ module-04-work/thai-mock")
+    materials.set_defaults(handler=command_materials)
     status = commands.add_parser("status", help="ดูผลตรวจและ feedback")
     status.add_argument("module", choices=("module-1", "module-2", "module-3", "module-4", "module-7"))
     status.set_defaults(handler=command_status)

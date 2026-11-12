@@ -250,6 +250,8 @@ grep -q 'OpenAlex API ด้วย DOI ก่อน' "$root/module-4.html"
 grep -q 'ห้ามดาวน์โหลดผ่านสิทธิ์สมาชิกแบบอัตโนมัติ' "$root/module-4.html"
 grep -q 'ไม่พบใน OpenAlex ไม่ได้แปลว่าปลอม' "$root/module-4.html"
 grep -q 'airr.ps1 submit module-4' "$root/module-4.html"
+grep -q 'airr.ps1 materials module-4' "$root/module-4.html"
+if grep -q 'curl -fsSL "\$b/mock-paper' "$root/module-4.html"; then echo 'Module 4 downloads are login-protected; use airr materials.' >&2; exit 1; fi
 grep -q 'airr.sh submit module-4' "$root/module-4.html"
 grep -q 'course-materials/module-04/citation-audit-rules.md' "$root/module-4.html"
 if grep -q 'ในเอกสารประกอบ' "$root/module-4.html"; then
