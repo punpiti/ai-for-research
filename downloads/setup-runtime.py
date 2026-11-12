@@ -241,6 +241,32 @@ def setup_airr(workspace, python):
         log(f'AIRR_LOGIN_SKIPPED {reason[:200]}; create a new key and run tools/airr login later.')
 
 
+def pdf_driver_diagnostics(tex_bin):
+    """Record why XeLaTeX could not run its PDF driver (Error 32512 = exit 127)."""
+    driver = Path(tex_bin) / ('xdvipdfmx.exe' if os.name == 'nt' else 'xdvipdfmx')
+    lines = ['PDF_DRIVER_DIAGNOSTICS',
+             f'which xelatex={shutil.which("xelatex")}', f'which xdvipdfmx={shutil.which("xdvipdfmx")}',
+             f'driver={driver} exists={driver.exists()} is_symlink={driver.is_symlink()}',
+             f'PATH head={os.environ.get("PATH", "").split(os.pathsep)[:4]}']
+    if driver.is_symlink():
+        lines.append(f'symlink target={os.readlink(driver)}')
+    if driver.exists():
+        lines.append(f'executable={os.access(driver, os.X_OK)} mode={oct(driver.stat().st_mode)}')
+    probes = [[str(driver), '--version']]
+    if platform.system() == 'Darwin':
+        probes += [['xattr', '-l', str(driver)], ['file', str(driver.resolve())], ['sw_vers']]
+    for command in probes:
+        try:
+            result = subprocess.run(command, capture_output=True, text=True, timeout=20)
+            output = (result.stdout + result.stderr).strip().splitlines()[:6]
+            lines.append(f'$ {" ".join(command)} -> exit {result.returncode}: ' + ' | '.join(output))
+        except Exception as error:
+            lines.append(f'$ {" ".join(command)} -> {type(error).__name__}: {error}')
+    for line in lines:
+        diagnostic(line)
+        print(f'[AI for Research] {line}', flush=True)
+
+
 def tool_root():
     if os.name == 'nt':
         return Path(os.environ['LOCALAPPDATA']) / 'ai-for-research'
@@ -527,7 +553,11 @@ def main():
         source = Path(scratch) / 'check.md'
         pdf = Path(scratch) / 'check.pdf'
         source.write_text('# ทดสอบ Python และ LaTeX\n\nAI for Research พร้อมใช้งาน\n', encoding='utf-8')
-        run('pandoc', source, '--defaults', 'templates/modern-thai.yaml', '-o', pdf, cwd=workspace)
+        try:
+            run('pandoc', source, '--defaults', 'templates/modern-thai.yaml', '-o', pdf, cwd=workspace)
+        except subprocess.CalledProcessError:
+            pdf_driver_diagnostics(tex_bin)
+            raise
         if not pdf.is_file() or pdf.stat().st_size == 0:
             raise RuntimeError('Thai PDF check did not produce a PDF.')
     install_course_materials(workspace)
