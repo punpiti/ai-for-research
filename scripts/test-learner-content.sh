@@ -357,6 +357,23 @@ with tempfile.TemporaryDirectory(prefix="module2-validator-test-") as folder:
     passed = subprocess.run([sys.executable, str(validator), str(submission), str(markdown)], capture_output=True, text=True)
     assert passed.returncode == 0, passed.stderr
     assert "LOCAL_CHECK PASS" in passed.stdout
+    assert '"prompt_round_2_outcome": "improved"' in passed.stdout
+    # Round 2 equal to or worse than an incomplete round 1 is an honest result and passes;
+    # a round whose counts do not add up to the claim count is inconsistent and fails.
+    for prompt_test, expected in (
+        ({"round_1_traceable": 4, "round_1_unsupported": 4, "round_2_traceable": 4, "round_2_unsupported": 4}, "same"),
+        ({"round_1_traceable": 5, "round_1_unsupported": 3, "round_2_traceable": 3, "round_2_unsupported": 5}, "worse"),
+        ({"round_1_traceable": 4, "round_1_unsupported": 4, "round_2_traceable": 3, "round_2_unsupported": 4}, None),
+    ):
+        variant = json.loads(json.dumps(example))
+        variant["result"]["prompt_test"] = prompt_test
+        submission.write_text(json.dumps(variant, ensure_ascii=False), encoding="utf-8")
+        checked = subprocess.run([sys.executable, str(validator), str(submission), str(markdown)], capture_output=True, text=True)
+        if expected is None:
+            assert checked.returncode == 1 and "LOCAL_CHECK FAIL" in checked.stderr, checked.stdout
+        else:
+            assert checked.returncode == 0, checked.stderr
+            assert f'"prompt_round_2_outcome": "{expected}"' in checked.stdout, checked.stdout
     example["result"]["learner_additions"] = []
     submission.write_text(json.dumps(example, ensure_ascii=False), encoding="utf-8")
     failed = subprocess.run([sys.executable, str(validator), str(submission), str(markdown)], capture_output=True, text=True)

@@ -82,6 +82,10 @@ def run() -> None:
                 assert payload["artifact"]["highlight_count"] == 3
                 assert len(payload["graphs"]) == 1
                 return {"review_status": "pending_review", "submission_id": payload["submission_id"], "attempt_count": 1, "received_at": "2026-11-11T00:00:00+00:00"}
+            if url.endswith("/module-2/done"):
+                assert payload["progress"]["line_counts"] == {"meal_card": 2, "learner_additions": 1}
+                assert "meal" not in json.dumps(payload["module_evaluation"])
+                return {"status": "accepted", "submission_id": payload["submission_id"], "attempt_count": 1, "received_at": "2026-11-11T00:00:00+00:00"}
             if url.endswith("/status"):
                 return {"module_completed": False, "submissions": [{"submission_id": "s1", "received_at": "2026-11-11T00:00:00+00:00", "review_status": "revision_requested", "review_comment": "เพิ่มหลักฐานตัวเลข"}]}
             raise AssertionError(url)
@@ -98,10 +102,27 @@ def run() -> None:
                 assert client.main(["--workspace", str(workspace), "init", "module-1"]) == 0
                 module1_path = workspace / "module-01-work/output/module-1-progress.json"
                 module1 = json.loads(module1_path.read_text(encoding="utf-8"))
+                assert module1["completion_status"] == "could_not_complete"
+                module1["completion_status"] = "completed"
+                module1_path.write_text(json.dumps(module1), encoding="utf-8")
+                assert client.main(["--workspace", str(workspace), "check", "module-1"]) == 1, "completed with unticked checks must fail"
                 module1["checks"] = {key: True for key in module1["checks"]}
                 module1_path.write_text(json.dumps(module1), encoding="utf-8")
                 assert client.main(["--workspace", str(workspace), "check", "module-1"]) == 0
                 assert client.main(["--workspace", str(workspace), "submit", "module-1", "--yes"]) == 0
+                # Module 2 short path: placeholder evaluation and missing files are refused locally.
+                assert client.main(["--workspace", str(workspace), "init", "module-2"]) == 0
+                (workspace / "module-02-work/output/meal-card.md").write_text("# full\n# short\n", encoding="utf-8")
+                assert client.main(["--workspace", str(workspace), "check", "module-2", "--short"]) == 1
+                (workspace / "module-02-work/notes").mkdir(parents=True, exist_ok=True)
+                (workspace / "module-02-work/notes/learner-additions.md").write_text("answer\n\n", encoding="utf-8")
+                assert client.main(["--workspace", str(workspace), "check", "module-2", "--short"]) == 1, "placeholder evaluation must fail"
+                evaluation_path = workspace / "module-02-work/output/module-2-evaluation.json"
+                evaluation = json.loads(evaluation_path.read_text(encoding="utf-8"))
+                evaluation.update({"ai_tool": "claude", "ai_turns": 4, "completion_minutes": 35, "hardest_step": "prompt_test"})
+                evaluation_path.write_text(json.dumps(evaluation), encoding="utf-8")
+                assert client.main(["--workspace", str(workspace), "check", "module-2", "--short"]) == 0
+                assert client.main(["--workspace", str(workspace), "submit", "module-2", "--short", "--yes"]) == 0
             text = output.getvalue()
             assert "AIRR CONNECTED" in text and "AIRR CHECK PASS" in text and "AIRR SUBMIT PASS" in text
             assert "revision_requested" in text and "feedback: เพิ่มหลักฐานตัวเลข" in text

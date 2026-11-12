@@ -118,10 +118,8 @@ function validatePromptTest(promptTest, claimCount) {
     if (!Number.isInteger(value) || value < 0 || value > 10) throw new Error(`prompt_test.${key} ต้องเป็นจำนวนเต็ม 0–10`);
   }
   if (promptTest.round_1_traceable + promptTest.round_1_unsupported !== claimCount || promptTest.round_2_traceable + promptTest.round_2_unsupported !== claimCount) throw new Error("จำนวน traceable + unsupported ของแต่ละรอบต้องเท่ากับจำนวน claims");
-  const didNotRegress = promptTest.round_2_traceable >= promptTest.round_1_traceable && promptTest.round_2_unsupported <= promptTest.round_1_unsupported;
-  const improved = promptTest.round_2_traceable > promptTest.round_1_traceable && promptTest.round_2_unsupported < promptTest.round_1_unsupported;
-  const perfectFirstRound = promptTest.round_1_traceable === claimCount && promptTest.round_1_unsupported === 0;
-  if (!didNotRegress || (!improved && !perfectFirstRound)) throw new Error("Prompt รอบสองต้องดีขึ้น หรือรักษาผลเดิมเมื่อรอบแรกตรวจย้อนกลับได้ครบแล้ว");
+  // Round 2 may be better, the same, or worse than round 1: an honest record of a
+  // prompt that did not help is a valid outcome. Only internal consistency is checked.
 }
 
 function buildMachineCheck(payload) {

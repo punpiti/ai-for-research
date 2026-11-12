@@ -160,6 +160,51 @@ def copy_if_missing(source: Path, target: Path) -> bool:
     return True
 
 
+def file_hash(path: Path) -> str:
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def sync_handoff(source: Path, target: Path, sample_hashes: set[str], workspace: Path) -> str:
+    """Bring one Module 7 output into module-08-work/input without losing learner edits."""
+    if copy_if_missing(source, target):
+        return "copied"
+    if not target.is_file():
+        log(f"WARN Handoff target is not a file; left unchanged: {target}")
+        return "kept-learner-edit"
+    current = file_hash(target)
+    if current == file_hash(source):
+        return "already-current"
+    shown_source = source.relative_to(workspace).as_posix()
+    shown_target = target.relative_to(workspace).as_posix()
+    if current in sample_hashes:
+        backup = target.with_name(target.name + ".sample-backup")
+        shutil.copy2(target, backup)
+        shutil.copy2(source, target)
+        log(f"HANDOFF_UPDATED Replaced bundled sample {shown_target} with Module 7 output {shown_source} (sample kept as {backup.name})")
+        return "replaced-sample"
+    log(
+        f"WARN Module 7 output {shown_source} is newer/different than {shown_target}, which is not the bundled sample "
+        f"(you may have edited it), so it was NOT overwritten. To use the Module 7 version, copy {shown_source} "
+        f"to {shown_target} by hand."
+    )
+    return "kept-learner-edit"
+
+
+def guide_text(route: str) -> str:
+    return (
+        "# Module 8 Work Area\n\n"
+        f"Install route: `{route}`\n\n"
+        "1. อ่าน `input/` เพื่อรู้ว่าข้อมูล ผล และกราฟมาจากไหน\n"
+        "2. เลือกวารสารจาก `journal-dossiers/` แล้วบันทึก fit decision\n"
+        "3. ตรวจ `literature/references.bib` และเติม audit/map/candidate gap\n"
+        "4. แก้เนื้อหาที่ `source/manuscript.md` ซึ่งเป็น source of truth\n"
+        "5. ให้ AI สร้าง `generated/main.tex` แล้ว build ไปที่ `build/manuscript.pdf`\n"
+        "6. ตรวจ `submission/submission-readiness.md` ก่อนตัดสินว่าส่งได้หรือยัง\n"
+        "7. เมื่อลอง Journal B ให้กรอก `submission/venue-change-impact.md` และสร้าง output ชุดใหม่\n\n"
+        "ห้ามแก้ไฟล์ต้นฉบับใต้ `course-materials/module-08/` และห้ามแก้ Markdown กับ generated LaTeX เป็นสองต้นฉบับคู่กัน\n"
+    )
+
+
 def prepare_work_area(workspace: Path) -> tuple[Path, str, int]:
     materials = workspace / "course-materials/module-08"
     work = workspace / "module-08-work"
@@ -186,13 +231,22 @@ def prepare_work_area(workspace: Path) -> tuple[Path, str, int]:
     copy_if_missing(materials / "templates/venue-change-impact-template.md", work / "submission/venue-change-impact.md")
     copy_if_missing(materials / "figures/pm25-before-after.png", work / "figures/pm25-before-after.png")
 
+    sample_highlights = materials / "evidence/module-07-highlights-example.md"
+    sample_hashes = {file_hash(path) for path in (sample_highlights, materials / "figures/pm25-before-after.png") if path.is_file()}
+    highlights_target = work / "input/module-07-highlights.md"
     module7_highlights = workspace / "module-07-work/module-07-highlights.md"
     if module7_highlights.is_file():
-        copy_if_missing(module7_highlights, work / "input/module-07-highlights.md")
+        sync_handoff(module7_highlights, highlights_target, sample_hashes, workspace)
+    else:
+        copy_if_missing(sample_highlights, highlights_target)
+
+    current_input = file_hash(highlights_target) if highlights_target.is_file() else ""
+    if not module7_highlights.is_file() or current_input in sample_hashes:
+        route = "standalone-example"
+    elif current_input == file_hash(module7_highlights):
         route = "continued-from-module-07"
     else:
-        copy_if_missing(materials / "evidence/module-07-highlights-example.md", work / "input/module-07-highlights.md")
-        route = "standalone-example"
+        route = "learner-edited-input"
 
     copied_figures = 0
     module7_figures = workspace / "module-07-work/figures"
@@ -200,7 +254,7 @@ def prepare_work_area(workspace: Path) -> tuple[Path, str, int]:
         for source in sorted(module7_figures.iterdir()):
             if source.is_file() and source.suffix.lower() in {".png", ".jpg", ".jpeg", ".webp"}:
                 target = work / "input/module-07-figures" / source.name
-                if copy_if_missing(source, target):
+                if sync_handoff(source, target, sample_hashes, workspace) in {"copied", "replaced-sample"}:
                     copied_figures += 1
 
     blank_files = {
@@ -213,20 +267,9 @@ def prepare_work_area(workspace: Path) -> tuple[Path, str, int]:
             path.write_text(content, encoding="utf-8")
 
     guide = work / "README-FIRST.md"
-    if not guide.exists():
-        guide.write_text(
-            "# Module 8 Work Area\n\n"
-            f"Install route: `{route}`\n\n"
-            "1. อ่าน `input/` เพื่อรู้ว่าข้อมูล ผล และกราฟมาจากไหน\n"
-            "2. เลือกวารสารจาก `journal-dossiers/` แล้วบันทึก fit decision\n"
-            "3. ตรวจ `literature/references.bib` และเติม audit/map/candidate gap\n"
-            "4. แก้เนื้อหาที่ `source/manuscript.md` ซึ่งเป็น source of truth\n"
-            "5. ให้ AI สร้าง `generated/main.tex` แล้ว build ไปที่ `build/manuscript.pdf`\n"
-            "6. ตรวจ `submission/submission-readiness.md` ก่อนตัดสินว่าส่งได้หรือยัง\n"
-            "7. เมื่อลอง Journal B ให้กรอก `submission/venue-change-impact.md` และสร้าง output ชุดใหม่\n\n"
-            "ห้ามแก้ไฟล์ต้นฉบับใต้ `course-materials/module-08/` และห้ามแก้ Markdown กับ generated LaTeX เป็นสองต้นฉบับคู่กัน\n",
-            encoding="utf-8",
-        )
+    generated_guides = {name: guide_text(name) for name in ("continued-from-module-07", "standalone-example", "learner-edited-input")}
+    if not guide.exists() or (guide.read_text(encoding="utf-8") in generated_guides.values()):
+        guide.write_text(generated_guides[route], encoding="utf-8")
     return work, route, copied_figures
 
 
@@ -276,9 +319,15 @@ def main() -> None:
     tools = {name: bool(shutil.which(name)) for name in ("pandoc", "xelatex", "latexmk", "latexdiff")}
     ready = ", ".join(f"{name}={'ready' if found else 'missing'}" for name, found in tools.items())
     log(f"Document tools: {ready}")
-    if not tools["latexmk"] or not tools["xelatex"]:
-        log("Build tools are missing. Run the Module 1 course setup before building the PDF.")
-    log("FINAL_RESULT PASS")
+    missing_build = [name for name in ("latexmk", "xelatex") if not tools[name]]
+    if missing_build:
+        log(
+            f"WARN Build tools missing: {', '.join(missing_build)}. tools/build-module-08 cannot make the PDF yet. "
+            "Rerun the Module 1 installer (course setup), then rerun this Module 8 installer."
+        )
+        log("FINAL_RESULT PASS_WITH_WARNINGS - Work area ready, but the PDF build tools are missing.")
+    else:
+        log("FINAL_RESULT PASS")
     log(f"Open this folder in VS Code: {workspace}")
 
 

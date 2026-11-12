@@ -322,7 +322,7 @@
 - source ใช้ได้เฉพาะ pdf, xlsx, docx, image และ web
 - result.formats_checked = ["pdf", "xlsx", "docx", "image", "web"]
 - result.web_retrieval เลือก live หรือ fallback
-- result.prompt_test ใส่จำนวน traceable และ unsupported ของรอบ 1 กับรอบ 2 ผลรวมแต่ละรอบต้องเท่ากับจำนวน claims รอบ 2 ต้องดีขึ้น หรือคงผลเดิมได้เมื่อรอบแรก traceable ครบและ unsupported เป็นศูนย์
+- result.prompt_test ใส่จำนวน traceable และ unsupported ของรอบ 1 กับรอบ 2 ผลรวมแต่ละรอบต้องเท่ากับจำนวน claims รอบ 2 จะดีขึ้น เท่าเดิม หรือแย่ลงก็ได้ ให้บันทึกผลจริง
 - result.human_decision เลือก accept_with_conditions, reject หรือ need_more_evidence
 - declaration ทั้งสี่รายการต้องเป็น true หลังจากฉันยืนยันจริงเท่านั้น รวม learner_additions_written_by_learner
 - ห้ามใส่ชื่อ นามสกุล อีเมล เบอร์โทร รหัสนิสิต ข้อมูลลับ หรือข้อมูลส่วนบุคคล
@@ -363,6 +363,12 @@
       <div class="notice"><strong>AIRR — AI for Research &amp; Review (แนะนำ):</strong> สร้าง AIRR Key ด้วยบัญชีเว็บ แล้วใช้ VS Code ตรวจและส่งเฉพาะ progress summary; Markdown, claims, คำตอบ และหลักฐานยังอยู่ในเครื่อง</div>
       <div class="airr-connect" data-airr-connect><button class="button primary" type="button" data-airr-create-key>สร้าง AIRR Key สำหรับ VS Code</button><div class="airr-key-once" data-airr-key-once hidden><p><strong>คัดลอก AIRR Key ตอนนี้</strong></p><code data-airr-key></code><button class="button secondary" type="button" data-airr-copy-key>คัดลอก AIRR Key</button></div><div data-airr-key-list></div><p data-airr-connect-status role="status" aria-live="polite">กำลังตรวจบัญชี AIRR…</p></div>
       <p class="form-help">ครั้งแรกให้รัน <code>airr login</code> แล้ววาง AIRR Key; ครั้งต่อไปใช้ key เดิมใน workspace นี้ได้</p>
+      <p><strong>วันอบรม (ทางสั้น):</strong> ทางสั้นสร้าง <code>meal-card.md</code> (ฉบับเต็มและฉบับย่อ) กับ <code>notes/learner-additions.md</code> แจ้งว่าเสร็จด้วย <code>--short</code> ระบบตรวจในเครื่องว่าไฟล์มีเนื้อหา แล้วส่งเฉพาะจำนวนบรรทัดและแบบประเมิน ขั้นแรกรัน <code>init</code> แล้วแก้ <code>module-2-evaluation.json</code> ให้ตรงกับที่ทำจริง (ถ้ายังเป็นค่าตัวอย่าง <code>check</code> จะไม่ผ่าน) จากนั้นจึงตรวจและแจ้ง</p>
+      <div class="command terminal-command"><code>&amp; .\tools\airr.ps1 init module-2</code><button type="button" data-copy>คัดลอกคำสั่งสร้างแบบประเมิน (Windows)</button></div>
+      <div class="command terminal-command"><code>&amp; .\tools\airr.ps1 check module-2 --short; &amp; .\tools\airr.ps1 submit module-2 --short</code><button type="button" data-copy>คัดลอกคำสั่งแจ้งว่าเสร็จ ทางสั้น (Windows)</button></div>
+      <div class="command terminal-command"><code>bash tools/airr.sh init module-2</code><button type="button" data-copy>คัดลอกคำสั่งสร้างแบบประเมิน (macOS / Linux)</button></div>
+      <div class="command terminal-command"><code>bash tools/airr.sh check module-2 --short &amp;&amp; bash tools/airr.sh submit module-2 --short</code><button type="button" data-copy>คัดลอกคำสั่งแจ้งว่าเสร็จ ทางสั้น (macOS / Linux)</button></div>
+      <p><strong>แบบฝึกเต็ม:</strong></p>
       <div class="command terminal-command"><code>&amp; .\tools\airr.ps1 init module-2; &amp; .\tools\airr.ps1 check module-2; &amp; .\tools\airr.ps1 submit module-2</code><button type="button" data-copy>คัดลอกคำสั่ง AIRR สำหรับ Windows</button></div>
       <div class="command terminal-command"><code>bash tools/airr.sh init module-2 &amp;&amp; bash tools/airr.sh check module-2 &amp;&amp; bash tools/airr.sh submit module-2</code><button type="button" data-copy>คัดลอกคำสั่ง AIRR สำหรับ macOS / Linux</button></div>
       <p class="form-help">แก้ไฟล์ evaluation ที่ AIRR สร้างให้ก่อนส่ง และใช้ <code>airr status module-2</code> ดูประวัติได้ แบบฟอร์ม call sign ด้านล่างยังเปิดไว้รองรับ workspace รุ่นเก่า</p>

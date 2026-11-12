@@ -126,7 +126,15 @@ def evaluation_path(workspace: Path, module: str, value: str | None) -> Path:
     return module_file(workspace, module, f"{module}-evaluation.json")
 
 
+INIT_EVALUATIONS = {
+    "module-2": {"ai_tool": "codex", "ai_turns": 1, "retry_count": 0, "completion_minutes": 1, "token_source": "not_available", "input_tokens": None, "output_tokens": None, "total_tokens": None, "completion_status": "completed", "difficulty_rating": 3, "usefulness_rating": 3, "hardest_step": "none"},
+    "module-3": {"ai_tool": "codex", "ai_turns": 1, "retry_count": 0, "completion_minutes": 1, "token_source": "not_available", "total_tokens": None, "completion_status": "completed", "difficulty_rating": 3, "usefulness_rating": 3, "hardest_step": "none"},
+}
+
+
 def validate_evaluation(value: dict[str, Any], module: str) -> dict[str, Any]:
+    if value == INIT_EVALUATIONS.get(module):
+        raise AIRRError(f"{module}-evaluation.json ยังเป็นค่าตัวอย่างจาก airr init ให้แก้ ai_tool, ai_turns, completion_minutes, ความยาก ประโยชน์ และขั้นที่ยากที่สุดตามจริงก่อน")
     common = {"ai_tool", "ai_turns", "retry_count", "completion_minutes", "token_source", "total_tokens", "completion_status", "difficulty_rating", "usefulness_rating", "hardest_step"}
     expected = common | ({"input_tokens", "output_tokens"} if module == "module-2" else set())
     if set(value) != expected:
@@ -173,7 +181,20 @@ def module_payload(workspace: Path, args: argparse.Namespace) -> tuple[dict[str,
         required = {"schema_version", "module_id", "checks", "completion_status", "ai_tool", "completion_minutes", "token_source", "total_tokens"}
         if set(progress) != required or progress.get("schema_version") != "ai-for-research.module-1-progress.v1" or progress.get("module_id") != "module-1":
             raise AIRRError("module-1-progress.json ไม่ตรง schema ของ Module 1")
+        checks = progress.get("checks")
+        if not isinstance(checks, dict) or not all(isinstance(item, bool) for item in checks.values()):
+            raise AIRRError("checks ใน module-1-progress.json ต้องเป็น true/false")
+        if progress.get("completion_status") != "could_not_complete" and not all(checks.values()):
+            missing = ", ".join(name for name, done in checks.items() if not done)
+            raise AIRRError(f"สถานะ {progress.get('completion_status')} ต้องติ๊กทุกข้อเป็น true ก่อน ยังไม่ผ่าน: {missing} (ถ้าทำไม่ครบ ให้ใช้ could_not_complete)")
         return {"event_type": "ai_for_research_module_1_progress", "submission_id": str(uuid4()), "client_submitted_at": now, "progress": progress}, str(path)
+    if getattr(args, "short", False):
+        if args.module not in SHORT_PATH_FILES:
+            raise AIRRError("--short ใช้ได้กับ module-2 และ module-3 เท่านั้น")
+        counts, paths = short_path_counts(workspace, args.module)
+        evaluation = validate_evaluation(load_json(evaluation_path(workspace, args.module, args.evaluation), f"{args.module}-evaluation.json"), args.module)
+        progress = {"schema_version": "ai-for-research.short-path-done.v1", "module_id": args.module, "path": "short", "line_counts": counts}
+        return {"event_type": "ai_for_research_short_path_done", "submission_id": str(uuid4()), "client_submitted_at": now, "module_evaluation": evaluation, "progress": progress}, ", ".join(paths)
     if args.module == "module-2":
         artifact_path = Path(args.file).expanduser().resolve() if args.file else module_file(workspace, "module-2", "module-2-submission.json")
         markdown = Path(args.markdown).expanduser().resolve() if args.markdown else module_file(workspace, "module-2", "module-2-conclusion.md")
@@ -199,6 +220,31 @@ def module_payload(workspace: Path, args: argparse.Namespace) -> tuple[dict[str,
     raise AIRRError("module ไม่รองรับ")
 
 
+# Short paths used in the one-day workshop (lecture notes): files must exist and
+# not be empty; only line counts are sent.
+SHORT_PATH_FILES = {
+    "module-2": {"meal_card": "module-02-work/output/meal-card.md", "learner_additions": "module-02-work/notes/learner-additions.md"},
+    "module-3": {"author_prior": "module-03-work/output/author-prior.md", "diagnosis": "module-03-work/output/problem-statement-diagnosis.md",
+                 "revision_table": "module-03-work/output/revision-table.md", "citation_for_m4": "module-03-work/output/citation-for-m4.md"},
+}
+
+
+def short_path_counts(workspace: Path, module: str) -> tuple[dict[str, int], list[str]]:
+    counts, missing, paths = {}, [], []
+    for key, relative in SHORT_PATH_FILES[module].items():
+        path = workspace / relative
+        lines = [line for line in path.read_text(encoding="utf-8").splitlines() if line.strip()] if path.is_file() else []
+        if not lines:
+            missing.append(relative)
+        counts[key] = len(lines)
+        paths.append(str(path))
+    if missing:
+        raise AIRRError("ทางสั้นยังไม่ครบ ไฟล์ว่างหรือยังไม่มี: " + ", ".join(missing))
+    return counts, paths
+
+
+M4_REGISTER_COLUMNS = ("ref_no", "citation_key", "raw_reference", "openalex_id", "doi", "identity_check", "search_sources", "retracted",
+                       "abstract_source", "local_fulltext", "cited_at", "citing_context", "support", "checked_against", "status", "decision", "reviewer")
 M4_STATUSES = ("verified", "partially supported", "not supported", "not found", "outdated or superseded", "fabricated / phantom")
 
 
@@ -235,15 +281,21 @@ def module4_progress(workspace: Path, root: Path) -> dict[str, Any]:
         raise AIRRError(f"4.1 ยังไม่เสร็จ: ไม่พบ entry ใน {bib.name}")
     with register.open(encoding="utf-8-sig", newline="") as handle:
         rows = list(csv.DictReader(handle))
-    headers = {name.strip().lower() for name in (rows[0].keys() if rows else [])}
-    if not rows or not {"status", "checked_against"} <= headers:
-        raise AIRRError("4.3 ยังไม่เสร็จ: citation-register.csv ต้องมีอย่างน้อย 1 แถว และมีคอลัมน์ status กับ checked_against")
+    headers = {str(name).strip().lower() for name in (rows[0].keys() if rows else [])}
+    missing_columns = [name for name in M4_REGISTER_COLUMNS if name not in headers]
+    if not rows or missing_columns:
+        raise AIRRError("4.3 ยังไม่เสร็จ: citation-register.csv ต้องมีอย่างน้อย 1 แถว และมีทุกคอลัมน์ตาม citation-register-template.csv"
+                        + (f" ขาด: {', '.join(missing_columns)}" if missing_columns else ""))
+    if not [line for line in summary.read_text(encoding="utf-8").splitlines() if line.strip()]:
+        raise AIRRError("4.3 ยังไม่เสร็จ: citation-register-summary.md ยังว่าง")
     status_counts = {name: 0 for name in (*M4_STATUSES, "other")}
     full_text = 0
     for row in rows:
         clean = {str(key).strip().lower(): str(value or "") for key, value in row.items() if key is not None}
         status_counts[m4_status(clean.get("status", ""))] += 1
         full_text += clean.get("checked_against", "").strip().lower().replace(" ", "_") == "full_text"
+    if full_text < 1:
+        raise AIRRError("4.3 ยังไม่เสร็จ: ต้องตรวจกับฉบับเต็มเองอย่างน้อย 1 รายการ และตั้ง checked_against เป็น full_text")
     pending = len(re.findall(r"^\s*[-*]\s*\[\s\]", manual.read_text(encoding="utf-8"), flags=re.MULTILINE))
     originals = root / "input" / "original"
     practice = "mock" if originals.is_dir() and any(item.name.startswith("mock-paper") for item in originals.iterdir()) else "own_work"
@@ -475,13 +527,13 @@ def command_init(args: argparse.Namespace) -> None:
     workspace = resolve_workspace(args.workspace)
     if args.module == "module-1":
         path = module_file(workspace, "module-1", "module-1-progress.json")
-        value = {"schema_version": "ai-for-research.module-1-progress.v1", "module_id": "module-1", "checks": {"workspace_opened": False, "ai_connected": False, "folder_boundary_understood": False, "pdf_created_and_opened": False}, "completion_status": "completed", "ai_tool": "codex", "completion_minutes": 1, "token_source": "not_available", "total_tokens": None}
+        value = {"schema_version": "ai-for-research.module-1-progress.v1", "module_id": "module-1", "checks": {"workspace_opened": False, "ai_connected": False, "folder_boundary_understood": False, "pdf_created_and_opened": False}, "completion_status": "could_not_complete", "ai_tool": "codex", "completion_minutes": 1, "token_source": "not_available", "total_tokens": None}
     elif args.module == "module-2":
         path = evaluation_path(workspace, "module-2", None)
-        value = {"ai_tool": "codex", "ai_turns": 1, "retry_count": 0, "completion_minutes": 1, "token_source": "not_available", "input_tokens": None, "output_tokens": None, "total_tokens": None, "completion_status": "completed", "difficulty_rating": 3, "usefulness_rating": 3, "hardest_step": "none"}
+        value = dict(INIT_EVALUATIONS["module-2"])
     else:
         path = evaluation_path(workspace, "module-3", None)
-        value = {"ai_tool": "codex", "ai_turns": 1, "retry_count": 0, "completion_minutes": 1, "token_source": "not_available", "total_tokens": None, "completion_status": "completed", "difficulty_rating": 3, "usefulness_rating": 3, "hardest_step": "none"}
+        value = dict(INIT_EVALUATIONS["module-3"])
     if path.exists() and not args.force:
         print(f"AIRR INIT SKIP · มีไฟล์อยู่แล้ว: {path}")
         return
@@ -538,7 +590,8 @@ def command_submit(args: argparse.Namespace) -> None:
     if not args.yes and input("ยืนยันส่งงานผ่าน AIRR? [y/N] ").strip().lower() not in {"y", "yes"}:
         print("ยกเลิกการส่งงาน")
         return
-    result = request_json("POST", f"{config['api_base']}/modules/{args.module}/submissions", config["api_key"], payload)
+    endpoint = "done" if getattr(args, "short", False) else "submissions"
+    result = request_json("POST", f"{config['api_base']}/modules/{args.module}/{endpoint}", config["api_key"], payload)
     if result.get("status") != "accepted" and not (args.module == "module-7" and result.get("review_status") == "pending_review"):
         raise AIRRError("AIRR ไม่คืนสถานะ accepted")
     receipt = {
@@ -582,6 +635,7 @@ def add_module_files(parser: argparse.ArgumentParser) -> None:
     parser.add_argument("--graph", action="append", help="ระบุกราฟซ้ำได้ 1–5 ครั้ง; ค่าเริ่มต้นอ่าน module-07-work/figures")
     parser.add_argument("--markdown", help="ตำแหน่ง module-2-conclusion.md")
     parser.add_argument("--evaluation", help="ตำแหน่งไฟล์ evaluation ของ Module 2 หรือ 3")
+    parser.add_argument("--short", action="store_true", help="Module 2 หรือ 3 ทางสั้นของวันอบรม: แจ้งว่าเสร็จด้วยจำนวนบรรทัดของไฟล์ ไม่ส่งเนื้อหา")
 
 
 def parser() -> argparse.ArgumentParser:

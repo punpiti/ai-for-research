@@ -124,14 +124,22 @@ def validate_submission(payload: Any) -> dict[str, Any]:
     counts = {key: bounded_count(value, 10, f"prompt_test.{key}") for key, value in prompt.items()}
     require(counts["round_1_traceable"] + counts["round_1_unsupported"] == len(claims), "ผลรวม Prompt รอบแรกต้องเท่ากับจำนวน claims")
     require(counts["round_2_traceable"] + counts["round_2_unsupported"] == len(claims), "ผลรวม Prompt รอบสองต้องเท่ากับจำนวน claims")
-    no_regression = counts["round_2_traceable"] >= counts["round_1_traceable"] and counts["round_2_unsupported"] <= counts["round_1_unsupported"]
-    improved = counts["round_2_traceable"] > counts["round_1_traceable"] and counts["round_2_unsupported"] < counts["round_1_unsupported"]
-    perfect_first = counts["round_1_traceable"] == len(claims) and counts["round_1_unsupported"] == 0
-    require(no_regression and (improved or perfect_first), "Prompt รอบสองต้องดีขึ้น หรือคงผลเดิมเมื่อรอบแรกสมบูรณ์")
+    # Round 2 may be better, the same, or worse than round 1: an honest record of a
+    # prompt that did not help is a valid outcome. Only internal consistency is checked.
 
     declaration = exact_keys(payload["declaration"], {"originals_preserved", "claims_checked_by_learner", "learner_additions_written_by_learner", "no_personal_data"}, "declaration")
     require(all(value is True for value in declaration.values()), "declaration ทุกข้อต้องเป็น true หลังผู้เรียนยืนยันจริง")
     return payload
+
+
+def prompt_outcome(prompt: dict[str, int]) -> str:
+    """Describe round 2 relative to round 1 from the recorded counts (each round sums to the claim count)."""
+    delta = prompt["round_2_traceable"] - prompt["round_1_traceable"]
+    if delta > 0:
+        return "improved"
+    if delta < 0:
+        return "worse"
+    return "same"
 
 
 def main() -> int:
@@ -162,6 +170,7 @@ def main() -> int:
         "claim_count": len(result["claims"]),
         "open_question_count": len(result["open_questions"]),
         "learner_addition_count": len(result["learner_additions"]),
+        "prompt_round_2_outcome": prompt_outcome(result["prompt_test"]),
         "artifact_sha256": payload["artifact"]["sha256"],
     }, ensure_ascii=False, indent=2))
     print("ไม่มีไฟล์หรือเนื้อหาถูกส่งออกจากเครื่อง")

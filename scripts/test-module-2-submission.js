@@ -99,14 +99,44 @@ const badL4 = structuredClone(validPayload);
 badL4.result.claims[6].sources = ["pdf"];
 assert.throws(() => context.testApi.validatePayload(badL4), /L4/);
 
-const badPrompt = structuredClone(validPayload);
-badPrompt.result.prompt_test = {
+// Round 2 equal to an incomplete round 1 is an honest result, not an error.
+const equalPrompt = structuredClone(validPayload);
+equalPrompt.result.prompt_test = {
   round_1_traceable: 4,
   round_1_unsupported: 4,
   round_2_traceable: 4,
   round_2_unsupported: 4,
 };
-assert.throws(() => context.testApi.validatePayload(badPrompt), /รอบสอง/);
+assert.doesNotThrow(() => context.testApi.validatePayload(equalPrompt));
+
+// Round 2 worse than round 1, recorded consistently, is also accepted.
+const worsePrompt = structuredClone(validPayload);
+worsePrompt.result.prompt_test = {
+  round_1_traceable: 5,
+  round_1_unsupported: 3,
+  round_2_traceable: 3,
+  round_2_unsupported: 5,
+};
+assert.doesNotThrow(() => context.testApi.validatePayload(worsePrompt));
+assert.equal(context.testApi.buildMachineCheck(worsePrompt).prompt_rule_passed, true);
+
+// Inconsistent records are still rejected: a round must add up to the claim count.
+const inconsistentPrompt = structuredClone(validPayload);
+inconsistentPrompt.result.prompt_test = {
+  round_1_traceable: 4,
+  round_1_unsupported: 4,
+  round_2_traceable: 3,
+  round_2_unsupported: 4,
+};
+assert.throws(() => context.testApi.validatePayload(inconsistentPrompt), /จำนวน claims/);
+
+const nonIntegerPrompt = structuredClone(validPayload);
+nonIntegerPrompt.result.prompt_test.round_2_traceable = "7";
+assert.throws(() => context.testApi.validatePayload(nonIntegerPrompt), /prompt_test\.round_2_traceable/);
+
+const extraPromptField = structuredClone(validPayload);
+extraPromptField.result.prompt_test.improved = true;
+assert.throws(() => context.testApi.validatePayload(extraPromptField), /prompt_test/);
 
 const perfectFirstRound = structuredClone(validPayload);
 perfectFirstRound.result.prompt_test = {
