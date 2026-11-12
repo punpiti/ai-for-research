@@ -240,7 +240,7 @@ def write_build_launchers(workspace: Path) -> None:
         "workspace=\"$(cd \"$(dirname \"${BASH_SOURCE[0]}\")/..\" && pwd)\"\n"
         "cd \"$workspace/module-08-work\"\n"
         "test -f generated/main.tex || { echo 'Missing generated/main.tex — ask AI to generate it from source/manuscript.md first.' >&2; exit 1; }\n"
-        "mkdir -p build\nlatexmk -xelatex -bibtex -interaction=nonstopmode -halt-on-error -outdir=build generated/main.tex\n",
+        "mkdir -p build\nlatexmk -xelatex -bibtex -interaction=nonstopmode -halt-on-error -jobname=manuscript -outdir=build generated/main.tex\n",
         encoding="utf-8",
     )
     shell.chmod(0o755)
@@ -251,7 +251,7 @@ def write_build_launchers(workspace: Path) -> None:
         "$main = Join-Path $work 'generated/main.tex'\n"
         "if (-not (Test-Path -LiteralPath $main -PathType Leaf)) { throw 'Missing generated/main.tex - ask AI to generate it from source/manuscript.md first.' }\n"
         "New-Item -ItemType Directory -Force -Path (Join-Path $work 'build') | Out-Null\n"
-        "Set-Location $work\nlatexmk -xelatex -bibtex -interaction=nonstopmode -halt-on-error -outdir=build generated/main.tex\n",
+        "Set-Location $work\nlatexmk -xelatex -bibtex -interaction=nonstopmode -halt-on-error -jobname=manuscript -outdir=build generated/main.tex\n",
         encoding="utf-8-sig",
     )
 
