@@ -265,9 +265,19 @@ configure_vscode() {
   if [[ "$dry_run" == 1 ]]; then log "DRY_RUN code --profile $profile $course_dir"; else quiet code --profile "$profile" "$course_dir"; fi
   existing_extensions=''
   extensions_known=no
+  profile_args=(--profile "$profile")
   if [[ "$dry_run" != 1 ]]; then
     trace snapshot vscode-profile "$profile" before ownership-unknown-preserve
-    if existing_extensions="$(code --profile "$profile" --list-extensions 2>> "${trace_file%.jsonl}.log")"; then extensions_known=yes; fi
+    # VS Code creates a new profile in the background after the window opens;
+    # wait for it, otherwise --install-extension fails with "Profile not found".
+    for _ in $(seq 1 30); do
+      if existing_extensions="$(code --profile "$profile" --list-extensions 2>> "${trace_file%.jsonl}.log")"; then extensions_known=yes; break; fi
+      sleep 2
+    done
+    if [[ "$extensions_known" != yes ]]; then
+      log "WARN VS Code profile '$profile' was not ready; extensions go to the default VS Code profile instead."
+      profile_args=()
+    fi
   fi
   for extension in "${extensions[@]}"; do
     before=unknown-preserve
@@ -282,9 +292,9 @@ configure_vscode() {
     fi
     log "INSTALL VS_CODE_EXTENSION $extension profile=$profile"
     if [[ "$dry_run" == 1 ]]; then log "DRY_RUN code --profile $profile --install-extension $extension"
-    elif [[ "$extension" == "${extensions[0]}" ]]; then quiet code --profile "$profile" --install-extension "$extension"
+    elif [[ "$extension" == "${extensions[0]}" ]]; then quiet code ${profile_args[@]+"${profile_args[@]}"} --install-extension "$extension"
     # Only the AI extension is required; viewers and usage monitors must not stop the install.
-    elif ! code --profile "$profile" --install-extension "$extension" >> "${trace_file%.jsonl}.log" 2>&1; then
+    elif ! code ${profile_args[@]+"${profile_args[@]}"} --install-extension "$extension" >> "${trace_file%.jsonl}.log" 2>&1; then
       log "WARN optional VS Code extension $extension was not installed; install it later from the Extensions panel."
       trace snapshot vscode-extension "$extension" after "missing-optional; profile=$profile"
       continue

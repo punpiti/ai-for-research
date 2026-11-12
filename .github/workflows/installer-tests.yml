@@ -9,6 +9,9 @@ on:
 permissions:
   contents: read
 
+env:
+  AI_RESEARCH_NO_REPORT: "1"
+
 jobs:
   static:
     runs-on: ubuntu-latest

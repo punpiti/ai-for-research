@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
+# Tests must never send error reports to the production AIRR server.
+export AI_RESEARCH_NO_REPORT=1
 
 installer="${1:?installer path required}"
 agent="${2:?agent required}"

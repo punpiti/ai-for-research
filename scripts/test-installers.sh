@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
+# Tests must never send error reports to the production AIRR server.
+export AI_RESEARCH_NO_REPORT=1
 root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 python3 -B "$root/scripts/test-runtime.py"
 bash "$root/scripts/test-wsl-vscode.sh"
