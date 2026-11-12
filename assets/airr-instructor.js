@@ -6,8 +6,6 @@
   const titleNode = root.querySelector("[data-airr-class-title]");
   const statusNode = root.querySelector("[data-airr-page-status]");
   const listNode = root.querySelector("[data-airr-submissions]");
-  const gate = root.querySelector("[data-airr-gate]");
-  const gateStatus = root.querySelector("[data-airr-gate-status]");
   const refresh = root.querySelector("[data-airr-refresh]");
   const back = document.querySelector("[data-back-link]");
   if (back && classroomId) back.href = `index.html?id=${encodeURIComponent(classroomId)}`;
@@ -84,7 +82,6 @@
 
   function render(data) {
     titleNode.textContent = data.class.class_code;
-    gate.checked = Boolean(data.class.is_open);
     listNode.replaceChildren();
     if (!data.submissions.length) {
       listNode.append(node("p", "", "ยังไม่มีงาน Module 7 ที่ส่งผ่าน AIRR"));
@@ -123,18 +120,6 @@
     }
   }
 
-  gate.addEventListener("change", async () => {
-    gate.disabled = true;
-    try {
-      await api(`/api/airr/v1/instructor/classes/${encodeURIComponent(classroomId)}/module-7/settings`, { method: "PUT", body: JSON.stringify({ is_open: gate.checked }) });
-      gateStatus.textContent = gate.checked ? "AIRR เปิดรับงานแล้ว" : "AIRR ปิดรับงานแล้ว";
-    } catch (error) {
-      gate.checked = !gate.checked;
-      gateStatus.textContent = error.message;
-    } finally {
-      gate.disabled = false;
-    }
-  });
   refresh.addEventListener("click", load);
   load();
 })();
