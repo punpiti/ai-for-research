@@ -256,7 +256,7 @@ class RuntimeTests(unittest.TestCase):
                     calls.append(url)
                     self.assertIn(url_suffix, url)
                     with tarfile.open(target, 'w:xz') as bundle:
-                        for name in ['tlmgr', 'xelatex']:
+                        for name in ['tlmgr', 'xelatex', 'xdvipdfmx']:
                             info = tarfile.TarInfo(f'{folder}/bin/test-platform/{name}')
                             info.mode = 0o755; info.size = 1
                             bundle.addfile(info, io.BytesIO(b'x'))
@@ -268,8 +268,18 @@ class RuntimeTests(unittest.TestCase):
                 self.assertTrue(all(str(c.args[0]).startswith(str(root)) for c in command.call_args_list))
                 installs = [c.args for c in command.call_args_list if c.args[1] == 'install']
                 self.assertTrue(all('setspace' in args and 'parskip' in args and 'fontsize' in args for args in installs))
+                self.assertTrue(all('dvipdfmx' in args for args in installs))
                 self.assertTrue(any(c.args[1] == 'setspace.sty' for c in command.call_args_list))
                 self.assertTrue(any(c.args[1] == 'fontsize.sty' for c in command.call_args_list))
+
+    def test_missing_xdvipdfmx_driver_fails_with_clear_message(self):
+        with tempfile.TemporaryDirectory() as scratch:
+            bin_dir = Path(scratch) / 'TinyTeX/bin/universal-darwin'; bin_dir.mkdir(parents=True)
+            for name in ('tlmgr', 'xelatex'):
+                (bin_dir / name).write_text('x'); (bin_dir / name).chmod(0o755)
+            with patch.object(runtime, 'run'):
+                with self.assertRaisesRegex(RuntimeError, 'xdvipdfmx is missing'):
+                    runtime.install_tex(Path(scratch))
 
     def test_compatible_node_is_reused_without_network(self):
         with tempfile.TemporaryDirectory() as scratch, patch.object(runtime.shutil, 'which', return_value='/usr/bin/node'), patch.object(runtime, 'run', return_value=subprocess.CompletedProcess([], 0, stdout='22.1.0')), patch.object(runtime.urllib.request, 'urlopen') as network:

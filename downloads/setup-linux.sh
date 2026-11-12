@@ -158,7 +158,10 @@ setup_windows_vscode() {
 }
 run_npm_install() { if [[ "$dry_run" == 1 ]]; then log "DRY_RUN npm install -g $1"; else trace install user-tool "$1" started; quiet npm install -g "$1"; trace install user-tool "$1" completed; fi; }
 check() {
-  ram_gb="$(( $(awk '/MemTotal/{print $2}' /proc/meminfo) / 1024 / 1024 ))"
+  # MemTotal excludes firmware/GPU-reserved memory, so an 8 GB machine reports
+  # about 7.3-7.8 GiB. Accept >= 7 GiB and show one decimal.
+  ram_kb="$(awk '/MemTotal/{print $2}' /proc/meminfo)"
+  ram_gb="$(awk -v kb="$ram_kb" 'BEGIN {printf "%.1f", kb/1024/1024}')"
   free_disk_gb="$(df -Pk "$HOME" | awk 'NR==2 {printf "%.1f", $4/1024/1024}')"
   if curl -fsSI --max-time 5 https://github.com/ >/dev/null 2>&1; then network=yes; else network=no; fi
   ai_commands=(codex claude agy-ide)
@@ -174,7 +177,7 @@ check() {
   missing_text="$(IFS=,; echo "${missing_ai[*]:-none}")"
   log "AI_FRONTENDS available=$available_text missing=$missing_text"
   arch_ready=no; [[ "$(uname -m)" == x86_64 || "$(uname -m)" == aarch64 || "$(uname -m)" == arm64 ]] && arch_ready=yes
-  ram_ready=no; (( ram_gb >= 8 )) && ram_ready=yes
+  ram_ready=no; (( ram_kb >= 7 * 1024 * 1024 )) && ram_ready=yes
   disk_ready=no; awk -v disk="$free_disk_gb" 'BEGIN {exit !(disk >= 20)}' && disk_ready=yes
   issues=()
   [[ "$arch_ready" == yes ]] || issues+=("supported 64-bit architecture")

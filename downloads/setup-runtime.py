@@ -353,9 +353,14 @@ def install_tex(root):
         raise RuntimeError(f'TinyTeX is incomplete or not user-writable: {tex}')
     os.environ['PATH'] = str(bin_dir) + os.pathsep + os.environ['PATH']
     run(tlmgr, 'postaction', 'install', 'script', 'xetex')
-    run(tlmgr, 'install', 'xetex', 'fontspec', 'unicode-math', 'xcolor', 'geometry', 'bookmark',
+    # dvipdfmx provides xdvipdfmx, the driver XeLaTeX calls to write the PDF;
+    # the macOS TinyTeX bundle does not always include it (driver exit 127).
+    run(tlmgr, 'install', 'xetex', 'dvipdfmx', 'fontspec', 'unicode-math', 'xcolor', 'geometry', 'bookmark',
         'fancyvrb', 'framed', 'booktabs', 'upquote', 'etoolbox', 'float', 'tools', 'caption', 'soul',
         'setspace', 'parskip', 'lm', 'amsmath', 'amsfonts', 'iftex', 'microtype', 'xurl', 'fontsize')
+    driver = bin_dir / ('xdvipdfmx.exe' if os.name == 'nt' else 'xdvipdfmx')
+    if not driver.exists():
+        raise RuntimeError(f'XeLaTeX PDF driver xdvipdfmx is missing in {bin_dir}; rerun the installer or run tlmgr install dvipdfmx.')
     kpsewhich = bin_dir / ('kpsewhich.exe' if os.name == 'nt' else 'kpsewhich')
     for name in ('setspace.sty', 'parskip.sty', 'unicode-math.sty', 'bookmark.sty', 'fontsize.sty'):
         run(kpsewhich, name, stdout=subprocess.DEVNULL)
