@@ -359,3 +359,25 @@ for manifest in sorted((root / "downloads").glob("course-materials*.json")):
 if bad:
     sys.exit("ERROR: stale manifest entries (regenerate bytes/sha256): " + ", ".join(bad))
 PY
+# Public notebooks/text must not carry instructor workflow notes: internal source
+# tags, PDF locators, slide-coverage notes, corpus references or local paths.
+python3 - "$root" <<'PY'
+import json, pathlib, re, subprocess, sys
+root = pathlib.Path(sys.argv[1])
+pattern = re.compile(r"RT1-|KIERAN-HEALY|\[HANDBOOK|DV-EBOOK|DV-NOTES|corpus หนังสือ|source map\]|source-map\.md|pdf pp?\.|/home/punpiti|OneDrive|Research Track I|สไลด์ต้นทาง|ที่มาหลัก:")
+files = subprocess.run(["git", "-C", str(root), "ls-files"], capture_output=True, text=True, check=True).stdout.split()
+bad = []
+for name in files:
+    path = root / name
+    if name.endswith(".ipynb"):
+        cells = json.loads(path.read_text(encoding="utf-8"))["cells"]
+        text = "\n".join("".join(cell["source"]) for cell in cells)
+    elif name.endswith((".md", ".html", ".txt", ".py", ".js", ".json", ".yml", ".tex", ".bib")) and name != "scripts/test-installers.sh":
+        text = path.read_text(encoding="utf-8", errors="replace")
+    else:
+        continue
+    if match := pattern.search(text):
+        bad.append(f"{name}: {match.group(0)}")
+if bad:
+    sys.exit("ERROR: internal workflow notes in public files: " + ", ".join(bad))
+PY

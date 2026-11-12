@@ -5,26 +5,26 @@
     {
       "url": "https://urban.cpe.ku.ac.th/ai-for-research/downloads/course-materials/visualization/notebooks/module-07-data-visualization.ipynb",
       "path": "course-materials/module-07/notebooks/module-07-data-visualization.ipynb",
-      "sha256": "1a104fd25b6fb1e347ae2542740385b5f3f3692099d3334420eedd3f3a563969",
-      "bytes": 3370
+      "sha256": "cd1ff0f2f4988f46520f49e78dc7fb65246069c1061afea8fa1c0cd064bfd812",
+      "bytes": 2604
     },
     {
       "url": "https://urban.cpe.ku.ac.th/ai-for-research/downloads/course-materials/visualization/notebooks/module-07a-read-and-audit.ipynb",
       "path": "course-materials/module-07/notebooks/module-07a-read-and-audit.ipynb",
-      "sha256": "0da665850d638eab7c5be205075bf3d07a696ec3d1d5806fe915bd4c4ba49b5f",
-      "bytes": 945543
+      "sha256": "5782d9453e61a87b07bc09758b53ed24d6ffe2f7484cae41a838de72d2f7e192",
+      "bytes": 940244
     },
     {
       "url": "https://urban.cpe.ku.ac.th/ai-for-research/downloads/course-materials/visualization/notebooks/module-07b-revise-and-publish.ipynb",
       "path": "course-materials/module-07/notebooks/module-07b-revise-and-publish.ipynb",
-      "sha256": "a6160c8abff0e63b808f71318d0c6c90541cc87e0f557880f06bc5bcf76fa1b8",
-      "bytes": 5296544
+      "sha256": "e446b223b01081b65247aeaa70885e8037eae525458a540413ed9f72e0df99d5",
+      "bytes": 5292714
     },
     {
       "url": "https://urban.cpe.ku.ac.th/ai-for-research/downloads/course-materials/visualization/notebooks/module-07c-matplotlib-foundations.ipynb",
       "path": "course-materials/module-07/notebooks/module-07c-matplotlib-foundations.ipynb",
-      "sha256": "d778564839a84769fdf0de6b2dd5cf30047cb00e9a8e3bb82f231271e6b715d2",
-      "bytes": 86213
+      "sha256": "5c9561e4a78b32f92232fa33bc349f6ea27b2cf5925c6fa895d8818b250d9b49",
+      "bytes": 85145
     },
     {
       "url": "https://urban.cpe.ku.ac.th/ai-for-research/downloads/course-materials/visualization/notebooks/module-07-environment.yml",
