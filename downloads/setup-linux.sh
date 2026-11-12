@@ -98,7 +98,7 @@ log() {
     printf '[AI for Research] %s\n' "$*"
     return 0
   fi
-  if [[ "$dry_run" == 1 || "$mode" == --check || "$*" =~ ^(SETUP_VERSION|DEVICE_CHECK|ADMIN_PHASE_REQUIRED|RUNTIME_READY|PATH_READY|FINAL_RESULT|workspace=|AI\ workspace=|STEP) ]]; then
+  if [[ "$dry_run" == 1 || "$mode" == --check || "$*" =~ ^(SETUP_VERSION|DEVICE_CHECK|WARN|ADMIN_PHASE_REQUIRED|RUNTIME_READY|PATH_READY|FINAL_RESULT|workspace=|AI\ workspace=|STEP) ]]; then
     printf '[AI for Research] %s\n' "$*"
   fi
 }
@@ -280,7 +280,14 @@ configure_vscode() {
       continue
     fi
     log "INSTALL VS_CODE_EXTENSION $extension profile=$profile"
-    if [[ "$dry_run" == 1 ]]; then log "DRY_RUN code --profile $profile --install-extension $extension"; else quiet code --profile "$profile" --install-extension "$extension"; fi
+    if [[ "$dry_run" == 1 ]]; then log "DRY_RUN code --profile $profile --install-extension $extension"
+    elif [[ "$extension" == "${extensions[0]}" ]]; then quiet code --profile "$profile" --install-extension "$extension"
+    # Only the AI extension is required; viewers and usage monitors must not stop the install.
+    elif ! code --profile "$profile" --install-extension "$extension" >> "${trace_file%.jsonl}.log" 2>&1; then
+      log "WARN optional VS Code extension $extension was not installed; install it later from the Extensions panel."
+      trace snapshot vscode-extension "$extension" after "missing-optional; profile=$profile"
+      continue
+    fi
     trace snapshot vscode-extension "$extension" after "present; profile=$profile"
   done
   [[ "$dry_run" == 1 ]] && return
