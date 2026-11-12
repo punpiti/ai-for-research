@@ -231,25 +231,43 @@ grep -q 'Discovery Source' "$root/module-4.html"
 grep -q 'fabricated / phantom reference' "$root/module-4.html"
 grep -q 'สี่คำที่ต้องแยกก่อนตรวจการอ้างอิง' "$root/module-4.html"
 grep -q 'ข้อกำหนดของงานนี้:</strong> BibTeX ทุก entry ต้องมี <code>abstract</code>' "$root/module-4.html"
-grep -q 'ให้ AI ค้นรายชื่องานที่เกี่ยวข้องแบบมีขอบเขต' "$root/module-4.html"
-grep -q 'output/openalex/raw-works.jsonl' "$root/module-4.html"
-grep -q 'per_page=100 และ cursor paging' "$root/module-4.html"
 grep -q 'Use the OpenAlex snapshot instead of cursoring through the whole database' "$root/downloads/starter-AGENTS.md"
-grep -q 'สร้าง BibTeX พร้อม Abstract' "$root/module-4.html"
-grep -q 'ห้ามสรุปแทนต้นฉบับ' "$root/module-4.html"
 grep -q 'BibTeX เก็บข้อมูลอ้างอิง, DOI ชี้ตัวเอกสาร' "$root/module-4.html"
 grep -q 'APA คือกติกาการแสดงผล; BibTeX และ RIS คือรูปแบบไฟล์' "$root/module-4.html"
 grep -q 'ตัวอย่างสมมติ—ห้ามนำไปอ้างอิง' "$root/module-4.html"
-grep -q 'ค้นหลักฐานใหม่สำหรับ Claim' "$root/module-4.html"
 grep -q 'มีงานเขียนที่อยากตรวจการอ้างอิง' "$root/module-4.html"
-grep -q 'ตัดสินใจว่าจะเก็บ ปรับ หรือตัด Citation' "$root/module-4.html"
+grep -q 'id="sub-4-1"' "$root/module-4.html"
+grep -q 'id="sub-4-2"' "$root/module-4.html"
+grep -q 'id="sub-4-3"' "$root/module-4.html"
+grep -q 'id="own-work"' "$root/module-4.html"
+grep -q 'สร้าง BibTeX พร้อม abstract จาก OpenAlex' "$root/module-4.html"
+grep -q 'โหลดไฟล์ต้นฉบับเข้าคลัง' "$root/module-4.html"
+grep -q 'ตรวจการอ้างอิงและทำทะเบียน' "$root/module-4.html"
+grep -q 'module-04-work/output/refs.bib' "$root/module-4.html"
+grep -q 'module-04-work/output/manual-download.md' "$root/module-4.html"
+grep -q 'module-04-work/output/citation-register.csv' "$root/module-4.html"
+grep -q 'OpenAlex API ด้วย DOI ก่อน' "$root/module-4.html"
+grep -q 'ห้ามดาวน์โหลดผ่านสิทธิ์สมาชิกแบบอัตโนมัติ' "$root/module-4.html"
+grep -q 'ไม่พบใน OpenAlex ไม่ได้แปลว่าปลอม' "$root/module-4.html"
+grep -q 'airr.ps1 submit module-4' "$root/module-4.html"
+grep -q 'airr.sh submit module-4' "$root/module-4.html"
+grep -q 'course-materials/module-04/citation-audit-rules.md' "$root/module-4.html"
+if grep -q 'ในเอกสารประกอบ' "$root/module-4.html"; then
+  echo 'Module 4 prompts must name workspace files, not the lecture note the AI cannot read.' >&2
+  exit 1
+fi
+m4_header=$(head -n 1 "$root/downloads/module-04-mock/citation-register-template.csv")
+for column in $(printf '%s' "$m4_header" | tr ',' ' '); do
+  grep -q "$column" "$root/downloads/module-04-mock/citation-audit-rules.md" || { echo "citation-audit-rules.md does not explain column $column" >&2; exit 1; }
+done
+if grep -q 'id="path-a"\|id="path-b"\|citation-verification-checklist' "$root/module-4.html"; then
+  echo 'Module 4 must use sub-modules 4.1-4.3 instead of the old A/B activities.' >&2
+  exit 1
+fi
 if grep -q 'จุดนัดพบ\|มาบรรจบกัน\|Module นี้เริ่มเรียนได้โดยตรง\|ผู้เรียนทำ:\|ส่งให้ AI:\|ส่งให้ AI หลังมีแหล่งต้นทาง:\|ผลที่คาดหวัง:' "$root/module-4.html"; then
   echo 'Module 4 must use learner-facing language instead of workflow labels.' >&2
   exit 1
 fi
-grep -q 'output/literature-evidence-table.md' "$root/module-4.html"
-grep -q 'output/citation-self-audit.md' "$root/module-4.html"
-grep -q 'output/citation-verification-checklist.md' "$root/module-4.html"
 grep -q 'ค้นและตรวจวรรณกรรม' "$root/classroom.html"
 grep -q 'latexdiff old.tex new.tex' "$root/module-8.html"
 grep -q 'diff.tex.*source หลัก' "$root/module-8.html"

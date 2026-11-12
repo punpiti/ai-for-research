@@ -6,6 +6,7 @@
   const titleNode = root.querySelector("[data-airr-class-title]");
   const statusNode = root.querySelector("[data-airr-page-status]");
   const listNode = root.querySelector("[data-airr-submissions]");
+  const module4Node = root.querySelector("[data-airr-module4]");
   const refresh = root.querySelector("[data-airr-refresh]");
   const back = document.querySelector("[data-back-link]");
   if (back && classroomId) back.href = `index.html?id=${encodeURIComponent(classroomId)}`;
@@ -103,6 +104,33 @@
     });
   }
 
+  function renderModule4(data) {
+    if (!module4Node) return;
+    module4Node.replaceChildren();
+    const latest = new Map();
+    data.submissions.forEach((item) => {
+      const who = item.learner.email || item.learner.display_name;
+      if (!latest.has(who)) latest.set(who, item);
+    });
+    if (!latest.size) {
+      module4Node.append(node("p", "", "ยังไม่มีผู้เรียนแจ้งว่า Module 4 เสร็จ"));
+      return;
+    }
+    latest.forEach((item) => {
+      const card = node("article", "airr-submission-card");
+      const heading = node("div", "airr-submission-heading");
+      const who = node("div", "");
+      who.append(node("h3", "", item.learner.display_name || item.learner.email || "AIRR learner"), node("p", "", `${item.learner.email || ""} · ${new Date(item.received_at).toLocaleString("th-TH")}`));
+      heading.append(who, node("span", "airr-review-status approved", item.practice === "mock" ? "บทความจำลอง" : "งานจริง"));
+      const c = item.counts;
+      const s = item.status_counts;
+      card.append(heading,
+        node("p", "", `${c.references} รายการอ้างอิง · ทะเบียน ${c.register_rows} แถว · ตรวจฉบับเต็ม ${c.checked_full_text} · รอดาวน์โหลดเอง ${c.manual_download_pending}`),
+        node("p", "", `verified ${s["verified"]} · partial ${s["partially supported"]} · not supported ${s["not supported"]} · not found ${s["not found"]} · outdated ${s["outdated or superseded"]} · phantom ${s["fabricated / phantom"]}`));
+      module4Node.append(card);
+    });
+  }
+
   async function load() {
     if (!classroomId) {
       statusNode.textContent = "URL นี้ไม่มี classroom id";
@@ -113,6 +141,11 @@
       const data = await api(`/api/ai-for-research/airr/v1/instructor/classes/${encodeURIComponent(classroomId)}/module-7`);
       render(data);
       statusNode.textContent = `AIRR โหลด ${data.submissions.length} รายการแล้ว`;
+      try {
+        renderModule4(await api(`/api/ai-for-research/airr/v1/instructor/classes/${encodeURIComponent(classroomId)}/module-4`));
+      } catch (error) {
+        if (module4Node) module4Node.replaceChildren(node("p", "", `โหลด Module 4 ไม่สำเร็จ: ${error.message}`));
+      }
     } catch (error) {
       statusNode.textContent = `โหลด AIRR ไม่สำเร็จ: ${error.message}`;
     } finally {

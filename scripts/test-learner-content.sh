@@ -147,7 +147,7 @@ check_file "$site_dir/assets/module-2-steps.js" "M2 local checkpoint storage" 'a
 check_file "$site_dir/assets/module-3-steps.js" "M3 header progress" 'module-top-progress module-3-top-progress'
 check_file "$site_dir/assets/module-3-steps.js" "M3 local step storage" 'ai-for-research\.module-3\.steps\.v1'
 for number in 4 5; do
-  check_file "$site_dir/module-$number.html" "M$number guided step flow" 'assets/module-guided-steps\.js\?v=20261011-2'
+  check_file "$site_dir/module-$number.html" "M$number guided step flow" 'assets/module-guided-steps\.js\?v=20261113-1'
   check_file "$site_dir/module-$number.html" "M$number compact progress CSS" 'assets/styles\.css\?v=20261111-2'
 done
 check_file "$site_dir/assets/styles.css" "ultrawide module layout" '@media \(min-width: 1800px\)'

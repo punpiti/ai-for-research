@@ -100,7 +100,7 @@ def load_json(path: Path, label: str) -> dict[str, Any]:
 # Course workspace file map: each module keeps its files in module-0N-work/
 # (input/original, input/markdown, output, notes). Older workspaces used
 # top-level output/; those files are still found, with a notice.
-MODULE_DIRS = {"module-1": "module-01-work", "module-2": "module-02-work", "module-3": "module-03-work"}
+MODULE_DIRS = {"module-1": "module-01-work", "module-2": "module-02-work", "module-3": "module-03-work", "module-4": "module-04-work"}
 LEGACY_OUTPUT = {"module-1": Path("output"), "module-2": Path("output"), "module-3": Path("output") / "module-3"}
 
 
@@ -191,7 +191,67 @@ def module_payload(workspace: Path, args: argparse.Namespace) -> tuple[dict[str,
         progress = load_json(artifact_path, "module-3-completion.json")
         evaluation = validate_evaluation(load_json(evaluation_path(workspace, "module-3", args.evaluation), "module-3-evaluation.json"), "module-3")
         return {"event_type": "ai_for_research_module_3_progress", "submission_id": str(uuid4()), "client_submitted_at": now, "module_evaluation": evaluation, "progress": progress}, str(artifact_path)
+    if args.module == "module-4":
+        root = Path(args.file).expanduser().resolve() if args.file else workspace / "module-04-work"
+        progress = module4_progress(workspace, root)
+        return {"event_type": "ai_for_research_module_4_done", "submission_id": str(uuid4()), "client_submitted_at": now, "progress": progress}, str(root / "output")
     raise AIRRError("module ไม่รองรับ")
+
+
+M4_STATUSES = ("verified", "partially supported", "not supported", "not found", "outdated or superseded", "fabricated / phantom")
+
+
+def m4_status(value: str) -> str:
+    text = " ".join(value.strip().lower().replace("_", " ").split())
+    if text.startswith("fabricated") or "phantom" in text:
+        return "fabricated / phantom"
+    if text.startswith("outdated") or "superseded" in text:
+        return "outdated or superseded"
+    if text.startswith("partially"):
+        return "partially supported"
+    if text.startswith("not supported"):
+        return "not supported"
+    if text.startswith("not found"):
+        return "not found"
+    if text.startswith("verified"):
+        return "verified"
+    return "other"
+
+
+def module4_progress(workspace: Path, root: Path) -> dict[str, Any]:
+    """Done-gateway summary for Module 4: checks that 4.1-4.3 produced their files
+    and returns counts only. No reference text, abstracts or register rows leave the machine."""
+    import csv
+    import re
+    output = root / "output"
+    bib, manual = output / "refs.bib", output / "manual-download.md"
+    register, summary = output / "citation-register.csv", output / "citation-register-summary.md"
+    missing = [str(path.relative_to(workspace) if path.is_relative_to(workspace) else path) for path in (bib, manual, register, summary) if not path.is_file()]
+    if missing:
+        raise AIRRError("ยังไม่ครบ sub-module 4.1–4.3 ขาดไฟล์: " + ", ".join(missing))
+    references = len(re.findall(r"^\s*@\w+\s*\{", bib.read_text(encoding="utf-8"), flags=re.MULTILINE))
+    if references < 1:
+        raise AIRRError(f"4.1 ยังไม่เสร็จ: ไม่พบ entry ใน {bib.name}")
+    with register.open(encoding="utf-8-sig", newline="") as handle:
+        rows = list(csv.DictReader(handle))
+    headers = {name.strip().lower() for name in (rows[0].keys() if rows else [])}
+    if not rows or not {"status", "checked_against"} <= headers:
+        raise AIRRError("4.3 ยังไม่เสร็จ: citation-register.csv ต้องมีอย่างน้อย 1 แถว และมีคอลัมน์ status กับ checked_against")
+    status_counts = {name: 0 for name in (*M4_STATUSES, "other")}
+    full_text = 0
+    for row in rows:
+        clean = {str(key).strip().lower(): str(value or "") for key, value in row.items() if key is not None}
+        status_counts[m4_status(clean.get("status", ""))] += 1
+        full_text += clean.get("checked_against", "").strip().lower().replace(" ", "_") == "full_text"
+    pending = len(re.findall(r"^\s*[-*]\s*\[\s\]", manual.read_text(encoding="utf-8"), flags=re.MULTILINE))
+    originals = root / "input" / "original"
+    practice = "mock" if originals.is_dir() and any(item.name.startswith("mock-paper") for item in originals.iterdir()) else "own_work"
+    return {
+        "schema_version": "ai-for-research.module-4-done.v1", "module_id": "module-4", "practice": practice,
+        "submodules": {"bibtex": True, "fulltext": True, "register": True},
+        "counts": {"references": references, "register_rows": len(rows), "checked_full_text": full_text, "manual_download_pending": pending},
+        "status_counts": status_counts,
+    }
 
 
 def highlights_path(workspace: Path, value: str | None) -> Path:
@@ -426,7 +486,12 @@ def command_submit(args: argparse.Namespace) -> None:
     else:
         payload, source = module_payload(workspace, args)
         print(f"AIRR ตรวจผ่าน: {args.module} · {source}")
-        print("AIRR จะส่งเฉพาะ progress summary และแบบประเมิน ไม่ส่งเนื้อหางานหรือไฟล์หลัก")
+        if args.module == "module-4":
+            counts = payload["progress"]["counts"]
+            print(f"Module 4: {counts['references']} รายการอ้างอิง · ทะเบียน {counts['register_rows']} แถว · ตรวจฉบับเต็ม {counts['checked_full_text']} · รอดาวน์โหลดเอง {counts['manual_download_pending']}")
+            print("AIRR จะส่งเฉพาะสถานะว่าเสร็จและจำนวนนับ ไม่ส่งรายการอ้างอิง abstract หรือทะเบียน")
+        else:
+            print("AIRR จะส่งเฉพาะ progress summary และแบบประเมิน ไม่ส่งเนื้อหางานหรือไฟล์หลัก")
     if not args.yes and input("ยืนยันส่งงานผ่าน AIRR? [y/N] ").strip().lower() not in {"y", "yes"}:
         print("ยกเลิกการส่งงาน")
         return
@@ -469,8 +534,8 @@ def command_status(args: argparse.Namespace) -> None:
 
 
 def add_module_files(parser: argparse.ArgumentParser) -> None:
-    parser.add_argument("module", choices=("module-1", "module-2", "module-3", "module-7"))
-    parser.add_argument("--file", help="ตำแหน่งไฟล์หลักของโมดูล")
+    parser.add_argument("module", choices=("module-1", "module-2", "module-3", "module-4", "module-7"))
+    parser.add_argument("--file", help="ตำแหน่งไฟล์หลักของโมดูล; Module 4 คือโฟลเดอร์งาน เช่น module-04-work/thesis-a")
     parser.add_argument("--graph", action="append", help="ระบุกราฟซ้ำได้ 1–5 ครั้ง; ค่าเริ่มต้นอ่าน module-07-work/figures")
     parser.add_argument("--markdown", help="ตำแหน่ง module-2-conclusion.md")
     parser.add_argument("--evaluation", help="ตำแหน่งไฟล์ evaluation ของ Module 2 หรือ 3")
@@ -500,7 +565,7 @@ def parser() -> argparse.ArgumentParser:
     submit.add_argument("--yes", action="store_true", help="ส่งโดยไม่ถามยืนยันซ้ำ")
     submit.set_defaults(handler=command_submit)
     status = commands.add_parser("status", help="ดูผลตรวจและ feedback")
-    status.add_argument("module", choices=("module-1", "module-2", "module-3", "module-7"))
+    status.add_argument("module", choices=("module-1", "module-2", "module-3", "module-4", "module-7"))
     status.set_defaults(handler=command_status)
     return root
 

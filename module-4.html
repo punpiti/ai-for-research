@@ -7,7 +7,7 @@
   <title>Literature Evidence · AIRR</title>
   <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/styles.css?v=20261111-2"><script src="assets/app.js?v=20261011-4" defer></script><script src="assets/module-guided-steps.js?v=20261011-2" defer></script>
+  <link rel="stylesheet" href="assets/styles.css?v=20261111-2"><script src="assets/app.js?v=20261011-4" defer></script><script src="assets/module-guided-steps.js?v=20261113-1" defer></script>
   <script src="assets/dev-auth.js?v=20261010-1"></script>
   <script src="assets/site-shell.js?v=20261111-1"></script>
 </head>
@@ -16,17 +16,17 @@
   <site-header current="4"></site-header>
 
   <main id="main">
-    <section class="prepare-hero module-hero"><p class="eyebrow">Module 4</p><h1>Literature<br><span>Evidence</span></h1><p>ค้น ตรวจ และสังเคราะห์วรรณกรรมโดยไม่รับ citation, DOI, metadata, summary หรือ claim ของ AI จนกว่าจะตรวจแหล่งต้นทาง</p></section>
+    <section class="prepare-hero module-hero"><p class="eyebrow">Module 4</p><h1>Literature<br><span>Evidence</span></h1><p>ทะเบียนการอ้างอิงของงานวิจัยหนึ่งชิ้น: 4.1 สร้าง BibTeX · 4.2 โหลดไฟล์ต้นฉบับ · 4.3 ตรวจว่า ref มีจริงและ cite ถูกต้อง</p></section>
     <section class="section profile-context"><div data-research-profile></div></section>
 
-    <section class="section" id="prepare"><div class="section-heading compact"><p class="eyebrow">การเตรียมตัวก่อนเรียน</p><h2>ของต้องมีก่อนเรียน</h2><p>เลือกเตรียมอย่างเดียว ตามสิ่งที่อยากทำในขั้นที่ 4 ถ้าใช้เอกสารจริงไม่ได้ ให้ใช้ชุดเอกสารตัวอย่างที่ผู้สอนจัดให้</p></div><div class="notice"><strong>ชุดฝึก Module 4 (บทความจำลอง):</strong> เริ่มจากบทความจำลองนี้ก่อน ภายในตั้งใจใส่ ref ปลอม การอ้างผิด และปัญหาคุณภาพของรายการอ้างอิงไว้ให้ค้นหา วางไฟล์ไว้ใน <code>module-04-work/input/original/</code> แล้วทำตามลองทำ 1–2 จากนั้นจึงลองกับงานของนิสิตหรือของคุณเอง ก่อนเรียนให้ขอ OpenAlex API key ฟรีที่ openalex.org/settings/api และเก็บไว้ในตัวแปร <code>OPENALEX_KEY</code> <a href="downloads/module-04-mock/mock-paper.pdf" download>ดาวน์โหลดบทความจำลอง (PDF)</a> · <a href="downloads/module-04-mock/mock-paper.md" download>ต้นฉบับ Markdown</a></div><div class="concept-grid">
-      <article><h3>มีข้อความที่อยากหาหลักฐาน → กิจกรรม A</h3><p>ข้อความหรือ Claim 1 ข้อที่อยากรู้ว่ามีงานวิจัยรองรับหรือไม่ ถ้าทำ Module 3 มาแล้ว ใช้ gap ที่ได้จาก Module 3 ได้เลย</p></article>
-      <article><h3>มีงานเขียนที่อยากตรวจการอ้างอิง → กิจกรรม B</h3><p>proposal บทความ หรือ manuscript ของคุณที่มีการอ้างอิงและรายการอ้างอิงท้ายเรื่อง พร้อมเข้าถึงบทความที่อ้างถึงได้ 5–8 เรื่อง</p></article>
-      <article><h3>ข้อมูลที่นำมาใช้ได้</h3><p>ใช้เฉพาะเอกสารที่มีสิทธิ์นำเข้า AI ตัดข้อมูลลับและข้อมูลส่วนบุคคลออก และบันทึกตามจริงว่าเรื่องใดเปิดฉบับเต็มไม่ได้</p></article>
+    <section class="section" id="prepare"><div class="section-heading compact"><p class="eyebrow">การเตรียมตัวก่อนเรียน</p><h2>ของต้องมีก่อนเรียน</h2><p>ฝึกกับบทความจำลองก่อน แล้วจึงใช้กับงานจริง 1 ชิ้น ถ้ายังไม่มีงานจริงที่ใช้ได้ ให้ทำบทความจำลองให้ครบ</p></div><div class="notice"><strong>ชุดฝึก Module 4 (บทความจำลอง):</strong> เริ่มจากบทความจำลองนี้ก่อน ภายในตั้งใจใส่ ref ปลอม การอ้างผิด และปัญหาคุณภาพของรายการอ้างอิงไว้ให้ค้นหา ใช้คำสั่งเตรียมไฟล์ใน <a href="#sub-4-1">4.1</a> เพื่อวางไฟล์ไว้ใน <code>module-04-work/input/original/</code> แล้วทำ sub-module 4.1–4.3 จากนั้นจึงทำซ้ำกับงานของนิสิตหรือของคุณเอง ก่อนเรียนให้ขอ OpenAlex API key ฟรีที่ openalex.org/settings/api และเก็บไว้ในตัวแปร <code>OPENALEX_KEY</code> <a href="downloads/module-04-mock/mock-paper.pdf" download>ดาวน์โหลดบทความจำลอง (PDF)</a> · <a href="downloads/module-04-mock/mock-paper.md" download>ต้นฉบับ Markdown</a></div><div class="concept-grid">
+      <article><h3>บทความจำลองของบทเรียน</h3><p>ใช้ฝึก 4.1–4.3 ในห้อง ภายในตั้งใจใส่ ref ปลอม การอ้างเกินจริง ปีผิด บทความที่ถูกถอน และปัญหาคุณภาพของชุดอ้างอิง</p></article>
+      <article><h3>มีงานเขียนที่อยากตรวจการอ้างอิง</h3><p>วิทยานิพนธ์ของนิสิตหรือ manuscript ของคุณ 1 ชิ้น เช่น บททบทวนวรรณกรรม งานที่ยังไม่เผยแพร่ต้องได้รับอนุญาตและตัดข้อมูลส่วนบุคคลก่อนใช้กับ AI</p></article>
+      <article><h3>OpenAlex API key และ VPN</h3><p>ขอ key ฟรีที่ openalex.org/settings/api เก็บใน <code>OPENALEX_KEY</code> (Windows: <code>setx OPENALEX_KEY "key"</code>) ห้ามใส่ key ใน Prompt และเตรียม VPN ของมหาวิทยาลัยไว้ดาวน์โหลดฉบับที่ต้องใช้สิทธิ์</p></article>
     </div></section>
 
     <section class="section" id="outcomes"><div class="section-heading compact"><p class="eyebrow">สิ่งที่จะได้</p><h2>สิ่งที่จะทำได้</h2><p>จาก “AI บอกว่า” ไปสู่หลักฐานที่เปิดตรวจได้</p></div><div class="check-grid outcome-grid">
-      <div><span>01</span><strong>เปลี่ยนข้อความที่อยากตรวจเป็นคำค้น แล้วให้ AI ค้นรายชื่องานที่เกี่ยวข้องแบบมีขอบเขต</strong></div><div><span>02</span><strong>ตรวจว่าบทความที่ได้มีอยู่จริงและข้อมูลตรงกับต้นทาง</strong></div><div><span>03</span><strong>อ่านต้นฉบับแล้วตัดสินว่าบทความรองรับข้อความจริง หรือถูกอ้างเกินกว่าที่เขียน</strong></div><div><span>04</span><strong>สรุปหลักฐานจากหลายงานโดยชี้กลับไปยังต้นทางได้ทุกข้อ</strong></div>
+      <div><span>4.1</span><strong>สร้าง BibTeX พร้อม abstract จาก OpenAlex และแยกรายการที่ตรง ไม่ตรง หรือไม่พบ</strong></div><div><span>4.2</span><strong>สร้างคลังฉบับเต็มในเครื่อง และรายการที่ต้องดาวน์โหลดเองผ่าน VPN</strong></div><div><span>4.3</span><strong>ทำทะเบียนการอ้างอิงที่แยก ref มีจริง ออกจาก cite ถูกต้อง พร้อมสรุปคุณภาพของชุดอ้างอิง</strong></div><div><span>★</span><strong>เขียน Prompt เองเพื่อตรวจงานของนิสิตที่มีรายการอ้างอิงภาษาไทย</strong></div>
     </div></section>
 
     <section class="section" id="source-types"><div class="section-heading compact"><p class="eyebrow">ก่อนค้น</p><h2>แหล่งที่ช่วย “พบ” ไม่จำเป็นต้องเป็นหลักฐาน</h2></div><div class="level-grid">
@@ -63,179 +63,61 @@
       <article><h3>verified</h3><p>แหล่งมีอยู่จริง metadata ตรง และข้อความต้นฉบับสนับสนุน claim ในขอบเขตที่อ้าง</p></article><article><h3>partially supported</h3><p>สนับสนุนเพียงบางส่วน บริบท ประชากร วิธี หรือระดับความมั่นใจแคบกว่าข้อความที่เขียน</p></article><article><h3>not supported</h3><p>แหล่งมีอยู่จริง แต่เนื้อหาไม่สนับสนุน claim หรือให้ผลตรงข้าม</p></article><article><h3>not found</h3><p>ยังหาแหล่งหรือ full text ไม่พบ ต้องบันทึกข้อจำกัด ห้ามเปลี่ยนสถานะเป็น “ไม่มีงาน”</p></article><article><h3>outdated or superseded</h3><p>แหล่งเคยใช้ได้ แต่มีหลักฐานใหม่ มาตรฐานใหม่ หรือเวอร์ชันที่มาแทน</p></article><article><h3>fabricated / phantom reference</h3><p>Reference ไม่มีอยู่จริง DOI ผิด หรือ metadata หลายส่วนถูกประกอบขึ้นให้ดูน่าเชื่อ ซึ่งเรียกง่าย ๆ ว่า “ref ทิพย์”</p></article>
     </div></section>
 
-    <section class="section" id="example"><div class="section-heading compact"><p class="eyebrow">ตัวอย่างใกล้ตัว</p><h2>Claim เรื่อง “อิ่มนาน” ต้องตรวจอะไรบ้าง</h2><p>สมมติว่าเราต้องการตรวจข้อความว่า “อาหารที่มีโปรตีนสูงทำให้นักศึกษาอิ่มนานกว่าอาหารประเภทอื่น” ตัวอย่างนี้ใช้เพื่อดูขั้นตอน ไม่ได้ยืนยันว่า Claim เป็นจริง</p></div><div class="level-grid">
-      <article><span>01</span><div><h3>แยกแนวคิด</h3><p>population: นักศึกษา; exposure: อาหาร/โปรตีน; outcome: ความอิ่ม; comparison: อาหารประเภทอื่น</p></div></article>
-      <article><span>02</span><div><h3>ขยายคำค้น</h3><p><em>student, young adult, protein, meal, satiety, hunger, fullness, appetite</em> แล้วบันทึกฐานข้อมูล วันที่ และ query ที่ใช้</p></div></article>
-      <article><span>03</span><div><h3>ตรวจตัวตน</h3><p>ชื่อเรื่อง ผู้แต่ง ปี วารสาร และ DOI ต้องตรงกับ official metadata หาก AI ให้ DOI ที่เปิดไม่ได้ ให้จัดเป็นรายการเสี่ยง ไม่ใช่แก้ DOI ด้วยการเดา</p></div></article>
-      <article><span>04</span><div><h3>ตรวจเนื้อหา</h3><p>อ่านประชากร อาหารเปรียบเทียบ วิธีวัด satiety ผล และข้อจำกัด หากศึกษาในประชากรอื่นหรือผลไม่ชัด Claim อาจได้เพียง partially supported</p></div></article>
-    </div><div class="plain-note"><strong>ตารางที่ตรวจย้อนกลับได้:</strong> Evidence table ไม่ควรมีเพียงชื่อบทความกับ summary แต่ต้องมี Claim ที่ตรวจ, ตำแหน่งในต้นฉบับ, สิ่งที่หลักฐานสนับสนุนจริง, ข้อจำกัด และสถานะการตรวจ</div></section>
+    <section class="section markdown-section" id="submodules"><div class="section-heading compact"><p class="eyebrow">กิจกรรมหลัก · 65 นาที</p><h2>สาม sub-module ต่อกันเป็นสายเดียว</h2><p>ฝึกครบทั้งสามขั้นกับบทความจำลองก่อน แล้วทำซ้ำกับงานของนิสิต ทุก sub-module หยุดรอให้คุณตรวจก่อนไปขั้นถัดไป และเริ่มขั้นใดก็ได้ถ้ามีไฟล์ของขั้นก่อนอยู่แล้ว</p></div><div class="markdown-body">
+<table><thead><tr><th>Sub-module</th><th>อ่านจาก</th><th>ได้ไฟล์</th><th>ตอบคำถาม</th></tr></thead><tbody><tr><td><a href="#sub-4-1"><strong>4.1 สร้าง BibTeX</strong></a> · 5 นาที</td><td><code>module-04-work/input/original/</code></td><td><code>input/markdown/paper.md</code>, <code>output/refs.bib</code></td><td>ref มีจริงหรือไม่ metadata ตรงหรือไม่</td></tr><tr><td><a href="#sub-4-2"><strong>4.2 โหลดไฟล์ต้นฉบับ</strong></a> · 5 นาที</td><td><code>output/refs.bib</code></td><td><code>literature/pdf/</code>, <code>literature/markdown/</code>, <code>output/manual-download.md</code></td><td>มีฉบับเต็มให้ตรวจหรือยัง</td></tr><tr><td><a href="#sub-4-3"><strong>4.3 ตรวจการอ้างอิง</strong></a> · 15 นาที</td><td><code>paper.md</code>, <code>refs.bib</code>, <code>literature/markdown/</code></td><td><code>output/citation-register.csv</code>, <code>output/citation-register-summary.md</code></td><td>cite ถูกต้องหรือไม่ ชุดอ้างอิงมีคุณภาพหรือไม่</td></tr></tbody></table>
+<p>ลำดับในห้อง: แนวคิด 10 นาที → 4.1 → 4.2 → 4.3 กับบทความจำลอง → <a href="#done">แจ้งว่าเสร็จ</a> 5 นาที → <a href="#own-work">ทำ 4.1–4.3 กับงานของนิสิต</a> 25 นาที</p>
+    </div></section>
 
-    <section class="section" id="openalex"><div class="section-heading compact"><p class="eyebrow">กิจกรรมร่วม · ค้นรายชื่องาน</p><h2>ให้ AI ค้นรายชื่องานที่เกี่ยวข้องแบบมีขอบเขต</h2><p>ก่อนแยกไปทำกิจกรรม A หรือ B ให้ AI ค้นรายชื่องานจากระบบสืบค้นของรายวิชา ได้รายการตั้งต้นพร้อมบันทึกการค้นที่ตรวจย้อนได้ คุณไม่ต้องเขียนโปรแกรมเอง</p></div><div class="concept-grid">
-      <article><h3>คุณอนุมัติก่อนค้น</h3><p>AI จะแสดงคำค้น ตัวกรอง และจำนวนสูงสุดให้คุณตรวจก่อนเริ่ม</p></article>
-      <article><h3>ค้นแบบพอดี</h3><p>เก็บไม่เกินจำนวนที่ตั้งไว้ และไม่ดึงข้อมูลทั้งฐาน</p></article>
-      <article><h3>มีบันทึกให้ตรวจ</h3><p>ได้ไฟล์รายชื่องานและบันทึกการค้น ว่าค้นด้วยคำใด เมื่อไร ได้กี่รายการ</p></article>
-      <article><h3>ยังไม่ใช่หลักฐาน</h3><p>รายชื่อที่ได้ต้องตรวจ DOI หน้าทางการ และฉบับเต็มก่อนนำไปอ้างอิงหรือรองรับ Claim</p></article>
-    </div><div class="command"><code>งาน: เก็บ candidate metadata จาก OpenAlex API สำหรับคำถามวิจัยของฉัน
+    <section class="section markdown-section" id="sub-4-1"><div class="section-heading compact"><p class="eyebrow">Sub-module 4.1 · 5 นาที · บทความจำลอง</p><h2>สร้าง BibTeX พร้อม abstract จาก OpenAlex</h2><p>แกะรายการอ้างอิงทั้งหมด จับคู่กับ OpenAlex แล้วได้ refs.bib ที่บอกตามจริงว่ารายการใดตรง ไม่ตรง หรือไม่พบ</p></div><div class="markdown-body">
+<table><thead><tr><th>รายการ</th><th>รายละเอียด</th></tr></thead><tbody><tr><th scope="row">เป้าหมาย</th><td><code>refs.bib</code> ครบทุกรายการ พร้อม abstract และผลจับคู่จาก OpenAlex</td></tr><tr><th scope="row">อ่านจาก</th><td><code>module-04-work/input/original/mock-paper.pdf</code></td></tr><tr><th scope="row">ได้ไฟล์</th><td><code>module-04-work/input/markdown/paper.md</code>, <code>module-04-work/output/refs.bib</code></td></tr><tr><th scope="row">ตรวจเองก่อนไปต่อ</th><td>สุ่ม 3 รายการ เปิด DOI หรือหน้าทางการ เทียบ author, year, title และ venue ทีละช่อง</td></tr></tbody></table>
+<h3>เตรียมไฟล์ (ทำครั้งเดียว)</h3><p>เปิด Terminal ใน VS Code ที่โฟลเดอร์ <code>ai-for-research-workspace</code> แล้วรันคำสั่งตามระบบ คำสั่งนี้วางบทความจำลองไว้ใน <code>module-04-work/input/original/</code> และวางกติกาการตรวจ (<code>citation-audit-rules.md</code>) กับแม่แบบทะเบียน (<code>citation-register-template.csv</code>) ไว้ใน <code>course-materials/module-04/</code> ให้ AI อ่าน</p><div class="command terminal-command"><code>$b = 'https://urban.cpe.ku.ac.th/ai-for-research/downloads'
+$o = 'module-04-work/input/original'; $c = 'course-materials/module-04'
+New-Item -ItemType Directory -Force $o, $c | Out-Null
+$files = @{ 'mock-paper.pdf' = $o; 'citation-audit-rules.md' = $c
+            'citation-register-template.csv' = $c }
+foreach ($f in $files.Keys) {
+  Invoke-WebRequest "$b/module-04-mock/$f" -UseBasicParsing `
+    -OutFile (Join-Path $files[$f] $f)
+}</code><button type="button" data-copy>คัดลอกคำสั่งเตรียมไฟล์ Windows</button></div><div class="command terminal-command"><code>b=https://urban.cpe.ku.ac.th/ai-for-research/downloads/module-04-mock
+o=module-04-work/input/original; c=course-materials/module-04
+mkdir -p "$o" "$c"
+curl -fsSL "$b/mock-paper.pdf" -o "$o/mock-paper.pdf"
+for f in citation-audit-rules.md citation-register-template.csv; do
+  curl -fsSL "$b/$f" -o "$c/$f"
+done</code><button type="button" data-copy>คัดลอกคำสั่งเตรียมไฟล์ macOS / Linux</button></div>
+<div class="command"><code>อ่าน course-materials/module-04/citation-audit-rules.md ก่อน แล้วแปลงงานวิจัยใน module-04-work/input/original/ เป็น module-04-work/input/markdown/paper.md พร้อม page marker แล้วแกะรายการอ้างอิง ท้ายเรื่องทั้งหมดตามลำดับ ห้ามเดาชื่อเรื่อง ผู้แต่ง หรือ DOI ที่อ่านไม่ชัด จากนั้นค้นแต่ละรายการใน OpenAlex API ด้วย DOI ก่อน ถ้าไม่มี DOI ให้ค้นด้วยชื่อเรื่องและปี แล้วสร้าง module-04-work/output/refs.bib หนึ่ง entry ต่อหนึ่งรายการ ใส่ abstract ที่ประกอบจาก OpenAlex เท่านั้น พร้อม field abstract_source, openalex_id, identity_check, retracted และ local_fulltext (เว้นว่างไว้ก่อน) ถ้าไม่พบหรือ metadata ไม่ตรง ให้บันทึกตามจริง ห้ามแต่ง abstract ใช้ API key จากตัวแปร OPENALEX_KEY เท่านั้น และห้ามพิมพ์ key ลงไฟล์ log หรือผลลัพธ์ใด สรุปจำนวน matched, metadata_conflict, not_found, abstract not found และ retracted แล้วหยุดรอ</code><button type="button" data-copy>คัดลอก Prompt 4.1</button></div>
+<p><strong>สิ่งที่ควรเห็น:</strong> บางรายการ metadata ไม่ตรง บางรายการไม่พบ บางรายการไม่มี abstract และอย่างน้อยหนึ่งรายการถูกถอน ขั้นนี้ตรวจเฉพาะ “ref มีจริง” ยังไม่ต้องตัดสินว่ารายการใดปลอม</p>
+<div class="plain-note"><strong>ข้อกำหนดของงานนี้:</strong> BibTeX ทุก entry ต้องมี <code>abstract</code> ที่ประกอบจาก OpenAlex หรือคัดจากหน้าทางการ ไม่ใช่ข้อความที่ AI สรุปขึ้นใหม่ ถ้าไม่มี ให้บันทึก <code>abstract not found</code> ห้ามแต่งให้ครบ</div>
+    </div></section>
 
-ก่อนรัน:
-- แสดง query, filter, fields และจำนวนระเบียนสูงสุดให้ฉันตรวจ
-- ประเมินจำนวนผลและจำนวน request
-- ติดตั้งไลบรารีที่จำเป็นใน course environment และบันทึกรุ่น
+    <section class="section markdown-section" id="sub-4-2"><div class="section-heading compact"><p class="eyebrow">Sub-module 4.2 · 5 นาที · บทความจำลอง</p><h2>โหลดไฟล์ต้นฉบับเข้าคลัง</h2><p>เก็บฉบับเต็มที่เข้าถึงได้อย่างถูกต้องเป็น PDF และ Markdown ไว้ในคลัง literature/ ใช้ตรวจ cite ถูกต้อง และใช้ซ้ำได้ทุกโมดูล</p></div><div class="markdown-body">
+<table><thead><tr><th>รายการ</th><th>รายละเอียด</th></tr></thead><tbody><tr><th scope="row">เป้าหมาย</th><td>มีฉบับเต็มของรายการที่เข้าถึงได้อย่างถูกต้อง ในคลังที่ใช้ซ้ำได้</td></tr><tr><th scope="row">อ่านจาก</th><td><code>module-04-work/output/refs.bib</code>, <code>literature/publisher-download-policy.md</code></td></tr><tr><th scope="row">ได้ไฟล์</th><td><code>literature/pdf/&lt;citation_key&gt;.pdf</code>, <code>literature/markdown/&lt;citation_key&gt;.md</code>, <code>module-04-work/output/manual-download.md</code></td></tr><tr><th scope="row">ตรวจเองก่อนไปต่อ</th><td>เปิด Markdown หนึ่งไฟล์เทียบกับ PDF ว่าข้อความ ตาราง และ page marker ตรงกัน แล้วอ่าน manual-download.md</td></tr></tbody></table>
+<div class="command"><code>จาก module-04-work/output/refs.bib ให้อ่าน literature/publisher-download-policy.md (สร้างใหม่ถ้ายังไม่มี) แล้วดาวน์โหลดเฉพาะฉบับ open access ตาม OpenAlex ไปที่ literature/pdf/&lt;citation_key&gt;.pdf ข้ามรายการที่มีไฟล์อยู่แล้ว และข้ามสำนักพิมพ์ที่ policy ระบุว่าบล็อก ถ้าพบการบล็อกใหม่ (403, captcha หรือหน้า login) ให้บันทึกโดเมนลง policy แล้วไม่ลองซ้ำ แปลงไฟล์ที่ได้เป็น literature/markdown/&lt;citation_key&gt;.md พร้อม page marker และใส่ path ลง field local_fulltext ใน refs.bib รายการที่เหลือให้เขียนลง module-04-work/output/manual-download.md เป็นรายการติ๊กได้ พร้อมชื่อเรื่อง DOI สำนักพิมพ์ เหตุผล และชื่อไฟล์ที่ต้องบันทึก ห้ามดาวน์โหลดผ่านสิทธิ์สมาชิกแบบอัตโนมัติ และห้ามใช้แหล่งที่ไม่ถูกต้องตามลิขสิทธิ์ สรุปจำนวนฉบับเต็มที่ได้ ที่ต้องเปิดจากหน้าวารสาร และที่ต้องใช้สิทธิ์มหาวิทยาลัย แล้วหยุดรอ</code><button type="button" data-copy>คัดลอก Prompt 4.2</button></div>
+<p><strong>สิ่งที่ควรเห็น:</strong> 5 รายการได้ฉบับเต็มอัตโนมัติ 2 รายการต้องเปิดจากหน้าวารสาร และ 2 รายการต้องใช้สิทธิ์มหาวิทยาลัย ในห้องให้ไป 4.3 ต่อด้วยฉบับเต็มที่มีอยู่</p>
+<div class="notice"><strong>ดาวน์โหลดผ่านสิทธิ์มหาวิทยาลัยด้วยตนเองเท่านั้น:</strong> เชื่อม VPN ของมหาวิทยาลัย เปิดรายการใน manual-download.md ผ่านเบราว์เซอร์ บันทึกตามชื่อไฟล์ที่ระบุ แล้วสั่ง AI แปลงเฉพาะไฟล์ใหม่ ห้ามให้ AI ดาวน์โหลดผ่านสิทธิ์สมาชิกแบบอัตโนมัติ เพราะข้อตกลงกับสำนักพิมพ์ห้าม และ IP ของมหาวิทยาลัยอาจถูกบล็อก คลังนี้ใช้ส่วนตัว ห้ามเผยแพร่ต่อ</div>
+    </div></section>
 
-ระหว่างรัน:
-- ใช้ per_page=100 และ cursor paging
-- ตั้ง timeout และ exponential backoff สำหรับ 429/ข้อผิดพลาดชั่วคราว
-- หยุดเมื่อถึงจำนวนสูงสุดหรือ next_cursor หมด
-- ห้ามบันทึก credential ใน source, URL, output หรือ log
-- ห้าม crawl ทั้งฐานข้อมูล
+    <section class="section markdown-section" id="sub-4-3"><div class="section-heading compact"><p class="eyebrow">Sub-module 4.3 · 15 นาที · บทความจำลอง</p><h2>ตรวจการอ้างอิงและทำทะเบียน</h2><p>จับคู่ in-text citation ทุกจุดกับรายการอ้างอิง ตรวจว่าต้นฉบับรองรับข้อความหรือไม่ แล้วดูคุณภาพของชุดอ้างอิงทั้งชุด</p></div><div class="markdown-body">
+<table><thead><tr><th>รายการ</th><th>รายละเอียด</th></tr></thead><tbody><tr><th scope="row">เป้าหมาย</th><td>ทะเบียนที่บอกได้ทุกรายการว่า ref มีจริงหรือไม่ และ cite ถูกต้องหรือไม่ พร้อมสรุปคุณภาพของชุดอ้างอิง</td></tr><tr><th scope="row">อ่านจาก</th><td><code>module-04-work/input/markdown/paper.md</code>, <code>module-04-work/output/refs.bib</code>, <code>literature/markdown/</code></td></tr><tr><th scope="row">ได้ไฟล์</th><td><code>module-04-work/output/citation-register.csv</code>, <code>module-04-work/output/citation-register-summary.md</code></td></tr><tr><th scope="row">ตรวจเองก่อนไปต่อ</th><td>เลือกรายการที่ไม่มี abstract อย่างน้อยหนึ่งรายการ เปิดฉบับเต็มตรวจเอง แก้ checked_against เป็น full_text และกำหนดสถานะใหม่</td></tr></tbody></table>
+<div class="command"><code>จาก module-04-work/input/markdown/paper.md และ module-04-work/output/refs.bib ให้หา in-text citation ทุกจุดในเนื้อหา จับคู่กับรายการอ้างอิง แล้วสร้าง module-04-work/output/citation-register.csv ตามหัวคอลัมน์ใน course-materials/module-04/citation-register-template.csv และความหมายของแต่ละคอลัมน์ใน course-materials/module-04/citation-audit-rules.md หนึ่งแถวต่อหนึ่งรายการอ้างอิง ใส่ทุกตำแหน่งที่ถูกอ้างและประโยครอบ citation ถ้ามีฉบับเต็มใน literature/markdown/ ให้เทียบกับฉบับเต็มพร้อมหน้า และตั้ง checked_against เป็น full_text ถ้าไม่มีให้เทียบกับ abstract และตั้งเป็น abstract แล้วระบุว่ารองรับ รองรับบางส่วน ไม่รองรับ หรือตรวจไม่ได้ แยก citation ที่ไม่มีในรายการอ้างอิง และรายการที่ไม่ถูกอ้าง จากนั้นตรวจคุณภาพของชุดอ้างอิงตามตารางคุณภาพใน citation-audit-rules.md แล้วสร้าง module-04-work/output/citation-register-summary.md ที่นับจำนวนตามสถานะ ระบุรายการเสี่ยง และปัญหาคุณภาพของชุดอ้างอิง ห้ามตัดสินจากชื่อเรื่อง แล้วหยุดรอ</code><button type="button" data-copy>คัดลอก Prompt 4.3</button></div>
+<h3>อ่านฉบับเต็มอย่างไรให้ตัดสินได้</h3><table><thead><tr><th>ข้อความที่ถูกอ้าง</th><th>อ่านส่วนใด</th><th>ตรวจอะไร</th></tr></thead><tbody><tr><td>ข้อเท็จจริงหรือนิยาม</td><td>Introduction</td><td>ความหมายตรงกัน</td></tr><tr><td>ตัวเลขหรือขนาดผล</td><td>Results, ตาราง, รูป</td><td>ค่า หน่วย กลุ่ม ช่วงความเชื่อมั่น</td></tr><tr><td>ความสัมพันธ์ / เหตุและผล</td><td>Methods, Discussion</td><td>รูปแบบการศึกษารองรับหรือไม่</td></tr><tr><td>ขยายผลไปกลุ่มอื่น</td><td>Methods, Limitations</td><td>กลุ่มที่ศึกษาตรงกับที่อ้าง</td></tr><tr><td>ข้อเสนอแนะหรือมาตรฐาน</td><td>Conclusion, ประกาศทางการ</td><td>ข้อเสนอ หรือข้อบังคับจริง</td></tr></tbody></table>
+<h3>คุณภาพของชุดอ้างอิง: สิ่งที่ผู้อ่าน lit review ไม่ชอบ</h3><p>พึ่งแหล่งเดียวมากเกินไป · อ้างตนเองหรือกลุ่มเดียวกัน · แหล่งไม่น่าเชื่อถือ (ถูกถอน, Wikipedia, รายงานภายใน, ref ทิพย์) · แหล่งเก่าหรือมาตรฐานรุ่นเก่า · ไม่มีงานจากบริบทไทยหรือภูมิภาค · ขาดหลักฐานแย้ง · รายการไม่เรียบร้อย (ปีผิด ขาด DOI มี citation ที่ไม่มีในรายการ)</p>
+    </div></section>
 
-ส่งมอบ:
-- module-04-work/output/openalex/raw-works.jsonl
-- module-04-work/output/openalex/candidates.csv
-- module-04-work/output/openalex/crawl-manifest.md
-- tools/openalex-crawl.py
+    <section class="section markdown-section" id="done"><div class="section-heading compact"><p class="eyebrow">5 นาที</p><h2>แจ้งว่าเสร็จ แล้วเฉลยร่วมกัน</h2><p>การส่งงานของโมดูลนี้เป็นเพียงการแจ้งว่าทำเสร็จ ไม่ส่งทะเบียนหรือเนื้อหางาน ไฟล์ทั้งหมดอยู่ในเครื่องของคุณ</p></div><div class="markdown-body">
+<ul><li><strong>4.1:</strong> refs.bib ครบทุกรายการ ช่องที่หาไม่พบระบุตามจริง</li><li><strong>4.2:</strong> รายการที่ไม่ได้ฉบับเต็มอยู่ใน manual-download.md ครบ</li><li><strong>4.3:</strong> ทะเบียนแยก “ref มีจริง” ออกจาก “cite ถูกต้อง” ระบุว่ารายการใดตรวจกับฉบับเต็ม รายการใดแค่ abstract และไม่เรียกรายการที่ “ไม่พบ” ว่าเป็น ref ทิพย์ โดยไม่ได้ตรวจหลายแหล่ง</li></ul>
+<p>แจ้งว่าเสร็จด้วยคำสั่ง AIRR ใน Terminal ของ VS Code ระบบตรวจในเครื่องว่า 4.1–4.3 มีไฟล์ครบ แล้วส่งเฉพาะสถานะว่าเสร็จและจำนวนนับ ไม่ส่งรายการอ้างอิง abstract หรือทะเบียนออกจากเครื่อง ถ้าทำงานจริงในโฟลเดอร์ย่อย ให้เพิ่ม <code>--file module-04-work/&lt;ชื่องาน&gt;</code></p><div class="command terminal-command"><code>&amp; .\tools\airr.ps1 check module-4; &amp; .\tools\airr.ps1 submit module-4</code><button type="button" data-copy>คัดลอกคำสั่ง AIRR สำหรับ Windows</button></div><div class="command terminal-command"><code>bash tools/airr.sh check module-4 &amp;&amp; bash tools/airr.sh submit module-4</code><button type="button" data-copy>คัดลอกคำสั่ง AIRR สำหรับ macOS / Linux</button></div><p>ถ้ายังไม่ได้เชื่อม AIRR ให้แจ้งผู้สอนตามช่องทางที่ผู้สอนแจ้งแทน ถ้า AIRR แจ้งว่าไม่รู้จัก <code>module-4</code> ให้รันตัวติดตั้ง Module 1 ซ้ำเพื่ออัปเดตเครื่องมือ ระหว่างเฉลย ให้จดว่าปัญหาใดที่ AI หาเจอ ปัญหาใดที่คุณต้องหาเอง และ AI ตัดสินผิดตรงไหน</p>
+    </div></section>
 
-หลังรัน:
-- ตรวจ duplicate ด้วย OpenAlex ID และ DOI
-- สรุปจำนวน retrieved, duplicate, missing DOI และ missing abstract
-- จัดรายการเป็น candidate metadata จนกว่าจะตรวจ DOI/official page/full text</code><button type="button" data-copy>คัดลอก Prompt ค้นรายชื่องาน</button></div></section>
+    <section class="section markdown-section" id="own-work"><div class="section-heading compact"><p class="eyebrow">25 นาที · งานของนิสิต</p><h2>ทำ 4.1 → 4.3 ด้วย Prompt ของคุณเอง</h2><p>เลือกบทที่มีการอ้างอิงมาก เช่น บททบทวนวรรณกรรม ใช้เฉพาะงานที่ได้รับอนุญาต ตัดข้อมูลส่วนบุคคลออก วางไว้ใน module-04-work/&lt;ชื่องาน&gt;/input/original/ แล้วเขียน Prompt ทีละ sub-module โดยใช้ Prompt ของบทความจำลองเป็นโครง</p></div><div class="markdown-body">
+<table><thead><tr><th>องค์ประกอบ</th><th>ตัวอย่างสิ่งที่ต้องระบุ</th></tr></thead><tbody><tr><td>งาน</td><td>สร้าง refs.bib คลังเอกสาร และทะเบียนการอ้างอิงของไฟล์ใด</td></tr><tr><td>แหล่งที่อนุญาต</td><td>OpenAlex (key จาก OPENALEX_KEY) และ DOI ก่อน แล้ว ThaiJO, TCI, ThaiLIS สำหรับรายการภาษาไทย</td></tr><tr><td>วิธีจับคู่</td><td>DOI ก่อน แล้วจึงชื่อเรื่องและปี ทั้งภาษาไทยและภาษาอังกฤษ</td></tr><tr><td>การดาวน์โหลด</td><td>ใช้ publisher-download-policy.md เดิม ข้ามไฟล์ที่มีในคลังแล้ว และเขียนรายการที่ต้องดาวน์โหลดเองลง manual-download.md</td></tr><tr><td>สิ่งที่ส่งมอบ</td><td>ชื่อไฟล์ และให้ใช้ citation-register-template.csv กับ citation-audit-rules.md เดิม</td></tr><tr><td>กติกาเมื่อไม่พบ</td><td>บันทึกแหล่งที่ค้นแล้ว ห้ามเรียกว่าปลอม ห้ามแต่ง abstract</td></tr><tr><td>จุดหยุดรอ</td><td>หยุดหลัง 4.1 และหลัง 4.3 เพื่อให้คุณตรวจ</td></tr></tbody></table>
+<h3>รายการอ้างอิงภาษาไทย: ไม่พบใน OpenAlex ไม่ได้แปลว่าปลอม</h3><table><thead><tr><th>เรื่อง</th><th>สิ่งที่ต้องระวัง</th></tr></thead><tbody><tr><td>ฐานข้อมูล</td><td>OpenAlex ครอบคลุมวารสารไทยน้อย ค้นต่อใน ThaiJO, TCI และ ThaiLIS</td></tr><tr><td>ปี พ.ศ. / ค.ศ.</td><td>พ.ศ. = ค.ศ. + 543 แปลงก่อนตัดสินว่าปีไม่ตรง</td></tr><tr><td>ชื่อผู้แต่ง</td><td>อ้างด้วยชื่อต้น ทับศัพท์ได้หลายแบบ เทียบทั้งไทยและอังกฤษ</td></tr><tr><td>ชื่อเรื่อง</td><td>มักมีทั้งไทยและอังกฤษ ค้นได้สองแบบ</td></tr><tr><td>DOI</td><td>บางวารสารไม่มี DOI ไม่ใช่สัญญาณว่าปลอม</td></tr></tbody></table>
+<h3>ตัดสินใจกับแต่ละรายการ</h3><p><strong>เก็บ</strong> เมื่อ verified · <strong>ลดขอบเขตข้อความ</strong> เมื่อ partially supported · <strong>ตัดออก</strong> เมื่อ not supported, retracted หรือ fabricated · <strong>หาแหล่งแทน</strong> เมื่อ not found หรือ outdated</p>
+    </div></section>
 
-    <section class="section" id="paths"><div class="section-heading compact"><p class="eyebrow">กิจกรรมฝึกตรวจวรรณกรรม</p><h2>เลือกงานที่ตรงกับสิ่งที่ต้องตรวจ</h2><p>หลังค้นรายชื่องานแล้ว ถ้ามี Claim ให้ทำกิจกรรม A เพื่อค้นหลักฐานใหม่ ถ้ามี manuscript หรือ proposal ให้ทำกิจกรรม B เพื่อตรวจการอ้างอิง เมื่อเสร็จแล้วจะสรุปผลด้วย Citation Verification Checklist</p></div></section>
-
-    <section class="section" id="path-a"><div class="section-heading compact"><p class="eyebrow">ทาง A</p><h2>ค้นหลักฐานใหม่สำหรับ Claim</h2></div><ol class="readiness-steps activity-steps">
-      <li><span>A1</span><div><strong>เขียน Claim และขอบเขตด้วยตนเอง</strong><p>Claim ที่ตรวจได้ต้องระบุว่าจะใช้ตอบคำถามใด ใครหรืออะไรคือหน่วยที่กล่าวถึง และผลแบบใดที่จะทำให้เรายอมรับ ปรับ หรือปฏิเสธ Claim</p><p><strong>เคสฝึกนิสิต/นักวิจัยมือใหม่:</strong> “อาหารที่มีโปรตีนสูงสัมพันธ์กับระยะเวลาก่อนหิวอีกครั้งในนักศึกษา” ต้องระบุนิยามโปรตีนสูง ความหิว และกลุ่มนักศึกษา</p></div></li>
-      <li><span>A2</span><div><strong>สร้างแผนค้นที่มนุษย์ตรวจได้</strong><p>AI ช่วยเสนอ concepts, synonyms และ query หลายแบบได้ แต่ผลลัพธ์ในขั้นนี้เป็นเพียงแผนค้น ยังใช้สรุปไม่ได้ว่ามีหลักฐานหรือไม่มีงาน</p><p><strong>เคสฝึกนิสิต/นักวิจัยมือใหม่:</strong> แผนค้นควรแยก <em>student/young adult</em>, <em>protein/high-protein meal</em> และ <em>satiety/fullness/hunger</em> พร้อมอธิบายผลของการใช้คำกว้างหรือแคบ</p><div class="command"><code>งาน: สร้างแผนการค้นสำหรับข้ออ้างที่ฉันให้
-
-สิ่งที่ต้องแยก:
-- แนวคิดหลัก
-- คำที่มีความหมายใกล้กัน
-- คำที่ควรตัดออก
-- ชุดคำค้นอย่างน้อย 3 แบบ จากกว้างไปแคบ
-
-ระบุด้วย:
-- ฐานข้อมูลหรือแหล่งค้นที่เหมาะสม
-- สิ่งที่คำค้นแต่ละแบบอาจพลาด
-
-กติกา:
-- ห้ามสร้างรายการอ้างอิง
-- ห้ามสรุปว่า “ไม่มีงาน” จากผลค้นที่ยังไม่ครบ
-
-ส่งมอบ: module-04-work/output/search-plan.md</code><button type="button" data-copy>คัดลอก Prompt A2</button></div></div></li>
-      <li><span>A3</span><div><strong>ค้นและบันทึก Search Log</strong><p>Search log ทำให้ผู้อื่นย้อนดูได้ว่าเราค้นที่ใด เมื่อใด ใช้ query และตัวกรองอะไร พบกี่รายการ และเลือกหรือตัดแต่ละแหล่งด้วยเหตุผลใด ส่วนหลักฐานที่เก็บต้องย้อนกลับไปยัง DOI, official page หรือ PDF ได้</p></div></li>
-      <li><span>A4</span><div><strong>สร้าง Literature Evidence Table</strong><p>Evidence table ต้องแยก metadata ออกจากข้อความหลักฐานในเนื้อหา ใช้ AI ช่วยจัดรูปแบบได้เมื่อมีแหล่งต้นทางแล้ว แต่ช่องที่ตรวจไม่ได้ต้องคงเป็น not found แทนการเติมให้ครบ</p><p><strong>เคสฝึกนิสิต/นักวิจัยมือใหม่:</strong> หนึ่งแถวต้องบอกว่าการศึกษาวัด satiety อย่างไร พบผลอะไร ในประชากรใด และรองรับ Claim ได้ทั้งหมดหรือเพียงบางส่วน</p><div class="command"><code>งาน: สร้างตารางหลักฐานจากเอกสารที่ฉันให้
-
-ใช้เฉพาะ:
-- PDF
-- หน้าทางการของผู้เผยแพร่
-- ข้อมูลบรรณานุกรมที่ฉันให้
-
-หนึ่งแถวต่อหนึ่งแหล่ง โดยมี:
-- ข้ออ้างที่ตรวจ
-- รหัสรายการอ้างอิง
-- ข้อมูลบรรณานุกรมที่ยืนยันแล้ว
-- รูปแบบการศึกษาและประชากร
-- ตำแหน่งหลักฐานในต้นฉบับ
-- สิ่งที่ผลสนับสนุนจริง
-- ข้อจำกัด
-- ความเกี่ยวข้องต่อข้ออ้าง
-- สถานะการตรวจ
-
-กติกา: ช่องใดตรวจไม่ได้ให้ระบุว่า “ยังไม่พบ” ห้ามเติมให้ครบเอง
-
-ส่งมอบ: module-04-work/output/literature-evidence-table.md</code><button type="button" data-copy>คัดลอก Prompt A4</button></div></div></li>
-      <li><span>A5</span><div><strong>ตรวจข้อเสนอของ AI กับต้นฉบับ</strong><p>ข้อเสนอของ AI อย่างน้อยหนึ่งรายการต้องถูกเปิดตรวจผ่าน DOI หรือ official page และ full text แล้วบันทึกว่าข้อมูลใดถูก ข้อมูลใดผิด และผลการตรวจทำให้สถานะเปลี่ยนอย่างไร</p></div></li>
-    </ol><div class="plain-note"><strong>บันทึกผลไว้ที่:</strong> <code>module-04-work/output/search-plan.md</code> และ <code>module-04-work/output/literature-evidence-table.md</code></div></section>
-
-    <section class="section" id="path-b"><div class="section-heading compact"><p class="eyebrow">ทาง B</p><h2>ตรวจ Reference List ของงานตนเอง</h2></div><h3 class="section-zone-heading">ช่วง 1 · สร้างและตรวจ BibTeX (B1–B2)</h3><ol class="readiness-steps activity-steps">
-        <li><span>B1</span><div><strong>สร้าง BibTeX พร้อม Abstract</strong><p>การแปลงรูปแบบไม่ใช่การยืนยันความจริง แต่ละ entry จึงต้องมี abstract ที่คัดจาก official page หรือ full text พร้อมคง field อื่นที่ขาดไว้ตามจริง AI ห้ามเดา metadata หรือเขียน abstract สรุปแทนต้นฉบับ</p><p><strong>เคสฝึกนิสิต/นักวิจัยมือใหม่:</strong> ถ้า reference เรื่อง satiety มี abstract บนหน้าวารสาร ให้คัดข้อความนั้นลง field <code>abstract</code> แต่ถ้าไม่มี DOI ให้รายงานว่า DOI ยังไม่พบ ไม่สร้างรหัสที่ดูคล้าย DOI ขึ้นมา</p><div class="command"><code>งาน: สร้างแฟ้ม BibTeX จากรายการอ้างอิงและแหล่งต้นทางที่ฉันให้
-
-ทำทีละรายการ:
-1. สร้างหนึ่งรายการต่อหนึ่งแหล่ง
-2. รักษาข้อความจากต้นทาง
-3. ตรวจรหัสรายการไม่ให้ซ้ำ
-4. ใส่บทคัดย่อจากหน้าทางการหรือเนื้อหาเต็มเท่านั้น
-
-ห้าม:
-- สรุปหรือแต่งบทคัดย่อใหม่
-- เดาชื่อผู้แต่ง ชื่อเรื่อง ปี แหล่งเผยแพร่ หรือ DOI
-
-หากไม่พบบทคัดย่อ ให้เว้นช่องนั้นและทำรายการ “abstract not found”
-
-ส่งมอบ: module-04-work/output/refs.bib</code><button type="button" data-copy>คัดลอก Prompt B1</button></div></div></li>
-        <li><span>B2</span><div><strong>ตรวจคุณภาพ BibTeX และ Abstract</strong><p>การตรวจ BibTeX มีสองชั้น: ตรวจรูปแบบ เช่น field และ key และตรวจข้อเท็จจริงโดยกลับไปหา metadata กับ abstract จากต้นทาง AI ช่วยชี้รายการเสี่ยงได้ แต่ไม่อาจยืนยันชั้นที่สองจากไฟล์ BibTeX เพียงอย่างเดียว</p><p><strong>เคสฝึกนิสิต/นักวิจัยมือใหม่:</strong> DOI ที่พิมพ์ผิดรูปแบบเป็น format problem ส่วน DOI ที่เปิดแล้วชี้ไปคนละบทความ หรือ abstract ในไฟล์ไม่ตรงกับหน้าวารสาร เป็น factual verification problem</p><div class="command"><code>งาน: ตรวจคุณภาพ module-04-work/output/refs.bib ทีละรายการ โดยยังไม่แก้ข้อมูล
-
-ตรวจ:
-- ชนิดเอกสาร
-- ช่องข้อมูลที่จำเป็นแต่ขาด
-- รหัสรายการที่ซ้ำ
-- รูปแบบที่ไม่สอดคล้องกัน
-- DOI ที่ผิดรูปแบบ
-- บทคัดย่อที่ขาด
-- บทคัดย่อที่ยังไม่มีต้นทางยืนยัน
-
-แยกปัญหาเป็นสองกลุ่ม:
-1. ปัญหารูปแบบ
-2. ปัญหาข้อเท็จจริงที่ต้องกลับไปตรวจต้นทาง
-
-ส่งมอบ: module-04-work/output/bibtex-quality-report.md</code><button type="button" data-copy>คัดลอก Prompt B2</button></div></div></li>
-      </ol>
-      <h3 class="section-zone-heading">ช่วง 2 · ประเมินและยืนยันการอ้างอิง (B3–B5)</h3><ol class="readiness-steps activity-steps">
-        <li><span>B3</span><div><strong>ประเมิน Reference Set</strong><p>ความใหม่ ความครอบคลุม คู่แข่งหลัก self-citation และความเกี่ยวข้องช่วยเปิดคำถามสำหรับตรวจต่อ แต่ยังไม่ใช่คำตัดสินจากจำนวน reference หรือชื่อเรื่องเพียงอย่างเดียว</p><p><strong>เคสฝึกนิสิต/นักวิจัยมือใหม่:</strong> หาก reference ทั้งหมดพูดเรื่องรสชาติ แต่ Claim พูดเรื่องระยะเวลาก่อนหิว รายงานควรถามว่าขาดงานด้าน satiety หรือไม่ โดยยังไม่สร้างรายชื่อบทความขึ้นเอง</p><div class="command"><code>งาน: ตรวจความครอบคลุมของชุดรายการอ้างอิง
-
-เปรียบเทียบรายการอ้างอิงกับหัวข้อและข้ออ้างในต้นฉบับ แล้วระบุ:
-- รายการที่อาจเก่าเกินไป
-- งานสำคัญหรือแนวคิดคู่แข่งที่อาจยังขาด
-- สัดส่วนการอ้างงานของตนเองที่ควรตรวจ
-- รายการที่อาจไม่เกี่ยวกับข้ออ้าง
-
-เขียนแต่ละข้อเป็น “คำถามที่ต้องตรวจต่อ” พร้อมเหตุผล
-
-กติกา:
-- ห้ามสร้างรายการอ้างอิงใหม่
-- ห้ามตัดสินจากชื่อเรื่องเพียงอย่างเดียว
-- ห้ามลบผลตรวจเดิม
-
-เพิ่มผลในหัวข้อ Reference Set Review ของ module-04-work/output/bibtex-quality-report.md</code><button type="button" data-copy>คัดลอก Prompt B3</button></div></div></li>
-        <li><span>B4</span><div><strong>ยืนยันตัวตนจาก DOI หรือ Official Page</strong><p>Citation สำคัญหรือรายการเสี่ยง 5–8 รายการควรถูกเปิดจากต้นทางจริง แล้วเทียบ author, year, title, venue และ DOI กับ BibTeX ทีละช่อง</p></div></li>
-        <li><span>B5</span><div><strong>ตรวจ In-text Citation กับเนื้อหาจริง</strong><p>ข้อความรอบ citation ต้องตรงกับ method, result และ limitation ของแหล่ง การอ่าน abstract อย่างเดียวไม่พอเมื่อ Claim อาศัยรายละเอียดของผลหรือขอบเขตประชากร</p><p><strong>เคสฝึกนิสิต/นักวิจัยมือใหม่:</strong> บทความที่พบความอิ่มเพิ่มเล็กน้อยในผู้ใหญ่ทั่วไป ไม่ควรถูกอ้างว่า “พิสูจน์แล้วว่าอาหารโปรตีนสูงทำให้นักศึกษาทุกคนอิ่มนาน”</p><div class="command"><code>งาน: ตรวจการอ้างในเนื้อหา 5–8 รายการที่ฉันตรวจต้นทางแล้ว
-
-สร้างตารางที่มี:
-- ข้อความรอบตำแหน่งอ้างอิง
-- สิ่งที่ต้นฉบับระบุจริง พร้อมหน้า/ส่วน
-- ความตรงของประชากร วิธีวิจัย และผล
-- จุดที่อ้างเกินหรือบิดเบือน
-- ความตรงของข้อมูลบรรณานุกรม
-- สถานะการตรวจ
-
-กติกา:
-- หากไม่มีเนื้อหาเต็ม ให้ระบุว่า “ยังไม่พบ”
-- ห้ามสรุปแทนต้นฉบับ
-
-ส่งมอบ: module-04-work/output/citation-self-audit.md</code><button type="button" data-copy>คัดลอก Prompt B5</button></div></div></li>
-      </ol><div class="plain-note"><strong>บันทึกผลไว้ที่:</strong> <code>module-04-work/output/refs.bib</code>, <code>module-04-work/output/bibtex-quality-report.md</code> และ <code>module-04-work/output/citation-self-audit.md</code></div></section>
-
-    <section class="section" id="shared"><div class="section-heading compact"><p class="eyebrow">สรุปผลการตรวจ</p><h2>ตัดสินใจว่าจะเก็บ ปรับ หรือตัด Citation</h2><p>นำผลจากกิจกรรมที่ทำมาสรุปว่าอะไรตรวจได้ อะไรยังขาด และหลักฐานทำให้ต้องเปลี่ยน Claim อย่างไร</p></div><p><strong>เคสฝึกนิสิต/นักวิจัยมือใหม่:</strong> Checklist อาจบันทึกว่า DOI และ metadata ผ่าน แต่ Claim ได้เพียง partially supported เพราะประชากรไม่ใช่นักศึกษา และยังต้องค้นงานที่วัดระยะเวลาก่อนหิวอีกครั้งโดยตรง</p><div class="command"><code>งาน: สรุปผลตรวจรายการอ้างอิงที่ฉันอนุมัติแล้ว
-
-หนึ่งแถวต่อหนึ่งรายการ โดยมี:
-- ข้ออ้าง
-- แหล่งต้นทาง
-- ผลตรวจตัวตนและข้อมูลบรรณานุกรม
-- ผลตรวจเนื้อหาเต็ม
-- ผลตรวจบริบทรอบตำแหน่งอ้าง
-- สถานะ
-- สิ่งที่ยังขาด
-- การตัดสินใจ: เก็บ / ลดขอบเขต / ตัดออก / หาแหล่งแทน
-- ผู้ตรวจ
-
-กติกา:
-- ห้ามเปลี่ยน “ยังไม่พบ” เป็น “ไม่สนับสนุน”
-- ห้ามประกาศว่าไม่มีงานเพียงเพราะค้นไม่พบ
-
-ส่งมอบ: module-04-work/output/citation-verification-checklist.md</code><button type="button" data-copy>คัดลอก Prompt สรุปผล</button></div></section>
-
-    <section class="section markdown-section" id="finish" aria-labelledby="finish-heading"><div class="section-heading compact"><p class="eyebrow">Checkpoint</p><h2 id="finish-heading">จบบทเรียน</h2></div><div class="markdown-body"><p>ติ๊กเมื่อคุณตรวจรายการอ้างอิงและอธิบายหลักฐานของแต่ละข้อได้ ระบบจะจำสถานะไว้ในเบราว์เซอร์นี้</p><p class="progress" aria-live="polite">ความสำเร็จ <strong data-progress>0%</strong></p><div class="checklist" data-checklist="module-4">
-      <label><input type="checkbox"> มีรายชื่องานและบันทึกการค้นจากระบบสืบค้นของรายวิชาตามขอบเขตที่กำหนดไว้</label><label><input type="checkbox"> มี search plan/evidence table หรือ citation self-audit ที่ตรวจได้</label><label><input type="checkbox"> แยก discovery source, metadata, official page และ full text ได้</label><label><input type="checkbox"> BibTeX มี abstract จากต้นทาง หรือบันทึกรายการ <code>abstract not found</code> ไว้แล้ว</label><label><input type="checkbox"> ตรวจ DOI และ metadata จากต้นทาง ไม่รับจาก AI โดยตรง</label><label><input type="checkbox"> ตรวจว่าเนื้อหาต้นฉบับสนับสนุน Claim ในขอบเขตที่อ้าง</label><label><input type="checkbox"> ใช้หนึ่งในหกสถานะกับ Citation ที่ตรวจทุกข้อ</label><label><input type="checkbox"> ยืนยันหรือปฏิเสธข้อเสนอของ AI จากต้นฉบับอย่างน้อยหนึ่งรายการ</label><label><input type="checkbox"> เปิด <code>module-04-work/output/citation-verification-checklist.md</code> ได้</label>
-    </div><div class="notice"><strong>การบ้าน:</strong> ปรับบันทึกการค้น ตารางหลักฐาน หรืองานตรวจการอ้างอิงของตนเอง ตรวจข้อมูลรายการและข้อความอ้างซ้ำ แล้วเลือกข้อค้นพบหนึ่งข้อที่ทำให้ต้องปรับคำถามวิจัย วิธี หรือข้อกล่าวอ้าง สำหรับโมดูล 5 ให้นำวิธี ผล และข้อกล่าวอ้างที่เชื่อมกันประมาณ 2–4 หน้า พร้อมทำเครื่องหมายจุดที่สงสัยเรื่องสิ่งที่ต้องการวัด วิธีวัด จุดเปรียบเทียบ ความไม่แน่นอน หรือขอบเขตการอ้าง</div></div><div class="hero-actions module-next"><a class="button secondary" href="module-3.html">← กลับ Module 3</a><a class="button primary" href="index.html#module-5">ดู Module ถัดไป →</a></div></section>
+    <section class="section markdown-section" id="finish" aria-labelledby="finish-heading"><div class="section-heading compact"><p class="eyebrow">Checkpoint</p><h2 id="finish-heading">จบบทเรียน</h2></div><div class="markdown-body"><p>ติ๊กเมื่อทำแต่ละ sub-module เสร็จ ระบบจะจำสถานะไว้ในเบราว์เซอร์นี้</p><p class="progress" aria-live="polite">ความสำเร็จ <strong data-progress>0%</strong></p><div class="checklist" data-checklist="module-4">
+      <label><input type="checkbox"> แยก discovery source, metadata, official page และ full text ได้</label><label><input type="checkbox"> 4.1 มี <code>module-04-work/output/refs.bib</code> ครบทุกรายการ และรายการที่ไม่มี abstract บันทึกว่า <code>abstract not found</code></label><label><input type="checkbox"> 4.1 สุ่มตรวจ DOI และ metadata 3 รายการด้วยตนเองแล้ว</label><label><input type="checkbox"> 4.2 มีฉบับเต็มใน <code>literature/</code> และ <code>module-04-work/output/manual-download.md</code></label><label><input type="checkbox"> 4.3 มี <code>module-04-work/output/citation-register.csv</code> ที่ใช้หนึ่งในหกสถานะกับทุกรายการ</label><label><input type="checkbox"> 4.3 ตรวจรายการเสี่ยงอย่างน้อยหนึ่งรายการกับฉบับเต็มด้วยตนเอง</label><label><input type="checkbox"> แจ้งว่าเสร็จ และเทียบทะเบียนกับเฉลยแล้ว</label><label><input type="checkbox"> เริ่มทะเบียนของงานจริงด้วย Prompt ที่เขียนเอง</label>
+    </div><div class="notice"><strong>หลังเรียน:</strong> เชื่อม VPN ดาวน์โหลดรายการใน manual-download.md แล้วสั่ง AI แปลงและตรวจรายการที่เหลือจนทะเบียนของงานจริงครบ เก็บคลัง <code>literature/</code> ไว้ใช้ซ้ำ และใช้ <code>refs.bib</code> ต่อใน Module 8 ได้ทันที</div></div><div class="hero-actions module-next"><a class="button secondary" href="module-3.html">← กลับ Module 3</a><a class="button primary" href="index.html#module-5">ดู Module ถัดไป →</a></div></section>
   </main>
   <site-footer></site-footer>
 </body>

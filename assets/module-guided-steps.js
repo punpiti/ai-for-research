@@ -4,11 +4,13 @@
   const configs = {
     "4": {
       stages: [
-        { id: "prepare", short: "เตรียม", title: "เตรียม Claim และเอกสาร", selectors: ["main > .profile-context", "#prepare", "#outcomes"] },
-        { id: "concepts", short: "หลักฐาน", title: "รู้จักแหล่งและสถานะหลักฐาน", selectors: ["#source-types", "#citation-anatomy", "#verification", "#example"] },
-        { id: "search", short: "ค้น", title: "ค้นวรรณกรรมอย่างมีขอบเขต", selectors: ["#openalex"] },
-        { id: "verify", short: "ตรวจอ้างอิง", title: "ตรวจ Citation กับแหล่งต้นทาง", selectors: ["#paths", "#path-a", "#path-b"] },
-        { id: "finish", short: "สรุป", title: "สรุปหลักฐานและตรวจงาน", selectors: ["#shared", "#finish"] },
+        { id: "prepare", short: "เตรียม", title: "เตรียมบทความจำลอง งานจริง และ OpenAlex key", selectors: ["main > .profile-context", "#prepare", "#outcomes"] },
+        { id: "concepts", short: "แนวคิด", title: "สองชั้น สี่ชั้นแหล่ง หกสถานะ และสาม sub-module", selectors: ["#source-types", "#citation-anatomy", "#verification", "#submodules"] },
+        { id: "bibtex", short: "4.1 BibTeX", title: "Sub-module 4.1 สร้าง BibTeX พร้อม abstract", selectors: ["#sub-4-1"] },
+        { id: "download", short: "4.2 ต้นฉบับ", title: "Sub-module 4.2 โหลดไฟล์ต้นฉบับเข้าคลัง", selectors: ["#sub-4-2"] },
+        { id: "audit", short: "4.3 ตรวจ", title: "Sub-module 4.3 ตรวจการอ้างอิงและทำทะเบียน", selectors: ["#sub-4-3", "#done"] },
+        { id: "own", short: "งานจริง", title: "ทำ 4.1–4.3 กับงานของนิสิต", selectors: ["#own-work"] },
+        { id: "finish", short: "จบ", title: "ตรวจความครบและงานหลังเรียน", selectors: ["#finish"] },
       ],
       checklist: "#finish",
     },
