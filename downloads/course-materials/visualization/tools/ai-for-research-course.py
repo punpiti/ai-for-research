@@ -97,12 +97,32 @@ def load_json(path: Path, label: str) -> dict[str, Any]:
     return value
 
 
+# Course workspace file map: each module keeps its files in module-0N-work/
+# (input/original, input/markdown, output, notes). Older workspaces used
+# top-level output/; those files are still found, with a notice.
+MODULE_DIRS = {"module-1": "module-01-work", "module-2": "module-02-work", "module-3": "module-03-work"}
+LEGACY_OUTPUT = {"module-1": Path("output"), "module-2": Path("output"), "module-3": Path("output") / "module-3"}
+
+
+def module_output(workspace: Path, module: str) -> Path:
+    return workspace / MODULE_DIRS[module] / "output"
+
+
+def module_file(workspace: Path, module: str, name: str) -> Path:
+    current = module_output(workspace, module) / name
+    if current.exists():
+        return current
+    legacy = workspace / LEGACY_OUTPUT[module] / name
+    if legacy.exists():
+        print(f"AIRR NOTE · ใช้ไฟล์ตำแหน่งเดิม {legacy} ตำแหน่งมาตรฐานใหม่คือ {current}", file=sys.stderr)
+        return legacy
+    return current
+
+
 def evaluation_path(workspace: Path, module: str, value: str | None) -> Path:
     if value:
         return Path(value).expanduser().resolve()
-    if module == "module-2":
-        return workspace / "output" / "module-2-evaluation.json"
-    return workspace / "output" / "module-3" / "module-3-evaluation.json"
+    return module_file(workspace, module, f"{module}-evaluation.json")
 
 
 def validate_evaluation(value: dict[str, Any], module: str) -> dict[str, Any]:
@@ -135,7 +155,10 @@ def run_local_validator(workspace: Path, module: str, artifact: Path, markdown: 
             raise AIRRError("Module 2 ต้องมีไฟล์ Markdown")
         command.append(str(markdown))
     else:
-        command.extend(["--workspace", str(workspace)])
+        # Artifact paths are relative to the folder that holds output/:
+        # module-03-work/ for the current layout, the workspace for the legacy one.
+        root = artifact.parent.parent if artifact.parent.name == "output" else workspace
+        command.extend(["--workspace", str(root)])
     result = subprocess.run(command, cwd=workspace, capture_output=True, text=True, timeout=120, check=False)
     if result.returncode != 0:
         raise AIRRError((result.stderr or result.stdout or "LOCAL_CHECK FAIL").strip())
@@ -144,15 +167,15 @@ def run_local_validator(workspace: Path, module: str, artifact: Path, markdown: 
 def module_payload(workspace: Path, args: argparse.Namespace) -> tuple[dict[str, Any], str]:
     now = datetime.now(timezone.utc).isoformat()
     if args.module == "module-1":
-        path = Path(args.file).expanduser().resolve() if args.file else workspace / "output" / "module-1-progress.json"
+        path = Path(args.file).expanduser().resolve() if args.file else module_file(workspace, "module-1", "module-1-progress.json")
         progress = load_json(path, "module-1-progress.json")
         required = {"schema_version", "module_id", "checks", "completion_status", "ai_tool", "completion_minutes", "token_source", "total_tokens"}
         if set(progress) != required or progress.get("schema_version") != "ai-for-research.module-1-progress.v1" or progress.get("module_id") != "module-1":
             raise AIRRError("module-1-progress.json ไม่ตรง schema ของ Module 1")
         return {"event_type": "ai_for_research_module_1_progress", "submission_id": str(uuid4()), "client_submitted_at": now, "progress": progress}, str(path)
     if args.module == "module-2":
-        artifact_path = Path(args.file).expanduser().resolve() if args.file else workspace / "output" / "module-2-submission.json"
-        markdown = Path(args.markdown).expanduser().resolve() if args.markdown else workspace / "output" / "module-2-conclusion.md"
+        artifact_path = Path(args.file).expanduser().resolve() if args.file else module_file(workspace, "module-2", "module-2-submission.json")
+        markdown = Path(args.markdown).expanduser().resolve() if args.markdown else module_file(workspace, "module-2", "module-2-conclusion.md")
         run_local_validator(workspace, "module-2", artifact_path, markdown)
         artifact = load_json(artifact_path, "module-2-submission.json")
         result = artifact["result"]
@@ -163,7 +186,7 @@ def module_payload(workspace: Path, args: argparse.Namespace) -> tuple[dict[str,
         evaluation = validate_evaluation(load_json(evaluation_path(workspace, "module-2", args.evaluation), "module-2-evaluation.json"), "module-2")
         return {"event_type": "ai_for_research_module_2_progress", "submission_id": str(uuid4()), "client_submitted_at": now, "module_evaluation": evaluation, "machine_check": machine, "progress": progress}, f"{artifact_path}, {markdown}"
     if args.module == "module-3":
-        artifact_path = Path(args.file).expanduser().resolve() if args.file else workspace / "output" / "module-3" / "module-3-completion.json"
+        artifact_path = Path(args.file).expanduser().resolve() if args.file else module_file(workspace, "module-3", "module-3-completion.json")
         run_local_validator(workspace, "module-3", artifact_path)
         progress = load_json(artifact_path, "module-3-completion.json")
         evaluation = validate_evaluation(load_json(evaluation_path(workspace, "module-3", args.evaluation), "module-3-evaluation.json"), "module-3")
@@ -348,7 +371,7 @@ def command_whoami(args: argparse.Namespace) -> None:
 def command_init(args: argparse.Namespace) -> None:
     workspace = resolve_workspace(args.workspace)
     if args.module == "module-1":
-        path = workspace / "output" / "module-1-progress.json"
+        path = module_file(workspace, "module-1", "module-1-progress.json")
         value = {"schema_version": "ai-for-research.module-1-progress.v1", "module_id": "module-1", "checks": {"workspace_opened": False, "ai_connected": False, "folder_boundary_understood": False, "pdf_created_and_opened": False}, "completion_status": "completed", "ai_tool": "codex", "completion_minutes": 1, "token_source": "not_available", "total_tokens": None}
     elif args.module == "module-2":
         path = evaluation_path(workspace, "module-2", None)

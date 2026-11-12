@@ -110,8 +110,9 @@ def validate(payload: Any, workspace: Path) -> dict[str, Any]:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description="ตรวจ Module 3 ในเครื่องโดยไม่อัปโหลดงาน")
-    parser.add_argument("completion_json", nargs="?", default="output/module-3/module-3-completion.json")
-    parser.add_argument("--workspace", default=".")
+    # Artifact paths are relative to the Module 3 folder, e.g. "output/refs.bib".
+    parser.add_argument("completion_json", nargs="?", default="module-03-work/output/module-3-completion.json")
+    parser.add_argument("--workspace", default="module-03-work")
     args = parser.parse_args()
     try:
         completion = Path(args.completion_json)

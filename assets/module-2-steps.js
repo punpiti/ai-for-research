@@ -44,7 +44,7 @@
     if (stageId === "prepare") {
       return values.evidence_ready === true
         ? { ok: true, message: "บันทึกแล้ว: ชุดหลักฐานพร้อมใช้งาน" }
-        : { ok: false, message: facultyRoute() ? "เตรียมหลักฐานจากงานของคุณใน input/original/ แล้วติ๊กยืนยันก่อน" : "วางไฟล์ ZIP ใน input/original/ แล้วติ๊กยืนยันก่อน" };
+        : { ok: false, message: facultyRoute() ? "เตรียมหลักฐานจากงานของคุณใน module-02-work/input/original/ แล้วติ๊กยืนยันก่อน" : "วางไฟล์ ZIP ใน module-02-work/input/original/ แล้วติ๊กยืนยันก่อน" };
     }
     if (stageId === "concepts") {
       return values.level === "L4"
@@ -72,8 +72,8 @@
   function checkpointMarkup(stageId, saved) {
     if (stageId === "prepare") {
       const label = facultyRoute()
-        ? "เตรียมหลักฐานห้ารูปแบบจากงานของฉันใน <code>input/original/module-02-own-evidence/</code> แล้ว"
-        : "วาง <code>module-02-food-evidence.zip</code> ใน <code>input/original/</code> แล้ว";
+        ? "เตรียมหลักฐานห้ารูปแบบจากงานของฉันใน <code>module-02-work/input/original/module-02-own-evidence/</code> แล้ว"
+        : "วาง <code>module-02-food-evidence.zip</code> ใน <code>module-02-work/input/original/</code> แล้ว";
       return `<label class="module-step-confirm"><input type="checkbox" name="evidence_ready" ${saved.evidence_ready ? "checked" : ""}> <span>${label}</span></label>`;
     }
     if (stageId === "concepts") {

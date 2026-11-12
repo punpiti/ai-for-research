@@ -1,8 +1,9 @@
 [CmdletBinding()]
-param([string]$Workspace = (Get-Location).Path)
+param([string]$Workspace = (Get-Location).Path, [string]$Module = '')
 $ErrorActionPreference = 'Stop'
-$sourceDir = Join-Path $Workspace 'input\original'
-$targetDir = Join-Path $Workspace 'input\markdown'
+$moduleRoot = if ($Module) { Join-Path $Workspace $Module } else { $Workspace }
+$sourceDir = Join-Path $moduleRoot 'input\original'
+$targetDir = Join-Path $moduleRoot 'input\markdown'
 New-Item -ItemType Directory -Force -Path $sourceDir,$targetDir | Out-Null
 
 $coursePython = $null

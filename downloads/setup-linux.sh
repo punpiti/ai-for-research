@@ -141,7 +141,7 @@ if [[ "$dry_run" != 1 && "$mode" != --check ]]; then
   (umask 077; : > "${trace_file%.jsonl}.log")
   trace phase installer "$mode" started "agent=$agent; version=$setup_version"
   trace snapshot workspace "$course_dir" before preserve-personal-files
-  for name in content.md README.md AGENTS.md CLAUDE.md .ai/PROJECT_STATE.md .ai/TOKEN_BUDGET.md .ai/agent-project-kit/STARTUP.md .ai/agent-project-kit/TOKEN_DISCIPLINE.md templates/modern-thai.yaml templates/modern-thai.lua templates/modern-thai.tex templates/fonts/Sarabun-Regular.ttf templates/fonts/Sarabun-Bold.ttf templates/fonts/OFL.txt tools/import-documents.sh tools/import-documents.ps1 tools/import-office.py tools/validate-module-2.py tools/validate-module-3.py tools/install-summary.py .vscode/extensions.json; do
+  for name in module-01-work/content.md README.md AGENTS.md CLAUDE.md .ai/PROJECT_STATE.md .ai/TOKEN_BUDGET.md .ai/agent-project-kit/STARTUP.md .ai/agent-project-kit/TOKEN_DISCIPLINE.md templates/modern-thai.yaml templates/modern-thai.lua templates/modern-thai.tex templates/fonts/Sarabun-Regular.ttf templates/fonts/Sarabun-Bold.ttf templates/fonts/OFL.txt tools/import-documents.sh tools/import-documents.ps1 tools/import-office.py tools/validate-module-2.py tools/validate-module-3.py tools/install-summary.py .vscode/extensions.json; do
     watched_paths+=("$course_dir/$name")
   done
   for name in python envs/research TinyTeX node npm uv-tools bin tessdata envs/research/pyvenv.cfg TinyTeX/tlpkg/texlive.tlpdb; do watched_paths+=("$trace_root/$name"); done
@@ -221,18 +221,22 @@ check() {
 }
 make_workspace() {
   if [[ "$dry_run" == 1 ]]; then log "DRY_RUN workspace=$course_dir"; return; fi
-  mkdir -p "$course_dir/input/original" "$course_dir/input/markdown" "$course_dir/output" "$course_dir/tools" "$course_dir/.ai/agent-project-kit"
+  mkdir -p "$course_dir/tools" "$course_dir/.ai/agent-project-kit" "$course_dir/literature/pdf" "$course_dir/literature/markdown"
+  # One folder per module with the same layout everywhere (see the course workspace file map).
+  for module_dir in module-01-work module-02-work module-03-work module-04-work; do
+    mkdir -p "$course_dir/$module_dir/input/original" "$course_dir/$module_dir/input/markdown" "$course_dir/$module_dir/output" "$course_dir/$module_dir/notes"
+  done
   mkdir -p "$course_dir/templates/fonts"
   quiet curl -fL 'https://urban.cpe.ku.ac.th/ai-for-research/downloads/fonts/Sarabun-Regular.ttf' -o "$course_dir/templates/fonts/Sarabun-Regular.ttf"
   quiet curl -fL 'https://urban.cpe.ku.ac.th/ai-for-research/downloads/fonts/Sarabun-Bold.ttf' -o "$course_dir/templates/fonts/Sarabun-Bold.ttf"
   quiet curl -fL 'https://urban.cpe.ku.ac.th/ai-for-research/downloads/fonts/OFL.txt' -o "$course_dir/templates/fonts/OFL.txt"
   [[ -s "$course_dir/templates/fonts/Sarabun-Regular.ttf" && -s "$course_dir/templates/fonts/Sarabun-Bold.ttf" && -s "$course_dir/templates/fonts/OFL.txt" ]] || { log 'FONT_SETUP_FAILED Sarabun files are missing or empty.'; exit 2; }
   log 'FONT_READY Sarabun Regular/Bold bundled in workspace.'
-  if [[ ! -e "$course_dir/content.md" ]]; then
-    printf '# My AI Research Workspace\n\nDescribe the research task here.\n' > "$course_dir/content.md"
+  if [[ ! -e "$course_dir/module-01-work/content.md" ]]; then
+    printf '# My AI Research Workspace\n\nDescribe the research task here.\n' > "$course_dir/module-01-work/content.md"
   fi
   if [[ ! -e "$course_dir/README.md" ]]; then
-    printf '# %s\n\nThis folder is one AI-assisted research project. Keep permitted source files in `input/original/`, derived Markdown in `input/markdown/`, and generated work in `output/`.\n' "$(basename "$course_dir")" > "$course_dir/README.md"
+    printf '# %s\n\nThis folder holds the AI for Research course. Each module keeps its work in `module-0N-work/`: sources in `input/original/` (read-only), converted text in `input/markdown/`, results in `output/`, and your own notes in `notes/`. The shared reference library is `literature/`.\n' "$(basename "$course_dir")" > "$course_dir/README.md"
   fi
   quiet curl -fL 'https://urban.cpe.ku.ac.th/ai-for-research/downloads/modern-thai.yaml' -o "$course_dir/templates/modern-thai.yaml"
   quiet curl -fL 'https://urban.cpe.ku.ac.th/ai-for-research/downloads/modern-thai.lua' -o "$course_dir/templates/modern-thai.lua"

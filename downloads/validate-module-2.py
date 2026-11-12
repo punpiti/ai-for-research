@@ -136,8 +136,8 @@ def validate_submission(payload: Any) -> dict[str, Any]:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description="ตรวจไฟล์ Module 2 ในเครื่อง โดยไม่อัปโหลดเนื้อหา")
-    parser.add_argument("json_file", nargs="?", default="output/module-2-submission.json")
-    parser.add_argument("markdown_file", nargs="?", default="output/module-2-conclusion.md")
+    parser.add_argument("json_file", nargs="?", default="module-02-work/output/module-2-submission.json")
+    parser.add_argument("markdown_file", nargs="?", default="module-02-work/output/module-2-conclusion.md")
     args = parser.parse_args()
     json_path = Path(args.json_file)
     markdown_path = Path(args.markdown_file)

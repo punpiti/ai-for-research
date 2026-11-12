@@ -19,7 +19,7 @@
     <section class="prepare-hero module-hero"><p class="eyebrow">Module 4</p><h1>Literature<br><span>Evidence</span></h1><p>ค้น ตรวจ และสังเคราะห์วรรณกรรมโดยไม่รับ citation, DOI, metadata, summary หรือ claim ของ AI จนกว่าจะตรวจแหล่งต้นทาง</p></section>
     <section class="section profile-context"><div data-research-profile></div></section>
 
-    <section class="section" id="prepare"><div class="section-heading compact"><p class="eyebrow">การเตรียมตัวก่อนเรียน</p><h2>ของต้องมีก่อนเรียน</h2><p>เลือกเตรียมอย่างเดียว ตามสิ่งที่อยากทำในขั้นที่ 4 ถ้าใช้เอกสารจริงไม่ได้ ให้ใช้ชุดเอกสารตัวอย่างที่ผู้สอนจัดให้</p></div><div class="notice"><strong>ชุดฝึก Module 4 (บทความจำลอง):</strong> เริ่มจากบทความจำลองนี้ก่อน ภายในตั้งใจใส่ ref ปลอม การอ้างผิด และปัญหาคุณภาพของรายการอ้างอิงไว้ให้ค้นหา วางไฟล์ไว้ใน <code>module-04-work/input/</code> แล้วทำตามลองทำ 1–2 จากนั้นจึงลองกับงานของนิสิตหรือของคุณเอง ก่อนเรียนให้ขอ OpenAlex API key ฟรีที่ openalex.org/settings/api และเก็บไว้ในตัวแปร <code>OPENALEX_KEY</code> <a href="downloads/module-04-mock/mock-paper.pdf" download>ดาวน์โหลดบทความจำลอง (PDF)</a> · <a href="downloads/module-04-mock/mock-paper.md" download>ต้นฉบับ Markdown</a></div><div class="concept-grid">
+    <section class="section" id="prepare"><div class="section-heading compact"><p class="eyebrow">การเตรียมตัวก่อนเรียน</p><h2>ของต้องมีก่อนเรียน</h2><p>เลือกเตรียมอย่างเดียว ตามสิ่งที่อยากทำในขั้นที่ 4 ถ้าใช้เอกสารจริงไม่ได้ ให้ใช้ชุดเอกสารตัวอย่างที่ผู้สอนจัดให้</p></div><div class="notice"><strong>ชุดฝึก Module 4 (บทความจำลอง):</strong> เริ่มจากบทความจำลองนี้ก่อน ภายในตั้งใจใส่ ref ปลอม การอ้างผิด และปัญหาคุณภาพของรายการอ้างอิงไว้ให้ค้นหา วางไฟล์ไว้ใน <code>module-04-work/input/original/</code> แล้วทำตามลองทำ 1–2 จากนั้นจึงลองกับงานของนิสิตหรือของคุณเอง ก่อนเรียนให้ขอ OpenAlex API key ฟรีที่ openalex.org/settings/api และเก็บไว้ในตัวแปร <code>OPENALEX_KEY</code> <a href="downloads/module-04-mock/mock-paper.pdf" download>ดาวน์โหลดบทความจำลอง (PDF)</a> · <a href="downloads/module-04-mock/mock-paper.md" download>ต้นฉบับ Markdown</a></div><div class="concept-grid">
       <article><h3>มีข้อความที่อยากหาหลักฐาน → กิจกรรม A</h3><p>ข้อความหรือ Claim 1 ข้อที่อยากรู้ว่ามีงานวิจัยรองรับหรือไม่ ถ้าทำ Module 3 มาแล้ว ใช้ gap ที่ได้จาก Module 3 ได้เลย</p></article>
       <article><h3>มีงานเขียนที่อยากตรวจการอ้างอิง → กิจกรรม B</h3><p>proposal บทความ หรือ manuscript ของคุณที่มีการอ้างอิงและรายการอ้างอิงท้ายเรื่อง พร้อมเข้าถึงบทความที่อ้างถึงได้ 5–8 เรื่อง</p></article>
       <article><h3>ข้อมูลที่นำมาใช้ได้</h3><p>ใช้เฉพาะเอกสารที่มีสิทธิ์นำเข้า AI ตัดข้อมูลลับและข้อมูลส่วนบุคคลออก และบันทึกตามจริงว่าเรื่องใดเปิดฉบับเต็มไม่ได้</p></article>
@@ -90,9 +90,9 @@
 - ห้าม crawl ทั้งฐานข้อมูล
 
 ส่งมอบ:
-- output/openalex/raw-works.jsonl
-- output/openalex/candidates.csv
-- output/openalex/crawl-manifest.md
+- module-04-work/output/openalex/raw-works.jsonl
+- module-04-work/output/openalex/candidates.csv
+- module-04-work/output/openalex/crawl-manifest.md
 - tools/openalex-crawl.py
 
 หลังรัน:
@@ -120,7 +120,7 @@
 - ห้ามสร้างรายการอ้างอิง
 - ห้ามสรุปว่า “ไม่มีงาน” จากผลค้นที่ยังไม่ครบ
 
-ส่งมอบ: output/search-plan.md</code><button type="button" data-copy>คัดลอก Prompt A2</button></div></div></li>
+ส่งมอบ: module-04-work/output/search-plan.md</code><button type="button" data-copy>คัดลอก Prompt A2</button></div></div></li>
       <li><span>A3</span><div><strong>ค้นและบันทึก Search Log</strong><p>Search log ทำให้ผู้อื่นย้อนดูได้ว่าเราค้นที่ใด เมื่อใด ใช้ query และตัวกรองอะไร พบกี่รายการ และเลือกหรือตัดแต่ละแหล่งด้วยเหตุผลใด ส่วนหลักฐานที่เก็บต้องย้อนกลับไปยัง DOI, official page หรือ PDF ได้</p></div></li>
       <li><span>A4</span><div><strong>สร้าง Literature Evidence Table</strong><p>Evidence table ต้องแยก metadata ออกจากข้อความหลักฐานในเนื้อหา ใช้ AI ช่วยจัดรูปแบบได้เมื่อมีแหล่งต้นทางแล้ว แต่ช่องที่ตรวจไม่ได้ต้องคงเป็น not found แทนการเติมให้ครบ</p><p><strong>เคสฝึกนิสิต/นักวิจัยมือใหม่:</strong> หนึ่งแถวต้องบอกว่าการศึกษาวัด satiety อย่างไร พบผลอะไร ในประชากรใด และรองรับ Claim ได้ทั้งหมดหรือเพียงบางส่วน</p><div class="command"><code>งาน: สร้างตารางหลักฐานจากเอกสารที่ฉันให้
 
@@ -142,9 +142,9 @@
 
 กติกา: ช่องใดตรวจไม่ได้ให้ระบุว่า “ยังไม่พบ” ห้ามเติมให้ครบเอง
 
-ส่งมอบ: output/literature-evidence-table.md</code><button type="button" data-copy>คัดลอก Prompt A4</button></div></div></li>
+ส่งมอบ: module-04-work/output/literature-evidence-table.md</code><button type="button" data-copy>คัดลอก Prompt A4</button></div></div></li>
       <li><span>A5</span><div><strong>ตรวจข้อเสนอของ AI กับต้นฉบับ</strong><p>ข้อเสนอของ AI อย่างน้อยหนึ่งรายการต้องถูกเปิดตรวจผ่าน DOI หรือ official page และ full text แล้วบันทึกว่าข้อมูลใดถูก ข้อมูลใดผิด และผลการตรวจทำให้สถานะเปลี่ยนอย่างไร</p></div></li>
-    </ol><div class="plain-note"><strong>บันทึกผลไว้ที่:</strong> <code>output/search-plan.md</code> และ <code>output/literature-evidence-table.md</code></div></section>
+    </ol><div class="plain-note"><strong>บันทึกผลไว้ที่:</strong> <code>module-04-work/output/search-plan.md</code> และ <code>module-04-work/output/literature-evidence-table.md</code></div></section>
 
     <section class="section" id="path-b"><div class="section-heading compact"><p class="eyebrow">ทาง B</p><h2>ตรวจ Reference List ของงานตนเอง</h2></div><h3 class="section-zone-heading">ช่วง 1 · สร้างและตรวจ BibTeX (B1–B2)</h3><ol class="readiness-steps activity-steps">
         <li><span>B1</span><div><strong>สร้าง BibTeX พร้อม Abstract</strong><p>การแปลงรูปแบบไม่ใช่การยืนยันความจริง แต่ละ entry จึงต้องมี abstract ที่คัดจาก official page หรือ full text พร้อมคง field อื่นที่ขาดไว้ตามจริง AI ห้ามเดา metadata หรือเขียน abstract สรุปแทนต้นฉบับ</p><p><strong>เคสฝึกนิสิต/นักวิจัยมือใหม่:</strong> ถ้า reference เรื่อง satiety มี abstract บนหน้าวารสาร ให้คัดข้อความนั้นลง field <code>abstract</code> แต่ถ้าไม่มี DOI ให้รายงานว่า DOI ยังไม่พบ ไม่สร้างรหัสที่ดูคล้าย DOI ขึ้นมา</p><div class="command"><code>งาน: สร้างแฟ้ม BibTeX จากรายการอ้างอิงและแหล่งต้นทางที่ฉันให้
@@ -161,8 +161,8 @@
 
 หากไม่พบบทคัดย่อ ให้เว้นช่องนั้นและทำรายการ “abstract not found”
 
-ส่งมอบ: output/refs.bib</code><button type="button" data-copy>คัดลอก Prompt B1</button></div></div></li>
-        <li><span>B2</span><div><strong>ตรวจคุณภาพ BibTeX และ Abstract</strong><p>การตรวจ BibTeX มีสองชั้น: ตรวจรูปแบบ เช่น field และ key และตรวจข้อเท็จจริงโดยกลับไปหา metadata กับ abstract จากต้นทาง AI ช่วยชี้รายการเสี่ยงได้ แต่ไม่อาจยืนยันชั้นที่สองจากไฟล์ BibTeX เพียงอย่างเดียว</p><p><strong>เคสฝึกนิสิต/นักวิจัยมือใหม่:</strong> DOI ที่พิมพ์ผิดรูปแบบเป็น format problem ส่วน DOI ที่เปิดแล้วชี้ไปคนละบทความ หรือ abstract ในไฟล์ไม่ตรงกับหน้าวารสาร เป็น factual verification problem</p><div class="command"><code>งาน: ตรวจคุณภาพ output/refs.bib ทีละรายการ โดยยังไม่แก้ข้อมูล
+ส่งมอบ: module-04-work/output/refs.bib</code><button type="button" data-copy>คัดลอก Prompt B1</button></div></div></li>
+        <li><span>B2</span><div><strong>ตรวจคุณภาพ BibTeX และ Abstract</strong><p>การตรวจ BibTeX มีสองชั้น: ตรวจรูปแบบ เช่น field และ key และตรวจข้อเท็จจริงโดยกลับไปหา metadata กับ abstract จากต้นทาง AI ช่วยชี้รายการเสี่ยงได้ แต่ไม่อาจยืนยันชั้นที่สองจากไฟล์ BibTeX เพียงอย่างเดียว</p><p><strong>เคสฝึกนิสิต/นักวิจัยมือใหม่:</strong> DOI ที่พิมพ์ผิดรูปแบบเป็น format problem ส่วน DOI ที่เปิดแล้วชี้ไปคนละบทความ หรือ abstract ในไฟล์ไม่ตรงกับหน้าวารสาร เป็น factual verification problem</p><div class="command"><code>งาน: ตรวจคุณภาพ module-04-work/output/refs.bib ทีละรายการ โดยยังไม่แก้ข้อมูล
 
 ตรวจ:
 - ชนิดเอกสาร
@@ -177,7 +177,7 @@
 1. ปัญหารูปแบบ
 2. ปัญหาข้อเท็จจริงที่ต้องกลับไปตรวจต้นทาง
 
-ส่งมอบ: output/bibtex-quality-report.md</code><button type="button" data-copy>คัดลอก Prompt B2</button></div></div></li>
+ส่งมอบ: module-04-work/output/bibtex-quality-report.md</code><button type="button" data-copy>คัดลอก Prompt B2</button></div></div></li>
       </ol>
       <h3 class="section-zone-heading">ช่วง 2 · ประเมินและยืนยันการอ้างอิง (B3–B5)</h3><ol class="readiness-steps activity-steps">
         <li><span>B3</span><div><strong>ประเมิน Reference Set</strong><p>ความใหม่ ความครอบคลุม คู่แข่งหลัก self-citation และความเกี่ยวข้องช่วยเปิดคำถามสำหรับตรวจต่อ แต่ยังไม่ใช่คำตัดสินจากจำนวน reference หรือชื่อเรื่องเพียงอย่างเดียว</p><p><strong>เคสฝึกนิสิต/นักวิจัยมือใหม่:</strong> หาก reference ทั้งหมดพูดเรื่องรสชาติ แต่ Claim พูดเรื่องระยะเวลาก่อนหิว รายงานควรถามว่าขาดงานด้าน satiety หรือไม่ โดยยังไม่สร้างรายชื่อบทความขึ้นเอง</p><div class="command"><code>งาน: ตรวจความครอบคลุมของชุดรายการอ้างอิง
@@ -195,7 +195,7 @@
 - ห้ามตัดสินจากชื่อเรื่องเพียงอย่างเดียว
 - ห้ามลบผลตรวจเดิม
 
-เพิ่มผลในหัวข้อ Reference Set Review ของ output/bibtex-quality-report.md</code><button type="button" data-copy>คัดลอก Prompt B3</button></div></div></li>
+เพิ่มผลในหัวข้อ Reference Set Review ของ module-04-work/output/bibtex-quality-report.md</code><button type="button" data-copy>คัดลอก Prompt B3</button></div></div></li>
         <li><span>B4</span><div><strong>ยืนยันตัวตนจาก DOI หรือ Official Page</strong><p>Citation สำคัญหรือรายการเสี่ยง 5–8 รายการควรถูกเปิดจากต้นทางจริง แล้วเทียบ author, year, title, venue และ DOI กับ BibTeX ทีละช่อง</p></div></li>
         <li><span>B5</span><div><strong>ตรวจ In-text Citation กับเนื้อหาจริง</strong><p>ข้อความรอบ citation ต้องตรงกับ method, result และ limitation ของแหล่ง การอ่าน abstract อย่างเดียวไม่พอเมื่อ Claim อาศัยรายละเอียดของผลหรือขอบเขตประชากร</p><p><strong>เคสฝึกนิสิต/นักวิจัยมือใหม่:</strong> บทความที่พบความอิ่มเพิ่มเล็กน้อยในผู้ใหญ่ทั่วไป ไม่ควรถูกอ้างว่า “พิสูจน์แล้วว่าอาหารโปรตีนสูงทำให้นักศึกษาทุกคนอิ่มนาน”</p><div class="command"><code>งาน: ตรวจการอ้างในเนื้อหา 5–8 รายการที่ฉันตรวจต้นทางแล้ว
 
@@ -211,8 +211,8 @@
 - หากไม่มีเนื้อหาเต็ม ให้ระบุว่า “ยังไม่พบ”
 - ห้ามสรุปแทนต้นฉบับ
 
-ส่งมอบ: output/citation-self-audit.md</code><button type="button" data-copy>คัดลอก Prompt B5</button></div></div></li>
-      </ol><div class="plain-note"><strong>บันทึกผลไว้ที่:</strong> <code>output/refs.bib</code>, <code>output/bibtex-quality-report.md</code> และ <code>output/citation-self-audit.md</code></div></section>
+ส่งมอบ: module-04-work/output/citation-self-audit.md</code><button type="button" data-copy>คัดลอก Prompt B5</button></div></div></li>
+      </ol><div class="plain-note"><strong>บันทึกผลไว้ที่:</strong> <code>module-04-work/output/refs.bib</code>, <code>module-04-work/output/bibtex-quality-report.md</code> และ <code>module-04-work/output/citation-self-audit.md</code></div></section>
 
     <section class="section" id="shared"><div class="section-heading compact"><p class="eyebrow">สรุปผลการตรวจ</p><h2>ตัดสินใจว่าจะเก็บ ปรับ หรือตัด Citation</h2><p>นำผลจากกิจกรรมที่ทำมาสรุปว่าอะไรตรวจได้ อะไรยังขาด และหลักฐานทำให้ต้องเปลี่ยน Claim อย่างไร</p></div><p><strong>เคสฝึกนิสิต/นักวิจัยมือใหม่:</strong> Checklist อาจบันทึกว่า DOI และ metadata ผ่าน แต่ Claim ได้เพียง partially supported เพราะประชากรไม่ใช่นักศึกษา และยังต้องค้นงานที่วัดระยะเวลาก่อนหิวอีกครั้งโดยตรง</p><div class="command"><code>งาน: สรุปผลตรวจรายการอ้างอิงที่ฉันอนุมัติแล้ว
 
@@ -231,10 +231,10 @@
 - ห้ามเปลี่ยน “ยังไม่พบ” เป็น “ไม่สนับสนุน”
 - ห้ามประกาศว่าไม่มีงานเพียงเพราะค้นไม่พบ
 
-ส่งมอบ: output/citation-verification-checklist.md</code><button type="button" data-copy>คัดลอก Prompt สรุปผล</button></div></section>
+ส่งมอบ: module-04-work/output/citation-verification-checklist.md</code><button type="button" data-copy>คัดลอก Prompt สรุปผล</button></div></section>
 
     <section class="section markdown-section" id="finish" aria-labelledby="finish-heading"><div class="section-heading compact"><p class="eyebrow">Checkpoint</p><h2 id="finish-heading">จบบทเรียน</h2></div><div class="markdown-body"><p>ติ๊กเมื่อคุณตรวจรายการอ้างอิงและอธิบายหลักฐานของแต่ละข้อได้ ระบบจะจำสถานะไว้ในเบราว์เซอร์นี้</p><p class="progress" aria-live="polite">ความสำเร็จ <strong data-progress>0%</strong></p><div class="checklist" data-checklist="module-4">
-      <label><input type="checkbox"> มีรายชื่องานและบันทึกการค้นจากระบบสืบค้นของรายวิชาตามขอบเขตที่กำหนดไว้</label><label><input type="checkbox"> มี search plan/evidence table หรือ citation self-audit ที่ตรวจได้</label><label><input type="checkbox"> แยก discovery source, metadata, official page และ full text ได้</label><label><input type="checkbox"> BibTeX มี abstract จากต้นทาง หรือบันทึกรายการ <code>abstract not found</code> ไว้แล้ว</label><label><input type="checkbox"> ตรวจ DOI และ metadata จากต้นทาง ไม่รับจาก AI โดยตรง</label><label><input type="checkbox"> ตรวจว่าเนื้อหาต้นฉบับสนับสนุน Claim ในขอบเขตที่อ้าง</label><label><input type="checkbox"> ใช้หนึ่งในหกสถานะกับ Citation ที่ตรวจทุกข้อ</label><label><input type="checkbox"> ยืนยันหรือปฏิเสธข้อเสนอของ AI จากต้นฉบับอย่างน้อยหนึ่งรายการ</label><label><input type="checkbox"> เปิด <code>output/citation-verification-checklist.md</code> ได้</label>
+      <label><input type="checkbox"> มีรายชื่องานและบันทึกการค้นจากระบบสืบค้นของรายวิชาตามขอบเขตที่กำหนดไว้</label><label><input type="checkbox"> มี search plan/evidence table หรือ citation self-audit ที่ตรวจได้</label><label><input type="checkbox"> แยก discovery source, metadata, official page และ full text ได้</label><label><input type="checkbox"> BibTeX มี abstract จากต้นทาง หรือบันทึกรายการ <code>abstract not found</code> ไว้แล้ว</label><label><input type="checkbox"> ตรวจ DOI และ metadata จากต้นทาง ไม่รับจาก AI โดยตรง</label><label><input type="checkbox"> ตรวจว่าเนื้อหาต้นฉบับสนับสนุน Claim ในขอบเขตที่อ้าง</label><label><input type="checkbox"> ใช้หนึ่งในหกสถานะกับ Citation ที่ตรวจทุกข้อ</label><label><input type="checkbox"> ยืนยันหรือปฏิเสธข้อเสนอของ AI จากต้นฉบับอย่างน้อยหนึ่งรายการ</label><label><input type="checkbox"> เปิด <code>module-04-work/output/citation-verification-checklist.md</code> ได้</label>
     </div><div class="notice"><strong>การบ้าน:</strong> ปรับบันทึกการค้น ตารางหลักฐาน หรืองานตรวจการอ้างอิงของตนเอง ตรวจข้อมูลรายการและข้อความอ้างซ้ำ แล้วเลือกข้อค้นพบหนึ่งข้อที่ทำให้ต้องปรับคำถามวิจัย วิธี หรือข้อกล่าวอ้าง สำหรับโมดูล 5 ให้นำวิธี ผล และข้อกล่าวอ้างที่เชื่อมกันประมาณ 2–4 หน้า พร้อมทำเครื่องหมายจุดที่สงสัยเรื่องสิ่งที่ต้องการวัด วิธีวัด จุดเปรียบเทียบ ความไม่แน่นอน หรือขอบเขตการอ้าง</div></div><div class="hero-actions module-next"><a class="button secondary" href="module-3.html">← กลับ Module 3</a><a class="button primary" href="index.html#module-5">ดู Module ถัดไป →</a></div></section>
   </main>
   <site-footer></site-footer>

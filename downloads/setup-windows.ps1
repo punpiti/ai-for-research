@@ -111,7 +111,7 @@ if (-not $DryRun -and $Mode -ne 'Check') {
 $watchedPaths = @()
 $toolRoot = Join-Path $env:LOCALAPPDATA 'ai-for-research'
 if ($Mode -notin @('Uninstall','UninstallSystem')) {
-  $watchedPaths = @('content.md','README.md','AGENTS.md','CLAUDE.md','.ai\PROJECT_STATE.md','.ai\TOKEN_BUDGET.md','.ai\agent-project-kit\STARTUP.md','.ai\agent-project-kit\TOKEN_DISCIPLINE.md','templates\modern-thai.yaml','templates\modern-thai.lua','templates\modern-thai.tex','templates\fonts\Sarabun-Regular.ttf','templates\fonts\Sarabun-Bold.ttf','templates\fonts\OFL.txt','tools\import-documents.sh','tools\import-documents.ps1','tools\import-office.py','tools\validate-module-2.py','tools\validate-module-3.py','tools\install-summary.py','.vscode\extensions.json') | ForEach-Object { Join-Path $CourseDir $_ }
+  $watchedPaths = @('module-01-work\content.md','README.md','AGENTS.md','CLAUDE.md','.ai\PROJECT_STATE.md','.ai\TOKEN_BUDGET.md','.ai\agent-project-kit\STARTUP.md','.ai\agent-project-kit\TOKEN_DISCIPLINE.md','templates\modern-thai.yaml','templates\modern-thai.lua','templates\modern-thai.tex','templates\fonts\Sarabun-Regular.ttf','templates\fonts\Sarabun-Bold.ttf','templates\fonts\OFL.txt','tools\import-documents.sh','tools\import-documents.ps1','tools\import-office.py','tools\validate-module-2.py','tools\validate-module-3.py','tools\install-summary.py','.vscode\extensions.json') | ForEach-Object { Join-Path $CourseDir $_ }
   $watchedPaths += @('python','envs\research','envs\research\pyvenv.cfg','TinyTeX','TinyTeX\tlpkg\texlive.tlpdb','node','npm','uv-tools','bin','cache','texmf','texmf-var','texmf-config','tessdata') | ForEach-Object { Join-Path $toolRoot $_ }
   foreach ($path in $watchedPaths) { Trace-Path $path 'before' }
   Trace 'snapshot' 'workspace' $CourseDir 'before' 'preserve-personal-files'
@@ -453,7 +453,11 @@ function Check-Tools {
 }
 function New-CourseWorkspace {
   if ($DryRun) { Log "DRY_RUN workspace=$CourseDir"; return }
-  New-Item -ItemType Directory -Force -Path $CourseDir,(Join-Path $CourseDir 'input\original'),(Join-Path $CourseDir 'input\markdown'),(Join-Path $CourseDir 'output'),(Join-Path $CourseDir 'tools'),(Join-Path $CourseDir '.ai\agent-project-kit') | Out-Null
+  New-Item -ItemType Directory -Force -Path $CourseDir,(Join-Path $CourseDir 'tools'),(Join-Path $CourseDir '.ai\agent-project-kit'),(Join-Path $CourseDir 'literature\pdf'),(Join-Path $CourseDir 'literature\markdown') | Out-Null
+  # One folder per module with the same layout everywhere (see the course workspace file map).
+  foreach ($moduleDir in @('module-01-work','module-02-work','module-03-work','module-04-work')) {
+    foreach ($sub in @('input\original','input\markdown','output','notes')) { New-Item -ItemType Directory -Force -Path (Join-Path (Join-Path $CourseDir $moduleDir) $sub) | Out-Null }
+  }
   $templateDir = Join-Path $CourseDir 'templates'
   $fontDir = Join-Path $templateDir 'fonts'
   New-Item -ItemType Directory -Force -Path $fontDir | Out-Null
@@ -467,12 +471,12 @@ function New-CourseWorkspace {
     if (-not (Test-Path $file.Path) -or (Get-Item $file.Path).Length -eq 0) { throw "FONT_SETUP_FAILED Missing or empty file: $($file.Path)" }
   }
   Log 'FONT_READY Sarabun Regular/Bold bundled in workspace.'
-  $content = Join-Path $CourseDir 'content.md'
+  $content = Join-Path $CourseDir 'module-01-work\content.md'
   $readme = Join-Path $CourseDir 'README.md'
   if (-not (Test-Path $content)) { Set-Content -Encoding utf8 $content "# My AI Research Workspace`n`nDescribe the research task here.`n" }
   if (-not (Test-Path $readme)) {
     $projectName = Split-Path -Leaf $CourseDir.TrimEnd('\','/')
-    Set-Content -Encoding utf8 $readme "# $projectName`n`nThis folder is one AI-assisted research project. Keep permitted source files in input/original/, derived Markdown in input/markdown/, and generated work in output/.`n"
+    Set-Content -Encoding utf8 $readme "# $projectName`n`nThis folder holds the AI for Research course. Each module keeps its work in module-0N-work/: sources in input/original/ (read-only), converted text in input/markdown/, results in output/, and your own notes in notes/. The shared reference library is literature/.`n"
   }
   $starterFiles = @(
     @{ Url = 'https://urban.cpe.ku.ac.th/ai-for-research/downloads/setup-summary.py'; Path = (Join-Path $CourseDir 'tools\install-summary.py') },

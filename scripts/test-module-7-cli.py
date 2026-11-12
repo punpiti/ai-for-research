@@ -96,7 +96,7 @@ def run() -> None:
                 assert client.main(["--workspace", str(workspace), "submit", "module-7", "--yes"]) == 0
                 assert client.main(["--workspace", str(workspace), "status", "module-7"]) == 0
                 assert client.main(["--workspace", str(workspace), "init", "module-1"]) == 0
-                module1_path = workspace / "output/module-1-progress.json"
+                module1_path = workspace / "module-01-work/output/module-1-progress.json"
                 module1 = json.loads(module1_path.read_text(encoding="utf-8"))
                 module1["checks"] = {key: True for key in module1["checks"]}
                 module1_path.write_text(json.dumps(module1), encoding="utf-8")

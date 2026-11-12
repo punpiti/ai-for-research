@@ -36,8 +36,8 @@ for kind in is-read is-input is-terminal ai-prompt; do
 done
 grep -q '>คัดลอกคำสั่งติดตั้ง</button>' "$page"
 grep -q '>คัดลอก Prompt</button>' "$page"
-grep -q '<code>input/</code><span>เก็บไฟล์ต้นฉบับ</span>' "$page"
-grep -q '<code>output/</code><span>เก็บงานที่ AI สร้างใหม่</span>' "$page"
+grep -q '<code>module-01-work/input/</code><span>เก็บไฟล์ต้นฉบับ</span>' "$page"
+grep -q '<code>module-01-work/output/</code><span>เก็บงานที่ AI สร้างใหม่</span>' "$page"
 if grep -q 'open -a &quot;Visual Studio Code&quot; --args' "$page"; then
   echo 'macOS learner flow must show the workspace folder path, not reopen VS Code with open -a.' >&2
   exit 1

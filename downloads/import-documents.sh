@@ -2,8 +2,10 @@
 set -euo pipefail
 
 workspace="${1:-$(pwd)}"
-source_dir="$workspace/input/original"
-target_dir="$workspace/input/markdown"
+# Optional second argument: the module folder, e.g. module-02-work.
+module_dir="${2:-}"
+source_dir="$workspace/${module_dir:+$module_dir/}input/original"
+target_dir="$workspace/${module_dir:+$module_dir/}input/markdown"
 mkdir -p "$source_dir" "$target_dir"
 
 course_python=''
@@ -113,4 +115,4 @@ while IFS= read -r -d '' source; do
   trap - EXIT
 done < <(find "$source_dir" -maxdepth 1 -type f -print0)
 
-echo "IMPORT_RESULT files=$count output=input/markdown"
+echo "IMPORT_RESULT files=$count output=${module_dir:+$module_dir/}input/markdown"
