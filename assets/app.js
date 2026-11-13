@@ -186,16 +186,7 @@ if (guidedConfig) {
 
 ห้ามแต่งข้อมูล หลักฐาน ผล ตัวเลข แหล่งอ้างอิง หรือการอนุมัติ ห้ามเลือกวิธี เครื่องมือ หรือข้อสรุปแทนฉัน เริ่มจากตรวจของที่ฉันมีและถามคำถามแรกเพียงข้อเดียว</code><button type="button" data-copy>คัดลอกคำสั่งเริ่มเรียนกับ AI</button></div></div>`;
 
-    const reference = document.createElement("details");
-    reference.className = "section concept-reference";
-    reference.innerHTML = `<summary><strong>เปิดคลังคำอธิบายเมื่อ AI พามาถึงแนวคิดนั้น</strong></summary><p>เนื้อหาในส่วนนี้เก็บรายละเอียดเดิมไว้ครบ แต่ไม่จำเป็นต้องอ่านและจำทั้งหมดก่อนเริ่มทำงาน</p>`;
-    let cursor = outcomesSection.nextElementSibling;
-    while (cursor && cursor !== activitySection) {
-      const next = cursor.nextElementSibling;
-      reference.append(cursor);
-      cursor = next;
-    }
-    outcomesSection.after(guide, reference);
+    outcomesSection.after(guide);
   }
 
   const finish = document.querySelector("#finish .markdown-body");
@@ -678,3 +669,41 @@ function setupMarkdownDownloads() {
 }
 
 setupMarkdownDownloads();
+
+// Knowledge that some learners already know: a section marked data-brief shows
+// its heading plus a one-line summary; the full text opens on request.
+function collapseBriefSections() {
+  for (const section of document.querySelectorAll("section[data-brief]")) {
+    if (section.querySelector(":scope > details.knowledge-details")) continue;
+    const heading = section.querySelector(":scope > .section-heading");
+    const details = document.createElement("details");
+    details.className = "knowledge-details";
+    const summary = document.createElement("summary");
+    summary.textContent = section.dataset.briefLabel || "อ่านรายละเอียด";
+    details.append(summary);
+    let cursor = heading ? heading.nextSibling : section.firstChild;
+    while (cursor) {
+      const next = cursor.nextSibling;
+      details.append(cursor);
+      cursor = next;
+    }
+    const brief = document.createElement("p");
+    brief.className = "section-brief";
+    brief.textContent = section.dataset.brief;
+    if (heading) heading.append(brief); else section.prepend(brief);
+    section.append(details);
+  }
+  const openTarget = () => {
+    let target = null;
+    try { target = location.hash ? document.getElementById(decodeURIComponent(location.hash.slice(1))) : null; }
+    catch (_error) { target = null; }
+    const details = target?.closest("details.knowledge-details") || target?.querySelector(":scope > details.knowledge-details");
+    if (details && !details.open) {
+      details.open = true;
+      requestAnimationFrame(() => target.scrollIntoView({ block: "start" }));
+    }
+  };
+  openTarget();
+  addEventListener("hashchange", openTarget);
+}
+collapseBriefSections();

@@ -9,10 +9,10 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/styles.css?v=20261111-2">
+  <link rel="stylesheet" href="assets/styles.css?v=20261113-1">
   <script src="assets/dev-auth.js?v=20261010-1"></script>
   <script src="assets/site-shell.js?v=20261111-1"></script>
-  <script src="assets/app.js?v=20261011-4" defer></script>
+  <script src="assets/app.js?v=20261113-1" defer></script>
   <script src="assets/module-7-steps.js?v=20261111-1" defer></script>
   <script src="assets/airr-connect.js?v=20261112-1" defer></script>
 </head>
@@ -20,26 +20,27 @@
   <a class="skip-link" href="#main">ข้ามไปยังเนื้อหา</a>
   <site-header current="7"></site-header>
   <main id="main">
-    <section class="prepare-hero module-hero"><p class="eyebrow">โมดูล 7</p><h1 aria-label="โมดูล 7 — การวิเคราะห์ข้อมูลและการนำเสนอข้อมูลด้วยภาพโดยใช้ AI">วิเคราะห์ข้อมูล<br><span>และสร้างภาพ</span></h1><p>เลือกเรียนต่อจากโมดูลก่อนหน้า หรือเริ่มที่โมดูลนี้ได้ทันที ให้ AI ช่วยถาม จัดโครง และตรวจทีละขั้น โดยคุณเป็นผู้เลือกและยืนยันหลักฐาน</p></section>
+    <section class="prepare-hero module-hero"><p class="eyebrow">โมดูล 7</p><h1 aria-label="โมดูล 7 — การวิเคราะห์ข้อมูลและการนำเสนอข้อมูลด้วยภาพโดยใช้ AI">วิเคราะห์ข้อมูล<br><span>และสร้างภาพ</span></h1><p>เรียนต่อจากโมดูลก่อนหรือเริ่มที่นี่ก็ได้ AI ช่วยวิเคราะห์ คุณเป็นผู้เลือกและยืนยันหลักฐาน</p></section>
     <div id="module-content">
 <section class="section markdown-section" id="start" aria-labelledby="start-heading"><div class="section-heading compact"><p class="eyebrow">การเตรียมตัวก่อนเรียน</p><h2 id="start-heading">ของต้องมีก่อนเรียน</h2>
 </div><div class="markdown-body"><ul>
-<li><strong>เรียนต่อเนื่อง:</strong> ใช้ hypothesis IDs, decision rules และแผนวิเคราะห์จาก Module 6 ร่วมกับข้อมูลที่เก็บหรือได้รับอนุญาตให้ใช้</li>
-<li><strong>เริ่มที่โมดูลนี้:</strong> ใช้ข้อมูลจำแนกประเภทแบบ Iris ข้อมูลแบบสอบถาม CSV/Excel/SPSS ชุดข้อมูลเปิดของบทความ หรือข้อมูลวิจัยของคุณที่ผ่านการตรวจสิทธิและความเป็นส่วนตัว</li>
+<li><strong>เรียนต่อเนื่อง:</strong> ใช้ hypothesis IDs, decision rules และแผนวิเคราะห์จาก Module 6 กับข้อมูลที่ได้รับอนุญาต</li>
+<li><strong>เริ่มที่โมดูลนี้:</strong> ใช้ Iris แบบสอบถาม CSV/Excel/SPSS ข้อมูลเปิดของบทความ หรือข้อมูลวิจัยของคุณที่ตรวจสิทธิและความเป็นส่วนตัวแล้ว</li>
 </ul>
 <div class="plain-note"><strong>ยังไม่มีข้อมูลของตนเอง?</strong> ใช้ <a href="module-7-thailand-population-lab.html">กรณีฝึกประชากรไทยจากตารางสู่แผนที่</a> เพื่อฝึกสถิติแบบงานสำรวจ กราฟ และแผนที่กับข้อมูลเปิด</div>
 <h3 id="สิ่งที่ต้องเตรียม">สิ่งที่ต้องเตรียม</h3>
 <ul>
-<li>เลือกข้อมูลจากหนึ่งใน Track A–D พร้อมสิทธิการใช้และพจนานุกรมข้อมูลเมื่อมี</li>
-<li>เตรียมคำถาม สมมติฐาน หรือเป้าหมายการพยากรณ์หนึ่งข้อที่ยังแก้ไขได้</li>
-<li>เปิด AI ที่แนบแฟ้มและดาวน์โหลดผลลัพธ์ได้ ใช้ผ่านเว็บ แอป หรือใน VS Code ได้</li>
-<li><strong>ทำ Module 1 แล้วไม่ต้องติดตั้งอีก:</strong> ตัวติดตั้ง Module 1 สร้าง environment และโหลด notebook ฟอนต์ สมุดงาน Prompt Card กับชุดแบบฝึกทั้งหมดเข้า <code>ai-for-research-workspace</code> ไว้แล้ว (ผลติดตั้งแสดง <code>MODULE7_READY</code>)</li>
-<li>เปิดโฟลเดอร์ <code>ai-for-research-workspace</code> ใน VS Code แล้วใช้ Explorer เปิดไฟล์ตาม path ที่แต่ละเมนูระบุ</li>
-<li>บันทึกไฟล์ที่แก้ ผลวิเคราะห์ ตาราง ภาพ และบันทึกการตรวจไว้ใต้ <code>module-07-work/</code> ซึ่งตัวติดตั้งเตรียมให้ โดยไม่แก้ไฟล์ต้นฉบับใน <code>course-materials/</code></li>
+<li>ข้อมูลหนึ่งชุดจาก Track A–D พร้อมสิทธิการใช้และพจนานุกรมข้อมูล (ถ้ามี)</li>
+<li>คำถาม สมมติฐาน หรือเป้าหมายการพยากรณ์หนึ่งข้อ (แก้ได้ภายหลัง)</li>
+<li>AI ที่แนบแฟ้มและดาวน์โหลดผลลัพธ์ได้ (เว็บ แอป หรือ VS Code)</li>
+<li><strong>ทำ Module 1 แล้วไม่ต้องติดตั้งอีก:</strong> ไฟล์และโปรแกรมของโมดูลนี้อยู่ใน <code>ai-for-research-workspace</code> แล้ว (ตอนติดตั้งเห็น <code>MODULE7_READY</code>)</li>
+<li>เปิดโฟลเดอร์ <code>ai-for-research-workspace</code> ใน VS Code แล้วเปิดไฟล์จาก Explorer</li>
+<li>บันทึกงานทั้งหมดไว้ใต้ <code>module-07-work/</code> ไม่แก้ไฟล์ต้นฉบับใน <code>course-materials/</code></li>
 </ul>
+<details class="fallback-details"><summary>ติดตั้งสำรอง (เฉพาะคนที่ไม่เห็น MODULE7_READY ตอนทำ Module 1)</summary>
 <h3 id="ติดตั้งครั้งเดียวด้วย-terminal">ติดตั้งครั้งเดียวด้วย Terminal</h3>
 <div class="notice"><strong>ส่วนนี้ใช้เฉพาะกรณีสำรอง:</strong> ข้ามได้ถ้าทำ Module 1 แล้วและเห็น <code>MODULE7_READY</code> ใช้คำสั่งด้านล่างเมื่อยังไม่ได้ทำ Module 1, ผล Module 1 แสดง <code>MODULE7_SKIPPED</code> หรือเปิด notebook ไม่ได้ การรันซ้ำไม่ทำให้ของเดิมเสีย</div>
-<p>เลือก OS แล้วคัดลอกคำสั่งเดียวไปวางใน Terminal หรือ PowerShell แบบปกติ ไม่ต้องเปิดแบบ Administrator คำสั่งจะย้ายไปยังโฟลเดอร์ผู้ใช้ ดาวน์โหลด bootstrap script ก่อน แล้วจึงเรียก script นั้น ไฟล์เรียนจะอยู่ที่ <code>~/ai-for-research-workspace/course-materials/module-07/</code> และ environment จะอยู่ที่ <code>~/ai-for-research-workspace/.venv-module07/</code> โดยไม่แก้ global Python</p>
+<p>เลือก OS แล้วคัดลอกคำสั่งเดียวไปวางใน Terminal หรือ PowerShell แบบปกติ ไม่ต้องเปิดแบบ Administrator ไฟล์เรียนจะอยู่ที่ <code>~/ai-for-research-workspace/course-materials/module-07/</code></p>
 <div class="task-heading"><span class="content-kind is-terminal">คำสั่ง Terminal</span><strong>เลือกระบบ แล้วคัดลอกคำสั่งไปวาง</strong></div>
 <div class="platform-picker module-07-platform-picker" role="group" aria-label="เลือกระบบปฏิบัติการสำหรับติดตั้ง Module 7">
   <button type="button" data-platform-button="windows">Windows 11</button>
@@ -50,22 +51,21 @@
   <article class="platform-card" data-platform-panel="windows">
     <p class="platform-label">Windows 11</p><h3>เปิด PowerShell แบบปกติ</h3>
     <div class="command terminal-command"><code>Set-Location $HOME; $setup = Join-Path $env:TEMP 'ai-module07-bootstrap.ps1'; Invoke-WebRequest -UseBasicParsing -ErrorAction Stop 'https://urban.cpe.ku.ac.th/ai-for-research/downloads/setup-module-07-windows.ps1' -OutFile $setup; powershell -NoProfile -ExecutionPolicy Bypass -File $setup -Workspace (Join-Path $HOME 'ai-for-research-workspace')</code><button type="button" data-copy>คัดลอกคำสั่งติดตั้ง</button></div>
-    <p class="expected">วางคำสั่ง กด Enter และรอจนเห็น <code>FINAL_RESULT PASS</code></p>
   </article>
   <article class="platform-card" data-platform-panel="macos">
     <p class="platform-label">macOS</p><h3>เปิด Terminal</h3>
     <div class="command terminal-command"><code>cd "$HOME" &amp;&amp; setup="$(mktemp)" &amp;&amp; curl -fsSL 'https://urban.cpe.ku.ac.th/ai-for-research/downloads/setup-module-07-macos.sh' -o "$setup" &amp;&amp; bash "$setup" --workspace "$HOME/ai-for-research-workspace"</code><button type="button" data-copy>คัดลอกคำสั่งติดตั้ง</button></div>
-    <p class="expected">วางคำสั่ง กด Enter และรอจนเห็น <code>FINAL_RESULT PASS</code></p>
   </article>
   <article class="platform-card" data-platform-panel="linux">
     <p class="platform-label">Linux (Ubuntu/Debian)</p><h3>เปิด Terminal</h3>
     <div class="command terminal-command"><code>cd "$HOME" &amp;&amp; setup="$(mktemp)" &amp;&amp; curl -fsSL 'https://urban.cpe.ku.ac.th/ai-for-research/downloads/setup-module-07-linux.sh' -o "$setup" &amp;&amp; bash "$setup" --workspace "$HOME/ai-for-research-workspace"</code><button type="button" data-copy>คัดลอกคำสั่งติดตั้ง</button></div>
-    <p class="expected">วางคำสั่ง กด Enter และรอจนเห็น <code>FINAL_RESULT PASS</code></p>
   </article>
 </div>
-<div class="notice"><strong>ระหว่างติดตั้ง:</strong> เปิด Terminal ไว้จนจบ ตัวติดตั้งจะรายงานขั้นที่กำลังทำและหยุดพร้อมข้อความแก้ไขหากมีปัญหา</div>
-<div class="notice"><strong>ติดตั้งสำเร็จเมื่อ:</strong> Terminal แสดง <code>FINAL_RESULT PASS</code> แล้วเปิดโฟลเดอร์ <code>ai-for-research-workspace</code> ใน VS Code การรันซ้ำจะ reuse ไฟล์ที่ตรงกันและไม่เขียนทับงานใต้ <code>module-07-work/</code></div>
-<div class="plain-note"><strong>คุณถาม เลือก และตรวจ ส่วน AI ช่วยคำนวณและสร้างภาพ:</strong> ใช้หน้าสนทนากับ AI โปรแกรมดูตาราง และโปรแกรมเปิดภาพหรือ HTML ให้ AI สรุปวิธีวิเคราะห์ รุ่นเครื่องมือ คำเตือน และแฟ้มผลลัพธ์เป็นรายงานอ่านง่าย คำถาม เหตุผลเลือกวิธี และข้อสรุปต้องมาจากคุณ</div>
+<div class="done-shows"><strong>เสร็จแล้วจะเห็น</strong><pre>[AI for Research · Module 7] FINAL_RESULT PASS
+[AI for Research · Module 7] Open this folder in VS Code: …/ai-for-research-workspace</pre></div>
+<div class="notice"><strong>ระหว่างติดตั้ง:</strong> เปิด Terminal ไว้จนจบ ถ้ามีปัญหาจะเห็น <code>FINAL_RESULT FAIL</code> พร้อมสาเหตุ เมื่อสำเร็จให้เปิดโฟลเดอร์ <code>ai-for-research-workspace</code> ใน VS Code การรันซ้ำไม่เขียนทับงานใน <code>module-07-work/</code></div>
+</details>
+<div class="plain-note"><strong>คุณถาม เลือก และตรวจ ส่วน AI ช่วยคำนวณและสร้างภาพ:</strong> ให้ AI รายงานวิธี รุ่นเครื่องมือ คำเตือน และแฟ้มผลลัพธ์แบบอ่านง่าย คำถาม เหตุผลเลือกวิธี และข้อสรุปเป็นของคุณ</div>
 </div></section>
 <section class="section markdown-section" id="คำถามแกนของโมดูล" aria-labelledby="คำถามแกนของโมดูล-heading"><div class="section-heading compact"><h2 id="คำถามแกนของโมดูล-heading">คำถามแกนของโมดูล</h2>
 </div><div class="markdown-body"><p>ข้อมูลที่มีอยู่ตอบคำถามอะไรได้ ใช้วิธีวิเคราะห์ใดจึงสมเหตุสมผล และควรสร้างตารางหรือภาพแบบใดเพื่อสื่อผลโดยไม่ทำให้ผู้อ่านเข้าใจเกินกว่าหลักฐาน</p>
@@ -83,7 +83,7 @@
 </div>
 <p>โมดูลนี้ไม่ทดแทนวิชาสถิติ ระเบียบวิธีวิจัย หรือวิธีวิเคราะห์เฉพาะสาขา AI อาจเสนอและดำเนินการวิเคราะห์ แต่ผู้วิจัยต้องรับผิดชอบความเหมาะสมของวิธี ความถูกต้องของข้อมูล และการแปลผล</p>
 </div></section>
-<section class="section markdown-section" id="no-code-ในโมดูลนี้หมายถึงอะไร" aria-labelledby="no-code-ในโมดูลนี้หมายถึงอะไร-heading"><div class="section-heading compact"><h2 id="no-code-ในโมดูลนี้หมายถึงอะไร-heading">ไม่เขียนโปรแกรมเองในโมดูลนี้หมายถึงอะไร</h2>
+<section class="section markdown-section" id="no-code-ในโมดูลนี้หมายถึงอะไร" data-brief="คุณสั่ง AI ด้วยภาษาปกติแล้วตรวจผล ไม่ต้องเขียนโค้ด แต่ต้องให้ AI บอกว่าใช้ข้อมูลและวิธีใด ข้ามได้ถ้าเข้าใจแล้ว" aria-labelledby="no-code-ในโมดูลนี้หมายถึงอะไร-heading"><div class="section-heading compact"><h2 id="no-code-ในโมดูลนี้หมายถึงอะไร-heading">ไม่เขียนโปรแกรมเองในโมดูลนี้หมายถึงอะไร</h2>
 </div><div class="markdown-body"><ul>
 <li>คุณทำงานผ่านการสนทนากับ AI เลือกแฟ้มข้อมูล และตรวจผลลัพธ์ โดยไม่ต้องเขียน Python, R หรือ JavaScript</li>
 <li>คุณต้องรู้ว่า AI ใช้ข้อมูล วิธีวิเคราะห์ และเครื่องมือใด โดยตรวจจากรายงานการทำงานและผลลัพธ์ ไม่ต้องอ่านหรือชี้ตำแหน่งข้อผิดพลาดในโค้ด</li>
@@ -92,7 +92,7 @@
 <li>เมื่อ AI เสนอวิธีทางสถิติที่คุณอธิบายเหตุผลไม่ได้ ให้หยุดและขอคำปรึกษาจากผู้เชี่ยวชาญก่อนใช้ผล</li>
 </ul>
 </div></section>
-<section class="section markdown-section" id="รู้จักแฟ้มข้อมูลก่อนนำเข้า" aria-labelledby="รู้จักแฟ้มข้อมูลก่อนนำเข้า-heading"><div class="section-heading compact"><h2 id="รู้จักแฟ้มข้อมูลก่อนนำเข้า-heading">รู้จักแฟ้มข้อมูลก่อนนำเข้า</h2>
+<section class="section markdown-section" id="รู้จักแฟ้มข้อมูลก่อนนำเข้า" data-brief="CSV, Excel และ SPSS ต่างกันอย่างไร และต้องตรวจอะไรหลังเปิดแฟ้ม ข้ามได้ถ้าคุ้นเคยแล้ว" aria-labelledby="รู้จักแฟ้มข้อมูลก่อนนำเข้า-heading"><div class="section-heading compact"><h2 id="รู้จักแฟ้มข้อมูลก่อนนำเข้า-heading">รู้จักแฟ้มข้อมูลก่อนนำเข้า</h2>
 </div><div class="markdown-body"><p>CSV, Excel และ SPSS อาจแสดงข้อมูลคล้ายกันเมื่อเปิดดู แต่เก็บโครงสร้างและความหมายไม่เหมือนกัน การนำเข้าไม่ใช่เพียง “เปิดแฟ้มได้” คุณต้องตรวจว่าจำนวนแถว คอลัมน์ ชนิดตัวแปร ป้ายกำกับ และข้อมูลสูญหายยังคงความหมายเดิม</p>
 <table>
 <thead>
@@ -154,7 +154,7 @@
 </ul>
 <p>กิจกรรมนี้ให้ระบุว่าความหมายใดต้องรักษาและข้อมูลกำกับใดต้องแนบเมื่อเปลี่ยนรูปแบบ แม้แฟ้มทั้งสามจะมีโครงสร้างต่างกัน</p>
 </div></section>
-<section class="section markdown-section" id="python-ทำงานอยู่เบื้องหลังอย่างไร" aria-labelledby="python-ทำงานอยู่เบื้องหลังอย่างไร-heading"><div class="section-heading compact"><h2 id="python-ทำงานอยู่เบื้องหลังอย่างไร-heading">Python ทำงานอยู่เบื้องหลังอย่างไร</h2>
+<section class="section markdown-section" id="python-ทำงานอยู่เบื้องหลังอย่างไร" data-brief="Python และไลบรารีที่ AI ใช้เบื้องหลัง พร้อม Prompt ให้ AI รายงานสิ่งที่ใช้ ไม่ต้องเขียนโค้ดเอง ข้ามได้ถ้ารู้แล้ว" aria-labelledby="python-ทำงานอยู่เบื้องหลังอย่างไร-heading"><div class="section-heading compact"><h2 id="python-ทำงานอยู่เบื้องหลังอย่างไร-heading">Python ทำงานอยู่เบื้องหลังอย่างไร</h2>
 </div><div class="markdown-body"><p>คุณไม่ต้องจำไวยากรณ์ แต่ต้องอธิบายลำดับงานต่อไปนี้ได้</p>
 <div class="command markdown-command"><code>แฟ้มต้นฉบับ
   → ไลบรารีอ่านแฟ้ม
@@ -174,7 +174,7 @@
 <li><strong>artifact:</strong> แฟ้มผลลัพธ์ เช่น CSV, XLSX, PNG, SVG, PDF หรือ HTML ซึ่งต้องย้อนกลับได้ว่าสร้างจาก script และข้อมูลใด</li>
 </ul>
 </div></section>
-<section class="section markdown-section" id="จาก-dataframe-ไปเป็น-visualization" aria-labelledby="จาก-dataframe-ไปเป็น-visualization-heading"><div class="section-heading compact"><h2 id="จาก-dataframe-ไปเป็น-visualization-heading">จากตารางข้อมูลไปเป็นภาพ</h2>
+<section class="section markdown-section" id="จาก-dataframe-ไปเป็น-visualization" data-brief="ขั้นจากข้อมูลดิบจนเป็นภาพ และวิธีเลือกชนิดกราฟ เปิดอ่านเมื่อต้องการทวนหลักหรือช่วยเลือกกราฟ" aria-labelledby="จาก-dataframe-ไปเป็น-visualization-heading"><div class="section-heading compact"><h2 id="จาก-dataframe-ไปเป็น-visualization-heading">จากตารางข้อมูลไปเป็นภาพ</h2>
 </div><div class="markdown-body"><p>DataFrame เชื่อมข้อมูลดิบ วิธีวิเคราะห์ และภาพ ทุกภาพต้องตอบได้ว่าใช้แถวใด คอลัมน์ใด มีการกรองหรือรวมค่าอย่างไร และแต่ละส่วนของภาพแทนตัวแปรใด</p>
 <h3 id="1-โครงสร้างของ-dataframe">1. โครงสร้างของ DataFrame</h3>
 <ul>
@@ -415,7 +415,7 @@
 <div class="command markdown-command ai-prompt"><code>ตรวจ environment ที่โครงการกำหนดก่อน ระบุ Python และไลบรารีพร้อมรุ่นที่จะใช้ ห้ามติดตั้งหรือปรับรุ่นโดยไม่แจ้ง อ่านแฟ้มต้นฉบับแบบไม่แก้ไข ตรวจโครงสร้างและคุณภาพข้อมูลก่อนเสนอวิธีวิเคราะห์ สร้าง script ที่เรียกซ้ำได้ บันทึกผลตัวเลขที่ใช้สร้างทั้งตารางและภาพ และรายงานชื่อแฟ้มผลลัพธ์กับข้อผิดพลาดหรือคำเตือนทั้งหมด</code><button type="button" data-copy>คัดลอก Prompt</button></div>
 <p>หากไลบรารีที่ต้องใช้ไม่มีอยู่ AI ต้องเสนอทางเลือกที่มีอยู่หรือแจ้งรายการที่ขาดพร้อมเหตุผล คุณจึงตัดสินใจว่าจะใช้ทางเลือกหรือกลับไปเพิ่มซอฟต์แวร์ผ่าน Module 1 ห้ามให้ AI ติดตั้งแพ็กเกจโดยพลการระหว่างการวิเคราะห์</p>
 </div></section>
-<section class="section markdown-section" id="your-starting-point" aria-labelledby="your-starting-point-heading"><div class="section-heading compact"><h2 id="your-starting-point-heading">เลือกจุดเริ่มต้นของคุณ</h2>
+<section class="section markdown-section" id="your-starting-point" data-brief="ทาง A–D สำหรับฝึกกับข้อมูลชุดอื่น กิจกรรมหลักใช้ข้อมูลที่เตรียมไว้แล้ว เปิดอ่านเมื่อจะใช้ข้อมูลของตนเอง" aria-labelledby="your-starting-point-heading"><div class="section-heading compact"><h2 id="your-starting-point-heading">เลือกจุดเริ่มต้นของคุณ</h2>
 </div><div class="markdown-body"><p>เลือกหนึ่งเส้นทาง ทุกเส้นทางใช้สมุดงาน <code>course-materials/module-07/templates/module-07-data-analysis-visualization-workbook.md</code> ใน VS Code workspace ชุดเดียวกัน</p>
 <h3 id="track-a--การจำแนกประเภทแบบ-iris">ทาง A — การจำแนกประเภทแบบ Iris</h3>
 <p>ใช้ชุดข้อมูล Iris หรือชุดข้อมูลหลายกลุ่มที่มีโครงสร้างใกล้เคียงกัน เพื่อเรียนรู้ความแตกต่างระหว่างการอธิบายข้อมูลกับการพยากรณ์</p>
@@ -447,7 +447,7 @@
 <h3 id="track-d--your-research-data">ทาง D — ข้อมูลวิจัยของคุณ</h3>
 <p>ใช้ได้เมื่อมีข้อมูลที่ได้รับอนุญาต ไม่มีข้อมูลส่วนบุคคลที่ไม่ควรเปิดเผย และมีพจนานุกรมข้อมูล หากยังไม่พร้อมให้ใช้ Track A–C โดยไม่ลดเกณฑ์การประเมิน</p>
 </div></section>
-<section class="section markdown-section" id="ตั้งสมมติฐานอย่างไร" aria-labelledby="ตั้งสมมติฐานอย่างไร-heading"><div class="section-heading compact"><h2 id="ตั้งสมมติฐานอย่างไร-heading">ตั้งสมมติฐานอย่างไร</h2>
+<section class="section markdown-section" id="ตั้งสมมติฐานอย่างไร" data-brief="แบบประโยคตั้งสมมติฐานหรือเป้าหมายการพยากรณ์ตามชนิดคำถาม ข้ามได้ถ้าตั้งสมมติฐานเป็นแล้ว" aria-labelledby="ตั้งสมมติฐานอย่างไร-heading"><div class="section-heading compact"><h2 id="ตั้งสมมติฐานอย่างไร-heading">ตั้งสมมติฐานอย่างไร</h2>
 </div><div class="markdown-body"><p>เริ่มจากชนิดของคำถาม ไม่บังคับให้ทุกการวิเคราะห์มีสมมติฐาน</p>
 <table>
 <thead>
@@ -504,24 +504,25 @@
 </div></section>
 <section class="section markdown-section" id="activity" aria-labelledby="activity-heading"><div class="section-heading compact"><h2 id="activity-heading">ลงมือวิเคราะห์และสร้างภาพด้วย AI</h2>
 </div><div class="markdown-body"><h3>โจทย์เดียว</h3>
-<p>สำรวจข้อมูล <code>course-materials/module-07/examples/figure-consistency/mock-study-data.csv</code> แล้วตอบว่า <strong>ค่า PM2.5 เปลี่ยนอย่างไรตามพื้นที่ กลุ่ม ก่อน–หลังมาตรการ และเวลา</strong> เลือกมุมวิเคราะห์ วิธี และชนิดกราฟได้เอง เป้าหมายคือค้นหา 3–5 highlights ที่มีตัวเลขรองรับ และปิดท้ายด้วยข้อสรุปที่บอกชัดว่าข้อมูลสนับสนุนอะไรและยังสรุปอะไรไม่ได้</p>
-<div class="plain-note"><strong>ต่อไป Module 8:</strong> ตัวติดตั้ง Module 8 ใช้ข้อมูลไฟล์นี้ที่มี checksum เดียวกัน และนำ <code>module-07-work/module-07-highlights.md</code> กับกราฟของคุณไปเป็น input สำหรับเขียนรายงาน LaTeX โดยอัตโนมัติ ผู้ที่เริ่ม Module 8 โดยตรงจะได้รับ summary และกราฟตัวอย่างจากข้อมูลชุดเดียวกัน</div>
+<p>สำรวจข้อมูล <code>course-materials/module-07/examples/figure-consistency/mock-study-data.csv</code> แล้วตอบว่า <strong>ค่า PM2.5 เปลี่ยนอย่างไรตามพื้นที่ กลุ่ม ก่อน–หลังมาตรการ และเวลา</strong> เลือกมุม วิธี และกราฟเอง หา 3–5 highlights ที่มีตัวเลขรองรับ แล้วสรุปว่าข้อมูลสนับสนุนอะไรและยังสรุปอะไรไม่ได้</p>
+<div class="plain-note"><strong>ต่อไป Module 8:</strong> Module 8 นำ <code>module-07-work/module-07-highlights.md</code> กับกราฟของคุณไปเขียนรายงาน LaTeX ต่อโดยอัตโนมัติ (ข้อมูลไฟล์เดียวกัน checksum เดียวกัน) ผู้ที่เริ่ม Module 8 โดยตรงจะได้ summary และกราฟตัวอย่างจากข้อมูลชุดนี้</div>
 <h3>เริ่มใน VS Code</h3>
-<p>เปิด <code>ai-for-research-workspace</code> ใน VS Code แล้วพิมพ์ Prompt ตั้งต้นด้านล่าง หลังจากนั้นถามต่อ ปรับทิศทาง เปลี่ยนกราฟ หรือขอให้ AI ลองวิธีอื่นได้อย่างอิสระ คุณเลือกกราฟเองหรือให้ AI เสนอให้ก็ได้ แต่ต้องอธิบายได้ว่ากราฟช่วยให้เห็นอะไร</p>
+<p>เปิด <code>ai-for-research-workspace</code> ใน VS Code แล้ววาง Prompt ตั้งต้นด้านล่าง จากนั้นถามต่อหรือเปลี่ยนทิศทางได้อิสระ กราฟที่เลือกต้องอธิบายได้ว่าช่วยให้เห็นอะไร</p>
 <div class="command markdown-command ai-prompt" data-m7-exploration-prompt><code>เปิดไฟล์ course-materials/module-07/examples/figure-consistency/mock-study-data.csv แล้วช่วยฉันสำรวจว่า PM2.5 เปลี่ยนอย่างไรตาม site, arm, period และ week ตรวจคุณภาพข้อมูลก่อน วิเคราะห์ได้อย่างอิสระ และสร้างกราฟที่เหมาะกับข้อค้นพบ ระหว่างทำให้บอกตัวเลขที่ใช้และเหตุผลที่เลือกกราฟ เมื่อฉันพอใจกับการวิเคราะห์แล้ว ให้บันทึก module-07-work/module-07-highlights.md ซึ่งมีคำถามที่สำรวจ, highlights 3–5 ข้อพร้อมหลักฐานตัวเลข, กราฟที่เลือกและเหตุผล, ข้อสรุปที่ชัดเจน, ข้อจำกัด และสิ่งที่ข้อมูลยังสรุปไม่ได้ บันทึกกราฟสุดท้าย 1–5 ภาพเป็น PNG, JPEG หรือ WebP ใน module-07-work/figures โดยใช้ชื่อไฟล์ภาษาอังกฤษที่สื่อความหมาย เริ่มจากสรุปโครงสร้างข้อมูลสั้น ๆ แล้วชวนฉันเลือกมุมที่อยากสำรวจต่อ</code><button type="button" data-copy>คัดลอก Prompt ตั้งต้น</button></div>
+<div class="done-shows"><strong>เสร็จแล้วจะเห็น</strong><p>AI สรุปโครงสร้างข้อมูลสั้น ๆ แล้วถามว่าอยากสำรวจมุมไหนต่อ เมื่อคุณพอใจ กราฟจะอยู่ใน <code>module-07-work/figures/</code> และมีไฟล์ <code>module-07-work/module-07-highlights.md</code></p></div>
 <h3>สิ่งที่ต้องมีตอนจบ</h3>
 <ul>
-<li>กราฟอย่างน้อยหนึ่งภาพที่ตอบคำถามหรือทำให้เห็น highlight ชัดขึ้น</li>
+<li>กราฟอย่างน้อยหนึ่งภาพที่ทำให้เห็น highlight ชัดขึ้น</li>
 <li>highlights 3–5 ข้อ แต่ละข้อมีตัวเลขหรือการเปรียบเทียบที่ตรวจย้อนกลับได้</li>
-<li>เหตุผลสั้น ๆ ว่าเลือกกราฟนั้นเพราะอะไร</li>
+<li>เหตุผลที่เลือกกราฟ</li>
 <li>ข้อสรุปหนึ่งย่อหน้าที่สอดคล้องกับ highlights</li>
 <li>ข้อจำกัดและสิ่งที่ยังสรุปไม่ได้</li>
 <li>ไฟล์ <code>module-07-work/module-07-highlights.md</code> สำหรับส่งกลับเข้าสู่ระบบ</li>
 </ul>
-<p>AI เขียนโค้ด เลือกไลบรารี และสร้างกราฟให้ได้ คุณเป็นผู้กำหนดทิศทาง ตรวจตัวเลข เลือกสิ่งที่จะเรียกว่า highlight และรับรองข้อสรุปสุดท้าย</p>
+<p>AI เขียนโค้ดและสร้างกราฟ คุณเป็นผู้กำหนดทิศทาง ตรวจตัวเลข เลือก highlight และรับรองข้อสรุป</p>
 </div></section>
 <section class="section markdown-section" id="red-team-ก่อนสรุปผล" aria-labelledby="red-team-ก่อนสรุปผล-heading"><div class="section-heading compact"><h2 id="red-team-ก่อนสรุปผล-heading">ท้าทายข้อสรุป ก่อนสรุปผล</h2>
-</div><div class="markdown-body"><p>ให้ AI และเพื่อนร่วมชั้นพยายามหาข้อผิดพลาดต่อไปนี้</p>
+</div><div class="markdown-body"><p>ให้ AI และเพื่อนช่วยหาข้อผิดพลาดเหล่านี้</p>
 <ul>
 <li>หน่วยวิเคราะห์ไม่ตรงกับข้อกล่าวอ้าง</li>
 <li>นับข้อมูลซ้ำหรือใช้ตัวหารผิด</li>
@@ -535,7 +536,7 @@
 <li>ส่งออกแล้วตัวอักษรขาด สีอ่านไม่ได้ หรือแฟ้มเปิดไม่ได้</li>
 </ul>
 </div></section>
-<section class="section markdown-section" id="figure-consistency-audit" aria-labelledby="figure-consistency-audit-heading"><div class="section-heading compact"><p class="eyebrow">กิจกรรมเสริม</p><h2 id="figure-consistency-audit-heading">ตรวจความสอดคล้องของภาพทั้งเอกสาร</h2>
+<section class="section markdown-section" id="figure-consistency-audit" data-brief="กิจกรรมเสริมเมื่อมีเวลา: ตรวจว่ารูป ตาราง และข้อความในบทความจำลองใช้ตัวเลขตรงกัน" data-brief-label="เปิดกิจกรรมเสริม" aria-labelledby="figure-consistency-audit-heading"><div class="section-heading compact"><p class="eyebrow">กิจกรรมเสริม</p><h2 id="figure-consistency-audit-heading">ตรวจความสอดคล้องของภาพทั้งเอกสาร</h2>
 </div><div class="markdown-body"><p>เปิดชุดฝึกที่ติดตั้งไว้แล้วจาก VS Code workspace ชุดนี้ใช้ข้อมูลจำลองเดียวกันทั้งหมด:</p>
 <ul>
 <li><code>course-materials/module-07/examples/figure-consistency/mock-article-figure-consistency.pdf</code></li>
@@ -546,41 +547,45 @@
 <p>ทำกิจกรรมนี้เมื่อมีเวลาเพิ่ม เริ่มด้วย human-first pass แล้วกรอก <code>module-07-work/module-07-figure-audit.md</code> ให้มีอย่างน้อย 6 ประเด็น โดยอย่างน้อย 4 ประเด็นต้องอาศัยการอ่านตั้งแต่สองตำแหน่งขึ้นไป และตรวจอย่างน้อย 3 ค่าจาก CSV</p>
 </div></section>
 <section class="section markdown-section" id="analysis-highlights-submission" aria-labelledby="analysis-highlights-submission-heading"><div class="section-heading compact"><p class="eyebrow">ส่งงาน</p><h2 id="analysis-highlights-submission-heading">ส่ง Highlights กลับเข้าสู่ระบบ</h2>
-</div><div class="markdown-body"><p>AIRR ส่ง <code>module-07-work/module-07-highlights.md</code> พร้อมกราฟ 1–5 ภาพจาก <code>module-07-work/figures/</code> ให้ผู้สอนตรวจ ระบบไม่ส่งข้อมูลดิบ โค้ด หรือไฟล์อื่นใน workspace กิจกรรมนี้ใช้ข้อมูลจำลองของบทเรียน ห้ามส่งข้อมูลวิจัยจริงหรือข้อมูลลับ</p>
-<div class="notice"><strong>AIRR — AI for Research &amp; Review:</strong> เข้าสู่ระบบบนเว็บเพื่อสร้าง AIRR Key หนึ่งครั้ง จากนั้นตรวจ ส่ง และดู feedback ใน VS Code โดยไม่ต้องกรอกรหัสคลาสหรือ Call sign</div>
+</div><div class="markdown-body"><p>AIRR ส่ง <code>module-07-work/module-07-highlights.md</code> พร้อมกราฟ 1–5 ภาพจาก <code>module-07-work/figures/</code> ให้ผู้สอนตรวจ ไม่ส่งข้อมูลดิบ โค้ด หรือไฟล์อื่น ห้ามส่งข้อมูลวิจัยจริงหรือข้อมูลลับ</p>
+<div class="notice"><strong>AIRR — AI for Research &amp; Review:</strong> สร้าง AIRR Key บนเว็บครั้งเดียว แล้วตรวจ ส่ง และดู feedback ใน VS Code ไม่ต้องกรอกรหัสคลาสหรือ Call sign</div>
 <div class="airr-connect" data-airr-connect>
   <h3>1 — เชื่อม AIRR กับ VS Code</h3>
-  <p>AIRR Key ผูกกับบัญชีและคลาสนี้ เก็บ key ไว้ใน workspace ส่วนตัวและเพิกถอนได้จากหน้านี้ ระบบแสดง key เต็มเพียงครั้งเดียว</p>
+  <p>Key ผูกกับบัญชีและคลาสนี้ แสดงเต็มเพียงครั้งเดียว เก็บไว้เป็นความลับ และเพิกถอนได้จากหน้านี้</p>
   <button class="button primary" type="button" data-airr-create-key>สร้าง AIRR Key สำหรับ VS Code</button>
   <div class="airr-key-once" data-airr-key-once hidden><p><strong>คัดลอก AIRR Key ตอนนี้</strong></p><code data-airr-key></code><button class="button secondary" type="button" data-airr-copy-key>คัดลอก AIRR Key</button></div>
   <div data-airr-key-list></div>
   <p data-airr-connect-status role="status" aria-live="polite">กำลังตรวจบัญชี AIRR…</p>
 </div>
 <h3>2 — Login ใน VS Code ครั้งเดียว</h3>
-<p>เปิด Terminal ที่โฟลเดอร์ <code>ai-for-research-workspace</code> รันคำสั่ง แล้ววาง AIRR Key เมื่อระบบถาม:</p>
+<p>ใน Terminal ที่โฟลเดอร์ <code>ai-for-research-workspace</code> รันคำสั่ง แล้ววาง AIRR Key เมื่อถาม</p>
 <p><strong>Windows PowerShell</strong></p>
 <div class="command terminal-command"><code>&amp; .\tools\airr.ps1 login</code><button type="button" data-copy>คัดลอกคำสั่ง AIRR login</button></div>
 <p><strong>macOS / Linux</strong></p>
 <div class="command terminal-command"><code>bash tools/airr.sh login</code><button type="button" data-copy>คัดลอกคำสั่ง AIRR login</button></div>
+<div class="done-shows"><strong>เสร็จแล้วจะเห็น</strong><pre>AIRR CONNECTED · ชื่อคลาสของคุณ (รหัสคลาส)</pre></div>
 <h3>3 — ตรวจและส่งงาน</h3>
-<p>AIRR อ่าน highlights และกราฟใน <code>module-07-work/figures/</code> อัตโนมัติ:</p>
+<p>รัน <code>check</code> ก่อน แล้วจึง <code>submit</code> AIRR หยิบ highlights และกราฟใน <code>module-07-work/figures/</code> ให้เอง</p>
 <div class="command terminal-command"><code>&amp; .\tools\airr.ps1 check module-7</code><button type="button" data-copy>คัดลอกคำสั่งตรวจงาน Windows</button></div>
 <div class="command terminal-command"><code>&amp; .\tools\airr.ps1 submit module-7</code><button type="button" data-copy>คัดลอกคำสั่งส่งงาน Windows</button></div>
 <div class="command terminal-command"><code>bash tools/airr.sh check module-7</code><button type="button" data-copy>คัดลอกคำสั่งตรวจงาน macOS / Linux</button></div>
 <div class="command terminal-command"><code>bash tools/airr.sh submit module-7</code><button type="button" data-copy>คัดลอกคำสั่งส่งงาน macOS / Linux</button></div>
+<div class="done-shows"><strong>เสร็จแล้วจะเห็น</strong><p>หลัง <code>check</code>:</p><pre>AIRR CHECK PASS · module-7 · 3 highlights · 1 graphs</pre><p>หลัง <code>submit</code> พิมพ์ <code>y</code> เมื่อถาม <code>ยืนยันส่งงานผ่าน AIRR? [y/N]</code> แล้วจะเห็น</p><pre>AIRR SUBMIT PASS · module-7 · attempt=1</pre><p>ตัวเลขจะตรงกับจำนวน highlights กราฟ และครั้งที่ส่งของคุณ</p></div>
 <h3>4 — ดูผลตรวจ</h3>
 <div class="command terminal-command"><code>&amp; .\tools\airr.ps1 status module-7</code><button type="button" data-copy>คัดลอกคำสั่งดูสถานะ Windows</button></div>
 <div class="command terminal-command"><code>bash tools/airr.sh status module-7</code><button type="button" data-copy>คัดลอกคำสั่งดูสถานะ macOS / Linux</button></div>
-<p>สถานะ <code>pending_review</code> หมายถึงระบบรับเอกสารแล้วแต่ยังไม่ผ่าน ผู้สอนเป็น gatekeeper และให้ผลได้สามแบบ:</p>
+<div class="done-shows"><strong>เสร็จแล้วจะเห็น</strong><pre>AIRR · module-7 · completed=false · attempts=1
+วันเวลาที่ส่ง · pending_review · รหัสการส่ง</pre></div>
+<p><code>pending_review</code> หมายถึงงานถึงผู้สอนแล้ว รอตรวจ ผู้สอนให้ผลได้สามแบบ:</p>
 <ul>
 <li><code>approved</code> — ผ่าน Module 7</li>
-<li><code>revision_requested</code> — แก้ตาม feedback แล้วส่ง attempt ใหม่</li>
-<li><code>rejected</code> — หลักฐานไม่ใช่งานของผู้เรียน มีข้อมูลที่ไม่ควรส่ง หรือไม่มี highlights และข้อสรุปที่ตรวจได้</li>
+<li><code>revision_requested</code> — แก้ตาม feedback แล้วส่งใหม่</li>
+<li><code>rejected</code> — ไม่ใช่งานของผู้เรียน มีข้อมูลที่ไม่ควรส่ง หรือไม่มี highlights และข้อสรุปที่ตรวจได้</li>
 </ul>
-<p>Checklist ด้านล่างเป็นเพียงการตรวจตนเองและไม่เปลี่ยนสถานะ gatekeeper</p>
+<p>Checklist ด้านล่างใช้ตรวจตนเอง ไม่เปลี่ยนผลตรวจของผู้สอน</p>
 </div></section>
 <section class="section markdown-section" id="finish" aria-labelledby="finish-heading"><div class="section-heading compact"><p class="eyebrow">Checkpoint</p><h2 id="finish-heading">จบบทเรียน</h2>
-</div><div class="markdown-body"><p>ติ๊กเมื่อคุณตรวจผลจริงและอธิบายที่มาของแต่ละข้อได้ ระบบจะจำสถานะไว้ในเบราว์เซอร์นี้</p>
+</div><div class="markdown-body"><p>ติ๊กเมื่อตรวจจริงและอธิบายที่มาได้ เบราว์เซอร์นี้จะจำสถานะไว้</p>
 <p class="progress" aria-live="polite">ความสำเร็จ <strong data-progress>0%</strong></p>
 <div class="checklist" data-checklist="module-7">
 <label><input type="checkbox"> มี highlights 3–5 ข้อและแต่ละข้อมีตัวเลขรองรับ</label>
@@ -591,7 +596,7 @@
 </div>
 </div></section>
 <section class="section markdown-section" id="การบ้าน" aria-labelledby="การบ้าน-heading"><div class="section-heading compact"><h2 id="การบ้าน-heading">การบ้าน</h2>
-</div><div class="markdown-body"><p>นำ feedback จากผู้สอนไปปรับ <code>module-07-highlights.md</code> หรือกราฟ แล้วส่ง attempt ใหม่เมื่อได้รับสถานะ <code>revision_requested</code></p>
+</div><div class="markdown-body"><p>ถ้าได้ <code>revision_requested</code> ให้ปรับ <code>module-07-highlights.md</code> หรือกราฟตาม feedback แล้วส่งใหม่</p>
 </div></section>
 <section class="section markdown-section" id="review" aria-labelledby="review-heading"><div class="section-heading compact"><h2 id="review-heading">คำถามทบทวนท้ายบท</h2>
 </div><div class="markdown-body"><ol type="1">

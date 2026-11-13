@@ -145,6 +145,18 @@ class Module7InModule1Tests(unittest.TestCase):
             self.assertIn('MODULE7_SKIPPED', out.getvalue())
             self.assertFalse((ws / 'tools/start-module-07.sh').exists())
 
+    def test_module7_status_is_shown_on_screen_during_traced_installs(self):
+        with tempfile.TemporaryDirectory() as folder:
+            trace = Path(folder) / 'trace.jsonl'
+            with patch.dict(os.environ, {'AI_RESEARCH_TRACE_FILE': str(trace)}), \
+                    contextlib.redirect_stdout(io.StringIO()) as out:
+                runtime.log('MODULE7_READY test')
+                runtime.log('MODULE7_SKIPPED test')
+                runtime.log('INSTALL quiet detail')
+            self.assertIn('MODULE7_READY test', out.getvalue())
+            self.assertIn('MODULE7_SKIPPED test', out.getvalue())
+            self.assertNotIn('quiet detail', out.getvalue())
+
     def test_missing_materials_skip_without_running_anything(self):
         with tempfile.TemporaryDirectory() as folder:
             with patch.object(runtime, 'run') as run, contextlib.redirect_stdout(io.StringIO()) as out:

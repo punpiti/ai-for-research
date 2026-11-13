@@ -52,7 +52,7 @@ def trace_path(path, stage):
 def log(message):
     trace('message', 'installer', 'runtime', 'observed', message)
     diagnostic(message)
-    if not os.environ.get('AI_RESEARCH_TRACE_FILE') or message.startswith(('PYTHON_ENV_READY', 'RUNTIME_READY', 'FINAL_RESULT', 'SETUP_FAILED')):
+    if not os.environ.get('AI_RESEARCH_TRACE_FILE') or message.startswith(('PYTHON_ENV_READY', 'RUNTIME_READY', 'MODULE7_READY', 'MODULE7_SKIPPED', 'FINAL_RESULT', 'SETUP_FAILED')):
         print(f'[AI for Research] {message}', flush=True)
 
 

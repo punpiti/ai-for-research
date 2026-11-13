@@ -9,8 +9,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/styles.css?v=20261111-2">
-  <script src="assets/app.js?v=20261112-1" defer></script>
+  <link rel="stylesheet" href="assets/styles.css?v=20261113-1">
+  <script src="assets/app.js?v=20261113-1" defer></script>
   <script src="assets/module-1-steps.js?v=20261010-3" defer></script>
   <script src="assets/module-1-submission.js?v=20261011-2" defer></script>
   <script src="assets/airr-connect.js?v=20261112-1" defer></script>
@@ -25,23 +25,23 @@
     <section class="prepare-hero">
       <p class="eyebrow">Module 1</p>
       <h1>เตรียมเครื่อง<br>ให้พร้อมทำวิจัยกับ AI</h1>
-      <p>ติดตั้งครั้งเดียว แล้วทดลองเปิดงาน แก้ Markdown และสร้าง PDF โดยไม่ต้องเขียนโปรแกรม</p>
+      <p>ติดตั้งครั้งเดียว แล้วลองแก้ Markdown และสร้าง PDF โดยไม่ต้องเขียนโปรแกรม</p>
     </section>
 
     <section class="section" id="prerequisites">
       <div class="section-heading compact"><p class="eyebrow">การเตรียมตัวก่อนเรียน</p><h2>ก่อนเริ่ม เตรียมแค่นี้</h2></div>
       <div class="check-grid">
-        <div><span>บัญชี AI</span><strong>มี Claude หรือ ChatGPT อยู่แล้ว ใช้ของตัวเองได้ ถ้ายังไม่มี คลาสเตรียมไว้ให้</strong></div>
-        <div><span>อินเทอร์เน็ต</span><strong>ต่อได้ตลอดคาบ เพราะต้องติดตั้งโปรแกรมและคุยกับ AI</strong></div>
+        <div><span>บัญชี AI</span><strong>Claude หรือ ChatGPT ของตัวเอง ถ้าไม่มี คลาสเตรียมให้</strong></div>
+        <div><span>อินเทอร์เน็ต</span><strong>ต่อได้ตลอดคาบ</strong></div>
       </div>
     </section>
 
     <section class="section" id="outcomes">
       <div class="section-heading compact"><p class="eyebrow">สิ่งที่จะได้</p><h2>จบบทนี้ คุณจะทำได้</h2></div>
       <div class="check-grid outcome-grid compact-outcomes">
-        <div><span>01</span><strong>ติดตั้งโปรแกรมและเปิดคุยกับ AI บนเครื่องตัวเองได้</strong></div>
-        <div><span>02</span><strong>รู้ว่าไฟล์ต้นฉบับเก็บไว้ที่ไหน และงานที่ AI ทำให้ไปอยู่ที่ไหน</strong></div>
-        <div><span>03</span><strong>สั่ง AI ให้แก้ข้อความแล้วทำออกมาเป็นไฟล์ PDF ได้</strong></div>
+        <div><span>01</span><strong>ติดตั้งและคุยกับ AI บนเครื่องตัวเองได้</strong></div>
+        <div><span>02</span><strong>รู้ว่าไฟล์ต้นฉบับและงานที่ AI สร้างอยู่ที่ไหน</strong></div>
+        <div><span>03</span><strong>สั่ง AI แปลงข้อความเป็น PDF ได้</strong></div>
       </div>
     </section>
 
@@ -58,6 +58,8 @@
     <section class="section platform-section" id="install" data-agent-required hidden>
       <div class="section-heading compact"><p class="eyebrow">2 · ติดตั้ง</p><h2>คำสั่งเดียวจบ</h2><p>ใช้ของที่มีอยู่แล้ว และเติมเฉพาะส่วนที่ขาด</p></div>
 
+      <details class="fallback-details software-details">
+      <summary>ดูรายการโปรแกรมที่จะติดตั้งให้ (ไม่ต้องอ่านก็ติดตั้งได้)</summary>
       <div class="software-table-wrap" aria-labelledby="software-list-heading">
         <span class="content-kind is-read">อ่าน</span>
         <h3 id="software-list-heading">สิ่งที่จะพร้อมใช้หลังติดตั้ง</h3>
@@ -74,6 +76,7 @@
           </tbody>
         </table>
       </div>
+      </details>
 
       <div class="project-name-choice">
         <span class="content-kind is-input">กรอก</span>
@@ -86,8 +89,9 @@
       </div>
 
       <div class="task-heading"><span class="content-kind is-terminal">ก่อนติดตั้ง</span><strong>สร้าง AIRR Key ก่อน แล้วคำสั่งติดตั้งจะใส่ key ให้เอง</strong></div>
-      <p>AIRR Key ใช้ส่งงานจาก VS Code ได้ทุกโมดูล ตัวติดตั้งจะเชื่อม workspace ให้ครั้งเดียว ไม่ต้อง login อีก ถ้า workspace นี้เคยเชื่อมแล้ว ตัวติดตั้งจะใช้การเชื่อมเดิมและไม่เขียนทับ ข้ามขั้นนี้ได้ แต่ต้องรัน <code>airr login</code> เองภายหลัง</p>
+      <p>ใช้ส่งงานจาก VS Code ทุกโมดูล โดยไม่ต้อง login อีก ถ้า workspace เคยเชื่อมแล้วจะใช้การเชื่อมเดิม ข้ามได้ แต่ต้องรัน <code>airr login</code> เองภายหลัง</p>
       <div class="airr-connect" data-airr-connect><button class="button primary" type="button" data-airr-create-key>สร้าง AIRR Key สำหรับ VS Code</button><div class="airr-key-once" data-airr-key-once hidden><p><strong>คัดลอก AIRR Key ตอนนี้</strong></p><code data-airr-key></code><button class="button secondary" type="button" data-airr-copy-key>คัดลอก AIRR Key</button></div><div data-airr-key-list></div><p data-airr-connect-status role="status" aria-live="polite">กำลังตรวจบัญชี AIRR…</p></div>
+      <div class="done-shows"><strong>เสร็จแล้วจะเห็น</strong><p>AIRR Key พร้อมปุ่มคัดลอก และข้อความ “AIRR สร้าง key แล้ว …” คำสั่งติดตั้งด้านล่างจะมี key ใส่ไว้ให้แล้ว</p></div>
 
       <div class="task-heading"><span class="content-kind is-terminal">คำสั่ง Terminal</span><strong>เลือกระบบ แล้วคัดลอกคำสั่งไปวาง</strong></div>
       <div class="platform-picker" role="group" aria-label="เลือกระบบปฏิบัติการ">
@@ -100,7 +104,7 @@
           <p class="platform-label">Windows 11</p><h3>เปิด PowerShell</h3>
           <p class="expected">กด <kbd>Win</kbd> + <kbd>R</kbd> พร้อมกันเพื่อเปิดหน้าต่าง Run พิมพ์ <code>powershell</code> แล้วกด <kbd>Enter</kbd></p>
           <div class="command"><code data-agent-command data-template="&amp; { $env:AI_RESEARCH_PROJECT_NAME={projectPs}; {airrPs}$setup = Join-Path $env:TEMP &#x27;ai-research-setup.ps1&#x27;; Invoke-WebRequest -UseBasicParsing -ErrorAction Stop &quot;https://urban.cpe.ku.ac.th/ai-for-research/downloads/setup-windows.ps1&quot; -OutFile $setup; powershell -NoProfile -ExecutionPolicy Bypass -File &quot;$setup&quot; -Mode Install -Agent {agent} }">&amp; { $env:AI_RESEARCH_PROJECT_NAME='ai-for-research-workspace'; $setup = Join-Path $env:TEMP 'ai-research-setup.ps1'; Invoke-WebRequest -UseBasicParsing -ErrorAction Stop "https://urban.cpe.ku.ac.th/ai-for-research/downloads/setup-windows.ps1" -OutFile $setup; powershell -NoProfile -ExecutionPolicy Bypass -File "$setup" -Mode Install -Agent openrouter }</code><button type="button" data-copy>คัดลอกคำสั่งติดตั้ง</button></div>
-          <p class="expected">วางคำสั่ง กด Enter และตอบ Yes หาก Windows ขอสิทธิ์</p>
+          <p class="expected">วาง กด Enter และตอบ Yes ถ้า Windows ขอสิทธิ์</p>
         </article>
         <article class="platform-card" data-platform-panel="macos">
           <p class="platform-label">macOS</p><h3>เปิด Terminal</h3>
@@ -113,8 +117,9 @@
           <p class="expected">วางคำสั่ง กด Enter และใส่รหัสผ่านของเครื่องเมื่อระบบขอ</p>
         </article>
       </div>
-      <div class="notice"><strong>ระหว่างติดตั้ง:</strong> ระหว่างติดตั้งด้วยสิทธิ์ admin จะมีแถบความคืบหน้าและเวลารออัปเดตทุก 10 วินาที แม้การดาวน์โหลดไม่มีเปอร์เซ็นต์ให้รายงาน ให้เปิดหน้าต่างติดตั้งทั้งสองไว้จนเสร็จ</div>
-      <div class="notice"><strong>ติดตั้งสำเร็จเมื่อ:</strong> หน้าติดตั้งแสดง <code>FINAL_RESULT PASS</code> และ VS Code เปิดโฟลเดอร์ <code data-project-name>ai-for-research-workspace</code> ถ้าเห็น <code>MODULE7_READY</code> ด้วย แปลว่าเครื่องมือ Module 7 พร้อมแล้ว ไม่ต้องติดตั้งซ้ำตอนเรียน Module 7</div>
+      <div class="notice"><strong>ระหว่างติดตั้ง:</strong> แถบความคืบหน้าอัปเดตทุก 10 วินาที อาจมีสองหน้าต่าง เปิดไว้จนเสร็จ</div>
+      <div class="notice"><strong>ติดตั้งสำเร็จเมื่อ:</strong> VS Code เปิดโฟลเดอร์ <code data-project-name>ai-for-research-workspace</code> และหน้าต่างติดตั้งมีบรรทัดนี้</div>
+      <div class="done-shows"><strong>เสร็จแล้วจะเห็น</strong><pre>[AI for Research] FINAL_RESULT PASS - Setup complete. Open the AI panel in your workspace and sign in or configure your provider.</pre><p>ถ้าเห็น <code>MODULE7_READY</code> ด้วย แปลว่าเครื่องมือ Module 7 พร้อมแล้ว ไม่ต้องติดตั้งซ้ำ</p></div>
     </section>
 
     <section class="section platform-section" id="practice" data-agent-required hidden>
@@ -136,8 +141,9 @@
 
       <details class="fallback-details profile-details">
         <summary><span class="content-kind is-action">ไม่บังคับ</span> เล่าเรื่องงานวิจัยของคุณให้ AI ฟัง</summary>
-        <p>ไม่ต้องกรอกแบบฟอร์ม คัดลอก Prompt นี้ไปวางใน AI panel แล้วตอบคำถามทีละข้อ AI จะบันทึกไว้ที่ <code>profile/research-profile.md</code> ใน workspace โมดูลถัดไปจะให้ AI อ่านไฟล์นี้เอง ทำตอนนี้หรือข้ามไปก็ได้ ถ้าข้าม AI จะถามเมื่อถึงกิจกรรมที่ต้องใช้</p>
+        <p>วาง Prompt นี้ใน AI panel แล้วตอบทีละข้อ AI บันทึกไว้ที่ <code>profile/research-profile.md</code> ให้โมดูลถัดไปใช้ ข้ามได้ AI จะถามเมื่อถึงกิจกรรมที่ต้องใช้</p>
         <div class="command ai-prompt"><code>ช่วยทำไฟล์ profile/research-profile.md ที่สรุปงานวิจัยของฉัน เพื่อให้กิจกรรมในโมดูลถัดไปใช้เป็นบริบท ถามฉันทีละข้อและรอคำตอบก่อนถามข้อต่อไป: (1) สาขาและบทบาทของฉัน (2) หัวข้อที่ทำหรือสนใจ 1–2 ประโยค (3) งานตอนนี้อยู่ขั้นไหน (4) ผลงานที่อยากได้และวารสารหรืองานประชุมเป้าหมายถ้ามี (5) ใครจะอ่านผลงาน (6) ภาษาที่ใช้เขียนงาน (7) ข้อจำกัดที่ควรรู้ (8) ข้อมูลของฉันมีข้อมูลลับหรือข้อมูลส่วนบุคคลหรือไม่ ข้อที่ฉันตอบว่าข้าม ให้เขียนว่า "ไม่ระบุ" ห้ามเดา ห้ามบันทึกรหัสผ่าน API key หรือข้อมูลส่วนบุคคลที่ไม่จำเป็น แสดงไฟล์ให้ฉันตรวจก่อนบันทึก</code><button type="button" data-copy>คัดลอก Prompt</button></div>
+        <div class="done-shows"><strong>เสร็จแล้วจะเห็น</strong><p>AI แสดงร่างให้ตรวจ แล้วมีไฟล์ <code>profile/research-profile.md</code> ใน workspace</p></div>
         <p class="form-help">แก้ไฟล์นี้ได้ทุกเมื่อ หรือสั่ง AI ว่า “อัปเดต profile/research-profile.md: …”</p>
       </details>
 
@@ -145,10 +151,10 @@
       <ol class="readiness-steps">
         <li><span>01</span><div><strong>เปิด <code>module-01-work/content.md</code></strong> แล้วแก้ข้อความตัวอย่าง</div></li>
         <li><span>02</span><div><strong>ดู Preview</strong> ด้วย Ctrl+Shift+V (macOS: Command+Shift+V)</div></li>
-        <li><span>03</span><div><strong>ให้ AI สร้าง PDF</strong><div class="command ai-prompt"><code>อ่าน module-01-work/content.md แล้วสร้าง module-01-work/output/content.pdf โดยไม่เปลี่ยนไฟล์ต้นฉบับ จากนั้นตรวจว่า PDF เปิดอ่านได้</code><button type="button" data-copy>คัดลอก Prompt</button></div></div></li>
+        <li><span>03</span><div><strong>ให้ AI สร้าง PDF</strong><div class="command ai-prompt"><code>อ่าน module-01-work/content.md แล้วสร้าง module-01-work/output/content.pdf โดยไม่เปลี่ยนไฟล์ต้นฉบับ จากนั้นตรวจว่า PDF เปิดอ่านได้</code><button type="button" data-copy>คัดลอก Prompt</button></div><div class="done-shows"><strong>เสร็จแล้วจะเห็น</strong><p>ไฟล์ใหม่ <code>content.pdf</code> ใน <code>module-01-work/output/</code> ส่วน <code>content.md</code> ไม่เปลี่ยน</p></div></div></li>
         <li><span>04</span><div><strong>เปิด <code>module-01-work/output/content.pdf</code></strong> และตรวจเนื้อหากับภาษาไทย</div></li>
       </ol>
-      <div class="plain-note"><strong>ยังไม่คุ้นกับไฟล์ MD, CSV, PDF หรือ JSON?</strong> เปิด <a href="module-file-basics.html">โมดูลเสริม File Basics</a> เลือกอ่านเฉพาะชนิดไฟล์ที่ติด ส่วนละประมาณ 10 นาที ไม่ใช่เงื่อนไขผ่าน Module 1</div>
+      <div class="plain-note"><strong>ยังไม่คุ้นกับไฟล์ MD, CSV, PDF หรือ JSON?</strong> ดู<a href="module-file-basics.html">โมดูลเสริม File Basics</a> ส่วนละ ~10 นาที ไม่บังคับ</div>
 
       <details class="fallback-details">
         <summary>Workspace ไม่เปิดอัตโนมัติ? ดูวิธีเปิดใหม่</summary>
@@ -178,11 +184,17 @@ code .</code><button type="button" data-copy>คัดลอก</button></div></
       </div>
       <p class="progress" aria-live="polite">ความพร้อม: <strong data-progress>0%</strong></p>
       <div class="task-heading"><span class="content-kind is-submit">ส่งงาน</span><strong>ส่งสถานะความพร้อมให้ผู้สอน</strong></div>
-      <p>บอกผู้สอนว่าคุณพร้อมเรียนหรือยัง ระบบส่งเฉพาะผลเช็กลิสต์ด้านบนและเวลาที่ใช้ ไม่ส่ง API key ไฟล์ หรือข้อมูลวิจัยของคุณ</p>
-      <div class="notice"><strong>AIRR — AI for Research &amp; Review (แนะนำ):</strong> ใช้บัญชีเว็บสร้าง AIRR Key ครั้งเดียว แล้วส่งจาก VS Code โดยไม่ต้องกรอกรหัสคลาสหรือชื่อผู้ส่ง</div>
-      <p class="form-help">ถ้าสร้าง AIRR Key ก่อนติดตั้ง ตัวติดตั้งเชื่อม VS Code ให้แล้ว ใช้คำสั่งด้านล่างได้เลย ถ้ายังไม่ได้เชื่อม ให้กลับไปสร้าง key ที่ขั้น 2 แล้วคัดลอกคำสั่ง login ที่หน้าเว็บแสดง</p>
+      <p>ส่งเฉพาะผลเช็กลิสต์และเวลาที่ใช้ ไม่ส่ง API key ไฟล์ หรือข้อมูลวิจัยของคุณ</p>
+      <div class="notice"><strong>AIRR — AI for Research &amp; Review (แนะนำ):</strong> รันคำสั่งด้านล่างใน Terminal ของ VS Code ไม่ต้องกรอกรหัสคลาสหรือชื่อ ถ้ายังไม่ได้สร้าง AIRR Key ก่อนติดตั้ง ให้กลับไปสร้างที่ขั้น 2 แล้วรันคำสั่ง login ที่หน้าเว็บแสดงก่อน</div>
       <div class="command terminal-command"><code>&amp; .\tools\airr.ps1 init module-1; &amp; .\tools\airr.ps1 submit module-1</code><button type="button" data-copy>คัดลอกคำสั่ง AIRR สำหรับ Windows</button></div>
       <div class="command terminal-command"><code>bash tools/airr.sh init module-1 &amp;&amp; bash tools/airr.sh submit module-1</code><button type="button" data-copy>คัดลอกคำสั่ง AIRR สำหรับ macOS / Linux</button></div>
+      <div class="done-shows"><strong>เสร็จแล้วจะเห็น</strong><pre>AIRR INIT PASS · module-1
+edit=…/module-1-progress.json
+AIRR ตรวจผ่าน: module-1 · …
+AIRR จะส่งเฉพาะ progress summary และแบบประเมิน ไม่ส่งเนื้อหางานหรือไฟล์หลัก
+ยืนยันส่งงานผ่าน AIRR? [y/N] y
+AIRR SUBMIT PASS · module-1 · attempt=1
+receipt=…</pre></div>
       <details class="fallback-details"><summary>ส่งผ่านแบบฟอร์มเว็บเดิม</summary>
       <form class="module-submission-form compact-submission-form" id="submit-module-1" data-module-1-submission-form>
         <label><span>คลาส</span><select name="classroom_id" required><option value="">กำลังโหลด…</option></select></label>
@@ -190,7 +202,8 @@ code .</code><button type="button" data-copy>คัดลอก</button></div></
         <label><span>เวลาที่ใช้ (นาที)</span><input name="completion_minutes" type="number" min="1" max="600" required><small data-module-1-minutes-hint>นับคร่าว ๆ ตั้งแต่เริ่มทำบทนี้จนถึงตอนนี้</small></label>
         <label class="submission-consent"><input name="consent" type="checkbox" required><span>ฉันตรวจสถานะด้านบนแล้ว และยินยอมส่งผลสรุปให้ผู้สอน</span></label>
         <div class="profile-actions"><button class="button primary" type="submit" disabled>ส่งสถานะ Module 1</button><small data-module-1-submission-status role="status" aria-live="polite">กำลังตรวจบัญชีและคลาส…</small></div>
-      </form></details>
+      </form>
+      <div class="done-shows"><strong>เสร็จแล้วจะเห็น</strong><p>ข้อความ “ผู้สอนเห็นสถานะ Module 1 แล้ว” และบรรทัด “ส่งแล้ว · ครั้งที่ …”</p></div></details>
       <p class="module-1-receipt" data-module-1-receipt role="status" hidden></p>
     </section>
   </main>

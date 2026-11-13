@@ -1185,3 +1185,12 @@ a[data-workspace-download]::after { content:"  ↓"; color:var(--accent); font-w
 .airr-graph-gallery img { width: 100%; height: auto; border-radius: .75rem; }
 .airr-review-form { display: grid; gap: .75rem; }
 .airr-review-form label { display: grid; gap: .35rem; }
+
+/* Brief-first knowledge sections (data-brief) and "done looks like" previews */
+.section-brief { margin-top: .75rem; font-size: 1.05rem; color: var(--ink-soft); }
+.knowledge-details { margin-top: -1.5rem; }
+.knowledge-details > summary { display: inline-block; cursor: pointer; padding: .45rem .9rem; border: 1px solid var(--line); border-radius: 999px; color: var(--mint); font-weight: 600; }
+.knowledge-details[open] > summary { margin-bottom: 1.5rem; }
+.done-shows { margin: .9rem 0; padding: .8rem 1rem; border: 1px solid rgba(135,199,178,.45); border-radius: .6rem; background: var(--surface); }
+.done-shows > strong { display: block; margin-bottom: .4rem; color: var(--mint); font-size: .92rem; }
+.done-shows pre, .done-shows code { white-space: pre-wrap; overflow-wrap: anywhere; font-size: .95rem; }

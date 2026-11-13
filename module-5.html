@@ -9,10 +9,10 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/styles.css?v=20261111-2">
+  <link rel="stylesheet" href="assets/styles.css?v=20261113-1">
   <script src="assets/dev-auth.js?v=20261010-1"></script>
   <script src="assets/site-shell.js?v=20261111-1"></script>
-  <script src="assets/app.js?v=20261011-4" defer></script>
+  <script src="assets/app.js?v=20261113-1" defer></script>
   <script src="assets/module-guided-steps.js?v=20261113-1" defer></script>
 </head>
 <body>
@@ -26,7 +26,7 @@
 <article><h3>เริ่มจากงานของคุณ</h3><p>เตรียมหัวข้อ คำถามวิจัย ข้อเสนอโครงการ หรือบทความที่ต้องการพัฒนาหนึ่งเรื่อง พร้อมเขียนสั้น ๆ ว่าตนเชี่ยวชาญอะไร สนใจอะไร เข้าถึงทรัพยากรใด และมีข้อจำกัดอะไร</p></article>
 <article><h3>ถ้ามีผลงานจากโมดูลก่อนหน้า</h3><p data-audience-route="faculty">นำ <code>module-03-work/output/seed-problem-statement.md</code>, gap ที่คุณรับรองจาก Module 3 และตารางหลักฐานจาก Module 4 มาใช้ เลือกเฉพาะข้อความที่ตรวจย้อนถึงต้นทางแล้ว</p><p data-audience-route="student">นำ <code>module-03-work/output/problem-gap-rq.md</code> จาก Module 3 และตารางหลักฐานจาก Module 4 มาใช้ เลือกเฉพาะข้อความที่ตรวจย้อนถึงต้นทางแล้ว</p></article>
 <article><h3>ถ้ายังไม่มีผลงานจากโมดูลก่อนหน้า</h3><p>เริ่มที่โมดูล 5 ได้ทันที ด้วยข้อมูลตั้งต้นหนึ่งหน้าและงานใกล้เคียง 3–5 เรื่อง ข้อมูลที่ยังไม่ได้ตรวจให้เขียนกำกับว่า <code>ยังต้องตรวจ</code></p><p data-audience-route="student">ถ้ายังไม่มีงานจริง ใช้เคสฝึก “หิว–กิน–อิ่ม” ได้</p></article>
-</div><p>ถ้ามีชื่อวารสาร การประชุม หรือกลุ่มผู้อ่านที่สนใจให้นำมาด้วย หากยังไม่ทราบ ให้ AI ถามคุณและช่วยค้นทางเลือกโดยใช้ข้อมูลในโปรไฟล์ของคุณเป็นเงื่อนไข ห้ามตั้งค่าแทนเอง</p>
+</div><p>นำชื่อวารสาร การประชุม หรือกลุ่มผู้อ่านที่สนใจมาด้วย ถ้ายังไม่มี ให้ AI ถามและช่วยค้นตามโปรไฟล์ของคุณ โดยไม่เลือกแทน</p>
 </div></section>
 <section class="section markdown-section"><div class="section-heading compact"><h2>เริ่มทำงานกับ AI</h2></div><div class="markdown-body"><div class="plain-note"><strong>คุณเริ่มได้จากหน้าสนทนา:</strong> แนบเอกสารเมื่อ AI ขอ แล้วตอบทีละคำถาม คำสั่งที่มี <code>{{…}}</code> ต้องเติมข้อมูลและความคิดของคุณก่อนคัดลอก ส่วนคำสั่งอื่นคัดลอกไปใช้ได้ทันที เมื่อได้ชิ้นงานที่ตรวจแล้วจึงบันทึกลง project workspace</div></div></section>
 <section class="section markdown-section" id="outcomes" aria-labelledby="outcomes-heading"><div class="section-heading compact"><p class="eyebrow">สิ่งที่จะได้</p><h2 id="outcomes-heading">สิ่งที่จะทำได้</h2>
@@ -38,7 +38,7 @@
 </div>
 <details class="fallback-details"><summary>ขอบเขตของโมดูลนี้</summary><p>โมดูลนี้ไม่แทนวิชาระเบียบวิธีวิจัย สถิติ วิธีวิจัยเฉพาะสาขา หรือการพิจารณาจริยธรรม คุณต้องเลือกการทดลอง การสังเกต การวิจัยเชิงคุณภาพ การจำลอง หรือวิธีผสมให้เหมาะกับคำถามวิจัย หากต้องการสรุปเชิงเหตุและผล แบบวิจัยต้องรองรับข้อสรุประดับนั้นจริง</p></details>
 </div></section>
-<section class="section markdown-section" id="guided-concepts" aria-labelledby="guided-concepts-heading"><div class="section-heading compact"><p class="eyebrow">เรียนด้วย AI</p><h2 id="guided-concepts-heading">ตั้งค่า AI ให้เป็นผู้ช่วยเรียน</h2><p>คัดลอก Prompt นี้ส่งให้ AI ครั้งแรกครั้งเดียว AI จะอธิบายแนวคิดเฉพาะตอนที่จำเป็นและถามท้าทายก่อนเดินต่อ จากนั้นทำตาม “คำสั่งเริ่มบทเรียน” ด้านล่าง คลังแนวคิดพับไว้ เปิดดูเมื่อ AI อ้างถึง</p>
+<section class="section markdown-section" id="guided-concepts" aria-labelledby="guided-concepts-heading"><div class="section-heading compact"><p class="eyebrow">เรียนด้วย AI</p><h2 id="guided-concepts-heading">ตั้งค่า AI ให้เป็นผู้ช่วยเรียน</h2><p>ส่ง Prompt นี้ให้ AI ครั้งเดียวตอนเริ่ม AI จะอธิบายเฉพาะที่จำเป็นและถามท้าทายก่อนเดินต่อ จากนั้นใช้ “คำสั่งเริ่มบทเรียน” ด้านล่าง คลังแนวคิดพับไว้ เปิดเมื่อ AI อ้างถึง</p>
 </div><div class="markdown-body"><div class="command markdown-command"><code>ช่วยเป็นผู้ช่วยเรียน โมดูล 5 และพาฉันอ่านไป ทำไป และคิดไปตามเส้นทางทำงาน 7 ขั้น ห้ามสอนแนวคิดทั้งหมดล่วงหน้า
 
 ในแต่ละขั้นให้ทำตามลำดับนี้:
@@ -53,7 +53,7 @@
 
 ห้ามเขียนโจทย์ วิธีวิจัย novelty contribution หรือแหล่งเผยแพร่แทนฉัน ห้ามค้นหรือกำหนดค่าเริ่มต้นก่อนรู้สาขา หัวข้อ ระยะงาน กลุ่มผู้อ่าน ข้อจำกัด และข้อมูลที่ห้ามเปิดเผย หากข้อมูลเหล่านี้ยังไม่ครบ ให้ถามทีละข้อก่อนเริ่ม
 
-เริ่มจากตรวจของที่ฉันมี เลือกทาง A หรือ B แล้วถามคำถามแรกของขั้นที่ 1 เพียงข้อเดียว</code><button type="button" data-copy="">คัดลอกคำสั่งเริ่มเรียนกับ AI</button></div><details class="concept-reference"><summary><strong>เปิดคลังคำอธิบายเมื่อ AI พามาถึงแนวคิดนั้น</strong></summary><p>เนื้อหาด้านล่างเป็นแหล่งทบทวน ไม่ใช่สิ่งที่ต้องอ่านและจำทั้งหมดก่อนเริ่มทำงาน</p><p><strong>คำถามเปิดโมดูล:</strong> “ถ้างานนี้สำเร็จ เราอยากส่งที่ไหน และต้องการให้ใครอ่าน/ใช้ผล?” คำตอบยังเปลี่ยนได้ แต่ต้องใช้สร้างภาพรวมแหล่งเผยแพร่ ก่อนคัดแนวคิดและ ร่างแบบวิจัย</p>
+เริ่มจากตรวจของที่ฉันมี เลือกทาง A หรือ B แล้วถามคำถามแรกของขั้นที่ 1 เพียงข้อเดียว</code><button type="button" data-copy="">คัดลอกคำสั่งเริ่มเรียนกับ AI</button></div><div class="done-shows"><strong>เสร็จแล้วจะเห็น</strong><p>AI ถามว่าคุณมีงานอะไรอยู่แล้ว ให้เลือกทาง A หรือ B แล้วถามคำถามแรกของขั้นที่ 1 เพียงข้อเดียว</p></div><details class="concept-reference"><summary><strong>เปิดคลังคำอธิบายเมื่อ AI พามาถึงแนวคิดนั้น</strong></summary><p>เนื้อหาด้านล่างเป็นแหล่งทบทวน ไม่ใช่สิ่งที่ต้องอ่านและจำทั้งหมดก่อนเริ่มทำงาน</p><p><strong>คำถามเปิดโมดูล:</strong> “ถ้างานนี้สำเร็จ เราอยากส่งที่ไหน และต้องการให้ใครอ่าน/ใช้ผล?” คำตอบยังเปลี่ยนได้ แต่ต้องใช้สร้างภาพรวมแหล่งเผยแพร่ ก่อนคัดแนวคิดและ ร่างแบบวิจัย</p>
 <h3 id="1-จากทุนของผู้วิจัยสู่แนวคิดที่ทำได้จริง">1. จากทุนของผู้วิจัยสู่แนวคิดที่ทำได้จริง</h3>
 <p>อย่าเริ่มจากคำถามว่า “AI ทำอะไรให้เราได้บ้าง” อย่างเดียว ให้หาจุดตัดขององค์ประกอบต่อไปนี้:</p>
 <div class="command markdown-command"><code>ความเชี่ยวชาญของเรา
@@ -158,13 +158,13 @@
 </div></section>
 <section class="section markdown-section" id="activity" aria-labelledby="activity-heading"><div class="section-heading compact"><p class="eyebrow">ทำทีละขั้น</p><h2 id="activity-heading">เริ่มบทเรียนและเล่าข้อมูลตั้งต้นให้ AI</h2>
 </div><div class="markdown-body"><h3 id="วิธีเรียนด้วยตนเอง-ให้-ai-เป็นผู้ช่วยตั้งคำถาม-ไม่ใช่ผู้เขียนคำตอบแทน">วิธีเรียนด้วยตนเอง: ให้ AI เป็นผู้ช่วยตั้งคำถาม ไม่ใช่ผู้เขียนคำตอบแทน</h3>
-<p>เริ่มจากหน้าสนทนากับ AI แล้วทำทีละขั้น ไม่ต้องส่งคำสั่งทั้งหมดพร้อมกัน และอย่าขอให้ AI “ออกแบบงานวิจัยให้เสร็จ” ในครั้งเดียว เพราะคุณจะแยกได้ยากว่าส่วนใดมาจากหลักฐาน ส่วนใดเป็นข้อเสนอ และส่วนใดเป็นการตัดสินใจของคุณ</p>
+<p>ทำทีละขั้น อย่าให้ AI “ออกแบบงานวิจัยให้เสร็จ” ในครั้งเดียว เพราะจะแยกไม่ออกว่าส่วนใดมาจากหลักฐาน ข้อเสนอ หรือการตัดสินใจของคุณ</p>
 <h3 id="ก่อนเริ่ม-เลือกทาง-a-หรือ-b">ก่อนเริ่ม: เลือกทาง A หรือ B</h3>
 <ul>
 <li><strong>ทาง A — มีผลงานจาก Module 3–4:</strong> วาง problem statement diagnostic, candidate gap, ตารางหลักฐาน และเอกสารต้นทางที่ใช้ได้ แล้วพัฒนา objective และ RQ เบื้องต้นจากฐานดังกล่าว</li>
 <li><strong>ทาง B — เริ่มที่โมดูล 5:</strong> วางหัวข้อ คำถามวิจัย proposal หรือบทความหนึ่งเรื่อง พร้อมงานใกล้เคียง 3–5 ชิ้น และบันทึกความเชี่ยวชาญ ความสนใจ ทรัพยากร และข้อจำกัด <span data-audience-route="student">นิสิตหรือนักวิจัยมือใหม่ที่ยังไม่มีงานจริงใช้เคสฝึก “หิว–กิน–อิ่ม” ได้</span></li>
 </ul>
-<p>ทั้งสองทางต้องมีไฟล์ต้นทางให้เปิดตรวจได้ และจะมาพบกันที่ <code>module-05-work/output/module-5-intake.md</code> ก่อนเริ่มขั้นที่ 1</p>
+<p>ทั้งสองทางต้องมีไฟล์ต้นทางที่เปิดตรวจได้ และรวมกันที่ <code>module-05-work/output/module-5-intake.md</code> ก่อนขั้นที่ 1</p>
 <h3 id="prompt-เริ่มบทเรียน--ให้-ai-ตรวจของที่มีและถามทีละคำถาม">คำสั่งเริ่มบทเรียน — ให้ AI ตรวจของที่มีและถามทีละคำถาม</h3>
 <p class="prompt-edit-note">✎ แก้ก่อนส่ง: เปลี่ยนข้อความใน {{…}} ให้เป็นข้อมูลของคุณ แล้วจึงคัดลอก Prompt ไปให้ AI</p><div class="command markdown-command prompt-template"><code>เราจะทำ โมดูล 5 แบบเรียนด้วยตนเอง เป้าหมายคือสร้าง research-argument-map ที่ตรวจย้อนกลับได้
 
@@ -185,13 +185,14 @@
 9. เขียนเฉพาะสิ่งที่ฉันยืนยันลง module-05-work/output/module-5-intake.md พร้อมชื่อไฟล์และตำแหน่งหลักฐาน
 
 เริ่มจากรายงานไฟล์ที่พบและถามคำถามแรกเพียงข้อเดียว</code><button type="button" data-copy="">คัดลอก</button></div><h3 id="จุดตรวจ-intake--หยุดก่อนถ้ายังตอบไม่ได้">จุดตรวจ Intake — หยุดก่อนถ้ายังตอบไม่ได้</h3>
-<p>ตรวจสรุปข้อมูลตั้งต้นที่ AI แสดงในหน้าสนทนา หากต้องการเก็บไว้จึงดาวน์โหลดเป็น <code>module-5-intake.md</code> แล้วพิจารณาว่า:</p>
+<p>ตรวจสรุปที่ AI แสดง (ดาวน์โหลดเป็น <code>module-5-intake.md</code> ถ้าจะเก็บ) ว่า:</p>
 <ul>
 <li>ข้อความที่เรียกว่า evidence มีชื่อไฟล์และตำแหน่งให้เปิดเทียบได้</li>
 <li>คำถามวิจัยเบื้องต้นเป็นคำถามของคุณ ไม่ใช่คำถามที่ AI เลือกให้</li>
 <li>ข้อมูลลับ ข้อมูลส่วนบุคคล และเอกสารที่ไม่มีสิทธิ์ไม่ถูกนำเข้า</li>
 <li>สิ่งที่ยังไม่รู้ถูกติดป้ายไว้ ไม่ถูก AI เติมให้ดูสมบูรณ์</li>
 </ul>
+<div class="done-shows"><strong>เสร็จแล้วจะเห็น</strong><p>รายชื่อไฟล์ที่ AI พบตามด้วยคำถามแรกเพียงข้อเดียว เมื่อตอบครบจะได้สรุปข้อมูลตั้งต้นสำหรับบันทึกเป็น <code>module-05-work/output/module-5-intake.md</code></p></div>
 <p>เมื่อผ่านแล้วจึงทำ 7 ขั้นต่อไป: <strong>AI ถาม → คุณตอบหรือเลือก → AI จัดโครง → คุณเปิดหลักฐานตรวจ → บันทึกการตัดสินใจ</strong></p>
 </div></section>
 
@@ -201,8 +202,9 @@
 <ul>
 <li>target journal/venue หลัก 1 แห่ง</li>
 <li>journal alternatives 3–5 แห่ง แยก <code>ambitious</code>, <code>realistic</code> และ <code>fallback</code> โดยไม่ใช้คำว่า safe/guaranteed</li>
-<li>การประชุมที่เกี่ยวข้องในประเทศไทยอย่างน้อย 2 แห่งและต่างประเทศอย่างน้อย 2 แห่ง หากสาขาไม่ใช้การประชุมเป็นช่องทางหลัก ให้ระบุเหตุผลและใช้เวทีแลกเปลี่ยน การประชุมเฉพาะเรื่อง หรือการประชุมวิชาชีพที่เหมาะสมแทน</li>
+<li>การประชุมในไทยอย่างน้อย 2 แห่งและต่างประเทศอย่างน้อย 2 แห่ง ถ้าสาขาไม่ใช้การประชุมเป็นหลัก ให้ระบุเหตุผลและใช้เวทีเฉพาะเรื่องหรือเวทีวิชาชีพแทน</li>
 </ul>
+<details class="fallback-details"><summary>รายละเอียดข้อมูลที่ต้องเก็บของวารสารและการประชุม</summary>
 <p>สำหรับ journal ให้เก็บ official scope/article types และ metric ปัจจุบันอย่างมี provenance:</p>
 <ul>
 <li>journal/source h-index หากมี พร้อมฐานข้อมูลและปี</li>
@@ -212,9 +214,9 @@
 </ul>
 <p>ห้ามผสม Q จากคนละฐานหรือคนละ category โดยไม่ติดป้าย Scopus ระบุว่าการรายงาน CiteScore percentile/quartile ควรบอกปีและ subject category ส่วน JCR และ SJR เป็นคนละระบบ สำหรับวารสารไทย TCI Tier เป็นการจัดกลุ่มของ TCI ไม่ใช่ Q1–Q4 (<a href="https://service.elsevier.com/app/answers/detail/a_id/14880/kw/download/supporthub/scopus/">Scopus CiteScore guidance</a>, <a href="https://www.scimagolab.com/products/sjr-scimago-journal-country-rank/">SCImago SJR</a>, <a href="https://journalcitationreports.zendesk.com/hc/en-gb/articles/28351666061457-Glossary">JCR glossary</a>, <a href="https://tci-thailand.org/journal_list">TCI journal list</a>)</p>
 <p>สำหรับ conference ให้เก็บ organizer, scope, track, paper type, location/online mode, important dates, proceedings publisher/indexing, archival status และ acceptance rate เมื่อมีแหล่งตรวจได้ Conference ไม่มี Q/h-index ที่เทียบกับ journal โดยอัตโนมัติ; หาก proceedings series มี metric ให้ระบุ series, source, year และ coverage แต่ห้ามโอน metric นั้นให้ event โดยไม่อธิบาย</p>
-<p>ต้องตรวจ edition/year และ official organizer ทุกครั้ง เพราะ deadline, proceedings และ indexing เปลี่ยนได้ ห้ามรับ conference ที่ AI เสนอจากชื่อเพียงอย่างเดียว และทำเครื่องหมาย event ที่ตรวจ legitimacy ไม่ได้เป็น <code>not verified</code></p>
+<p>ต้องตรวจ edition/year และ official organizer ทุกครั้ง เพราะ deadline, proceedings และ indexing เปลี่ยนได้ ห้ามรับ conference ที่ AI เสนอจากชื่อเพียงอย่างเดียว และทำเครื่องหมาย event ที่ตรวจ legitimacy ไม่ได้เป็น <code>not verified</code></p></details>
 <p><strong>คุยกับ AI ทีละรอบ</strong></p>
-<div class="command markdown-command"><code>ใช้ module-05-work/output/module-5-intake.md เป็นจุดเริ่มต้น ถามฉันทีละหนึ่งคำถามเกี่ยวกับกลุ่มผู้อ่าน ชนิดผลงาน และ venue ที่คิดไว้ หากฉันยังไม่มี venue ให้ช่วยสร้าง search plan จากคำสำคัญและงานใกล้เคียง แต่ยังไม่เสนอรายชื่อจากความจำ เมื่อพบ candidate ให้ฉันเปิด official scope/author page แล้วส่งหลักฐานกลับมา จึงค่อยบันทึก target 1 แห่ง alternatives 3–5 แห่ง และ conference/meeting ที่เกี่ยวข้อง แยกข้อมูล verified ออกจาก not publicly verified ทุกค่า metric ต้องมี source, year และ category จบขั้นนี้ด้วยการให้ฉันตรวจและอนุมัติ ภาพรวมแหล่งเผยแพร่ ก่อนเขียนไฟล์</code><button type="button" data-copy="">คัดลอก</button></div><p><strong>หยุดตรวจ:</strong> สุ่มเปิดลิงก์ทางการอย่างน้อย 3 รายการ ตรวจชื่อ venue, scope และปีด้วยตนเอง หาก AI เสนอชื่อที่ไม่มีแหล่งทางการ ให้ลบหรือคงสถานะ <code>not verified</code></p>
+<div class="command markdown-command"><code>ใช้ module-05-work/output/module-5-intake.md เป็นจุดเริ่มต้น ถามฉันทีละหนึ่งคำถามเกี่ยวกับกลุ่มผู้อ่าน ชนิดผลงาน และ venue ที่คิดไว้ หากฉันยังไม่มี venue ให้ช่วยสร้าง search plan จากคำสำคัญและงานใกล้เคียง แต่ยังไม่เสนอรายชื่อจากความจำ เมื่อพบ candidate ให้ฉันเปิด official scope/author page แล้วส่งหลักฐานกลับมา จึงค่อยบันทึก target 1 แห่ง alternatives 3–5 แห่ง และ conference/meeting ที่เกี่ยวข้อง แยกข้อมูล verified ออกจาก not publicly verified ทุกค่า metric ต้องมี source, year และ category จบขั้นนี้ด้วยการให้ฉันตรวจและอนุมัติ ภาพรวมแหล่งเผยแพร่ ก่อนเขียนไฟล์</code><button type="button" data-copy="">คัดลอก</button></div><p><strong>หยุดตรวจ:</strong> สุ่มเปิดลิงก์ทางการอย่างน้อย 3 รายการ ตรวจชื่อ venue, scope และปีด้วยตนเอง หาก AI เสนอชื่อที่ไม่มีแหล่งทางการ ให้ลบหรือคงสถานะ <code>not verified</code></p><div class="done-shows"><strong>เสร็จแล้วจะเห็น</strong><p>ภาพรวมแหล่งเผยแพร่ที่คุณอนุมัติ: เป้าหมาย 1 แห่ง ทางเลือก 3–5 แห่ง และการประชุมที่เกี่ยวข้อง ทุกค่ามีแหล่งที่มา หรือติดป้าย <code>not publicly verified</code></p></div>
 <h3 id="ขั้น-2--ประเมินโอกาสเผยแพร่แบบ-highmediumlow">ขั้น 2 — ประเมินความพร้อมระดับสูง ปานกลาง หรือต่ำ</h3>
 <p>ให้คะแนนเชิงหลักฐาน 5 แกน แกนละ <code>0 = mismatch/major gap</code>, <code>1 = partial/fixable gap</code>, <code>2 = strong fit/ready</code>:</p>
 <ol type="1">
@@ -230,25 +232,26 @@
 <li><code>Medium</code> — 5–7 หรือมีช่องว่างที่แก้ได้ชัดเจน</li>
 <li><code>Low</code> — 0–4 หรือมี out-of-scope, novelty duplication, major design/evidence gap, compliance blocker หรือ deadline/resource mismatch</li>
 </ul>
+<details class="fallback-details"><summary>ทำไมระดับความพร้อมไม่ใช่โอกาสตีพิมพ์</summary>
 <p>ต้องรายงาน <code>confidence in estimate: high/medium/low</code> แยกต่างหาก หากไม่มี acceptance/selectivity data ที่ตรวจได้ ความมั่นใจของประมาณการต้องลดลง การจัดระดับนี้เป็น <strong>evidence-based readiness estimate ณ เวลาที่ประเมิน</strong> ไม่ใช่ probability ที่สอบเทียบแล้วหรือคำรับรองจาก editor/reviewer</p>
-<p>Venue ช่วยกำหนด audience, evidence และรูปแบบการสื่อสาร แต่ห้ามย้อนบิด RQ, ลบผลที่ไม่เข้าทาง, ลดมาตรฐานจริยธรรม หรือเลือก metric เพื่อทำให้งานดูพร้อม หาก venue ไม่เข้ากับงาน ให้เปลี่ยน venue หรือแคบ claim อย่างโปร่งใส</p>
-<div class="command markdown-command"><code>ถามฉันทีละแกนจาก 5 แกน readiness ให้ฉันเลือกคะแนน 0/1/2 หลังเห็นหลักฐานและเหตุผลของแต่ละตัวเลือก หากข้อมูลไม่พอให้บันทึก unknown และลด confidence ห้ามแปลงคะแนนเป็นโอกาสตีพิมพ์หรือเปอร์เซ็นต์ เมื่อครบให้สรุป High/Medium/Low, critical gates, confidence, สิ่งที่ต้องแก้ และให้ฉันยืนยันว่าการประเมินนี้ไม่ใช่คำรับรองจาก editor/reviewer</code><button type="button" data-copy="">คัดลอก</button></div><p><strong>หยุดตรวจ:</strong> คุณต้องอธิบายได้ว่าคะแนนแต่ละแกนมาจากหลักฐานใด และเหตุใดระดับความพร้อมกับความมั่นใจจึงเป็นคนละค่า</p>
+<p>Venue ช่วยกำหนด audience, evidence และรูปแบบการสื่อสาร แต่ห้ามย้อนบิด RQ, ลบผลที่ไม่เข้าทาง, ลดมาตรฐานจริยธรรม หรือเลือก metric เพื่อทำให้งานดูพร้อม หาก venue ไม่เข้ากับงาน ให้เปลี่ยน venue หรือแคบ claim อย่างโปร่งใส</p></details>
+<div class="command markdown-command"><code>ถามฉันทีละแกนจาก 5 แกน readiness ให้ฉันเลือกคะแนน 0/1/2 หลังเห็นหลักฐานและเหตุผลของแต่ละตัวเลือก หากข้อมูลไม่พอให้บันทึก unknown และลด confidence ห้ามแปลงคะแนนเป็นโอกาสตีพิมพ์หรือเปอร์เซ็นต์ เมื่อครบให้สรุป High/Medium/Low, critical gates, confidence, สิ่งที่ต้องแก้ และให้ฉันยืนยันว่าการประเมินนี้ไม่ใช่คำรับรองจาก editor/reviewer</code><button type="button" data-copy="">คัดลอก</button></div><p><strong>หยุดตรวจ:</strong> คุณต้องอธิบายได้ว่าคะแนนแต่ละแกนมาจากหลักฐานใด และเหตุใดระดับความพร้อมกับความมั่นใจจึงเป็นคนละค่า</p><div class="done-shows"><strong>เสร็จแล้วจะเห็น</strong><p>สรุประดับ High / Medium / Low พร้อมจุดที่ต้องแก้ และระดับความมั่นใจที่แยกไว้ต่างหาก ไม่มีตัวเลขเปอร์เซ็นต์โอกาสตีพิมพ์</p></div>
 </div></section>
 
 <section class="section markdown-section" id="activity-logic"><div class="section-heading compact"><p class="eyebrow">สร้างชิ้นงาน · ช่วง 2</p><h2>ตารางจุดตัดและสายเหตุผล (ขั้น 3–4)</h2></div><div class="markdown-body"><h3 id="ขั้น-3--สร้าง-research-fit-cross">ขั้น 3 — สร้างตารางจุดตัดความเหมาะสม</h3>
 <p>กรอกตาราง <code>ความเชี่ยวชาญ × ความสนใจ × แนวคิดเบื้องต้น × literature-backed gap × thesis output × กลุ่มผู้อ่านเป้าหมาย/กลุ่มแหล่งเผยแพร่ × accessible resources</code> แล้วเลือก 1–3 จุดตัดที่มีทั้งคุณค่าและทำได้จริง ระบุจุดใดเป็นความเห็นส่วนตัว จุดใดมีหลักฐาน และจุดใดยังต้องตรวจ</p>
-<div class="command markdown-command"><code>ถามฉันทีละคอลัมน์เพื่อสร้างตารางจุดตัดความเหมาะสม เริ่มจากความเชี่ยวชาญและทรัพยากรที่มีจริง จากนั้นจึงถามความสนใจ แนวคิดเบื้องต้น, literature-backed gap, thesis output และ audience/venue ห้ามเปลี่ยนความสนใจให้เป็น evidence เมื่อได้ 1–3 จุดตัด ให้เสนอข้อแลกเปลี่ยน และคำถามท้าทาย แต่รอฉันเลือกเอง บันทึกเหตุผลของตัวเลือกที่เก็บและตัด</code><button type="button" data-copy="">คัดลอก</button></div><h3 id="ขั้น-4--สร้าง-alignment-chain-ฉบับแรก">ขั้น 4 — สร้างสายเหตุผล ฉบับแรก</h3>
+<div class="command markdown-command"><code>ถามฉันทีละคอลัมน์เพื่อสร้างตารางจุดตัดความเหมาะสม เริ่มจากความเชี่ยวชาญและทรัพยากรที่มีจริง จากนั้นจึงถามความสนใจ แนวคิดเบื้องต้น, literature-backed gap, thesis output และ audience/venue ห้ามเปลี่ยนความสนใจให้เป็น evidence เมื่อได้ 1–3 จุดตัด ให้เสนอข้อแลกเปลี่ยน และคำถามท้าทาย แต่รอฉันเลือกเอง บันทึกเหตุผลของตัวเลือกที่เก็บและตัด</code><button type="button" data-copy="">คัดลอก</button></div><div class="done-shows"><strong>เสร็จแล้วจะเห็น</strong><p>ตารางจุดตัด 1–3 จุดที่คุณเลือกเอง พร้อมเหตุผลของจุดที่เก็บและจุดที่ตัด</p></div><h3 id="ขั้น-4--สร้าง-alignment-chain-ฉบับแรก">ขั้น 4 — สร้างสายเหตุผล ฉบับแรก</h3>
 <p>จากหัวข้อที่เลือก เขียน:</p>
 <div class="command markdown-command"><code>Problem -&gt; Desired state -&gt; Objective/RQ/Hypothesis
 -&gt; Idea/mechanism -&gt; Design -&gt; Measure -&gt; Possible results
 -&gt; Supported claim -&gt; Useful contribution</code><button type="button" data-copy="">คัดลอก</button></div><p>ทุก node ต้องใช้คำเรียก population, construct, intervention/exposure, comparator และ outcome อย่างสอดคล้องกัน</p>
-<div class="command markdown-command"><code>ให้ฉันเขียนแต่ละ node ของ สายเหตุผล เองทีละ node เริ่มจาก Problem แล้วถาม “หลักฐานอยู่ที่ไหน” ก่อนเดินต่อทุกครั้ง หลังฉันตอบ ให้ตรวจคำเรียก population, construct, intervention/exposure, comparator และ outcome ว่าคงที่หรือไม่ หากมีการกระโดดเหตุผลให้ถามกลับ ห้ามเติม node แทนฉัน เมื่อครบจึงจัดรูปเป็น module-05-work/output/alignment-chain-draft.md และให้ฉันอ่านย้อนจาก claim กลับไปหา evidence</code><button type="button" data-copy="">คัดลอก</button></div><p><strong>หยุดตรวจ:</strong> อ่าน chain จากท้ายกลับต้น หาก claim หรือ contribution ย้อนกลับไปยัง measure/design/RQ/problem ไม่ได้ ให้กลับไปแก้ก่อนทำขั้นที่ 5</p>
+<div class="command markdown-command"><code>ให้ฉันเขียนแต่ละ node ของ สายเหตุผล เองทีละ node เริ่มจาก Problem แล้วถาม “หลักฐานอยู่ที่ไหน” ก่อนเดินต่อทุกครั้ง หลังฉันตอบ ให้ตรวจคำเรียก population, construct, intervention/exposure, comparator และ outcome ว่าคงที่หรือไม่ หากมีการกระโดดเหตุผลให้ถามกลับ ห้ามเติม node แทนฉัน เมื่อครบจึงจัดรูปเป็น module-05-work/output/alignment-chain-draft.md และให้ฉันอ่านย้อนจาก claim กลับไปหา evidence</code><button type="button" data-copy="">คัดลอก</button></div><p><strong>หยุดตรวจ:</strong> อ่าน chain จากท้ายกลับต้น หาก claim หรือ contribution ย้อนกลับไปยัง measure/design/RQ/problem ไม่ได้ ให้กลับไปแก้ก่อนทำขั้นที่ 5</p><div class="done-shows"><strong>เสร็จแล้วจะเห็น</strong><p>ไฟล์ <code>module-05-work/output/alignment-chain-draft.md</code> ที่มีสายเหตุผลครบทุก node ซึ่งคุณเขียนเอง</p></div>
 </div></section>
 
 <section class="section markdown-section" id="activity-ideas"><div class="section-heading compact"><p class="eyebrow">สร้างชิ้นงาน · ช่วง 3</p><h2>หาจุดขาดและคัดแนวคิด (ขั้น 5–6)</h2></div><div class="markdown-body"><h3 id="ขั้น-5--attack-thesis-ของผู้อื่น">ขั้น 5 — ลองหาจุดขาดในงาน ของผู้อื่น</h3>
-<p>ทำ peer/adversarial review กับ thesis, proposal หรือ mock case โดยหาจุดไม่สอดคล้องอย่างน้อย 3 จุดจากคนละมุม ตรวจข้อความจากตำแหน่งจริงในเอกสาร และเขียน consequence ว่าจุดขาดนั้นทำให้ข้อสรุปใดใช้ไม่ได้ ห้ามใช้การเดาเจตนาหรือวิจารณ์ตัวบุคคล</p>
-<div class="command markdown-command"><code>ถามฉันก่อนว่าจะตรวจเอกสารใดและได้รับอนุญาตให้ใช้หรือไม่ จากนั้นให้ฉันเลือกจุดตรวจทีละมุม: problem–RQ, RQ–method, construct–measure, comparator, result–claim หรือ contribution ทุกประเด็นที่ตรวจพบ ต้องมีตำแหน่ง ข้อความ/หลักฐาน logic gap consequence และวิธีตรวจซ้ำ หากยังไม่มีตำแหน่งให้ถามฉันเปิดเอกสาร ห้ามสร้างประเด็นที่ตรวจพบ จาก summary หรือโจมตีผู้เขียน จบเมื่อฉันยืนยันประเด็นที่ตรวจพบ อย่างน้อย 3 ข้อจากคนละมุม</code><button type="button" data-copy="">คัดลอก</button></div><h3 id="ขั้น-6--สร้างและคัดแนวคิด">ขั้น 6 — สร้างและคัดแนวคิด</h3>
-<p>สร้าง แนวคิดทางเลือก 2–3 แนวทาง แล้วเทียบกันด้วย:</p>
+<p>ตรวจ thesis, proposal หรือ mock case หาจุดไม่สอดคล้องอย่างน้อย 3 จุดจากคนละมุม อ้างตำแหน่งจริงในเอกสาร และบอกว่าจุดขาดทำให้ข้อสรุปใดใช้ไม่ได้ ห้ามเดาเจตนาหรือวิจารณ์ตัวบุคคล</p>
+<div class="command markdown-command"><code>ถามฉันก่อนว่าจะตรวจเอกสารใดและได้รับอนุญาตให้ใช้หรือไม่ จากนั้นให้ฉันเลือกจุดตรวจทีละมุม: problem–RQ, RQ–method, construct–measure, comparator, result–claim หรือ contribution ทุกประเด็นที่ตรวจพบ ต้องมีตำแหน่ง ข้อความ/หลักฐาน logic gap consequence และวิธีตรวจซ้ำ หากยังไม่มีตำแหน่งให้ถามฉันเปิดเอกสาร ห้ามสร้างประเด็นที่ตรวจพบ จาก summary หรือโจมตีผู้เขียน จบเมื่อฉันยืนยันประเด็นที่ตรวจพบ อย่างน้อย 3 ข้อจากคนละมุม</code><button type="button" data-copy="">คัดลอก</button></div><div class="done-shows"><strong>เสร็จแล้วจะเห็น</strong><p>ประเด็นที่ตรวจพบอย่างน้อย 3 ข้อจากคนละมุม แต่ละข้อมีตำแหน่งในเอกสารและผลต่อข้อสรุป</p></div><h3 id="ขั้น-6--สร้างและคัดแนวคิด">ขั้น 6 — สร้างและคัดแนวคิด</h3>
+<p>สร้างแนวคิดทางเลือก 2–3 ทาง แล้วเทียบ:</p>
 <ul>
 <li>ปัญหาที่แต่ละแนวทางแก้</li>
 <li>กลไกและ literature ที่สนับสนุน</li>
@@ -259,7 +262,7 @@
 <li>ผลแบบใดที่จะทำให้แนวคิดไม่ผ่าน</li>
 </ul>
 <p>เลือกแนวทางด้วยเหตุผล ไม่เลือกเพียงเพราะใช้เทคโนโลยีใหม่ที่สุด</p>
-<div class="command markdown-command"><code>จาก ตารางจุดตัดความเหมาะสมและประเด็นที่ตรวจพบ ที่ฉันยืนยัน ช่วยถามเพื่อสร้าง แนวคิดทางเลือก 2–3 ทาง โดยทีละทางต้องตอบ problem, mechanism, supporting literature, nearest work, ความใหม่ที่อาจเป็นไปได้, contribution, venue fit, resources, ethics/risk และ falsification condition อย่าตั้งชื่อว่า novel จนกว่าจะเทียบหลักฐานแล้ว สร้างตาราง ข้อแลกเปลี่ยน แล้วให้ฉันเลือกหรือปฏิเสธเอง พร้อมบันทึกเหตุผล</code><button type="button" data-copy="">คัดลอก</button></div></div></section>
+<div class="command markdown-command"><code>จาก ตารางจุดตัดความเหมาะสมและประเด็นที่ตรวจพบ ที่ฉันยืนยัน ช่วยถามเพื่อสร้าง แนวคิดทางเลือก 2–3 ทาง โดยทีละทางต้องตอบ problem, mechanism, supporting literature, nearest work, ความใหม่ที่อาจเป็นไปได้, contribution, venue fit, resources, ethics/risk และ falsification condition อย่าตั้งชื่อว่า novel จนกว่าจะเทียบหลักฐานแล้ว สร้างตาราง ข้อแลกเปลี่ยน แล้วให้ฉันเลือกหรือปฏิเสธเอง พร้อมบันทึกเหตุผล</code><button type="button" data-copy="">คัดลอก</button></div><div class="done-shows"><strong>เสร็จแล้วจะเห็น</strong><p>ตารางเปรียบเทียบแนวคิด 2–3 ทาง และบันทึกว่าคุณเลือกหรือตัดทางใดเพราะอะไร</p></div></div></section>
 
 <section class="section markdown-section" id="activity-design"><div class="section-heading compact"><p class="eyebrow">สร้างชิ้นงาน · ช่วง 4</p><h2>ร่างแบบวิจัยและด่านท้าทาย (ขั้น 7)</h2></div><div class="markdown-body"><h3 id="ขั้น-7--สร้าง-rough-design-ที่ตรวจสอบได้">ขั้น 7 — สร้างร่างแบบวิจัย ที่ตรวจสอบได้</h3>
 <p>ระบุอย่างน้อย:</p>
@@ -275,18 +278,18 @@
 <li>candidate venue/กลุ่มแหล่งเผยแพร่, output type, verified scope และ evidence gap ก่อน submission</li>
 </ul>
 <p>สำหรับ qualitative/non-experimental work ให้แทน intervention/control ด้วย sampling logic, evidence source, comparison/negative case, saturation/adequacy และขอบเขต inference ที่เหมาะสม ห้ามใช้ศัพท์การทดลองเพื่ออ้าง causal claim เกิน design</p>
-<div class="command markdown-command"><code>ทำหน้าที่เป็น design interviewer ถามฉันทีละหนึ่งช่อง: unit of analysis, population/sample, intervention/exposure/phenomenon, comparator/negative case, primary outcome, operational definition, instrument, procedure, provenance, confounders/bias, ethics/privacy, analysis/decision rule, alternative result, permitted claim, scope และ limitation ทุกคำตอบต้องระบุ learner decision, evidence หรือ TBD พร้อม owner/source/date ห้ามเลือก sample size, statistical test, instrument หรือ ethics category แทนผู้เชี่ยวชาญ เมื่อครบให้สร้างร่างแบบวิจัย และรายการ expert review required</code><button type="button" data-copy="">คัดลอก</button></div><p><strong>หยุดตรวจ:</strong> ให้ AI เลือกหนึ่ง claim แล้วถามกลับว่า “ผลแบบใดทำให้กล่าว claim นี้ไม่ได้” หากตอบไม่ได้ design ยังไม่พร้อมใช้งาน</p>
+<div class="command markdown-command"><code>ทำหน้าที่เป็น design interviewer ถามฉันทีละหนึ่งช่อง: unit of analysis, population/sample, intervention/exposure/phenomenon, comparator/negative case, primary outcome, operational definition, instrument, procedure, provenance, confounders/bias, ethics/privacy, analysis/decision rule, alternative result, permitted claim, scope และ limitation ทุกคำตอบต้องระบุ learner decision, evidence หรือ TBD พร้อม owner/source/date ห้ามเลือก sample size, statistical test, instrument หรือ ethics category แทนผู้เชี่ยวชาญ เมื่อครบให้สร้างร่างแบบวิจัย และรายการ expert review required</code><button type="button" data-copy="">คัดลอก</button></div><p><strong>หยุดตรวจ:</strong> ให้ AI เลือกหนึ่ง claim แล้วถามกลับว่า “ผลแบบใดทำให้กล่าว claim นี้ไม่ได้” หากตอบไม่ได้ design ยังไม่พร้อมใช้งาน</p><div class="done-shows"><strong>เสร็จแล้วจะเห็น</strong><p>ร่างแบบวิจัยที่ทุกช่องเป็นการตัดสินใจของคุณ หลักฐาน หรือ TBD และรายการ <code>expert review required</code></p></div>
 <h3 id="red-team-gate--แก้ก่อนเลือก-venuedesign-ฉบับทำงาน">ด่านท้าทายข้อสรุป — แก้ก่อนเลือก venue/design ฉบับทำงาน</h3>
-<p>ให้เพื่อนหรือ AI รับบทผู้ประเมินจากหลายมุมและพยายามหักล้างแบบวิจัย จากนั้นคุณตัดสินเองว่าข้อโต้แย้งใด:</p>
+<p>ให้เพื่อนหรือ AI พยายามหักล้างแบบวิจัยจากหลายมุม แล้วคุณจัดแต่ละข้อโต้แย้งเป็น:</p>
 <ul>
 <li><code>valid — must revise</code></li>
 <li><code>plausible — needs evidence</code></li>
 <li><code>นอกขอบเขต — justify explicitly</code></li>
 <li><code>invalid — rebut with evidence</code></li>
 </ul>
-<p>แก้ design อย่างน้อยหนึ่งจุดจากข้อโจมตีที่ valid และบันทึกเหตุผลการเปลี่ยน</p>
-<div class="command markdown-command"><code>ท้าทายงานแบบถามตอบทีละประเด็น โดยสลับมุมมองเป็นผู้ประเมินด้านเนื้อหา วิธีวิจัย การวัด จริยธรรมและความเป็นส่วนตัว และความเหมาะสมกับแหล่งเผยแพร่ ทุกประเด็นต้องชี้ตำแหน่ง หลักฐานหรือเหตุผล ผลกระทบ และวิธีทดสอบ ให้ฉันจัดสถานะเองว่า ต้องแก้ / เป็นไปได้แต่ต้องหาหลักฐาน / อยู่นอกขอบเขตและต้องให้เหตุผล / ไม่ถูกต้องและต้องโต้แย้งด้วยหลักฐาน ห้ามแก้แบบวิจัยอัตโนมัติ หลังฉันเลือกประเด็นที่ต้องแก้ ให้ถามว่าจะปรับอะไรและตรวจอย่างไรว่าจุดเชื่อมดีขึ้น แล้วบันทึกก่อนและหลังแก้พร้อมเหตุผล</code><button type="button" data-copy="">คัดลอก</button></div><h3 id="prompt-จบบทเรียน--ตรวจแฟ้มโดยไม่เติมสิ่งที่ขาด">คำสั่งจบบทเรียน — ตรวจชิ้นงานโดยไม่เติมสิ่งที่ขาด</h3>
-<div class="command markdown-command"><code>ตรวจเฉพาะไฟล์ผลลัพธ์ของ โมดูล 5 กับเกณฑ์ผ่านทีละข้อ สร้างตารางเกณฑ์ / หลักฐานจากไฟล์และตำแหน่ง / ผ่านหรือยัง / สิ่งที่ฉันต้องทำเอง ห้ามแก้หรือเติมเนื้อหา ห้ามเปลี่ยน ยังต้องตรวจ เป็น verified สรุปไม่เกินสามงานถัดไปตามลำดับความสำคัญ และถามฉันว่าจะจบแบบ เรียนเฉพาะโมดูลนี้ หรือส่ง candidate claim ไป Module 6</code><button type="button" data-copy="">คัดลอก</button></div><p><strong>สิ่งที่คุณต้องเตรียม:</strong> problem statement diagnostic, candidate gap, verified literature evidence, research-fit note และ thesis/proposal ที่ได้รับอนุญาต นิสิตหรือนักวิจัยมือใหม่ที่ยังไม่มีงานจริงใช้เคสฝึก “หิว–กิน–อิ่ม” โดยตรวจจุดอ่อนเรื่องการใช้ความชอบแทนความอิ่ม เกณฑ์เปรียบเทียบที่ไม่ยุติธรรม novelty ที่ยังไม่ตรวจ และ contribution ที่เป็นเพียง output</p>
+<p>แก้ design อย่างน้อยหนึ่งจุดจากข้อที่ valid และบันทึกเหตุผล</p>
+<div class="command markdown-command"><code>ท้าทายงานแบบถามตอบทีละประเด็น โดยสลับมุมมองเป็นผู้ประเมินด้านเนื้อหา วิธีวิจัย การวัด จริยธรรมและความเป็นส่วนตัว และความเหมาะสมกับแหล่งเผยแพร่ ทุกประเด็นต้องชี้ตำแหน่ง หลักฐานหรือเหตุผล ผลกระทบ และวิธีทดสอบ ให้ฉันจัดสถานะเองว่า ต้องแก้ / เป็นไปได้แต่ต้องหาหลักฐาน / อยู่นอกขอบเขตและต้องให้เหตุผล / ไม่ถูกต้องและต้องโต้แย้งด้วยหลักฐาน ห้ามแก้แบบวิจัยอัตโนมัติ หลังฉันเลือกประเด็นที่ต้องแก้ ให้ถามว่าจะปรับอะไรและตรวจอย่างไรว่าจุดเชื่อมดีขึ้น แล้วบันทึกก่อนและหลังแก้พร้อมเหตุผล</code><button type="button" data-copy="">คัดลอก</button></div><div class="done-shows"><strong>เสร็จแล้วจะเห็น</strong><p>ข้อท้าทายแต่ละข้อมีสถานะที่คุณเลือก และบันทึกแบบวิจัยก่อนแก้กับหลังแก้อย่างน้อยหนึ่งจุด</p></div><h3 id="prompt-จบบทเรียน--ตรวจแฟ้มโดยไม่เติมสิ่งที่ขาด">คำสั่งจบบทเรียน — ตรวจชิ้นงานโดยไม่เติมสิ่งที่ขาด</h3>
+<div class="command markdown-command"><code>ตรวจเฉพาะไฟล์ผลลัพธ์ของ โมดูล 5 กับเกณฑ์ผ่านทีละข้อ สร้างตารางเกณฑ์ / หลักฐานจากไฟล์และตำแหน่ง / ผ่านหรือยัง / สิ่งที่ฉันต้องทำเอง ห้ามแก้หรือเติมเนื้อหา ห้ามเปลี่ยน ยังต้องตรวจ เป็น verified สรุปไม่เกินสามงานถัดไปตามลำดับความสำคัญ และถามฉันว่าจะจบแบบ เรียนเฉพาะโมดูลนี้ หรือส่ง candidate claim ไป Module 6</code><button type="button" data-copy="">คัดลอก</button></div><div class="done-shows"><strong>เสร็จแล้วจะเห็น</strong><p>ตาราง เกณฑ์ / หลักฐาน / ผ่านหรือยัง / สิ่งที่ต้องทำเอง งานถัดไปไม่เกินสามข้อ และคำถามว่าจะจบที่โมดูลนี้หรือไป Module 6</p></div><p><strong>สิ่งที่คุณต้องเตรียม:</strong> problem statement diagnostic, candidate gap, verified literature evidence, research-fit note และ thesis/proposal ที่ได้รับอนุญาต ถ้ายังไม่มีงานจริง ใช้เคสฝึก “หิว–กิน–อิ่ม” แล้วตรวจจุดอ่อน: ใช้ความชอบแทนความอิ่ม เกณฑ์เปรียบเทียบไม่ยุติธรรม novelty ที่ยังไม่ตรวจ และ contribution ที่เป็นเพียง output</p>
 </div></section>
 <section class="section markdown-section" id="finish" aria-labelledby="finish-heading"><div class="section-heading compact"><p class="eyebrow">Checkpoint</p><h2 id="finish-heading">จบบทเรียน</h2>
 </div><div class="markdown-body"><p>ติ๊กเมื่อคุณเปิดตรวจชิ้นงานและอธิบายหลักฐานของแต่ละข้อได้ ระบบจะจำสถานะไว้ในเบราว์เซอร์นี้</p>
