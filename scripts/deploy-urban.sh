@@ -11,6 +11,7 @@ for item in ssh rsync curl node git tar; do command -v "$item" >/dev/null 2>&1 |
 cd "$site_root"
 bash scripts/audit-public.sh
 bash scripts/test-learner-content.sh
+python3 scripts/test-module-structure.py
 bash scripts/test-installers.sh
 node --check assets/instructor-admin.js
 bash scripts/test-instructor-admin-page.sh

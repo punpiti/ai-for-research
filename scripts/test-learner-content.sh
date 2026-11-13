@@ -23,9 +23,9 @@ check_file "$site_dir/hunger-research-methodology.html" "quick hunger review" 'i
 
 for number in {2..9}; do
   file="$site_dir/module-$number.html"
-  check_file "$file" "preparation" 'ของต้องมีก่อนเรียน'
+  check_file "$file" "preparation" '(ของต้องมีก่อนเรียน|ก่อนเริ่ม เตรียมแค่นี้)'
   check_file "$file" "LO label" '<p class="eyebrow">(LO|สิ่งที่จะได้)</p>'
-  check_file "$file" "learning outcomes" '<h2[^>]*>สิ่งที่จะทำได้</h2>'
+  check_file "$file" "learning outcomes" '<h2[^>]*>(สิ่งที่จะทำได้|จบบทนี้ คุณจะทำได้)</h2>'
   check_file "$file" "checkpoint label" '<p class="eyebrow">Checkpoint</p>'
   check_file "$file" "post-lesson result" '<h2[^>]*>จบบทเรียน</h2>'
   # Module 8 still carries the retired markup; app.js removes it at runtime.
@@ -213,10 +213,14 @@ if grep -Eqi 'Pain-point Inventory|Framework Mapping|Choice Clinic|Kit Assembly|
   failed=1
 fi
 
-for number in 6 8 9; do
+for number in 6 9; do
   check_file "$site_dir/assets/app.js" "guided Module $number" "^  $number: \\{"
   check_file "$site_dir/module-$number.html" "Module $number activity" 'id="activity"'
   check_file "$site_dir/module-$number.html" "Module $number checkpoint" 'id="finish"'
+done
+# Module 8 follows the numbered-step page standard (documents/standards/MODULE_PAGE_STANDARD.md).
+for step in install journal literature build readiness switch finish; do
+  check_file "$site_dir/module-8.html" "Module 8 step $step" "id=\"$step\""
 done
 check_file "$site_dir/assets/app.js" "guided prompt" 'อ่านไป ทำไป และคิดไปทีละขั้น'
 check_file "$site_dir/prepare.html" "shared copy component" 'class="command ai-prompt".*data-copy'
