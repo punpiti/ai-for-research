@@ -185,16 +185,16 @@ code .</code><button type="button" data-copy>คัดลอก</button></div></
       <p class="progress" aria-live="polite">ความพร้อม: <strong data-progress>0%</strong></p>
       <div class="task-heading"><span class="content-kind is-submit">ส่งงาน</span><strong>ส่งสถานะความพร้อมให้ผู้สอน</strong></div>
       <p>ส่งเฉพาะผลเช็กลิสต์และเวลาที่ใช้ ไม่ส่ง API key ไฟล์ หรือข้อมูลวิจัยของคุณ</p>
-      <div class="notice"><strong>AIRR — AI for Research &amp; Review (แนะนำ):</strong> รันคำสั่งด้านล่างใน Terminal ของ VS Code ไม่ต้องกรอกรหัสคลาสหรือชื่อ ถ้ายังไม่ได้สร้าง AIRR Key ก่อนติดตั้ง ให้กลับไปสร้างที่ขั้น 2 แล้วรันคำสั่ง login ที่หน้าเว็บแสดงก่อน</div>
-      <div class="command terminal-command"><code>&amp; .\tools\airr.ps1 init module-1; &amp; .\tools\airr.ps1 submit module-1</code><button type="button" data-copy>คัดลอกคำสั่ง AIRR สำหรับ Windows</button></div>
-      <div class="command terminal-command"><code>bash tools/airr.sh init module-1 &amp;&amp; bash tools/airr.sh submit module-1</code><button type="button" data-copy>คัดลอกคำสั่ง AIRR สำหรับ macOS / Linux</button></div>
-      <div class="done-shows"><strong>เสร็จแล้วจะเห็น</strong><pre>AIRR INIT PASS · module-1
-edit=…/module-1-progress.json
-AIRR ตรวจผ่าน: module-1 · …
-AIRR จะส่งเฉพาะ progress summary และแบบประเมิน ไม่ส่งเนื้อหางานหรือไฟล์หลัก
-ยืนยันส่งงานผ่าน AIRR? [y/N] y
-AIRR SUBMIT PASS · module-1 · attempt=1
-receipt=…</pre></div>
+      <p>ไม่ต้องพิมพ์คำสั่งเอง ระบบส่งงาน AIRR — AI for Research &amp; Review เชื่อมไว้แล้วตอนติดตั้ง ให้ AI ใน VS Code ส่งให้</p>
+      <div class="command ai-prompt"><code>ส่งสถานะความพร้อม Module 1 ให้ฉันด้วยเครื่องมือส่งงานของคลาสในโฟลเดอร์ tools/ (Windows ใช้ airr.ps1, macOS/Linux ใช้ airr.sh) สร้างไฟล์สถานะด้วย init module-1 แล้วถามฉันทีละข้อว่าทำได้จริงหรือไม่: (1) เปิด workspace ใน VS Code ได้ (2) เชื่อม AI panel ได้ (3) รู้ว่าต้นฉบับอยู่ใน module-01-work/input/ และงานใหม่อยู่ใน module-01-work/output/ (4) สร้างและเปิด module-01-work/output/content.pdf ได้ จากนั้นถามว่าใช้ AI ตัวไหน ใช้เวลากี่นาที และมีคนช่วยหรือไม่ กรอกตามคำตอบของฉันเท่านั้น ครบทั้ง 4 ข้อคือ completed หรือ completed_with_help ถ้ามีคนช่วย ไม่ครบคือ could_not_complete ตรวจด้วย check module-1 สรุปให้ฉันดู เมื่อฉันตอบว่ายืนยันจึงส่งด้วย submit module-1 --yes แล้วบอกผล ห้ามส่งก่อนฉันยืนยัน</code><button type="button" data-copy>คัดลอก Prompt ส่งสถานะ</button></div>
+      <div class="done-shows"><strong>เสร็จแล้วจะเห็น</strong><p>AI ถามทีละข้อ สรุปสถานะแล้วรอคุณยืนยัน หลังส่ง AI รายงานว่าส่งสำเร็จ (ใน Terminal มีบรรทัด <code>AIRR SUBMIT PASS · module-1</code>)</p><p><strong>ถึงตรงนี้ Module 1 ของคุณเสร็จแล้ว</strong> ยังไม่ครบก็ส่งได้ตามจริง แล้วแจ้งผู้จัดให้ช่วย</p></div>
+      <details class="fallback-details"><summary>ทางสำรอง: AI รันคำสั่งให้ไม่ได้</summary>
+      <p>รัน <code>init</code> ก่อน แก้ <code>module-01-work/output/module-1-progress.json</code> ให้ตรงกับที่ทำจริง แล้วจึง <code>check</code> และ <code>submit</code> ถ้ายังไม่ได้เชื่อม AIRR ให้กลับไปสร้าง key ที่ขั้น 2 แล้วรันคำสั่ง login ที่หน้าเว็บแสดง</p>
+      <div class="command terminal-command"><code>&amp; .\tools\airr.ps1 init module-1</code><button type="button" data-copy>คัดลอกคำสั่งสร้างไฟล์สถานะ (Windows)</button></div>
+      <div class="command terminal-command"><code>&amp; .\tools\airr.ps1 check module-1; &amp; .\tools\airr.ps1 submit module-1</code><button type="button" data-copy>คัดลอกคำสั่งตรวจและส่ง (Windows)</button></div>
+      <div class="command terminal-command"><code>bash tools/airr.sh init module-1</code><button type="button" data-copy>คัดลอกคำสั่งสร้างไฟล์สถานะ (macOS / Linux)</button></div>
+      <div class="command terminal-command"><code>bash tools/airr.sh check module-1 &amp;&amp; bash tools/airr.sh submit module-1</code><button type="button" data-copy>คัดลอกคำสั่งตรวจและส่ง (macOS / Linux)</button></div>
+      </details>
       <details class="fallback-details"><summary>ส่งผ่านแบบฟอร์มเว็บเดิม</summary>
       <form class="module-submission-form compact-submission-form" id="submit-module-1" data-module-1-submission-form>
         <label><span>คลาส</span><select name="classroom_id" required><option value="">กำลังโหลด…</option></select></label>
