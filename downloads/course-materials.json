@@ -11,20 +11,20 @@
     {
       "url": "https://urban.cpe.ku.ac.th/ai-for-research/downloads/course-materials/visualization/notebooks/module-07a-read-and-audit.ipynb",
       "path": "course-materials/module-07/notebooks/module-07a-read-and-audit.ipynb",
-      "sha256": "5782d9453e61a87b07bc09758b53ed24d6ffe2f7484cae41a838de72d2f7e192",
-      "bytes": 940244
+      "sha256": "fff833d12693e74f83ffd11fc2b7cdab1b7581a6fb76047c052fa8d6e849137b",
+      "bytes": 942910
     },
     {
       "url": "https://urban.cpe.ku.ac.th/ai-for-research/downloads/course-materials/visualization/notebooks/module-07b-revise-and-publish.ipynb",
       "path": "course-materials/module-07/notebooks/module-07b-revise-and-publish.ipynb",
-      "sha256": "e446b223b01081b65247aeaa70885e8037eae525458a540413ed9f72e0df99d5",
-      "bytes": 5292714
+      "sha256": "3d28db1bb5054b7bfe72792791f7a1811878934857d67d36aead9662d5ed8f80",
+      "bytes": 5294565
     },
     {
       "url": "https://urban.cpe.ku.ac.th/ai-for-research/downloads/course-materials/visualization/notebooks/module-07c-matplotlib-foundations.ipynb",
       "path": "course-materials/module-07/notebooks/module-07c-matplotlib-foundations.ipynb",
-      "sha256": "5c9561e4a78b32f92232fa33bc349f6ea27b2cf5925c6fa895d8818b250d9b49",
-      "bytes": 85145
+      "sha256": "b55c3e8acba30a40da61d39c1f119a22bb8d50f1c11276fe18278e5e3ce86fe1",
+      "bytes": 85545
     },
     {
       "url": "https://urban.cpe.ku.ac.th/ai-for-research/downloads/course-materials/visualization/notebooks/module-07-environment.yml",
