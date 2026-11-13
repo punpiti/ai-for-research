@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 260" role="img" aria-labelledby="t d" font-family="Sarabun, 'Noto Sans Thai', Tahoma, Arial, sans-serif">
+  <title id="t">คะแนนความหิวก่อนอาหารและความอิ่มหลังอาหาร</title>
+  <desc id="d">ค่าเฉลี่ยและส่วนเบี่ยงเบนมาตรฐานบนมาตรา 0 ถึง 10 ความหิวก่อนอาหาร 7.2 ± 1.4 และความอิ่มหลังอาหาร 8.1 ± 1.1 ผู้ตอบ 30 คน ข้อมูลสมมติ</desc>
+  <rect width="640" height="260" fill="#ffffff"/>
+  <!-- plot area: x 0..10 maps to 190..610 (42 px per point) -->
+  <g stroke="#d5dde3" stroke-width="1">
+    <line x1="190" y1="30" x2="190" y2="190"/><line x1="274" y1="30" x2="274" y2="190"/>
+    <line x1="358" y1="30" x2="358" y2="190"/><line x1="442" y1="30" x2="442" y2="190"/>
+    <line x1="526" y1="30" x2="526" y2="190"/><line x1="610" y1="30" x2="610" y2="190"/>
+  </g>
+  <line x1="190" y1="190" x2="610" y2="190" stroke="#4a5868" stroke-width="1.2"/>
+  <g fill="#4a5868" font-size="13" text-anchor="middle">
+    <text x="190" y="210">0</text><text x="274" y="210">2</text><text x="358" y="210">4</text>
+    <text x="442" y="210">6</text><text x="526" y="210">8</text><text x="610" y="210">10</text>
+  </g>
+  <text x="400" y="240" fill="#1d2a3a" font-size="14" text-anchor="middle">คะแนน (0 = ไม่รู้สึกเลย, 10 = รู้สึกมากที่สุด) · ค่าเฉลี่ย ± SD · n = 30</text>
+  <!-- hunger: mean 7.2 -> 492.4, SD 1.4 -> 433.6..551.2 -->
+  <text x="176" y="80" fill="#1d2a3a" font-size="15" text-anchor="end">ความหิวก่อนอาหาร</text>
+  <line x1="433.6" y1="75" x2="551.2" y2="75" stroke="#3a6ea5" stroke-width="2.5"/>
+  <line x1="433.6" y1="67" x2="433.6" y2="83" stroke="#3a6ea5" stroke-width="2.5"/>
+  <line x1="551.2" y1="67" x2="551.2" y2="83" stroke="#3a6ea5" stroke-width="2.5"/>
+  <circle cx="492.4" cy="75" r="8" fill="#3a6ea5"/>
+  <text x="492.4" y="56" fill="#3a6ea5" font-size="14" font-weight="700" text-anchor="middle">7.2</text>
+  <!-- satiety: mean 8.1 -> 530.2, SD 1.1 -> 484..576.4 -->
+  <text x="176" y="145" fill="#1d2a3a" font-size="15" text-anchor="end">ความอิ่มหลังอาหาร</text>
+  <line x1="484" y1="140" x2="576.4" y2="140" stroke="#d1453b" stroke-width="2.5"/>
+  <line x1="484" y1="132" x2="484" y2="148" stroke="#d1453b" stroke-width="2.5"/>
+  <line x1="576.4" y1="132" x2="576.4" y2="148" stroke="#d1453b" stroke-width="2.5"/>
+  <rect x="522.2" y="132" width="16" height="16" fill="#d1453b"/>
+  <text x="530.2" y="121" fill="#d1453b" font-size="14" font-weight="700" text-anchor="middle">8.1</text>
+</svg>

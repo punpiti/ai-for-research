@@ -70,6 +70,37 @@
 .paper.ieee table { break-inside:avoid; margin:3mm 0; border-color:#111; font-size:7.2pt; }
 .paper.ieee th { background:#eee; color:#111; }
 .paper.ieee .review-note { clear:both; margin-top:5mm; }
+.paper ul { margin:1.5mm 0 2mm; padding-left:6mm; }
+.paper li { margin:.6mm 0; }
+.paper-figure { margin:4mm 0; break-inside:avoid; text-align:center; }
+.paper-figure img { display:block; width:100%; max-width:140mm; height:auto; margin:0 auto; }
+.paper-figure figcaption { margin-top:1.5mm; color:#33424f; font:8.2pt/1.4 Arial,sans-serif; text-align:left; }
+.paper-figure figcaption strong { margin-right:.3em; }
+.paper .figure-missing { padding:4mm; border:1px dashed #c47c12; color:#8b570c; text-align:center; }
+.paper .highlights { display:none; }
+.paper.ieee .paper-figure { margin:3mm 0; }
+.paper.ieee .paper-figure figcaption { font:7.6pt/1.3 "Times New Roman",serif; }
+/* Elsevier-like preprint: single column, centred front matter, highlights box, wide line spacing for review. */
+.paper.elsevier { padding:14mm 20mm 12mm; font-family:"Times New Roman",Times,serif; font-size:10.5pt; line-height:1.65; }
+.paper.elsevier .paper-masthead { border-bottom:1px solid #222; color:#222; }
+.paper.elsevier .paper-masthead strong { color:#e9711c; font-size:14pt; letter-spacing:.06em; text-transform:uppercase; }
+.paper.elsevier .paper-mark { border-color:#e9711c; color:#e9711c; }
+.paper.elsevier .manuscript-strip { background:#f6f1ea; color:#5a4632; }
+.paper.elsevier h1 { margin-bottom:3mm; font-size:18pt; font-weight:400; line-height:1.25; text-align:center; }
+.paper.elsevier .authors { color:#111; font:400 11pt "Times New Roman",serif; text-align:center; }
+.paper.elsevier .affiliation { border:0; font:italic 8.6pt/1.45 "Times New Roman",serif; text-align:center; }
+.paper.elsevier .abstract { margin:4mm 0 2mm; padding:2.5mm 0; border:0; border-top:1px solid #222; border-bottom:1px solid #222; background:none; }
+.paper.elsevier .abstract h2 { font:700 10pt "Times New Roman",serif; color:#111; }
+.paper.elsevier .abstract p { font-size:9.6pt; line-height:1.55; }
+.paper.elsevier .keywords { font:italic 9pt "Times New Roman",serif; color:#222; }
+.paper.elsevier .highlights { display:block; margin:3mm 0 5mm; padding:3mm 4mm; border:1px solid #e9711c; border-radius:1.5mm; background:#fff8f2; }
+.paper.elsevier .highlights h2 { margin:0 0 1mm; padding:0; border:0; color:#b65410; font:700 9.5pt Arial,sans-serif; text-transform:uppercase; letter-spacing:.06em; }
+.paper.elsevier .highlights li { font-size:9.6pt; line-height:1.45; }
+.paper.elsevier h2 { border:0; color:#111; font:700 10.5pt "Times New Roman",serif; }
+.paper.elsevier strong { color:#111; }
+.paper.elsevier table { border-color:#222; font-family:"Times New Roman",serif; font-size:9pt; }
+.paper.elsevier th { background:#f3f3f3; color:#111; }
+.paper.elsevier .paper-figure figcaption { font:9pt/1.4 "Times New Roman",serif; }
 @media (min-width: 1101px) { .source-panel { position:sticky; top:5.5rem; } }
 @media (max-width: 1100px) { .demo-workspace { grid-template-columns:1fr; max-width:900px; } .paper { min-height:auto; } }
 @media (max-width: 560px) { .publication-lab .prepare-hero { padding-top:3rem; padding-bottom:2.5rem; } .publication-lab .prepare-hero h1 { font-size:clamp(2.35rem,12vw,3.2rem); } .demo-controls .section-heading h2 { font-size:clamp(2rem,10vw,2.7rem); } .template-actions .button { width:100%; } .source-panel,.preview-panel { padding:.8rem; border-radius:.85rem; } .preview-toolbar { align-items:flex-start; flex-direction:column; } }
