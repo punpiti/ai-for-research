@@ -101,6 +101,65 @@ class AirrSetupTests(unittest.TestCase):
             self.assertFalse((ws / 'client-args.json').exists())
 
 
+class PracticeFilesInModule1Tests(unittest.TestCase):
+    """Module 1 fetches Module 2/4 practice files with AIRR; failures never stop it."""
+
+    FAKE_CLIENT = (
+        "import json, pathlib, sys\n"
+        "args = sys.argv[1:]\n"
+        "ws = pathlib.Path(args[args.index('--workspace') + 1])\n"
+        "log = ws / 'calls.jsonl'\n"
+        "with log.open('a') as f: f.write(json.dumps(args[2:]) + '\\n')\n"
+        "if args[2:] == ['materials', 'module-2'] and (ws / 'deny-m2').exists():\n"
+        "    print('AIRR ERROR · module-2 is not included in this AIRR classroom.', file=sys.stderr); sys.exit(1)\n"
+    )
+
+    def workspace(self, folder, connected=True):
+        ws = Path(folder) / 'ai-for-research-workspace'
+        client = ws / runtime.AIRR_CLIENT
+        client.parent.mkdir(parents=True)
+        client.write_text(self.FAKE_CLIENT, encoding='utf-8')
+        if connected:
+            (ws / '.airr').mkdir()
+            (ws / '.airr' / 'config.json').write_text('{}', encoding='utf-8')
+        return ws
+
+    def run_fetch(self, ws):
+        out = io.StringIO()
+        env = {k: v for k, v in os.environ.items() if k != 'AI_RESEARCH_TRACE_FILE'}
+        with patch.dict(os.environ, env, clear=True), contextlib.redirect_stdout(out):
+            ready = runtime.fetch_module_practice_files(ws, Path(sys.executable))
+        return ready, out.getvalue()
+
+    def calls(self, ws):
+        path = ws / 'calls.jsonl'
+        return [json.loads(line) for line in path.read_text().splitlines()] if path.exists() else []
+
+    def test_fetches_module2_and_both_module4_sets(self):
+        with tempfile.TemporaryDirectory() as folder:
+            ws = self.workspace(folder)
+            ready, out = self.run_fetch(ws)
+            self.assertEqual(ready, ['module-2', 'module-4', 'module-4 (Thai)'])
+            self.assertEqual(self.calls(ws), [['materials', 'module-2'], ['materials', 'module-4'], ['materials', 'module-4', '--thai']])
+            self.assertIn('PRACTICE_FILES_READY', out)
+
+    def test_not_connected_skips_without_running_client(self):
+        with tempfile.TemporaryDirectory() as folder:
+            ws = self.workspace(folder, connected=False)
+            ready, out = self.run_fetch(ws)
+            self.assertEqual(ready, [])
+            self.assertEqual(self.calls(ws), [])
+            self.assertIn('PRACTICE_FILES_SKIPPED', out)
+
+    def test_one_module_refused_still_fetches_the_rest(self):
+        with tempfile.TemporaryDirectory() as folder:
+            ws = self.workspace(folder)
+            (ws / 'deny-m2').write_text('x')
+            ready, out = self.run_fetch(ws)
+            self.assertEqual(ready, ['module-4', 'module-4 (Thai)'])
+            self.assertIn('PRACTICE_FILES_SKIPPED module-2: AIRR ERROR', out)
+
+
 class Module7InModule1Tests(unittest.TestCase):
     """Module 1 installs the Module 7 notebook environment; failure never blocks Module 1."""
 

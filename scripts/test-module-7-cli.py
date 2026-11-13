@@ -139,7 +139,38 @@ def run() -> None:
         pass
     else:
         raise AssertionError("invalid highlight count was accepted")
+    materials_test()
     print("AIRR Module 7 VS Code client tests passed.")
+
+
+def materials_test() -> None:
+    """`airr materials module-2|module-4` place files without overwriting learner copies."""
+    with tempfile.TemporaryDirectory(prefix="airr-materials-") as folder:
+        workspace = Path(folder)
+        (workspace / ".airr").mkdir()
+        (workspace / ".airr/config.json").write_text(json.dumps({"schema_version": "airr.workspace.v1", "api_base": "https://example.test/api/airr/v1", "api_key": "airr_x", "classroom_id": "c"}), encoding="utf-8")
+        urls = []
+        original = client.request_bytes
+        client.request_bytes = lambda url, key: urls.append(url) or b"data:" + url.rsplit("/", 1)[-1].encode()
+        try:
+            def call(*argv):
+                out = io.StringIO()
+                with contextlib.redirect_stdout(out):
+                    assert client.main(["--workspace", str(workspace), *argv]) == 0
+                return out.getvalue()
+            text = call("materials", "module-2")
+            zip_path = workspace / "module-02-work/input/original/module-02-food-evidence.zip"
+            assert zip_path.read_bytes() == b"data:module-02-food-evidence.zip" and "AIRR MATERIALS PASS · module-2" in text
+            assert urls[-1] == "https://example.test/api/airr/v1/modules/module-2/materials/module-02-food-evidence.zip"
+            zip_path.write_bytes(b"learner copy")
+            assert "AIRR SKIP" in call("materials", "module-2") and zip_path.read_bytes() == b"learner copy"
+            call("materials", "module-4")
+            assert (workspace / "module-04-work/input/original/mock-paper.pdf").is_file()
+            assert (workspace / "course-materials/module-04/citation-audit-rules.md").is_file()
+            call("materials", "module-4", "--thai")
+            assert (workspace / "module-04-work/thai-mock/input/original/mock-paper-th.pdf").is_file()
+        finally:
+            client.request_bytes = original
 
 
 if __name__ == "__main__":

@@ -241,6 +241,43 @@ def setup_airr(workspace, python):
         log(f'AIRR_LOGIN_SKIPPED {reason[:200]}; create a new key and run tools/airr login later.')
 
 
+# Practice files for later modules, fetched once with the AIRR Key during
+# Module 1 so learners do not need a separate download step.
+MODULE_PRACTICE_FILES = (
+    ('module-2', ('materials', 'module-2')),
+    ('module-4', ('materials', 'module-4')),
+    ('module-4 (Thai)', ('materials', 'module-4', '--thai')),
+)
+
+
+def fetch_module_practice_files(workspace, python):
+    """Download Module 2 and Module 4 practice files. Never fails Module 1.
+
+    The AIRR client skips files that already exist, so reruns keep learner work.
+    """
+    client = workspace / AIRR_CLIENT
+    if not (workspace / '.airr' / 'config.json').exists() or not client.is_file():
+        log('PRACTICE_FILES_SKIPPED AIRR is not connected yet; after connecting, run tools/airr materials module-2 and module-4.')
+        return []
+    ready = []
+    for label, arguments in MODULE_PRACTICE_FILES:
+        try:
+            result = subprocess.run([str(python), str(client), '--workspace', str(workspace), *arguments],
+                                    capture_output=True, text=True, timeout=180)
+        except (OSError, subprocess.TimeoutExpired) as error:
+            log(f'PRACTICE_FILES_SKIPPED {label}: {type(error).__name__}; rerun this installer later.')
+            continue
+        if result.returncode == 0:
+            ready.append(label)
+        else:
+            reason = ((result.stderr or result.stdout or '').strip().splitlines() or ['unknown error'])[-1]
+            log(f'PRACTICE_FILES_SKIPPED {label}: {reason[:200]}')
+    if ready:
+        log('PRACTICE_FILES_READY ' + ', '.join(ready)
+            + ' (module-02-work/input/original/, module-04-work/input/original/, module-04-work/thai-mock/).')
+    return ready
+
+
 def pdf_driver_diagnostics(tex_bin):
     """Record why XeLaTeX could not run its PDF driver (Error 32512 = exit 127)."""
     driver = Path(tex_bin) / ('xdvipdfmx.exe' if os.name == 'nt' else 'xdvipdfmx')
@@ -646,11 +683,13 @@ def main():
     module7_ready = setup_module07(workspace, uv)
     configure(workspace, args.agent, root, env, python_receipt)
     setup_airr(workspace, python_bin / ('python.exe' if os.name == 'nt' else 'python'))
+    practice_ready = fetch_module_practice_files(workspace, python_bin / ('python.exe' if os.name == 'nt' else 'python'))
     for path in tracked:
         trace_path(path, 'after')
     trace('snapshot', 'python-packages', env['UV_PROJECT_ENVIRONMENT'], 'after', json.dumps(python_receipt['packages']))
     log('RUNTIME_READY Python 3.12 + XeLaTeX + Thai PDF verified'
         + ('; Module 7 notebook environment ready' if module7_ready else '')
+        + ('; practice files for ' + ', '.join(practice_ready) if practice_ready else '')
         + '; uv and tlmgr can add task packages without system elevation.')
     log('FINAL_RESULT PASS - Research runtime ready.')
 
