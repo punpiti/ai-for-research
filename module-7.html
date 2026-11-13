@@ -460,7 +460,7 @@
 <section class="section markdown-section" id="activity" aria-labelledby="activity-heading"><div class="section-heading compact"><h2 id="activity-heading">ลงมือวิเคราะห์และสร้างภาพด้วย AI</h2>
 </div><div class="markdown-body"><h3>โจทย์เดียว</h3>
 <p>สำรวจข้อมูล <code>course-materials/module-07/examples/figure-consistency/mock-study-data.csv</code> แล้วตอบว่า <strong>ค่า PM2.5 เปลี่ยนอย่างไรตามพื้นที่ กลุ่ม ก่อน–หลังมาตรการ และเวลา</strong> เลือกมุม วิธี และกราฟเอง หา 3–5 highlights ที่มีตัวเลขรองรับ แล้วสรุปว่าข้อมูลสนับสนุนอะไรและยังสรุปอะไรไม่ได้</p>
-<div class="plain-note"><strong>ต่อไป Module 8:</strong> Module 8 นำ <code>module-07-work/module-07-highlights.md</code> กับกราฟของคุณไปเขียนรายงาน LaTeX ต่อโดยอัตโนมัติ (ข้อมูลไฟล์เดียวกัน checksum เดียวกัน) ผู้ที่เริ่ม Module 8 โดยตรงจะได้ summary และกราฟตัวอย่างจากข้อมูลชุดนี้</div>
+<div class="plain-note"><strong>ต่อไป Module 8:</strong> highlights และกราฟของคุณจะถูกนำไปเขียนรายงานต่อให้อัตโนมัติ คนที่เริ่ม Module 8 โดยตรงจะได้ตัวอย่างจากข้อมูลชุดเดียวกัน</div>
 <h3>เริ่มใน VS Code</h3>
 <p>เปิด <code>ai-for-research-workspace</code> ใน VS Code แล้ววาง Prompt ตั้งต้นด้านล่าง จากนั้นถามต่อหรือเปลี่ยนทิศทางได้อิสระ กราฟที่เลือกต้องอธิบายได้ว่าช่วยให้เห็นอะไร</p>
 <div class="command markdown-command ai-prompt" data-m7-exploration-prompt><code>เปิดไฟล์ course-materials/module-07/examples/figure-consistency/mock-study-data.csv แล้วช่วยฉันสำรวจว่า PM2.5 เปลี่ยนอย่างไรตาม site, arm, period และ week ตรวจคุณภาพข้อมูลก่อน วิเคราะห์ได้อย่างอิสระ และสร้างกราฟที่เหมาะกับข้อค้นพบ ระหว่างทำให้บอกตัวเลขที่ใช้และเหตุผลที่เลือกกราฟ เมื่อฉันพอใจกับการวิเคราะห์แล้ว ให้บันทึก module-07-work/module-07-highlights.md ซึ่งมีคำถามที่สำรวจ, highlights 3–5 ข้อพร้อมหลักฐานตัวเลข, กราฟที่เลือกและเหตุผล, ข้อสรุปที่ชัดเจน, ข้อจำกัด และสิ่งที่ข้อมูลยังสรุปไม่ได้ บันทึกกราฟสุดท้าย 1–5 ภาพเป็น PNG, JPEG หรือ WebP ใน module-07-work/figures โดยใช้ชื่อไฟล์ภาษาอังกฤษที่สื่อความหมาย เริ่มจากสรุปโครงสร้างข้อมูลสั้น ๆ แล้วชวนฉันเลือกมุมที่อยากสำรวจต่อ</code><button type="button" data-copy>คัดลอก Prompt ตั้งต้น</button></div>
@@ -520,8 +520,8 @@
 </div></section>
 <section class="section markdown-section" id="review" aria-labelledby="review-heading"><div class="section-heading compact"><h2 id="review-heading">คำถามทบทวนท้ายบท</h2>
 </div><div class="markdown-body"><ol type="1">
-<li><code>raw_df</code>, <code>clean_df</code>, <code>analysis_df</code> และ <code>plot_df</code> ของคุณต่างกันอย่างไร และเหตุใดจึงไม่ควรเขียนทับข้อมูลดิบ</li>
-<li>การรวมข้อมูลหรือ denominator ใดมีผลต่อความหมายของตารางและภาพมากที่สุด</li>
+<li>ข้อมูลดิบ ข้อมูลที่ทำความสะอาดแล้ว และข้อมูลที่ใช้วาดกราฟของคุณต่างกันอย่างไร และทำไมไม่ควรแก้ข้อมูลดิบ</li>
+<li>การรวมข้อมูลหรือตัวหารแบบใดมีผลต่อความหมายของตารางและภาพมากที่สุด</li>
 <li>ภาพที่เลือกตอบคำถามวิจัยได้ดีกว่ารูปแบบอื่นอย่างไร และมีช่องทางใดที่ไม่พึ่งสี</li>
 <li>ข้อสรุปใดได้รับการสนับสนุนจากผล และข้อสรุปใดเกินขอบเขตของแบบวิจัย</li>
 <li>คุณตรวจข้อมูล วิธี ค่าที่กำหนด คำเตือน และแฟ้มผลลัพธ์จากรายงานภาษาไทยของ AI อย่างไร</li>
