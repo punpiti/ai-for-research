@@ -92,52 +92,8 @@
 <li>เมื่อ AI เสนอวิธีทางสถิติที่คุณอธิบายเหตุผลไม่ได้ ให้หยุดและขอคำปรึกษาจากผู้เชี่ยวชาญก่อนใช้ผล</li>
 </ul>
 </div></section>
-<section class="section markdown-section" id="รู้จักแฟ้มข้อมูลก่อนนำเข้า" data-brief="ข้อมูลของบทเรียนคือ course-materials/module-07/examples/figure-consistency/mock-study-data.csv (480 แถว) เปิดเพื่อดูความหมายของแต่ละคอลัมน์และ Prompt นำเข้า" aria-labelledby="รู้จักแฟ้มข้อมูลก่อนนำเข้า-heading" data-brief-label="ดูข้อมูลและวิธีนำเข้า"><div class="section-heading compact"><h2 id="รู้จักแฟ้มข้อมูลก่อนนำเข้า-heading">รู้จักแฟ้มข้อมูลก่อนนำเข้า</h2>
-</div><div class="markdown-body"><p>CSV, Excel และ SPSS อาจแสดงข้อมูลคล้ายกันเมื่อเปิดดู แต่เก็บโครงสร้างและความหมายไม่เหมือนกัน การนำเข้าไม่ใช่เพียง “เปิดแฟ้มได้” คุณต้องตรวจว่าจำนวนแถว คอลัมน์ ชนิดตัวแปร ป้ายกำกับ และข้อมูลสูญหายยังคงความหมายเดิม</p>
-<table>
-<thead>
-<tr class="header">
-<th>รูปแบบ</th>
-<th>สิ่งที่เก็บได้</th>
-<th>สิ่งที่มักเกิดปัญหาเมื่อนำเข้า</th>
-<th>ไลบรารีแกน</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>CSV (<code>.csv</code>)</td>
-<td>ตารางข้อความหนึ่งชุด เหมาะกับการแลกเปลี่ยนและตรวจด้วยโปรแกรมหลายชนิด</td>
-<td>ตัวคั่น comma/semicolon/tab, UTF-8/TIS-620, ภาษาไทยเพี้ยน, เลขศูนย์นำหน้าหาย, วันที่และรหัสถูกเดาชนิด, ไม่มีสูตร รูปแบบ ป้ายตัวแปร หรือหลายแผ่นงาน</td>
-<td>pandas</td>
-</tr>
-<tr class="even">
-<td>Excel (<code>.xlsx</code>)</td>
-<td>หลายแผ่นงาน สูตร รูปแบบ เซลล์ และตารางที่มนุษย์อ่านสะดวก</td>
-<td>เลือกผิดแผ่นงาน หัวตารางหลายชั้น เซลล์รวม แถวหมายเหตุ สูตรกับค่าที่แสดง วันที่ ช่องว่าง และคอลัมน์ชนิดผสม</td>
-<td>pandas + openpyxl</td>
-</tr>
-<tr class="odd">
-<td>SPSS (<code>.sav</code>)</td>
-<td>ข้อมูลพร้อมชื่อและป้ายตัวแปร ป้ายค่า ชนิดตัวแปร รูปแบบ และรหัสข้อมูลสูญหายที่ผู้ใช้กำหนด</td>
-<td>ป้ายตัวแปร/ป้ายค่าหาย รหัส 9/99/999 ถูกอ่านเป็นค่าจริงหรือสูญหายผิดแบบ วันที่และภาษาไทยเปลี่ยน และไม่ทราบว่าใช้ค่ารหัสหรือข้อความ</td>
-<td>pyreadstat</td>
-</tr>
-</tbody>
-</table>
-<h3 id="csv-ไม่ใช่-excel">CSV ไม่ใช่ Excel</h3>
-<p>CSV ไม่มีแผ่นงาน สี สูตร เซลล์รวม หรือป้ายตัวแปร เป็นข้อความที่มีตัวคั่น จึงเหมาะสำหรับเป็นข้อมูลแลกเปลี่ยนและ <code>plot-data.csv</code> แต่ถ้าแปลง SPSS หรือ Excel เป็น CSV ต้องส่งพจนานุกรมข้อมูลและบันทึกการแปลงควบคู่ไปด้วย มิฉะนั้นความหมายของรหัสอาจสูญหาย</p>
-<h3 id="ขั้นตอนนำเข้าที่ต้องทำทุกครั้ง">ขั้นตอนนำเข้าที่ต้องทำทุกครั้ง</h3>
-<ol type="1">
-<li>เก็บแฟ้มต้นฉบับไว้โดยไม่แก้ไข และบันทึกชื่อแฟ้ม ขนาด วันที่ และแหล่งที่มา</li>
-<li>ระบุรูปแบบจริงของแฟ้ม ไม่อาศัยนามสกุลเพียงอย่างเดียว</li>
-<li>แสดงรายการแผ่นงาน ตาราง หรือข้อมูลกำกับก่อนเลือกสิ่งที่จะอ่าน</li>
-<li>ระบุแถวหัวตาราง คอลัมน์รหัส หน่วยวิเคราะห์ ชนิดตัวแปร และค่าที่ใช้แทนข้อมูลสูญหาย</li>
-<li>อ่านเข้า <code>raw_df</code> โดยยังไม่ลบ แทนค่า รวมแถว หรือเปลี่ยนชื่อคอลัมน์โดยไม่บันทึก</li>
-<li>สร้างใบรับการนำเข้า ซึ่งระบุจำนวนแถว × คอลัมน์ รายชื่อคอลัมน์ ชนิดข้อมูล จำนวนค่าที่ไม่ซ้ำ ข้อมูลสูญหาย และคำเตือน</li>
-<li>เปรียบเทียบจำนวนข้อมูลและตัวแปรกับแฟ้มต้นฉบับหรือข้อมูลกำกับ หากไม่ตรงต้องหยุดก่อนวิเคราะห์</li>
-</ol>
-<h3 id="คำสั่งนำเข้า-csv">คำสั่งนำเข้า CSV</h3>
-<div class="notice"><strong>ข้อมูลของบทเรียนอยู่ที่นี่:</strong> <code>ai-for-research-workspace/course-materials/module-07/examples/figure-consistency/mock-study-data.csv</code> ติดตั้งมากับ Module 1 แล้ว เปิดดูได้เลยใน VS Code: Explorer → <code>course-materials</code> → <code>module-07</code> → <code>examples</code> → <code>figure-consistency</code> → คลิก <code>mock-study-data.csv</code> (Rainbow CSV แยกสีให้แต่ละคอลัมน์)</div>
+<section class="section markdown-section" id="รู้จักแฟ้มข้อมูลก่อนนำเข้า" data-brief="ข้อมูลของบทเรียนคือ course-materials/module-07/examples/figure-consistency/mock-study-data.csv (480 แถว) ไฟล์ CSV, Excel หรือ SPSS ใช้ Prompt นำเข้าเดียวกัน" aria-labelledby="รู้จักแฟ้มข้อมูลก่อนนำเข้า-heading" data-brief-label="ดูข้อมูลและ Prompt นำเข้า"><div class="section-heading compact"><h2 id="รู้จักแฟ้มข้อมูลก่อนนำเข้า-heading">นำเข้าข้อมูล</h2>
+</div><div class="markdown-body"><div class="notice"><strong>ข้อมูลของบทเรียนอยู่ที่นี่:</strong> <code>ai-for-research-workspace/course-materials/module-07/examples/figure-consistency/mock-study-data.csv</code> ติดตั้งมากับ Module 1 แล้ว เปิดดูได้เลยใน VS Code: Explorer → <code>course-materials</code> → <code>module-07</code> → <code>examples</code> → <code>figure-consistency</code> → คลิก <code>mock-study-data.csv</code> (Rainbow CSV แยกสีให้แต่ละคอลัมน์)</div>
 <p>ข้อมูลจำลอง PM2.5 รายสัปดาห์ 480 แถว หนึ่งแถว = ค่าที่เครื่องวัดหนึ่งเครื่องวัดได้ในหนึ่งสัปดาห์ (3 พื้นที่ × 2 กลุ่ม × 5 เครื่อง × 16 สัปดาห์) ไม่มีค่าว่าง</p>
 <table><thead><tr><th>คอลัมน์</th><th>ความหมาย</th></tr></thead><tbody>
 <tr><td><code>site</code></td><td>พื้นที่ North, Central หรือ South</td></tr>
@@ -149,22 +105,9 @@
 <tr><td><code>aqi_proxy</code>, <code>air_quality_score</code></td><td>ดัชนีที่คำนวณจาก PM2.5 ใช้ฝึกเท่านั้น</td></tr>
 </tbody></table>
 <p>ใช้ข้อมูลของตนเองแทนได้ ให้วางไฟล์ไว้ที่ <code>module-07-work/input/original/</code> แล้วเปลี่ยนชื่อไฟล์ใน Prompt</p>
-<div class="command markdown-command ai-prompt"><code>เปิดแฟ้ม course-materials/module-07/examples/figure-consistency/mock-study-data.csv ตรวจ encoding และตัวคั่นของแฟ้มก่อนอ่าน แสดงตัวอย่างข้อความดิบและหัวตาราง ระบุค่าที่ถือเป็นข้อมูลสูญหาย ป้องกันเลขศูนย์นำหน้าของรหัส ตรวจวันที่และคอลัมน์ชนิดผสม แล้วอ่านด้วย pandas เป็น raw_df โดยไม่แก้แฟ้มต้นฉบับ จัดทำใบรับการนำเข้าและรายงานคำเตือนทั้งหมด</code><button type="button" data-copy>คัดลอก Prompt</button></div>
-<h3 id="คำสั่งนำเข้า-excel">คำสั่งนำเข้า Excel</h3>
-<div class="command markdown-command ai-prompt"><code>ใช้ pandas ร่วมกับ openpyxl ตรวจรายชื่อแผ่นงานและขนาดของแต่ละแผ่นก่อน เลือกแผ่นงานและแถวหัวตารางอย่างมีเหตุผล ตรวจเซลล์รวม สูตร วันที่ แถวหมายเหตุ คอลัมน์ที่ไม่มีชื่อ และคอลัมน์ชนิดผสม แล้วอ่านเป็น raw_df โดยไม่แก้แฟ้มต้นฉบับ จัดทำใบรับการนำเข้าและรายงานสิ่งที่อาจสูญหายจากรูปแบบ Excel</code><button type="button" data-copy>คัดลอก Prompt</button></div>
-<h3 id="คำสั่งนำเข้า-spss">คำสั่งนำเข้า SPSS</h3>
-<div class="command markdown-command ai-prompt"><code>ใช้ pyreadstat อ่านแฟ้ม SPSS พร้อมข้อมูลกำกับ แยกชื่อและป้ายตัวแปร ป้ายค่า ชนิดและรูปแบบตัวแปร รวมทั้งค่าข้อมูลสูญหายที่ผู้ใช้กำหนด เก็บทั้งค่ารหัสและความหมายของรหัส ตรวจภาษาไทยและวันที่ แล้วสร้าง raw_df, data-dictionary.csv และใบรับการนำเข้า ห้ามแปลงเป็น CSV โดยทิ้งข้อมูลกำกับ</code><button type="button" data-copy>คัดลอก Prompt</button></div>
-<h3 id="same-data-three-formats">ลองเปิดข้อมูลเดียวกันในสามรูปแบบ</h3>
-<p>หากต้องการฝึกเปรียบเทียบรูปแบบ ให้ใช้ข้อมูลชุดเดียวกันใน <code>.csv</code>, <code>.xlsx</code> และ <code>.sav</code> ที่มีจุดต่าง เช่น รหัส <code>001</code>, วันที่, ป้ายค่าเพศหรือระดับความเห็น, รหัสข้อมูลสูญหาย <code>99</code>, ภาษาไทย และแผ่นงานหมายเหตุ แล้วให้ AI นำเข้าทั้งสามแบบก่อนที่คุณจะเปรียบเทียบผล</p>
-<ul>
-<li>จำนวนแถวและคอลัมน์</li>
-<li>ชนิดตัวแปร</li>
-<li>ค่าที่ไม่ซ้ำและข้อมูลสูญหาย</li>
-<li>ชื่อกับป้ายตัวแปร</li>
-<li>ค่ารหัสกับป้ายค่า</li>
-<li>วันที่ ภาษาไทย และเลขศูนย์นำหน้า</li>
-</ul>
-<p>กิจกรรมนี้ให้ระบุว่าความหมายใดต้องรักษาและข้อมูลกำกับใดต้องแนบเมื่อเปลี่ยนรูปแบบ แม้แฟ้มทั้งสามจะมีโครงสร้างต่างกัน</p>
+<p>ไฟล์จะเป็น CSV, Excel หรือ SPSS ก็ใช้ Prompt เดียวกัน AI ตรวจชนิดไฟล์และเลือกวิธีอ่านเอง คุณตรวจแค่ใบรับการนำเข้าว่าจำนวนแถว คอลัมน์ และค่าว่างตรงกับที่ควรเป็น</p>
+<div class="command markdown-command ai-prompt"><code>นำเข้าแฟ้ม course-materials/module-07/examples/figure-consistency/mock-study-data.csv ตรวจก่อนว่าเป็นแฟ้มชนิดใด แล้วเลือกวิธีอ่านให้เหมาะกับชนิดนั้น ห้ามแก้แฟ้มต้นฉบับ ระวังภาษาไทย ตัวคั่น แผ่นงาน แถวหัวตาราง เลขศูนย์นำหน้าของรหัส วันที่ และรหัสค่าว่าง ถ้าแฟ้มมีป้ายตัวแปรหรือป้ายค่า ให้เก็บความหมายไว้ใน data-dictionary.csv ด้วย อ่านเป็น raw_df แล้วสรุปใบรับการนำเข้าเป็นภาษาง่าย ๆ: ชนิดแฟ้ม จำนวนแถว × คอลัมน์ ชื่อและชนิดของแต่ละคอลัมน์ ค่าว่าง และคำเตือน</code><button type="button" data-copy>คัดลอก Prompt นำเข้าข้อมูล</button></div>
+<div class="done-shows"><strong>เสร็จแล้วจะเห็น</strong><p>AI บอกว่าเป็นไฟล์ CSV มี 480 แถว × 8 คอลัมน์ ไม่มีค่าว่าง พร้อมรายชื่อคอลัมน์และชนิดข้อมูล ถ้าตัวเลขไม่ตรงนี้ ให้หยุดและถาม AI ก่อนวิเคราะห์</p></div>
 </div></section>
 <section class="section markdown-section" id="python-ทำงานอยู่เบื้องหลังอย่างไร" data-brief="Python และไลบรารีที่ AI ใช้เบื้องหลัง พร้อม Prompt ให้ AI รายงานสิ่งที่ใช้ ไม่ต้องเขียนโค้ดเอง ข้ามได้ถ้ารู้แล้ว" aria-labelledby="python-ทำงานอยู่เบื้องหลังอย่างไร-heading"><div class="section-heading compact"><h2 id="python-ทำงานอยู่เบื้องหลังอย่างไร-heading">Python ทำงานอยู่เบื้องหลังอย่างไร</h2>
 </div><div class="markdown-body"><p>คุณไม่ต้องจำไวยากรณ์ แต่ต้องอธิบายลำดับงานต่อไปนี้ได้</p>
