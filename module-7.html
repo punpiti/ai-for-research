@@ -24,15 +24,13 @@
     <div id="module-content">
 <section class="section markdown-section" id="start" aria-labelledby="start-heading"><div class="section-heading compact"><p class="eyebrow">การเตรียมตัวก่อนเรียน</p><h2 id="start-heading">ของต้องมีก่อนเรียน</h2>
 </div><div class="markdown-body"><ul>
-<li><strong>เรียนต่อเนื่อง:</strong> ใช้ hypothesis IDs, decision rules และแผนวิเคราะห์จาก Module 6 กับข้อมูลที่ได้รับอนุญาต</li>
-<li><strong>เริ่มที่โมดูลนี้:</strong> ใช้ Iris แบบสอบถาม CSV/Excel/SPSS ข้อมูลเปิดของบทความ หรือข้อมูลวิจัยของคุณที่ตรวจสิทธิและความเป็นส่วนตัวแล้ว</li>
+<li><strong>ข้อมูลที่ใช้ในห้อง:</strong> ข้อมูลจำลอง PM2.5 ที่เตรียมไว้ให้แล้ว (<code>mock-study-data.csv</code>) ไม่ต้องหาข้อมูลเอง</li>
+<li><strong>อยากลองกับข้อมูลของตนเองหลังเรียน:</strong> ใช้ข้อมูลที่ได้รับอนุญาตและตรวจความเป็นส่วนตัวแล้ว ดูหัวข้อ “ฝึกต่อกับข้อมูลชุดอื่น”</li>
 </ul>
 <div class="plain-note"><strong>ยังไม่มีข้อมูลของตนเอง?</strong> ใช้ <a href="module-7-thailand-population-lab.html">กรณีฝึกประชากรไทยจากตารางสู่แผนที่</a> เพื่อฝึกสถิติแบบงานสำรวจ กราฟ และแผนที่กับข้อมูลเปิด</div>
 <h3 id="สิ่งที่ต้องเตรียม">สิ่งที่ต้องเตรียม</h3>
 <ul>
-<li>ข้อมูลหนึ่งชุดจาก Track A–D พร้อมสิทธิการใช้และพจนานุกรมข้อมูล (ถ้ามี)</li>
-<li>คำถาม สมมติฐาน หรือเป้าหมายการพยากรณ์หนึ่งข้อ (แก้ได้ภายหลัง)</li>
-<li>AI ที่แนบแฟ้มและดาวน์โหลดผลลัพธ์ได้ (เว็บ แอป หรือ VS Code)</li>
+<li>AI panel ใน VS Code ที่เชื่อมไว้ตอน Module 1</li>
 <li><strong>ทำ Module 1 แล้วไม่ต้องติดตั้งอีก:</strong> ไฟล์และโปรแกรมของโมดูลนี้อยู่ใน <code>ai-for-research-workspace</code> แล้ว (ตอนติดตั้งเห็น <code>MODULE7_READY</code>)</li>
 <li>เปิดโฟลเดอร์ <code>ai-for-research-workspace</code> ใน VS Code แล้วเปิดไฟล์จาก Explorer</li>
 <li>บันทึกงานทั้งหมดไว้ใต้ <code>module-07-work/</code> ไม่แก้ไฟล์ต้นฉบับใน <code>course-materials/</code></li>
@@ -250,10 +248,10 @@
 </thead>
 <tbody>
 <tr class="odd">
-<td>Iris scatter plot</td>
-<td>ดอกไม้หนึ่งดอก</td>
-<td>หนึ่งแถวต่อดอก มีความยาวกลีบ ความกว้างกลีบ และชนิด</td>
-<td><code>x=petal_length</code>, <code>y=petal_width</code>, <code>color=species</code></td>
+<td>PM2.5 รายสัปดาห์ (ข้อมูลบทเรียน)</td>
+<td>ค่าที่เครื่องวัดหนึ่งเครื่องวัดได้ในหนึ่งสัปดาห์</td>
+<td>เฉลี่ยต่อกลุ่มต่อสัปดาห์ มี <code>arm</code>, <code>week</code> และค่าเฉลี่ย PM2.5</td>
+<td><code>x=week</code>, <code>y=pm25_ug_m3</code>, <code>color=arm</code></td>
 </tr>
 <tr class="even">
 <td>แบบสอบถาม Likert</td>
@@ -370,7 +368,7 @@
 <div class="command markdown-command ai-prompt"><code>ตรวจ environment ที่โครงการกำหนดก่อน ระบุ Python และไลบรารีพร้อมรุ่นที่จะใช้ ห้ามติดตั้งหรือปรับรุ่นโดยไม่แจ้ง อ่านแฟ้มต้นฉบับแบบไม่แก้ไข ตรวจโครงสร้างและคุณภาพข้อมูลก่อนเสนอวิธีวิเคราะห์ สร้าง script ที่เรียกซ้ำได้ บันทึกผลตัวเลขที่ใช้สร้างทั้งตารางและภาพ และรายงานชื่อแฟ้มผลลัพธ์กับข้อผิดพลาดหรือคำเตือนทั้งหมด</code><button type="button" data-copy>คัดลอก Prompt</button></div>
 <p>หากไลบรารีที่ต้องใช้ไม่มีอยู่ AI ต้องเสนอทางเลือกที่มีอยู่หรือแจ้งรายการที่ขาดพร้อมเหตุผล คุณจึงตัดสินใจว่าจะใช้ทางเลือกหรือกลับไปเพิ่มซอฟต์แวร์ผ่าน Module 1 ห้ามให้ AI ติดตั้งแพ็กเกจโดยพลการระหว่างการวิเคราะห์</p>
 </div></section>
-<section class="section markdown-section" id="your-starting-point" data-brief="ทาง A–D สำหรับฝึกกับข้อมูลชุดอื่น กิจกรรมหลักใช้ข้อมูลที่เตรียมไว้แล้ว เปิดอ่านเมื่อจะใช้ข้อมูลของตนเอง" aria-labelledby="your-starting-point-heading"><div class="section-heading compact"><h2 id="your-starting-point-heading">เลือกจุดเริ่มต้นของคุณ</h2>
+<section class="section markdown-section" id="your-starting-point" data-brief="ทาง A–D สำหรับฝึกต่อกับข้อมูลชุดอื่นหลังเรียน กิจกรรมในห้องใช้ข้อมูล PM2.5 เท่านั้น" aria-labelledby="your-starting-point-heading"><div class="section-heading compact"><h2 id="your-starting-point-heading">ฝึกต่อกับข้อมูลชุดอื่น (หลังเรียน)</h2>
 </div><div class="markdown-body"><p>เลือกหนึ่งเส้นทาง ทุกเส้นทางใช้สมุดงาน <code>course-materials/module-07/templates/module-07-data-analysis-visualization-workbook.md</code> ใน VS Code workspace ชุดเดียวกัน</p>
 <h3 id="track-a--การจำแนกประเภทแบบ-iris">ทาง A — การจำแนกประเภทแบบ Iris</h3>
 <p>ใช้ชุดข้อมูล Iris หรือชุดข้อมูลหลายกลุ่มที่มีโครงสร้างใกล้เคียงกัน เพื่อเรียนรู้ความแตกต่างระหว่างการอธิบายข้อมูลกับการพยากรณ์</p>
