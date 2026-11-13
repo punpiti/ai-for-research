@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="โมดูลเสริม — พื้นฐานไฟล์ MD, CSV, PDF และ JSON สำหรับทำงานกับ AI เลือกเรียนเฉพาะส่วนที่ต้องใช้">
+  <meta name="theme-color" content="#101817">
+  <title>File Basics · AIRR</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/styles.css?v=20261111-2"><script src="assets/app.js?v=20261011-4" defer></script>
+  <script src="assets/dev-auth.js?v=20261010-1"></script>
+  <script src="assets/site-shell.js?v=20261111-1"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">ข้ามไปยังเนื้อหา</a>
+  <site-header current="file-basics"></site-header>
+
+  <main id="main">
+    <section class="prepare-hero module-hero"><p class="eyebrow">โมดูลเสริม</p><h1>File<br><span>Basics</span></h1><p>พื้นฐานไฟล์ MD, CSV, PDF และ JSON สำหรับทำงานกับ AI เลือกเรียนเฉพาะส่วนที่ต้องใช้ ส่วนละประมาณ 10 นาที</p></section>
+
+    <section class="section" id="when"><div class="section-heading compact"><p class="eyebrow">เลือกเรียนเมื่อใด</p><h2>เปิดเฉพาะส่วนที่ติด</h2><p>ลองเปิดไฟล์ที่จะใช้จริงก่อน ถ้าอ่านได้ก็ทำงานต่อได้เลย ถ้าติดเรื่องไฟล์จึงเปิดส่วนที่เกี่ยวข้อง โมดูลนี้ไม่มีงานส่ง และไม่ใช่เงื่อนไขผ่าน Module 1</p></div><div class="concept-grid">
+      <article><h3><a href="#markdown">Markdown</a></h3><p>ก่อนแก้ข้อความใน Module 1 หรือรายงานใน Module 2/3/8: หัวข้อ รายการ ต้นฉบับ และ Preview</p></article>
+      <article><h3><a href="#csv">CSV</a></h3><p>ก่อนเปิดข้อมูลใน Module 7: หนึ่งแถวแทนอะไร ชื่อคอลัมน์ หน่วย และช่องว่าง</p></article>
+      <article><h3><a href="#pdf">PDF</a></h3><p>ก่อนให้ AI อ่านบทความใน Module 2/3/4: หน้าต้นทาง ข้อความกับภาพสแกน และการตรวจข้อความที่อ่านได้</p></article>
+      <article><h3><a href="#json">JSON</a></h3><p>เมื่อต้องเปิดไฟล์สถานะ เช่น <code>module-1-progress.json</code>: ชื่อช่อง ชนิดค่า และการตรวจว่าค่าตรงกับความจริง</p></article>
+    </div><div class="notice"><strong>เก็บผลฝึกไว้ที่ไหน:</strong> ใน <code>notes/</code> หรือ <code>output/</code> ของโมดูลที่กำลังทำ เช่น <code>module-07-work/notes/file-reading.md</code> ให้ AI สร้างโฟลเดอร์เมื่อยังไม่มี และไม่แก้ไฟล์ต้นฉบับ</div></section>
+
+    <section class="section" id="markdown"><div class="section-heading compact"><p class="eyebrow">1 · MD</p><h2>Markdown — ข้อความที่มีโครงสร้าง</h2><p>Markdown เก็บเนื้อหาเป็นข้อความในไฟล์ <code>.md</code> เครื่องหมายบางตัวบอกหัวข้อหรือรายการ เมื่อเปิด Preview โปรแกรมจะแสดงผลตามโครงสร้างนั้น</p></div>
+      <div class="command"><code># Room temperature note<br><br>## Observation<br><br>- Room A: 26.5 degrees Celsius<br>- Room B: value missing<br><br>## Limitation<br><br>One reading per room cannot describe the whole day.</code><button type="button" data-copy>คัดลอกตัวอย่าง</button></div>
+      <p><code>#</code> คือหัวข้อหลัก <code>##</code> คือหัวข้อย่อย และ <code>-</code> คือรายการ ข้อความหลังเครื่องหมายยังเป็นเนื้อหาที่ตรวจและแก้ได้ PDF ที่สร้างจากต้นฉบับนี้เป็นผลลัพธ์สำหรับอ่านหรือส่งต่อ ถ้าต้องแก้เนื้อหา ให้แก้ <code>.md</code> แล้วสร้าง PDF ใหม่</p>
+      <h3 class="section-zone-heading">ลองทำและตรวจผล</h3>
+      <ol>
+        <li>ให้ AI สร้างตัวอย่างนี้ในโฟลเดอร์งานของกิจกรรมปัจจุบัน หรือเปิดต้นฉบับที่กิจกรรมเตรียมไว้</li>
+        <li>เปิด Preview (Ctrl+Shift+V, macOS: Command+Shift+V) แล้วชี้ว่าหัวข้อหลัก หัวข้อย่อย และรายการตรงกับบรรทัดใดในต้นฉบับ</li>
+        <li>เปลี่ยนชื่อหัวข้อหนึ่งแห่ง แล้วตรวจว่าตัวเลข 26.5 และข้อความข้อจำกัดยังเหมือนเดิม</li>
+        <li>อธิบายว่าถ้าพบข้อความผิดใน PDF จะกลับไปแก้ไฟล์ไหน</li>
+      </ol>
+      <div class="command ai-prompt"><code>อธิบายหัวข้อและรายการในไฟล์ Markdown นี้จากข้อความที่มีอยู่ แล้วเปลี่ยนเฉพาะชื่อหัวข้อที่ฉันระบุ แสดงสิ่งที่เปลี่ยนและรอให้ฉันตรวจ อย่าเปลี่ยนตัวเลขหรือข้อจำกัด</code><button type="button" data-copy>คัดลอก Prompt</button></div>
+      <div class="plain-note"><strong>ผ่านส่วนนี้เมื่อ:</strong> แก้หัวข้อได้ และตรวจได้ว่าข้อมูลส่วนอื่นถูกเปลี่ยนหรือไม่</div>
+    </section>
+
+    <section class="section" id="csv"><div class="section-heading compact"><p class="eyebrow">2 · CSV</p><h2>CSV — ตารางที่เก็บเป็นข้อความ</h2><p>CSV เก็บตารางเป็นข้อความ ตัวอย่างนี้ใช้จุลภาคคั่นช่อง บรรทัดแรกเป็นชื่อคอลัมน์ และแต่ละบรรทัดถัดมาคือการอ่านอุณหภูมิห้องหนึ่งครั้ง (ข้อมูลจำลอง)</p></div>
+      <div class="command"><code>room_id,temperature_c,reading_time<br>A,26.5,2026-11-20T09:00:00+07:00<br>B,,2026-11-20T09:00:00+07:00</code><button type="button" data-copy>คัดลอกตัวอย่าง</button></div>
+      <p><code>temperature_c</code> มีหน่วยองศาเซลเซียส ช่องว่างของห้อง B หมายถึงไม่มีค่าในไฟล์นี้ จึงไม่ใช่ศูนย์องศา ต้องอ่านคำอธิบายข้อมูลก่อนตัดสินใจจัดการค่าที่ขาด ส่วน <code>room_id</code> เป็นรหัสห้อง ไม่ใช่ค่าที่นำมาเฉลี่ย</p>
+      <h3 class="section-zone-heading">ลองทำและตรวจผล</h3>
+      <ol>
+        <li>เปิด CSV ของกิจกรรม (เช่น ข้อมูลใน Module 7) และระบุจากคำอธิบายชุดข้อมูลว่าหนึ่งแถวแทนอะไร</li>
+        <li>เลือกสองคอลัมน์ที่จะใช้ บอกความหมาย หน่วย และค่าที่ขาด ถ้าคำอธิบายไม่ระบุ ให้บันทึกว่ายังไม่ทราบ</li>
+        <li>ให้ AI อ่านข้อมูลแล้วรายงานชื่อคอลัมน์ จำนวนแถว และตัวอย่างค่าก่อนสร้างกราฟ</li>
+        <li>ตรวจตัวอย่างสองค่ากลับกับไฟล์ต้นทาง รวมถึงเลขทศนิยม เครื่องหมาย และช่องว่าง</li>
+      </ol>
+      <div class="command ai-prompt"><code>อ่าน CSV นี้และคำอธิบายชุดข้อมูล สรุปว่าหนึ่งแถวแทนอะไร แต่ละคอลัมน์ที่ฉันเลือกมีความหมายและหน่วยใด พร้อมยกตัวอย่างค่าที่ตรวจย้อนถึงแถวได้สองค่า แจ้งสิ่งที่ยังไม่ทราบและค่าที่ขาดก่อนเสนอการคำนวณ</code><button type="button" data-copy>คัดลอก Prompt</button></div>
+      <div class="notice"><strong>เปิดแล้วดูแปลก?</strong> ถ้าคอลัมน์เลื่อน ภาษาไทยเพี้ยน หรือรหัสหายเลขศูนย์นำหน้า ให้ตรวจตัวคั่น การเข้ารหัส และชนิดข้อมูลก่อนวิเคราะห์</div>
+      <div class="plain-note"><strong>ผ่านส่วนนี้เมื่อ:</strong> บอกได้ว่าหนึ่งแถวหมายถึงอะไร และตรวจค่ากลับกับต้นทางได้</div>
+    </section>
+
+    <section class="section" id="pdf"><div class="section-heading compact"><p class="eyebrow">3 · PDF</p><h2>PDF — เอกสารสำหรับเปิดอ่านและตรวจหน้าต้นทาง</h2><p>PDF เก็บเอกสารที่จัดหน้าแล้ว เช่น บทความหรือรายงาน ไฟล์หนึ่งอาจมีทั้งข้อความที่เลือกคัดลอกได้และภาพสแกน เราเห็นหน้าเอกสารครบ แต่เครื่องมืออ่านข้อความอาจอ่านบางส่วนไม่ได้</p></div>
+      <p>ลองเลือกและคัดลอกข้อความสั้น ๆ จากหน้าที่ต้องใช้ ถ้าเลือกไม่ได้ อาจต้องใช้ OCR อ่านข้อความจากภาพ ถ้าเลือกได้ ก็ยังต้องตรวจลำดับการอ่าน ตาราง สมการ ตัวเลข และหน่วยกับภาพหน้าเอกสาร โดยเฉพาะหน้าสองคอลัมน์ ข้อความที่ AI อ่านได้ต้องเทียบกับต้นทางเสมอ</p>
+      <h3 class="section-zone-heading">ลองทำและตรวจผล</h3>
+      <ol>
+        <li>เปิด PDF บทความหรือรายงานที่จะใช้ในกิจกรรม แล้วเลือกหน้าที่มีทั้งข้อความและตารางหรือรูป</li>
+        <li>ลองคัดลอกข้อความหนึ่งย่อหน้า และตรวจว่าลำดับข้อความตรงกับที่เห็นบนหน้า</li>
+        <li>ให้ AI อ่านข้อความที่ระบุพร้อมบอกเลขหน้าหรือตำแหน่ง ถ้าอ่านไม่ได้ให้แจ้งตามจริง</li>
+        <li>ตรวจข้อความหรือตัวเลขสองแห่งกลับกับหน้าเอกสาร รวมถึงเครื่องหมาย หน่วย และเชิงอรรถ</li>
+        <li>ถ้าต้องแก้รายงานที่ตนสร้าง ให้แก้ต้นฉบับ เช่น MD หรือ Word แล้วสร้าง PDF ใหม่ ไม่แก้ PDF โดยตรง</li>
+      </ol>
+      <div class="command ai-prompt"><code>อ่านเฉพาะหน้าที่ฉันระบุใน PDF นี้ ยกข้อความหรือตัวเลขสองแห่งพร้อมตำแหน่งให้ฉันตรวจกลับกับหน้าเอกสาร หากเป็นภาพสแกน อ่านไม่ได้ หรือลำดับข้อความกำกวม ให้แจ้งก่อนสรุป และเก็บต้นฉบับไว้</code><button type="button" data-copy>คัดลอก Prompt</button></div>
+      <div class="plain-note"><strong>ผ่านส่วนนี้เมื่อ:</strong> เปิดหน้าต้นทาง ตรวจข้อความที่ AI อ่าน และบอกข้อจำกัดของไฟล์ได้</div>
+    </section>
+
+    <section class="section" id="json"><div class="section-heading compact"><p class="eyebrow">4 · JSON</p><h2>JSON — ข้อมูลเป็นชื่อช่องและค่า</h2><p>JSON เก็บข้อมูลเป็นชื่อช่องและค่าที่มีโครงสร้าง ตัวอย่างนี้เป็นสถานะฝึกอ่านไฟล์ ไม่ใช่ไฟล์ส่งงาน AIRR</p></div>
+      <div class="command"><code>{<br>&nbsp;&nbsp;"activity": "file-reading-practice",<br>&nbsp;&nbsp;"checks": {<br>&nbsp;&nbsp;&nbsp;&nbsp;"source_opened": true,<br>&nbsp;&nbsp;&nbsp;&nbsp;"values_verified": false<br>&nbsp;&nbsp;},<br>&nbsp;&nbsp;"verified_count": 0,<br>&nbsp;&nbsp;"review_note": null<br>}</code><button type="button" data-copy>คัดลอกตัวอย่าง</button></div>
+      <p><code>activity</code> เป็นข้อความ <code>verified_count</code> เป็นจำนวน <code>checks</code> รวมสถานะย่อยไว้ <code>true</code> คือจริง <code>false</code> คือเท็จตามความหมายของช่องนั้น ส่วน <code>null</code> คือไม่มีค่า ซึ่งต่างจากเลข 0 และข้อความว่าง <code>""</code></p>
+      <p>ชื่อช่องและข้อความต้องอยู่ในเครื่องหมายคำพูดคู่ วงเล็บปีกกาครอบกลุ่มข้อมูล และจุลภาคคั่นรายการ ถ้าเครื่องหมายเหล่านี้ผิด โปรแกรมจะอ่านไฟล์ไม่ได้ ให้ AI ช่วยแก้โครงสร้างได้ แต่ค่าที่ใส่ต้องมาจากสิ่งที่คุณทำจริง</p>
+      <h3 class="section-zone-heading">ลองทำและตรวจผล</h3>
+      <ol>
+        <li>อธิบายว่าทำไม <code>source_opened</code> เป็น <code>true</code> แต่ <code>values_verified</code> ยังเป็น <code>false</code></li>
+        <li>ตรวจค่าจาก CSV ให้ครบสองค่าจริง ก่อนให้ AI เปลี่ยนสถานะเป็น <code>true</code> และจำนวนเป็น 2</li>
+        <li>เปิด JSON ที่แก้แล้ว ตรวจว่าชื่อช่องเหมือนเดิม และเปลี่ยนเฉพาะค่าที่ยืนยันแล้ว</li>
+        <li>ให้ AI หรือโปรแกรมตรวจว่าไฟล์อ่านเป็น JSON ได้ จากนั้นตรวจต่อว่าค่าตรงกับความจริง</li>
+      </ol>
+      <div class="command ai-prompt"><code>อธิบายชื่อช่องและค่าใน JSON นี้ก่อน ฉันจะบอกผลที่ทำจริงทีละข้อ จากนั้นแก้เฉพาะค่าที่ฉันยืนยัน คงชื่อช่องไว้ ตรวจว่าอ่านเป็น JSON ได้ และแสดงรายการเปลี่ยนให้ฉันตรวจ</code><button type="button" data-copy>คัดลอก Prompt</button></div>
+      <div class="plain-note"><strong>ผ่านส่วนนี้เมื่อ:</strong> แยกข้อความ จำนวน และสถานะได้ และอธิบายได้ว่า JSON ที่อ่านผ่านแล้วก็ยังอาจรายงานค่าผิดได้</div>
+    </section>
+
+    <section class="section" id="checkpoint"><div class="section-heading compact"><p class="eyebrow">Checkpoint</p><h2>ตรวจตัวเองเฉพาะส่วนที่เรียน</h2><p>ไม่มีงานส่ง ใช้ตรวจตัวเองก่อนกลับไปทำกิจกรรมของโมดูลหลัก</p></div>
+      <div class="checklist" data-checklist="file-basics">
+        <label><input type="checkbox"> Markdown: แก้หัวข้อได้ และรู้ว่าต้องแก้ <code>.md</code> ไม่ใช่ PDF</label>
+        <label><input type="checkbox"> CSV: บอกได้ว่าหนึ่งแถวแทนอะไร และตรวจค่าสองค่ากลับกับไฟล์</label>
+        <label><input type="checkbox"> PDF: ตรวจข้อความที่ AI อ่านกับหน้าต้นทางสองแห่ง</label>
+        <label><input type="checkbox"> JSON: แยก <code>true</code>/<code>false</code>/<code>null</code> ได้ และแก้เฉพาะค่าที่ยืนยันแล้ว</label>
+      </div>
+      <p class="expected"><a href="prepare.html">กลับไป Module 1</a></p>
+    </section>
+  </main>
+  <site-footer></site-footer>
+</body>
+</html>
