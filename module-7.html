@@ -92,7 +92,7 @@
 <li>เมื่อ AI เสนอวิธีทางสถิติที่คุณอธิบายเหตุผลไม่ได้ ให้หยุดและขอคำปรึกษาจากผู้เชี่ยวชาญก่อนใช้ผล</li>
 </ul>
 </div></section>
-<section class="section markdown-section" id="รู้จักแฟ้มข้อมูลก่อนนำเข้า" data-brief="CSV, Excel และ SPSS ต่างกันอย่างไร และต้องตรวจอะไรหลังเปิดแฟ้ม ข้ามได้ถ้าคุ้นเคยแล้ว" aria-labelledby="รู้จักแฟ้มข้อมูลก่อนนำเข้า-heading"><div class="section-heading compact"><h2 id="รู้จักแฟ้มข้อมูลก่อนนำเข้า-heading">รู้จักแฟ้มข้อมูลก่อนนำเข้า</h2>
+<section class="section markdown-section" id="รู้จักแฟ้มข้อมูลก่อนนำเข้า" data-brief="ข้อมูลของบทเรียนคือ course-materials/module-07/examples/figure-consistency/mock-study-data.csv (480 แถว) เปิดเพื่อดูความหมายของแต่ละคอลัมน์และ Prompt นำเข้า" aria-labelledby="รู้จักแฟ้มข้อมูลก่อนนำเข้า-heading" data-brief-label="ดูข้อมูลและวิธีนำเข้า"><div class="section-heading compact"><h2 id="รู้จักแฟ้มข้อมูลก่อนนำเข้า-heading">รู้จักแฟ้มข้อมูลก่อนนำเข้า</h2>
 </div><div class="markdown-body"><p>CSV, Excel และ SPSS อาจแสดงข้อมูลคล้ายกันเมื่อเปิดดู แต่เก็บโครงสร้างและความหมายไม่เหมือนกัน การนำเข้าไม่ใช่เพียง “เปิดแฟ้มได้” คุณต้องตรวจว่าจำนวนแถว คอลัมน์ ชนิดตัวแปร ป้ายกำกับ และข้อมูลสูญหายยังคงความหมายเดิม</p>
 <table>
 <thead>
@@ -137,7 +137,19 @@
 <li>เปรียบเทียบจำนวนข้อมูลและตัวแปรกับแฟ้มต้นฉบับหรือข้อมูลกำกับ หากไม่ตรงต้องหยุดก่อนวิเคราะห์</li>
 </ol>
 <h3 id="คำสั่งนำเข้า-csv">คำสั่งนำเข้า CSV</h3>
-<div class="command markdown-command ai-prompt"><code>ตรวจ encoding และตัวคั่นของแฟ้ม CSV ก่อนอ่าน แสดงตัวอย่างข้อความดิบและหัวตาราง ระบุค่าที่ถือเป็นข้อมูลสูญหาย ป้องกันเลขศูนย์นำหน้าของรหัส ตรวจวันที่และคอลัมน์ชนิดผสม แล้วอ่านด้วย pandas เป็น raw_df โดยไม่แก้แฟ้มต้นฉบับ จัดทำใบรับการนำเข้าและรายงานคำเตือนทั้งหมด</code><button type="button" data-copy>คัดลอก Prompt</button></div>
+<div class="notice"><strong>ข้อมูลของบทเรียนอยู่ที่นี่:</strong> <code>ai-for-research-workspace/course-materials/module-07/examples/figure-consistency/mock-study-data.csv</code> ติดตั้งมากับ Module 1 แล้ว เปิดดูได้เลยใน VS Code: Explorer → <code>course-materials</code> → <code>module-07</code> → <code>examples</code> → <code>figure-consistency</code> → คลิก <code>mock-study-data.csv</code> (Rainbow CSV แยกสีให้แต่ละคอลัมน์)</div>
+<p>ข้อมูลจำลอง PM2.5 รายสัปดาห์ 480 แถว หนึ่งแถว = ค่าที่เครื่องวัดหนึ่งเครื่องวัดได้ในหนึ่งสัปดาห์ (3 พื้นที่ × 2 กลุ่ม × 5 เครื่อง × 16 สัปดาห์) ไม่มีค่าว่าง</p>
+<table><thead><tr><th>คอลัมน์</th><th>ความหมาย</th></tr></thead><tbody>
+<tr><td><code>site</code></td><td>พื้นที่ North, Central หรือ South</td></tr>
+<tr><td><code>arm</code></td><td>กลุ่ม Intervention (มีมาตรการ) หรือ Comparison (กลุ่มเทียบ)</td></tr>
+<tr><td><code>period</code></td><td>Before หรือ After เริ่มมาตรการ</td></tr>
+<tr><td><code>week</code></td><td>สัปดาห์เทียบกับวันเริ่มมาตรการ −8 ถึง −1 คือก่อน 1 ถึง 8 คือหลัง</td></tr>
+<tr><td><code>sensor_id</code></td><td>รหัสเครื่องวัด 30 เครื่อง เช่น <code>N-I-1</code> = North, Intervention, เครื่องที่ 1</td></tr>
+<tr><td><code>pm25_ug_m3</code></td><td>ค่า PM2.5 หน่วย µg/m³ (ตัวแปรหลักของโจทย์)</td></tr>
+<tr><td><code>aqi_proxy</code>, <code>air_quality_score</code></td><td>ดัชนีที่คำนวณจาก PM2.5 ใช้ฝึกเท่านั้น</td></tr>
+</tbody></table>
+<p>ใช้ข้อมูลของตนเองแทนได้ ให้วางไฟล์ไว้ที่ <code>module-07-work/input/original/</code> แล้วเปลี่ยนชื่อไฟล์ใน Prompt</p>
+<div class="command markdown-command ai-prompt"><code>เปิดแฟ้ม course-materials/module-07/examples/figure-consistency/mock-study-data.csv ตรวจ encoding และตัวคั่นของแฟ้มก่อนอ่าน แสดงตัวอย่างข้อความดิบและหัวตาราง ระบุค่าที่ถือเป็นข้อมูลสูญหาย ป้องกันเลขศูนย์นำหน้าของรหัส ตรวจวันที่และคอลัมน์ชนิดผสม แล้วอ่านด้วย pandas เป็น raw_df โดยไม่แก้แฟ้มต้นฉบับ จัดทำใบรับการนำเข้าและรายงานคำเตือนทั้งหมด</code><button type="button" data-copy>คัดลอก Prompt</button></div>
 <h3 id="คำสั่งนำเข้า-excel">คำสั่งนำเข้า Excel</h3>
 <div class="command markdown-command ai-prompt"><code>ใช้ pandas ร่วมกับ openpyxl ตรวจรายชื่อแผ่นงานและขนาดของแต่ละแผ่นก่อน เลือกแผ่นงานและแถวหัวตารางอย่างมีเหตุผล ตรวจเซลล์รวม สูตร วันที่ แถวหมายเหตุ คอลัมน์ที่ไม่มีชื่อ และคอลัมน์ชนิดผสม แล้วอ่านเป็น raw_df โดยไม่แก้แฟ้มต้นฉบับ จัดทำใบรับการนำเข้าและรายงานสิ่งที่อาจสูญหายจากรูปแบบ Excel</code><button type="button" data-copy>คัดลอก Prompt</button></div>
 <h3 id="คำสั่งนำเข้า-spss">คำสั่งนำเข้า SPSS</h3>
