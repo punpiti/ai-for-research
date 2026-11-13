@@ -77,6 +77,12 @@ class SiteHeader extends HTMLElement {
       const classroomHref = contentClassroomId ? `${href}?classroom_id=${encodeURIComponent(contentClassroomId)}` : href;
       return `<a class="available" href="${classroomHref}"${active}>${number} · ${label}</a>`;
     }).join("");
+    const currentModule = MODULE_LINKS.find(([number]) => String(number) === current);
+    const menuLabel = currentModule
+      ? `<span class="module-menu-number">โมดูล ${currentModule[0]}</span><span class="module-menu-title">${currentModule[2]}</span>`
+      : current === "file-basics"
+        ? '<span class="module-menu-number">โมดูลเสริม</span><span class="module-menu-title">File Basics</span>'
+        : "โมดูล 1–9";
     const localLinks = (LOCAL_LINKS[current] || [])
       .map(([id, label]) => `<a href="#${id}">${label}</a>`)
       .join("");
@@ -84,7 +90,7 @@ class SiteHeader extends HTMLElement {
       <a class="brand" href="${isHome ? "#top" : "index.html"}" aria-label="AIRR หน้าแรก"><span class="brand-mark">A</span><span>AIRR</span></a>
       <nav aria-label="เมนูหลัก">
         ${isHome ? "" : '<a href="index.html">หน้าหลัก</a>'}
-        ${isClassroomEntry ? `<a href="${classroomDirectoryHref}">คลาสที่เปิดรับ</a>` : `<details class="module-menu"><summary>โมดูล 1–9</summary><div>${moduleLinks}</div></details>`}
+        ${isClassroomEntry ? `<a href="${classroomDirectoryHref}">คลาสที่เปิดรับ</a>` : `<details class="module-menu"><summary aria-label="เลือกโมดูล (ตอนนี้: ${currentModule ? `โมดูล ${currentModule[0]}` : current === "file-basics" ? "โมดูลเสริม" : "ยังไม่ได้เลือก"})">${menuLabel}</summary><div>${moduleLinks}</div></details>`}
         ${localLinks}
         <a class="nav-cta" href="${ctaHref}">${ctaLabel}</a>
       </nav>

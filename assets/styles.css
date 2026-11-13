@@ -1194,3 +1194,11 @@ a[data-workspace-download]::after { content:"  ↓"; color:var(--accent); font-w
 .done-shows { margin: .9rem 0; padding: .8rem 1rem; border: 1px solid rgba(135,199,178,.45); border-radius: .6rem; background: var(--surface); }
 .done-shows > strong { display: block; margin-bottom: .4rem; color: var(--mint); font-size: .92rem; }
 .done-shows pre, .done-shows code { white-space: pre-wrap; overflow-wrap: anywhere; font-size: .95rem; }
+
+/* Module menu shows where the learner is */
+.module-menu summary { display: inline-flex; align-items: baseline; gap: .45rem; max-width: min(420px, 52vw); }
+.module-menu-number { flex: none; padding: .1rem .5rem; border-radius: 999px; background: var(--accent); color: var(--paper, #101817); font-weight: 600; font-size: .9rem; }
+.module-menu-title { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; color: var(--white); }
+.module-menu > div a[aria-current="page"] { border-left-color: var(--accent); background: rgba(135,199,178,.13); color: var(--white); font-weight: 600; }
+@media (max-width: 720px) { .module-menu-title { display: none; } }
+
