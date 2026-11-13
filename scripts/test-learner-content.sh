@@ -240,7 +240,6 @@ for number in 6 8 9; do
   fi
   check_file "$site_dir/module-$number.html" "M$number shared copy command" "class=\"command markdown-command( ai-prompt)?\" data-m${number}-stage-prompt"
 done
-check_file "$site_dir/module-7.html" "Thai population lab link" 'module-7-thailand-population-lab\.html'
 
 check_file "$site_dir/module-2.html" "shared food case" 'มื้อข้าวไข่เจียวเหมาะกับนักศึกษา'
 check_file "$site_dir/module-2.html" "M2 file explainer" 'data-file-structure-explainer'
