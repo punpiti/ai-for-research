@@ -4,14 +4,8 @@
   const storageKey = "ai-for-research.module-7.steps.v1";
   const steps = [
     {
-      id: "start", title: "เตรียมบทเรียน", short: "เตรียม", sections: ["start", "คำถามแกนของโมดูล", "outcomes"],
-      workspaceTitle: "ติดตั้งและโหลดไฟล์ทั้งหมดครั้งเดียวในช่วงนี้",
-      workspaceFiles: ["course-materials/module-07/", "module-07-work/"],
-      workspaceHelp: "เมื่อ Terminal แสดง FINAL_RESULT PASS ให้เปิดโฟลเดอร์ ai-for-research-workspace ใน VS Code เมนูถัดไปจะใช้ไฟล์จาก Explorer โดยไม่ดาวน์โหลดซ้ำ",
-    },
-    {
-      id: "learn", title: "Workshop และพื้นฐาน", short: "Workshop", sections: ["no-code-ในโมดูลนี้หมายถึงอะไร", "รู้จักแฟ้มข้อมูลก่อนนำเข้า", "python-ทำงานอยู่เบื้องหลังอย่างไร", "จาก-dataframe-ไปเป็น-visualization"],
-      workspaceTitle: "เปิดไฟล์ Workshop จาก VS Code Explorer",
+      id: "learn", title: "Workshop: เปิดข้อมูลและพื้นฐาน", short: "Workshop", sections: ["start", "คำถามแกนของโมดูล", "outcomes", "no-code-ในโมดูลนี้หมายถึงอะไร", "รู้จักแฟ้มข้อมูลก่อนนำเข้า", "python-ทำงานอยู่เบื้องหลังอย่างไร", "จาก-dataframe-ไปเป็น-visualization"],
+      workspaceTitle: "ไฟล์และโปรแกรมติดตั้งมากับ Module 1 แล้ว เปิด Workshop จาก VS Code Explorer",
       workspaceFiles: ["course-materials/module-07/notebooks/module-07-data-visualization.ipynb", "course-materials/module-07/notebooks/module-07a-read-and-audit.ipynb", "course-materials/module-07/templates/module-07-data-analysis-visualization-workbook.md"],
       workspaceHelp: "ใช้ไฟล์ที่ติดตั้งไว้แล้ว และบันทึกงานของคุณใต้ module-07-work/",
     },
@@ -25,7 +19,7 @@
       id: "audit", title: "ตรวจทั้งภาพและเอกสาร", short: "ตรวจบั๊ก", sections: ["red-team-ก่อนสรุปผล", "figure-consistency-audit"],
       workspaceTitle: "ใช้ชุดตรวจบั๊กที่อยู่ใน workspace",
       workspaceFiles: ["course-materials/module-07/examples/figure-consistency/mock-article-figure-consistency.pdf", "course-materials/module-07/examples/figure-consistency/mock-study-data.csv", "module-07-work/module-07-figure-audit.md"],
-      workspaceHelp: "เปิด PDF, CSV และไฟล์คำตอบจาก VS Code Explorer ชุดนี้ติดตั้งมาจากช่วงแรกแล้ว",
+      workspaceHelp: "เปิด PDF, CSV และไฟล์คำตอบจาก VS Code Explorer ชุดนี้ติดตั้งมากับ Module 1 แล้ว",
     },
     {
       id: "finish", title: "ส่งงานและนำไปใช้ต่อ", short: "ส่งงาน", sections: ["analysis-highlights-submission", "finish", "การบ้าน", "review"],
@@ -39,11 +33,11 @@
     try {
       const saved = JSON.parse(localStorage.getItem(storageKey) || "{}");
       return {
-        active: steps.some((step) => step.id === saved.active) ? saved.active : "start",
+        active: steps.some((step) => step.id === saved.active) ? saved.active : "learn",
         completed: saved.completed && typeof saved.completed === "object" ? saved.completed : {},
       };
     } catch (_error) {
-      return { active: "start", completed: {} };
+      return { active: "learn", completed: {} };
     }
   }
 
@@ -62,8 +56,8 @@
     const topProgress = document.createElement("nav");
     topProgress.className = "module-top-progress module-7-top-progress";
     topProgress.setAttribute("aria-label", "ความก้าวหน้า Module 7");
-    topProgress.innerHTML = `<div class="module-top-tabs" role="tablist" aria-label="5 ช่วงของ Module 7"></div>
-      <span class="module-top-count" data-module-7-progress-label aria-live="polite">0/5</span>
+    topProgress.innerHTML = `<div class="module-top-tabs" role="tablist" aria-label="${steps.length} ช่วงของ Module 7"></div>
+      <span class="module-top-count" data-module-7-progress-label aria-live="polite">0/${steps.length}</span>
       <div class="module-top-track" aria-hidden="true"><i data-module-7-progress-bar></i></div>`;
     const siteHeader = document.querySelector(".site-header");
     if (siteHeader) siteHeader.append(topProgress);

@@ -35,7 +35,7 @@ grep -q 'continued-from-module-07' "$root/downloads/setup-module-08.py"
 grep -q 'standalone-example' "$root/downloads/setup-module-08.py"
 grep -q 'module-08-work' "$root/downloads/setup-module-08.py"
 grep -q 'build-module-08.sh' "$root/downloads/setup-module-08.py"
-[[ "$(grep -o 'workspaceTitle:' "$root/assets/module-7-steps.js" | wc -l)" -eq 5 ]]
+[[ "$(grep -o 'workspaceTitle:' "$root/assets/module-7-steps.js" | wc -l)" -eq 4 ]]
 grep -q 'dataset.module7WorkspaceGuide' "$root/assets/module-7-steps.js"
 if grep -q 'href="downloads/' "$root/module-7.html"; then
   echo 'Module 7 course files must be installed once in the first stage and opened from the VS Code workspace.' >&2
