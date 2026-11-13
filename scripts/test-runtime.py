@@ -101,6 +101,58 @@ class AirrSetupTests(unittest.TestCase):
             self.assertFalse((ws / 'client-args.json').exists())
 
 
+class Module7InModule1Tests(unittest.TestCase):
+    """Module 1 installs the Module 7 notebook environment; failure never blocks Module 1."""
+
+    def workspace(self, folder):
+        ws = Path(folder) / 'ผู้ใช้ ทดสอบ' / 'ai-for-research-workspace'
+        notebooks = ws / 'course-materials/module-07/notebooks'
+        notebooks.mkdir(parents=True)
+        (notebooks / 'module-07-requirements.txt').write_text('pandas\n', encoding='utf-8')
+        (notebooks / 'module-07-data-visualization.ipynb').write_text('{}', encoding='utf-8')
+        template = ws / 'course-materials/module-07/examples/figure-consistency/figure-consistency-audit-template.md'
+        template.parent.mkdir(parents=True)
+        template.write_text('# audit\n', encoding='utf-8')
+        return ws
+
+    def test_installs_env_launchers_and_keeps_learner_work(self):
+        with tempfile.TemporaryDirectory() as folder:
+            ws = self.workspace(folder)
+            (ws / 'module-07-work').mkdir()
+            (ws / 'module-07-work/module-07-highlights.md').write_text('my work', encoding='utf-8')
+            commands = []
+            with patch.object(runtime, 'run', side_effect=lambda *a, **k: commands.append(tuple(map(str, a)))), \
+                    contextlib.redirect_stdout(io.StringIO()) as out:
+                self.assertTrue(runtime.setup_module07(ws, '/usr/bin/uv'))
+            self.assertIn('MODULE7_READY', out.getvalue())
+            self.assertTrue(any('jupyterlab>=4,<5' in c for c in commands))
+            self.assertTrue(any('ipykernel' in c and 'install' in c for c in commands))
+            self.assertEqual((ws / 'module-07-work/module-07-highlights.md').read_text(encoding='utf-8'), 'my work')
+            self.assertEqual((ws / 'module-07-work/module-07-figure-audit.md').read_text(encoding='utf-8'), '# audit\n')
+            launcher = (ws / 'tools/start-module-07.sh').read_text(encoding='utf-8')
+            self.assertIn(shlex.quote(str(ws / '.venv-module07')), launcher.replace('/bin/python', ''))
+            self.assertTrue((ws / 'tools/start-module-07.ps1').read_bytes().startswith(b'\xef\xbb\xbf'))
+            subprocess.run(['bash', '-n', str(ws / 'tools/start-module-07.sh')], check=True)
+
+    def test_package_failure_is_reported_but_not_fatal(self):
+        with tempfile.TemporaryDirectory() as folder:
+            ws = self.workspace(folder)
+            def fail(*args, **kwargs):
+                if 'pip' in map(str, args):
+                    raise subprocess.CalledProcessError(1, args)
+            with patch.object(runtime, 'run', side_effect=fail), contextlib.redirect_stdout(io.StringIO()) as out:
+                self.assertFalse(runtime.setup_module07(ws, '/usr/bin/uv'))
+            self.assertIn('MODULE7_SKIPPED', out.getvalue())
+            self.assertFalse((ws / 'tools/start-module-07.sh').exists())
+
+    def test_missing_materials_skip_without_running_anything(self):
+        with tempfile.TemporaryDirectory() as folder:
+            with patch.object(runtime, 'run') as run, contextlib.redirect_stdout(io.StringIO()) as out:
+                self.assertFalse(runtime.setup_module07(Path(folder), '/usr/bin/uv'))
+            run.assert_not_called()
+            self.assertIn('MODULE7_SKIPPED', out.getvalue())
+
+
 class RuntimeTests(unittest.TestCase):
     def test_module7_material_installer_verifies_hashes_and_preserves_edits(self):
         with tempfile.TemporaryDirectory(prefix='module7 materials ') as scratch:

@@ -34,11 +34,12 @@
 <li>เลือกข้อมูลจากหนึ่งใน Track A–D พร้อมสิทธิการใช้และพจนานุกรมข้อมูลเมื่อมี</li>
 <li>เตรียมคำถาม สมมติฐาน หรือเป้าหมายการพยากรณ์หนึ่งข้อที่ยังแก้ไขได้</li>
 <li>เปิด AI ที่แนบแฟ้มและดาวน์โหลดผลลัพธ์ได้ ใช้ผ่านเว็บ แอป หรือใน VS Code ได้</li>
-<li>รันตัวติดตั้งด้านล่างเพียงครั้งเดียว ตัวติดตั้งจะสร้าง environment และโหลด notebook ฟอนต์ สมุดงาน Prompt Card กับชุดแบบฝึกทั้งหมดเข้า <code>ai-for-research-workspace</code></li>
-<li>เมื่อเห็น <code>FINAL_RESULT PASS</code> ให้เปิดโฟลเดอร์ <code>ai-for-research-workspace</code> ใน VS Code แล้วใช้ Explorer เปิดไฟล์ตาม path ที่แต่ละเมนูระบุ</li>
+<li><strong>ทำ Module 1 แล้วไม่ต้องติดตั้งอีก:</strong> ตัวติดตั้ง Module 1 สร้าง environment และโหลด notebook ฟอนต์ สมุดงาน Prompt Card กับชุดแบบฝึกทั้งหมดเข้า <code>ai-for-research-workspace</code> ไว้แล้ว (ผลติดตั้งแสดง <code>MODULE7_READY</code>)</li>
+<li>เปิดโฟลเดอร์ <code>ai-for-research-workspace</code> ใน VS Code แล้วใช้ Explorer เปิดไฟล์ตาม path ที่แต่ละเมนูระบุ</li>
 <li>บันทึกไฟล์ที่แก้ ผลวิเคราะห์ ตาราง ภาพ และบันทึกการตรวจไว้ใต้ <code>module-07-work/</code> ซึ่งตัวติดตั้งเตรียมให้ โดยไม่แก้ไฟล์ต้นฉบับใน <code>course-materials/</code></li>
 </ul>
 <h3 id="ติดตั้งครั้งเดียวด้วย-terminal">ติดตั้งครั้งเดียวด้วย Terminal</h3>
+<div class="notice"><strong>ส่วนนี้ใช้เฉพาะกรณีสำรอง:</strong> ข้ามได้ถ้าทำ Module 1 แล้วและเห็น <code>MODULE7_READY</code> ใช้คำสั่งด้านล่างเมื่อยังไม่ได้ทำ Module 1, ผล Module 1 แสดง <code>MODULE7_SKIPPED</code> หรือเปิด notebook ไม่ได้ การรันซ้ำไม่ทำให้ของเดิมเสีย</div>
 <p>เลือก OS แล้วคัดลอกคำสั่งเดียวไปวางใน Terminal หรือ PowerShell แบบปกติ ไม่ต้องเปิดแบบ Administrator คำสั่งจะย้ายไปยังโฟลเดอร์ผู้ใช้ ดาวน์โหลด bootstrap script ก่อน แล้วจึงเรียก script นั้น ไฟล์เรียนจะอยู่ที่ <code>~/ai-for-research-workspace/course-materials/module-07/</code> และ environment จะอยู่ที่ <code>~/ai-for-research-workspace/.venv-module07/</code> โดยไม่แก้ global Python</p>
 <div class="task-heading"><span class="content-kind is-terminal">คำสั่ง Terminal</span><strong>เลือกระบบ แล้วคัดลอกคำสั่งไปวาง</strong></div>
 <div class="platform-picker module-07-platform-picker" role="group" aria-label="เลือกระบบปฏิบัติการสำหรับติดตั้ง Module 7">

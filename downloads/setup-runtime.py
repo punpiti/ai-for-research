@@ -415,6 +415,68 @@ def install_tex(root):
     return bin_dir
 
 
+MODULE7_NOTEBOOK_PACKAGES = (
+    'jupyterlab>=4,<5', 'ipykernel>=6,<8', 'nbformat>=5.9,<6', 'nbclient>=0.10,<0.12', 'nbconvert>=7.16,<8',
+)
+MODULE7_NOTEBOOK = 'course-materials/module-07/notebooks/module-07-data-visualization.ipynb'
+
+
+def prepare_module07_work_area(workspace):
+    """Create module-07-work/ starters; never overwrite learner files."""
+    work = workspace / 'module-07-work'
+    (work / 'figures').mkdir(parents=True, exist_ok=True)
+    highlights = work / 'module-07-highlights.md'
+    if not highlights.exists():
+        highlights.write_text(
+            '# Module 7 — Data Exploration Highlights\n\n## คำถามที่สำรวจ\n\n## Highlights\n\n'
+            '- \n- \n- \n\n## กราฟที่เลือก\n\n## ข้อสรุป\n\n## ข้อจำกัดและสิ่งที่ยังสรุปไม่ได้\n',
+            encoding='utf-8')
+    audit = work / 'module-07-figure-audit.md'
+    template = workspace / 'course-materials/module-07/examples/figure-consistency/figure-consistency-audit-template.md'
+    if not audit.exists() and template.is_file():
+        shutil.copy2(template, audit)
+    return work
+
+
+def setup_module07(workspace, uv):
+    """Install the Module 7 notebook environment during Module 1.
+
+    Same layout as setup-module-07.py (.venv-module07, kernel, start launchers),
+    so a later Module 7 run only reuses it. Never fails the Module 1 install.
+    """
+    requirements = workspace / 'course-materials/module-07/notebooks/module-07-requirements.txt'
+    if not requirements.is_file() or not (workspace / MODULE7_NOTEBOOK).is_file():
+        log('MODULE7_SKIPPED Module 7 notebook files are missing; rerun this installer later.')
+        return False
+    environment = workspace / '.venv-module07'
+    python = environment / ('Scripts/python.exe' if os.name == 'nt' else 'bin/python')
+    try:
+        prepare_module07_work_area(workspace)
+        run(uv, 'venv', '--python', '3.12', '--allow-existing', environment)
+        run(uv, 'pip', 'install', '--python', python, '-r', requirements, *MODULE7_NOTEBOOK_PACKAGES)
+        run(python, '-m', 'ipykernel', 'install', '--user', '--name', 'ai-for-research-module07',
+            '--display-name', 'Python (AI for Research M07)')
+        run(python, '-c', 'import altair, jupyterlab, matplotlib, numpy, pandas, plotly, seaborn')
+    except (OSError, subprocess.CalledProcessError) as error:
+        log(f'MODULE7_SKIPPED Notebook environment did not finish ({type(error).__name__}); '
+            'Module 7 page installer can retry later.')
+        return False
+    tools = workspace / 'tools'
+    tools.mkdir(parents=True, exist_ok=True)
+    notebook = workspace / MODULE7_NOTEBOOK
+    shell = tools / 'start-module-07.sh'
+    shell.write_text('#!/usr/bin/env bash\nset -euo pipefail\n'
+                     f'exec {shlex.quote(str(python))} -m jupyter lab {shlex.quote(str(notebook))}\n', encoding='utf-8')
+    shell.chmod(shell.stat().st_mode | 0o755)
+    quote_ps = lambda value: "'" + str(value).replace("'", "''") + "'"
+    (tools / 'start-module-07.ps1').write_text(
+        "$ErrorActionPreference = 'Stop'\n"
+        f"& {quote_ps(python)} -m jupyter lab {quote_ps(notebook)}\n", encoding='utf-8-sig')
+    log('MODULE7_READY Jupyter + data/plot libraries installed in .venv-module07; '
+        'start with tools/start-module-07 (no separate Module 7 install needed).')
+    return True
+
+
 def verify_python_runtime(uv, environment):
     python = environment / ('Scripts/python.exe' if os.name == 'nt' else 'bin/python')
     before_probe = ('import json\nfrom importlib.metadata import version,PackageNotFoundError\n'
@@ -581,12 +643,15 @@ def main():
         if not pdf.is_file() or pdf.stat().st_size == 0:
             raise RuntimeError('Thai PDF check did not produce a PDF.')
     install_course_materials(workspace)
+    module7_ready = setup_module07(workspace, uv)
     configure(workspace, args.agent, root, env, python_receipt)
     setup_airr(workspace, python_bin / ('python.exe' if os.name == 'nt' else 'python'))
     for path in tracked:
         trace_path(path, 'after')
     trace('snapshot', 'python-packages', env['UV_PROJECT_ENVIRONMENT'], 'after', json.dumps(python_receipt['packages']))
-    log('RUNTIME_READY Python 3.12 + XeLaTeX + Thai PDF verified; uv and tlmgr can add task packages without system elevation.')
+    log('RUNTIME_READY Python 3.12 + XeLaTeX + Thai PDF verified'
+        + ('; Module 7 notebook environment ready' if module7_ready else '')
+        + '; uv and tlmgr can add task packages without system elevation.')
     log('FINAL_RESULT PASS - Research runtime ready.')
 
 
