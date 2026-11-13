@@ -44,7 +44,8 @@ if grep -q 'open -a &quot;Visual Studio Code&quot; --args' "$page"; then
   echo 'macOS learner flow must show the workspace folder path, not reopen VS Code with open -a.' >&2
   exit 1
 fi
-grep -q 'ข้อมูลเกี่ยวกับงานวิจัยของคุณ' "$page"
+grep -q 'เล่าเรื่องงานวิจัยของคุณให้ AI ฟัง' "$page"
+if grep -q 'data-research-profile' "$page"; then echo 'Retired research-profile form on prepare page' >&2; exit 1; fi
 grep -q 'data-module-1-submission-form' "$page"
 grep -q 'data-module-1-check="workspace_opened"' "$page"
 grep -q 'ส่งสถานะ Module 1' "$page"

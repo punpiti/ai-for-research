@@ -347,13 +347,13 @@ if rg -n 'M2 · AI Boundaries</a>|M3 · Problem–Gap–RQ</a>|M4 · Literature<
   echo 'Non-canonical module label found on the homepage.' >&2
   exit 1
 fi
-for page in prepare.html module-{3..9}.html; do
-  grep -q 'data-research-profile' "$root/$page"
+# The browser research-profile form is retired in favour of a Module 1 prompt.
+for page in prepare.html module-{3,4,5,6,7,9}.html; do
+  if grep -q 'data-research-profile' "$root/$page"; then echo "Retired profile form in $page" >&2; exit 1; fi
 done
-grep -q 'ai-research-profile:v1' "$root/assets/app.js"
-grep -q 'คัดลอกข้อมูลให้ AI' "$root/assets/app.js"
-grep -q 'profileContextText' "$root/assets/app.js"
-grep -q 'profileKeysByModule' "$root/assets/app.js"
+grep -q 'profile/research-profile.md' "$root/prepare.html"
+grep -q 'localStorage.removeItem(retiredResearchProfileKey)' "$root/assets/app.js"
+if grep -q 'applyProfileToPrompt\|renderResearchProfile' "$root/assets/app.js"; then echo 'Profile prompt injection still present' >&2; exit 1; fi
 echo 'Installer static checks passed.'
 # Windows PowerShell 5.1 reads BOM-less .ps1 as ANSI; UTF-8 punctuation (e.g. an em dash) breaks parsing.
 # Every shipped .ps1 must be pure ASCII or start with a UTF-8 BOM.

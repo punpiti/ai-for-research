@@ -28,7 +28,10 @@ for number in {2..9}; do
   check_file "$file" "learning outcomes" '<h2[^>]*>สิ่งที่จะทำได้</h2>'
   check_file "$file" "checkpoint label" '<p class="eyebrow">Checkpoint</p>'
   check_file "$file" "post-lesson result" '<h2[^>]*>จบบทเรียน</h2>'
-  if [[ "$number" != 2 ]]; then check_file "$file" "learner profile" 'data-research-profile'; fi
+  # Module 8 still carries the retired markup; app.js removes it at runtime.
+  if [[ "$number" != 8 ]] && grep -q 'data-research-profile' "$file"; then
+    printf 'Retired research-profile form found in %s.\n' "$file"; failed=1
+  fi
 done
 check_file "$site_dir/admin/index.html" "class-wide learner route control" 'นิสิต / นักวิจัยมือใหม่'
 check_file "$site_dir/admin/index.html" "class-wide faculty route control" 'อาจารย์ / นักวิจัย'
@@ -101,7 +104,7 @@ check_file "$site_dir/prepare.html" "LO label" '<p class="eyebrow">สิ่ง�
 check_file "$site_dir/prepare.html" "learning outcomes" '<h2[^>]*>จบบทนี้ คุณจะทำได้</h2>'
 check_file "$site_dir/prepare.html" "checkpoint label" '<p class="eyebrow">Checkpoint</p>'
 check_file "$site_dir/prepare.html" "post-lesson result" '<h2[^>]*>จบบทเรียน</h2>'
-check_file "$site_dir/prepare.html" "learner profile" 'data-research-profile'
+check_file "$site_dir/prepare.html" "research profile prompt" 'profile/research-profile\.md'
 check_file "$site_dir/prepare.html" "M1 progress form" 'data-module-1-submission-form'
 check_file "$site_dir/prepare.html" "M1 checkpoint payload fields" 'data-module-1-check="pdf_created_and_opened"'
 check_file "$site_dir/assets/module-1-submission.js" "M1 progress endpoint" '/api/ai-for-research/module-1/submissions'

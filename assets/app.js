@@ -98,117 +98,20 @@ function setPreference(name, value) {
   localStorage.setItem(name, value);
 }
 
-const researchProfileKey = "ai-research-profile:v1";
-// [key, label, type, example placeholder, options for select]
-const researchProfileFields = [
-  ["thai_name", "ชื่อ-นามสกุล ภาษาไทย (ไม่บังคับ)", "text", "ใช้ตอนทำเอกสาร เช่น หน้าปก"],
-  ["english_name", "ชื่อ-นามสกุล ภาษาอังกฤษ (ไม่บังคับ)", "text", "ใช้ตอนทำเอกสารภาษาอังกฤษ"],
-  ["affiliation", "สังกัด", "text", "เช่น ภาควิชาวิศวกรรมเครื่องกล ม.เกษตรศาสตร์"],
-  ["role", "ตอนนี้คุณเป็น", "text", "เช่น นิสิตปริญญาโทปี 1, อาจารย์, นักวิจัย"],
-  ["field", "สาขาที่ทำวิจัย", "text", "เช่น วิทยาศาสตร์การอาหาร, วิศวกรรมโยธา"],
-  ["advisor", "อาจารย์ที่ปรึกษา (ไม่บังคับ)", "text", "เว้นว่างได้ ถ้าไม่ต้องการระบุ"],
-  ["research_topic", "หัวข้อที่ทำหรือสนใจ", "textarea", "1–2 ประโยค เช่น ใช้ภาพถ่ายตรวจความสุกของมะม่วง"],
-  ["research_stage", "งานตอนนี้อยู่ขั้นไหน", "text", "เช่น ยังหาหัวข้อ, อ่านงานวิจัยเก่า, เก็บข้อมูลแล้ว, กำลังเขียนบทความ"],
-  ["desired_output", "อยากได้ผลงานแบบไหน", "text", "เช่น proposal, บทความวารสาร, วิทยานิพนธ์, poster"],
-  ["target_venue", "อยากตีพิมพ์หรือนำเสนอที่ไหน (ถ้ามี)", "text", "ชื่อวารสารหรืองานประชุม หรือเว้นว่าง"],
-  ["intended_audience", "ใครจะอ่านหรือใช้ผลงานนี้", "text", "เช่น กรรมการสอบ, นักวิจัยในสาขา, ผู้ประกอบการ"],
-  ["working_language", "ภาษาที่ใช้เขียนงาน", "text", "เช่น ไทย, อังกฤษ, ไทยปนอังกฤษ"],
-  ["constraints", "ข้อจำกัดที่ AI ควรรู้", "textarea", "เช่น ต้องส่งใน 2 เดือน, ใช้ได้แค่ Excel, ข้อมูลเป็นภาษาไทย"],
-  ["data_sensitivity", "ข้อมูลของคุณมีความลับไหม", "select", "", [
-    "ไม่มีข้อมูลลับ ใช้กับ AI ได้",
-    "มีข้อมูลส่วนบุคคลหรือข้อมูลลับบางส่วน",
-    "ยังไม่แน่ใจ",
-  ]],
-];
-
-function loadResearchProfile() {
-  try { return JSON.parse(localStorage.getItem(researchProfileKey) || "{}"); }
-  catch { return {}; }
+// The browser research-profile form was retired: learners now give the AI their
+// context through the Module 1 prompt, which writes profile/research-profile.md
+// in the workspace. Remove any leftover profile boxes and the old saved data.
+const retiredResearchProfileKey = "ai-research-profile:v1";
+try { localStorage.removeItem(retiredResearchProfileKey); } catch (_error) { /* storage unavailable */ }
+for (const host of document.querySelectorAll(".profile-context, [data-research-profile]")) {
+  (host.closest(".profile-context") || host).remove();
 }
-
-function saveResearchProfile(profile) {
-  localStorage.setItem(researchProfileKey, JSON.stringify(profile));
-}
-
-function hasResearchProfile(profile) {
-  return researchProfileFields.some(([key]) => String(profile[key] || "").trim());
-}
-
-const profileKeysByModule = {
-  1: researchProfileFields.map(([key]) => key),
-  2: ["role", "affiliation", "field", "research_topic", "research_stage", "working_language", "data_sensitivity"],
-  3: ["field", "research_topic", "research_stage", "desired_output", "intended_audience", "constraints", "data_sensitivity"],
-  4: ["field", "research_topic", "target_venue", "intended_audience", "working_language", "data_sensitivity"],
-  5: ["field", "research_topic", "research_stage", "target_venue", "intended_audience", "constraints", "data_sensitivity"],
-  6: ["field", "research_topic", "research_stage", "target_venue", "constraints", "data_sensitivity"],
-  7: ["field", "research_topic", "desired_output", "intended_audience", "constraints", "data_sensitivity"],
-  8: ["affiliation", "field", "target_venue", "intended_audience", "desired_output", "working_language", "constraints", "data_sensitivity"],
-  9: ["role", "field", "research_topic", "research_stage", "desired_output", "working_language", "constraints", "data_sensitivity"],
-};
 
 function currentModuleNumber() {
   if (location.pathname.endsWith("prepare.html")) return 1;
   const match = location.pathname.match(/module-(\d+)\.html$/);
   return match ? Number(match[1]) : 1;
 }
-
-function profileContextText(profile) {
-  const allowed = new Set(profileKeysByModule[currentModuleNumber()] || []);
-  const lines = researchProfileFields
-    .filter(([key]) => allowed.has(key) && String(profile[key] || "").trim())
-    .map(([key, label]) => `- ${label}: ${String(profile[key]).trim()}`);
-  return lines.length ? `ข้อมูลผู้เรียนที่ต้องใช้เป็นเงื่อนไข\n${lines.join("\n")}\nใช้ข้อมูลนี้เพื่อจำกัดขอบเขต ภาษา แหล่งค้น และค่าเริ่มต้น ห้ามเดาข้อมูลในช่องที่ยังไม่ได้บันทึก` : "";
-}
-
-function renderResearchProfile(host, forceEdit = false) {
-  const profile = loadResearchProfile();
-  const hasProfile = hasResearchProfile(profile);
-  const relevantKeys = new Set(profileKeysByModule[currentModuleNumber()] || []);
-  const hasRelevantProfile = researchProfileFields.some(([key]) => relevantKeys.has(key) && String(profile[key] || "").trim());
-  const editMode = forceEdit || host.dataset.mode === "edit" || !hasRelevantProfile;
-  if (!editMode) {
-    const rows = researchProfileFields
-      .filter(([key]) => relevantKeys.has(key) && String(profile[key] || "").trim())
-      .map(([key, label]) => `<div><dt>${label}</dt><dd>${String(profile[key]).replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;")}</dd></div>`)
-      .join("");
-    host.innerHTML = `<div class="profile-status"><div><p class="eyebrow">ข้อมูลของคุณ</p><h3>ใช้ข้อมูลนี้กับกิจกรรมในบท</h3><p>เลือกคัดลอกให้ AI เมื่อต้องการ ข้อมูลเก็บอยู่ในเบราว์เซอร์เครื่องนี้</p></div><div class="profile-summary-actions"><button type="button" class="button primary" data-profile-copy>คัดลอกข้อมูลให้ AI</button><button type="button" class="button secondary" data-profile-edit>แก้ไขข้อมูล</button><small aria-live="polite"></small></div></div><dl class="profile-summary">${rows}</dl>`;
-    host.querySelector("[data-profile-edit]").addEventListener("click", () => renderResearchProfile(host, true));
-    host.querySelector("[data-profile-copy]").addEventListener("click", async () => {
-      await navigator.clipboard.writeText(profileContextText(profile));
-      host.querySelector(".profile-summary-actions small").textContent = "คัดลอกแล้ว";
-    });
-    return;
-  }
-  const escapeAttribute = (text) => String(text || "").replaceAll("&", "&amp;").replaceAll('"', "&quot;").replaceAll("<", "&lt;").replaceAll(">", "&gt;");
-  // Ask only what this module uses; Module 1 collects everything once.
-  const visibleFields = researchProfileFields.filter(([key]) => relevantKeys.has(key));
-  const fields = visibleFields.map(([key, label, type, example, options]) => {
-    const value = escapeAttribute(profile[key]);
-    const placeholder = example ? ` placeholder="${escapeAttribute(example)}"` : "";
-    let control = `<input name="${key}" value="${value}"${placeholder}>`;
-    if (type === "textarea") control = `<textarea name="${key}" rows="3"${placeholder}>${value}</textarea>`;
-    if (type === "select") {
-      const choices = [...options];
-      if (profile[key] && !choices.includes(profile[key])) choices.push(profile[key]);
-      control = `<select name="${key}"><option value="">เลือก</option>${choices.map((choice) => `<option${choice === profile[key] ? " selected" : ""}>${escapeAttribute(choice)}</option>`).join("")}</select>`;
-    }
-    return `<label><span>${label}</span>${control}</label>`;
-  }).join("");
-  host.innerHTML = `<div class="profile-status"><div><p class="eyebrow">ข้อมูลของคุณ · เก็บในเครื่องนี้</p><h3>${hasProfile ? "ตรวจหรือแก้ไขข้อมูล" : "บอก AI เกี่ยวกับงานของคุณ"}</h3><p>กรอกเท่าที่จำเป็น ข้ามข้อที่ไม่เกี่ยวข้องได้ และห้ามใส่รหัสผ่านหรือข้อมูลส่วนบุคคลที่ไม่จำเป็น</p></div></div><form class="profile-form">${fields}<div class="profile-actions"><button class="button primary" type="submit">บันทึกข้อมูลในเครื่องนี้</button>${hasRelevantProfile ? '<button class="button secondary" type="button" data-profile-cancel>ยกเลิก</button>' : ""}<small aria-live="polite"></small></div><p class="form-help">ข้อมูลนี้เก็บไว้ในเบราว์เซอร์ของเครื่องนี้เท่านั้น ระบบของคลาสไม่ได้รับหรือเก็บไว้บน server ถ้าล้างข้อมูลเบราว์เซอร์หรือเปลี่ยนเครื่อง ต้องกรอกใหม่</p></form>`;
-  const form = host.querySelector("form");
-  form.addEventListener("submit", (event) => {
-    event.preventDefault();
-    const next = { ...loadResearchProfile() };
-    for (const [key] of visibleFields) next[key] = form.elements[key].value.trim();
-    saveResearchProfile(next);
-    document.dispatchEvent(new CustomEvent("research-profile-updated", { detail: next }));
-    for (const item of document.querySelectorAll("[data-research-profile]")) renderResearchProfile(item);
-  });
-  const cancel = host.querySelector("[data-profile-cancel]");
-  if (cancel) cancel.addEventListener("click", () => renderResearchProfile(host));
-}
-
-for (const host of document.querySelectorAll("[data-research-profile]")) renderResearchProfile(host);
 
 // ทุกโมดูลเริ่มจากกรณีเดียวกัน เพื่อให้ผู้เรียนทบทวนตรรกะการวิจัยก่อนใช้ AI
 // โดยไม่ต้องคัดลอกเนื้อหาฉบับเต็มไปไว้หลายหน้า
@@ -359,34 +262,6 @@ if (platformButtons.length) {
   for (const button of platformButtons) button.addEventListener("click", () => selectPlatform(button.dataset.platformButton, true));
 }
 
-const promptProfileMap = {
-  THAI_NAME: "thai_name",
-  ENGLISH_NAME: "english_name",
-  AFFILIATION: "affiliation",
-  ROLE: "role",
-  RESEARCH_FIELD: "field",
-  ADVISOR: "advisor",
-  RESEARCH_TOPIC_OR_RQ: "research_topic",
-  TARGET_VENUE: "target_venue",
-  INTENDED_AUDIENCE: "intended_audience",
-  RESEARCH_QUESTION: "research_topic",
-  OUTPUT_AUDIENCE: "intended_audience",
-  OUTPUT_TYPE: "desired_output",
-  DATA_CLASSIFICATION: "data_sensitivity",
-  WORKING_LANGUAGE: "working_language",
-  CONSTRAINTS: "constraints",
-};
-
-function applyProfileToPrompt(text, profile) {
-  text = text.replace(/^ข้อมูลผู้เรียนที่ต้องใช้เป็นเงื่อนไข[\s\S]*?^ใช้ข้อมูลนี้เพื่อจำกัดขอบเขต ภาษา แหล่งค้น และค่าเริ่มต้น ห้ามเดาข้อมูลในช่องที่ยังไม่ได้บันทึก\n*/m, "");
-  for (const [variable, profileKey] of Object.entries(promptProfileMap)) {
-    const value = String(profile[profileKey] || "").trim();
-    if (value) text = text.replace(new RegExp(`(${variable}:\\s*)(?:\\{\\{[^\\n]*\\}\\}|[^\\n]*)`), `$1${value}`);
-  }
-  const context = profileContextText(profile);
-  return context ? `${context}\n\n${text}` : text;
-}
-
 for (const [index, block] of [...document.querySelectorAll(".prompt-template")].entries()) {
   const code = block.querySelector("code");
   if (!code) continue;
@@ -397,7 +272,7 @@ for (const [index, block] of [...document.querySelectorAll(".prompt-template")].
   editor.className = "prompt-editor";
   editor.setAttribute("aria-label", "แก้ไข Prompt ก่อนส่งให้ AI");
   editor.spellcheck = false;
-  editor.value = savedValue ?? applyProfileToPrompt(initialValue, loadResearchProfile());
+  editor.value = savedValue ?? initialValue;
   editor.rows = Math.min(28, Math.max(10, editor.value.split("\n").length + 1));
   code.replaceWith(editor);
 
@@ -428,11 +303,6 @@ for (const [index, block] of [...document.querySelectorAll(".prompt-template")].
   block.append(actions);
 }
 
-document.addEventListener("research-profile-updated", (event) => {
-  for (const editor of document.querySelectorAll(".prompt-editor")) {
-    editor.value = applyProfileToPrompt(editor.value, event.detail);
-  }
-});
 
 function nearestPromptHeading(block) {
   const section = block.closest(".markdown-body") || block.parentElement;
@@ -507,12 +377,6 @@ function decorateModuleActions() {
     badge.textContent = label;
     heading.prepend(badge);
   }
-  for (const profile of document.querySelectorAll(".profile-context")) {
-    const label = document.createElement("div");
-    label.className = "task-heading profile-task-heading";
-    label.innerHTML = `<span class="content-kind is-input">เลือก / กรอก</span><strong>ข้อมูลที่จะใช้กับกิจกรรม</strong>`;
-    profile.prepend(label);
-  }
   for (const link of document.querySelectorAll("a[download]")) link.classList.add("download-action");
   for (const form of document.querySelectorAll(".module-submission-form")) {
     const label = document.createElement("div");
@@ -564,9 +428,7 @@ async function copyCommand(event) {
   const command = button.closest(".command");
   const editor = command.querySelector(".prompt-editor");
   const code = command.querySelector("code");
-  let value = editor ? editor.value : code.textContent;
-  const needsResearchContext = /(ค้น|สืบค้น|ค่าเริ่มต้น|แหล่งเผยแพร่|วารสาร|การประชุม|venue|literature|source)/i.test(value);
-  if (!editor && needsResearchContext) value = applyProfileToPrompt(value, loadResearchProfile());
+  const value = editor ? editor.value : code.textContent;
   await navigator.clipboard.writeText(value);
   button.textContent = "คัดลอกแล้ว";
   setTimeout(() => { button.textContent = idleLabel; }, 1500);
