@@ -96,7 +96,8 @@
       </div>
       <div class="platform-grid compact-platform-grid">
         <article class="platform-card" data-platform-panel="windows">
-          <p class="platform-label">Windows 11</p><h3>เปิด PowerShell แบบปกติ</h3>
+          <p class="platform-label">Windows 11</p><h3>เปิด PowerShell</h3>
+          <p class="expected">กด Start พิมพ์ <strong>PowerShell</strong> แล้วคลิก <strong>Windows PowerShell</strong> จากผลค้นหา โดยไม่เลือกตัวเลือกเปิดด้วยสิทธิ์ผู้ดูแลระบบ</p>
           <div class="command"><code data-agent-command data-template="&amp; { $env:AI_RESEARCH_PROJECT_NAME={projectPs}; {airrPs}$setup = Join-Path $env:TEMP &#x27;ai-research-setup.ps1&#x27;; Invoke-WebRequest -UseBasicParsing -ErrorAction Stop &quot;https://urban.cpe.ku.ac.th/ai-for-research/downloads/setup-windows.ps1&quot; -OutFile $setup; powershell -NoProfile -ExecutionPolicy Bypass -File &quot;$setup&quot; -Mode Install -Agent {agent} }">&amp; { $env:AI_RESEARCH_PROJECT_NAME='ai-for-research-workspace'; $setup = Join-Path $env:TEMP 'ai-research-setup.ps1'; Invoke-WebRequest -UseBasicParsing -ErrorAction Stop "https://urban.cpe.ku.ac.th/ai-for-research/downloads/setup-windows.ps1" -OutFile $setup; powershell -NoProfile -ExecutionPolicy Bypass -File "$setup" -Mode Install -Agent openrouter }</code><button type="button" data-copy>คัดลอกคำสั่งติดตั้ง</button></div>
           <p class="expected">วางคำสั่ง กด Enter และตอบ Yes หาก Windows ขอสิทธิ์</p>
         </article>

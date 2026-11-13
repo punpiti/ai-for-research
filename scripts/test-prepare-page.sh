@@ -35,6 +35,8 @@ for kind in is-read is-input is-terminal ai-prompt; do
   grep -q "$kind" "$page"
 done
 grep -q '>คัดลอกคำสั่งติดตั้ง</button>' "$page"
+grep -q '<h3>เปิด PowerShell</h3>' "$page"
+grep -q 'กด Start พิมพ์ <strong>PowerShell</strong> แล้วคลิก <strong>Windows PowerShell</strong>' "$page"
 grep -q '>คัดลอก Prompt</button>' "$page"
 grep -q '<code>module-01-work/input/</code><span>เก็บไฟล์ต้นฉบับ</span>' "$page"
 grep -q '<code>module-01-work/output/</code><span>เก็บงานที่ AI สร้างใหม่</span>' "$page"
