@@ -22,10 +22,10 @@
       workspaceHelp: "เปิด PDF, CSV และไฟล์คำตอบจาก VS Code Explorer ชุดนี้ติดตั้งมากับ Module 1 แล้ว",
     },
     {
-      id: "finish", title: "ส่งงานและนำไปใช้ต่อ", short: "ส่งงาน", sections: ["analysis-highlights-submission", "finish", "การบ้าน", "review"],
+      id: "finish", title: "ส่งงานและนำไปใช้ต่อ", short: "ส่งงาน", sections: ["analysis-highlights-submission", "finish", "review"],
       workspaceTitle: "ตรวจและส่งไฟล์ฉบับสุดท้ายจาก workspace",
       workspaceFiles: ["module-07-work/module-07-highlights.md", "module-07-work/"],
-      workspaceHelp: "ตรวจ highlights และข้อสรุปใน VS Code แล้วเลือกไฟล์ module-07-highlights.md ในแบบฟอร์มส่งงาน ระบบไม่รับข้อมูลดิบหรือภาพ",
+      workspaceHelp: "ตรวจ highlights และข้อสรุปใน VS Code แล้วใช้ Prompt ส่งงานด้านล่าง ส่งสำเร็จคือจบโมดูล",
     },
   ];
 

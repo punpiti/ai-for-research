@@ -419,7 +419,11 @@ check_file "$site_dir/module-7.html" "M7 VS Code seed prompt" 'data-m7-explorati
 check_file "$site_dir/module-7.html" "M7 highlights artifact" 'module-07-highlights\.md'
 check_file "$site_dir/module-7.html" "M7 highlights submission" 'id="analysis-highlights-submission"'
 check_file "$site_dir/module-7.html" "M7 AIRR identity" 'AIRR — AI for Research &amp; Review'
-check_file "$site_dir/module-7.html" "M7 AIRR key connection" 'data-airr-create-key'
+# AIRR is connected in Module 1; M7 submits through one AI prompt, with no key/login/commands.
+check_file "$site_dir/module-7.html" "M7 AI submit prompt" 'ส่งงาน Module 7 ให้ฉัน'
+if grep -q 'data-airr-create-key\|airr\.ps1 submit\|airr\.sh submit\|revision_requested' "$site_dir/module-7.html"; then
+  printf 'Module 7 still shows key creation, submit commands or a review flow.\n'; failed=1
+fi
 check_file "$site_dir/module-7.html" "M7 AIRR graph upload" 'module-07-work/figures/'
 if grep -q 'data-module-7-submission-form\|YOUR-CALLSIGN\|YOUR-CLASS-CODE' "$site_dir/module-7.html"; then
   printf 'Module 7 must use AIRR identity instead of the legacy browser/call-sign form.\n'
