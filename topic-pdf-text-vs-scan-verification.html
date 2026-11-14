@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="เปิด PDF แยกข้อความที่เลือกคัดลอกได้กับภาพสแกน ตรวจลำดับข้อความ ตัวเลข หน่วย และเชิงอรรถที่ AI อ่านกลับกับหน้าเอกสารอย่างน้อยสองแห่ง พร้อมระบุข้อจำกัดของไฟล์และต้นฉบับที่ต้องแก้หากเป็นรายงานของตน">
+  <meta name="theme-color" content="#101817">
+  <title>PDF: ข้อความที่เลือกได้ ภาพสแกน และการตรวจสิ่งที่ AI อ่านกับหน้าต้นทาง · AIRR</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/styles.css?v=20261113-2">
+  <link rel="stylesheet" href="assets/learn.css?v=20261115-3">
+  <script src="assets/site-shell.js?v=20261115-3"></script>
+  <script src="assets/app.js?v=20261115-3" defer></script>
+</head>
+<body class="learn" data-no-case>
+  <a class="skip-link" href="#main">ข้ามไปยังเนื้อหา</a>
+  <site-header current="topic" plan="class-2026-11-20-engineering-faculty.html" menu='{&quot;module&quot;: &quot;X01&quot;, &quot;title&quot;: &quot;พื้นฐานไฟล์ MD · CSV · PDF · JSON&quot;, &quot;items&quot;: [{&quot;href&quot;: &quot;module-overview-x01.html&quot;, &quot;label&quot;: &quot;ภาพรวมและ LO&quot;, &quot;current&quot;: false}, {&quot;href&quot;: &quot;topic-csv-rows-columns-units.html&quot;, &quot;label&quot;: &quot;CSV: หนึ่งแถวแทนอะไร ชื่อคอลัมน์ หน่วย และค่าที่ขาด&quot;, &quot;current&quot;: false}, {&quot;href&quot;: &quot;topic-markdown-structure-and-preview.html&quot;, &quot;label&quot;: &quot;Markdown: หัวข้อ รายการ และ Preview — แก้ที่ต้นฉบับ ไม่แก้ที่ PDF&quot;, &quot;current&quot;: false}, {&quot;href&quot;: &quot;topic-markdown-to-pdf-first-build.html&quot;, &quot;label&quot;: &quot;สร้าง PDF แรกจาก Markdown ด้วย AI: แก้ที่ต้นฉบับ แล้วสร้างใหม่&quot;, &quot;current&quot;: false}, {&quot;href&quot;: &quot;topic-pdf-text-vs-scan-verification.html&quot;, &quot;label&quot;: &quot;PDF: ข้อความที่เลือกได้ ภาพสแกน และการตรวจสิ่งที่ AI อ่านกับหน้าต้นทาง&quot;, &quot;current&quot;: true}, {&quot;href&quot;: &quot;topic-json-fields-and-status-values.html&quot;, &quot;label&quot;: &quot;JSON: ชื่อช่อง ค่า และสถานะ true/false/null — อ่านผ่านไม่ได้แปลว่าค่าถูก&quot;, &quot;current&quot;: false}, {&quot;href&quot;: &quot;topic-ipynb-notebook-basics.html&quot;, &quot;label&quot;: &quot;Notebook (.ipynb): cell, ลำดับการรัน และผลลัพธ์ที่ต้องรันใหม่ก่อนเชื่อ&quot;, &quot;current&quot;: false}]}'></site-header>
+  <main id="main">
+<section class="prepare-hero module-hero"><p class="eyebrow">หัวข้อย่อย · X01</p><h1>PDF: ข้อความที่เลือกได้ ภาพสแกน และการตรวจสิ่งที่ AI อ่านกับหน้าต้นทาง</h1><ul class="outcomes"><li>เปิด PDF แยกข้อความที่เลือกคัดลอกได้กับภาพสแกน ตรวจลำดับข้อความ ตัวเลข หน่วย และเชิงอรรถที่ AI อ่านกลับกับหน้าเอกสารอย่างน้อยสองแห่ง พร้อมระบุข้อจำกัดของไฟล์และต้นฉบับที่ต้องแก้หากเป็นรายงานของตน</li></ul></section>
+<div class="topic-layout"><nav class="topic-tabs" aria-label="ส่วนของหัวข้อ"><a href="#slides" title="สไลด์">สไลด์</a><a href="#workshop-core" title="Workshop หลัก">Workshop</a><a href="#open-explore" title="Exploring workshop">Exploring</a><button type="button" class="aside-toggle" data-aside-toggle aria-pressed="false">ซ่อนสไลด์ข้าง</button></nav><div class="topic-main"><section class="section markdown-section topic-panel" id="slides" aria-labelledby="slides-heading"><div class="section-heading compact"><p class="eyebrow">สไลด์</p><h2 id="slides-heading">สไลด์</h2></div><div class="markdown-body"><div class="slide-tools"><button type="button" class="slide-tool" data-fullscreen="#slide-frame-main">⛶ เต็มจอ</button><a class="slide-tool" href="downloads/topics/pdf-text-vs-scan-verification.pdf" target="_blank" rel="noopener">เปิดแท็บใหม่ ↗</a></div><iframe id="slide-frame-main" class="slide-frame" src="downloads/topics/pdf-text-vs-scan-verification.pdf#view=FitH" title="สไลด์ PDF: ข้อความที่เลือกได้ ภาพสแกน และการตรวจสิ่งที่ AI อ่านกับหน้าต้นทาง" allowfullscreen></iframe></div></section>
+<section class="section markdown-section topic-panel" id="workshop-core" aria-labelledby="workshop-core-heading"><div class="section-heading compact"><p class="eyebrow">Workshop</p><h2 id="workshop-core-heading">PDF: ข้อความที่เลือกได้ ภาพสแกน และการตรวจสิ่งที่ AI อ่านกับหน้าต้นทาง</h2></div><div class="markdown-body"><p>ใน workshop นี้คุณจะตรวจว่า PDF บทความจำลองเป็นข้อความที่เลือกได้หรือภาพสแกน ให้ AI ยกข้อความสองแห่งพร้อมตำแหน่ง แล้วเทียบกับหน้าเอกสารเองและบันทึกผล</p>
+<p>ใช้เมื่อ: ก่อนให้ AI อ่านบทความใน Module 2/3/4 หรือเปิดรายงานใน Module 8</p>
+<h3 id="ก่อนเริ่ม-ต้องมีอยู่แล้ว">ก่อนเริ่ม (ต้องมีอยู่แล้ว)</h3>
+<ul>
+<li>ผ่าน Module 1: เปิด <code>ai-for-research-workspace</code> ใน VS Code และ AI panel เชื่อมแล้ว</li>
+<li><code>course-materials/module-07/examples/figure-consistency/mock-article-figure-consistency.pdf</code> — บทความจำลอง 3 หน้า มีข้อความ รูป และตาราง เป็นข้อมูลจำลอง (ตัวติดตั้ง Module 1 วางไว้ให้ อ่านอย่างเดียว) หรือ PDF บทความ/รายงานของคุณเองที่จะใช้ในกิจกรรมปัจจุบัน</li>
+<li>หมายเหตุ: บทความจำลองนี้ใช้ในกิจกรรมเสริม Figure Consistency Audit ของ Module 7 ด้วย workshop นี้ฝึกเฉพาะ <strong>การอ่านและตรวจข้อความกับหน้าต้นทาง</strong> ไม่ใช่การหาข้อผิดพลาดของบทความ</li>
+</ul>
+<h3 id="ขั้นตอน">ขั้นตอน</h3>
+<ol type="1">
+<li><p><strong>เปิด PDF</strong> แล้วเลือกหน้าที่มีข้อความและตารางหรือรูป</p></li>
+<li><p><strong>ลองคัดลอกข้อความหนึ่งย่อหน้า</strong> (เช่น บทคัดย่อ) ไปวางในไฟล์ข้อความ ตรวจว่าลำดับข้อความตรงกับสิ่งที่เห็นบนหน้า ถ้าเลือกข้อความไม่ได้ อาจเป็นภาพสแกน ต้องใช้ OCR เพื่ออ่านข้อความจากภาพ</p></li>
+<li><p><strong>ให้ AI อ่านข้อความที่ระบุ</strong> พร้อมบอกเลขหน้าหรือตำแหน่งที่ใช้ (ระบุ path ของ PDF และหน้าเอง)</p>
+<div class="command ai-prompt"><code>อ่านเฉพาะหน้าที่ฉันระบุใน PDF นี้ ยกข้อความหรือตัวเลขสองแห่งพร้อมตำแหน่งให้ฉันตรวจกลับกับหน้าเอกสาร หากเป็นภาพสแกน อ่านไม่ได้ หรือลำดับข้อความกำกวม ให้แจ้งก่อนสรุป และเก็บต้นฉบับไว้</code><button type="button" data-copy="">คัดลอก</button></div></li>
+<li><p><strong>ตรวจข้อความหรือตัวเลขสองแห่งกลับกับหน้าเอกสาร</strong> รวมถึงเครื่องหมาย หน่วย และเชิงอรรถที่เกี่ยวข้อง (ตัวยก ตัวห้อย และหน่วยอย่าง µg/m³ เป็นจุดที่ข้อความที่คัดลอกหรืออ่านออกมาอาจแยกบรรทัดหรือเพี้ยนได้ ให้เทียบกับภาพหน้าเอกสาร)</p></li>
+<li><p><strong>จดผล</strong> ลงไฟล์ <code>module-07-work/notes/file-reading.md</code> (สร้างใหม่ถ้ายังไม่มี หรือต่อท้ายไฟล์เดิมจากหัวข้อ <a href="topic-csv-rows-columns-units.html">CSV: หนึ่งแถวแทนอะไร ชื่อคอลัมน์ หน่วย และค่าที่ขาด</a>): เลขหน้า/ตำแหน่ง ข้อความที่ AI ยกมา ผลเทียบ (ตรง / ไม่ตรง / ต้องตรวจจากภาพ) และข้อสรุปว่าไฟล์เป็นข้อความที่เลือกได้หรือภาพสแกน ส่วนใดต้องตรวจจากภาพ (ตาราง สมการ หน่วย)</p></li>
+<li><p><strong>ถ้าต้องแก้รายงานที่ตนสร้าง</strong> ให้ระบุต้นฉบับที่แก้ไขได้ เช่น MD หรือ Word แล้วค่อยสร้าง PDF ใหม่ในกิจกรรมผลิตเอกสาร (Module 8)</p></li>
+</ol>
+<p>ส่วนการเลือก template สร้าง PDF และตรวจรูปแบบเอกสารเพื่อส่งงานอยู่ใน Module 8</p>
+<h3 id="ตรวจก่อนจบ">ตรวจก่อนจบ</h3>
+<ul class="task-list">
+<li><label><input type="checkbox"><code>module-07-work/notes/file-reading.md</code> มีบันทึกสองจุด: เลขหน้า/ตำแหน่ง ข้อความที่ AI ยกมา และผลเทียบกับหน้าเอกสาร (ตรง / ไม่ตรง / ต้องตรวจจากภาพ)</label></li>
+<li><label><input type="checkbox">มีข้อสรุปว่า PDF นี้เป็นข้อความที่เลือกได้หรือภาพสแกน และส่วนใดต้องตรวจจากภาพหน้าเอกสาร</label></li>
+<li><label><input type="checkbox">ไม่มีข้อสรุปจากส่วนที่ AI แจ้งว่าอ่านไม่ได้หรือกำกวม</label></li>
+<li><label><input type="checkbox">PDF ต้นฉบับไม่ถูกแก้</label></li>
+</ul>
+<h3 id="ส่งงาน">ส่งงาน</h3>
+<ul>
+<li>X01 ไม่มีงานส่งแยก ประเมินจากการอ่านและตรวจไฟล์ในกิจกรรมนี้</li>
+</ul>
+</div></section>
+<section class="section markdown-section topic-panel" id="open-explore" aria-labelledby="open-explore-heading"><div class="section-heading compact"><p class="eyebrow">Exploring</p><h2 id="open-explore-heading">PDF: ข้อความที่เลือกได้ ภาพสแกน และการตรวจสิ่งที่ AI อ่านกับหน้าต้นทาง</h2></div><div class="markdown-body"><p>ในโจทย์นี้คุณจะเขียน prompt เองให้ AI อ่านเฉพาะส่วนที่ต้องใช้จาก PDF ในงานของคุณ แล้วตรวจผลกับหน้าเอกสารและสรุปข้อจำกัดของไฟล์</p>
+<p>ไม่มี prompt สำเร็จรูปให้</p>
+<h3 id="ก่อนเริ่ม-ต้องมีอยู่แล้ว">ก่อนเริ่ม (ต้องมีอยู่แล้ว)</h3>
+<ul>
+<li>ทำ workshop ของหัวข้อนี้แล้ว</li>
+<li>PDF ที่ใช้ในงานจริงและมีสิทธิ์ใช้กับ AI เช่น บทความที่อ้างอิง รายงานโครงการ หรือเอกสารเก่าที่เป็นภาพสแกน ถ้าเป็นไปได้ให้เลือกหน้าที่มีตาราง สมการ หน่วย หรือจัดสองคอลัมน์ (ชุดสำรอง: <code>course-materials/module-07/examples/figure-consistency/mock-article-figure-consistency.pdf</code> ที่ตัวติดตั้ง Module 1 วางไว้ หน้าที่ยังไม่ได้ตรวจใน workshop)</li>
+</ul>
+<h3 id="โจทย์">โจทย์</h3>
+<ol type="1">
+<li>สร้างไฟล์ <code>output/prompts.md</code> ในโฟลเดอร์งานของคุณ สำหรับเก็บ prompt ที่ใช้ทุกรอบ</li>
+<li>ตรวจเองก่อนว่าหน้าที่เลือกเป็นข้อความที่เลือกได้หรือภาพสแกน</li>
+<li>เขียน prompt ของตนให้ AI อ่านเฉพาะส่วนที่ต้องใช้ ยกข้อความหรือตัวเลขพร้อมตำแหน่ง และแจ้งเมื่ออ่านไม่ได้หรือกำกวม</li>
+<li>ตรวจผลกับหน้าเอกสารแล้วสรุปข้อจำกัดของไฟล์นี้สำหรับงานของตน</li>
+</ol>
+<h3 id="ข้อกำหนด">ข้อกำหนด</h3>
+<ul>
+<li>ไม่แก้ PDF ต้นฉบับ</li>
+<li>ระบุว่าตรวจผลของ AI อย่างไร (เทียบกับภาพหน้าใด ตรงไหนต้องดูจากภาพ) และแก้อะไรเอง</li>
+</ul>
+<h3 id="เกณฑ์ผ่าน">เกณฑ์ผ่าน</h3>
+<ul class="task-list">
+<li><label><input type="checkbox">ระบุได้ว่าหน้าที่ใช้เป็นข้อความที่เลือกได้หรือภาพสแกน และวิธีที่ใช้ตรวจ</label></li>
+<li><label><input type="checkbox">ตรวจข้อความหรือตัวเลขอย่างน้อยสองแห่งกลับกับหน้าเอกสาร พร้อมเลขหน้า/ตำแหน่ง และผล ตรง/ไม่ตรง</label></li>
+<li><label><input type="checkbox">ระบุส่วนที่ต้องตรวจจากภาพ (เช่น ตาราง สมการ หน่วย เชิงอรรถ ลำดับสองคอลัมน์) หรือบอกว่าไม่มีพร้อมเหตุผล</label></li>
+<li><label><input type="checkbox">ไม่มีข้อสรุปจากส่วนที่ AI แจ้งว่าอ่านไม่ได้หรือกำกวมโดยไม่ได้ตรวจเพิ่ม</label></li>
+<li><label><input type="checkbox"><code>prompts.md</code> แสดงการปรับ prompt อย่างน้อย 1 รอบ พร้อมเหตุผล</label></li>
+</ul>
+</div></section></div><aside class="slide-aside" aria-label="สไลด์ประกอบ"><div class="slide-tools"><button type="button" class="slide-tool" data-fullscreen="#slide-frame-aside">⛶ เต็มจอ</button><a class="slide-tool" href="downloads/topics/pdf-text-vs-scan-verification.pdf" target="_blank" rel="noopener">เปิดแท็บใหม่ ↗</a></div><iframe id="slide-frame-aside" src="downloads/topics/pdf-text-vs-scan-verification.pdf#view=FitH" title="สไลด์ PDF: ข้อความที่เลือกได้ ภาพสแกน และการตรวจสิ่งที่ AI อ่านกับหน้าต้นทาง" loading="lazy" allowfullscreen></iframe></aside></div>
+<script>
+(() => {
+  const tabs = [...document.querySelectorAll('.topic-tabs a')];
+  const panels = tabs.map(t => document.getElementById(t.hash.slice(1)));
+  function show(id) {
+    const i = Math.max(0, panels.findIndex(p => p && p.id === id));
+    panels.forEach((p, k) => { if (p) p.hidden = k !== i; });
+    tabs.forEach((t, k) => t.setAttribute('aria-current', k === i ? 'page' : 'false'));
+    const layout = document.querySelector('.topic-layout'); if (layout && panels[i]) layout.dataset.active = panels[i].id;
+  }
+  tabs.forEach(t => t.addEventListener('click', e => { e.preventDefault(); history.replaceState(null, '', t.hash); show(t.hash.slice(1)); window.scrollTo({top: 0}); }));
+  document.querySelectorAll('[data-next-tab]').forEach(b => b.addEventListener('click', e => { e.preventDefault(); const h = b.getAttribute('href'); history.replaceState(null, '', h); show(h.slice(1)); window.scrollTo({top: 0}); }));
+  document.querySelectorAll('[data-fullscreen]').forEach(b => b.addEventListener('click', () => {
+    const frame = document.querySelector(b.dataset.fullscreen);
+    const go = frame && (frame.requestFullscreen || frame.webkitRequestFullscreen);
+    if (go) go.call(frame); else if (frame) window.open(frame.src, '_blank', 'noopener');
+  }));
+  const layout0 = document.querySelector('.topic-layout');
+  const toggle = document.querySelector('[data-aside-toggle]');
+  function setAside(hidden) {
+    if (!layout0 || !toggle) return;
+    layout0.classList.toggle('aside-hidden', hidden);
+    toggle.setAttribute('aria-pressed', String(hidden));
+    toggle.textContent = hidden ? 'แสดงสไลด์ข้าง' : 'ซ่อนสไลด์ข้าง';
+    try { localStorage.setItem('airr.slideAsideHidden', hidden ? '1' : '0'); } catch (e) {}
+  }
+  if (toggle) {
+    let saved = true; try { saved = localStorage.getItem('airr.slideAsideHidden') !== '0'; } catch (e) {}  // hidden by default
+    setAside(saved);
+    toggle.addEventListener('click', () => setAside(!layout0.classList.contains('aside-hidden')));
+  }
+  show(location.hash.slice(1));
+  if (location.hash) requestAnimationFrame(() => window.scrollTo({top: 0}));
+})();
+</script>
+  </main>
+  <site-footer></site-footer>
+</body>
+</html>

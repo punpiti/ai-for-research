@@ -1,0 +1,118 @@
+/* Light theme for AIRR pages. Dark stays the base in styles.css.
+   site-shell.js sets <html data-theme="light|dark"> from the visitor's choice
+   (system by default, following prefers-color-scheme) and loads this file. */
+
+:root[data-theme="light"] {
+  color-scheme: light;
+  --ink: #1d2422;
+  --ink-soft: #55635e;
+  --paper: #f7f5ef;
+  --paper-deep: #efebe1;
+  --surface: #ffffff;
+  --surface-strong: #fbfaf6;
+  --accent: #c2532c;
+  --mint: #2f7d68;
+  --line: rgba(29, 36, 34, .16);
+  --white: #111816;
+}
+:root[data-theme="dark"] { color-scheme: dark; }
+
+/* Header and menus */
+:root[data-theme="light"] .site-header { background: rgba(247, 245, 239, .92); }
+:root[data-theme="light"] .nav-cta,
+:root[data-theme="light"] .button.primary,
+:root[data-theme="light"] .brand-mark,
+:root[data-theme="light"] .skip-link { color: #fff; }
+:root[data-theme="light"] .nav-cta:hover, :root[data-theme="light"] .nav-cta:focus-visible { background: #a8441f; }
+:root[data-theme="light"] .module-menu > div { box-shadow: 0 1rem 2.5rem rgba(29, 36, 34, .14); }
+:root[data-theme="light"] .module-menu-number { color: #fff; }
+:root[data-theme="light"] .institution-lockup img { background: #fff; }
+
+/* Text that was hard-coded light-on-dark */
+:root[data-theme="light"] .course-card > p,
+:root[data-theme="light"] .course-modules > p,
+:root[data-theme="light"] .module-legend,
+:root[data-theme="light"] .terminal-primer p,
+:root[data-theme="light"] .terminal-primer li { color: var(--ink-soft); }
+:root[data-theme="light"] .course-card { --core-chip-text: #7a2f14; --support-chip-bg: rgba(29, 36, 34, .05); }
+:root[data-theme="light"] .hero-panel, :root[data-theme="light"] .enroll-panel { box-shadow: 1rem 1rem 0 #d9e6e1; }
+
+/* Status colours */
+:root[data-theme="light"] .login-status.is-success { color: #12493c; background: #e3f3ed; }
+:root[data-theme="light"] .login-status.is-error,
+:root[data-theme="light"] .workspace-save-fallback { color: #7a2f14; background: #fbe9e1; }
+:root[data-theme="light"] .classroom-status.is-closed,
+:root[data-theme="light"] .enroll-status.is-error,
+:root[data-theme="light"] .prompt-save-status,
+:root[data-theme="light"] .instructor-page-status.is-error,
+:root[data-theme="light"] .submission-status.is-could_not_complete,
+:root[data-theme="light"] .module-step-checkpoint-actions small.is-error { color: #a8441f; }
+:root[data-theme="light"] .classroom-status.is-open,
+:root[data-theme="light"] .instructor-tabs button[aria-selected="true"],
+:root[data-theme="light"] .module-step-tab.is-complete > span { color: #fff; }
+
+/* Content-kind chips */
+:root[data-theme="light"] .content-kind.is-input,
+:root[data-theme="light"] .content-kind.is-submit { color: #a8441f; }
+:root[data-theme="light"] .content-kind.is-prompt { color: #6a3fb5; }
+:root[data-theme="light"] .content-kind.is-download,
+:root[data-theme="light"] .download-action { color: #8a6400; }
+
+/* Boxes: prompts and examples go light; terminal commands and code output stay dark like a real terminal */
+:root[data-theme="light"] .ai-prompt { background: #f4eefc !important; border-color: rgba(122, 76, 196, .55) !important; box-shadow: inset 4px 0 0 #7a4cc4 !important; }
+:root[data-theme="light"] .ai-prompt .copy-prompt-heading span,
+:root[data-theme="light"] .ai-prompt [data-copy] { color: #6a3fb5; }
+:root[data-theme="light"] .ai-prompt code { color: #2a1f3d; }
+:root[data-theme="light"] .ai-prompt .copy-prompt-heading { border-bottom-color: rgba(122, 76, 196, .25); }
+:root[data-theme="light"] .copy-example,
+:root[data-theme="light"] .copy-only-template { background: #eaf5f1 !important; }
+:root[data-theme="light"] .prompt-template { background: #fdf1eb; }
+:root[data-theme="light"] .module-card.setup-card,
+:root[data-theme="light"] .plain-note,
+:root[data-theme="light"] .workspace-save-path,
+:root[data-theme="light"] .instructor-module.is-included { background: #e6f2ee; }
+:root[data-theme="light"] .terminal-anatomy { background: rgba(29, 36, 34, .04); border-color: var(--line); }
+:root[data-theme="light"] .project-structure pre,
+:root[data-theme="light"] .submission-preview pre,
+:root[data-theme="light"] .submission-receipt pre { background: #14201d; }
+:root[data-theme="light"] .project-structure pre code { color: #eef3f1; }
+:root[data-theme="light"] .concept-term::after { color: var(--ink); background: var(--surface); border-color: var(--line); }
+
+/* Markdown lessons */
+:root[data-theme="light"] .markdown-body pre:not(.terminal-command pre) { background: #f1efe8; color: var(--ink); }
+:root[data-theme="light"] .markdown-body code { color: inherit; }
+:root[data-theme="light"] .done-shows pre { color: var(--ink); }
+
+/* User menu (all themes) */
+.user-menu { position: relative; }
+.user-menu summary { display: flex; align-items: center; gap: .45rem; list-style: none; cursor: pointer; padding: .25rem .45rem; border-radius: 999px; }
+.user-menu summary::-webkit-details-marker { display: none; }
+.user-menu summary:hover, .user-menu[open] summary { background: rgba(135, 199, 178, .13); }
+.user-avatar { display: grid; place-items: center; width: 2rem; height: 2rem; border-radius: 50%; overflow: hidden; flex: none; background: var(--mint); color: var(--paper); font: 600 .85rem/1 Inter, sans-serif; }
+.user-avatar img { width: 100%; height: 100%; object-fit: cover; }
+.user-avatar.is-guest { background: transparent; border: 1px solid var(--line); color: var(--ink); font-size: 1rem; }
+.user-name { max-width: 10rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: .92rem; }
+.user-menu > div { position: absolute; top: calc(100% + .6rem); right: 0; z-index: 30; width: min(280px, calc(100vw - 2rem)); padding: .8rem; border: 1px solid var(--line); border-radius: .9rem; background: var(--surface); box-shadow: 0 1rem 2.5rem rgba(0, 0, 0, .25); font-size: .92rem; line-height: 1.5; }
+.user-menu .user-id { margin: 0 0 .7rem; padding-bottom: .7rem; border-bottom: 1px solid var(--line); }
+.user-menu .user-id strong { display: block; }
+.user-menu .user-id small { color: var(--ink-soft); overflow-wrap: anywhere; }
+.theme-choice { margin: 0; padding: 0; border: 0; }
+.theme-choice legend { margin-bottom: .35rem; color: var(--ink-soft); font-size: .82rem; }
+.theme-choice div { display: grid; grid-template-columns: repeat(3, 1fr); gap: .25rem; padding: .2rem; border-radius: .6rem; background: var(--paper-deep); }
+.theme-choice button { padding: .35rem .2rem; border: 0; border-radius: .45rem; color: var(--ink-soft); background: transparent; font: inherit; font-size: .85rem; cursor: pointer; }
+.theme-choice button[aria-pressed="true"] { color: var(--ink); background: var(--surface); box-shadow: 0 1px 3px rgba(0, 0, 0, .18); font-weight: 600; }
+.user-menu .user-logout { width: 100%; margin-top: .8rem; padding: .45rem; border: 1px solid var(--line); border-radius: .55rem; color: var(--ink); background: transparent; font: inherit; cursor: pointer; }
+.user-menu .user-logout:hover { border-color: var(--accent); color: var(--accent); }
+@media (max-width: 850px) { .user-name { display: none; } }
+.user-menu .user-login { display: block; margin-top: .8rem; padding: .45rem; border: 1px solid var(--line); border-radius: .55rem; text-align: center; text-decoration: none; }
+.user-menu .user-login[hidden] { display: none; }
+:root[data-theme="light"] .chain li { border-bottom-color: var(--line); }
+:root[data-theme="light"] .chain li small { color: var(--ink-soft); }
+
+/* MADLab@KU mark replaces the "A" brand circle: navy tile on dark, light tile on light */
+.brand-mark.brand-logo { width: 2.3rem; height: 2.3rem; padding: 0; overflow: hidden; border-radius: .5rem; background: transparent; }
+.brand-logo img { display: block; width: 100%; height: 100%; }
+.brand-logo .logo-on-light { display: none; }
+:root[data-theme="light"] .brand-logo .logo-on-dark { display: none; }
+:root[data-theme="light"] .brand-logo .logo-on-light { display: block; }
+:root[data-theme="light"] .brand-mark.brand-logo { box-shadow: inset 0 0 0 1px var(--line); }

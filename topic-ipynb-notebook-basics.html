@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="แยก cell ข้อความกับ cell โค้ดและผลลัพธ์ใน notebook ได้ · รัน notebook ตามลำดับบน Colab และรู้ว่าผลลัพธ์ที่บันทึกไว้อาจไม่ตรงกับโค้ดจนกว่าจะรันใหม่ · รู้ว่า .ipynb ชุดเดียวกันอยู่ในเครื่องและ AI อ่านไฟล์นี้ได้โดยไม่ต้องเปิด Colab">
+  <meta name="theme-color" content="#101817">
+  <title>Notebook (.ipynb): cell, ลำดับการรัน และผลลัพธ์ที่ต้องรันใหม่ก่อนเชื่อ · AIRR</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/styles.css?v=20261113-2">
+  <link rel="stylesheet" href="assets/learn.css?v=20261115-3">
+  <script src="assets/site-shell.js?v=20261115-3"></script>
+  <script src="assets/app.js?v=20261115-3" defer></script>
+</head>
+<body class="learn" data-no-case>
+  <a class="skip-link" href="#main">ข้ามไปยังเนื้อหา</a>
+  <site-header current="topic" plan="class-2026-11-20-engineering-faculty.html" menu='{&quot;module&quot;: &quot;X01&quot;, &quot;title&quot;: &quot;พื้นฐานไฟล์ MD · CSV · PDF · JSON&quot;, &quot;items&quot;: [{&quot;href&quot;: &quot;module-overview-x01.html&quot;, &quot;label&quot;: &quot;ภาพรวมและ LO&quot;, &quot;current&quot;: false}, {&quot;href&quot;: &quot;topic-csv-rows-columns-units.html&quot;, &quot;label&quot;: &quot;CSV: หนึ่งแถวแทนอะไร ชื่อคอลัมน์ หน่วย และค่าที่ขาด&quot;, &quot;current&quot;: false}, {&quot;href&quot;: &quot;topic-markdown-structure-and-preview.html&quot;, &quot;label&quot;: &quot;Markdown: หัวข้อ รายการ และ Preview — แก้ที่ต้นฉบับ ไม่แก้ที่ PDF&quot;, &quot;current&quot;: false}, {&quot;href&quot;: &quot;topic-markdown-to-pdf-first-build.html&quot;, &quot;label&quot;: &quot;สร้าง PDF แรกจาก Markdown ด้วย AI: แก้ที่ต้นฉบับ แล้วสร้างใหม่&quot;, &quot;current&quot;: false}, {&quot;href&quot;: &quot;topic-pdf-text-vs-scan-verification.html&quot;, &quot;label&quot;: &quot;PDF: ข้อความที่เลือกได้ ภาพสแกน และการตรวจสิ่งที่ AI อ่านกับหน้าต้นทาง&quot;, &quot;current&quot;: false}, {&quot;href&quot;: &quot;topic-json-fields-and-status-values.html&quot;, &quot;label&quot;: &quot;JSON: ชื่อช่อง ค่า และสถานะ true/false/null — อ่านผ่านไม่ได้แปลว่าค่าถูก&quot;, &quot;current&quot;: false}, {&quot;href&quot;: &quot;topic-ipynb-notebook-basics.html&quot;, &quot;label&quot;: &quot;Notebook (.ipynb): cell, ลำดับการรัน และผลลัพธ์ที่ต้องรันใหม่ก่อนเชื่อ&quot;, &quot;current&quot;: true}]}'></site-header>
+  <main id="main">
+<section class="prepare-hero module-hero"><p class="eyebrow">หัวข้อย่อย · X01</p><h1>Notebook (.ipynb): cell, ลำดับการรัน และผลลัพธ์ที่ต้องรันใหม่ก่อนเชื่อ</h1><ul class="outcomes"><li>แยก cell ข้อความกับ cell โค้ดและผลลัพธ์ใน notebook ได้</li><li>รัน notebook ตามลำดับบน Colab และรู้ว่าผลลัพธ์ที่บันทึกไว้อาจไม่ตรงกับโค้ดจนกว่าจะรันใหม่</li><li>รู้ว่า .ipynb ชุดเดียวกันอยู่ในเครื่องและ AI อ่านไฟล์นี้ได้โดยไม่ต้องเปิด Colab</li></ul></section>
+<div class="topic-layout"><nav class="topic-tabs" aria-label="ส่วนของหัวข้อ"><a href="#slides" title="สไลด์">สไลด์</a><a href="#workshop-core" title="เปิด รัน และอ่าน notebook บน Colab">Notebook</a><a href="#open-explore" title="Exploring workshop">Exploring</a><button type="button" class="aside-toggle" data-aside-toggle aria-pressed="false">ซ่อนสไลด์ข้าง</button></nav><div class="topic-main"><section class="section markdown-section topic-panel" id="slides" aria-labelledby="slides-heading"><div class="section-heading compact"><p class="eyebrow">สไลด์</p><h2 id="slides-heading">สไลด์</h2></div><div class="markdown-body"><div class="slide-tools"><button type="button" class="slide-tool" data-fullscreen="#slide-frame-main">⛶ เต็มจอ</button><a class="slide-tool" href="downloads/topics/ipynb-notebook-basics.pdf" target="_blank" rel="noopener">เปิดแท็บใหม่ ↗</a></div><iframe id="slide-frame-main" class="slide-frame" src="downloads/topics/ipynb-notebook-basics.pdf#view=FitH" title="สไลด์ Notebook (.ipynb): cell, ลำดับการรัน และผลลัพธ์ที่ต้องรันใหม่ก่อนเชื่อ" allowfullscreen></iframe></div></section>
+<section class="section markdown-section topic-panel" id="workshop-core" aria-labelledby="workshop-core-heading"><div class="section-heading compact"><p class="eyebrow">Notebook</p><h2 id="workshop-core-heading">เปิด รัน และอ่าน notebook บน Colab</h2></div><div class="markdown-body"><p>ใน workshop นี้คุณจะเปิด notebook Part A ของ Module 7 ใน Google Colab รันตามลำดับ และรันใหม่ตั้งแต่ต้นเพื่อดูว่าผลลัพธ์เชื่อได้หรือไม่</p>
+<p>ทำใน <strong>Google Colab อย่างเดียว</strong> ไม่ต้องใช้ AI ในส่วนนี้ notebook ใช้ข้อมูลจำลองทั้งหมด</p>
+<h3 id="ก่อนเริ่ม-ต้องมีอยู่แล้ว">ก่อนเริ่ม (ต้องมีอยู่แล้ว)</h3>
+<ul>
+<li>บัญชี Google หนึ่งบัญชี</li>
+<li>ลิงก์ notebook: <a href="https://colab.research.google.com/github/punpiti/ai-for-research/blob/main/downloads/course-materials/visualization/notebooks/module-07a-read-and-audit.ipynb">Part A — อ่านกราฟและตรวจสิ่งที่ AI เลือก</a></li>
+<li>ไม่มี Colab: ไฟล์ <code>.ipynb</code> ชุดเดียวกันอยู่ที่ <code>course-materials/module-07/notebooks/</code> (ตัวติดตั้ง Module 1 วางไว้ให้) เปิดด้วย <code>tools/start-module-07</code></li>
+</ul>
+<h3 id="ขั้นตอน">ขั้นตอน</h3>
+<ol type="1">
+<li><strong>เปิดลิงก์ Part A</strong> แล้วดูโครงของ notebook: <strong>cell ข้อความ</strong> (หัวข้อ คำอธิบาย) กับ <strong>cell โค้ด</strong> (มีปุ่ม ▶) สลับกัน ใต้ cell โค้ดคือ <strong>ผลลัพธ์</strong> เช่น ตารางหรือกราฟ</li>
+<li><strong>เปิดสารบัญ</strong> ด้านซ้าย แล้วกระโดดไปหัวข้อ 1 ดูว่าหัวข้อในสารบัญมาจาก cell ข้อความ</li>
+<li><strong>ลองกด ▶ ที่ cell โค้ดกลางเรื่องก่อนรัน cell แรก</strong> แล้วจดว่าเกิดอะไร (มักขึ้นข้อผิดพลาด เพราะ cell ก่อนหน้ายังไม่ได้รัน)</li>
+<li><strong>กด Runtime → Run all</strong> รอจนทุก cell มีเครื่องหมายรันเสร็จ แล้วดูกราฟของหัวข้อ 1 อีกครั้ง</li>
+<li><strong>กด Runtime → Restart session and run all</strong> แล้วเทียบว่ากราฟยังเหมือนเดิมหรือไม่ — ผลลัพธ์ที่เชื่อได้คือผลที่รันใหม่ตั้งแต่ต้นแล้วได้เท่าเดิม</li>
+<li><strong>ถ้าจะลองแก้: กด File → Save a copy in Drive ก่อน</strong> แล้วแก้ในสำเนาของคุณ (ต้นฉบับของคลาสไม่เปลี่ยน)</li>
+</ol>
+<h3 id="ตรวจก่อนจบ">ตรวจก่อนจบ</h3>
+<ul class="task-list">
+<li><label><input type="checkbox">ชี้ได้ใน notebook ว่าส่วนไหนคือ cell ข้อความ cell โค้ด และผลลัพธ์</label></li>
+<li><label><input type="checkbox">จดไว้แล้วว่าเกิดอะไรเมื่อรัน cell กลางเรื่องก่อน และอธิบายได้หนึ่งบรรทัดว่าทำไมจึงผิด</label></li>
+<li><label><input type="checkbox">หลัง Restart session and run all ทุก cell รันเสร็จ และกราฟหัวข้อ 1 เหมือนก่อน Restart (หรือจดไว้ว่าต่างตรงไหน)</label></li>
+<li><label><input type="checkbox">(ถ้าแก้) มีสำเนา notebook ใน Drive ของคุณ และ notebook ต้นฉบับของคลาสไม่เปลี่ยน</label></li>
+</ul>
+<h3 id="ส่งงาน">ส่งงาน</h3>
+<ul>
+<li>หัวข้อเสริมนี้ไม่ส่งงาน</li>
+</ul>
+</div></section>
+<section class="section markdown-section topic-panel" id="open-explore" aria-labelledby="open-explore-heading"><div class="section-heading compact"><p class="eyebrow">Exploring</p><h2 id="open-explore-heading">Notebook (.ipynb): cell, ลำดับการรัน และผลลัพธ์ที่ต้องรันใหม่ก่อนเชื่อ</h2></div><div class="markdown-body"><p>ในโจทย์นี้คุณจะเขียน prompt เองให้ AI ใน VS Code อ่านไฟล์ <code>.ipynb</code> ในเครื่อง แล้วตรวจคำตอบของ AI กับ notebook จริง</p>
+<p>ไม่มี prompt สำเร็จรูป — เขียนเองกับ AI ใน VS Code โดยให้ AI อ่านไฟล์ <code>.ipynb</code> ในเครื่อง (ไม่ต้องเปิด Colab ให้ AI)</p>
+<h3 id="ก่อนเริ่ม-ต้องมีอยู่แล้ว">ก่อนเริ่ม (ต้องมีอยู่แล้ว)</h3>
+<ul>
+<li>ทำ workshop ของหัวข้อนี้ใน Colab แล้ว</li>
+<li>ผ่าน Module 1: เปิด <code>ai-for-research-workspace</code> ใน VS Code และ AI panel เชื่อมแล้ว</li>
+<li><code>course-materials/module-07/notebooks/module-07a-read-and-audit.ipynb</code> (ตัวติดตั้ง Module 1 วางไว้ให้ อ่านอย่างเดียว)</li>
+<li>(ข้อ 3 เท่านั้น) notebook ของงานคุณเอง หรือของนิสิตที่ดูแล</li>
+</ul>
+<h3 id="โจทย์-เลือกอย่างน้อย-1-ข้อ">โจทย์ (เลือกอย่างน้อย 1 ข้อ)</h3>
+<p>ก่อนเริ่ม สร้างไฟล์ <code>output/prompts.md</code> ในโฟลเดอร์งานของคุณ สำหรับเก็บ prompt ทุกรอบ</p>
+<ol type="1">
+<li>ให้ AI อ่าน <code>course-materials/module-07/notebooks/module-07a-read-and-audit.ipynb</code> แล้วสรุปโครงของ notebook: มีกี่หัวข้อ แต่ละหัวข้อใช้ข้อมูลอะไรและสร้างกราฟอะไร — ตรวจกับสารบัญใน Colab ว่าตรงกันไหม</li>
+<li>ให้ AI บอกว่า cell โค้ดใดต้องรันก่อน cell ใด (ตัวแปรหรือข้อมูลที่ถูกสร้างไว้ก่อน) แล้วลองพิสูจน์ใน Colab ด้วยการรัน cell นั้นก่อน</li>
+<li>ถ้ามี notebook ของงานคุณเอง (หรือของนิสิตที่ดูแล): ให้ AI ตรวจว่ามี cell ที่ผลลัพธ์ไม่ตรงกับโค้ดหรือข้อมูลที่ใช้ไม่มีอยู่ในเครื่องหรือไม่ โดยห้ามแก้ไฟล์</li>
+</ol>
+<h3 id="ข้อกำหนด">ข้อกำหนด</h3>
+<ul>
+<li>ระบุว่าตรวจคำตอบของ AI อย่างไร (เปิด notebook ดูเอง รันใหม่ใน Colab)</li>
+<li>ไม่อัปโหลดข้อมูลวิจัยจริงหรือข้อมูลส่วนบุคคลขึ้น Colab</li>
+</ul>
+<h3 id="เกณฑ์ผ่าน">เกณฑ์ผ่าน</h3>
+<ul class="task-list">
+<li><label><input type="checkbox">สรุปโครง notebook ที่ตรวจกับสารบัญแล้ว</label></li>
+<li><label><input type="checkbox">อย่างน้อยหนึ่งจุดที่พิสูจน์ลำดับการรันด้วยตัวเอง</label></li>
+<li><label><input type="checkbox">notebook ที่ให้ AI อ่านไม่ถูกแก้</label></li>
+<li><label><input type="checkbox"><code>prompts.md</code> แสดงการปรับ prompt อย่างน้อย 1 รอบ พร้อมเหตุผล</label></li>
+</ul>
+</div></section></div><aside class="slide-aside" aria-label="สไลด์ประกอบ"><div class="slide-tools"><button type="button" class="slide-tool" data-fullscreen="#slide-frame-aside">⛶ เต็มจอ</button><a class="slide-tool" href="downloads/topics/ipynb-notebook-basics.pdf" target="_blank" rel="noopener">เปิดแท็บใหม่ ↗</a></div><iframe id="slide-frame-aside" src="downloads/topics/ipynb-notebook-basics.pdf#view=FitH" title="สไลด์ Notebook (.ipynb): cell, ลำดับการรัน และผลลัพธ์ที่ต้องรันใหม่ก่อนเชื่อ" loading="lazy" allowfullscreen></iframe></aside></div>
+<script>
+(() => {
+  const tabs = [...document.querySelectorAll('.topic-tabs a')];
+  const panels = tabs.map(t => document.getElementById(t.hash.slice(1)));
+  function show(id) {
+    const i = Math.max(0, panels.findIndex(p => p && p.id === id));
+    panels.forEach((p, k) => { if (p) p.hidden = k !== i; });
+    tabs.forEach((t, k) => t.setAttribute('aria-current', k === i ? 'page' : 'false'));
+    const layout = document.querySelector('.topic-layout'); if (layout && panels[i]) layout.dataset.active = panels[i].id;
+  }
+  tabs.forEach(t => t.addEventListener('click', e => { e.preventDefault(); history.replaceState(null, '', t.hash); show(t.hash.slice(1)); window.scrollTo({top: 0}); }));
+  document.querySelectorAll('[data-next-tab]').forEach(b => b.addEventListener('click', e => { e.preventDefault(); const h = b.getAttribute('href'); history.replaceState(null, '', h); show(h.slice(1)); window.scrollTo({top: 0}); }));
+  document.querySelectorAll('[data-fullscreen]').forEach(b => b.addEventListener('click', () => {
+    const frame = document.querySelector(b.dataset.fullscreen);
+    const go = frame && (frame.requestFullscreen || frame.webkitRequestFullscreen);
+    if (go) go.call(frame); else if (frame) window.open(frame.src, '_blank', 'noopener');
+  }));
+  const layout0 = document.querySelector('.topic-layout');
+  const toggle = document.querySelector('[data-aside-toggle]');
+  function setAside(hidden) {
+    if (!layout0 || !toggle) return;
+    layout0.classList.toggle('aside-hidden', hidden);
+    toggle.setAttribute('aria-pressed', String(hidden));
+    toggle.textContent = hidden ? 'แสดงสไลด์ข้าง' : 'ซ่อนสไลด์ข้าง';
+    try { localStorage.setItem('airr.slideAsideHidden', hidden ? '1' : '0'); } catch (e) {}
+  }
+  if (toggle) {
+    let saved = true; try { saved = localStorage.getItem('airr.slideAsideHidden') !== '0'; } catch (e) {}  // hidden by default
+    setAside(saved);
+    toggle.addEventListener('click', () => setAside(!layout0.classList.contains('aside-hidden')));
+  }
+  show(location.hash.slice(1));
+  if (location.hash) requestAnimationFrame(() => window.scrollTo({top: 0}));
+})();
+</script>
+  </main>
+  <site-footer></site-footer>
+</body>
+</html>

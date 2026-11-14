@@ -2,7 +2,7 @@
 set -euo pipefail
 
 site_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-module_source_dir="$site_dir/../documents/ai-for-grad-students-syllabus/modules"
+module_source_dir="$site_dir/../modules"
 failed=0
 
 check_file() {
@@ -106,15 +106,15 @@ check_file "$site_dir/prepare.html" "checkpoint label" '<p class="eyebrow">Check
 check_file "$site_dir/prepare.html" "post-lesson result" '<h2[^>]*>จบบทเรียน</h2>'
 check_file "$site_dir/prepare.html" "research profile prompt" 'profile/research-profile\.md'
 check_file "$site_dir/prepare.html" "M1 progress form" 'data-module-1-submission-form'
-check_file "$site_dir/prepare.html" "M1 checkpoint payload fields" 'data-module-1-check="pdf_created_and_opened"'
+check_file "$site_dir/prepare.html" "M1 checkpoint payload fields" 'data-module-1-check="text_file_created_and_opened"'
 check_file "$site_dir/assets/module-1-submission.js" "M1 progress endpoint" '/api/ai-for-research/module-1/submissions'
 check_file "$site_dir/assets/module-1-submission.js" "M1 progress-only schema" 'ai-for-research\.module-1-progress\.v1'
 node --check "$site_dir/assets/module-1-submission.js"
 node "$site_dir/scripts/test-module-1-submission.js"
-check_file "$site_dir/module-2.html" "M2 action hierarchy JS" 'assets/app\.js\?v=20261113-1'
+check_file "$site_dir/module-2.html" "M2 action hierarchy JS" 'assets/app\.js\?v=20261115-2'
 check_file "$site_dir/module-2.html" "M2 step flow JS" 'assets/module-2-steps\.js\?v=20261019-3'
 check_file "$site_dir/module-2.html" "M2 step flow CSS" 'assets/styles\.css\?v=20261113-2'
-check_file "$site_dir/module-3.html" "M3 action hierarchy JS" 'assets/app\.js\?v=20261113-1'
+check_file "$site_dir/module-3.html" "M3 action hierarchy JS" 'assets/app\.js\?v=20261115-2'
 check_file "$site_dir/module-3.html" "M3 access JS" 'assets/module-3-access\.js\?v=20261011-1'
 check_file "$site_dir/module-3.html" "M3 step flow JS" 'assets/module-3-steps\.js\?v=20261019-1'
 check_file "$site_dir/module-3.html" "M3 action hierarchy CSS" 'assets/styles\.css\?v=20261113-2'
@@ -218,7 +218,7 @@ for number in 6 9; do
   check_file "$site_dir/module-$number.html" "Module $number activity" 'id="activity"'
   check_file "$site_dir/module-$number.html" "Module $number checkpoint" 'id="finish"'
 done
-# Module 8 follows the numbered-step page standard (documents/standards/MODULE_PAGE_STANDARD.md).
+# Module 8 follows the numbered-step page standard (admin/standards/MODULE_PAGE_STANDARD.md).
 for step in install journal literature build readiness switch finish; do
   check_file "$site_dir/module-8.html" "Module 8 step $step" "id=\"$step\""
 done
@@ -523,7 +523,7 @@ fi
 
 for number in {1..9}; do
   shopt -s nullglob
-  sources=("$module_source_dir/module-0$number-"*.md)
+  sources=("$module_source_dir/M0$number-"*/source.md)
   shopt -u nullglob
   if (( ${#sources[@]} != 1 )); then
     printf 'Expected one Markdown source for Module %s, found %s.\n' "$number" "${#sources[@]}"

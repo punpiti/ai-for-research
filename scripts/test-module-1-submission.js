@@ -25,7 +25,7 @@ assert.throws(() => module1.buildEnvelope({
   completionMinutes: "35",
   tokenSource: "not_available",
   totalTokens: "",
-  checks: { ...completeChecks, pdf_created_and_opened: false },
+  checks: { ...completeChecks, text_file_created_and_opened: false },
 }), /Checkpoint/);
 
 const incomplete = module1.buildEnvelope({
@@ -35,9 +35,9 @@ const incomplete = module1.buildEnvelope({
   completionMinutes: "35",
   tokenSource: "not_available",
   totalTokens: "",
-  checks: { ...completeChecks, pdf_created_and_opened: false },
+  checks: { ...completeChecks, text_file_created_and_opened: false },
 });
 assert.equal(incomplete.progress.total_tokens, null);
-assert.equal(incomplete.progress.checks.pdf_created_and_opened, false);
+assert.equal(incomplete.progress.checks.text_file_created_and_opened, false);
 
 console.log("Module 1 progress submission tests passed.");

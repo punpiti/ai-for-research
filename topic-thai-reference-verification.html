@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="ตรวจรายการอ้างอิงภาษาไทยโดยค้นต่อใน ThaiJO, TCI และ ThaiLIS เมื่อไม่พบใน OpenAlex แปลงปี พ.ศ./ค.ศ. เทียบชื่อผู้แต่งและชื่อเรื่องทั้งสองภาษา และบันทึกแหล่งที่ค้นแล้วทุกครั้ง แทนการตัดสินว่าปลอมจากฐานข้อมูลแหล่งเดียว และเขียน Prompt ของตนเองที่มีองค์ประกอบครบสำหรับงานจริง">
+  <meta name="theme-color" content="#101817">
+  <title>ตรวจรายการอ้างอิงภาษาไทย: ไม่พบใน OpenAlex ไม่ได้แปลว่าปลอม · AIRR</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/styles.css?v=20261113-2">
+  <link rel="stylesheet" href="assets/learn.css?v=20261115-3">
+  <script src="assets/site-shell.js?v=20261115-3"></script>
+  <script src="assets/app.js?v=20261115-3" defer></script>
+</head>
+<body class="learn" data-no-case>
+  <a class="skip-link" href="#main">ข้ามไปยังเนื้อหา</a>
+  <site-header current="topic" plan="class-2026-11-20-engineering-faculty.html" menu='{&quot;module&quot;: &quot;M04&quot;, &quot;title&quot;: &quot;ตรวจ reference และ citation&quot;, &quot;items&quot;: [{&quot;href&quot;: &quot;module-overview-m04.html&quot;, &quot;label&quot;: &quot;ภาพรวมและ LO&quot;, &quot;current&quot;: false}, {&quot;href&quot;: &quot;topic-reference-existence-vs-citation-support.html&quot;, &quot;label&quot;: &quot;ตรวจสองชั้น: ref มีจริง กับ cite ถูกต้อง (สี่ชั้นของแหล่ง หกสถานะ ref ทิพย์)&quot;, &quot;current&quot;: false}, {&quot;href&quot;: &quot;topic-citation-register-with-openalex.html&quot;, &quot;label&quot;: &quot;ทะเบียนตรวจ citation: OpenAlex → full text → register&quot;, &quot;current&quot;: false}, {&quot;href&quot;: &quot;topic-thai-reference-verification.html&quot;, &quot;label&quot;: &quot;ตรวจรายการอ้างอิงภาษาไทย: ไม่พบใน OpenAlex ไม่ได้แปลว่าปลอม&quot;, &quot;current&quot;: true}]}'></site-header>
+  <main id="main">
+<section class="prepare-hero module-hero"><p class="eyebrow">หัวข้อย่อย · M04</p><h1>ตรวจรายการอ้างอิงภาษาไทย: ไม่พบใน OpenAlex ไม่ได้แปลว่าปลอม</h1><ul class="outcomes"><li>ตรวจรายการอ้างอิงภาษาไทยโดยค้นต่อใน ThaiJO, TCI และ ThaiLIS เมื่อไม่พบใน OpenAlex แปลงปี พ.ศ./ค.ศ. เทียบชื่อผู้แต่งและชื่อเรื่องทั้งสองภาษา และบันทึกแหล่งที่ค้นแล้วทุกครั้ง แทนการตัดสินว่าปลอมจากฐานข้อมูลแหล่งเดียว และเขียน Prompt ของตนเองที่มีองค์ประกอบครบสำหรับงานจริง</li></ul></section>
+<div class="topic-layout"><nav class="topic-tabs" aria-label="ส่วนของหัวข้อ"><a href="#slides" title="สไลด์">สไลด์</a><a href="#workshop-core" title="Workshop หลัก">Workshop</a><a href="#open-explore" title="Exploring workshop">Exploring</a></nav><div class="topic-main"><section class="section markdown-section topic-panel" id="slides" aria-labelledby="slides-heading"><div class="section-heading compact"><p class="eyebrow">สไลด์</p><h2 id="slides-heading">สไลด์</h2></div><div class="markdown-body"><p>สไลด์ของหัวข้อนี้กำลังจัดทำ</p></div></section>
+<section class="section markdown-section topic-panel" id="workshop-core" aria-labelledby="workshop-core-heading"><div class="section-heading compact"><p class="eyebrow">Workshop</p><h2 id="workshop-core-heading">ตรวจรายการอ้างอิงภาษาไทย: ไม่พบใน OpenAlex ไม่ได้แปลว่าปลอม</h2></div><div class="markdown-body"><p>ใน workshop นี้คุณจะให้ AI สร้าง <code>refs.bib</code> และทะเบียนการอ้างอิงของบทความจำลองภาษาไทย ตรวจรายการที่ OpenAlex ไม่พบกับแหล่งไทยด้วยตนเอง และตรวจหนึ่งรายการกับฉบับเต็ม</p>
+<p>บทความจำลอง <code>mock-paper-th.pdf</code> มี 2 หน้า 7 รายการอ้างอิง (เอกสารจำลองเพื่อฝึก ไม่ใช่ผลงานตีพิมพ์จริง ห้ามนำไปอ้างอิง) ใช้งานภาษาไทยที่มีอยู่จริงใน ThaiJO ปนกับปัญหาที่ใส่ไว้ เช่น รายการที่ไม่พบใน OpenAlex แต่มีอยู่จริง ปี พ.ศ. กับ ค.ศ. ชื่อผู้แต่งที่ OpenAlex เก็บเป็นอักษรโรมัน และชื่อเรื่องสองภาษา</p>
+<p>ใน Module 4 ฉบับคณาจารย์ workshop นี้เป็น <strong>ทางเลือกสำรอง</strong> ของช่วง "ลองกับงานของนิสิต" (25 นาที) สำหรับผู้ที่ยังไม่มีงานของนิสิตที่ใช้ได้</p>
+<h3 id="ก่อนเริ่ม-ต้องมีอยู่แล้ว">ก่อนเริ่ม (ต้องมีอยู่แล้ว)</h3>
+<ul>
+<li>ทำกิจกรรม <code>bibtex-with-openalex-abstracts</code> และ <code>citation-register-audit</code> (หัวข้อ <a href="topic-citation-register-with-openalex.html">ทะเบียนตรวจ citation: OpenAlex → full text → register</a>) กับบทความจำลองภาษาอังกฤษแล้ว</li>
+<li><code>module-04-work/thai-mock/input/original/mock-paper-th.pdf</code> — บทความจำลองภาษาไทย (ตัวติดตั้ง Module 1 วางไว้ให้ เมื่อหน้าต่างติดตั้งแสดง <code>PRACTICE_FILES_READY</code>) ถ้ายังไม่มี: ดาวน์โหลดบทความจำลองภาษาไทยจากหน้า Module 4 แล้ววางตามตำแหน่งนี้เอง</li>
+<li><code>course-materials/module-04/citation-audit-rules.md</code> และ <code>course-materials/module-04/citation-register-template.csv</code> (ชุดเดิมที่ใช้กับบทความภาษาอังกฤษ อ่านอย่างเดียว)</li>
+<li>OpenAlex API key ในตัวแปร <code>OPENALEX_KEY</code> ของเครื่อง (ตั้งไว้ก่อนเรียน Module 4)</li>
+<li>คลัง <code>literature/</code> เดิม (ใช้ร่วมกับบทความภาษาอังกฤษ)</li>
+</ul>
+<p>ทุกขั้นด้านล่างใช้โฟลเดอร์ <code>module-04-work/thai-mock/</code> แทน <code>module-04-work/</code> แต่ใช้คลัง <code>literature/</code> เดิม</p>
+<h3 id="ขั้นตอน">ขั้นตอน</h3>
+<ol type="1">
+<li><p><strong>ให้ AI สร้าง refs.bib ของรายการภาษาไทย</strong> วาง Prompt นี้ใน AI — AI จะสร้าง <code>module-04-work/thai-mock/input/markdown/paper.md</code> และ <code>module-04-work/thai-mock/output/refs.bib</code></p>
+<div class="command ai-prompt"><code>อ่าน course-materials/module-04/citation-audit-rules.md ก่อน โดยเฉพาะหัวข้อรายการภาษาไทย แล้วแปลงงานวิจัยใน module-04-work/thai-mock/input/original/ เป็น module-04-work/thai-mock/input/markdown/paper.md พร้อม page marker แล้วแกะรายการอ้างอิงท้ายเรื่องทั้งหมดตามลำดับ ห้ามเดาชื่อเรื่อง ผู้แต่ง หรือ DOI ที่อ่านไม่ชัด ค้นแต่ละรายการใน OpenAlex API ด้วย DOI ก่อน ถ้าไม่มี DOI ให้ค้นด้วยชื่อเรื่องและปี ทั้งชื่อภาษาไทยและภาษาอังกฤษ แปลงปี พ.ศ. เป็น ค.ศ. (ลบ 543) ก่อนเทียบปี และเทียบชื่อผู้แต่งทั้งอักษรไทยและอักษรโรมัน ถ้าไม่พบใน OpenAlex ให้ค้นต่อใน ThaiJO, TCI และ ThaiLIS สำหรับวิทยานิพนธ์ แล้วบันทึกทุกแหล่งที่ค้นแล้ว สร้าง module-04-work/thai-mock/output/refs.bib หนึ่ง entry ต่อหนึ่งรายการ พร้อม field abstract_source, openalex_id, identity_check, retracted และ local_fulltext (เว้นว่างไว้ก่อน) เก็บ abstract ตามภาษาต้นฉบับและระบุแหล่งที่มา ถ้าไม่พบหรือ metadata ไม่ตรง ให้บันทึกตามจริง ห้ามแต่ง abstract และห้ามเรียกรายการที่ไม่พบว่าปลอม ใช้ API key จากตัวแปร OPENALEX_KEY เท่านั้น และห้ามพิมพ์ key ลงไฟล์ log หรือผลลัพธ์ใด สรุปจำนวน matched, metadata_conflict, not_found, abstract not found และ retracted พร้อมแหล่งที่พบของแต่ละรายการ แล้วหยุดรอ</code><button type="button" data-copy="">คัดลอก</button></div></li>
+<li><p><strong>ตรวจเองกับแหล่งไทย</strong> เลือกรายการที่ OpenAlex ไม่พบหนึ่งรายการใน <code>refs.bib</code> ค้นเองใน ThaiJO (หรือ TCI / ThaiLIS) ด้วยชื่อเรื่องทั้งสองภาษา แล้วเทียบ author, year (หลังแปลง พ.ศ./ค.ศ.), title และ venue ทีละช่องกับ <code>refs.bib</code> แก้ <code>identity_check</code> และ <code>search_sources</code> ตามที่พบจริง</p></li>
+<li><p><strong>ให้ AI สร้างทะเบียนการอ้างอิง</strong> วาง Prompt นี้ต่อ — AI จะสร้าง <code>module-04-work/thai-mock/output/citation-register.csv</code> และ <code>citation-register-summary.md</code> (ข้ามการโหลดฉบับเต็มเข้าคลังได้ถ้าเวลาไม่พอ ฉบับเต็มของบทความใน ThaiJO เปิดจากหน้าวารสารได้)</p>
+<div class="command ai-prompt"><code>จาก module-04-work/thai-mock/input/markdown/paper.md และ module-04-work/thai-mock/output/refs.bib ให้หา in-text citation ทุกจุด จับคู่กับรายการอ้างอิง โดยคำนึงว่าการอ้างแบบไทยใช้ชื่อต้นและนามสกุลเต็ม และปีอาจเป็น พ.ศ. แล้วสร้าง module-04-work/thai-mock/output/citation-register.csv ตามหัวคอลัมน์ใน course-materials/module-04/citation-register-template.csv และความหมายของแต่ละคอลัมน์ใน course-materials/module-04/citation-audit-rules.md หนึ่งแถวต่อหนึ่งรายการอ้างอิง ใส่ทุกตำแหน่งที่ถูกอ้างและประโยครอบ citation ถ้ามีฉบับเต็มใน literature/markdown/ ให้เทียบกับฉบับเต็มพร้อมหน้า และตั้ง checked_against เป็น full_text ถ้าไม่มีให้เทียบกับ abstract และตั้งเป็น abstract แล้วระบุว่ารองรับ รองรับบางส่วน ไม่รองรับ หรือตรวจไม่ได้ แยก citation ที่ไม่มีในรายการอ้างอิง และรายการที่ไม่ถูกอ้าง แล้วสร้าง module-04-work/thai-mock/output/citation-register-summary.md ที่นับจำนวนตามสถานะ ระบุรายการเสี่ยง และปัญหาคุณภาพของชุดอ้างอิง ห้ามตัดสินจากชื่อเรื่อง และห้ามเปลี่ยน not found เป็น fabricated จากการค้นแหล่งเดียว แล้วหยุดรอ</code><button type="button" data-copy="">คัดลอก</button></div></li>
+<li><p><strong>ตรวจหนึ่งรายการกับฉบับเต็ม</strong> เลือกรายการเสี่ยงหนึ่งรายการจาก <code>citation-register.csv</code> เปิดบทความนั้นใน ThaiJO ตรวจด้วยสี่คำถาม แล้วแก้ <code>checked_against</code>, <code>status</code>, <code>decision</code> และใส่ชื่อของคุณใน <code>reviewer</code></p></li>
+<li><p><strong>จดสิ่งที่ AI จัดการได้</strong> จดว่าปัญหาใด (ปี พ.ศ./ค.ศ., ชื่อผู้แต่ง, ชื่อเรื่องสองภาษา, ไม่มี DOI) ที่ AI จัดการถูก และที่คุณต้องแก้เอง</p></li>
+</ol>
+<h3 id="ตรวจก่อนจบ">ตรวจก่อนจบ</h3>
+<ul class="task-list">
+<li><label><input type="checkbox"><code>module-04-work/thai-mock/output/refs.bib</code> มีครบ 7 รายการ และรายการที่ไม่พบใน OpenAlex มี <code>search_sources</code> บอกแหล่งไทยที่ค้นแล้ว ไม่ถูกเรียกว่าปลอม</label></li>
+<li><label><input type="checkbox">ปีที่ต่างกันเพราะ พ.ศ./ค.ศ. ไม่ถูกนับเป็น metadata ไม่ตรง</label></li>
+<li><label><input type="checkbox">มีบันทึกการตรวจเองกับ ThaiJO / TCI / ThaiLIS อย่างน้อยหนึ่งรายการ และ <code>identity_check</code> ของรายการนั้นแก้ตามที่พบจริง</label></li>
+<li><label><input type="checkbox"><code>module-04-work/thai-mock/output/citation-register.csv</code> และ <code>citation-register-summary.md</code> มีอยู่ และอย่างน้อยหนึ่งแถวมี <code>checked_against</code> เป็น <code>full_text</code> พร้อมชื่อคุณใน <code>reviewer</code></label></li>
+<li><label><input type="checkbox">มีบันทึกว่าปัญหาใดที่ AI จัดการถูก และปัญหาใดที่คุณต้องแก้เอง</label></li>
+<li><label><input type="checkbox"><code>module-04-work/thai-mock/input/original/mock-paper-th.pdf</code> ไม่ถูกแก้</label></li>
+</ul>
+<h3 id="ส่งงาน">ส่งงาน</h3>
+<ul>
+<li>ให้ AI รันเครื่องมือ AIRR check → ยืนยัน → submit ของ Module 4 โดยระบุโฟลเดอร์งาน <code>--file module-04-work/thai-mock</code></li>
+</ul>
+</div></section>
+<section class="section markdown-section topic-panel" id="open-explore" aria-labelledby="open-explore-heading"><div class="section-heading compact"><p class="eyebrow">Exploring</p><h2 id="open-explore-heading">ตรวจรายการอ้างอิงภาษาไทย: ไม่พบใน OpenAlex ไม่ได้แปลว่าปลอม</h2></div><div class="markdown-body"><p>ในโจทย์นี้คุณจะเขียน prompt เองทีละขั้นให้ AI สร้าง <code>refs.bib</code> คลังฉบับเต็ม และทะเบียนการอ้างอิงของงานนิสิตที่มีรายการภาษาไทยปน แล้วตรวจรายการภาษาไทยด้วยตนเอง</p>
+<p>ไม่มี prompt สำเร็จรูปให้ ใช้ Prompt ของบทความจำลองเป็นโครงได้ แต่ต้องเขียนเองทีละขั้น</p>
+<h3 id="ก่อนเริ่ม-ต้องมีอยู่แล้ว">ก่อนเริ่ม (ต้องมีอยู่แล้ว)</h3>
+<ul>
+<li>ทำ workshop ของหัวข้อนี้กับบทความจำลองภาษาไทยแล้ว</li>
+<li><code>course-materials/module-04/citation-audit-rules.md</code> และ <code>citation-register-template.csv</code> (ตัวติดตั้ง Module 1 วางไว้ให้ อ่านอย่างเดียว)</li>
+<li>OpenAlex API key ในตัวแปร <code>OPENALEX_KEY</code> และคลัง <code>literature/</code> เดิม</li>
+<li>บทหรือส่วนของวิทยานิพนธ์ที่มีการอ้างอิงมากและมีรายการภาษาไทยปนอยู่ เช่น บททบทวนวรรณกรรม (เฉพาะงานที่ได้รับอนุญาต และตัดข้อมูลส่วนบุคคลออกก่อน)</li>
+</ul>
+<h3 id="โจทย์">โจทย์</h3>
+<ol type="1">
+<li>สร้างโฟลเดอร์ <code>module-04-work/&lt;ชื่องาน&gt;/input/original/</code> แล้ววางเอกสารลงไป</li>
+<li>สร้างไฟล์ <code>module-04-work/&lt;ชื่องาน&gt;/output/prompts.md</code> สำหรับเก็บ prompt ที่ใช้ทุกรอบ</li>
+<li>เขียน prompt เองทีละขั้น: สร้าง <code>refs.bib</code> → คลังฉบับเต็มและ <code>manual-download.md</code> → ทะเบียนการอ้างอิง</li>
+<li>ให้ความสำคัญกับรายการภาษาไทย: ทุกรายการที่ไม่พบใน OpenAlex ต้องค้นต่อในแหล่งไทยก่อนให้สถานะ</li>
+<li>ตรวจรายการภาษาไทยอย่างน้อย 2 รายการด้วยตนเองในแหล่งไทย และบันทึกการแปลงปีกับการเทียบชื่อผู้แต่ง</li>
+</ol>
+<h3 id="ข้อกำหนด">ข้อกำหนด</h3>
+<ul>
+<li><p>prompt ต้องมีครบเจ็ดองค์ประกอบ:</p>
+<table>
+<thead>
+<tr class="header">
+<th>องค์ประกอบ</th>
+<th>สิ่งที่ต้องระบุ</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>งาน</td>
+<td>สร้าง refs.bib คลังเอกสาร และทะเบียนการอ้างอิงของไฟล์ใด</td>
+</tr>
+<tr class="even">
+<td>แหล่งที่อนุญาต</td>
+<td>แหล่งใดก่อนหลัง สำหรับรายการภาษาอังกฤษและภาษาไทย</td>
+</tr>
+<tr class="odd">
+<td>วิธีจับคู่</td>
+<td>ลำดับการจับคู่ ทั้งภาษาไทยและภาษาอังกฤษ</td>
+</tr>
+<tr class="even">
+<td>การดาวน์โหลด</td>
+<td>ใช้ policy และคลังเดิมอย่างไร รายการที่ต้องดาวน์โหลดเองไปอยู่ที่ใด</td>
+</tr>
+<tr class="odd">
+<td>สิ่งที่ส่งมอบ</td>
+<td>ชื่อไฟล์ และแม่แบบ/กติกาที่ต้องใช้</td>
+</tr>
+<tr class="even">
+<td>กติกาเมื่อไม่พบ</td>
+<td>ต้องบันทึกอะไร และห้ามทำอะไร</td>
+</tr>
+<tr class="odd">
+<td>จุดหยุดรอ</td>
+<td>หยุดตรงไหนเพื่อให้คุณตรวจ</td>
+</tr>
+</tbody>
+</table></li>
+<li><p>ระบุว่าตรวจผลของ AI อย่างไร และแก้อะไรเอง</p></li>
+</ul>
+<h3 id="เกณฑ์ผ่าน">เกณฑ์ผ่าน</h3>
+<ul class="task-list">
+<li><label><input type="checkbox">prompt มีครบเจ็ดองค์ประกอบ และมีจุดหยุดรอหลังสร้าง refs.bib และหลังสร้างทะเบียน</label></li>
+<li><label><input type="checkbox">ไม่มีรายการภาษาไทยใดถูกจัดเป็น fabricated / phantom จากการไม่พบใน OpenAlex แหล่งเดียว ทุกรายการที่ไม่พบมี <code>search_sources</code> ครบ</label></li>
+<li><label><input type="checkbox">ปีที่ต่างกันเพราะ พ.ศ./ค.ศ. ไม่ถูกนับเป็น metadata_conflict และมีบันทึกการตรวจด้วยตนเองอย่างน้อย 2 รายการ</label></li>
+<li><label><input type="checkbox">มีทะเบียนฉบับเริ่มต้น พร้อมรายการที่ต้องตรวจต่อหลังเรียน (เริ่มจากรายการที่สนับสนุนข้อความสำคัญ)</label></li>
+<li><label><input type="checkbox"><code>prompts.md</code> แสดงการปรับ prompt อย่างน้อย 1 รอบ พร้อมเหตุผล</label></li>
+</ul>
+</div></section></div></div>
+<script>
+(() => {
+  const tabs = [...document.querySelectorAll('.topic-tabs a')];
+  const panels = tabs.map(t => document.getElementById(t.hash.slice(1)));
+  function show(id) {
+    const i = Math.max(0, panels.findIndex(p => p && p.id === id));
+    panels.forEach((p, k) => { if (p) p.hidden = k !== i; });
+    tabs.forEach((t, k) => t.setAttribute('aria-current', k === i ? 'page' : 'false'));
+    const layout = document.querySelector('.topic-layout'); if (layout && panels[i]) layout.dataset.active = panels[i].id;
+  }
+  tabs.forEach(t => t.addEventListener('click', e => { e.preventDefault(); history.replaceState(null, '', t.hash); show(t.hash.slice(1)); window.scrollTo({top: 0}); }));
+  document.querySelectorAll('[data-next-tab]').forEach(b => b.addEventListener('click', e => { e.preventDefault(); const h = b.getAttribute('href'); history.replaceState(null, '', h); show(h.slice(1)); window.scrollTo({top: 0}); }));
+  document.querySelectorAll('[data-fullscreen]').forEach(b => b.addEventListener('click', () => {
+    const frame = document.querySelector(b.dataset.fullscreen);
+    const go = frame && (frame.requestFullscreen || frame.webkitRequestFullscreen);
+    if (go) go.call(frame); else if (frame) window.open(frame.src, '_blank', 'noopener');
+  }));
+  const layout0 = document.querySelector('.topic-layout');
+  const toggle = document.querySelector('[data-aside-toggle]');
+  function setAside(hidden) {
+    if (!layout0 || !toggle) return;
+    layout0.classList.toggle('aside-hidden', hidden);
+    toggle.setAttribute('aria-pressed', String(hidden));
+    toggle.textContent = hidden ? 'แสดงสไลด์ข้าง' : 'ซ่อนสไลด์ข้าง';
+    try { localStorage.setItem('airr.slideAsideHidden', hidden ? '1' : '0'); } catch (e) {}
+  }
+  if (toggle) {
+    let saved = true; try { saved = localStorage.getItem('airr.slideAsideHidden') !== '0'; } catch (e) {}  // hidden by default
+    setAside(saved);
+    toggle.addEventListener('click', () => setAside(!layout0.classList.contains('aside-hidden')));
+  }
+  show(location.hash.slice(1));
+  if (location.hash) requestAnimationFrame(() => window.scrollTo({top: 0}));
+})();
+</script>
+  </main>
+  <site-footer></site-footer>
+</body>
+</html>

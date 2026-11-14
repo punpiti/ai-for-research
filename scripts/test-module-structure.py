@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Check module pages against documents/standards/MODULE_PAGE_STANDARD.md.
+"""Check module pages against admin/standards/MODULE_PAGE_STANDARD.md.
 
 Pages listed in PENDING still deviate and are reported as warnings only;
 remove a page from PENDING once it has been restructured.

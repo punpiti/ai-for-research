@@ -409,7 +409,10 @@
         });
         actionCell.append(removeButton);
       }
-      row.append(statusCell, quotaCell, usageCell, actionCell);
+      // Module 1 gate: learners ask their AI to run `airr whoami`; show when AIRR was last used.
+      const airrCell = node("td", "", item.airr_last_used_at ? "เชื่อมแล้ว" : (item.role === "teacher" ? "—" : "ยังไม่เชื่อม"));
+      if (item.airr_last_used_at) airrCell.append(node("small", "", new Date(item.airr_last_used_at).toLocaleString("th-TH")));
+      row.append(statusCell, quotaCell, usageCell, airrCell, actionCell);
       enrollmentRows.append(row);
     });
   }

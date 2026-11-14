@@ -7,7 +7,7 @@
     "workspace_opened",
     "ai_connected",
     "folder_boundary_understood",
-    "pdf_created_and_opened",
+    "text_file_created_and_opened",
   ];
   const completionStatuses = ["completed", "completed_with_help", "could_not_complete"];
   const aiTools = ["codex", "claude", "openrouter", "other", "unknown"];

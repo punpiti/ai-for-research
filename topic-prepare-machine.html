@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="ติดตั้งเครื่องมือจนเห็น FINAL_RESULT PASS อธิบายได้ว่าเครื่องมือและโฟลเดอร์แต่ละส่วนทำอะไร แยกต้นฉบับกับงานที่ AI สร้าง สั่ง AI สร้างและแก้ไฟล์ข้อความแล้วตรวจเอง รายงานความพร้อมด้วยคำสั่ง AIRR และเปิดงานกลับมาทำต่อได้">
+  <meta name="theme-color" content="#101817">
+  <title>เตรียมเครื่อง: ต้องทำอะไร โครงสร้างเป็นอย่างไร และใช้งานเบื้องต้น · AIRR</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/styles.css?v=20261113-2">
+  <link rel="stylesheet" href="assets/learn.css?v=20261115-3">
+  <script src="assets/site-shell.js?v=20261115-3"></script>
+  <script src="assets/app.js?v=20261115-3" defer></script>
+  <script src="assets/airr-connect.js?v=20261112-1" defer></script>
+  <script src="assets/dev-auth.js?v=20261010-1"></script>
+</head>
+<body class="learn" data-no-case>
+  <a class="skip-link" href="#main">ข้ามไปยังเนื้อหา</a>
+  <site-header current="topic" plan="class-2026-11-20-engineering-faculty.html" menu='{&quot;module&quot;: &quot;M01&quot;, &quot;title&quot;: &quot;เตรียมเครื่องและ workspace&quot;, &quot;items&quot;: [{&quot;href&quot;: &quot;module-overview-m01.html&quot;, &quot;label&quot;: &quot;ภาพรวมและ LO&quot;, &quot;current&quot;: false}, {&quot;href&quot;: &quot;topic-class-introduction.html&quot;, &quot;label&quot;: &quot;แนะนำคลาส&quot;, &quot;current&quot;: false}, {&quot;href&quot;: &quot;topic-prepare-machine.html&quot;, &quot;label&quot;: &quot;เตรียมเครื่อง: ต้องทำอะไร โครงสร้างเป็นอย่างไร และใช้งานเบื้องต้น&quot;, &quot;current&quot;: true}]}'></site-header>
+  <main id="main">
+<section class="prepare-hero module-hero"><p class="eyebrow">หัวข้อย่อย · M01</p><h1>เตรียมเครื่อง: ต้องทำอะไร โครงสร้างเป็นอย่างไร และใช้งานเบื้องต้น</h1><ul class="outcomes"><li>ติดตั้งเครื่องมือจนเห็น FINAL_RESULT PASS อธิบายได้ว่าเครื่องมือและโฟลเดอร์แต่ละส่วนทำอะไร แยกต้นฉบับกับงานที่ AI สร้าง สั่ง AI สร้างและแก้ไฟล์ข้อความแล้วตรวจเอง รายงานความพร้อมด้วยคำสั่ง AIRR และเปิดงานกลับมาทำต่อได้</li></ul></section>
+<div class="topic-layout"><nav class="topic-tabs" aria-label="ส่วนของหัวข้อ"><a href="#slides" title="สไลด์">สไลด์</a><a href="#workshop-core" title="Workshop หลัก">Workshop</a><a href="#open-explore" title="Exploring workshop">Exploring</a><button type="button" class="aside-toggle" data-aside-toggle aria-pressed="false">ซ่อนสไลด์ข้าง</button></nav><div class="topic-main"><section class="section markdown-section topic-panel" id="slides" aria-labelledby="slides-heading"><div class="section-heading compact"><p class="eyebrow">สไลด์</p><h2 id="slides-heading">สไลด์</h2></div><div class="markdown-body"><div class="slide-tools"><button type="button" class="slide-tool" data-fullscreen="#slide-frame-main">⛶ เต็มจอ</button><a class="slide-tool" href="downloads/topics/prepare-machine.pdf" target="_blank" rel="noopener">เปิดแท็บใหม่ ↗</a></div><iframe id="slide-frame-main" class="slide-frame" src="downloads/topics/prepare-machine.pdf#view=FitH" title="สไลด์ เตรียมเครื่อง: ต้องทำอะไร โครงสร้างเป็นอย่างไร และใช้งานเบื้องต้น" allowfullscreen></iframe></div></section>
+<section class="section markdown-section topic-panel" id="workshop-core" aria-labelledby="workshop-core-heading"><div class="section-heading compact"><p class="eyebrow">Workshop</p><h2 id="workshop-core-heading">เตรียมเครื่อง: ต้องทำอะไร โครงสร้างเป็นอย่างไร และใช้งานเบื้องต้น</h2></div><div class="markdown-body"><p>ใน workshop นี้คุณจะติดตั้งเครื่องมือ ให้ AI ทดสอบการเชื่อม AIRR ให้ AI สร้างและแก้ไฟล์แรก แล้วให้ AI ส่งสถานะความพร้อมให้ผู้สอน</p>
+<h3 id="ก่อนเริ่ม-ต้องมีอยู่แล้ว">ก่อนเริ่ม (ต้องมีอยู่แล้ว)</h3>
+<ul>
+<li>คอมพิวเตอร์ที่จะใช้จริง อินเทอร์เน็ต และสิทธิ์ติดตั้งโปรแกรม</li>
+<li>บัญชี AI หนึ่งบัญชี: Claude หรือ ChatGPT ของตนเอง — ถ้าไม่มีทั้งสอง ขอ OpenRouter key จากผู้สอน</li>
+<li>เข้าสู่ระบบเว็บคลาสด้วยบัญชี Google แล้ว (ใช้สร้าง AIRR Key ในขั้นที่ 1)</li>
+</ul>
+<h3 id="คำที่ใช้ใน-workshop-นี้">คำที่ใช้ใน workshop นี้</h3>
+<ul>
+<li><strong>Terminal</strong> — หน้าต่างพิมพ์คำสั่งของเครื่อง (Windows เรียก PowerShell) ใช้แค่ตอนติดตั้ง</li>
+<li><strong>workspace</strong> — โฟลเดอร์งานของคลาสชื่อ <code>ai-for-research-workspace</code> ที่ตัวติดตั้งสร้างให้</li>
+<li><strong>VS Code</strong> — โปรแกรมเปิด workspace มีแผง <strong>Explorer</strong> ด้านซ้ายแสดงโฟลเดอร์และไฟล์</li>
+<li><strong>AI panel</strong> — ช่องคุยกับ AI ใน VS Code (Claude Code, Codex หรือ Cline ตามบัญชีที่เลือก)</li>
+<li><strong>prompt</strong> — ข้อความที่คุณวางหรือพิมพ์ใน AI panel เพื่อสั่งงาน</li>
+<li><strong>AIRR</strong> — ระบบของคลาสที่เชื่อม workspace กับผู้สอน ใช้รายงานว่าติดตั้งแล้วและส่งงาน</li>
+<li><strong>AIRR Key</strong> — รหัสที่ผูก workspace กับบัญชีและคลาสของคุณ ห้ามส่งต่อหรือแสดงให้ใครเห็น</li>
+</ul>
+<hr>
+<h3 id="ขั้นที่-1--ติดตั้ง">ขั้นที่ 1 — ติดตั้ง</h3>
+<p>ทำตามขั้น 1–6 ในกล่องด้านล่าง: เลือกระบบ → เลือก AI (ขั้น 3–6 จะแสดงหลังเลือก AI) → สร้าง AIRR Key → คัดลอกคำสั่ง → เปิด Terminal แล้ววาง → ดูผล (AIRR Key ผูกกับบัญชีและคลาสนี้ ห้ามส่งต่อ · หลังติดตั้งเสร็จไม่ต้องพิมพ์คำสั่งใน Terminal เอง ให้ AI รันให้)</p>
+<div class="embedded-ui"><section class="section" id="choose-ai">
+      <div class="section-heading compact"><p class="eyebrow">1 · เลือกระบบและ AI</p><h2>เลือกระบบและ AI</h2></div>
+      <div class="task-heading"><span class="step-no">1</span><strong>ใช้ระบบไหน?</strong></div>
+      <div class="platform-picker" role="group" aria-label="เลือกระบบปฏิบัติการ">
+        <button type="button" data-platform-button="windows">Windows 11</button>
+        <button type="button" data-platform-button="macos">macOS</button>
+        <button type="button" data-platform-button="linux">Linux / WSL2</button>
+      </div>
+      <div class="task-heading"><span class="step-no">2</span><strong>ใช้บัญชี AI ไหน?</strong></div>
+      <div class="agent-choice">
+        <label><input type="radio" name="agent" value="claude"> <span><strong>Claude</strong><small>ใช้ Claude Code</small></span></label>
+        <label><input type="radio" name="agent" value="codex"> <span><strong>ChatGPT</strong><small>ใช้ Codex</small></span></label>
+        <label><input type="radio" name="agent" value="openrouter"> <span><strong>OpenRouter</strong><small>ใช้ Cline และ API key</small></span></label>
+        <p class="expected" data-agent-gate-status role="status" aria-live="polite">เลือกหนึ่งรายการเพื่อดูคำสั่งติดตั้ง</p>
+      </div>
+    </section>
+
+    <section class="section platform-section" id="install" data-agent-required hidden>
+      <div class="section-heading compact"><p class="eyebrow">2 · ติดตั้ง</p><h2>คำสั่งเดียวจบ</h2><p>ใช้ของที่มีอยู่แล้ว และเติมเฉพาะส่วนที่ขาด</p></div>
+      <details class="fallback-details software-details">
+      <summary>ดูรายการโปรแกรมที่จะติดตั้งให้ (ไม่ต้องอ่านก็ติดตั้งได้)</summary>
+      <div class="software-table-wrap" aria-labelledby="software-list-heading">
+        <span class="content-kind is-read">อ่าน</span>
+        <h3 id="software-list-heading">สิ่งที่จะพร้อมใช้หลังติดตั้ง</h3>
+        <table class="software-table">
+          <thead><tr><th>ใช้ทำอะไร</th><th>ซอฟต์แวร์</th><th>รุ่น</th></tr></thead>
+          <tbody>
+            <tr><td>เขียนงานและคุยกับ AI</td><td>VS Code + Codex, Claude Code หรือ Cline</td><td>รุ่นที่รองรับล่าสุด</td></tr>
+            <tr><td>อ่าน PDF, CSV และ JSON</td><td>PDF Viewer, Rainbow CSV, JSON Crack</td><td>รุ่นล่าสุด</td></tr>
+            <tr><td>วิเคราะห์ข้อมูล</td><td>Python, uv และ Node.js เมื่อจำเป็น</td><td>Python 3.12; Node.js 22+</td></tr>
+            <tr><td>สร้าง Word/Markdown/PDF</td><td>Pandoc, TinyTeX และ XeLaTeX</td><td>รุ่นที่ผ่านการตรวจ</td></tr>
+            <tr><td>อ่านข้อความจาก PDF และภาพ</td><td>Poppler และ Tesseract OCR ไทย–อังกฤษ</td><td>รุ่นที่ระบบรองรับ</td></tr>
+            <tr><td>สร้างกราฟใน Module 7</td><td>JupyterLab, pandas, matplotlib, seaborn, plotly, altair พร้อม notebook ของ Module 7</td><td>Python 3.12 ใน <code>.venv-module07</code></td></tr>
+            <tr><td>ดูโควตาหรือเครดิต AI</td><td>ส่วนแสดง usage ของ AI ที่เลือก</td><td>รุ่นล่าสุด</td></tr>
+          </tbody>
+        </table>
+      </div>
+      </details>
+
+      <div class="task-heading"><span class="step-no">3</span><strong>สร้าง AIRR Key (ปกติทำครั้งแรกครั้งเดียว)</strong></div>
+      <p>คำสั่งติดตั้งจะใส่ key ให้เอง ถ้าเครื่องนี้เคยติดตั้งและเชื่อมแล้ว ข้ามขั้นนี้ได้ (ตัวติดตั้งใช้การเชื่อมเดิม) · สร้างใหม่เมื่อเปลี่ยนเครื่อง ลบ workspace หรือทำ key หาย</p>
+      <div class="airr-connect" data-airr-connect><button class="button primary" type="button" data-airr-create-key>สร้าง AIRR Key สำหรับ VS Code</button><div class="airr-key-once" data-airr-key-once hidden><p><strong>คัดลอก AIRR Key ตอนนี้</strong></p><code data-airr-key></code><button class="button secondary" type="button" data-airr-copy-key>คัดลอก AIRR Key</button></div><div data-airr-key-list></div><p data-airr-connect-status role="status" aria-live="polite">กำลังตรวจบัญชี AIRR…</p></div>
+      <div class="done-shows"><strong>เสร็จแล้วจะเห็น</strong><p>AIRR Key พร้อมปุ่มคัดลอก และข้อความ “AIRR สร้าง key แล้ว …” คำสั่งติดตั้งด้านล่างจะมี key ใส่ไว้ให้แล้ว</p></div>
+      <details class="fallback-details">
+      <summary>เปลี่ยนชื่อโฟลเดอร์งาน (ไม่บังคับ)</summary>
+      <div class="project-name-choice">
+        <span class="content-kind is-input">กรอก</span>
+        <label for="project-name"><strong>ชื่อโฟลเดอร์งาน</strong><span>ใช้ตัวอักษร ตัวเลข จุด ขีดกลาง หรือขีดล่าง</span></label>
+        <div class="project-name-control">
+          <input id="project-name" data-project-name-input value="ai-for-research-workspace" autocomplete="off" spellcheck="false" aria-describedby="project-name-status">
+          <button type="button" class="button secondary" data-project-name-reset>ใช้ชื่อเริ่มต้น</button>
+        </div>
+        <small id="project-name-status" data-project-name-status role="status" aria-live="polite">ชื่อนี้จะใช้เป็นโฟลเดอร์งานของคุณ</small>
+      </div>
+      </details>
+
+      <div class="task-heading"><span class="step-no">4</span><span class="content-kind is-terminal">คำสั่ง Terminal</span><strong>คัดลอกคำสั่งติดตั้ง</strong></div>
+      <div class="platform-grid compact-platform-grid">
+        <article class="platform-card" data-platform-panel="windows"><p class="platform-label">Windows 11</p><div class="command"><code data-agent-command data-template="&amp; { $env:AI_RESEARCH_PROJECT_NAME={projectPs}; {airrPs}$setup = Join-Path $env:TEMP 'ai-research-setup.ps1'; Invoke-WebRequest -UseBasicParsing -ErrorAction Stop &quot;https://urban.cpe.ku.ac.th/ai-for-research/downloads/setup-windows.ps1&quot; -OutFile $setup; powershell -NoProfile -ExecutionPolicy Bypass -File &quot;$setup&quot; -Mode Install -Agent {agent} }">&amp; { $env:AI_RESEARCH_PROJECT_NAME='ai-for-research-workspace'; $setup = Join-Path $env:TEMP 'ai-research-setup.ps1'; Invoke-WebRequest -UseBasicParsing -ErrorAction Stop "https://urban.cpe.ku.ac.th/ai-for-research/downloads/setup-windows.ps1" -OutFile $setup; powershell -NoProfile -ExecutionPolicy Bypass -File "$setup" -Mode Install -Agent openrouter }</code><button type="button" data-copy>คัดลอกคำสั่งติดตั้ง</button></div></article>
+        <article class="platform-card" data-platform-panel="macos"><p class="platform-label">macOS</p><div class="command"><code data-agent-command data-template='setup="$(mktemp)" &amp;&amp; curl -fsSL "https://urban.cpe.ku.ac.th/ai-for-research/downloads/setup-macos.sh" -o "$setup" &amp;&amp; AI_RESEARCH_PROJECT_NAME={projectSh} {airrSh}AI_GRAD_AGENT={agent} bash "$setup" --install'>setup="$(mktemp)" &amp;&amp; curl -fsSL "https://urban.cpe.ku.ac.th/ai-for-research/downloads/setup-macos.sh" -o "$setup" &amp;&amp; AI_RESEARCH_PROJECT_NAME='ai-for-research-workspace' AI_GRAD_AGENT=openrouter bash "$setup" --install</code><button type="button" data-copy>คัดลอกคำสั่งติดตั้ง</button></div></article>
+        <article class="platform-card" data-platform-panel="linux"><p class="platform-label">Linux / WSL2 (Ubuntu/Debian)</p><div class="command"><code data-agent-command data-template='setup="$(mktemp)" &amp;&amp; curl -fsSL "https://urban.cpe.ku.ac.th/ai-for-research/downloads/setup-linux.sh" -o "$setup" &amp;&amp; AI_RESEARCH_PROJECT_NAME={projectSh} {airrSh}AI_GRAD_AGENT={agent} bash "$setup" --install'>setup="$(mktemp)" &amp;&amp; curl -fsSL "https://urban.cpe.ku.ac.th/ai-for-research/downloads/setup-linux.sh" -o "$setup" &amp;&amp; AI_RESEARCH_PROJECT_NAME='ai-for-research-workspace' AI_GRAD_AGENT=openrouter bash "$setup" --install</code><button type="button" data-copy>คัดลอกคำสั่งติดตั้ง</button></div></article>
+      </div>
+
+      <div class="task-heading"><span class="step-no">5</span><strong>เปิด Terminal แล้ววางคำสั่ง</strong></div>
+      <div class="platform-grid compact-platform-grid">
+        <article class="platform-card" data-platform-panel="windows">
+          <h3>เปิด PowerShell</h3>
+          <p class="expected">กด <kbd>Win</kbd> + <kbd>R</kbd> พร้อมกันเพื่อเปิดหน้าต่าง Run พิมพ์ <code>powershell</code> แล้วกด <kbd>Enter</kbd></p>
+          <p class="expected">คลิกในหน้าต่างสีน้ำเงิน กด <kbd>Ctrl</kbd> + <kbd>V</kbd> (หรือคลิกขวา) เพื่อวาง แล้วกด <kbd>Enter</kbd> · ถ้า Windows ถามสิทธิ์ ให้ตอบ Yes</p>
+        </article>
+        <article class="platform-card" data-platform-panel="macos">
+          <h3>เปิด Terminal</h3>
+          <p class="expected">กด <kbd>Command</kbd> + <kbd>Space</kbd> พิมพ์ <code>Terminal</code> แล้วกด <kbd>Enter</kbd></p>
+          <p class="expected">กด <kbd>Command</kbd> + <kbd>V</kbd> เพื่อวาง แล้วกด <kbd>Enter</kbd> · ใส่รหัสผ่านของเครื่องเมื่อระบบขอ (ตัวอักษรจะไม่แสดงขณะพิมพ์)</p>
+        </article>
+        <article class="platform-card" data-platform-panel="linux">
+          <h3>เปิด Terminal</h3>
+          <p class="expected">Linux: กด <kbd>Ctrl</kbd> + <kbd>Alt</kbd> + <kbd>T</kbd> · WSL2: กดปุ่ม Start พิมพ์ <code>Ubuntu</code> แล้วกด <kbd>Enter</kbd></p>
+          <p class="expected">กด <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>V</kbd> (หรือคลิกขวา) เพื่อวาง แล้วกด <kbd>Enter</kbd> · ใส่รหัสผ่านเมื่อระบบขอ</p>
+        </article>
+      </div>
+      <div class="notice"><strong>ระหว่างติดตั้ง:</strong> แถบความคืบหน้าอัปเดตทุก 10 วินาที อาจมีสองหน้าต่าง เปิดไว้จนเสร็จ</div>
+
+      <div class="task-heading"><span class="step-no">6</span><strong>ดูผลว่าติดตั้งสำเร็จ</strong></div>
+      <div class="notice"><strong>ติดตั้งสำเร็จเมื่อ:</strong> VS Code เปิดโฟลเดอร์ <code data-project-name>ai-for-research-workspace</code> และหน้าต่างติดตั้งมีบรรทัดนี้</div>
+      <div class="done-shows"><strong>เสร็จแล้วจะเห็น</strong><pre>[AI for Research] FINAL_RESULT PASS - Setup complete. Open the AI panel in your workspace and sign in or configure your provider.</pre></div>
+      <p class="expected">ไม่ผ่าน → ถ่ายภาพหน้าจอทั้งหน้าที่เห็น error บอกระบบและขั้นที่ติด แล้วส่งผู้สอน · รันคำสั่งเดิมซ้ำได้อย่างปลอดภัย</p>
+
+    </section>
+
+    </div><p><strong>ตรวจก่อนไปขั้นต่อไป</strong></p>
+<ul class="task-list">
+<li><label><input type="checkbox">หน้าต่างติดตั้งแสดง <code>FINAL_RESULT PASS</code></label></li>
+<li><label><input type="checkbox">VS Code เปิดโฟลเดอร์ <code>ai-for-research-workspace</code> ให้เอง</label></li>
+</ul>
+<hr>
+<h3 id="ขั้นที่-2--ให้-ai-ทดสอบ-airr-whoami">ขั้นที่ 2 — ให้ AI ทดสอบ AIRR (whoami)</h3>
+<p>ขั้นนี้แจ้ง AIRR ว่าคุณติดตั้งผ่านแล้ว ผู้สอนจะเห็นสถานะ "เชื่อมแล้ว" ของคุณ</p>
+<div class="embedded-ui"><section class="section" id="airr-gate">
+      <div class="section-heading compact"><p class="eyebrow">ทดสอบหลังติดตั้ง</p><h2>ให้ AI รัน AIRR whoami</h2></div>
+      <div class="task-heading"><span class="content-kind is-prompt">Prompt</span><strong>ให้ AI ทดสอบ AIRR และแจ้งระบบของคลาสว่าติดตั้งแล้ว</strong></div>
+      <p>ทำหลังเห็น <code>FINAL_RESULT PASS</code> แล้ว: ใน VS Code เปิด AI panel ลงชื่อเข้าใช้บัญชีที่เลือก แล้ววางข้อความในกล่องนี้ (ไม่ต้องพิมพ์ใน Terminal เอง)</p>
+      <div class="command ai-prompt"><code>AIRR whoami</code><button type="button" data-copy>คัดลอก Prompt</button></div>
+      <p class="expected">AI จะรันเครื่องมือ AIRR ใน <code>tools/</code> ของ workspace ให้ แล้วบอกว่าเชื่อมกับคลาสและบัญชีใด โดยไม่แสดง AIRR Key และไม่แก้ไฟล์ · คำสั่ง AIRR อื่น: พิมพ์ <code>AIRR help</code></p>
+      <div class="done-shows"><strong>เสร็จแล้วจะเห็น</strong><p>AI ตอบชื่อคลาสของคุณ = เชื่อม AIRR แล้ว และผู้สอนเห็นว่าคุณผ่านขั้นติดตั้ง · ถ้า AI แจ้งว่าไม่มี key ให้สร้าง AIRR Key (ข้อ 3 ในกล่องติดตั้ง) แล้วรันคำสั่งติดตั้งซ้ำ</p></div>
+    </section>
+
+    </div><p><strong>ตรวจ:</strong> AI ตอบชื่อคลาสของคุณ และไม่แสดง AIRR Key</p>
+<hr>
+<h3 id="ขั้นที่-3--ดูพื้นที่ทำงาน">ขั้นที่ 3 — ดูพื้นที่ทำงาน</h3>
+<ol type="1">
+<li>ดูว่า VS Code เปิดโฟลเดอร์ <code>ai-for-research-workspace</code> ให้เองหลังติดตั้ง ถ้าไม่เปิด: เปิด VS Code แล้วเลือก <strong>File → Open Folder → ai-for-research-workspace</strong></li>
+<li>ดูแผง Explorer ด้านซ้ายว่ามีโฟลเดอร์ที่ตัวติดตั้งสร้างให้</li>
+</ol>
+<p><strong>ตรวจ:</strong> แผง Explorer มีโฟลเดอร์ <code>course-materials/</code>, <code>module-01-work/</code> และ <code>tools/</code></p>
+<hr>
+<h3 id="ขั้นที่-4--ให้-ai-อธิบายโครงสร้าง-โดยยังไม่แก้อะไร">ขั้นที่ 4 — ให้ AI อธิบายโครงสร้าง โดยยังไม่แก้อะไร</h3>
+<ol type="1">
+<li><p>วาง prompt นี้ใน AI panel (ประโยคแรกบอกขอบเขตไฟล์ให้ AI ใช้ซ้ำได้ เปลี่ยนแค่เลขโมดูล)</p>
+<div class="command ai-prompt"><code>ทำงานใน ai-for-research-workspace ตามแผนที่ไฟล์ของหลักสูตร: งานของโมดูลนี้อยู่ใน module-01-work/ เท่านั้น อ่านต้นฉบับจาก input/original/ และ course-materials/ โดยห้ามแก้ เขียนผลงานลง output/ ใช้ literature/ เป็นคลังอ้างอิงร่วม และห้ามแตะ tools/ กับ .airr/ ตอนนี้ยังไม่ต้องสร้างหรือแก้ไฟล์ใด แสดงโฟลเดอร์ระดับบนสุดของ workspace แล้วจัดแต่ละโฟลเดอร์เป็น ต้นฉบับ (ห้ามแก้) / งานของฉัน / ไฟล์จากผู้สอน (อ่านอย่างเดียว) / ระบบ (ห้ามแตะ) / ใช้ร่วมทุกโมดูล</code><button type="button" data-copy="">คัดลอก</button></div></li>
+<li><p>เทียบคำตอบกับหลักห้าข้อของแผนที่ไฟล์</p>
+<ol type="1">
+<li>งานของแต่ละโมดูลอยู่ในโฟลเดอร์ของโมดูลนั้น เช่น <code>module-01-work/</code></li>
+<li>ข้างในมี <code>input/original/</code> (ต้นฉบับ ห้ามแก้) <code>input/markdown/</code> <code>output/</code> (งานใหม่) และ <code>notes/</code> เหมือนกันทุกโมดูล</li>
+<li>คลังเอกสารอ้างอิงที่ใช้ร่วมอยู่ที่ <code>literature/</code></li>
+<li><code>course-materials/</code> คือไฟล์จากผู้สอน อ่านอย่างเดียว</li>
+<li><code>tools/</code>, <code>.airr/</code>, <code>.venv-*</code>, <code>.vscode/</code> เป็นระบบ ห้ามแตะ</li>
+</ol></li>
+<li><p>จดไว้ถ้า AI จัดผิดตรงไหน (ไม่ต้องให้ AI แก้)</p></li>
+</ol>
+<p><strong>ตรวจ:</strong> ใน Explorer ไม่มีไฟล์ใหม่หรือไฟล์ที่ถูกแก้จากขั้นนี้</p>
+<hr>
+<h3 id="ขั้นที่-5--ให้-ai-สร้างและแก้ไฟล์แรก">ขั้นที่ 5 — ให้ AI สร้างและแก้ไฟล์แรก</h3>
+<ol type="1">
+<li><p>สั่ง AI (แทน … ด้วยหัวข้องานวิจัยของคุณ ไม่ใส่ข้อมูลลับหรือข้อมูลส่วนบุคคล)</p>
+<div class="command ai-prompt"><code>สร้างไฟล์ module-01-work/output/first-note.txt ที่มีสองบรรทัด: บรรทัดแรกคือหัวข้องานวิจัยของฉัน "…" บรรทัดที่สองคือวันที่วันนี้ ห้ามแก้ไฟล์อื่น แล้วบอกว่าไฟล์อยู่ที่ไหน</code><button type="button" data-copy="">คัดลอก</button></div></li>
+<li><p>เปิด <code>module-01-work/output/first-note.txt</code> ใน VS Code แล้วอ่านเองว่าตรงกับที่สั่ง</p></li>
+<li><p>สั่ง AI แก้หนึ่งบรรทัด</p>
+<div class="command ai-prompt"><code>แก้ module-01-work/output/first-note.txt โดยเพิ่มบรรทัดที่สามว่า "ทดสอบการแก้ไฟล์ด้วย AI" ห้ามเปลี่ยนบรรทัดอื่น แล้วแสดงสิ่งที่เปลี่ยน</code><button type="button" data-copy="">คัดลอก</button></div></li>
+<li><p>เปิดไฟล์อีกครั้ง ตรวจว่าเปลี่ยนเฉพาะบรรทัดที่สั่ง</p></li>
+<li><p>ปิด VS Code แล้วเปิดกลับมาที่ workspace เดิม เปิด <code>first-note.txt</code> ได้อีกครั้ง</p></li>
+</ol>
+<p><strong>ตรวจ:</strong> <code>module-01-work/output/first-note.txt</code> มีสามบรรทัด และไม่มีไฟล์อื่นถูกแก้</p>
+<p>อยากลองสร้าง PDF ต่อ: ดูหัวข้อ <a href="topic-markdown-to-pdf-first-build.html">สร้าง PDF แรกจาก Markdown ด้วย AI: แก้ที่ต้นฉบับ แล้วสร้างใหม่</a> ในโมดูลเสริม (ไม่บังคับ)</p>
+<hr>
+<h3 id="ขั้นที่-6--ให้-ai-ส่งสถานะความพร้อม">ขั้นที่ 6 — ให้ AI ส่งสถานะความพร้อม</h3>
+<ol type="1">
+<li><p>วาง prompt นี้ใน AI panel แล้วตอบคำถามของ AI ตามจริงทีละข้อ</p>
+<div class="command ai-prompt"><code>ส่งสถานะความพร้อม Module 1 ให้ฉันด้วยเครื่องมือส่งงาน AIRR ในโฟลเดอร์ tools/ ของ workspace (ดูวิธีใช้จากคำสั่ง help ของเครื่องมือ) ถามฉันทีละข้อว่าทำได้จริงหรือไม่: (1) เปิด workspace ใน VS Code ได้ (2) เชื่อม AI panel ได้ (3) รู้ว่าต้นฉบับอยู่ใน module-01-work/input/ และงานใหม่อยู่ใน module-01-work/output/ (4) ให้ AI สร้างไฟล์ข้อความ module-01-work/output/first-note.txt และเปิดดูได้ แล้วถามว่าใช้ AI ตัวไหน ใช้เวลากี่นาที และมีคนช่วยหรือไม่ กรอกสถานะตามคำตอบของฉันเท่านั้น สรุปสิ่งที่จะส่งให้ฉันดูแล้วรอฉันยืนยัน ห้ามส่งก่อนฉันยืนยัน ส่งเสร็จแล้วบอกผลเป็นภาษาง่าย ๆ</code><button type="button" data-copy="">คัดลอก</button></div></li>
+<li><p>AI จะสร้างไฟล์ <code>module-01-work/output/module-1-progress.json</code> จากคำตอบของคุณ แล้วแสดงสรุปก่อนส่ง ถ้าตรงกับความจริงจึงตอบยืนยัน</p></li>
+<li><p>อ่านผลที่ AI บอกหลังส่ง</p></li>
+</ol>
+<p>ระบบส่งเฉพาะผลเช็กลิสต์และเวลา ไม่ส่ง key ไฟล์ หรือข้อมูลวิจัย · AI ส่งไม่ได้: ใช้แบบฟอร์มสำรองในหน้า <a href="prepare.html#homework">Module 1</a> (เลือกระบบและ AI ในหน้านั้นก่อน) · อยากรู้ว่า AI รันคำสั่งอะไรให้: โมดูลเสริม "คำสั่ง AIRR กับ AI" (ไม่บังคับ)</p>
+<p><strong>ตรวจ:</strong> AI บอกว่าส่งสำเร็จ และไฟล์ <code>module-01-work/output/module-1-progress.json</code> ที่ AI สร้างตรงกับคำตอบของคุณ</p>
+<hr>
+<h3 id="ตรวจก่อนจบ-workshop">ตรวจก่อนจบ workshop</h3>
+<p>ตรวจด้วยตัวเองทีละขั้น</p>
+<ul class="task-list">
+<li><label><input type="checkbox">ขั้น 1: หน้าต่างติดตั้งแสดง <code>FINAL_RESULT PASS</code></label></li>
+<li><label><input type="checkbox">ขั้น 2: AI รัน <code>whoami</code> แล้วตอบชื่อคลาสของคุณ โดยไม่แสดง AIRR Key</label></li>
+<li><label><input type="checkbox">ขั้น 3: Explorer มี <code>course-materials/</code>, <code>module-01-work/</code> และ <code>tools/</code></label></li>
+<li><label><input type="checkbox">ขั้น 4: AI จัดโฟลเดอร์ตามหลักห้าข้อของแผนที่ไฟล์ และไม่มีไฟล์ถูกสร้างหรือแก้</label></li>
+<li><label><input type="checkbox">ขั้น 5: <code>module-01-work/output/first-note.txt</code> มีสามบรรทัด (หัวข้อวิจัย วันที่ "ทดสอบการแก้ไฟล์ด้วย AI") และเปิดได้อีกครั้งหลังปิด–เปิด VS Code</label></li>
+<li><label><input type="checkbox">ขั้น 6: AI บอกว่าส่งสถานะความพร้อมสำเร็จ และ <code>module-01-work/output/module-1-progress.json</code> ตรงกับคำตอบของคุณ</label></li>
+</ul>
+</div></section>
+<section class="section markdown-section topic-panel" id="open-explore" aria-labelledby="open-explore-heading"><div class="section-heading compact"><p class="eyebrow">Exploring</p><h2 id="open-explore-heading">เตรียมเครื่อง: ต้องทำอะไร โครงสร้างเป็นอย่างไร และใช้งานเบื้องต้น</h2></div><div class="markdown-body"><p>ไม่มี prompt สำเร็จรูป — คุณเขียนเองทั้งหมด เป้าหมายคือคุ้นกับการสั่ง AI ให้ทำงานกับไฟล์ในเครื่องอย่างมีขอบเขต</p>
+<h3 id="โจทย์-เลือกทำอย่างน้อย-2-ข้อ">โจทย์ (เลือกทำอย่างน้อย 2 ข้อ)</h3>
+<ol type="1">
+<li><strong>สำรวจ workspace</strong>: ให้ AI พาดูว่ามีอะไรอยู่ใน <code>course-materials/</code> และ <code>tools/</code> และแต่ละอย่างใช้ทำอะไร โดยไม่แก้ไฟล์</li>
+<li><strong>สำรวจเครื่องมือ</strong>: ให้ AI ตรวจว่าเครื่องมือที่ติดตั้ง (Pandoc แปลงเอกสาร, Python, OCR อ่านข้อความจากภาพ ฯลฯ) ใช้งานได้ และบอกเวอร์ชัน แล้วอธิบายว่าเครื่องมือไหนจะได้ใช้ในงานของคุณ</li>
+<li><strong>ไฟล์ข้อความของคุณเอง</strong>: ให้ AI สร้างไฟล์ <code>.txt</code> ในโฟลเดอร์งานที่สรุปงานวิจัยของคุณ 3 บรรทัด (เปิดเผยได้ ไม่มีข้อมูลลับ) แล้วสั่งแก้ทีละบรรทัดตามที่คุณกำหนด</li>
+<li><strong>แผนที่ไฟล์ของงานจริง</strong>: ให้ AI เสนอโครงโฟลเดอร์และชื่อไฟล์สำหรับงานวิจัยจริงหนึ่งงานของคุณตามหลักห้าข้อของแผนที่ไฟล์ (ขั้นที่ 4 ของ workshop) โดยไม่ย้ายหรือแก้ไฟล์ต้นฉบับ แล้วเขียนประโยคเปิดคำสั่งแรกของงานนั้นเอง</li>
+</ol>
+<h3 id="ข้อกำหนด">ข้อกำหนด</h3>
+<ul>
+<li>เก็บ prompt ทุกรอบไว้ใน <code>module-01-work/output/prompts.md</code> พร้อมบันทึกสั้น ๆ ว่าปรับ prompt เพราะอะไร</li>
+<li>ทุก prompt ต้องบอกขอบเขต: ไฟล์ที่อ่าน ไฟล์ที่สร้าง และสิ่งที่ห้ามเปลี่ยน</li>
+<li>ระบุว่าตรวจผลของ AI อย่างไร (เปิดไฟล์เอง เทียบกับที่เห็น ตรวจว่าต้นฉบับไม่ถูกแก้) และส่วนไหนคุณแก้เอง</li>
+<li>ไม่นำข้อมูลลับ ต้นฉบับบทความที่ไม่มีสิทธิ์ หรือข้อมูลส่วนบุคคลเข้า workspace ฝึก</li>
+</ul>
+<h3 id="เกณฑ์ผ่าน">เกณฑ์ผ่าน</h3>
+<ul class="task-list">
+<li><label><input type="checkbox">ทำครบอย่างน้อย 2 ข้อ และมีหลักฐานว่าไฟล์ต้นฉบับไม่ถูกแก้โดยไม่ได้สั่ง</label></li>
+<li><label><input type="checkbox">พบอย่างน้อยหนึ่งจุดที่คำตอบของ AI ไม่ตรงกับที่คุณเห็นเอง หรืออธิบายได้ว่าตรวจแล้วตรงอย่างไร</label></li>
+<li><label><input type="checkbox"><code>prompts.md</code> แสดงการปรับ prompt อย่างน้อย 1 รอบ พร้อมเหตุผล</label></li>
+</ul>
+</div></section></div><aside class="slide-aside" aria-label="สไลด์ประกอบ"><div class="slide-tools"><button type="button" class="slide-tool" data-fullscreen="#slide-frame-aside">⛶ เต็มจอ</button><a class="slide-tool" href="downloads/topics/prepare-machine.pdf" target="_blank" rel="noopener">เปิดแท็บใหม่ ↗</a></div><iframe id="slide-frame-aside" src="downloads/topics/prepare-machine.pdf#view=FitH" title="สไลด์ เตรียมเครื่อง: ต้องทำอะไร โครงสร้างเป็นอย่างไร และใช้งานเบื้องต้น" loading="lazy" allowfullscreen></iframe></aside></div>
+<script>
+(() => {
+  const tabs = [...document.querySelectorAll('.topic-tabs a')];
+  const panels = tabs.map(t => document.getElementById(t.hash.slice(1)));
+  function show(id) {
+    const i = Math.max(0, panels.findIndex(p => p && p.id === id));
+    panels.forEach((p, k) => { if (p) p.hidden = k !== i; });
+    tabs.forEach((t, k) => t.setAttribute('aria-current', k === i ? 'page' : 'false'));
+    const layout = document.querySelector('.topic-layout'); if (layout && panels[i]) layout.dataset.active = panels[i].id;
+  }
+  tabs.forEach(t => t.addEventListener('click', e => { e.preventDefault(); history.replaceState(null, '', t.hash); show(t.hash.slice(1)); window.scrollTo({top: 0}); }));
+  document.querySelectorAll('[data-next-tab]').forEach(b => b.addEventListener('click', e => { e.preventDefault(); const h = b.getAttribute('href'); history.replaceState(null, '', h); show(h.slice(1)); window.scrollTo({top: 0}); }));
+  document.querySelectorAll('[data-fullscreen]').forEach(b => b.addEventListener('click', () => {
+    const frame = document.querySelector(b.dataset.fullscreen);
+    const go = frame && (frame.requestFullscreen || frame.webkitRequestFullscreen);
+    if (go) go.call(frame); else if (frame) window.open(frame.src, '_blank', 'noopener');
+  }));
+  const layout0 = document.querySelector('.topic-layout');
+  const toggle = document.querySelector('[data-aside-toggle]');
+  function setAside(hidden) {
+    if (!layout0 || !toggle) return;
+    layout0.classList.toggle('aside-hidden', hidden);
+    toggle.setAttribute('aria-pressed', String(hidden));
+    toggle.textContent = hidden ? 'แสดงสไลด์ข้าง' : 'ซ่อนสไลด์ข้าง';
+    try { localStorage.setItem('airr.slideAsideHidden', hidden ? '1' : '0'); } catch (e) {}
+  }
+  if (toggle) {
+    let saved = true; try { saved = localStorage.getItem('airr.slideAsideHidden') !== '0'; } catch (e) {}  // hidden by default
+    setAside(saved);
+    toggle.addEventListener('click', () => setAside(!layout0.classList.contains('aside-hidden')));
+  }
+  show(location.hash.slice(1));
+  if (location.hash) requestAnimationFrame(() => window.scrollTo({top: 0}));
+})();
+</script>
+  </main>
+  <site-footer></site-footer>
+</body>
+</html>

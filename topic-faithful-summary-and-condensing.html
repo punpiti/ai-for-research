@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="สั่ง AI สร้างบัตรสรุปหนึ่งหน้าที่ระบุแหล่งข้อมูลและสิ่งที่ยังไม่ทราบ เปิดผลงานจริงตรวจกับต้นฉบับ (สูตร ตัวเลข หน่วย ภาพ) แล้วสั่งย่อโดยไม่ให้ตัวเลข หน่วย และป้ายข้อมูลจำลองหายหรือถูกเปลี่ยน">
+  <meta name="theme-color" content="#101817">
+  <title>สร้างบัตรสรุปจากหลักฐาน แล้วสั่งย่อโดยตัวเลข หน่วย และข้อจำกัดไม่หาย · AIRR</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/styles.css?v=20261113-2">
+  <link rel="stylesheet" href="assets/learn.css?v=20261115-3">
+  <script src="assets/site-shell.js?v=20261115-3"></script>
+  <script src="assets/app.js?v=20261115-3" defer></script>
+</head>
+<body class="learn" data-no-case>
+  <a class="skip-link" href="#main">ข้ามไปยังเนื้อหา</a>
+  <site-header current="topic" plan="class-2026-11-20-engineering-faculty.html" menu='{&quot;module&quot;: &quot;M02&quot;, &quot;title&quot;: &quot;ทำงานกับหลักฐานหลายรูปแบบ&quot;, &quot;items&quot;: [{&quot;href&quot;: &quot;module-overview-m02.html&quot;, &quot;label&quot;: &quot;ภาพรวมและ LO&quot;, &quot;current&quot;: false}, {&quot;href&quot;: &quot;topic-multiformat-evidence-and-source-levels.html&quot;, &quot;label&quot;: &quot;อ่านหลักฐานหลายรูปแบบและชี้ระดับต้นทาง&quot;, &quot;current&quot;: false}, {&quot;href&quot;: &quot;topic-faithful-summary-and-condensing.html&quot;, &quot;label&quot;: &quot;สร้างบัตรสรุปจากหลักฐาน แล้วสั่งย่อโดยตัวเลข หน่วย และข้อจำกัดไม่หาย&quot;, &quot;current&quot;: true}]}'></site-header>
+  <main id="main">
+<section class="prepare-hero module-hero"><p class="eyebrow">หัวข้อย่อย · M02</p><h1>สร้างบัตรสรุปจากหลักฐาน แล้วสั่งย่อโดยตัวเลข หน่วย และข้อจำกัดไม่หาย</h1><ul class="outcomes"><li>สั่ง AI สร้างบัตรสรุปหนึ่งหน้าที่ระบุแหล่งข้อมูลและสิ่งที่ยังไม่ทราบ เปิดผลงานจริงตรวจกับต้นฉบับ (สูตร ตัวเลข หน่วย ภาพ) แล้วสั่งย่อโดยไม่ให้ตัวเลข หน่วย และป้ายข้อมูลจำลองหายหรือถูกเปลี่ยน</li></ul></section>
+<div class="topic-layout"><nav class="topic-tabs" aria-label="ส่วนของหัวข้อ"><a href="#slides" title="สไลด์">สไลด์</a><a href="#workshop-core" title="Workshop หลัก">Workshop</a><a href="#open-explore" title="Exploring workshop">Exploring</a></nav><div class="topic-main"><section class="section markdown-section topic-panel" id="slides" aria-labelledby="slides-heading"><div class="section-heading compact"><p class="eyebrow">สไลด์</p><h2 id="slides-heading">สไลด์</h2></div><div class="markdown-body"><p>สไลด์ของหัวข้อนี้กำลังจัดทำ</p></div></section>
+<section class="section markdown-section topic-panel" id="workshop-core" aria-labelledby="workshop-core-heading"><div class="section-heading compact"><p class="eyebrow">Workshop</p><h2 id="workshop-core-heading">สร้างบัตรสรุปจากหลักฐาน แล้วสั่งย่อโดยตัวเลข หน่วย และข้อจำกัดไม่หาย</h2></div><div class="markdown-body"><p>หัวข้อนี้ไม่มีไฟล์ใน mock/ เพราะใช้ชุดของโมดูลโดยตรง; สำเนา ZIP ใน repo: downloads/module-02-food-evidence.zip --&gt;</p>
+<p>ใน workshop นี้คุณจะให้ AI สร้างบัตรอาหาร <code>meal-card.md</code> จากหลักฐานที่ตรวจแล้ว เปิดตรวจกับต้นฉบับเอง แล้วสั่งย่อเหลือ 5 บรรทัดโดยตัวเลข หน่วย และป้ายข้อมูลจำลองไม่หาย</p>
+<p>ชุดหลักฐานเป็นกรณีสมมติ ไม่มีข้อมูลจริงของใคร</p>
+<h3 id="ก่อนเริ่ม-ต้องมีอยู่แล้ว">ก่อนเริ่ม (ต้องมีอยู่แล้ว)</h3>
+<ul>
+<li>ไฟล์ที่แตกแล้วใน <code>module-02-work/input/original/module-02-food-evidence/</code> (จากกิจกรรม <code>multiformat-evidence-intake</code> ของหัวข้อ <a href="topic-multiformat-evidence-and-source-levels.html">อ่านหลักฐานหลายรูปแบบและชี้ระดับต้นทาง</a>) ไฟล์ที่ใช้ตรวจผลในหัวข้อนี้อยู่ในโฟลเดอร์นั้นแล้ว: <code>03-omelette-recipe-bilingual.docx</code> (สูตร), <code>07-mock-nutrition.csv</code> (โภชนาการจำลอง), <code>04-lunch-tray.png</code> (ภาพที่สร้างด้วย AI) และผลงานต้นแบบสำหรับเทียบ <code>08-example-meal-card.md</code> — เตรียมไว้ล่วงหน้า <strong>ไม่ใช่ผลการรัน AI ที่ยืนยันแล้ว และห้ามส่งเป็นงานของผู้เรียน</strong></li>
+<li>ตารางข้อสรุปที่ตรวจแล้วจาก Prompt 2 ในแชต (จากกิจกรรม <code>evidence-levels-source-tracing</code> ของหัวข้อ <a href="topic-multiformat-evidence-and-source-levels.html">อ่านหลักฐานหลายรูปแบบและชี้ระดับต้นทาง</a>)</li>
+</ul>
+<h3 id="ขั้นตอน">ขั้นตอน</h3>
+<ol type="1">
+<li><p><strong>Prompt 3 — สร้างผลงานแล้วเปิดดู</strong> สั่ง AI</p>
+<div class="command ai-prompt"><code>จากข้อมูลที่ตรวจแล้ว สร้าง module-02-work/output/meal-card.md หนึ่งหน้า มีสูตรสำหรับ 2 ที่ ตารางโภชนาการจำลองพร้อมหน่วย และคำบรรยายภาพ ระบุแหล่งข้อมูลและสิ่งที่ยังไม่ทราบ บอกชัดว่าตัวเลขโภชนาการแต่งขึ้นเพื่อการสอน ไม่ได้คำนวณจากสูตรหรือภาพ เปิด Markdown Preview ให้ฉันดู แล้วหยุดรอ</code><button type="button" data-copy="">คัดลอก</button></div><p>AI จะสร้าง <code>module-02-work/output/meal-card.md</code> (ฉบับเต็ม) และเปิด Preview</p></li>
+<li><p><strong>เปิด <code>meal-card.md</code> ที่ AI เพิ่งสร้าง แล้วตรวจกับต้นฉบับ</strong></p>
+<ul>
+<li>สูตรตรงกับ Word หรือไม่</li>
+<li>ตัวเลขและหน่วยตรงกับ CSV หรือไม่ (<code>energy</code> 500 kcal, <code>protein</code> 18 g, <code>carbohydrate</code> 62 g, <code>fat</code> 20 g ต่อ one fictional plate)</li>
+<li>คำบรรยายภาพมีสิ่งที่มองไม่เห็นปนมาหรือไม่ (ภาพยืนยันความอิ่มหรือพลังงานไม่ได้)</li>
+<li>มีป้ายบอกว่าตัวเลขโภชนาการเป็นข้อมูลจำลองหรือไม่</li>
+</ul>
+<p>ถ้าพบจุดผิด ให้ชี้จุดนั้นแล้วสั่ง AI แก้</p></li>
+<li><p><strong>Prompt 4 — เปลี่ยนคำสั่งแล้วดูผล</strong> สั่ง AI</p>
+<div class="command ai-prompt"><code>แก้บัตรอาหารเดิมให้เหลือ 5 บรรทัดสำหรับคนกำลังเลือกมื้อกลางวัน คงตัวเลข หน่วย และป้ายข้อมูลจำลองไว้ ไม่เพิ่มข้อเท็จจริงใหม่ เก็บฉบับเดิมไว้ แล้วเปิดฉบับย่อเทียบกัน</code><button type="button" data-copy="">คัดลอก</button></div><p>AI จะสร้าง <strong>ฉบับย่อ</strong> เป็นไฟล์ใหม่ใน <code>module-02-work/output/</code> และเก็บ <code>meal-card.md</code> ฉบับเต็มไว้ จดชื่อไฟล์ฉบับย่อที่ AI บอก <strong>สังเกต:</strong> รูปแบบเปลี่ยนตามคำสั่งหรือไม่ ข้อมูลสำคัญหายหรือถูกเปลี่ยนหรือไม่</p></li>
+<li><p><strong>ลองเปลี่ยนคำสั่งหนึ่งจุด</strong> (เช่น กลุ่มผู้อ่าน หรือจำนวนบรรทัด) แล้วดูผลอีกครั้ง ตรวจซ้ำว่าตัวเลข หน่วย และข้อจำกัดยังอยู่</p></li>
+<li><p><strong>เทียบกับตัวอย่างบัตรสรุปที่ดี</strong></p>
+<div class="command ai-prompt"><code>สูตรสำหรับ 2 ที่ใช้ไข่ 3 ฟอง น้ำปลา น้ำมัน และข้าว ภาพแสดงข้าว ไข่เจียว และถ้วยซุป ตารางฝึกระบุพลังงานจำลอง 500 kcal ต่อจาน ซึ่งไม่ได้คำนวณจากสูตรนี้ ราคาเริ่มต้น 55 บาทอยู่ในงบ 80 บาท แต่ราคาและเวลารออาจเปลี่ยนตามรายการและวัน ข้อมูลชุดนี้ยังยืนยันไม่ได้ว่าผู้กินจะอิ่มถึง 16:00</code><button type="button" data-copy="">คัดลอก</button></div><p>สังเกตว่าแยกสิ่งที่เห็นในภาพ ข้อมูลจากสูตร และข้อมูลจำลองออกจากกัน และบอกสิ่งที่ยังยืนยันไม่ได้ชัดเจน</p></li>
+</ol>
+<h3 id="ตรวจก่อนจบ">ตรวจก่อนจบ</h3>
+<ul class="task-list">
+<li><label><input type="checkbox"><code>module-02-work/output/meal-card.md</code> (ฉบับเต็ม) ยังอยู่ มีสูตรตรงกับ <code>03-omelette-recipe-bilingual.docx</code> และตัวเลขกับหน่วยตรงกับ <code>07-mock-nutrition.csv</code> (500 kcal, 18 g, 62 g, 20 g)</label></li>
+<li><label><input type="checkbox">ฉบับย่อ 5 บรรทัดใน <code>module-02-work/output/</code> คงตัวเลข หน่วย และป้ายข้อมูลจำลองครบ และไม่มีข้อเท็จจริงใหม่</label></li>
+<li><label><input type="checkbox">คำบรรยายภาพไม่อ้างความอิ่มหรือพลังงานจากภาพ</label></li>
+<li><label><input type="checkbox">ชี้ต้นทาง (ไฟล์และตำแหน่ง) ของข้อความสำคัญในบัตรได้อย่างน้อยสองข้อ และบอกข้อที่หลักฐานยังตอบไม่ได้</label></li>
+<li><label><input type="checkbox">รายงานผล Prompt ตามจริง แม้ฉบับที่เปลี่ยนคำสั่งจะไม่ดีขึ้น</label></li>
+</ul>
+<h3 id="ส่งงาน">ส่งงาน</h3>
+<ul>
+<li>ทางสั้นของวันอบรมส่ง <code>meal-card.md</code> (ฉบับเต็มและฉบับย่อ) คู่กับ <code>module-02-work/notes/learner-additions.md</code> ซึ่งยังไม่มีในตอนนี้ — คุณต้องเขียนเองโดยไม่ใช้ AI (คำตอบของคุณสำหรับคำถามที่ AI ตอบไม่ได้ ดูวิธีเขียนในหัวข้อ <a href="topic-claim-level-audit-and-learner-additions.html">แยกข้ออ้าง จัด L1–L4 ด้วยตนเอง และเขียนคำตอบส่วนที่ AI ตอบไม่ได้</a> ขั้นที่ 6) จากนั้นให้ AI รันเครื่องมือ AIRR check → ยืนยัน → submit แบบทางสั้นตามหน้า Module 2</li>
+</ul>
+</div></section>
+<section class="section markdown-section topic-panel" id="open-explore" aria-labelledby="open-explore-heading"><div class="section-heading compact"><p class="eyebrow">Exploring</p><h2 id="open-explore-heading">สร้างบัตรสรุปจากหลักฐาน แล้วสั่งย่อโดยตัวเลข หน่วย และข้อจำกัดไม่หาย</h2></div><div class="markdown-body"><p>ในโจทย์เปิดนี้คุณจะเขียน prompt เองให้ AI สร้างสรุปหนึ่งหน้า <code>my-topic-summary.md</code> จากหลักฐานของคุณ ตรวจกับต้นฉบับ แล้วสั่งย่อสำหรับผู้อ่านกลุ่มหนึ่งโดยตัวเลข หน่วย ข้อจำกัด และป้ายสถานะข้อมูลไม่หาย</p>
+<p>ไม่มี prompt สำเร็จรูปให้</p>
+<h3 id="ก่อนเริ่ม-ต้องมีอยู่แล้ว">ก่อนเริ่ม (ต้องมีอยู่แล้ว)</h3>
+<ul>
+<li>ชุดไฟล์และตารางข้อสรุปที่ตรวจแล้วจากโจทย์เปิดของ <code>evidence-levels-source-tracing</code> (หัวข้อ <a href="topic-multiformat-evidence-and-source-levels.html">อ่านหลักฐานหลายรูปแบบและชี้ระดับต้นทาง</a>) (หรือชุดสำรอง <code>module-02-work/input/original/module-02-food-evidence/</code> กับคำถามใหม่ของตนเอง)</li>
+<li><code>module-02-work/output/prompts.md</code> จากโจทย์เปิดก่อนหน้า (ถ้ายังไม่มี ให้สร้างเองตอนเริ่ม)</li>
+<li>ใช้เฉพาะไฟล์ที่มีสิทธิ์ใช้ และตัดข้อมูลลับ/ข้อมูลส่วนบุคคลแล้ว</li>
+</ul>
+<h3 id="โจทย์">โจทย์</h3>
+<ol type="1">
+<li>เขียน prompt เองให้ AI สร้างสรุปหนึ่งหน้าใน <code>module-02-work/output/my-topic-summary.md</code> ที่ระบุไฟล์และตำแหน่งของข้อความสำคัญ และแยกส่วน “สิ่งที่ยังตอบไม่ได้”</li>
+<li>เปิด <code>my-topic-summary.md</code> ที่ AI สร้าง ตรวจกับต้นฉบับ แล้วสั่งแก้ส่วนที่ผิด</li>
+<li>เขียน prompt อีกรอบให้ย่อหรือเปลี่ยนรูปแบบสำหรับผู้อ่านกลุ่มหนึ่งที่คุณเลือก (เช่น นิสิตในที่ปรึกษา ผู้บริหาร หรือ abstract) โดยเก็บฉบับเต็มไว้</li>
+<li>ทำรายการเทียบฉบับเต็มกับฉบับย่อ: ตัวเลข หน่วย ข้อจำกัด และป้าย (เช่น ข้อมูลจำลอง/ประมาณ/ยังไม่ยืนยัน) ที่ยังอยู่ หาย หรือถูกเปลี่ยน</li>
+</ol>
+<h3 id="ข้อกำหนด">ข้อกำหนด</h3>
+<ul>
+<li>เก็บ prompt ที่ใช้ทุกรอบไว้ใน <code>module-02-work/output/prompts.md</code></li>
+<li>ระบุว่าตรวจผลของ AI อย่างไร: ตัวเลขใดเทียบกับไฟล์ใด และแก้อะไรเอง</li>
+<li>ห้ามสั่งให้ AI แต่งข้อมูลแทนหลักฐาน ถ้าข้อมูลขาดให้ AI ถามและรอ</li>
+</ul>
+<h3 id="เกณฑ์ผ่าน">เกณฑ์ผ่าน</h3>
+<ul class="task-list">
+<li><label><input type="checkbox">เปิด <code>my-topic-summary.md</code> ให้ดูได้ และชี้หลักฐาน (ไฟล์และตำแหน่ง) ของข้อความสำคัญได้อย่างน้อยสามข้อ</label></li>
+<li><label><input type="checkbox">ฉบับย่อคงตัวเลข หน่วย ข้อจำกัด และป้ายสถานะข้อมูลครบ และไม่มีข้อเท็จจริงใหม่ที่ไม่มีในฉบับเต็ม</label></li>
+<li><label><input type="checkbox">ส่วน “สิ่งที่ยังตอบไม่ได้” ไม่ถูกตัดทิ้งหรือเขียนให้ดูเหมือนข้อเท็จจริง</label></li>
+<li><label><input type="checkbox">prompt log แสดงการปรับ prompt อย่างน้อย 1 รอบ พร้อมเหตุผล</label></li>
+</ul>
+</div></section></div></div>
+<script>
+(() => {
+  const tabs = [...document.querySelectorAll('.topic-tabs a')];
+  const panels = tabs.map(t => document.getElementById(t.hash.slice(1)));
+  function show(id) {
+    const i = Math.max(0, panels.findIndex(p => p && p.id === id));
+    panels.forEach((p, k) => { if (p) p.hidden = k !== i; });
+    tabs.forEach((t, k) => t.setAttribute('aria-current', k === i ? 'page' : 'false'));
+    const layout = document.querySelector('.topic-layout'); if (layout && panels[i]) layout.dataset.active = panels[i].id;
+  }
+  tabs.forEach(t => t.addEventListener('click', e => { e.preventDefault(); history.replaceState(null, '', t.hash); show(t.hash.slice(1)); window.scrollTo({top: 0}); }));
+  document.querySelectorAll('[data-next-tab]').forEach(b => b.addEventListener('click', e => { e.preventDefault(); const h = b.getAttribute('href'); history.replaceState(null, '', h); show(h.slice(1)); window.scrollTo({top: 0}); }));
+  document.querySelectorAll('[data-fullscreen]').forEach(b => b.addEventListener('click', () => {
+    const frame = document.querySelector(b.dataset.fullscreen);
+    const go = frame && (frame.requestFullscreen || frame.webkitRequestFullscreen);
+    if (go) go.call(frame); else if (frame) window.open(frame.src, '_blank', 'noopener');
+  }));
+  const layout0 = document.querySelector('.topic-layout');
+  const toggle = document.querySelector('[data-aside-toggle]');
+  function setAside(hidden) {
+    if (!layout0 || !toggle) return;
+    layout0.classList.toggle('aside-hidden', hidden);
+    toggle.setAttribute('aria-pressed', String(hidden));
+    toggle.textContent = hidden ? 'แสดงสไลด์ข้าง' : 'ซ่อนสไลด์ข้าง';
+    try { localStorage.setItem('airr.slideAsideHidden', hidden ? '1' : '0'); } catch (e) {}
+  }
+  if (toggle) {
+    let saved = true; try { saved = localStorage.getItem('airr.slideAsideHidden') !== '0'; } catch (e) {}  // hidden by default
+    setAside(saved);
+    toggle.addEventListener('click', () => setAside(!layout0.classList.contains('aside-hidden')));
+  }
+  show(location.hash.slice(1));
+  if (location.hash) requestAnimationFrame(() => window.scrollTo({top: 0}));
+})();
+</script>
+  </main>
+  <site-footer></site-footer>
+</body>
+</html>

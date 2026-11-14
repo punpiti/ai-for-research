@@ -1,0 +1,433 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="ขอให้ AI แสดงข้อมูลดิบ/การแจกแจงก่อนตารางสรุป อธิบายได้ว่าสถิติสรุปเท่ากันซ่อนรูปร่างข้อมูลที่ต่างกันอย่างไร และถาม AI ได้ว่ากรอง ตัด หรือรวมแถวใด และตัวหารของภาพคืออะไร · ระบุงานอ่านค่าของผู้อ่านก่อนให้ AI วาด เลือกจุดเริ่มต้นของกราฟจากตารางงานอ่านค่า และตรวจข้อเสนอกราฟของ AI ด้วยคอลัมน์ &#x27;สิ่งที่ต้องตรวจ&#x27; · เลือกการเข้ารหัสให้ตรงงานเปรียบเทียบ (ตำแหน่ง/ความยาวก่อนมุม/พื้นที่/สี) ใช้สีเน้นทีละเรื่อง เลือก colormap ที่ความสว่างเรียงลำดับ และตรวจว่าภาพยังอ่านได้เมื่อเป็นขาวดำและสำหรับผู้ที่มองบางสีไม่เห็น · แยกความหมายของ SD, SE, CI และ IQR เลือก interval ให้ตรงคำถาม และเขียนชนิด interval พร้อม n ในคำบรรยายภาพทุกครั้ง">
+  <meta name="theme-color" content="#101817">
+  <title>อ่านข้อมูลและเลือกกราฟให้ตรงงานของผู้อ่าน · AIRR</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/styles.css?v=20261113-2">
+  <link rel="stylesheet" href="assets/learn.css?v=20261115-3">
+  <script src="assets/site-shell.js?v=20261115-3"></script>
+  <script src="assets/app.js?v=20261115-3" defer></script>
+</head>
+<body class="learn" data-no-case>
+  <a class="skip-link" href="#main">ข้ามไปยังเนื้อหา</a>
+  <site-header current="topic" plan="class-2026-11-20-engineering-faculty.html" menu='{&quot;module&quot;: &quot;M07&quot;, &quot;title&quot;: &quot;วิเคราะห์ข้อมูลและสร้างกราฟ&quot;, &quot;items&quot;: [{&quot;href&quot;: &quot;module-overview-m07.html&quot;, &quot;label&quot;: &quot;ภาพรวมและ LO&quot;, &quot;current&quot;: false}, {&quot;href&quot;: &quot;topic-reading-data-and-choosing-charts.html&quot;, &quot;label&quot;: &quot;อ่านข้อมูลและเลือกกราฟให้ตรงงานของผู้อ่าน&quot;, &quot;current&quot;: true}, {&quot;href&quot;: &quot;topic-chart-pitfalls-and-makeover.html&quot;, &quot;label&quot;: &quot;กับดักกราฟ และการปรับกราฟให้พร้อมใช้&quot;, &quot;current&quot;: false}, {&quot;href&quot;: &quot;topic-data-highlights-with-evidence.html&quot;, &quot;label&quot;: &quot;จากข้อมูลสู่ highlights ที่ตรวจย้อนได้&quot;, &quot;current&quot;: false}]}'></site-header>
+  <main id="main">
+<section class="prepare-hero module-hero"><p class="eyebrow">หัวข้อย่อย · M07</p><h1>อ่านข้อมูลและเลือกกราฟให้ตรงงานของผู้อ่าน</h1><ul class="outcomes"><li>ขอให้ AI แสดงข้อมูลดิบ/การแจกแจงก่อนตารางสรุป อธิบายได้ว่าสถิติสรุปเท่ากันซ่อนรูปร่างข้อมูลที่ต่างกันอย่างไร และถาม AI ได้ว่ากรอง ตัด หรือรวมแถวใด และตัวหารของภาพคืออะไร</li><li>ระบุงานอ่านค่าของผู้อ่านก่อนให้ AI วาด เลือกจุดเริ่มต้นของกราฟจากตารางงานอ่านค่า และตรวจข้อเสนอกราฟของ AI ด้วยคอลัมน์ &#x27;สิ่งที่ต้องตรวจ&#x27;</li><li>เลือกการเข้ารหัสให้ตรงงานเปรียบเทียบ (ตำแหน่ง/ความยาวก่อนมุม/พื้นที่/สี) ใช้สีเน้นทีละเรื่อง เลือก colormap ที่ความสว่างเรียงลำดับ และตรวจว่าภาพยังอ่านได้เมื่อเป็นขาวดำและสำหรับผู้ที่มองบางสีไม่เห็น</li><li>แยกความหมายของ SD, SE, CI และ IQR เลือก interval ให้ตรงคำถาม และเขียนชนิด interval พร้อม n ในคำบรรยายภาพทุกครั้ง</li></ul></section>
+<div class="topic-layout"><nav class="topic-tabs" aria-label="ส่วนของหัวข้อ"><a href="#slides" title="สไลด์">สไลด์</a><a href="#workshop-look-at-raw-data-before-summary-stats" title="ดูข้อมูลจริงก่อนเชื่อสถิติสรุป">Notebook 1</a><a href="#workshop-look-at-raw-data-before-summary-stats-prompt" title="ดูข้อมูลจริงก่อนเชื่อสถิติสรุป">Prompt 1</a><a href="#open-look-at-raw-data-before-summary-stats-explore" title="ดูข้อมูลจริงก่อนเชื่อสถิติสรุป">Exploring 1</a><a href="#workshop-choose-chart-by-reader-task" title="เลือกกราฟจากงานที่ผู้อ่านต้องทำ">Notebook 2</a><a href="#workshop-choose-chart-by-reader-task-prompt" title="เลือกกราฟจากงานที่ผู้อ่านต้องทำ">Prompt 2</a><a href="#open-choose-chart-by-reader-task-explore" title="เลือกกราฟจากงานที่ผู้อ่านต้องทำ">Exploring 2</a><a href="#workshop-visual-encoding-and-functional-color" title="การรับรู้ การเข้ารหัส และสีที่มีหน้าที่">Notebook 3</a><a href="#workshop-visual-encoding-and-functional-color-prompt" title="การรับรู้ การเข้ารหัส และสีที่มีหน้าที่">Prompt 3</a><a href="#open-visual-encoding-and-functional-color-explore" title="การรับรู้ การเข้ารหัส และสีที่มีหน้าที่">Exploring 3</a><a href="#workshop-uncertainty-interval-types" title="แสดงความไม่แน่นอนให้ตรงความหมาย (SD, SE, CI, IQR)">Notebook 4</a><a href="#workshop-uncertainty-interval-types-prompt" title="แสดงความไม่แน่นอนให้ตรงความหมาย (SD, SE, CI, IQR)">Prompt 4</a><a href="#open-uncertainty-interval-types-explore" title="แสดงความไม่แน่นอนให้ตรงความหมาย (SD, SE, CI, IQR)">Exploring 4</a><button type="button" class="aside-toggle" data-aside-toggle aria-pressed="false">ซ่อนสไลด์ข้าง</button></nav><div class="topic-main"><section class="section markdown-section topic-panel" id="slides" aria-labelledby="slides-heading"><div class="section-heading compact"><p class="eyebrow">สไลด์</p><h2 id="slides-heading">สไลด์</h2></div><div class="markdown-body"><div class="slide-tools"><button type="button" class="slide-tool" data-fullscreen="#slide-frame-main">⛶ เต็มจอ</button><a class="slide-tool" href="downloads/topics/reading-data-and-choosing-charts.pdf" target="_blank" rel="noopener">เปิดแท็บใหม่ ↗</a></div><iframe id="slide-frame-main" class="slide-frame" src="downloads/topics/reading-data-and-choosing-charts.pdf#view=FitH" title="สไลด์ อ่านข้อมูลและเลือกกราฟให้ตรงงานของผู้อ่าน" allowfullscreen></iframe></div></section>
+<section class="section markdown-section topic-panel" id="workshop-look-at-raw-data-before-summary-stats" aria-labelledby="workshop-look-at-raw-data-before-summary-stats-heading"><div class="section-heading compact"><p class="eyebrow">Notebook 1</p><h2 id="workshop-look-at-raw-data-before-summary-stats-heading">ดูข้อมูลจริงก่อนเชื่อสถิติสรุป</h2></div><div class="markdown-body"><p>ใน Notebook นี้คุณจะรัน Part A ใน Google Colab เทียบกราฟสรุปกับข้อมูลจริง แล้วได้บันทึกของตัวเองว่าสถิติสรุปซ่อนอะไรและภาพแต่ละภาพใช้แถวใด</p>
+<p>ทำใน <strong>Google Colab อย่างเดียว</strong> ไม่ต้องใช้ AI ในส่วนนี้ — เปิด รัน ดู แล้วจดสิ่งที่เห็นด้วยตัวเอง</p>
+<h3 id="ก่อนเริ่ม-ต้องมีอยู่แล้ว">ก่อนเริ่ม (ต้องมีอยู่แล้ว)</h3>
+<ul>
+<li>บัญชี Google สำหรับเปิด Google Colab</li>
+<li>notebook <a href="https://colab.research.google.com/github/punpiti/ai-for-research/blob/main/downloads/course-materials/visualization/notebooks/module-07a-read-and-audit.ipynb">Part A — อ่านกราฟและตรวจสิ่งที่ AI เลือก</a> (เปิดจากลิงก์ได้ทันที)</li>
+<li>ถ้าใช้ Colab ไม่ได้: ไฟล์ชุดเดียวกัน <code>course-materials/module-07/notebooks/module-07a-read-and-audit.ipynb</code> (ติดตั้งมากับ Module 1) เปิดด้วย <code>tools/start-module-07</code> (Module 1 สร้างให้เมื่อเห็น <code>MODULE7_READY</code>) หรือดาวน์โหลด <a href="downloads/module-07-notebooks/module-07-notebook-bundle.zip">module-07-notebook-bundle.zip</a></li>
+</ul>
+<h3 id="ขั้นตอน">ขั้นตอน</h3>
+<ol type="1">
+<li>เปิดลิงก์ Part A ด้วยบัญชี Google ของคุณ แล้วกด <strong>Runtime → Run all</strong> (cell แรกติดตั้งไลบรารีและฟอนต์ไทยให้เอง)
+<ul>
+<li>หาหัวข้อจาก <strong>สารบัญ</strong> ด้านซ้ายของ Colab · อยากเก็บสิ่งที่แก้ให้ <strong>File → Save a copy in Drive</strong> ก่อน</li>
+<li>ข้อมูลทั้งหมดใน notebook เป็นข้อมูลจำลองเพื่อการสอน · ห้ามอัปโหลดข้อมูลวิจัยจริงหรือข้อมูลส่วนบุคคลขึ้น Colab</li>
+</ul></li>
+<li>ไปที่ <strong>Part A › หัวข้อ 1 › ดูสถิติสรุปก่อน</strong></li>
+<li>ดูกราฟ mean ± SD แล้ว <strong>เดาก่อน</strong> ว่าข้อมูลแต่ละกลุ่มหน้าตาอย่างไร จดคำเดาไว้หนึ่งบรรทัดต่อกลุ่ม (กระดาษหรือโน้ตใดก็ได้)</li>
+<li>ดู cell ถัดไปที่เฉลยด้วย violin + จุดข้อมูล เทียบกับที่เดาไว้ (กลุ่มใดใกล้ปกติ กลุ่มใดมีสองยอด กลุ่มใดมีค่าผิดปกติค่าเดียว)</li>
+<li>ไปที่ <strong>Part A › หัวข้อ 3 › สิ่งที่ถูกตัดออกอาจเปลี่ยนการตัดสินใจ</strong> เทียบภาพซ้าย (เฉพาะแถวที่ล้มเหลว) กับภาพขวา (การทดสอบทั้งหมด)</li>
+<li>จดเองเป็น <strong>บันทึก "แถวในภาพซ้าย/ขวา"</strong>: ภาพซ้ายและภาพขวาใช้แถวใด และข้อสรุปต่างกันอย่างไร</li>
+<li>เขียนหนึ่งประโยค: สถิติสรุปในตัวอย่างนี้ซ่อนอะไรไว้ และกราฟแบบใดเปิดเผยได้</li>
+</ol>
+<h3 id="ตรวจก่อนจบ">ตรวจก่อนจบ</h3>
+<ul class="task-list">
+<li><label><input type="checkbox">มีคำเดาหนึ่งบรรทัดต่อกลุ่ม ที่จดไว้ก่อนดู cell เฉลย</label></li>
+<li><label><input type="checkbox">บันทึก "แถวในภาพซ้าย/ขวา" ระบุแถวที่แต่ละภาพใช้ และข้อสรุปที่ต่างกัน (เก็บไว้ใช้ใน Prompt ของส่วนนี้)</label></li>
+<li><label><input type="checkbox">มีหนึ่งประโยคว่าสถิติสรุปซ่อนอะไร และกราฟแบบใดเปิดเผยได้</label></li>
+</ul>
+</div></section>
+<section class="section markdown-section topic-panel" id="workshop-look-at-raw-data-before-summary-stats-prompt" aria-labelledby="workshop-look-at-raw-data-before-summary-stats-prompt-heading"><div class="section-heading compact"><p class="eyebrow">Prompt 1</p><h2 id="workshop-look-at-raw-data-before-summary-stats-prompt-heading">ดูข้อมูลจริงก่อนเชื่อสถิติสรุป</h2></div><div class="markdown-body"><p>ใน workshop นี้คุณจะให้ AI อ่านโค้ดใน notebook ว่าภาพแต่ละภาพกรองแถวใดและใช้ตัวหารอะไร ตรวจกับโค้ดจริงเอง แล้วสร้างไฟล์บันทึกผล <code>module-07-work/raw-vs-summary-notes.md</code></p>
+<p>ทำใน <strong>VS Code กับ AI อย่างเดียว</strong> ไม่ต้องเปิด Colab — AI อ่านไฟล์ notebook ที่ติดตั้งไว้ในเครื่องแล้ว</p>
+<h3 id="ก่อนเริ่ม-ต้องมีอยู่แล้ว">ก่อนเริ่ม (ต้องมีอยู่แล้ว)</h3>
+<ul>
+<li>ผ่าน Module 1: เปิด <code>ai-for-research-workspace</code> ใน VS Code และ AI panel เชื่อมแล้ว</li>
+<li><code>course-materials/module-07/notebooks/module-07a-read-and-audit.ipynb</code> (ติดตั้งมากับ Module 1 · อ่านอย่างเดียว ห้ามแก้)</li>
+<li>โฟลเดอร์ <code>module-07-work/</code> และ Python ของโมดูล <code>.venv-module07</code> (ตัวติดตั้ง Module 1 สร้างไว้ เมื่อเห็น <code>MODULE7_READY</code>)</li>
+<li>บันทึก "แถวในภาพซ้าย/ขวา" ที่คุณจดใน Notebook ของส่วนนี้ (<code>look-at-raw-data-before-summary-stats</code>)</li>
+</ul>
+<h3 id="ขั้นตอน">ขั้นตอน</h3>
+<ol type="1">
+<li><p>สั่ง AI</p>
+<div class="command ai-prompt"><code>อ่าน course-materials/module-07/notebooks/module-07a-read-and-audit.ipynb เฉพาะหัวข้อ 3 “สิ่งที่ถูกตัดออกอาจเปลี่ยนการตัดสินใจ” แล้วบอกว่าภาพแต่ละภาพกรอง ตัด หรือรวมแถวใดไปบ้าง ตัวหารของแต่ละภาพคืออะไร และข้อสรุปเปลี่ยนอย่างไรเมื่อใส่แถวที่ถูกตัดกลับเข้ามา ยกบรรทัดโค้ดที่ใช้กรองแถวมาด้วย ห้ามแก้ไฟล์ใด ๆ</code><button type="button" data-copy="">คัดลอก</button></div></li>
+<li><p>เปิดไฟล์ <code>.ipynb</code> ใน VS Code ค้นบรรทัดโค้ดที่ AI ยกมา แล้วตรวจเองว่าเงื่อนไขกรองตรงกับโค้ดจริงหรือไม่</p></li>
+<li><p>เทียบคำตอบของ AI กับบันทึก "แถวในภาพซ้าย/ขวา" ของคุณ</p></li>
+<li><p>สร้างไฟล์ <code>module-07-work/raw-vs-summary-notes.md</code> เอง แล้วเขียน</p>
+<ul>
+<li>หนึ่งประโยค: ใครเป็นคนเลือกแถวในภาพ และตัวหารที่ถูกต้องควรเป็นอะไร</li>
+<li>รายการจุดที่ AI ตอบผิดหรือไม่ครบ (ถ้าไม่มี ให้เขียนว่าไม่มี)</li>
+</ul></li>
+</ol>
+<h3 id="ตรวจก่อนจบ">ตรวจก่อนจบ</h3>
+<ul class="task-list">
+<li><label><input type="checkbox"><code>course-materials/module-07/notebooks/module-07a-read-and-audit.ipynb</code> ไม่ถูกแก้</label></li>
+<li><label><input type="checkbox">บรรทัดโค้ดกรองแถวที่ AI ยกมา คุณหาเจอในไฟล์จริงและเงื่อนไขตรงกัน (หรือจดไว้ว่าไม่ตรง)</label></li>
+<li><label><input type="checkbox"><code>module-07-work/raw-vs-summary-notes.md</code> มีประโยคเรื่องการเลือกแถวและตัวหาร และรายการจุดที่ AI ตอบผิดหรือไม่ครบ</label></li>
+</ul>
+<h3 id="ส่งงาน">ส่งงาน</h3>
+<ul>
+<li>ส่วนนี้ไม่ส่งแยก เก็บผลไว้ใน <code>module-07-work/</code> แล้วนำไปใช้ใน workshop highlights (หัวข้อ <a href="topic-data-highlights-with-evidence.html">จากข้อมูลสู่ highlights ที่ตรวจย้อนได้</a>) ซึ่งส่งผ่าน AIRR</li>
+</ul>
+</div></section>
+<section class="section markdown-section topic-panel" id="open-look-at-raw-data-before-summary-stats-explore" aria-labelledby="open-look-at-raw-data-before-summary-stats-explore-heading"><div class="section-heading compact"><p class="eyebrow">Exploring 1</p><h2 id="open-look-at-raw-data-before-summary-stats-explore-heading">ดูข้อมูลจริงก่อนเชื่อสถิติสรุป</h2></div><div class="markdown-body"><p>ใน Exploring workshop นี้คุณจะเขียน prompt เองให้ AI แสดงการแจกแจงของข้อมูลที่อยู่เบื้องหลังตารางหรือกราฟสรุปหนึ่งชิ้น แล้วสร้าง <code>module-07-work/output/raw-vs-summary.md</code> ที่ตัดสินว่าข้อสรุปเดิมยังใช้ได้หรือไม่</p>
+<p>ผู้เรียนเขียน prompt เอง ไม่มี prompt สำเร็จรูปให้</p>
+<h3 id="ก่อนเริ่ม-ต้องมีอยู่แล้ว">ก่อนเริ่ม (ต้องมีอยู่แล้ว)</h3>
+<ul>
+<li>ผ่าน Module 1: เปิด <code>ai-for-research-workspace</code> ใน VS Code และ AI panel เชื่อมแล้ว · โฟลเดอร์ <code>module-07-work/</code> (ตัวติดตั้ง Module 1 สร้างไว้)</li>
+<li>ทำ workshop "ดูข้อมูลจริงก่อนเชื่อสถิติสรุป" (Notebook และ Prompt) ของหัวข้อนี้แล้ว</li>
+<li>ตารางสรุปหรือกราฟสรุปหนึ่งชิ้น (เช่น mean ± SD ต่อกลุ่ม) พร้อมข้อมูลต้นทาง จากงานวิจัยของคุณหรือของนิสิตที่คุณดูแล ที่มีสิทธิ์นำเข้า AI
+<ul>
+<li>ถ้ายังไม่มี: ใช้ <code>course-materials/module-07/examples/figure-consistency/mock-study-data.csv</code> (ติดตั้งมากับ Module 1) หรือ<a href="module-7-thailand-population-lab.html">กรณีฝึกสำรองประชากรไทย</a> (ข้อมูลเปิด ให้ AI ดาวน์โหลดและทำใบรับข้อมูลตามหน้านั้น)</li>
+</ul></li>
+</ul>
+<h3 id="ขั้นตอน">ขั้นตอน</h3>
+<ol type="1">
+<li>สร้างโฟลเดอร์ <code>module-07-work/output/</code> และไฟล์ <code>module-07-work/output/prompts.md</code> (ถ้ามีจาก Exploring workshop ข้ออื่นแล้ว ให้เพิ่มหัวข้อใหม่ต่อท้าย) ไว้จดทุกรอบเป็น prompt → สรุปคำตอบของ AI → สิ่งที่คุณตัดสินใจ</li>
+<li>เขียน prompt ให้ AI แสดงข้อมูลระดับ observation หรือการแจกแจงของตัวแปรเดียวกับตารางสรุป ก่อนให้ AI สรุปใด ๆ</li>
+<li>เขียน prompt ให้ AI รายงานว่าแถวใดถูกกรอง ตัด หรือรวม ด้วยเกณฑ์อะไร และตัวหารของภาพคืออะไร แล้วตรวจกับโค้ดหรือข้อมูลเอง</li>
+<li>เทียบภาพการแจกแจงกับตารางสรุปเดิม แล้วตัดสินว่าข้อสรุปเดิมยังใช้ได้หรือไม่</li>
+<li>สร้าง <code>module-07-work/output/raw-vs-summary.md</code> บันทึกผล พร้อมภาพการแจกแจงอย่างน้อย 1 ภาพ</li>
+</ol>
+<h3 id="ข้อกำหนด">ข้อกำหนด</h3>
+<ul>
+<li>เขียน prompt เองทุกข้อ ไม่ใช้ prompt สำเร็จรูปจาก workshop และจดทุกรอบใน <code>module-07-work/output/prompts.md</code></li>
+<li>ระบุว่าตรวจผลของ AI อย่างไร (เปิดภาพดูเอง คำนวณเอง หรือเปิดข้อมูลต้นทาง) และแก้อะไรเอง</li>
+<li>ข้อมูลที่ไม่มีสิทธิ์นำเข้า AI (ข้อมูลส่วนบุคคล ข้อมูลลับ manuscript ที่ยังไม่เผยแพร่) ให้ใช้ข้อมูลจำลอง/ข้อมูลเปิดแทน</li>
+<li>ถ้า AI เสนอวิธีทางสถิติที่คุณอธิบายเหตุผลไม่ได้ ให้หยุดและปรึกษาผู้เชี่ยวชาญก่อนใช้ผล</li>
+</ul>
+<h3 id="เกณฑ์ผ่าน">เกณฑ์ผ่าน</h3>
+<ul class="task-list">
+<li><label><input type="checkbox"><code>module-07-work/output/raw-vs-summary.md</code> มีภาพที่เห็นข้อมูลระดับ observation (strip, histogram, ECDF, violin/box + จุด) พร้อม n</label></li>
+<li><label><input type="checkbox">ระบุชัดว่ามีแถวใดถูกกรอง/ตัด/รวม (หรือยืนยันว่าไม่มี) และตัวหารคืออะไร โดยตรวจกับโค้ดหรือข้อมูลเอง ไม่เชื่อคำตอบ AI อย่างเดียว</label></li>
+<li><label><input type="checkbox">มีหนึ่งย่อหน้าว่าการแจกแจงเผยสิ่งที่ค่าสรุปซ่อนไว้หรือไม่ และกระทบข้อสรุปเดิมอย่างไร</label></li>
+<li><label><input type="checkbox"><code>module-07-work/output/prompts.md</code> แสดงการปรับ prompt อย่างน้อย 1 รอบ พร้อมเหตุผล</label></li>
+<li><label><input type="checkbox">ไฟล์ข้อมูลต้นทางไม่ถูกแก้</label></li>
+</ul>
+<p><strong>เกณฑ์:</strong> ทำ Exploring workshop อย่างน้อย 2 ข้อจากที่คลาสเปิดให้</p>
+</div></section>
+<section class="section markdown-section topic-panel" id="workshop-choose-chart-by-reader-task" aria-labelledby="workshop-choose-chart-by-reader-task-heading"><div class="section-heading compact"><p class="eyebrow">Notebook 2</p><h2 id="workshop-choose-chart-by-reader-task-heading">เลือกกราฟจากงานที่ผู้อ่านต้องทำ</h2></div><div class="markdown-body"><p>ใน Notebook นี้คุณจะอ่านตารางงานอ่านค่าใน Part A แล้วเขียนคำถามหนึ่งข้อถึงข้อมูล PM2.5 จำลอง พร้อมระบุงานอ่านค่าและ "สิ่งที่ต้องตรวจ" ของคำถามนั้นเอง</p>
+<p>ทำใน <strong>Google Colab อย่างเดียว</strong> ไม่ต้องใช้ AI ในส่วนนี้ — เปิด รัน ดู แล้วจดสิ่งที่เห็นด้วยตัวเอง</p>
+<h3 id="ก่อนเริ่ม-ต้องมีอยู่แล้ว">ก่อนเริ่ม (ต้องมีอยู่แล้ว)</h3>
+<ul>
+<li>บัญชี Google สำหรับเปิด Google Colab</li>
+<li>notebook <a href="https://colab.research.google.com/github/punpiti/ai-for-research/blob/main/downloads/course-materials/visualization/notebooks/module-07a-read-and-audit.ipynb">Part A — อ่านกราฟและตรวจสิ่งที่ AI เลือก</a> (เปิดจากลิงก์ได้ทันที) และ <a href="https://colab.research.google.com/github/punpiti/ai-for-research/blob/main/downloads/course-materials/visualization/notebooks/module-07b-revise-and-publish.ipynb">Part B — ปรับกราฟและส่งออกให้พร้อมใช้</a> สำหรับขั้นที่ไม่บังคับ</li>
+<li>ถ้าใช้ Colab ไม่ได้: ไฟล์ชุดเดียวกันใน <code>course-materials/module-07/notebooks/</code> (<code>module-07a-read-and-audit.ipynb</code>, <code>module-07b-revise-and-publish.ipynb</code> ติดตั้งมากับ Module 1) เปิดด้วย <code>tools/start-module-07</code> (Module 1 สร้างให้เมื่อเห็น <code>MODULE7_READY</code>) หรือดาวน์โหลด <a href="downloads/module-07-notebooks/module-07-notebook-bundle.zip">module-07-notebook-bundle.zip</a></li>
+</ul>
+<h3 id="ขั้นตอน">ขั้นตอน</h3>
+<ol type="1">
+<li>เปิดลิงก์ Part A ด้วยบัญชี Google ของคุณ แล้วกด <strong>Runtime → Run all</strong> (cell แรกติดตั้งไลบรารีและฟอนต์ไทยให้เอง)
+<ul>
+<li>หาหัวข้อจาก <strong>สารบัญ</strong> ด้านซ้ายของ Colab · อยากเก็บสิ่งที่แก้ให้ <strong>File → Save a copy in Drive</strong> ก่อน</li>
+<li>ข้อมูลทั้งหมดใน notebook เป็นข้อมูลจำลองเพื่อการสอน · ห้ามอัปโหลดข้อมูลวิจัยจริงหรือข้อมูลส่วนบุคคลขึ้น Colab</li>
+</ul></li>
+<li>ไปที่ <strong>Part A › หัวข้อ 2. ก่อนเลือกกราฟ ให้ระบุงานอ่านค่า</strong> อ่านตารางงานอ่านค่าต้นหัวข้อ</li>
+<li>เขียนคำถามหนึ่งข้อที่อยากถามข้อมูล PM2.5 จำลอง (เช่น เทียบ site หรือดูการเปลี่ยนตาม week)</li>
+<li>ระบุเองว่าคำถามนั้นเป็นงานอ่านค่าแบบใดในตาราง และจด "สิ่งที่ต้องตรวจ" ของแถวนั้น — รวมสามอย่างนี้เป็น <strong>บันทึก "คำถาม + งานอ่านค่า"</strong></li>
+<li>(ถ้ามีเวลา) เปิด Part B ดู <strong>Part B › หัวข้อ 2 › เลือกกราฟพิเศษจากงานอ่านค่า</strong> ว่ากราฟพิเศษแต่ละแบบตอบงานอ่านค่าอะไร</li>
+</ol>
+<h3 id="ตรวจก่อนจบ">ตรวจก่อนจบ</h3>
+<ul class="task-list">
+<li><label><input type="checkbox">บันทึก "คำถาม + งานอ่านค่า" มีครบสามส่วน: คำถามหนึ่งข้อ · งานอ่านค่าที่คุณระบุ · รายการ "สิ่งที่ต้องตรวจ" ของแถวนั้น (เก็บไว้ใช้ใน Prompt ของส่วนนี้)</label></li>
+<li><label><input type="checkbox">งานอ่านค่าที่ระบุเป็นแถวที่มีอยู่จริงในตารางของ Part A หัวข้อ 2</label></li>
+</ul>
+</div></section>
+<section class="section markdown-section topic-panel" id="workshop-choose-chart-by-reader-task-prompt" aria-labelledby="workshop-choose-chart-by-reader-task-prompt-heading"><div class="section-heading compact"><p class="eyebrow">Prompt 2</p><h2 id="workshop-choose-chart-by-reader-task-prompt-heading">เลือกกราฟจากงานที่ผู้อ่านต้องทำ</h2></div><div class="markdown-body"><p>ใน workshop นี้คุณจะให้ AI อ่านข้อมูล PM2.5 จำลองแล้วเสนอกราฟสำหรับคำถามของคุณ ตรวจข้อเสนอด้วย "สิ่งที่ต้องตรวจ" แล้วสร้าง <code>module-07-work/chart-choice-notes.md</code> บันทึกกราฟที่เลือกพร้อมเหตุผล</p>
+<p>ทำใน <strong>VS Code กับ AI อย่างเดียว</strong> ไม่ต้องเปิด Colab — AI อ่านไฟล์ที่ติดตั้งไว้ในเครื่องแล้ว</p>
+<h3 id="ก่อนเริ่ม-ต้องมีอยู่แล้ว">ก่อนเริ่ม (ต้องมีอยู่แล้ว)</h3>
+<ul>
+<li>ผ่าน Module 1: เปิด <code>ai-for-research-workspace</code> ใน VS Code และ AI panel เชื่อมแล้ว</li>
+<li><code>course-materials/module-07/examples/figure-consistency/mock-study-data.csv</code> (ข้อมูล PM2.5 จำลอง ติดตั้งมากับ Module 1 · อ่านอย่างเดียว ห้ามแก้)</li>
+<li>โฟลเดอร์ <code>module-07-work/</code> และ Python ของโมดูล <code>.venv-module07</code> (ตัวติดตั้ง Module 1 สร้างไว้ เมื่อเห็น <code>MODULE7_READY</code>)</li>
+<li>บันทึก "คำถาม + งานอ่านค่า" ที่คุณจดใน Notebook ของส่วนนี้ (<code>choose-chart-by-reader-task</code>)</li>
+</ul>
+<h3 id="ขั้นตอน">ขั้นตอน</h3>
+<ol type="1">
+<li><p>สั่ง AI (ต่อท้ายด้วยคำถามจากบันทึก "คำถาม + งานอ่านค่า" ของคุณ)</p>
+<div class="command ai-prompt"><code>อ่าน course-materials/module-07/examples/figure-consistency/mock-study-data.csv โดยไม่แก้ไฟล์ ก่อนเสนอกราฟ ให้บอกว่าผู้อ่านต้องทำงานอ่านค่าอะไร กราฟที่เสนอซ่อนข้อมูลส่วนใดไว้ และต้องแสดง n กับข้อมูลดิบอย่างไร คำถามของฉันคือ: …</code><button type="button" data-copy="">คัดลอก</button></div></li>
+<li><p>ตรวจ: งานอ่านค่าที่ AI ระบุตรงกับที่คุณระบุหรือไม่ และ AI พูดถึงรายการใน "สิ่งที่ต้องตรวจ" ครบหรือไม่</p></li>
+<li><p>ถ้า AI เสนอกราฟพิเศษ (dumbbell, forest plot, hexbin, heatmap, log scale) ให้ถามกลับว่าตอบงานอ่านค่าอะไร ถ้าตอบไม่ได้ให้ขอกราฟพื้นฐาน</p></li>
+<li><p>สร้างไฟล์ <code>module-07-work/chart-choice-notes.md</code> แล้วบันทึก: คำถาม · งานอ่านค่า · กราฟที่เลือกพร้อมเหตุผล · รายการ "สิ่งที่ต้องตรวจ" ที่ AI ไม่ได้พูดถึง</p></li>
+</ol>
+<h3 id="ตรวจก่อนจบ">ตรวจก่อนจบ</h3>
+<ul class="task-list">
+<li><label><input type="checkbox"><code>course-materials/module-07/examples/figure-consistency/mock-study-data.csv</code> ไม่ถูกแก้</label></li>
+<li><label><input type="checkbox"><code>module-07-work/chart-choice-notes.md</code> มีคำถาม งานอ่านค่า กราฟที่เลือก และเหตุผลที่อ้างงานอ่านค่า (ไม่ใช่ความสวย) — ใช้ต่อในส่วน "กราฟที่เลือก" ของ highlights</label></li>
+<li><label><input type="checkbox">ไฟล์เดียวกันมีรายการ "สิ่งที่ต้องตรวจ" ที่ AI ไม่ได้พูดถึง (หรือเขียนว่าพูดครบ)</label></li>
+<li><label><input type="checkbox">ถ้ามีกราฟพิเศษ ระบุได้ว่าตอบงานอ่านค่าใด</label></li>
+</ul>
+<h3 id="ส่งงาน">ส่งงาน</h3>
+<ul>
+<li>ส่วนนี้ไม่ส่งแยก เก็บผลไว้ใน <code>module-07-work/</code> แล้วนำไปใช้ใน workshop highlights (หัวข้อ <a href="topic-data-highlights-with-evidence.html">จากข้อมูลสู่ highlights ที่ตรวจย้อนได้</a>) ซึ่งส่งผ่าน AIRR</li>
+</ul>
+</div></section>
+<section class="section markdown-section topic-panel" id="open-choose-chart-by-reader-task-explore" aria-labelledby="open-choose-chart-by-reader-task-explore-heading"><div class="section-heading compact"><p class="eyebrow">Exploring 2</p><h2 id="open-choose-chart-by-reader-task-explore-heading">เลือกกราฟจากงานที่ผู้อ่านต้องทำ</h2></div><div class="markdown-body"><p>ใน Exploring workshop นี้คุณจะเขียน prompt เองให้ AI เสนอกราฟทางเลือกสำหรับภาพหนึ่งภาพในงานของคุณ แล้วสร้าง <code>module-07-work/output/chart-choice.md</code> ที่ตัดสินเลือกกราฟด้วยงานอ่านค่า</p>
+<p>ผู้เรียนเขียน prompt เอง ไม่มี prompt สำเร็จรูปให้</p>
+<h3 id="ก่อนเริ่ม-ต้องมีอยู่แล้ว">ก่อนเริ่ม (ต้องมีอยู่แล้ว)</h3>
+<ul>
+<li>ผ่าน Module 1: เปิด <code>ai-for-research-workspace</code> ใน VS Code และ AI panel เชื่อมแล้ว · โฟลเดอร์ <code>module-07-work/</code> (ตัวติดตั้ง Module 1 สร้างไว้)</li>
+<li>ทำ workshop "เลือกกราฟจากงานที่ผู้อ่านต้องทำ" ของหัวข้อนี้แล้ว (รู้จักตารางงานอ่านค่าและคอลัมน์ "สิ่งที่ต้องตรวจ" ใน Part A หัวข้อ 2)</li>
+<li>ภาพหนึ่งภาพจากบทความ รายงาน หรือวิทยานิพนธ์ในงานของคุณ (ของตนเองหรือของนิสิต) พร้อมข้อมูลที่ใช้วาด ที่มีสิทธิ์นำเข้า AI
+<ul>
+<li>ถ้ายังไม่มี: ใช้ <code>course-materials/module-07/examples/figure-consistency/mock-study-data.csv</code> (ติดตั้งมากับ Module 1) หรือ<a href="module-7-thailand-population-lab.html">กรณีฝึกสำรองประชากรไทย</a> (ข้อมูลเปิด ให้ AI ดาวน์โหลดและทำใบรับข้อมูลตามหน้านั้น)</li>
+</ul></li>
+</ul>
+<h3 id="ขั้นตอน">ขั้นตอน</h3>
+<ol type="1">
+<li>สร้างโฟลเดอร์ <code>module-07-work/output/</code> และไฟล์ <code>module-07-work/output/prompts.md</code> (ถ้ามีจาก Exploring workshop ข้ออื่นแล้ว ให้เพิ่มหัวข้อใหม่ต่อท้าย) ไว้จดทุกรอบเป็น prompt → สรุปคำตอบของ AI → สิ่งที่คุณตัดสินใจ</li>
+<li>ระบุเองก่อนว่าผู้อ่านต้องทำงานอ่านค่าอะไรกับภาพนั้น โดยใช้ตารางงานอ่านค่าในหัวข้อนี้ แล้วจดลง <code>prompts.md</code> ก่อนถาม AI</li>
+<li>เขียน prompt ให้ AI เสนอรูปแบบกราฟทางเลือกอย่างน้อย 2 แบบสำหรับงานอ่านค่าเดียวกัน พร้อมสิ่งที่แต่ละแบบซ่อนไว้</li>
+<li>ตรวจข้อเสนอแต่ละแบบด้วยคอลัมน์ "สิ่งที่ต้องตรวจ" ที่ตรงกับงานอ่านค่านั้น</li>
+<li>ตัดสินเลือกหนึ่งแบบ (จะคงแบบเดิมก็ได้) แล้วสร้าง <code>module-07-work/output/chart-choice.md</code> อธิบายเหตุผลด้วยงานอ่านค่า ไม่ใช่ความสวยหรือความแปลกตา</li>
+</ol>
+<h3 id="ข้อกำหนด">ข้อกำหนด</h3>
+<ul>
+<li>เขียน prompt เองทุกข้อ ไม่ใช้ prompt สำเร็จรูปจาก workshop และจดทุกรอบใน <code>module-07-work/output/prompts.md</code></li>
+<li>ระบุว่าตรวจผลของ AI อย่างไร (เปิดภาพดูเอง คำนวณเอง หรือเปิดข้อมูลต้นทาง) และแก้อะไรเอง</li>
+<li>ข้อมูลที่ไม่มีสิทธิ์นำเข้า AI (ข้อมูลส่วนบุคคล ข้อมูลลับ manuscript ที่ยังไม่เผยแพร่) ให้ใช้ข้อมูลจำลอง/ข้อมูลเปิดแทน</li>
+<li>ถ้า AI เสนอวิธีทางสถิติที่คุณอธิบายเหตุผลไม่ได้ ให้หยุดและปรึกษาผู้เชี่ยวชาญก่อนใช้ผล</li>
+</ul>
+<h3 id="เกณฑ์ผ่าน">เกณฑ์ผ่าน</h3>
+<ul class="task-list">
+<li><label><input type="checkbox">ระบุงานอ่านค่าของผู้อ่านก่อนดูข้อเสนอของ AI (มีหลักฐานใน <code>module-07-work/output/prompts.md</code> ว่าระบุก่อน)</label></li>
+<li><label><input type="checkbox"><code>module-07-work/output/chart-choice.md</code> ตรวจข้อเสนอแต่ละแบบด้วยคอลัมน์ "สิ่งที่ต้องตรวจ" ที่ตรงกับงานอ่านค่านั้น</label></li>
+<li><label><input type="checkbox">ถ้ามีกราฟพิเศษ อธิบายได้ว่าตอบงานอ่านค่าใด มิฉะนั้นเลือกกราฟพื้นฐาน</label></li>
+<li><label><input type="checkbox">prompt log แสดงการปรับ prompt อย่างน้อย 1 รอบ พร้อมเหตุผล</label></li>
+</ul>
+<p><strong>เกณฑ์:</strong> ทำ Exploring workshop อย่างน้อย 2 ข้อจากที่คลาสเปิดให้</p>
+</div></section>
+<section class="section markdown-section topic-panel" id="workshop-visual-encoding-and-functional-color" aria-labelledby="workshop-visual-encoding-and-functional-color-heading"><div class="section-heading compact"><p class="eyebrow">Notebook 3</p><h2 id="workshop-visual-encoding-and-functional-color-heading">การรับรู้ การเข้ารหัส และสีที่มีหน้าที่</h2></div><div class="markdown-body"><p>ใน Notebook นี้คุณจะดูภาพตัวอย่างการเข้ารหัส colormap และสีใน Part A แล้วได้บันทึกสามบรรทัดของตัวเองว่าการเข้ารหัสใดอ่านยาก jet เสียอะไรในขาวดำ และสีในกราฟทำหน้าที่อะไร</p>
+<p>ทำใน <strong>Google Colab อย่างเดียว</strong> ไม่ต้องใช้ AI ในส่วนนี้ — เปิด รัน ดู แล้วจดสิ่งที่เห็นด้วยตัวเอง</p>
+<h3 id="ก่อนเริ่ม-ต้องมีอยู่แล้ว">ก่อนเริ่ม (ต้องมีอยู่แล้ว)</h3>
+<ul>
+<li>บัญชี Google สำหรับเปิด Google Colab</li>
+<li>notebook <a href="https://colab.research.google.com/github/punpiti/ai-for-research/blob/main/downloads/course-materials/visualization/notebooks/module-07a-read-and-audit.ipynb">Part A — อ่านกราฟและตรวจสิ่งที่ AI เลือก</a> (เปิดจากลิงก์ได้ทันที)</li>
+<li>ถ้าใช้ Colab ไม่ได้: ไฟล์ชุดเดียวกัน <code>course-materials/module-07/notebooks/module-07a-read-and-audit.ipynb</code> (ติดตั้งมากับ Module 1) เปิดด้วย <code>tools/start-module-07</code> (Module 1 สร้างให้เมื่อเห็น <code>MODULE7_READY</code>) หรือดาวน์โหลด <a href="downloads/module-07-notebooks/module-07-notebook-bundle.zip">module-07-notebook-bundle.zip</a></li>
+</ul>
+<h3 id="ขั้นตอน">ขั้นตอน</h3>
+<ol type="1">
+<li>เปิดลิงก์ Part A ด้วยบัญชี Google ของคุณ แล้วกด <strong>Runtime → Run all</strong> (cell แรกติดตั้งไลบรารีและฟอนต์ไทยให้เอง)
+<ul>
+<li>หาหัวข้อจาก <strong>สารบัญ</strong> ด้านซ้ายของ Colab · อยากเก็บสิ่งที่แก้ให้ <strong>File → Save a copy in Drive</strong> ก่อน</li>
+<li>ข้อมูลทั้งหมดใน notebook เป็นข้อมูลจำลองเพื่อการสอน · ห้ามอัปโหลดข้อมูลวิจัยจริงหรือข้อมูลส่วนบุคคลขึ้น Colab</li>
+</ul></li>
+<li>ไปที่ <strong>Part A › หัวข้อ 2 › ตัวเลขเดียวกัน เมื่อเข้ารหัสต่างกัน</strong> และ <strong>Pre-attentive attribute</strong> ลองอ่านค่าจากภาพความยาว มุม และพื้นที่ จดว่าภาพใดเทียบค่าที่ใกล้กันได้ยากที่สุด</li>
+<li>ไปที่ <strong>Part A › หัวข้อ 2 › Colormap ต้องตรงชนิดข้อมูลและการรับรู้</strong> ดูภาพ grayscale แล้วจดว่า jet สูญเสียลำดับค่าอย่างไรเมื่อเทียบกับ viridis</li>
+<li>ไปที่ <strong>Part A › หัวข้อ 2 › สีควรมีหน้าที่</strong> ดูกราฟเส้น แล้วจดว่าตอนนี้สีเน้นเส้นไหน และถ้าดูเป็นขาวดำยังแยกเส้นได้หรือไม่</li>
+</ol>
+<h3 id="ตรวจก่อนจบ">ตรวจก่อนจบ</h3>
+<ul class="task-list">
+<li><label><input type="checkbox">มี <strong>บันทึกสามบรรทัด</strong> ที่จดเอง: การเข้ารหัสที่อ่านยากที่สุด · ปัญหาของ jet ในขาวดำ · สีในกราฟ "สีควรมีหน้าที่" เน้นเส้นไหนและยังแยกเส้นได้ในขาวดำหรือไม่ (เก็บไว้ใช้ใน Prompt ของส่วนนี้)</label></li>
+</ul>
+</div></section>
+<section class="section markdown-section topic-panel" id="workshop-visual-encoding-and-functional-color-prompt" aria-labelledby="workshop-visual-encoding-and-functional-color-prompt-heading"><div class="section-heading compact"><p class="eyebrow">Prompt 3</p><h2 id="workshop-visual-encoding-and-functional-color-prompt-heading">การรับรู้ การเข้ารหัส และสีที่มีหน้าที่</h2></div><div class="markdown-body"><p>ใน workshop นี้คุณจะให้ AI สร้างสคริปต์ที่วาดกราฟเส้นจาก notebook ใหม่ให้เน้นเส้นเดียวด้วยสี แล้วได้ภาพก่อน–หลังหนึ่งคู่ใน <code>module-07-work/figures/</code> ที่คุณตรวจเองทั้งในสีและขาวดำ</p>
+<p>ทำใน <strong>VS Code กับ AI อย่างเดียว</strong> ไม่ต้องเปิด Colab — AI อ่านไฟล์ notebook ที่ติดตั้งไว้ในเครื่องแล้ว</p>
+<h3 id="ก่อนเริ่ม-ต้องมีอยู่แล้ว">ก่อนเริ่ม (ต้องมีอยู่แล้ว)</h3>
+<ul>
+<li>ผ่าน Module 1: เปิด <code>ai-for-research-workspace</code> ใน VS Code และ AI panel เชื่อมแล้ว</li>
+<li><code>course-materials/module-07/notebooks/module-07a-read-and-audit.ipynb</code> (ติดตั้งมากับ Module 1 · อ่านอย่างเดียว ห้ามแก้)</li>
+<li>โฟลเดอร์ <code>module-07-work/</code> กับ <code>module-07-work/figures/</code> และ Python ของโมดูล <code>.venv-module07</code> (ตัวติดตั้ง Module 1 สร้างไว้ เมื่อเห็น <code>MODULE7_READY</code>)</li>
+<li>บันทึกสามบรรทัดที่คุณจดใน Notebook ของส่วนนี้ (<code>visual-encoding-and-functional-color</code>) โดยเฉพาะบรรทัดเรื่องกราฟ "สีควรมีหน้าที่"</li>
+</ul>
+<h3 id="ขั้นตอน">ขั้นตอน</h3>
+<ol type="1">
+<li><p>สั่ง AI</p>
+<div class="command ai-prompt"><code>อ่านโค้ดของกราฟเส้นในหัวข้อ “สีควรมีหน้าที่” จาก course-materials/module-07/notebooks/module-07a-read-and-audit.ipynb สร้างสคริปต์ใน module-07-work/ ที่วาดภาพเดิม และอีกภาพที่เน้น Robust fit แทน Proposed ใช้สีเด่นเพียงเส้นเดียว ส่วนเส้นอื่นยังแยกได้ด้วย line style, marker และ label ที่ปลายเส้น ห้ามเปลี่ยนข้อมูลหรือองค์ประกอบอื่นนอกจากที่สั่ง รันด้วย Python ของโมดูล แล้วบันทึกภาพก่อนและหลังไว้ใน module-07-work/figures/ ห้ามแก้ไฟล์ใน course-materials/</code><button type="button" data-copy="">คัดลอก</button></div></li>
+<li><p>เปิดภาพก่อนและหลังที่ AI เพิ่งบันทึกใน <code>module-07-work/figures/</code> แล้วตรวจเอง</p>
+<ul>
+<li>สีที่ใช้แต่ละสีมีหน้าที่อะไร</li>
+<li>ถ้าดูเป็นขาวดำ ภาพยังสื่อ claim เดิมไหม และยังแยกทุกเส้นได้หรือไม่</li>
+<li>AI เปลี่ยนอะไรนอกเหนือจากที่สั่งหรือไม่ (มักพลาด: เปลี่ยนสีเส้นอื่น หรือลบ marker) — เทียบภาพก่อนและหลังทีละองค์ประกอบ</li>
+</ul></li>
+<li><p>สร้างไฟล์ <code>module-07-work/color-notes.md</code> แล้วเขียนหนึ่งบรรทัดว่าสีในภาพใหม่ทำหน้าที่อะไร และจดสิ่งที่ AI เปลี่ยนเกินคำสั่ง (ถ้ามี)</p></li>
+</ol>
+<h3 id="ตรวจก่อนจบ">ตรวจก่อนจบ</h3>
+<ul class="task-list">
+<li><label><input type="checkbox"><code>module-07-work/</code> มีสคริปต์ที่ AI สร้าง และ <code>module-07-work/figures/</code> มีภาพก่อนและหลังหนึ่งคู่</label></li>
+<li><label><input type="checkbox">ภาพหลังเน้น Robust fit ด้วยสีเด่นเพียงเส้นเดียว ส่วนเส้นอื่นแยกได้ด้วย line style, marker และ label ที่ปลายเส้น แม้ดูเป็นขาวดำ</label></li>
+<li><label><input type="checkbox">ข้อมูลและองค์ประกอบอื่นในภาพหลังเหมือนภาพก่อน (หรือจดไว้ใน <code>color-notes.md</code> ว่าอะไรเปลี่ยนเกินคำสั่ง)</label></li>
+<li><label><input type="checkbox"><code>module-07-work/color-notes.md</code> มีหนึ่งบรรทัดว่าสีในภาพใหม่ทำหน้าที่อะไร</label></li>
+<li><label><input type="checkbox">ไม่มีไฟล์ใน <code>course-materials/</code> ถูกแก้</label></li>
+</ul>
+<h3 id="ส่งงาน">ส่งงาน</h3>
+<ul>
+<li>ส่วนนี้ไม่ส่งแยก เก็บผลไว้ใน <code>module-07-work/</code> แล้วนำไปใช้ใน workshop highlights (หัวข้อ <a href="topic-data-highlights-with-evidence.html">จากข้อมูลสู่ highlights ที่ตรวจย้อนได้</a>) ซึ่งส่งผ่าน AIRR</li>
+</ul>
+</div></section>
+<section class="section markdown-section topic-panel" id="open-visual-encoding-and-functional-color-explore" aria-labelledby="open-visual-encoding-and-functional-color-explore-heading"><div class="section-heading compact"><p class="eyebrow">Exploring 3</p><h2 id="open-visual-encoding-and-functional-color-explore-heading">การรับรู้ การเข้ารหัส และสีที่มีหน้าที่</h2></div><div class="markdown-body"><p>ใน Exploring workshop นี้คุณจะเขียน prompt เองให้ AI ปรับสีของกราฟหนึ่งภาพในงานของคุณให้เน้นเฉพาะ claim แล้วได้ภาพก่อน–หลัง ภาพขาวดำ และ <code>module-07-work/output/color-check.md</code></p>
+<p>ผู้เรียนเขียน prompt เอง ไม่มี prompt สำเร็จรูปให้</p>
+<h3 id="ก่อนเริ่ม-ต้องมีอยู่แล้ว">ก่อนเริ่ม (ต้องมีอยู่แล้ว)</h3>
+<ul>
+<li>ผ่าน Module 1: เปิด <code>ai-for-research-workspace</code> ใน VS Code และ AI panel เชื่อมแล้ว · โฟลเดอร์ <code>module-07-work/</code> และ Python ของโมดูล <code>.venv-module07</code> (ตัวติดตั้ง Module 1 สร้างไว้)</li>
+<li>ทำ workshop "การรับรู้ การเข้ารหัส และสีที่มีหน้าที่" ของหัวข้อนี้แล้ว</li>
+<li>กราฟหนึ่งภาพจากงานของคุณที่ใช้สีหลายสี หรือใช้ colormap (heatmap/แผนที่/contour) พร้อมข้อมูลหรือโค้ดที่ใช้วาด ที่มีสิทธิ์นำเข้า AI
+<ul>
+<li>ถ้ายังไม่มี: ใช้ <code>course-materials/module-07/examples/figure-consistency/mock-study-data.csv</code> (ติดตั้งมากับ Module 1) หรือ<a href="module-7-thailand-population-lab.html">กรณีฝึกสำรองประชากรไทย</a> (ข้อมูลเปิด ให้ AI ดาวน์โหลดและทำใบรับข้อมูลตามหน้านั้น)</li>
+</ul></li>
+</ul>
+<h3 id="ขั้นตอน">ขั้นตอน</h3>
+<ol type="1">
+<li>สร้างโฟลเดอร์ <code>module-07-work/output/</code> และไฟล์ <code>module-07-work/output/prompts.md</code> (ถ้ามีจาก Exploring workshop ข้ออื่นแล้ว ให้เพิ่มหัวข้อใหม่ต่อท้าย) ไว้จดทุกรอบเป็น prompt → สรุปคำตอบของ AI → สิ่งที่คุณตัดสินใจ</li>
+<li>เขียน claim ของภาพเป็นหนึ่งประโยคก่อน</li>
+<li>เขียน prompt ให้ AI ปรับภาพให้สีเน้นเฉพาะสิ่งที่ claim ต้องการ ส่วนอื่นแยกได้ด้วยสัญญาณที่ไม่ใช่สี และให้บันทึกภาพก่อน–หลังไว้ใน <code>module-07-work/output/</code></li>
+<li>ถ้ามี colormap ให้ตรวจว่าตรงชนิดข้อมูลและความสว่างเรียงลำดับ</li>
+<li>ทำภาพขาวดำของภาพใหม่ ตรวจด้วยตนเอง แล้วบันทึกไว้ใน <code>module-07-work/output/</code></li>
+<li>สร้าง <code>module-07-work/output/color-check.md</code> อธิบายหน้าที่ของแต่ละสี ผลตรวจขาวดำ และสิ่งที่ AI เปลี่ยนเกินคำสั่ง</li>
+</ol>
+<h3 id="ข้อกำหนด">ข้อกำหนด</h3>
+<ul>
+<li>เขียน prompt เองทุกข้อ ไม่ใช้ prompt สำเร็จรูปจาก workshop และจดทุกรอบใน <code>module-07-work/output/prompts.md</code></li>
+<li>ระบุว่าตรวจผลของ AI อย่างไร (เปิดภาพดูเอง คำนวณเอง หรือเปิดข้อมูลต้นทาง) และแก้อะไรเอง</li>
+<li>ข้อมูลที่ไม่มีสิทธิ์นำเข้า AI (ข้อมูลส่วนบุคคล ข้อมูลลับ manuscript ที่ยังไม่เผยแพร่) ให้ใช้ข้อมูลจำลอง/ข้อมูลเปิดแทน</li>
+<li>ถ้า AI เสนอวิธีทางสถิติที่คุณอธิบายเหตุผลไม่ได้ ให้หยุดและปรึกษาผู้เชี่ยวชาญก่อนใช้ผล</li>
+</ul>
+<h3 id="เกณฑ์ผ่าน">เกณฑ์ผ่าน</h3>
+<ul class="task-list">
+<li><label><input type="checkbox"><code>module-07-work/output/</code> มีภาพก่อน ภาพหลัง และภาพขาวดำ</label></li>
+<li><label><input type="checkbox">ทุกสีในภาพใหม่มีหน้าที่ระบุได้ใน <code>color-check.md</code> และเน้นเพียงเรื่องเดียวที่ตรงกับ claim</label></li>
+<li><label><input type="checkbox">ภาพขาวดำยังอ่านลำดับค่า/แยกทุกกลุ่มได้ (แนบภาพเป็นหลักฐาน)</label></li>
+<li><label><input type="checkbox">ไม่ใช้ jet/สายรุ้งกับข้อมูลที่มีลำดับ และค่าที่ต้องเทียบกันแม่นยำเข้ารหัสด้วยตำแหน่งหรือความยาว</label></li>
+<li><label><input type="checkbox">ตรวจและบันทึกว่า AI เปลี่ยนอะไรเกินคำสั่งหรือไม่</label></li>
+<li><label><input type="checkbox">prompt log แสดงการปรับ prompt อย่างน้อย 1 รอบ พร้อมเหตุผล</label></li>
+</ul>
+<p><strong>เกณฑ์:</strong> ทำ Exploring workshop อย่างน้อย 2 ข้อจากที่คลาสเปิดให้</p>
+</div></section>
+<section class="section markdown-section topic-panel" id="workshop-uncertainty-interval-types" aria-labelledby="workshop-uncertainty-interval-types-heading"><div class="section-heading compact"><p class="eyebrow">Notebook 4</p><h2 id="workshop-uncertainty-interval-types-heading">แสดงความไม่แน่นอนให้ตรงความหมาย (SD, SE, CI, IQR)</h2></div><div class="markdown-body"><p>ใน Notebook นี้คุณจะอ่านกราฟเส้นกลางกับแถบเงาใน Part A แล้วเขียนหนึ่งบรรทัดของตัวเองว่าเส้นคืออะไร แถบคืออะไร และ n เท่าไร</p>
+<p>ทำใน <strong>Google Colab อย่างเดียว</strong> ไม่ต้องใช้ AI ในส่วนนี้ — เปิด รัน ดู แล้วจดสิ่งที่เห็นด้วยตัวเอง</p>
+<h3 id="ก่อนเริ่ม-ต้องมีอยู่แล้ว">ก่อนเริ่ม (ต้องมีอยู่แล้ว)</h3>
+<ul>
+<li>บัญชี Google สำหรับเปิด Google Colab</li>
+<li>notebook <a href="https://colab.research.google.com/github/punpiti/ai-for-research/blob/main/downloads/course-materials/visualization/notebooks/module-07a-read-and-audit.ipynb">Part A — อ่านกราฟและตรวจสิ่งที่ AI เลือก</a> (เปิดจากลิงก์ได้ทันที)</li>
+<li>ถ้าใช้ Colab ไม่ได้: ไฟล์ชุดเดียวกัน <code>course-materials/module-07/notebooks/module-07a-read-and-audit.ipynb</code> (ติดตั้งมากับ Module 1) เปิดด้วย <code>tools/start-module-07</code> (Module 1 สร้างให้เมื่อเห็น <code>MODULE7_READY</code>) หรือดาวน์โหลด <a href="downloads/module-07-notebooks/module-07-notebook-bundle.zip">module-07-notebook-bundle.zip</a></li>
+</ul>
+<h3 id="ขั้นตอน">ขั้นตอน</h3>
+<ol type="1">
+<li>เปิดลิงก์ Part A ด้วยบัญชี Google ของคุณ แล้วกด <strong>Runtime → Run all</strong> (cell แรกติดตั้งไลบรารีและฟอนต์ไทยให้เอง)
+<ul>
+<li>หาหัวข้อจาก <strong>สารบัญ</strong> ด้านซ้ายของ Colab · อยากเก็บสิ่งที่แก้ให้ <strong>File → Save a copy in Drive</strong> ก่อน</li>
+<li>ข้อมูลทั้งหมดใน notebook เป็นข้อมูลจำลองเพื่อการสอน · ห้ามอัปโหลดข้อมูลวิจัยจริงหรือข้อมูลส่วนบุคคลขึ้น Colab</li>
+</ul></li>
+<li>ไปที่ <strong>Part A › หัวข้อ 3 › เส้นกลางและแถบเงาตอบคนละคำถาม</strong> ดูกราฟ แล้วเขียนเองหนึ่งบรรทัด (<strong>บันทึก "เส้น · แถบ · n"</strong>) ว่าเส้นคืออะไร แถบเงาคืออะไร และ n เท่าไร — เขียนก่อนอ่านคำอธิบาย</li>
+<li>อ่านข้อความอธิบายใต้กราฟใน notebook เทียบกับที่คุณเขียน</li>
+<li>อ่านต่อ <strong>Part A › หัวข้อ 3 › ความซื่อสัตย์ไม่เท่ากับการบังคับทุกแกนให้เริ่มศูนย์</strong> เพื่อเชื่อมไป Graph clinic</li>
+</ol>
+<h3 id="ตรวจก่อนจบ">ตรวจก่อนจบ</h3>
+<ul class="task-list">
+<li><label><input type="checkbox">บันทึก "เส้น · แถบ · n" ระบุครบสามอย่าง และเขียนไว้ก่อนอ่านคำอธิบายใต้กราฟ (เก็บไว้ใช้ใน Prompt ของส่วนนี้)</label></li>
+<li><label><input type="checkbox">จดไว้ว่าคำตอบของคุณตรงหรือต่างจากคำอธิบายใน notebook ตรงไหน</label></li>
+</ul>
+</div></section>
+<section class="section markdown-section topic-panel" id="workshop-uncertainty-interval-types-prompt" aria-labelledby="workshop-uncertainty-interval-types-prompt-heading"><div class="section-heading compact"><p class="eyebrow">Prompt 4</p><h2 id="workshop-uncertainty-interval-types-prompt-heading">แสดงความไม่แน่นอนให้ตรงความหมาย (SD, SE, CI, IQR)</h2></div><div class="markdown-body"><p>ใน workshop นี้คุณจะให้ AI อ่านโค้ดของกราฟเส้นกลางกับแถบเงาแล้วระบุชนิด interval และ n เทียบกับบันทึกของคุณ แล้วสร้าง <code>module-07-work/interval-notes.md</code> ที่มีคำบรรยายภาพซึ่งตรวจกับโค้ดแล้ว</p>
+<p>ทำใน <strong>VS Code กับ AI อย่างเดียว</strong> ไม่ต้องเปิด Colab — AI อ่านไฟล์ notebook ที่ติดตั้งไว้ในเครื่องแล้ว</p>
+<h3 id="ก่อนเริ่ม-ต้องมีอยู่แล้ว">ก่อนเริ่ม (ต้องมีอยู่แล้ว)</h3>
+<ul>
+<li>ผ่าน Module 1: เปิด <code>ai-for-research-workspace</code> ใน VS Code และ AI panel เชื่อมแล้ว</li>
+<li><code>course-materials/module-07/notebooks/module-07a-read-and-audit.ipynb</code> (ติดตั้งมากับ Module 1 · อ่านอย่างเดียว ห้ามแก้)</li>
+<li>โฟลเดอร์ <code>module-07-work/</code> และ Python ของโมดูล <code>.venv-module07</code> (ตัวติดตั้ง Module 1 สร้างไว้ เมื่อเห็น <code>MODULE7_READY</code>)</li>
+<li>บันทึก "เส้น · แถบ · n" ที่คุณเขียนใน Notebook ของส่วนนี้ (<code>uncertainty-interval-types</code>)</li>
+</ul>
+<h3 id="ขั้นตอน">ขั้นตอน</h3>
+<ol type="1">
+<li><p>สั่ง AI</p>
+<div class="command ai-prompt"><code>อ่านโค้ดของกราฟในหัวข้อ 3 “เส้นกลางและแถบเงาตอบคนละคำถาม” จาก course-materials/module-07/notebooks/module-07a-read-and-audit.ipynb แล้วบอกว่าเส้นกลางคำนวณจากอะไร แถบเงาคือ SD, SE, CI หรือ IQR ตอบคำถามอะไร n เท่าไร และเขียนคำบรรยายภาพหนึ่งประโยคที่ระบุชนิด interval กับ n ห้ามแก้ไฟล์</code><button type="button" data-copy="">คัดลอก</button></div></li>
+<li><p>เทียบคำตอบของ AI กับบันทึก "เส้น · แถบ · n" ของคุณ (แถบนี้คือช่วง 25–75% ของ runs ไม่ใช่ CI) และเปิดโค้ดใน <code>.ipynb</code> ดูเองว่าแถบคำนวณอย่างไร</p></li>
+<li><p>ถ้า AI เรียกว่า CI หรือ "ความน่าจะเป็นที่ค่าจริงอยู่ในแถบ" ให้จดเป็นข้อผิดพลาด</p></li>
+<li><p>สร้างไฟล์ <code>module-07-work/interval-notes.md</code> แล้วเขียน: คำบรรยายภาพหนึ่งประโยคที่ระบุชนิด interval และ n ถูกต้อง (แก้จากของ AI ถ้าจำเป็น) · AI ระบุชนิด interval ถูกหรือผิด</p></li>
+</ol>
+<h3 id="ตรวจก่อนจบ">ตรวจก่อนจบ</h3>
+<ul class="task-list">
+<li><label><input type="checkbox"><code>course-materials/module-07/notebooks/module-07a-read-and-audit.ipynb</code> ไม่ถูกแก้</label></li>
+<li><label><input type="checkbox"><code>module-07-work/interval-notes.md</code> มีคำบรรยายภาพที่เรียกแถบว่า IQR (ช่วง 25–75% ของ runs) ไม่ใช่ CI และระบุ n ตรงกับโค้ด</label></li>
+<li><label><input type="checkbox">ไฟล์เดียวกันบันทึกว่า AI ระบุชนิด interval ถูกหรือผิด</label></li>
+</ul>
+<h3 id="ส่งงาน">ส่งงาน</h3>
+<ul>
+<li>ส่วนนี้ไม่ส่งแยก เก็บผลไว้ใน <code>module-07-work/</code> แล้วนำไปใช้ใน workshop highlights (หัวข้อ <a href="topic-data-highlights-with-evidence.html">จากข้อมูลสู่ highlights ที่ตรวจย้อนได้</a>) ซึ่งส่งผ่าน AIRR</li>
+</ul>
+</div></section>
+<section class="section markdown-section topic-panel" id="open-uncertainty-interval-types-explore" aria-labelledby="open-uncertainty-interval-types-explore-heading"><div class="section-heading compact"><p class="eyebrow">Exploring 4</p><h2 id="open-uncertainty-interval-types-explore-heading">แสดงความไม่แน่นอนให้ตรงความหมาย (SD, SE, CI, IQR)</h2></div><div class="markdown-body"><p>ใน Exploring workshop นี้คุณจะเขียน prompt เองให้ AI ตรวจชนิด interval และ n ของกราฟหนึ่งภาพในงานของคุณ แล้วได้ภาพก่อน–หลังกับ <code>module-07-work/output/interval-check.md</code> ที่มีคำบรรยายภาพใหม่</p>
+<p>ผู้เรียนเขียน prompt เอง ไม่มี prompt สำเร็จรูปให้</p>
+<h3 id="ก่อนเริ่ม-ต้องมีอยู่แล้ว">ก่อนเริ่ม (ต้องมีอยู่แล้ว)</h3>
+<ul>
+<li>ผ่าน Module 1: เปิด <code>ai-for-research-workspace</code> ใน VS Code และ AI panel เชื่อมแล้ว · โฟลเดอร์ <code>module-07-work/</code> และ Python ของโมดูล <code>.venv-module07</code> (ตัวติดตั้ง Module 1 สร้างไว้)</li>
+<li>ทำ workshop "แสดงความไม่แน่นอนให้ตรงความหมาย" ของหัวข้อนี้แล้ว</li>
+<li>กราฟที่มี error bar หรือแถบเงาหนึ่งภาพจากงานของคุณหรือของนิสิต พร้อมโค้ดหรือข้อมูลต้นทาง ที่มีสิทธิ์นำเข้า AI
+<ul>
+<li>ถ้ายังไม่มี: ใช้ <code>course-materials/module-07/examples/figure-consistency/mock-study-data.csv</code> (ติดตั้งมากับ Module 1) หรือ<a href="module-7-thailand-population-lab.html">กรณีฝึกสำรองประชากรไทย</a> (ข้อมูลเปิด ให้ AI ดาวน์โหลดและทำใบรับข้อมูลตามหน้านั้น)</li>
+</ul></li>
+</ul>
+<h3 id="ขั้นตอน">ขั้นตอน</h3>
+<ol type="1">
+<li>สร้างโฟลเดอร์ <code>module-07-work/output/</code> และไฟล์ <code>module-07-work/output/prompts.md</code> (ถ้ามีจาก Exploring workshop ข้ออื่นแล้ว ให้เพิ่มหัวข้อใหม่ต่อท้าย) ไว้จดทุกรอบเป็น prompt → สรุปคำตอบของ AI → สิ่งที่คุณตัดสินใจ</li>
+<li>เขียน prompt ให้ AI ตรวจจากโค้ด/ข้อมูลต้นทางว่า interval นั้นคือ SD, SE, CI หรือ IQR และ n เท่าไร แล้วยืนยันเองจากโค้ดหรือการคำนวณ</li>
+<li>ตัดสินว่าชนิด interval ตรงกับคำถามของภาพหรือไม่ (บรรยายการกระจาย หรือความแม่นของค่าประมาณ) ถ้าไม่ตรง ให้ AI ปรับภาพ และบันทึกภาพก่อน–หลังไว้ใน <code>module-07-work/output/</code></li>
+<li>เขียนคำบรรยายภาพใหม่ที่ระบุชนิด interval และ n; ถ้า n น้อย ให้แสดงจุดข้อมูลจริงด้วย</li>
+<li>สร้าง <code>module-07-work/output/interval-check.md</code> บันทึกผลตรวจ เหตุผล และคำบรรยายภาพใหม่</li>
+</ol>
+<h3 id="ข้อกำหนด">ข้อกำหนด</h3>
+<ul>
+<li>เขียน prompt เองทุกข้อ ไม่ใช้ prompt สำเร็จรูปจาก workshop และจดทุกรอบใน <code>module-07-work/output/prompts.md</code></li>
+<li>ระบุว่าตรวจผลของ AI อย่างไร (เปิดภาพดูเอง คำนวณเอง หรือเปิดข้อมูลต้นทาง) และแก้อะไรเอง</li>
+<li>ข้อมูลที่ไม่มีสิทธิ์นำเข้า AI (ข้อมูลส่วนบุคคล ข้อมูลลับ manuscript ที่ยังไม่เผยแพร่) ให้ใช้ข้อมูลจำลอง/ข้อมูลเปิดแทน</li>
+<li>ถ้า AI เสนอวิธีทางสถิติที่คุณอธิบายเหตุผลไม่ได้ ให้หยุดและปรึกษาผู้เชี่ยวชาญก่อนใช้ผล</li>
+</ul>
+<h3 id="เกณฑ์ผ่าน">เกณฑ์ผ่าน</h3>
+<ul class="task-list">
+<li><label><input type="checkbox"><code>module-07-work/output/interval-check.md</code> ระบุชนิด interval และ n ของภาพเดิม โดยยืนยันจากโค้ดหรือการคำนวณเอง ไม่ใช่จากคำตอบ AI อย่างเดียว</label></li>
+<li><label><input type="checkbox">ให้เหตุผลว่าชนิด interval ที่เลือกตอบคำถามของภาพอย่างไร</label></li>
+<li><label><input type="checkbox">คำบรรยายภาพใหม่ระบุชนิด interval และ n; ภาพที่ n น้อยแสดงจุดข้อมูลจริง</label></li>
+<li><label><input type="checkbox"><code>module-07-work/output/</code> มีภาพก่อน–หลัง</label></li>
+<li><label><input type="checkbox">prompt log แสดงการปรับ prompt อย่างน้อย 1 รอบ พร้อมเหตุผล</label></li>
+</ul>
+<p><strong>เกณฑ์:</strong> ทำ Exploring workshop อย่างน้อย 2 ข้อจากที่คลาสเปิดให้</p>
+</div></section></div><aside class="slide-aside" aria-label="สไลด์ประกอบ"><div class="slide-tools"><button type="button" class="slide-tool" data-fullscreen="#slide-frame-aside">⛶ เต็มจอ</button><a class="slide-tool" href="downloads/topics/reading-data-and-choosing-charts.pdf" target="_blank" rel="noopener">เปิดแท็บใหม่ ↗</a></div><iframe id="slide-frame-aside" src="downloads/topics/reading-data-and-choosing-charts.pdf#view=FitH" title="สไลด์ อ่านข้อมูลและเลือกกราฟให้ตรงงานของผู้อ่าน" loading="lazy" allowfullscreen></iframe></aside></div>
+<script>
+(() => {
+  const tabs = [...document.querySelectorAll('.topic-tabs a')];
+  const panels = tabs.map(t => document.getElementById(t.hash.slice(1)));
+  function show(id) {
+    const i = Math.max(0, panels.findIndex(p => p && p.id === id));
+    panels.forEach((p, k) => { if (p) p.hidden = k !== i; });
+    tabs.forEach((t, k) => t.setAttribute('aria-current', k === i ? 'page' : 'false'));
+    const layout = document.querySelector('.topic-layout'); if (layout && panels[i]) layout.dataset.active = panels[i].id;
+  }
+  tabs.forEach(t => t.addEventListener('click', e => { e.preventDefault(); history.replaceState(null, '', t.hash); show(t.hash.slice(1)); window.scrollTo({top: 0}); }));
+  document.querySelectorAll('[data-next-tab]').forEach(b => b.addEventListener('click', e => { e.preventDefault(); const h = b.getAttribute('href'); history.replaceState(null, '', h); show(h.slice(1)); window.scrollTo({top: 0}); }));
+  document.querySelectorAll('[data-fullscreen]').forEach(b => b.addEventListener('click', () => {
+    const frame = document.querySelector(b.dataset.fullscreen);
+    const go = frame && (frame.requestFullscreen || frame.webkitRequestFullscreen);
+    if (go) go.call(frame); else if (frame) window.open(frame.src, '_blank', 'noopener');
+  }));
+  const layout0 = document.querySelector('.topic-layout');
+  const toggle = document.querySelector('[data-aside-toggle]');
+  function setAside(hidden) {
+    if (!layout0 || !toggle) return;
+    layout0.classList.toggle('aside-hidden', hidden);
+    toggle.setAttribute('aria-pressed', String(hidden));
+    toggle.textContent = hidden ? 'แสดงสไลด์ข้าง' : 'ซ่อนสไลด์ข้าง';
+    try { localStorage.setItem('airr.slideAsideHidden', hidden ? '1' : '0'); } catch (e) {}
+  }
+  if (toggle) {
+    let saved = true; try { saved = localStorage.getItem('airr.slideAsideHidden') !== '0'; } catch (e) {}  // hidden by default
+    setAside(saved);
+    toggle.addEventListener('click', () => setAside(!layout0.classList.contains('aside-hidden')));
+  }
+  show(location.hash.slice(1));
+  if (location.hash) requestAnimationFrame(() => window.scrollTo({top: 0}));
+})();
+</script>
+  </main>
+  <site-footer></site-footer>
+</body>
+</html>

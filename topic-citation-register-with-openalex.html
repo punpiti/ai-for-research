@@ -1,0 +1,322 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="ให้ AI แกะรายการอ้างอิงทั้งหมดของเอกสาร แล้วสร้าง refs.bib ที่ทุก entry มีผลจับคู่จาก OpenAlex (identity_check, openalex_id, retracted) และ abstract ที่ประกอบจาก OpenAlex เท่านั้น ช่องที่หาไม่พบระบุตามจริง และสุ่มตรวจ metadata เองกับ DOI หรือหน้าทางการ · สร้างคลังฉบับเต็ม (PDF + Markdown พร้อม page marker) เฉพาะ open access ที่เข้าถึงได้อย่างถูกต้อง บันทึกสำนักพิมพ์ที่บล็อกไว้ใน policy และทำรายการ manual-download.md สำหรับฉบับที่ต้องดาวน์โหลดเองผ่านสิทธิ์มหาวิทยาลัย โดยไม่ให้ AI ดาวน์โหลดผ่านสิทธิ์สมาชิกแบบอัตโนมัติ · ให้ AI จับคู่ in-text citation ทุกจุดกับรายการอ้างอิงและสร้างทะเบียนการอ้างอิงหนึ่งแถวต่อหนึ่งรายการ แล้วผู้เรียนอ่านฉบับเต็มของรายการเสี่ยงเองด้วยสี่คำถาม ตัดสินสถานะและการตัดสินใจ (เก็บ ลดขอบเขต ตัดออก หาแหล่งแทน) จากหลักฐาน ระบุระดับที่ตรวจ (abstract หรือ full_text) และสรุปปัญหาคุณภาพของชุดอ้างอิงทั้งชุด">
+  <meta name="theme-color" content="#101817">
+  <title>ทะเบียนตรวจ citation: OpenAlex → full text → register · AIRR</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/styles.css?v=20261113-2">
+  <link rel="stylesheet" href="assets/learn.css?v=20261115-3">
+  <script src="assets/site-shell.js?v=20261115-3"></script>
+  <script src="assets/app.js?v=20261115-3" defer></script>
+</head>
+<body class="learn" data-no-case>
+  <a class="skip-link" href="#main">ข้ามไปยังเนื้อหา</a>
+  <site-header current="topic" plan="class-2026-11-20-engineering-faculty.html" menu='{&quot;module&quot;: &quot;M04&quot;, &quot;title&quot;: &quot;ตรวจ reference และ citation&quot;, &quot;items&quot;: [{&quot;href&quot;: &quot;module-overview-m04.html&quot;, &quot;label&quot;: &quot;ภาพรวมและ LO&quot;, &quot;current&quot;: false}, {&quot;href&quot;: &quot;topic-reference-existence-vs-citation-support.html&quot;, &quot;label&quot;: &quot;ตรวจสองชั้น: ref มีจริง กับ cite ถูกต้อง (สี่ชั้นของแหล่ง หกสถานะ ref ทิพย์)&quot;, &quot;current&quot;: false}, {&quot;href&quot;: &quot;topic-citation-register-with-openalex.html&quot;, &quot;label&quot;: &quot;ทะเบียนตรวจ citation: OpenAlex → full text → register&quot;, &quot;current&quot;: true}, {&quot;href&quot;: &quot;topic-thai-reference-verification.html&quot;, &quot;label&quot;: &quot;ตรวจรายการอ้างอิงภาษาไทย: ไม่พบใน OpenAlex ไม่ได้แปลว่าปลอม&quot;, &quot;current&quot;: false}]}'></site-header>
+  <main id="main">
+<section class="prepare-hero module-hero"><p class="eyebrow">หัวข้อย่อย · M04</p><h1>ทะเบียนตรวจ citation: OpenAlex → full text → register</h1><ul class="outcomes"><li>ให้ AI แกะรายการอ้างอิงทั้งหมดของเอกสาร แล้วสร้าง refs.bib ที่ทุก entry มีผลจับคู่จาก OpenAlex (identity_check, openalex_id, retracted) และ abstract ที่ประกอบจาก OpenAlex เท่านั้น ช่องที่หาไม่พบระบุตามจริง และสุ่มตรวจ metadata เองกับ DOI หรือหน้าทางการ</li><li>สร้างคลังฉบับเต็ม (PDF + Markdown พร้อม page marker) เฉพาะ open access ที่เข้าถึงได้อย่างถูกต้อง บันทึกสำนักพิมพ์ที่บล็อกไว้ใน policy และทำรายการ manual-download.md สำหรับฉบับที่ต้องดาวน์โหลดเองผ่านสิทธิ์มหาวิทยาลัย โดยไม่ให้ AI ดาวน์โหลดผ่านสิทธิ์สมาชิกแบบอัตโนมัติ</li><li>ให้ AI จับคู่ in-text citation ทุกจุดกับรายการอ้างอิงและสร้างทะเบียนการอ้างอิงหนึ่งแถวต่อหนึ่งรายการ แล้วผู้เรียนอ่านฉบับเต็มของรายการเสี่ยงเองด้วยสี่คำถาม ตัดสินสถานะและการตัดสินใจ (เก็บ ลดขอบเขต ตัดออก หาแหล่งแทน) จากหลักฐาน ระบุระดับที่ตรวจ (abstract หรือ full_text) และสรุปปัญหาคุณภาพของชุดอ้างอิงทั้งชุด</li></ul></section>
+<div class="topic-layout"><nav class="topic-tabs" aria-label="ส่วนของหัวข้อ"><a href="#slides" title="สไลด์">สไลด์</a><a href="#workshop-bibtex-with-openalex-abstracts" title="สร้าง BibTeX พร้อม abstract และผลจับคู่จาก OpenAlex">Workshop 1</a><a href="#open-bibtex-with-openalex-abstracts-explore" title="สร้าง BibTeX พร้อม abstract และผลจับคู่จาก OpenAlex">Exploring 1</a><a href="#workshop-open-access-fulltext-library" title="คลังฉบับเต็มในเครื่อง: ดาวน์โหลดเท่าที่ถูกต้อง และรายการดาวน์โหลดเอง">Workshop 2</a><a href="#open-open-access-fulltext-library-explore" title="คลังฉบับเต็มในเครื่อง: ดาวน์โหลดเท่าที่ถูกต้อง และรายการดาวน์โหลดเอง">Exploring 2</a><a href="#workshop-citation-register-audit" title="ทะเบียนการอ้างอิง: ตรวจว่า cite ถูกต้องกับฉบับเต็ม และคุณภาพของชุดอ้างอิง">Workshop 3</a><a href="#open-citation-register-audit-explore" title="ทะเบียนการอ้างอิง: ตรวจว่า cite ถูกต้องกับฉบับเต็ม และคุณภาพของชุดอ้างอิง">Exploring 3</a></nav><div class="topic-main"><section class="section markdown-section topic-panel" id="slides" aria-labelledby="slides-heading"><div class="section-heading compact"><p class="eyebrow">สไลด์</p><h2 id="slides-heading">สไลด์</h2></div><div class="markdown-body"><p>สไลด์ของหัวข้อนี้กำลังจัดทำ</p></div></section>
+<section class="section markdown-section topic-panel" id="workshop-bibtex-with-openalex-abstracts" aria-labelledby="workshop-bibtex-with-openalex-abstracts-heading"><div class="section-heading compact"><p class="eyebrow">Workshop 1</p><h2 id="workshop-bibtex-with-openalex-abstracts-heading">สร้าง BibTeX พร้อม abstract และผลจับคู่จาก OpenAlex</h2></div><div class="markdown-body"><p>ใน workshop นี้คุณจะให้ AI แปลงบทความจำลองเป็นข้อความ แกะรายการอ้างอิง และจับคู่กับ OpenAlex จนได้ <code>refs.bib</code> ครบทุกรายการ แล้วสุ่มตรวจเอง 3 รายการ</p>
+<p>บทความจำลองเป็นเอกสารสมมติเพื่อฝึก ห้ามนำไปอ้างอิง ขั้นนี้ตรวจเฉพาะชั้น <strong>"ref มีจริง"</strong> คือตัวตนและ metadata ยังไม่ต้องตัดสินว่ารายการใดปลอม</p>
+<h3 id="ก่อนเริ่ม-ต้องมีอยู่แล้ว">ก่อนเริ่ม (ต้องมีอยู่แล้ว)</h3>
+<ul>
+<li>ผ่าน Module 1: เปิด <code>ai-for-research-workspace</code> ใน VS Code และ AI panel เชื่อมแล้ว</li>
+<li>ไฟล์ที่ตัวติดตั้ง Module 1 วางไว้ให้ (เมื่อหน้าต่างติดตั้งแสดง <code>PRACTICE_FILES_READY</code>):
+<ul>
+<li><code>module-04-work/input/original/mock-paper.pdf</code> — บทความจำลอง</li>
+<li><code>course-materials/module-04/citation-audit-rules.md</code> — กติกาการตรวจ (อ่านอย่างเดียว)</li>
+<li><code>course-materials/module-04/citation-register-template.csv</code> — แม่แบบทะเบียน (อ่านอย่างเดียว)</li>
+</ul></li>
+<li>ถ้ายังไม่มีไฟล์เหล่านี้: ใช้ Prompt "เตรียมไฟล์" บนหน้า Module 4 หรือดาวน์โหลดจากหน้า Module 4 แล้ววางตามตำแหน่งข้างต้นเอง</li>
+<li>OpenAlex API key ของคุณเก็บในตัวแปร <code>OPENALEX_KEY</code> ของเครื่องแล้ว (ขั้น "ขอ OpenAlex API key" ที่ทำก่อนเรียน Module 4) ห้ามวาง key ลงใน Prompt ไฟล์งาน หรือภาพหน้าจอ</li>
+</ul>
+<h3 id="ขั้นตอน">ขั้นตอน</h3>
+<ol type="1">
+<li><p><strong>ให้ AI แกะรายการอ้างอิงและจับคู่กับ OpenAlex</strong> วาง Prompt นี้ใน AI — AI จะสร้าง <code>module-04-work/input/markdown/paper.md</code> และ <code>module-04-work/output/refs.bib</code></p>
+<div class="command ai-prompt"><code>อ่าน course-materials/module-04/citation-audit-rules.md ก่อน แล้วแปลงงานวิจัยใน module-04-work/input/original/ เป็น module-04-work/input/markdown/paper.md พร้อม page marker แล้วแกะรายการอ้างอิง ท้ายเรื่องทั้งหมดตามลำดับ ห้ามเดาชื่อเรื่อง ผู้แต่ง หรือ DOI ที่อ่านไม่ชัด จากนั้นค้นแต่ละรายการใน OpenAlex API ด้วย DOI ก่อน ถ้าไม่มี DOI ให้ค้นด้วยชื่อเรื่องและปี แล้วสร้าง module-04-work/output/refs.bib หนึ่ง entry ต่อหนึ่งรายการ ใส่ abstract ที่ประกอบจาก OpenAlex เท่านั้น พร้อม field abstract_source, openalex_id, identity_check, retracted และ local_fulltext (เว้นว่างไว้ก่อน) ถ้าไม่พบหรือ metadata ไม่ตรง ให้บันทึกตามจริง ห้ามแต่ง abstract ใช้ API key จากตัวแปร OPENALEX_KEY เท่านั้น และห้ามพิมพ์ key ลงไฟล์ log หรือผลลัพธ์ใด สรุปจำนวน matched, metadata_conflict, not_found, abstract not found และ retracted แล้วหยุดรอ</code><button type="button" data-copy="">คัดลอก</button></div></li>
+<li><p><strong>อ่านสรุปของ AI แล้วเปิด <code>refs.bib</code></strong> จดจำนวนแต่ละกลุ่มไว้ แล้วดูว่าทุก entry มีช่อง <code>abstract_source</code>, <code>openalex_id</code>, <code>identity_check</code>, <code>retracted</code>, <code>local_fulltext</code> และรายการที่ไม่มี abstract เขียนว่า <code>abstract not found</code> ไม่ใช่ข้อความที่ AI สรุปขึ้นเอง (ในบทความจำลองจะมีบางรายการ metadata ไม่ตรง บางรายการไม่พบ บางรายการไม่มี abstract และอย่างน้อยหนึ่งรายการถูกถอน)</p></li>
+<li><p><strong>สุ่มตรวจเอง 3 รายการ</strong> เปิด DOI หรือหน้าทางการในเบราว์เซอร์ เทียบ author, year, title และ venue ทีละช่องกับ <code>refs.bib</code> ถ้า OpenAlex ขัดกับหน้าทางการ ให้ยึดหน้าทางการและบันทึกความต่างไว้</p></li>
+<li><p><strong>ตรวจว่าไม่มีความลับหลุด</strong> ค้นใน <code>refs.bib</code>, <code>paper.md</code> และไฟล์ log ที่ AI สร้าง (ถ้ามี) ว่าไม่มีค่า key ปรากฏ</p></li>
+</ol>
+<p>รายการที่ไม่พบยังเป็นแค่ <code>not_found</code> ในชั้นตัวตน ยังไม่ใช่ ref ทิพย์ และ <code>refs.bib</code> นี้ใช้ต่อในกิจกรรม <code>open-access-fulltext-library</code> และ <code>citation-register-audit</code></p>
+<h3 id="ตรวจก่อนจบ">ตรวจก่อนจบ</h3>
+<ul class="task-list">
+<li><label><input type="checkbox"><code>module-04-work/input/markdown/paper.md</code> มีอยู่และมี page marker</label></li>
+<li><label><input type="checkbox"><code>module-04-work/output/refs.bib</code> มีหนึ่ง entry ต่อหนึ่งรายการอ้างอิงของบทความ (นับเทียบกับรายการท้ายบทความแล้ว)</label></li>
+<li><label><input type="checkbox">ทุก entry มี <code>abstract_source</code>, <code>openalex_id</code>, <code>identity_check</code>, <code>retracted</code> และ <code>local_fulltext</code> (ว่างไว้)</label></li>
+<li><label><input type="checkbox">รายการที่ไม่มี abstract เขียน <code>abstract not found</code> และไม่มีรายการใดถูกเรียกว่าปลอม</label></li>
+<li><label><input type="checkbox">จดจำนวน matched, metadata_conflict, not_found, abstract not found และ retracted ไว้ และมีผลเทียบทีละช่องของ 3 รายการที่สุ่มตรวจ</label></li>
+<li><label><input type="checkbox">ไม่มีค่า OpenAlex key ใน <code>refs.bib</code>, <code>paper.md</code> หรือ log ใด</label></li>
+<li><label><input type="checkbox"><code>module-04-work/input/original/mock-paper.pdf</code> ไม่ถูกแก้</label></li>
+</ul>
+<h3 id="ส่งงาน">ส่งงาน</h3>
+<ul>
+<li>หัวข้อนี้ไม่มีการส่งแยก แจ้งว่าเสร็จครั้งเดียวหลังทำทะเบียนครบในกิจกรรม <code>citation-register-audit</code></li>
+</ul>
+</div></section>
+<section class="section markdown-section topic-panel" id="open-bibtex-with-openalex-abstracts-explore" aria-labelledby="open-bibtex-with-openalex-abstracts-explore-heading"><div class="section-heading compact"><p class="eyebrow">Exploring 1</p><h2 id="open-bibtex-with-openalex-abstracts-explore-heading">สร้าง BibTeX พร้อม abstract และผลจับคู่จาก OpenAlex</h2></div><div class="markdown-body"><p>ในโจทย์นี้คุณจะเขียน prompt เองให้ AI จับคู่รายการอ้างอิงของงานคุณกับ OpenAlex จนได้ <code>refs.bib</code> ของงานนั้น พร้อมบันทึกการสุ่มตรวจและ prompt log</p>
+<p>ไม่มี prompt สำเร็จรูปให้ ใช้ Prompt ของบทความจำลองเป็นโครงได้ แต่ต้องเขียนใหม่ให้เข้ากับงานของคุณ</p>
+<h3 id="ก่อนเริ่ม-ต้องมีอยู่แล้ว">ก่อนเริ่ม (ต้องมีอยู่แล้ว)</h3>
+<ul>
+<li>ทำ workshop <code>bibtex-with-openalex-abstracts</code> กับบทความจำลองแล้ว</li>
+<li><code>course-materials/module-04/citation-audit-rules.md</code> (ตัวติดตั้ง Module 1 วางไว้ให้ อ่านอย่างเดียว)</li>
+<li>OpenAlex API key ในตัวแปร <code>OPENALEX_KEY</code> ของเครื่อง (ตั้งไว้ก่อนเรียน Module 4)</li>
+<li>บทหรือส่วนที่อ้างอิงมากของงานคุณหรือของนิสิตที่ดูแล (เฉพาะงานที่ได้รับอนุญาต และตัดข้อมูลส่วนบุคคลออกแล้ว)</li>
+</ul>
+<h3 id="โจทย์">โจทย์</h3>
+<ol type="1">
+<li>สร้างโฟลเดอร์ <code>module-04-work/&lt;ชื่องาน&gt;/input/original/</code> แล้ววางเอกสารของคุณลงไป</li>
+<li>สร้างไฟล์ <code>module-04-work/&lt;ชื่องาน&gt;/output/prompts.md</code> สำหรับเก็บ prompt ที่ใช้ทุกรอบ</li>
+<li>เขียน prompt ให้ AI แปลงเอกสาร แกะรายการอ้างอิงทั้งหมด จับคู่กับ OpenAlex และสร้าง <code>module-04-work/&lt;ชื่องาน&gt;/output/refs.bib</code> ที่มีช่องสำหรับการตรวจครบ แล้วหยุดรอให้คุณตรวจ</li>
+<li>ถ้างานมีรายการภาษาไทย ให้ prompt ระบุแหล่งที่ค้นต่อเมื่อไม่พบใน OpenAlex (ดูหัวข้อ <a href="topic-thai-reference-verification.html">ตรวจรายการอ้างอิงภาษาไทย: ไม่พบใน OpenAlex ไม่ได้แปลว่าปลอม</a>)</li>
+<li>สุ่มตรวจด้วยตนเองอย่างน้อย 3 รายการกับ DOI หรือหน้าทางการ และบันทึกผลเทียบทีละช่อง</li>
+</ol>
+<h3 id="ข้อกำหนด">ข้อกำหนด</h3>
+<ul>
+<li>prompt ต้องระบุ: ลำดับการจับคู่ (DOI ก่อน แล้วจึงชื่อเรื่องและปี) กติกาเมื่อไม่พบ (บันทึกตามจริง ห้ามแต่ง abstract หรือ DOI) การใช้ key จากตัวแปรของเครื่องเท่านั้น และจุดหยุดรอ</li>
+<li>ระบุว่าแก้อะไรใน <code>refs.bib</code> เอง และเพราะอะไร</li>
+</ul>
+<h3 id="เกณฑ์ผ่าน">เกณฑ์ผ่าน</h3>
+<ul class="task-list">
+<li><label><input type="checkbox"><code>module-04-work/&lt;ชื่องาน&gt;/output/refs.bib</code> มีครบทุกรายการในรายการอ้างอิงของเอกสาร (นับเทียบกับต้นฉบับแล้ว)</label></li>
+<li><label><input type="checkbox">ทุก entry มี <code>identity_check</code> และ <code>abstract_source</code>; รายการที่ไม่มี abstract บันทึก <code>abstract not found</code> ไม่มี abstract ที่ AI แต่ง</label></li>
+<li><label><input type="checkbox">มีบันทึกการสุ่มตรวจ 3 รายการ (author, year, title, venue) และความต่างระหว่าง OpenAlex กับหน้าทางการถ้ามี</label></li>
+<li><label><input type="checkbox">ไม่มีค่า API key ใน <code>prompts.md</code> ไฟล์งาน หรือ log</label></li>
+<li><label><input type="checkbox"><code>prompts.md</code> แสดงการปรับ prompt อย่างน้อย 1 รอบ พร้อมเหตุผล</label></li>
+</ul>
+</div></section>
+<section class="section markdown-section topic-panel" id="workshop-open-access-fulltext-library" aria-labelledby="workshop-open-access-fulltext-library-heading"><div class="section-heading compact"><p class="eyebrow">Workshop 2</p><h2 id="workshop-open-access-fulltext-library-heading">คลังฉบับเต็มในเครื่อง: ดาวน์โหลดเท่าที่ถูกต้อง และรายการดาวน์โหลดเอง</h2></div><div class="markdown-body"><p>ใน workshop นี้คุณจะให้ AI ดาวน์โหลดฉบับเต็มที่เป็น open access ของรายการใน <code>refs.bib</code> เข้าคลัง <code>literature/</code> แปลงเป็น Markdown และทำรายการที่ต้องดาวน์โหลดเอง</p>
+<h3 id="ก่อนเริ่ม-ต้องมีอยู่แล้ว">ก่อนเริ่ม (ต้องมีอยู่แล้ว)</h3>
+<ul>
+<li><code>module-04-work/output/refs.bib</code> — สร้างในกิจกรรม <code>bibtex-with-openalex-abstracts</code> จากบทความจำลอง <code>module-04-work/input/original/mock-paper.pdf</code></li>
+<li>โฟลเดอร์ <code>literature/pdf/</code> และ <code>literature/markdown/</code> (ตัวติดตั้ง Module 1 สร้างไว้ให้) — คลังนี้อยู่ที่เดียวใน workspace ใช้ร่วมทุกงานและทุกโมดูล ไม่ต้องสร้างแยกต่อชิ้นงาน</li>
+<li>ทบทวนกติกาจากสไลด์ 10 ของ Module 4: AI โหลดเฉพาะ open access; ฉบับที่ต้องใช้สิทธิ์มหาวิทยาลัยคุณโหลดเองผ่าน VPN</li>
+</ul>
+<h3 id="ขั้นตอน">ขั้นตอน</h3>
+<ol type="1">
+<li><p><strong>ให้ AI โหลด open access และทำรายการดาวน์โหลดเอง</strong> วาง Prompt นี้ใน AI — AI จะใช้ <code>literature/publisher-download-policy.md</code> (สร้างใหม่ถ้ายังไม่มี) และจะสร้าง <code>literature/pdf/&lt;citation_key&gt;.pdf</code>, <code>literature/markdown/&lt;citation_key&gt;.md</code> กับ <code>module-04-work/output/manual-download.md</code></p>
+<div class="command ai-prompt"><code>จาก module-04-work/output/refs.bib ให้อ่าน literature/publisher-download-policy.md (สร้างใหม่ถ้ายังไม่มี) แล้วดาวน์โหลดเฉพาะฉบับ open access ตาม OpenAlex ไปที่ literature/pdf/&lt;citation_key&gt;.pdf ข้ามรายการที่มีไฟล์อยู่แล้ว และข้ามสำนักพิมพ์ที่ policy ระบุว่าบล็อก ถ้าพบการบล็อกใหม่ (403, captcha หรือหน้า login) ให้บันทึกโดเมนลง policy แล้วไม่ลองซ้ำ แปลงไฟล์ที่ได้เป็น literature/markdown/&lt;citation_key&gt;.md พร้อม page marker และใส่ path ลง field local_fulltext ใน refs.bib รายการที่เหลือให้เขียนลง module-04-work/output/manual-download.md เป็นรายการติ๊กได้ พร้อมชื่อเรื่อง DOI สำนักพิมพ์ เหตุผล และชื่อไฟล์ที่ต้องบันทึก ห้ามดาวน์โหลดผ่านสิทธิ์สมาชิกแบบอัตโนมัติ และห้ามใช้แหล่งที่ไม่ถูกต้องตามลิขสิทธิ์ สรุปจำนวนฉบับเต็มที่ได้ ที่ต้องเปิดจากหน้าวารสาร และที่ต้องใช้สิทธิ์มหาวิทยาลัย แล้วหยุดรอ</code><button type="button" data-copy="">คัดลอก</button></div></li>
+<li><p><strong>ตรวจไฟล์ที่แปลงแล้วหนึ่งไฟล์</strong> เปิด <code>literature/markdown/&lt;citation_key&gt;.md</code> หนึ่งไฟล์คู่กับ PDF ของมันใน <code>literature/pdf/</code> ดูว่าข้อความ ตาราง และ page marker ตรงกัน ถ้าไม่ตรง ให้จดไว้ เพราะกิจกรรม <code>citation-register-audit</code> จะอ้างหน้าจาก page marker นี้</p></li>
+<li><p><strong>อ่าน <code>manual-download.md</code></strong> ดูว่าทุกรายการที่ยังไม่มีฉบับเต็มมีชื่อเรื่อง DOI สำนักพิมพ์ เหตุผล และชื่อไฟล์ที่ต้องบันทึกครบ และเปิด <code>literature/publisher-download-policy.md</code> ดูว่ามีโดเมนที่บล็อกถูกบันทึกไว้หรือไม่ (ในบทความจำลอง 5 รายการได้ฉบับเต็มอัตโนมัติ 2 รายการต้องเปิดจากหน้าวารสาร และ 2 รายการต้องใช้สิทธิ์มหาวิทยาลัย)</p></li>
+<li><p><strong>ไปต่อโดยยังไม่โหลดผ่านสิทธิ์มหาวิทยาลัยในห้อง</strong> ทำกิจกรรม <code>citation-register-audit</code> ต่อด้วยฉบับเต็มที่มีอยู่ หลังเรียน: เชื่อม VPN ของมหาวิทยาลัย เปิดรายการใน <code>manual-download.md</code> ผ่านเบราว์เซอร์ บันทึกตามชื่อไฟล์ที่ระบุ ติ๊กรายการที่ได้แล้ว จากนั้นสั่ง AI ให้แปลงเฉพาะไฟล์ใหม่</p></li>
+</ol>
+<p>คลังนี้ใช้ส่วนตัว ห้ามเผยแพร่หรือแชร์ต่อ</p>
+<h3 id="ตรวจก่อนจบ">ตรวจก่อนจบ</h3>
+<ul class="task-list">
+<li><label><input type="checkbox"><code>literature/pdf/</code> และ <code>literature/markdown/</code> มีไฟล์ <code>&lt;citation_key&gt;</code> คู่กันของรายการที่ได้ฉบับเต็ม</label></li>
+<li><label><input type="checkbox">เปิด Markdown หนึ่งไฟล์เทียบกับ PDF แล้ว ข้อความ ตาราง และ page marker ตรงกัน (หรือจดจุดที่ไม่ตรงไว้)</label></li>
+<li><label><input type="checkbox">ใน <code>module-04-work/output/refs.bib</code> รายการที่ได้ฉบับเต็มมี <code>local_fulltext</code> ชี้ไฟล์ที่มีอยู่จริงในคลัง</label></li>
+<li><label><input type="checkbox"><code>module-04-work/output/manual-download.md</code> มีทุกรายการที่ยังไม่มีฉบับเต็ม พร้อมชื่อเรื่อง DOI สำนักพิมพ์ เหตุผล และชื่อไฟล์</label></li>
+<li><label><input type="checkbox"><code>literature/publisher-download-policy.md</code> มีอยู่ และโดเมนที่บล็อก (ถ้ามี) ถูกบันทึกครั้งเดียว</label></li>
+<li><label><input type="checkbox">ไม่มีไฟล์ในคลังที่ AI ได้มาผ่านสิทธิ์สมาชิกแบบอัตโนมัติ</label></li>
+</ul>
+<h3 id="ส่งงาน">ส่งงาน</h3>
+<ul>
+<li>หัวข้อนี้ไม่มีการส่งแยก แจ้งว่าเสร็จครั้งเดียวหลังทำทะเบียนครบในกิจกรรม <code>citation-register-audit</code></li>
+</ul>
+</div></section>
+<section class="section markdown-section topic-panel" id="open-open-access-fulltext-library-explore" aria-labelledby="open-open-access-fulltext-library-explore-heading"><div class="section-heading compact"><p class="eyebrow">Exploring 2</p><h2 id="open-open-access-fulltext-library-explore-heading">คลังฉบับเต็มในเครื่อง: ดาวน์โหลดเท่าที่ถูกต้อง และรายการดาวน์โหลดเอง</h2></div><div class="markdown-body"><p>ในโจทย์นี้คุณจะเขียน prompt เองให้ AI เติมคลัง <code>literature/</code> ด้วยฉบับเต็มของรายการใน <code>refs.bib</code> ของงานคุณ และทำรายการที่ต้องดาวน์โหลดเอง</p>
+<p>ไม่มี prompt สำเร็จรูปให้</p>
+<h3 id="ก่อนเริ่ม-ต้องมีอยู่แล้ว">ก่อนเริ่ม (ต้องมีอยู่แล้ว)</h3>
+<ul>
+<li><code>module-04-work/&lt;ชื่องาน&gt;/output/refs.bib</code> และ <code>module-04-work/&lt;ชื่องาน&gt;/output/prompts.md</code> ของงานคุณ — ผลของโจทย์เปิดในกิจกรรม <code>bibtex-with-openalex-abstracts</code></li>
+<li>คลัง <code>literature/pdf/</code> และ <code>literature/markdown/</code> (ตัวติดตั้ง Module 1 สร้างไว้) และ <code>literature/publisher-download-policy.md</code> — สร้างใน workshop <code>open-access-fulltext-library</code> กับบทความจำลอง</li>
+</ul>
+<h3 id="โจทย์">โจทย์</h3>
+<ol type="1">
+<li>เขียน prompt ให้ AI เติมคลัง <code>literature/</code> เดิมด้วยฉบับเต็มที่เข้าถึงได้อย่างถูกต้อง แปลงเป็น Markdown พร้อม page marker และสร้าง <code>module-04-work/&lt;ชื่องาน&gt;/output/manual-download.md</code> สำหรับรายการที่เหลือ เก็บ prompt ทุกรอบต่อท้าย <code>prompts.md</code></li>
+<li>ตรวจไฟล์ Markdown ที่แปลงแล้วอย่างน้อย 1 ไฟล์เทียบกับ PDF และบันทึกผล</li>
+<li>หลังเรียน: ดาวน์โหลดรายการที่ต้องใช้สิทธิ์มหาวิทยาลัยด้วยตนเองผ่าน VPN แล้วสั่ง AI แปลงเฉพาะไฟล์ใหม่</li>
+</ol>
+<h3 id="ข้อกำหนด">ข้อกำหนด</h3>
+<ul>
+<li>prompt ต้องใช้ <code>literature/publisher-download-policy.md</code> เดิม ข้ามไฟล์ที่มีในคลังแล้ว ห้ามดาวน์โหลดผ่านสิทธิ์สมาชิกแบบอัตโนมัติ และห้ามใช้แหล่งที่ไม่ถูกต้องตามลิขสิทธิ์</li>
+<li>ระบุว่าแก้อะไรใน <code>manual-download.md</code> หรือ policy เอง และเพราะอะไร</li>
+</ul>
+<h3 id="เกณฑ์ผ่าน">เกณฑ์ผ่าน</h3>
+<ul class="task-list">
+<li><label><input type="checkbox">ทุกรายการใน <code>refs.bib</code> มีอย่างใดอย่างหนึ่ง: <code>local_fulltext</code> ที่ชี้ไฟล์จริงในคลัง หรือแถวใน <code>manual-download.md</code> พร้อมเหตุผล</label></li>
+<li><label><input type="checkbox">ไม่มีไฟล์ใดในคลังที่ AI ได้มาผ่านสิทธิ์สมาชิกแบบอัตโนมัติ หรือจากแหล่งที่ไม่ถูกต้องตามลิขสิทธิ์</label></li>
+<li><label><input type="checkbox">ไม่มีการโหลดซ้ำของไฟล์ที่มีอยู่แล้วในคลัง และสำนักพิมพ์ที่บล็อกถูกบันทึกใน policy ครั้งเดียว</label></li>
+<li><label><input type="checkbox">มีบันทึกการเทียบ Markdown กับ PDF อย่างน้อย 1 ไฟล์ (ข้อความ ตาราง page marker)</label></li>
+<li><label><input type="checkbox"><code>prompts.md</code> แสดงการปรับ prompt อย่างน้อย 1 รอบ พร้อมเหตุผล</label></li>
+</ul>
+</div></section>
+<section class="section markdown-section topic-panel" id="workshop-citation-register-audit" aria-labelledby="workshop-citation-register-audit-heading"><div class="section-heading compact"><p class="eyebrow">Workshop 3</p><h2 id="workshop-citation-register-audit-heading">ทะเบียนการอ้างอิง: ตรวจว่า cite ถูกต้องกับฉบับเต็ม และคุณภาพของชุดอ้างอิง</h2></div><div class="markdown-body"><p>ใน workshop นี้คุณจะให้ AI สร้างทะเบียนการอ้างอิงและสรุปคุณภาพของชุดอ้างอิงของบทความจำลอง ตรวจรายการเสี่ยงกับฉบับเต็มด้วยตนเอง แล้วแจ้งว่าเสร็จ Module 4</p>
+<h3 id="ก่อนเริ่ม-ต้องมีอยู่แล้ว">ก่อนเริ่ม (ต้องมีอยู่แล้ว)</h3>
+<ul>
+<li><code>module-04-work/input/markdown/paper.md</code> และ <code>module-04-work/output/refs.bib</code> — สร้างในกิจกรรม <code>bibtex-with-openalex-abstracts</code></li>
+<li><code>literature/markdown/</code> ที่มีฉบับเต็มบางรายการ และ <code>module-04-work/output/manual-download.md</code> — สร้างในกิจกรรม <code>open-access-fulltext-library</code></li>
+<li><code>course-materials/module-04/citation-register-template.csv</code> และ <code>course-materials/module-04/citation-audit-rules.md</code> (ตัวติดตั้ง Module 1 วางไว้ให้ อ่านอย่างเดียว)</li>
+<li>(ถ้าทำแล้ว) <code>module-04-work/output/two-layer-precheck.md</code> จากหัวข้อ <a href="topic-reference-existence-vs-citation-support.html">ตรวจสองชั้น: ref มีจริง กับ cite ถูกต้อง (สี่ชั้นของแหล่ง หกสถานะ ref ทิพย์)</a> ใช้เป็นรายการเสี่ยงตั้งต้น</li>
+<li>ทบทวนจากสไลด์ Module 4: อ่านฉบับเต็มอย่างไรให้ตัดสินได้ (สไลด์ 14) และคุณภาพของชุดอ้างอิง (สไลด์ 16)</li>
+</ul>
+<h3 id="ขั้นตอน">ขั้นตอน</h3>
+<ol type="1">
+<li><p><strong>ให้ AI สร้างทะเบียนและสรุปคุณภาพ</strong> วาง Prompt นี้ใน AI — AI จะสร้าง <code>module-04-work/output/citation-register.csv</code> และ <code>module-04-work/output/citation-register-summary.md</code></p>
+<div class="command ai-prompt"><code>จาก module-04-work/input/markdown/paper.md และ module-04-work/output/refs.bib ให้หา in-text citation ทุกจุดในเนื้อหา จับคู่กับรายการอ้างอิง แล้วสร้าง module-04-work/output/citation-register.csv ตามหัวคอลัมน์ใน course-materials/module-04/citation-register-template.csv และความหมายของแต่ละคอลัมน์ใน course-materials/module-04/citation-audit-rules.md หนึ่งแถวต่อหนึ่งรายการอ้างอิง ใส่ทุกตำแหน่งที่ถูกอ้างและประโยครอบ citation ถ้ามีฉบับเต็มใน literature/markdown/ ให้เทียบกับฉบับเต็มพร้อมหน้า และตั้ง checked_against เป็น full_text ถ้าไม่มีให้เทียบกับ abstract และตั้งเป็น abstract แล้วระบุว่ารองรับ รองรับบางส่วน ไม่รองรับ หรือตรวจไม่ได้ แยก citation ที่ไม่มีในรายการอ้างอิง และรายการที่ไม่ถูกอ้าง จากนั้นตรวจคุณภาพของชุดอ้างอิงตามตารางคุณภาพใน citation-audit-rules.md แล้วสร้าง module-04-work/output/citation-register-summary.md ที่นับจำนวนตามสถานะ ระบุรายการเสี่ยง และปัญหาคุณภาพของชุดอ้างอิง ห้ามตัดสินจากชื่อเรื่อง แล้วหยุดรอ</code><button type="button" data-copy="">คัดลอก</button></div></li>
+<li><p><strong>อ่านทะเบียนแบบผู้ตรวจ</strong> เปิด <code>citation-register.csv</code> ที่ AI เพิ่งสร้าง แล้วดูว่า</p>
+<ul>
+<li>ชั้น "ref มีจริง" (<code>identity_check</code>, <code>search_sources</code>, <code>retracted</code>) แยกจากชั้น "cite ถูกต้อง" (<code>support</code>, <code>checked_against</code>)</li>
+<li>รายการที่ถูกอ้างหลายจุดมีทุกตำแหน่งใน <code>cited_at</code> เพราะรายการเดียวอาจอ้างถูกในจุดหนึ่งแต่อ้างเกินในอีกจุดหนึ่ง</li>
+<li>ไม่มีรายการ <code>not found</code> ที่ถูกเปลี่ยนเป็น <code>fabricated / phantom</code> ทั้งที่ <code>search_sources</code> มีแหล่งเดียว</li>
+</ul></li>
+<li><p><strong>ตรวจรายการเสี่ยงกับฉบับเต็มด้วยตนเอง</strong> เลือกรายการที่ไม่มี abstract อย่างน้อยหนึ่งรายการ (ถ้ามีเวลา 3 รายการ) ดูว่าข้อความที่ถูกอ้างเป็นชนิดใด แล้วเปิดส่วนที่ตอบได้ตรงที่สุดใน <code>literature/markdown/</code></p>
+<table>
+<thead>
+<tr class="header">
+<th>ชนิดข้อความที่ถูกอ้าง</th>
+<th>อ่านส่วนใดของต้นฉบับ</th>
+<th>ตรวจอะไร</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>ข้อเท็จจริงหรือนิยาม</td>
+<td>Introduction หรือส่วนที่นิยาม</td>
+<td>ความหมายตรงกันหรือไม่</td>
+</tr>
+<tr class="even">
+<td>ตัวเลขหรือขนาดผล</td>
+<td>Results, ตาราง, รูป</td>
+<td>ค่า หน่วย กลุ่ม และช่วงความเชื่อมั่นตรงหรือไม่</td>
+</tr>
+<tr class="odd">
+<td>ความสัมพันธ์หรือเหตุและผล</td>
+<td>Methods และ Discussion</td>
+<td>รูปแบบการศึกษารองรับการอ้างเหตุและผลหรือไม่</td>
+</tr>
+<tr class="even">
+<td>การขยายผลไปกลุ่มอื่น</td>
+<td>Methods (ประชากร) และ Limitations</td>
+<td>กลุ่มที่ศึกษาตรงกับกลุ่มที่อ้างหรือไม่</td>
+</tr>
+<tr class="odd">
+<td>ข้อเสนอแนะหรือมาตรฐาน</td>
+<td>Conclusion หรือประกาศทางการ</td>
+<td>เป็นข้อเสนอของผู้เขียน หรือข้อบังคับจริง</td>
+</tr>
+</tbody>
+</table>
+<p>ตอบสี่คำถาม: ประชากรและบริบทตรงหรือไม่ ทิศทางและขนาดของผลตรงหรือไม่ ข้อความอ้างแรงกว่าต้นฉบับหรือไม่ (เช่น "บาง" กลายเป็น "ทุก") และข้อเสนอแนะถูกเขียนให้เป็นข้อบังคับ หรือความสัมพันธ์ถูกเขียนให้เป็นเหตุและผลหรือไม่ ถ้าตอบไม่ได้เพราะไม่มีฉบับเต็ม ให้คงสถานะ not found ในชั้น cite ถูกต้อง และใส่ใน <code>manual-download.md</code></p></li>
+<li><p><strong>แก้ทะเบียนเอง</strong> ในแถวที่คุณตรวจ: แก้ <code>checked_against</code> เป็น <code>full_text</code> ใส่หน้าหรือส่วนของต้นฉบับใน <code>support</code> กำหนดสถานะใหม่ ใส่ <code>decision</code> ตามตาราง และใส่ชื่อของคุณในช่อง <code>reviewer</code></p>
+<table>
+<thead>
+<tr class="header">
+<th>การตัดสินใจ</th>
+<th>ใช้เมื่อ</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>เก็บ</td>
+<td>verified</td>
+</tr>
+<tr class="even">
+<td>ลดขอบเขตข้อความ</td>
+<td>partially supported: แก้ข้อความให้แคบเท่าที่ต้นฉบับรองรับ</td>
+</tr>
+<tr class="odd">
+<td>ตัดออก</td>
+<td>not supported, retracted หรือ fabricated</td>
+</tr>
+<tr class="even">
+<td>หาแหล่งแทน</td>
+<td>not found, outdated หรือข้อความยังต้องการหลักฐาน</td>
+</tr>
+</tbody>
+</table></li>
+<li><p><strong>เทียบกับเฉลยร่วมกันในห้อง</strong> ผู้สอนเฉลยปัญหาที่ใส่ไว้ในบทความจำลอง จดลงท้าย <code>citation-register-summary.md</code> ว่าปัญหาใดที่ AI หาเจอ ปัญหาใดที่คุณต้องหาเอง และ AI ตัดสินผิดตรงไหน ผู้สอนอาจขอให้คุณเปิดต้นฉบับของหนึ่งรายการ แล้วอธิบายว่าทำไมจึงให้สถานะนั้น</p></li>
+</ol>
+<h3 id="ตรวจก่อนจบ">ตรวจก่อนจบ</h3>
+<ul class="task-list">
+<li><label><input type="checkbox"><code>module-04-work/output/refs.bib</code> ครบทุกรายการ ช่องที่หาไม่พบระบุตามจริง</label></li>
+<li><label><input type="checkbox">รายการที่ไม่ได้ฉบับเต็มอยู่ใน <code>module-04-work/output/manual-download.md</code> ครบ</label></li>
+<li><label><input type="checkbox"><code>module-04-work/output/citation-register.csv</code> ใช้หัวคอลัมน์ตามแม่แบบ หนึ่งแถวต่อหนึ่งรายการอ้างอิง ทุกแถวมีหนึ่งในหกสถานะ</label></li>
+<li><label><input type="checkbox">ทะเบียนแยกชั้น "ref มีจริง" ออกจาก "cite ถูกต้อง" และระบุ <code>checked_against</code> ทุกแถว</label></li>
+<li><label><input type="checkbox">อย่างน้อยหนึ่งแถวมี <code>checked_against</code> เป็น <code>full_text</code> พร้อมหน้าหรือส่วนใน <code>support</code>, <code>decision</code> และชื่อคุณใน <code>reviewer</code></label></li>
+<li><label><input type="checkbox"><code>module-04-work/output/citation-register-summary.md</code> นับจำนวนตามสถานะ ระบุรายการเสี่ยง ปัญหาคุณภาพของชุดอ้างอิง แยก citation ที่ไม่มีในรายการและรายการที่ไม่ถูกอ้าง และมีบันทึกการเทียบกับเฉลยท้ายไฟล์</label></li>
+<li><label><input type="checkbox">ไม่มีรายการที่ "ไม่พบ" ถูกเรียกว่า ref ทิพย์ โดยไม่ได้ตรวจหลายแหล่ง</label></li>
+</ul>
+<h3 id="ส่งงาน">ส่งงาน</h3>
+<ul>
+<li>แจ้งว่าเสร็จ Module 4 ด้วยคำสั่ง AIRR ใน Terminal ของ VS Code: <code>check module-4</code> แล้ว <code>submit module-4</code> (Windows: <code>&amp; .\tools\airr.ps1 …</code> · macOS/Linux: <code>bash tools/airr.sh …</code>) หรือให้ AI รัน check → ยืนยัน → submit ให้</li>
+<li>ระบบส่งเฉพาะสถานะว่าเสร็จและจำนวนนับ ไม่ส่งทะเบียนออกจากเครื่อง</li>
+</ul>
+</div></section>
+<section class="section markdown-section topic-panel" id="open-citation-register-audit-explore" aria-labelledby="open-citation-register-audit-explore-heading"><div class="section-heading compact"><p class="eyebrow">Exploring 3</p><h2 id="open-citation-register-audit-explore-heading">ทะเบียนการอ้างอิง: ตรวจว่า cite ถูกต้องกับฉบับเต็ม และคุณภาพของชุดอ้างอิง</h2></div><div class="markdown-body"><p>ในโจทย์นี้คุณจะเขียน prompt เองให้ AI สร้างทะเบียนการอ้างอิงฉบับเริ่มต้นของงานคุณ แล้วตัดสินสถานะของรายการสำคัญอย่างน้อย 3 รายการด้วยตนเองจากฉบับเต็ม</p>
+<p>ไม่มี prompt สำเร็จรูปให้</p>
+<h3 id="ก่อนเริ่ม-ต้องมีอยู่แล้ว">ก่อนเริ่ม (ต้องมีอยู่แล้ว)</h3>
+<ul>
+<li>ทำ workshop <code>citation-register-audit</code> กับบทความจำลองแล้ว</li>
+<li>ผลของโจทย์เปิดสองกิจกรรมก่อนหน้า สำหรับงานเดียวกัน (บทที่อ้างอิงมาก เช่น บททบทวนวรรณกรรมของนิสิต เฉพาะงานที่ได้รับอนุญาต และตัดข้อมูลส่วนบุคคลออกแล้ว):
+<ul>
+<li><code>module-04-work/&lt;ชื่องาน&gt;/output/refs.bib</code> และ <code>prompts.md</code> (จาก <code>bibtex-with-openalex-abstracts</code>)</li>
+<li>ฉบับเต็มใน <code>literature/markdown/</code> และ <code>module-04-work/&lt;ชื่องาน&gt;/output/manual-download.md</code> (จาก <code>open-access-fulltext-library</code>)</li>
+</ul></li>
+<li><code>course-materials/module-04/citation-register-template.csv</code> และ <code>citation-audit-rules.md</code> (ตัวติดตั้ง Module 1 วางไว้ให้ อ่านอย่างเดียว)</li>
+</ul>
+<h3 id="โจทย์">โจทย์</h3>
+<ol type="1">
+<li>เขียน prompt ให้ AI สร้าง <code>module-04-work/&lt;ชื่องาน&gt;/output/citation-register.csv</code> และ <code>citation-register-summary.md</code> โดยใช้แม่แบบและกติกาเดิมใน <code>course-materials/module-04/</code> แล้วหยุดรอให้คุณตรวจ เก็บ prompt ทุกรอบต่อท้าย <code>prompts.md</code></li>
+<li>เลือกรายการที่สนับสนุนข้อความสำคัญที่สุดของงานอย่างน้อย 3 รายการ อ่านฉบับเต็มเอง ตัดสินสถานะและการตัดสินใจ</li>
+<li>ในห้องให้ได้ทะเบียนฉบับเริ่มต้น หลังเรียนตรวจรายการที่เหลือกับฉบับเต็มจนทะเบียนครบ เริ่มจากรายการที่สนับสนุนข้อความสำคัญ</li>
+</ol>
+<h3 id="ข้อกำหนด">ข้อกำหนด</h3>
+<ul>
+<li>prompt ต้องสั่งให้แยกชั้น "ref มีจริง" กับ "cite ถูกต้อง" ระบุ <code>checked_against</code> ทุกแถว ห้ามตัดสินจากชื่อเรื่อง และห้ามเรียกรายการที่ไม่พบว่าปลอมโดยไม่ได้ค้นหลายแหล่ง</li>
+<li>สำหรับรายการที่ตรวจเอง บันทึกหน้าหรือส่วนของต้นฉบับที่ใช้ตัดสิน และคำตอบของสี่คำถาม</li>
+<li>ระบุว่า AI ตัดสินต่างจากคุณในแถวใด และคุณแก้อย่างไร</li>
+</ul>
+<h3 id="เกณฑ์ผ่าน">เกณฑ์ผ่าน</h3>
+<ul class="task-list">
+<li><label><input type="checkbox">ทะเบียนมีครบทุกรายการอ้างอิง ใช้หัวคอลัมน์ตามแม่แบบ และทุกแถวมีหนึ่งในหกสถานะ</label></li>
+<li><label><input type="checkbox">รายการเสี่ยงอย่างน้อย 3 รายการตรวจกับฉบับเต็มแล้ว (<code>checked_against = full_text</code>) มีตำแหน่งหลักฐานและชื่อผู้ตรวจ</label></li>
+<li><label><input type="checkbox">ทุกแถวที่มีปัญหามีการตัดสินใจ (เก็บ / ลดขอบเขตข้อความ / ตัดออก / หาแหล่งแทน) ที่สอดคล้องกับสถานะ</label></li>
+<li><label><input type="checkbox">สรุปคุณภาพของชุดอ้างอิงชี้ปัญหาระดับทั้งชุดได้อย่างน้อยหนึ่งเรื่อง หรือระบุว่าไม่พบพร้อมเหตุผล</label></li>
+<li><label><input type="checkbox"><code>prompts.md</code> แสดงการปรับ prompt อย่างน้อย 1 รอบ พร้อมเหตุผล</label></li>
+</ul>
+</div></section></div></div>
+<script>
+(() => {
+  const tabs = [...document.querySelectorAll('.topic-tabs a')];
+  const panels = tabs.map(t => document.getElementById(t.hash.slice(1)));
+  function show(id) {
+    const i = Math.max(0, panels.findIndex(p => p && p.id === id));
+    panels.forEach((p, k) => { if (p) p.hidden = k !== i; });
+    tabs.forEach((t, k) => t.setAttribute('aria-current', k === i ? 'page' : 'false'));
+    const layout = document.querySelector('.topic-layout'); if (layout && panels[i]) layout.dataset.active = panels[i].id;
+  }
+  tabs.forEach(t => t.addEventListener('click', e => { e.preventDefault(); history.replaceState(null, '', t.hash); show(t.hash.slice(1)); window.scrollTo({top: 0}); }));
+  document.querySelectorAll('[data-next-tab]').forEach(b => b.addEventListener('click', e => { e.preventDefault(); const h = b.getAttribute('href'); history.replaceState(null, '', h); show(h.slice(1)); window.scrollTo({top: 0}); }));
+  document.querySelectorAll('[data-fullscreen]').forEach(b => b.addEventListener('click', () => {
+    const frame = document.querySelector(b.dataset.fullscreen);
+    const go = frame && (frame.requestFullscreen || frame.webkitRequestFullscreen);
+    if (go) go.call(frame); else if (frame) window.open(frame.src, '_blank', 'noopener');
+  }));
+  const layout0 = document.querySelector('.topic-layout');
+  const toggle = document.querySelector('[data-aside-toggle]');
+  function setAside(hidden) {
+    if (!layout0 || !toggle) return;
+    layout0.classList.toggle('aside-hidden', hidden);
+    toggle.setAttribute('aria-pressed', String(hidden));
+    toggle.textContent = hidden ? 'แสดงสไลด์ข้าง' : 'ซ่อนสไลด์ข้าง';
+    try { localStorage.setItem('airr.slideAsideHidden', hidden ? '1' : '0'); } catch (e) {}
+  }
+  if (toggle) {
+    let saved = true; try { saved = localStorage.getItem('airr.slideAsideHidden') !== '0'; } catch (e) {}  // hidden by default
+    setAside(saved);
+    toggle.addEventListener('click', () => setAside(!layout0.classList.contains('aside-hidden')));
+  }
+  show(location.hash.slice(1));
+  if (location.hash) requestAnimationFrame(() => window.scrollTo({top: 0}));
+})();
+</script>
+  </main>
+  <site-footer></site-footer>
+</body>
+</html>

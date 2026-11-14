@@ -116,7 +116,7 @@ function currentModuleNumber() {
 // ทุกโมดูลเริ่มจากกรณีเดียวกัน เพื่อให้ผู้เรียนทบทวนตรรกะการวิจัยก่อนใช้ AI
 // โดยไม่ต้องคัดลอกเนื้อหาฉบับเต็มไปไว้หลายหน้า
 const moduleHero = document.querySelector(".module-hero");
-if (moduleHero && !document.querySelector("[data-hunger-review]")) {
+if (moduleHero && !document.querySelector("[data-hunger-review]") && !document.body.hasAttribute("data-no-case")) {
   const review = document.createElement("section");
   review.className = "section hunger-review";
   review.dataset.hungerReview = "";
@@ -707,3 +707,21 @@ function collapseBriefSections() {
   addEventListener("hashchange", openTarget);
 }
 collapseBriefSections();
+
+// Lesson pages: content links open in a new tab and show ↗ (navigation stays in place).
+if (document.body.classList.contains("learn")) {
+  const skip = "site-header a, .topic-tabs a, .syllabus-module > summary a, .syllabus-module .topic-list a, .module-pagination a, .module-step-tabs a";
+  document.querySelectorAll("main a[href]").forEach((link) => {
+    const href = link.getAttribute("href") || "";
+    if (!href || href.startsWith("#") || href.startsWith("javascript:") || link.matches(skip) || link.hasAttribute("data-next-tab") || link.hasAttribute("data-same-tab")) return;
+    link.target = "_blank";
+    link.rel = "noopener";
+    if (!link.querySelector(".new-tab-icon") && !link.textContent.includes("↗")) {
+      const icon = document.createElement("span");
+      icon.className = "new-tab-icon";
+      icon.setAttribute("aria-label", "(เปิดในแท็บใหม่)");
+      icon.textContent = "↗";
+      link.append(icon);
+    }
+  });
+}

@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="ตรวจ PDF ที่ build แล้วโดยแยกการตรวจเนื้อหา (ตัวเลขตรง input, ไม่อ้างเกินผล) ออกจากการตรวจหน้ากระดาษ (ไม่มี ?, ไม่ล้น, รูปอ่านได้, ตามข้อกำหนด) แก้ที่ต้นทางหนึ่งรอบ และบันทึก submission readiness แบบ PASS/FAIL/BLOCKED พร้อมตำแหน่งและวิธีแก้">
+  <meta name="theme-color" content="#101817">
+  <title>ตรวจ PDF ก่อนส่ง: ตรวจเนื้อหาแยกจากหน้ากระดาษ แก้หนึ่งรอบ และบันทึกความพร้อมส่ง · AIRR</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/styles.css?v=20261113-2">
+  <link rel="stylesheet" href="assets/learn.css?v=20261115-3">
+  <script src="assets/site-shell.js?v=20261115-3"></script>
+  <script src="assets/app.js?v=20261115-3" defer></script>
+</head>
+<body class="learn" data-no-case>
+  <a class="skip-link" href="#main">ข้ามไปยังเนื้อหา</a>
+  <site-header current="topic" plan="class-2026-11-20-engineering-faculty.html" menu='{&quot;module&quot;: &quot;M08&quot;, &quot;title&quot;: &quot;ผลิตเอกสารวิจัย&quot;, &quot;items&quot;: [{&quot;href&quot;: &quot;module-overview-m08.html&quot;, &quot;label&quot;: &quot;ภาพรวมและ LO&quot;, &quot;current&quot;: false}, {&quot;href&quot;: &quot;topic-journal-fit-and-venue-switch.html&quot;, &quot;label&quot;: &quot;เลือกวารสาร และผลของการเปลี่ยนวารสาร&quot;, &quot;current&quot;: false}, {&quot;href&quot;: &quot;topic-markdown-single-source-latex-pdf-build.html&quot;, &quot;label&quot;: &quot;ต้นฉบับ Markdown ชุดเดียว → LaTeX ที่ AI สร้าง → PDF และการแก้ build ตามชั้น&quot;, &quot;current&quot;: false}, {&quot;href&quot;: &quot;topic-pdf-qa-submission-readiness.html&quot;, &quot;label&quot;: &quot;ตรวจ PDF ก่อนส่ง: ตรวจเนื้อหาแยกจากหน้ากระดาษ แก้หนึ่งรอบ และบันทึกความพร้อมส่ง&quot;, &quot;current&quot;: true}, {&quot;href&quot;: &quot;topic-kuthesis-thai-thesis-template.html&quot;, &quot;label&quot;: &quot;วิทยานิพนธ์รูปแบบ มก. ด้วย kuthesis: สร้าง PDF จากตัวอย่างและใช้ refs.bib ของตัวเอง&quot;, &quot;current&quot;: false}]}'></site-header>
+  <main id="main">
+<section class="prepare-hero module-hero"><p class="eyebrow">หัวข้อย่อย · M08</p><h1>ตรวจ PDF ก่อนส่ง: ตรวจเนื้อหาแยกจากหน้ากระดาษ แก้หนึ่งรอบ และบันทึกความพร้อมส่ง</h1><ul class="outcomes"><li>ตรวจ PDF ที่ build แล้วโดยแยกการตรวจเนื้อหา (ตัวเลขตรง input, ไม่อ้างเกินผล) ออกจากการตรวจหน้ากระดาษ (ไม่มี ?, ไม่ล้น, รูปอ่านได้, ตามข้อกำหนด) แก้ที่ต้นทางหนึ่งรอบ และบันทึก submission readiness แบบ PASS/FAIL/BLOCKED พร้อมตำแหน่งและวิธีแก้</li></ul></section>
+<div class="topic-layout"><nav class="topic-tabs" aria-label="ส่วนของหัวข้อ"><a href="#slides" title="สไลด์">สไลด์</a><a href="#workshop-core" title="Workshop หลัก">Workshop</a><a href="#open-explore" title="Exploring workshop">Exploring</a></nav><div class="topic-main"><section class="section markdown-section topic-panel" id="slides" aria-labelledby="slides-heading"><div class="section-heading compact"><p class="eyebrow">สไลด์</p><h2 id="slides-heading">สไลด์</h2></div><div class="markdown-body"><p>สไลด์ของหัวข้อนี้กำลังจัดทำ</p></div></section>
+<section class="section markdown-section topic-panel" id="workshop-core" aria-labelledby="workshop-core-heading"><div class="section-heading compact"><p class="eyebrow">Workshop</p><h2 id="workshop-core-heading">ตรวจ PDF ก่อนส่ง: ตรวจเนื้อหาแยกจากหน้ากระดาษ แก้หนึ่งรอบ และบันทึกความพร้อมส่ง</h2></div><div class="markdown-body"><p>ใน workshop นี้คุณจะตรวจ PDF ของต้นฉบับ PM2.5 จำลองทั้งด้านเนื้อหาและหน้ากระดาษเทียบกับข้อกำหนด Journal A แก้ที่ต้นทางหนึ่งรอบแล้ว build ใหม่ และกรอก <code>submission/submission-readiness.md</code> ให้ทุกแถวมีสถานะพร้อมหลักฐาน</p>
+<h3 id="ก่อนเริ่ม-ต้องมีอยู่แล้ว">ก่อนเริ่ม (ต้องมีอยู่แล้ว)</h3>
+<ul>
+<li>จากหัวข้อ “ต้นฉบับ Markdown ชุดเดียว → LaTeX → PDF” (workshop หลัก):
+<ul>
+<li><code>module-08-work/build/manuscript.pdf</code> และ log ใน <code>module-08-work/build/</code></li>
+<li><code>module-08-work/generated/main.tex</code></li>
+<li>ถ้ายังไม่มีสองข้อนี้ ให้ทำหัวข้อนั้นก่อน</li>
+</ul></li>
+<li>ไฟล์ที่ตัวติดตั้ง Module 8 สร้างไว้ (คัดลอกมาจาก <code>course-materials/module-08/</code>):
+<ul>
+<li><code>module-08-work/source/manuscript.md</code> — ต้นฉบับที่คุณแก้มาจากหัวข้อก่อนหน้า</li>
+<li><code>module-08-work/input/analysis-summary.csv</code> และ <code>module-08-work/input/module-07-highlights.md</code> — ใช้ตรวจตัวเลข</li>
+<li><code>module-08-work/journal-dossiers/journal-a/original/profile.md</code> — ข้อกำหนด Journal A (1,800 คำไม่รวม references, abstract ≤ 180 คำ ไม่มีหัวข้อย่อย, ตาราง ≤ 3, รูป ≤ 3, author–year, ฉบับ review ไม่มีชื่อผู้แต่ง/สังกัด/acknowledgments)</li>
+<li><code>module-08-work/submission/submission-readiness.md</code> — แม่แบบที่มีตาราง Gate ว่างอยู่ (ยังไม่กรอก)</li>
+<li><code>tools/build-module-08.sh</code> หรือ <code>tools/build-module-08.ps1</code> — คำสั่ง build</li>
+</ul></li>
+</ul>
+<h3 id="ขั้นตอน">ขั้นตอน</h3>
+<ol type="1">
+<li><p><strong>ตรวจเนื้อหาด้วยตัวเอง (4 นาที)</strong> เปิด <code>build/manuscript.pdf</code> คู่กับ <code>input/analysis-summary.csv</code> แล้วจดสิ่งที่พบ</p>
+<ul>
+<li>ปัญหา วัตถุประสงค์ วิธี ผล และข้อสรุปสอดคล้องกัน</li>
+<li>ตัวเลขในข้อความ ตาราง และรูปตรงกับ <code>input/</code> (เช่น 37.02 → 34.36 และ South 29.22 → 34.56 µg/m³)</li>
+<li>ไม่มีผล citation หรือขั้นตอนวิธีที่ไม่มีในต้นฉบับ</li>
+<li>ชื่อเรื่อง abstract และ conclusion ไม่อ้างเกินผล ไม่มีถ้อยคำเชิงเหตุและผล และระบุข้อจำกัดชัด</li>
+<li>ฉบับ blinded ไม่มีชื่อผู้แต่ง สังกัด หรือ acknowledgments</li>
+</ul></li>
+<li><p><strong>ให้ AI ช่วยตรวจหน้ากระดาษและข้อกำหนด</strong> ส่ง prompt นี้ AI จะตอบเป็นรายการ PASS/FAIL (ยังไม่แก้ไฟล์)</p>
+<div class="command ai-prompt"><code>ตรวจ module-08-work/build/manuscript.pdf และ log ใน module-08-work/build/ เทียบกับข้อกำหนดใน module-08-work/journal-dossiers/journal-a/original/profile.md แยกข้อความจาก PDF เพื่อตรวจเนื้อหาขาดหาย ตรวจว่าตัวเลขใน PDF ตรงกับ module-08-work/input/analysis-summary.csv ตรวจหน้ากระดาษ: ข้อความหรือรูปล้นคอลัมน์ ตารางอ่านได้ หัวข้อค้างท้ายหน้า citation หรือ reference ที่ขึ้นเป็น ? รูปอ่านได้เมื่อพิมพ์ขาวดำ จำนวนคำ จำนวนรูปและตาราง จัดทำรายการ PASS/FAIL พร้อมตำแหน่ง (หน้า/หัวข้อ) และวิธีแก้ที่ไฟล์ต้นทาง ห้ามแก้ไฟล์ใด แล้วหยุดรอ</code><button type="button" data-copy="">คัดลอก</button></div></li>
+<li><p><strong>ตรวจรายการของ AI</strong> เปิดตำแหน่งที่ AI ระบุใน PDF จริงอย่างน้อย 2 จุด และดูว่ามีข้อที่คุณพบในขั้น 1 แต่ AI ไม่พบหรือไม่ แยกรายการที่ได้เป็นสองกลุ่ม “เนื้อหา” กับ “หน้ากระดาษ”</p></li>
+<li><p><strong>แก้หนึ่งรอบ (4 นาที)</strong> เลือกปัญหาที่สำคัญที่สุด แก้ที่ <code>source/manuscript.md</code> (หรือ <code>literature/references.bib</code> / <code>figures/</code>) (ถ้าจะทำขั้น 6: ก่อนสร้างใหม่ คัดลอก <code>generated/main.tex</code> เก็บไว้เป็นฉบับก่อนแก้) ให้ AI สร้าง <code>generated/main.tex</code> ใหม่ แล้ว build ใหม่ด้วยคำสั่ง build เดิม เปิด <code>build/manuscript.pdf</code> ฉบับใหม่ ยืนยันว่าแก้แล้วและไม่มีจุดอื่นเปลี่ยนความหมาย</p></li>
+<li><p><strong>บันทึกความพร้อมส่ง</strong> ส่ง prompt นี้ AI จะกรอกตารางใน <code>submission/submission-readiness.md</code> จากนั้นตรวจและแก้ด้วยตัวเอง</p>
+<div class="command ai-prompt"><code>กรอก module-08-work/submission/submission-readiness.md ตามตาราง Gate ที่มีอยู่ ใส่สถานะ PASS / FAIL / BLOCKED หลักฐาน และ next action ของทุกแถว ใช้เฉพาะผลตรวจที่เราทำในรอบนี้และข้อกำหนดใน profile ห้ามปิด BLOCKED เอง ห้ามรับรองการตอบรับตีพิมพ์ ข้อที่ต้องเป็นการตัดสินของมนุษย์ (เช่น declarations, AI-use disclosure, ethics/data statement) ให้ระบุใน Human decision required</code><button type="button" data-copy="">คัดลอก</button></div><p>ชุดฝึกนี้ยังไม่มี title page แยก cover letter declarations ฯลฯ ตาม Submission Package ของ Journal A — แถวที่เกี่ยวข้องต้องไม่เป็น PASS</p></li>
+<li><p><strong>(ถ้ามีเวลา) ตรวจการแก้ไขด้วย latexdiff</strong> ส่ง prompt นี้ AI จะใช้ <code>generated/main.tex</code> ฉบับก่อนแก้ (ที่คุณเก็บไว้ในขั้น 4) กับฉบับปัจจุบันสร้าง <code>diff.tex</code></p>
+<div class="command ai-prompt"><code>เก็บ snapshot ของ generated/main.tex ฉบับก่อนแก้และฉบับปัจจุบัน ใช้ latexdiff สร้าง diff.tex และ compile สำเนานั้น ตรวจทุกจุดที่เปลี่ยนข้อกล่าวอ้าง ตัวเลข citation หรือข้อจำกัด รายงานการเปลี่ยนที่ตั้งใจและผิดคาด ห้ามแก้ diff.tex แล้วนำกลับไปแทน source หลัก</code><button type="button" data-copy="">คัดลอก</button></div><p>ถ้าไม่ได้เก็บ <code>main.tex</code> ฉบับก่อนแก้ไว้ในขั้น 4 ให้ข้ามขั้นนี้</p></li>
+</ol>
+<h3 id="ตรวจก่อนจบ">ตรวจก่อนจบ</h3>
+<ul class="task-list">
+<li><label><input type="checkbox">มีรายการตรวจของคุณที่แยก “เนื้อหา” กับ “หน้ากระดาษ” และแต่ละข้อมีตำแหน่งใน PDF (หน้า/หัวข้อ)</label></li>
+<li><label><input type="checkbox">ตัวเลขหลักใน PDF (เช่น 37.02 → 34.36 และ South 29.22 → 34.56 µg/m³) ตรงกับ <code>input/analysis-summary.csv</code> — ตรวจด้วยตัวเอง</label></li>
+<li><label><input type="checkbox"><code>module-08-work/build/manuscript.pdf</code> เป็นฉบับที่แก้หนึ่งรอบ และการแก้เกิดที่ <code>source/</code>, <code>literature/</code> หรือ <code>figures/</code> ไม่ใช่ที่ <code>generated/</code> หรือ <code>build/</code></label></li>
+<li><label><input type="checkbox"><code>module-08-work/submission/submission-readiness.md</code> ทุกแถวมี PASS / FAIL / BLOCKED พร้อมหลักฐานและ next action</label></li>
+<li><label><input type="checkbox">แถวที่เกี่ยวกับ title page cover letter และ declarations ไม่เป็น PASS และ “Human decision required” มีรายการที่ต้องให้คนตัดสิน</label></li>
+</ul>
+<h3 id="ส่งงาน">ส่งงาน</h3>
+<ul>
+<li>ส่งตามขั้นตอนส่งงานของโมดูล (ตอนนี้ Module 8 ยังไม่กำหนดช่องทางส่ง)</li>
+</ul>
+</div></section>
+<section class="section markdown-section topic-panel" id="open-explore" aria-labelledby="open-explore-heading"><div class="section-heading compact"><p class="eyebrow">Exploring</p><h2 id="open-explore-heading">ตรวจ PDF ก่อนส่ง: ตรวจเนื้อหาแยกจากหน้ากระดาษ แก้หนึ่งรอบ และบันทึกความพร้อมส่ง</h2></div><div class="markdown-body"><p>ในโจทย์นี้คุณจะเขียน prompt เอง (ไม่มี prompt สำเร็จรูปให้) เพื่อตรวจ PDF ของเอกสารตัวเองแยกด้านเนื้อหาและหน้ากระดาษ แก้ที่ต้นทางหนึ่งรอบ แล้วเขียนรายงานความพร้อมส่ง</p>
+<h3 id="ก่อนเริ่ม-ต้องมีอยู่แล้ว">ก่อนเริ่ม (ต้องมีอยู่แล้ว)</h3>
+<ul>
+<li>ทำ workshop หลักของหัวข้อนี้แล้ว (รู้ขั้นตรวจเนื้อหา/หน้ากระดาษ และตาราง Gate ใน <code>module-08-work/submission/submission-readiness.md</code>)</li>
+<li>PDF ของเอกสารตัวเองที่ build จากต้นฉบับได้แล้ว พร้อมไฟล์ต้นฉบับนั้น — จาก exploring workshop ของหัวข้อ “ต้นฉบับ Markdown ชุดเดียว → LaTeX → PDF” หรือบทความ/รายงานที่คุณกำลังจะส่ง</li>
+<li>ไฟล์ข้อมูล/ผลต้นทางที่ตัวเลขในเอกสารมาจาก (ของคุณเอง)</li>
+<li>ข้อกำหนดผู้แต่งของแหล่งเผยแพร่เป้าหมาย จากเว็บของแหล่งเผยแพร่นั้น</li>
+</ul>
+<h3 id="โจทย์">โจทย์</h3>
+<ol type="1">
+<li>เก็บสำเนา PDF ฉบับก่อนแก้ไว้ และเริ่มไฟล์ <code>output/prompts.md</code> ไว้บันทึก prompt ทุกรอบ</li>
+<li>ตรวจเนื้อหาและหน้ากระดาษแยกกัน บันทึกผลเป็น <code>output/qa-content.md</code> และ <code>output/qa-layout.md</code> ที่คุณสร้างในขั้นนี้</li>
+<li>แก้ที่ไฟล์ต้นทางอย่างน้อยหนึ่งรอบ แล้ว build PDF ฉบับหลังแก้</li>
+<li>เขียน <code>output/submission-readiness.md</code> (PASS / FAIL / BLOCKED + หลักฐาน + ตำแหน่ง + ผู้รับผิดชอบ)</li>
+</ol>
+<h3 id="ข้อกำหนด">ข้อกำหนด</h3>
+<ul>
+<li><code>output/prompts.md</code> เก็บ prompt ทุกรอบ (prompt, สรุปผลที่ได้, สิ่งที่ปรับในรอบถัดไปและเหตุผล)</li>
+<li>ระบุว่าตรวจผลของ AI อย่างไร (เทียบกับไฟล์/เอกสารต้นทางใด) และแก้อะไรเอง</li>
+<li>ผลงาน: <code>output/qa-content.md</code>, <code>output/qa-layout.md</code>, <code>output/submission-readiness.md</code> และ PDF ก่อน/หลังแก้</li>
+<li>ตัวเลขทุกตัวในบทคัดย่อและผลหลักต้องตรวจกับไฟล์ต้นทางด้วยตัวเอง ไม่ใช่เชื่อรายงานของ AI</li>
+</ul>
+<h3 id="เกณฑ์ผ่าน">เกณฑ์ผ่าน</h3>
+<ul class="task-list">
+<li><label><input type="checkbox"><code>output/qa-content.md</code> และ <code>output/qa-layout.md</code> แยกกัน และแต่ละข้อมีตำแหน่งใน PDF</label></li>
+<li><label><input type="checkbox">มีการแก้ที่ไฟล์ต้นทางอย่างน้อยหนึ่งรอบ พร้อม PDF ก่อน/หลัง และยืนยันว่าไม่มีจุดอื่นเปลี่ยนความหมาย</label></li>
+<li><label><input type="checkbox">ตัวเลขในบทคัดย่อและผลหลักตรงกับไฟล์ต้นทาง — ตรวจด้วยตัวเอง</label></li>
+<li><label><input type="checkbox"><code>output/submission-readiness.md</code> ไม่มี BLOCKED ที่ถูกปิดโดยไม่มีหลักฐาน และระบุสิ่งที่ต้องให้มนุษย์ตัดสิน (เช่น declarations, AI disclosure, authorship)</label></li>
+<li><label><input type="checkbox">ระบุอย่างน้อยหนึ่งจุดที่ AI ตรวจพลาดหรือตรวจเกิน และคุณตรวจพบอย่างไร (หรืออธิบายว่าตรวจซ้ำอย่างไรแล้วไม่พบ)</label></li>
+<li><label><input type="checkbox"><code>output/prompts.md</code> แสดงการปรับ prompt อย่างน้อย 1 รอบ พร้อมเหตุผล</label></li>
+</ul>
+</div></section></div></div>
+<script>
+(() => {
+  const tabs = [...document.querySelectorAll('.topic-tabs a')];
+  const panels = tabs.map(t => document.getElementById(t.hash.slice(1)));
+  function show(id) {
+    const i = Math.max(0, panels.findIndex(p => p && p.id === id));
+    panels.forEach((p, k) => { if (p) p.hidden = k !== i; });
+    tabs.forEach((t, k) => t.setAttribute('aria-current', k === i ? 'page' : 'false'));
+    const layout = document.querySelector('.topic-layout'); if (layout && panels[i]) layout.dataset.active = panels[i].id;
+  }
+  tabs.forEach(t => t.addEventListener('click', e => { e.preventDefault(); history.replaceState(null, '', t.hash); show(t.hash.slice(1)); window.scrollTo({top: 0}); }));
+  document.querySelectorAll('[data-next-tab]').forEach(b => b.addEventListener('click', e => { e.preventDefault(); const h = b.getAttribute('href'); history.replaceState(null, '', h); show(h.slice(1)); window.scrollTo({top: 0}); }));
+  document.querySelectorAll('[data-fullscreen]').forEach(b => b.addEventListener('click', () => {
+    const frame = document.querySelector(b.dataset.fullscreen);
+    const go = frame && (frame.requestFullscreen || frame.webkitRequestFullscreen);
+    if (go) go.call(frame); else if (frame) window.open(frame.src, '_blank', 'noopener');
+  }));
+  const layout0 = document.querySelector('.topic-layout');
+  const toggle = document.querySelector('[data-aside-toggle]');
+  function setAside(hidden) {
+    if (!layout0 || !toggle) return;
+    layout0.classList.toggle('aside-hidden', hidden);
+    toggle.setAttribute('aria-pressed', String(hidden));
+    toggle.textContent = hidden ? 'แสดงสไลด์ข้าง' : 'ซ่อนสไลด์ข้าง';
+    try { localStorage.setItem('airr.slideAsideHidden', hidden ? '1' : '0'); } catch (e) {}
+  }
+  if (toggle) {
+    let saved = true; try { saved = localStorage.getItem('airr.slideAsideHidden') !== '0'; } catch (e) {}  // hidden by default
+    setAside(saved);
+    toggle.addEventListener('click', () => setAside(!layout0.classList.contains('aside-hidden')));
+  }
+  show(location.hash.slice(1));
+  if (location.hash) requestAnimationFrame(() => window.scrollTo({top: 0}));
+})();
+</script>
+  </main>
+  <site-footer></site-footer>
+</body>
+</html>

@@ -62,6 +62,78 @@ const LOCAL_LINKS = {
   checkout: [],
 };
 
+// Display theme: "system" (default, follows the OS), "light" or "dark".
+// Runs while <head> is parsed so the page never flashes the wrong theme.
+const SHELL_SCRIPT_URL = document.currentScript?.src || location.href;
+const THEME_KEY = "airr.theme";
+const systemDark = window.matchMedia ? window.matchMedia("(prefers-color-scheme: dark)") : null;
+function themePreference() {
+  try { const value = localStorage.getItem(THEME_KEY); return ["light", "dark"].includes(value) ? value : "system"; } catch (_error) { return "system"; }
+}
+function applyTheme(preference = themePreference()) {
+  const effective = preference === "system" ? (systemDark && !systemDark.matches ? "light" : "dark") : preference;
+  document.documentElement.dataset.theme = effective;
+  document.documentElement.dataset.themePreference = preference;
+  document.querySelector('meta[name="theme-color"]')?.setAttribute("content", effective === "light" ? "#f7f5ef" : "#101817");
+  document.querySelectorAll(".theme-choice button").forEach((button) => button.setAttribute("aria-pressed", String(button.dataset.themeValue === preference)));
+}
+function setTheme(preference) {
+  try { if (preference === "system") localStorage.removeItem(THEME_KEY); else localStorage.setItem(THEME_KEY, preference); } catch (_error) { /* applies to this page only */ }
+  applyTheme(preference);
+}
+applyTheme();
+systemDark?.addEventListener?.("change", () => { if (themePreference() === "system") applyTheme("system"); });
+if (!document.querySelector('link[data-airr-theme]')) {
+  const themeLink = document.createElement("link");
+  themeLink.rel = "stylesheet";
+  themeLink.href = new URL("theme.css?v=20261115-1", SHELL_SCRIPT_URL).href;
+  themeLink.dataset.airrTheme = "";
+  document.head.append(themeLink);
+}
+
+// One shared session lookup for the header (user menu + classroom CTA).
+let sessionPromise = null;
+function currentSession() {
+  if (!sessionPromise) {
+    sessionPromise = typeof fetch === "function"
+      ? fetch(`${CLASSROOM_API_BASE}/me`, { credentials: "same-origin", headers: { "Accept": "application/json" } })
+        .then((response) => (response.ok ? response.json() : null)).catch(() => null)
+      : Promise.resolve(null);
+    // Local preview only (no API on localhost): show a dummy learner so the header can be judged.
+    // Add ?guest to the URL to preview the signed-out header instead.
+    if (["localhost", "127.0.0.1", "::1"].includes(location.hostname) && !new URLSearchParams(location.search).has("guest")) {
+      sessionPromise = sessionPromise.then((session) => session || DEV_DUMMY_SESSION);
+    }
+  }
+  return sessionPromise;
+}
+
+const DEV_DUMMY_AVATAR = "data:image/svg+xml," + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" fill="#4a7fd0"/><circle cx="32" cy="25" r="12" fill="#f3d2b5"/><path d="M10 64c2-15 11-22 22-22s20 7 22 22z" fill="#2b4f86"/><path d="M20 23c0-9 6-14 12-14s13 4 12 15c-3-6-9-7-12-7s-9 1-12 6z" fill="#3a2a20"/></svg>');
+const DEV_DUMMY_SESSION = {
+  authenticated: true,
+  user: { display_name: "ทดลอง ผู้เรียน (dev)", given_name: "ทดลอง", family_name: "ผู้เรียน", email: "learner@example.com", picture: DEV_DUMMY_AVATAR, system_role: "user" },
+  classrooms: [],
+};
+
+function escapeHtml(value) {
+  return String(value ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
+}
+
+const THEME_CHOICES = [["system", "ตามระบบ"], ["light", "สว่าง"], ["dark", "มืด"]];
+function userMenuHtml() {
+  const preference = themePreference();
+  const buttons = THEME_CHOICES.map(([value, label]) => `<button type="button" data-theme-value="${value}" aria-pressed="${value === preference}">${label}</button>`).join("");
+  return `<details class="user-menu">
+      <summary aria-label="บัญชีและการแสดงผล"><span class="user-avatar is-guest" aria-hidden="true">◐</span><span class="user-name" hidden></span></summary>
+      <div>
+        <p class="user-id" hidden></p>
+        <fieldset class="theme-choice"><legend>ธีมหน้าจอ</legend><div>${buttons}</div></fieldset>
+        <a class="user-login" href="${new URL("../login.html", SHELL_SCRIPT_URL).href}">เข้าสู่ระบบ</a>
+        <button type="button" class="user-logout" hidden>ออกจากระบบ</button>
+      </div>
+    </details>`;
+}
+
 class SiteHeader extends HTMLElement {
   connectedCallback() {
     const current = this.getAttribute("current") || "";
@@ -83,32 +155,86 @@ class SiteHeader extends HTMLElement {
       : current === "file-basics"
         ? '<span class="module-menu-number">โมดูลเสริม</span><span class="module-menu-title">File Basics</span>'
         : "โมดูล 1–9";
+    // Lesson pages: "แผนการเรียน" (class syllabus) replaces "หน้าหลัก"; topic pages list sibling topics.
+    let planHref = this.getAttribute("plan") || "";
+    try {
+      if (planHref && current === "class") localStorage.setItem("airr.planHref", planHref);
+      if (!planHref && document.body.classList.contains("learn")) planHref = localStorage.getItem("airr.planHref") || "";
+    } catch (error) { /* storage unavailable: fall back to หน้าหลัก */ }
+    const planLink = planHref
+      ? `<a href="${planHref}"${current === "class" ? ' aria-current="page"' : ""}>แผนการเรียน</a>`
+      : '<a href="index.html">หน้าหลัก</a>';
+    let topicMenu = "";
+    try {
+      const menu = JSON.parse(this.getAttribute("menu") || "null");
+      if (menu && Array.isArray(menu.items)) {
+        const links = menu.items.map((item) => `<a class="available" href="${item.href}"${item.current ? ' aria-current="page"' : ""}>${item.label}</a>`).join("");
+        topicMenu = `<details class="module-menu"><summary aria-label="หัวข้ออื่นในโมดูลนี้"><span class="module-menu-number">${menu.module}</span><span class="module-menu-title">${menu.title}</span></summary><div>${links}</div></details>`;
+      }
+    } catch (error) { topicMenu = ""; }
     const localLinks = (LOCAL_LINKS[current] || [])
       .map(([id, label]) => `<a href="#${id}">${label}</a>`)
       .join("");
     this.innerHTML = `<header class="site-header">
-      <a class="brand" href="${isHome ? "#top" : "index.html"}" aria-label="AIRR หน้าแรก"><span class="brand-mark">A</span><span>AIRR</span></a>
+      <a class="brand" href="${isHome ? "#top" : "index.html"}" aria-label="AIRR หน้าแรก"><span class="brand-mark brand-logo"><img class="logo-on-dark" src="${new URL("images/madlab-ku-mark-dark.svg", SHELL_SCRIPT_URL).href}" alt="" width="36" height="36"><img class="logo-on-light" src="${new URL("images/madlab-ku-mark-light.svg", SHELL_SCRIPT_URL).href}" alt="" width="36" height="36"></span><span>AIRR</span></a>
       <nav aria-label="เมนูหลัก">
-        ${isHome ? "" : '<a href="index.html">หน้าหลัก</a>'}
-        ${isClassroomEntry ? `<a href="${classroomDirectoryHref}">คลาสที่เปิดรับ</a>` : `<details class="module-menu"><summary aria-label="เลือกโมดูล (ตอนนี้: ${currentModule ? `โมดูล ${currentModule[0]}` : current === "file-basics" ? "โมดูลเสริม" : "ยังไม่ได้เลือก"})">${menuLabel}</summary><div>${moduleLinks}</div></details>`}
+        ${isHome ? "" : planLink}
+        ${isClassroomEntry ? `<a href="${classroomDirectoryHref}">คลาสที่เปิดรับ</a>` : current === "class" ? "" : topicMenu || `<details class="module-menu"><summary aria-label="เลือกโมดูล (ตอนนี้: ${currentModule ? `โมดูล ${currentModule[0]}` : current === "file-basics" ? "โมดูลเสริม" : "ยังไม่ได้เลือก"})">${menuLabel}</summary><div>${moduleLinks}</div></details>`}
         ${localLinks}
         <a class="nav-cta" href="${ctaHref}">${ctaLabel}</a>
+        ${userMenuHtml()}
       </nav>
     </header>`;
 
+    this.setupUserMenu(current);
+
     if (isClassroomEntry && current !== "login") this.updateClassroomCta(current);
+  }
+
+  setupUserMenu(current) {
+    const menu = this.querySelector(".user-menu");
+    if (!menu) return;
+    menu.querySelectorAll(".theme-choice button").forEach((button) => button.addEventListener("click", () => setTheme(button.dataset.themeValue)));
+    document.addEventListener("click", (event) => { if (menu.open && !menu.contains(event.target)) menu.open = false; });
+    const login = menu.querySelector(".user-login");
+    if (current === "login") login.hidden = true;
+    menu.querySelector(".user-logout").addEventListener("click", async () => {
+      try {
+        await fetch(`${CLASSROOM_API_BASE}/auth/logout`, { method: "POST", credentials: "same-origin" });
+      } catch (_error) { /* the session cookie is cleared server-side when reachable */ }
+      window.aiResearchDevAuth?.clear?.();
+      location.assign(new URL("../index.html", SHELL_SCRIPT_URL).href);
+    });
+    currentSession().then((session) => {
+      const user = session?.authenticated ? session.user : null;
+      if (!user) return;
+      const name = user.display_name || [user.given_name, user.family_name].filter(Boolean).join(" ") || user.email || "ผู้ใช้";
+      const avatar = menu.querySelector(".user-avatar");
+      avatar.classList.remove("is-guest");
+      if (/^https:\/\/[a-z0-9.-]+\.googleusercontent\.com\//i.test(user.picture || "") || user.picture === DEV_DUMMY_AVATAR) {
+        avatar.innerHTML = `<img src="${escapeHtml(user.picture)}" alt="" referrerpolicy="no-referrer" width="32" height="32">`;
+        avatar.querySelector("img").addEventListener("error", () => { avatar.textContent = name.trim().charAt(0).toUpperCase(); });
+      } else {
+        avatar.textContent = name.trim().charAt(0).toUpperCase();
+      }
+      const shortName = menu.querySelector(".user-name");
+      shortName.textContent = user.given_name || name;
+      shortName.hidden = false;
+      const id = menu.querySelector(".user-id");
+      id.innerHTML = `<strong>${escapeHtml(name)}</strong><small>${escapeHtml(user.email || "")}</small>`;
+      id.hidden = false;
+      menu.querySelector("summary").setAttribute("aria-label", `บัญชี ${name} และการแสดงผล`);
+      login.hidden = true;
+      menu.querySelector(".user-logout").hidden = false;
+    });
   }
 
   async updateClassroomCta(current) {
     const cta = this.querySelector(".nav-cta");
     if (!cta || typeof fetch !== "function") return;
     try {
-      const response = await fetch(`${CLASSROOM_API_BASE}/me`, {
-        credentials: "same-origin",
-        headers: { "Accept": "application/json" },
-      });
-      if (!response.ok) return;
-      const session = await response.json();
+      const session = await currentSession();
+      if (!session) return;
       const requestedClassroomId = current === "classroom"
         ? new URLSearchParams(location.search).get("id") || ""
         : FEATURED_CLASSROOM_ID;
@@ -147,7 +273,7 @@ class SiteHeader extends HTMLElement {
 class SiteFooter extends HTMLElement {
   connectedCallback() {
     this.innerHTML = `<footer>
-      <div class="footer-owner"><p><a href="index.html">AIRR · AI for Research &amp; Review</a></p><div class="institution-lockup footer-institution"><img src="https://upload.wikimedia.org/wikipedia/commons/4/43/Kasetsart_Sublogo-TH.svg" alt="ตราสัญลักษณ์พร้อมชื่อมหาวิทยาลัยเกษตรศาสตร์" width="232" height="300" loading="lazy"><span>ภาควิชาวิศวกรรมคอมพิวเตอร์<br>มหาวิทยาลัยเกษตรศาสตร์</span></div></div>
+      <div class="footer-owner"><p><a href="index.html">AIRR · AI for Research &amp; Review</a></p><div class="institution-lockup footer-institution"><img src="https://upload.wikimedia.org/wikipedia/commons/4/43/Kasetsart_Sublogo-TH.svg" alt="ตราสัญลักษณ์พร้อมชื่อมหาวิทยาลัยเกษตรศาสตร์" width="232" height="300" loading="lazy"><span>MADLab - Multimedia Analysis and Discovery Laboratory<br>ภาควิชาวิศวกรรมคอมพิวเตอร์<br>มหาวิทยาลัยเกษตรศาสตร์</span></div></div>
       <div class="footer-credit"><p>Developed by One234@KU</p><p>© 2026 พันธุ์ปิติ เปี่ยมสง่า. All rights reserved.</p></div>
     </footer>`;
   }

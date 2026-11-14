@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="ผลลัพธ์การเรียนรู้และภาพรวมของ M04 ตรวจ reference และ citation">
+  <meta name="theme-color" content="#101817">
+  <title>M04 ตรวจ reference และ citation · AIRR</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/styles.css?v=20261113-2">
+  <link rel="stylesheet" href="assets/learn.css?v=20261115-3">
+  <script src="assets/site-shell.js?v=20261115-3"></script>
+  <script src="assets/app.js?v=20261115-3" defer></script>
+</head>
+<body class="learn" data-no-case>
+  <a class="skip-link" href="#main">ข้ามไปยังเนื้อหา</a>
+  <site-header current="topic" plan="class-2026-11-20-engineering-faculty.html" menu='{&quot;module&quot;: &quot;M04&quot;, &quot;title&quot;: &quot;ตรวจ reference และ citation&quot;, &quot;items&quot;: [{&quot;href&quot;: &quot;module-overview-m04.html&quot;, &quot;label&quot;: &quot;ภาพรวมและ LO&quot;, &quot;current&quot;: true}, {&quot;href&quot;: &quot;topic-reference-existence-vs-citation-support.html&quot;, &quot;label&quot;: &quot;ตรวจสองชั้น: ref มีจริง กับ cite ถูกต้อง (สี่ชั้นของแหล่ง หกสถานะ ref ทิพย์)&quot;, &quot;current&quot;: false}, {&quot;href&quot;: &quot;topic-citation-register-with-openalex.html&quot;, &quot;label&quot;: &quot;ทะเบียนตรวจ citation: OpenAlex → full text → register&quot;, &quot;current&quot;: false}, {&quot;href&quot;: &quot;topic-thai-reference-verification.html&quot;, &quot;label&quot;: &quot;ตรวจรายการอ้างอิงภาษาไทย: ไม่พบใน OpenAlex ไม่ได้แปลว่าปลอม&quot;, &quot;current&quot;: false}]}'></site-header>
+  <main id="main">
+<section class="prepare-hero module-hero"><p class="eyebrow">M04 · ภาพรวมโมดูล</p><h1>ตรวจ reference และ citation</h1></section><section class="section markdown-section" id="lo" aria-labelledby="lo-heading"><div class="section-heading compact"><p class="eyebrow">ผลลัพธ์การเรียนรู้</p><h2 id="lo-heading">จบโมดูลนี้ คุณจะ</h2></div><div class="markdown-body"><div class="lo-grid"><div class="lo-col"><p class="lo-head">รู้และอธิบายได้</p><ul><li>ตรวจสองชั้น: ref มีจริง กับ cite ถูกต้อง</li><li>DOI ที่เปิดได้ยืนยันว่ามีเอกสาร แต่ไม่ยืนยันว่ารองรับข้อความ</li><li>ตรวจกับ abstract ยังไม่เท่ากับตรวจกับฉบับเต็ม</li></ul></div><div class="lo-col"><p class="lo-head">ทำได้ด้วยตนเอง</p><ul><li>สร้าง BibTeX พร้อม abstract จาก OpenAlex</li><li>จับคู่ in-text citation ทุกจุดกับรายการอ้างอิง</li><li>สร้างทะเบียนการอ้างอิงครบทุกรายการ</li></ul></div><div class="lo-col"><p class="lo-head">ตัดสินได้เอง</p><ul><li>ตัดสินสถานะของแต่ละรายการจากหลักฐาน</li><li>ไม่เปลี่ยน “ยังไม่พบ” เป็น “ไม่มีจริง”</li><li>เลือกรายการเสี่ยงไปตรวจฉบับเต็ม และตัดสินแก้</li></ul></div></div></div></section><section class="section markdown-section" id="highlight" aria-labelledby="highlight-heading"><div class="section-heading compact"><p class="eyebrow">ภาพรวม</p><h2 id="highlight-heading">โมดูลนี้ทำอะไร</h2></div><div class="markdown-body"><div class="module-flow"><div class="flow-box flow-in"><p class="flow-label">นำเข้า</p><p>บทความพร้อมรายการอ้างอิง (หรือบทความจำลอง)</p></div><div class="flow-arrow" aria-hidden="true">→</div><div class="flow-box flow-work"><p class="flow-label">ลงมือตามลำดับ</p><ol><li><a href="topic-reference-existence-vs-citation-support.html" data-same-tab>ตรวจสองชั้น: ref มีจริง กับ cite ถูกต้อง (สี่ชั้นของแหล่ง หกสถานะ ref ทิพย์)</a></li><li><a href="topic-citation-register-with-openalex.html" data-same-tab>ทะเบียนตรวจ citation: OpenAlex → full text → register</a></li></ol></div><div class="flow-arrow" aria-hidden="true">→</div><div class="flow-box flow-out"><p class="flow-label">ผลงานที่ได้</p><ul><li>บทความจำลอง: refs.bib, citation-register.csv, citation-register-summary.md และ manual-download.md</li><li>คลังเอกสารอ้างอิงที่เริ่มสะสม: ฉบับเต็ม PDF และ Markdown ใน literature/ ใช้ซ้ำได้ทุกโมดูล</li><li>งานจริง: Prompt ที่คุณเขียนเอง และทะเบียนการอ้างอิงฉบับเริ่มต้น พร้อมรายการที่ต้องตรวจต่อ</li></ul></div></div></div></section>
+  </main>
+  <site-footer></site-footer>
+</body>
+</html>

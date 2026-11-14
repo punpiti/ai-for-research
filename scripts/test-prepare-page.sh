@@ -20,7 +20,7 @@ for platform in windows macos linux; do
 done
 
 grep -q 'คำสั่งเดียวจบ' "$page"
-grep -q 'เชื่อม AI แล้วทดลองสร้าง PDF' "$page"
+grep -q 'เชื่อม AI แล้วทดลองให้ AI สร้างไฟล์' "$page"
 grep -q '<details class="fallback-details">' "$page"
 grep -q 'Workspace ไม่เปิดอัตโนมัติ? ดูวิธีเปิดใหม่' "$page"
 grep -q '<code data-project-path>~/ai-for-research-workspace</code>' "$page"
@@ -77,7 +77,8 @@ import re, sys
 from pathlib import Path
 page = Path(sys.argv[1]).read_text()
 assert re.findall(r'name="agent" value="([^"]+)"', page) == ['claude', 'codex', 'openrouter']
-assert not re.search(r'data-platform-button="linux">[^<]*WSL', page)
+# owner 2026-11-15: label the Linux path as Linux / WSL2
+assert re.search(r'data-platform-button="linux">Linux / WSL2<', page)
 from html import unescape
 install = page[page.index('<section class="section platform-section" id="install"'):page.index('<div class="notice"><strong>ติดตั้งสำเร็จเมื่อ:')]
 commands = [unescape(x) for x in re.findall(r'data-template="([^"]+)"', install)]

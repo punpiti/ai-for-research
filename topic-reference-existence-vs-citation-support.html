@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="แยกการตรวจว่าแหล่งอ้างอิงมีอยู่จริง (ตัวตนและ metadata) ออกจากการตรวจว่าแหล่งนั้นรองรับข้อความที่อ้าง จัดแหล่งลงสี่ชั้น ใช้หกสถานะของ citation ได้ถูก และบอกสัญญาณเตือนของ ref ทิพย์และบทความที่ถูกถอนได้ โดยไม่เปลี่ยน not found เป็น fabricated">
+  <meta name="theme-color" content="#101817">
+  <title>ตรวจสองชั้น: ref มีจริง กับ cite ถูกต้อง (สี่ชั้นของแหล่ง หกสถานะ ref ทิพย์) · AIRR</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/styles.css?v=20261113-2">
+  <link rel="stylesheet" href="assets/learn.css?v=20261115-3">
+  <script src="assets/site-shell.js?v=20261115-3"></script>
+  <script src="assets/app.js?v=20261115-3" defer></script>
+</head>
+<body class="learn" data-no-case>
+  <a class="skip-link" href="#main">ข้ามไปยังเนื้อหา</a>
+  <site-header current="topic" plan="class-2026-11-20-engineering-faculty.html" menu='{&quot;module&quot;: &quot;M04&quot;, &quot;title&quot;: &quot;ตรวจ reference และ citation&quot;, &quot;items&quot;: [{&quot;href&quot;: &quot;module-overview-m04.html&quot;, &quot;label&quot;: &quot;ภาพรวมและ LO&quot;, &quot;current&quot;: false}, {&quot;href&quot;: &quot;topic-reference-existence-vs-citation-support.html&quot;, &quot;label&quot;: &quot;ตรวจสองชั้น: ref มีจริง กับ cite ถูกต้อง (สี่ชั้นของแหล่ง หกสถานะ ref ทิพย์)&quot;, &quot;current&quot;: true}, {&quot;href&quot;: &quot;topic-citation-register-with-openalex.html&quot;, &quot;label&quot;: &quot;ทะเบียนตรวจ citation: OpenAlex → full text → register&quot;, &quot;current&quot;: false}, {&quot;href&quot;: &quot;topic-thai-reference-verification.html&quot;, &quot;label&quot;: &quot;ตรวจรายการอ้างอิงภาษาไทย: ไม่พบใน OpenAlex ไม่ได้แปลว่าปลอม&quot;, &quot;current&quot;: false}]}'></site-header>
+  <main id="main">
+<section class="prepare-hero module-hero"><p class="eyebrow">หัวข้อย่อย · M04</p><h1>ตรวจสองชั้น: ref มีจริง กับ cite ถูกต้อง (สี่ชั้นของแหล่ง หกสถานะ ref ทิพย์)</h1><ul class="outcomes"><li>แยกการตรวจว่าแหล่งอ้างอิงมีอยู่จริง (ตัวตนและ metadata) ออกจากการตรวจว่าแหล่งนั้นรองรับข้อความที่อ้าง จัดแหล่งลงสี่ชั้น ใช้หกสถานะของ citation ได้ถูก และบอกสัญญาณเตือนของ ref ทิพย์และบทความที่ถูกถอนได้ โดยไม่เปลี่ยน not found เป็น fabricated</li></ul></section>
+<div class="topic-layout"><nav class="topic-tabs" aria-label="ส่วนของหัวข้อ"><a href="#slides" title="สไลด์">สไลด์</a><a href="#workshop-core" title="Workshop หลัก">Workshop</a><a href="#open-explore" title="Exploring workshop">Exploring</a></nav><div class="topic-main"><section class="section markdown-section topic-panel" id="slides" aria-labelledby="slides-heading"><div class="section-heading compact"><p class="eyebrow">สไลด์</p><h2 id="slides-heading">สไลด์</h2></div><div class="markdown-body"><p>สไลด์ของหัวข้อนี้กำลังจัดทำ</p></div></section>
+<section class="section markdown-section topic-panel" id="workshop-core" aria-labelledby="workshop-core-heading"><div class="section-heading compact"><p class="eyebrow">Workshop</p><h2 id="workshop-core-heading">ตรวจสองชั้น: ref มีจริง กับ cite ถูกต้อง (สี่ชั้นของแหล่ง หกสถานะ ref ทิพย์)</h2></div><div class="markdown-body"><p>ใน workshop นี้คุณจะให้ AI แยก citation ในบทความจำลองตามชนิดข้อความและสัญญาณเตือน แล้วเขียนบันทึกของคุณเองลงไฟล์ precheck หนึ่งไฟล์ โดยยังไม่ตัดสินสถานะของรายการใด</p>
+<p>บทความจำลองเป็นเอกสารสมมติที่เขียนขึ้นเพื่อฝึก ไม่ใช่ผลงานตีพิมพ์จริง ห้ามนำไปอ้างอิง และตั้งใจใส่ปัญหาการอ้างอิงไว้หลายแบบ ขั้นนี้ฝึกแค่แยกว่าแต่ละจุดต้องตรวจชั้นใด และด้วยแหล่งชั้นใด</p>
+<h3 id="ก่อนเริ่ม-ต้องมีอยู่แล้ว">ก่อนเริ่ม (ต้องมีอยู่แล้ว)</h3>
+<ul>
+<li>ผ่าน Module 1: เปิด <code>ai-for-research-workspace</code> ใน VS Code และ AI panel เชื่อมแล้ว</li>
+<li><code>module-04-work/input/original/mock-paper.pdf</code> — บทความจำลอง (ตัวติดตั้ง Module 1 วางไว้ให้ เมื่อหน้าต่างติดตั้งแสดง <code>PRACTICE_FILES_READY</code>)</li>
+<li><code>course-materials/module-04/citation-audit-rules.md</code> — กติกาการตรวจ (ตัวติดตั้ง Module 1 วางไว้ให้พร้อมกัน อ่านอย่างเดียว)</li>
+<li>ถ้ายังไม่มีสองไฟล์นี้: ใช้ Prompt "เตรียมไฟล์" บนหน้า Module 4 หรือดาวน์โหลดบทความจำลองและกติกาการตรวจจากหน้า Module 4 แล้ววางตามตำแหน่งข้างต้นเอง</li>
+<li>ทบทวนจากสไลด์ 5–8 ของ Module 4: ตารางตรวจสองชั้น สี่ชั้นของแหล่งข้อมูล หกสถานะ และสัญญาณเตือนของ ref ทิพย์</li>
+</ul>
+<h3 id="ขั้นตอน">ขั้นตอน</h3>
+<ol type="1">
+<li><p><strong>ให้ AI แยกจุดที่อ้างและชนิดของข้อความ</strong> วาง Prompt นี้ใน AI — AI จะสร้างไฟล์ <code>module-04-work/output/two-layer-precheck.md</code></p>
+<div class="command ai-prompt"><code>อ่าน course-materials/module-04/citation-audit-rules.md ก่อน แล้วอ่านบทความใน module-04-work/input/original/ ทำตารางของ in-text citation ทุกจุดในหัวข้อ 1 และ 2 คอลัมน์: หัวข้อ, ประโยครอบ citation, citation ตามที่เขียน, ชนิดข้อความที่ถูกอ้าง (ข้อเท็จจริงหรือนิยาม / ตัวเลขหรือขนาดผล / ความสัมพันธ์หรือเหตุและผล / การขยายผลไปกลุ่มอื่น / ข้อเสนอแนะหรือมาตรฐาน) และคำที่ทำให้ข้อความแรงขึ้น เช่น ทุก เสมอ ห้าม ถ้ามี ยังไม่ต้องตัดสินว่าแหล่งรองรับหรือไม่ และห้ามค้นข้อมูลภายนอก บันทึกเป็น module-04-work/output/two-layer-precheck.md แล้วหยุดรอ</code><button type="button" data-copy="">คัดลอก</button></div></li>
+<li><p><strong>ให้ AI เพิ่มตารางสัญญาณเตือนของรายการอ้างอิง (ยังไม่ตัดสิน)</strong> วาง Prompt นี้ต่อ</p>
+<div class="command ai-prompt"><code>จากรายการอ้างอิงท้ายบทความเดียวกัน ให้เพิ่มตารางใน module-04-work/output/two-layer-precheck.md หนึ่งแถวต่อหนึ่งรายการ ระบุเฉพาะสัญญาณเตือนที่เห็นได้จากตัวเอกสาร ตามรายการสัญญาณเตือนของ ref ทิพย์ และแหล่งที่ไม่น่าเชื่อถือใน citation-audit-rules.md เช่น ไม่มี DOI ปีหรือรายละเอียดไม่สอดคล้อง ชื่อเรื่องตรงกับข้อความที่ต้องการอ้างพอดีเกินไป แหล่งเป็น Wikipedia หรือมาตรฐานรุ่นเก่า และ citation ในเนื้อหาที่ไม่มีในรายการ หรือรายการที่ไม่ถูกอ้าง ทุกแถวให้บอกว่าต้องตรวจต่อชั้นใด (ref มีจริง หรือ cite ถูกต้อง) และด้วยแหล่งชั้นใด (Metadata, Official page หรือ Full text) ห้ามสรุปว่ารายการใดปลอมหรือถูกต้อง เพราะยังไม่ได้ตรวจแหล่งต้นทาง แล้วหยุดรอ</code><button type="button" data-copy="">คัดลอก</button></div></li>
+<li><p><strong>ขีดออกแถวที่ AI ตัดสินเกินหลักฐาน</strong> ถ้ามีแถวใดที่ AI สรุปว่า "ปลอม" หรือ "ถูกต้อง" ให้ขีดออกและจดไว้ว่า AI ตัดสินเกินหลักฐาน</p></li>
+<li><p><strong>ตรวจชั้นแรกด้วยมือหนึ่งรายการ</strong> เลือกรายการที่มี DOI หนึ่งรายการจากตารางสัญญาณเตือน เปิด DOI ในเบราว์เซอร์เอง เทียบ author, year, title และ venue ทีละช่อง แล้วพิมพ์เองต่อท้าย <code>two-layer-precheck.md</code> สองบรรทัด:</p>
+<ul>
+<li>ผลชั้น "ref มีจริง" ของรายการนั้น</li>
+<li>สิ่งที่การเปิด DOI <strong>ยังบอกไม่ได้</strong> เกี่ยวกับชั้น "cite ถูกต้อง" ของประโยคที่อ้างรายการนั้น</li>
+</ul></li>
+<li><p><strong>เขียนสถานะที่เป็นไปได้</strong> เลือก 3 แถวจากตารางสัญญาณเตือน แล้วพิมพ์เองต่อท้ายไฟล์เดิมว่าแต่ละแถว "อาจ" อยู่ในสถานะใดของหกสถานะ และต้องมีหลักฐานอะไรก่อนจะตัดสินได้จริง (เช่น not found ต้องบันทึกว่าค้นที่ใดแล้ว fabricated ต้องตรวจหลายแหล่งทางการก่อน)</p></li>
+</ol>
+<p>ผู้สอนจะเฉลยปัญหาของบทความจำลองในห้อง และไฟล์ <code>two-layer-precheck.md</code> นี้จะใช้เป็นรายการเสี่ยงตั้งต้นของกิจกรรม <code>citation-register-audit</code> (หัวข้อ <a href="topic-citation-register-with-openalex.html">ทะเบียนตรวจ citation: OpenAlex → full text → register</a>)</p>
+<h3 id="ตรวจก่อนจบ">ตรวจก่อนจบ</h3>
+<ul class="task-list">
+<li><label><input type="checkbox"><code>module-04-work/output/two-layer-precheck.md</code> มีตาราง citation ของหัวข้อ 1 และ 2 พร้อมชนิดข้อความที่ถูกอ้าง</label></li>
+<li><label><input type="checkbox">ไฟล์เดียวกันมีตารางสัญญาณเตือน หนึ่งแถวต่อหนึ่งรายการอ้างอิง ทุกแถวบอกชั้นที่ต้องตรวจต่อและชั้นของแหล่ง</label></li>
+<li><label><input type="checkbox">ไม่มีแถวใดที่ยังเขียนว่า "ปลอม" หรือ "ถูกต้อง" โดยไม่ได้ตรวจแหล่ง (ถ้ามี ขีดออกและจดไว้แล้ว)</label></li>
+<li><label><input type="checkbox">ท้ายไฟล์มีบันทึกที่คุณเขียนเอง: ผลเปิด DOI หนึ่งรายการ (สองบรรทัด) และสถานะที่เป็นไปได้พร้อมหลักฐานที่ต้องใช้ของ 3 แถว</label></li>
+<li><label><input type="checkbox"><code>module-04-work/input/original/mock-paper.pdf</code> และ <code>course-materials/module-04/citation-audit-rules.md</code> ไม่ถูกแก้</label></li>
+</ul>
+<h3 id="ส่งงาน">ส่งงาน</h3>
+<ul>
+<li>หัวข้อนี้ไม่มีการส่งแยก ใช้การแจ้งว่าเสร็จของ Module 4 หลังทำทะเบียนครบในกิจกรรม <code>citation-register-audit</code></li>
+</ul>
+</div></section>
+<section class="section markdown-section topic-panel" id="open-explore" aria-labelledby="open-explore-heading"><div class="section-heading compact"><p class="eyebrow">Exploring</p><h2 id="open-explore-heading">ตรวจสองชั้น: ref มีจริง กับ cite ถูกต้อง (สี่ชั้นของแหล่ง หกสถานะ ref ทิพย์)</h2></div><div class="markdown-body"><p>ในโจทย์นี้คุณจะเขียน prompt เองให้ AI แยก citation ในเอกสารของคุณตามชั้นที่ต้องตรวจ แล้วได้แผนตรวจรายการเสี่ยง 3 รายการกับ prompt log ของคุณ</p>
+<p>ไม่มี prompt สำเร็จรูปให้</p>
+<h3 id="ก่อนเริ่ม-ต้องมีอยู่แล้ว">ก่อนเริ่ม (ต้องมีอยู่แล้ว)</h3>
+<ul>
+<li>ทำ workshop ของหัวข้อนี้กับบทความจำลองแล้ว (รู้จักตารางตรวจสองชั้น สี่ชั้นของแหล่ง และหกสถานะ)</li>
+<li><code>course-materials/module-04/citation-audit-rules.md</code> (ตัวติดตั้ง Module 1 วางไว้ให้ อ่านอย่างเดียว)</li>
+<li>เอกสารของคุณเองหนึ่งชิ้นที่มีการอ้างอิง เช่น บทนำหรือบททบทวนวรรณกรรมของงานคุณ หรือของนิสิตที่คุณดูแล (งานที่ยังไม่เผยแพร่ ใช้ได้เมื่อได้รับอนุญาตและตัดข้อมูลส่วนบุคคลออกแล้ว)</li>
+</ul>
+<h3 id="โจทย์">โจทย์</h3>
+<ol type="1">
+<li>สร้างโฟลเดอร์ <code>module-04-work/&lt;ชื่องาน&gt;/input/original/</code> แล้ววางเอกสารของคุณลงไป</li>
+<li>สร้างไฟล์ <code>module-04-work/&lt;ชื่องาน&gt;/output/prompts.md</code> สำหรับเก็บ prompt ที่ใช้ทุกรอบ</li>
+<li>เขียน prompt ให้ AI ทำรายการ in-text citation พร้อมชนิดของข้อความที่ถูกอ้าง และสัญญาณเตือนในรายการอ้างอิง โดยแยกให้ชัดว่าแต่ละจุดต้องตรวจชั้น "ref มีจริง" หรือ "cite ถูกต้อง" และด้วยแหล่งชั้นใดในสี่ชั้น</li>
+<li>เปิด DOI หรือหน้าทางการด้วยตนเองอย่างน้อย 1 รายการ แล้วบันทึกว่ายืนยันชั้นใดได้ และชั้นใดยังไม่ได้</li>
+<li>เลือกรายการเสี่ยงที่สุด 3 รายการ แล้ววางแผนเองว่าจะตรวจที่แหล่งใดก่อนหลัง และหลักฐานแบบใดจึงจะให้สถานะในหกสถานะได้</li>
+</ol>
+<h3 id="ข้อกำหนด">ข้อกำหนด</h3>
+<ul>
+<li>prompt ต้องห้าม AI ตัดสินว่ารายการใดปลอมหรือถูกต้องจากชื่อเรื่องหรือความรู้ของ AI เอง</li>
+<li>ระบุว่าตรวจผลของ AI อย่างไร (เช่น สุ่มเทียบกับต้นฉบับว่าประโยครอบ citation ถูกคัดมาตรง) และแก้อะไรเอง</li>
+</ul>
+<h3 id="เกณฑ์ผ่าน">เกณฑ์ผ่าน</h3>
+<ul class="task-list">
+<li><label><input type="checkbox">รายการ citation แยกชั้น "ref มีจริง" ออกจาก "cite ถูกต้อง" ทุกแถว และระบุชั้นของแหล่งที่จะใช้ตรวจ</label></li>
+<li><label><input type="checkbox">ไม่มีรายการใดถูกเรียกว่า fabricated หรือ verified โดยไม่มีหลักฐานจากแหล่งต้นทาง รายการที่ยังไม่พบใช้ not found พร้อมแหล่งที่ค้นแล้ว</label></li>
+<li><label><input type="checkbox">มีบันทึกการเปิด DOI หรือหน้าทางการด้วยตนเองอย่างน้อย 1 รายการ และอธิบายได้ว่าทำไม DOI ที่เปิดได้ยังไม่ยืนยันว่ารองรับข้อความ</label></li>
+<li><label><input type="checkbox">รายการเสี่ยง 3 รายการมีแผนตรวจที่บอกหลักฐานที่ต้องใช้ก่อนให้สถานะ</label></li>
+<li><label><input type="checkbox"><code>module-04-work/&lt;ชื่องาน&gt;/output/prompts.md</code> แสดงการปรับ prompt อย่างน้อย 1 รอบ พร้อมเหตุผล</label></li>
+<li><label><input type="checkbox">เอกสารต้นฉบับใน <code>module-04-work/&lt;ชื่องาน&gt;/input/original/</code> ไม่ถูกแก้</label></li>
+</ul>
+</div></section></div></div>
+<script>
+(() => {
+  const tabs = [...document.querySelectorAll('.topic-tabs a')];
+  const panels = tabs.map(t => document.getElementById(t.hash.slice(1)));
+  function show(id) {
+    const i = Math.max(0, panels.findIndex(p => p && p.id === id));
+    panels.forEach((p, k) => { if (p) p.hidden = k !== i; });
+    tabs.forEach((t, k) => t.setAttribute('aria-current', k === i ? 'page' : 'false'));
+    const layout = document.querySelector('.topic-layout'); if (layout && panels[i]) layout.dataset.active = panels[i].id;
+  }
+  tabs.forEach(t => t.addEventListener('click', e => { e.preventDefault(); history.replaceState(null, '', t.hash); show(t.hash.slice(1)); window.scrollTo({top: 0}); }));
+  document.querySelectorAll('[data-next-tab]').forEach(b => b.addEventListener('click', e => { e.preventDefault(); const h = b.getAttribute('href'); history.replaceState(null, '', h); show(h.slice(1)); window.scrollTo({top: 0}); }));
+  document.querySelectorAll('[data-fullscreen]').forEach(b => b.addEventListener('click', () => {
+    const frame = document.querySelector(b.dataset.fullscreen);
+    const go = frame && (frame.requestFullscreen || frame.webkitRequestFullscreen);
+    if (go) go.call(frame); else if (frame) window.open(frame.src, '_blank', 'noopener');
+  }));
+  const layout0 = document.querySelector('.topic-layout');
+  const toggle = document.querySelector('[data-aside-toggle]');
+  function setAside(hidden) {
+    if (!layout0 || !toggle) return;
+    layout0.classList.toggle('aside-hidden', hidden);
+    toggle.setAttribute('aria-pressed', String(hidden));
+    toggle.textContent = hidden ? 'แสดงสไลด์ข้าง' : 'ซ่อนสไลด์ข้าง';
+    try { localStorage.setItem('airr.slideAsideHidden', hidden ? '1' : '0'); } catch (e) {}
+  }
+  if (toggle) {
+    let saved = true; try { saved = localStorage.getItem('airr.slideAsideHidden') !== '0'; } catch (e) {}  // hidden by default
+    setAside(saved);
+    toggle.addEventListener('click', () => setAside(!layout0.classList.contains('aside-hidden')));
+  }
+  show(location.hash.slice(1));
+  if (location.hash) requestAnimationFrame(() => window.scrollTo({top: 0}));
+})();
+</script>
+  </main>
+  <site-footer></site-footer>
+</body>
+</html>

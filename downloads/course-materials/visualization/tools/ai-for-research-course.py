@@ -533,7 +533,7 @@ def command_init(args: argparse.Namespace) -> None:
     workspace = resolve_workspace(args.workspace)
     if args.module == "module-1":
         path = module_file(workspace, "module-1", "module-1-progress.json")
-        value = {"schema_version": "ai-for-research.module-1-progress.v1", "module_id": "module-1", "checks": {"workspace_opened": False, "ai_connected": False, "folder_boundary_understood": False, "pdf_created_and_opened": False}, "completion_status": "could_not_complete", "ai_tool": "codex", "completion_minutes": 1, "token_source": "not_available", "total_tokens": None}
+        value = {"schema_version": "ai-for-research.module-1-progress.v1", "module_id": "module-1", "checks": {"workspace_opened": False, "ai_connected": False, "folder_boundary_understood": False, "text_file_created_and_opened": False}, "completion_status": "could_not_complete", "ai_tool": "codex", "completion_minutes": 1, "token_source": "not_available", "total_tokens": None}
     elif args.module == "module-2":
         path = evaluation_path(workspace, "module-2", None)
         value = dict(INIT_EVALUATIONS["module-2"])
@@ -635,6 +635,58 @@ def command_status(args: argparse.Namespace) -> None:
             print(f"  feedback: {item['review_comment']}")
 
 
+HELP_OVERVIEW = """AIRR — เครื่องมือเชื่อม workspace กับคลาส AI for Research
+
+วิธีเรียก (ปกติให้ AI ใน VS Code รันให้ ไม่ต้องพิมพ์เอง)
+  Windows:       tools/airr.ps1 <คำสั่ง> ...
+  macOS / Linux: tools/airr.sh <คำสั่ง> ...
+
+ลำดับใช้งานทั่วไป
+  whoami  → ตรวจว่าเชื่อมกับคลาสไหน (ทำครั้งแรกหลังติดตั้ง)
+  init    → สร้างไฟล์ progress/evaluation ของโมดูล แล้วแก้ใน VS Code
+  check   → ตรวจไฟล์ในเครื่อง ยังไม่ส่งอะไร
+  submit  → ส่งงานให้ผู้สอน (ถามยืนยันก่อนส่ง)
+  status  → ดูผลตรวจและ feedback
+
+คำสั่ง
+  help [คำสั่ง]   อธิบายการใช้ AIRR หรือคำสั่งที่ระบุ
+  whoami          ดูคลาสและบัญชีที่เชื่อมอยู่
+  init MODULE     สร้างไฟล์เริ่มต้นของ module-1, module-2 หรือ module-3
+  check MODULE    ตรวจไฟล์ในเครื่องก่อนส่ง
+  submit MODULE   ส่งงานหรือสถานะให้ผู้สอน
+  status MODULE   ดูผลตรวจ module-1/2/3/4/7
+  materials MOD   ดาวน์โหลดไฟล์ฝึกของ module-2 หรือ module-4
+  login / logout  เชื่อมหรือยกเลิก AIRR Key ใน workspace นี้ (ตัวติดตั้งทำให้แล้ว)
+
+ความปลอดภัย
+  - AIRR Key เก็บใน .airr/ ของ workspace ห้ามเปิดดู คัดลอก หรือส่งต่อ
+  - check ไม่ส่งอะไรออกจากเครื่อง · submit ส่งเฉพาะสิ่งที่สรุปให้ดูก่อนยืนยัน
+
+ดูรายละเอียดทีละคำสั่ง: help submit · ดูตัวเลือกทั้งหมด: <คำสั่ง> --help"""
+
+HELP_TOPICS = {
+    "help": "help [คำสั่ง]\n  แสดงคำอธิบายภาพรวม หรือคำอธิบายของคำสั่งที่ระบุ เช่น help init",
+    "whoami": "whoami\n  ถาม server ว่า AIRR Key ของ workspace นี้ผูกกับบัญชีและคลาสใด และโมดูลไหนเปิดอยู่\n  ใช้ทดสอบหลังติดตั้ง ผู้สอนจะเห็นว่าคุณเชื่อมแล้ว\n  ไม่ส่งไฟล์ใด ๆ · ถ้าแจ้งว่าไม่มี key: สร้าง AIRR Key ในหน้าเว็บแล้วรันคำสั่งติดตั้งซ้ำ",
+    "login": "login\n  เชื่อม workspace ด้วย AIRR Key (ระบบจะถามโดยไม่แสดงตัวอักษร)\n  ปกติไม่ต้องใช้ เพราะตัวติดตั้งเชื่อมให้แล้ว",
+    "logout": "logout\n  ลบ AIRR Key ออกจาก workspace นี้ ใช้เมื่อเลิกใช้เครื่องหรือ key รั่ว\n  หลัง logout ต้องสร้าง key ใหม่และเชื่อมใหม่ก่อนส่งงาน",
+    "init": "init module-1|module-2|module-3 [--force]\n  สร้างไฟล์ progress หรือ evaluation ของโมดูลใน module-0N-work/output/ ให้แก้ใน VS Code\n  ไม่เขียนทับไฟล์เดิม ยกเว้นใส่ --force · ไม่ติดต่อ server\n  ตัวอย่าง: init module-1",
+    "check": "check MODULE [--file ...] [--graph ...]\n  ตรวจไฟล์ของโมดูลในเครื่องว่าครบตามรูปแบบก่อนส่ง ไม่ส่งอะไรออกจากเครื่อง\n  ตัวอย่าง: check module-1 · check module-7 --graph module-07-work/figures/fig1.png",
+    "submit": "submit MODULE [--yes] [--short]\n  ส่งงานหรือสถานะของโมดูลให้ผู้สอน แสดงสรุปและถามยืนยันก่อนส่ง (--yes = ไม่ถามซ้ำ)\n  Module 1 ส่งเฉพาะเช็กลิสต์และเวลา ไม่ส่งไฟล์งาน · Module 7 ส่ง highlights และกราฟ 1–5 ภาพ\n  --short (Module 2/3) แจ้งว่าเสร็จด้วยจำนวนบรรทัด ไม่ส่งเนื้อหา\n  ตัวอย่าง: submit module-1",
+    "status": "status module-1|module-2|module-3|module-4|module-7\n  ดูว่าผู้สอนได้รับงานแล้วหรือยัง ผลตรวจ และ feedback\n  ตัวอย่าง: status module-7",
+    "materials": "materials module-2|module-4 [--thai]\n  ดาวน์โหลดไฟล์ฝึกของโมดูลลง workspace (ถ้าติดตั้งพร้อม key ไฟล์จะมีอยู่แล้ว)\n  ตัวอย่าง: materials module-4 --thai",
+}
+
+
+def command_help(args: argparse.Namespace) -> None:
+    topic = getattr(args, "topic", None)
+    if not topic:
+        print(HELP_OVERVIEW)
+        return
+    if topic not in HELP_TOPICS:
+        raise AIRRError(f"ไม่รู้จักคำสั่ง {topic}; คำสั่งที่มี: {', '.join(HELP_TOPICS)}")
+    print(HELP_TOPICS[topic])
+
+
 def add_module_files(parser: argparse.ArgumentParser) -> None:
     parser.add_argument("module", choices=("module-1", "module-2", "module-3", "module-4", "module-7"))
     parser.add_argument("--file", help="ตำแหน่งไฟล์หลักของโมดูล; Module 4 คือโฟลเดอร์งาน เช่น module-04-work/thesis-a")
@@ -645,10 +697,13 @@ def add_module_files(parser: argparse.ArgumentParser) -> None:
 
 
 def parser() -> argparse.ArgumentParser:
-    root = argparse.ArgumentParser(prog="airr", description="AIRR — AI for Research & Review")
+    root = argparse.ArgumentParser(prog="airr", description="AIRR — AI for Research & Review", epilog="คำอธิบายภาษาไทยทีละขั้น: airr help")
     root.add_argument("--workspace", help="โฟลเดอร์ ai-for-research-workspace; ค่าเริ่มต้นคือโฟลเดอร์ปัจจุบัน")
     root.add_argument("--api-base", default=DEFAULT_API_BASE, help=argparse.SUPPRESS)
     commands = root.add_subparsers(dest="command", required=True)
+    help_cmd = commands.add_parser("help", help="อธิบายการใช้ AIRR หรือคำสั่งที่ระบุ")
+    help_cmd.add_argument("topic", nargs="?", help="ชื่อคำสั่ง เช่น submit")
+    help_cmd.set_defaults(handler=command_help)
     login = commands.add_parser("login", help="เชื่อม VS Code ด้วย AIRR Key")
     login.add_argument("--key", help=argparse.SUPPRESS)
     login.set_defaults(handler=command_login)
