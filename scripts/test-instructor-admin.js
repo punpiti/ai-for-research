@@ -63,3 +63,7 @@ assert.equal(admin.matchesEnrollmentFilter(ta, { role: "student" }), false);
 assert.equal(admin.matchesEnrollmentFilter(ta, { status: "pending" }), false);
 assert.equal(admin.matchesEnrollmentFilter(ta, { query: "zzz" }), false);
 console.log("Instructor admin helper tests passed.");
+assert.equal(admin.usageText(null), "");
+assert.equal(admin.usageText({ label: "L01" }), "");
+assert.equal(admin.usageText({ usage_usd: 0.254, limit_usd: 2 }), "$0.25 / $2.00");
+assert.equal(admin.usageText({ usage_usd: 0, limit_usd: null }), "$0.00 / —");

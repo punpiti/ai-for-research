@@ -64,6 +64,15 @@
     return Number.isFinite(value) && value >= 0 ? value : 0;
   }
 
+  // OpenRouter spend of a class key: "$0.25 / $2.00" (used / key limit), or "" when unknown.
+  function usageText(key) {
+    const used = Number(key?.usage_usd);
+    if (key?.usage_usd === null || key?.usage_usd === undefined || !Number.isFinite(used)) return "";
+    const limit = Number(key.limit_usd);
+    const limitText = key.limit_usd === null || key.limit_usd === undefined || !Number.isFinite(limit) ? "—" : `$${limit.toFixed(2)}`;
+    return `$${used.toFixed(2)} / ${limitText}`;
+  }
+
   // Input text -> budget (0-1000, cents precision) or null when invalid. Empty means 0.
   function parseBudget(raw) {
     const text = String(raw ?? "").trim();
@@ -95,7 +104,7 @@
       .some((value) => String(value || "").toLowerCase().includes(needle));
   }
 
-  const testApi = { apiBase, classroomListEndpoint, classroomIdFromSearch, loginPath, dashboardEndpoint, moduleContentPath, formatTokens, submissionLabel, enrollmentLabel, parseBulkEmails, roleLabel, formatDateTime, budgetValue, parseBudget, enrollmentPatchBody, enrollmentName, matchesEnrollmentFilter };
+  const testApi = { apiBase, classroomListEndpoint, classroomIdFromSearch, loginPath, dashboardEndpoint, moduleContentPath, formatTokens, submissionLabel, enrollmentLabel, parseBulkEmails, roleLabel, formatDateTime, budgetValue, usageText, parseBudget, enrollmentPatchBody, enrollmentName, matchesEnrollmentFilter };
   if (typeof module !== "undefined" && module.exports) module.exports = testApi;
   globalObject.instructorAdminTestApi = testApi;
 
@@ -397,7 +406,9 @@
       ["ใช้ AIRR ล่าสุด", formatDateTime(item.airr_last_used_at)],
       ["งบ AI", `$${budgetValue(item).toFixed(2)}`],
       ["AI key", key ? [key.label, key.tier, key.provider].filter(Boolean).join(" · ") || "—" : "ยังไม่ได้รับ"],
-      ["สถานะ key", keyState],
+      ["สถานะ key", key?.provider_disabled ? "ปิดใน OpenRouter" : keyState],
+      ["ใช้ไป / เพดาน (OpenRouter)", usageText(key) || (key ? "ยังไม่มีข้อมูลจาก OpenRouter" : "—")],
+      ["ใช้ AI ล่าสุด", formatDateTime(key?.last_used_at)],
       ["ดึง key แล้ว", key && Number.isInteger(key.fetch_count) ? `${key.fetch_count} ครั้ง` : "—"],
       ["ดึง key ล่าสุด", formatDateTime(key?.last_fetched_at)],
       ["Token ที่ใช้", tokenText],
@@ -500,6 +511,12 @@
         const label = node("span", "truncate", item.ai_key.label || item.ai_key.tier || "มี key");
         label.title = [item.ai_key.label, item.ai_key.tier].filter(Boolean).join(" · ");
         keyCell.append(label);
+        const used = usageText(item.ai_key);
+        if (used) {
+          const usage = node("small", "", used);
+          usage.title = "ใช้ไป / เพดานของ key ใน OpenRouter";
+          keyCell.append(usage);
+        }
         if (item.ai_key.state === "disabled") keyCell.append(node("span", "badge is-muted", "ปิดใช้"));
       } else {
         keyCell.textContent = "—";
@@ -554,6 +571,7 @@
             savedRole = ["student", "ta"].includes(saved.role) ? saved.role : roleSelect.value;
             savedBudget = Number.isFinite(Number(saved.ai_budget_usd)) ? Number(saved.ai_budget_usd) : nextBudget;
             Object.assign(item, { status: savedStatus, role: savedRole, ai_budget_usd: savedBudget });
+            if (item.ai_key && item.ai_key.limit_usd !== undefined) item.ai_key.limit_usd = savedBudget;
             statusSelect.value = savedStatus;
             roleSelect.value = savedRole;
             budgetInput.value = String(savedBudget);
@@ -567,7 +585,9 @@
             statusSelect.value = savedStatus;
             roleSelect.value = savedRole;
             budgetInput.value = String(savedBudget);
-            saveState.textContent = error.message === "authentication-required" ? "กรุณาเข้าสู่ระบบใหม่" : "บันทึกไม่สำเร็จ";
+            saveState.textContent = error.message === "authentication-required" ? "กรุณาเข้าสู่ระบบใหม่"
+              : /OpenRouter/.test(error.message) ? "บันทึกไม่สำเร็จ: ปรับเพดานใน OpenRouter ไม่ได้" : "บันทึกไม่สำเร็จ";
+            saveState.title = error.message || "";
             saveState.classList.add("is-error");
           } finally {
             controls.forEach((control) => { control.disabled = false; });
