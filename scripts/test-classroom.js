@@ -51,6 +51,11 @@ assert.equal(classroom.shouldAutoEnroll("?id=faculty-pilot-2569&action=enroll", 
     "/api/ai-for-research/classrooms/faculty-pilot-2569/content/module-3.html?classroom_id=faculty-pilot-2569",
   );
   assert.equal(classroom.moduleContentPath("invalid"), "prepare.html");
+  assert.equal(classroom.learnerHomePath("module-1", "faculty-pilot-2569"), "class-2026-11-20-engineering-faculty.html");
+  assert.equal(
+    classroom.learnerHomePath("module-2", "other-class"),
+    "/api/ai-for-research/classrooms/other-class/content/module-2.html?classroom_id=other-class",
+  );
 
   const requested = await classroom.enroll("faculty-pilot-2569", async (url, options) => {
     assert.equal(url, "/api/ai-for-research/classrooms/faculty-pilot-2569/enroll");

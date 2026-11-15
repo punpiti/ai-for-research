@@ -82,7 +82,15 @@
       : path;
   }
 
-  const testApi = { apiBase, classroomIdFromPage, loginUrl, sessionState, enroll, publicDetails, structuredItem, membershipFor, shouldAutoEnroll, moduleContentPath };
+  // Classrooms with a generated syllabus page (.ai/scripts/build_topic_pages.py): learners
+  // land there first (modules -> topics); others go straight to the active module.
+  const CLASS_SYLLABUS_PAGES = { "faculty-pilot-2569": "class-2026-11-20-engineering-faculty.html" };
+
+  function learnerHomePath(moduleId, classroomId = "") {
+    return CLASS_SYLLABUS_PAGES[classroomId] || moduleContentPath(moduleId, classroomId);
+  }
+
+  const testApi = { apiBase, classroomIdFromPage, loginUrl, sessionState, enroll, publicDetails, structuredItem, membershipFor, shouldAutoEnroll, moduleContentPath, learnerHomePath };
   if (typeof module !== "undefined" && module.exports) module.exports = testApi;
   globalObject.classroomTestApi = testApi;
 
@@ -216,7 +224,7 @@
     const membership = membershipFor(state, classroomId);
     if (membership?.status === "active") {
       instructor = membership.role === "teacher";
-      learnerContentHref = instructor ? "" : moduleContentPath(membership.active_module_id, classroomId);
+      learnerContentHref = instructor ? "" : learnerHomePath(membership.active_module_id, classroomId);
       button.disabled = false;
       button.textContent = instructor ? "เปิดหน้าของอาจารย์" : "เข้าสู่เนื้อหา";
       status.textContent = instructor ? "ลงทะเบียนแล้วในบทบาทผู้สอน" : "ได้รับอนุมัติแล้ว พร้อมเข้าสู่เนื้อหาที่กำลังเรียน";
@@ -288,7 +296,7 @@
         button.textContent = "รออนุมัติ";
         status.textContent = "ระบบรับคำขอแล้ว ผู้สอนจะตรวจสถานะอาจารย์หรือนักวิจัยก่อนอนุมัติ";
       } else {
-        learnerContentHref = moduleContentPath(result.active_module_id, classroomId);
+        learnerContentHref = learnerHomePath(result.active_module_id, classroomId);
         button.disabled = false;
         button.textContent = "เข้าสู่เนื้อหา";
         status.textContent = "ได้รับอนุมัติแล้ว พร้อมเข้าสู่เนื้อหาที่กำลังเรียน";
