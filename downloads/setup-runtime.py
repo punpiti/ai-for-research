@@ -585,10 +585,35 @@ def configure(workspace, agent, root, env, python_receipt=None):
         source = workspace / 'AGENTS.md'
         if source.exists():
             write_new(workspace / '.clinerules' / 'course.md', source.read_text(encoding='utf-8'))
-        log('CLINE_READY Configure OpenRouter/key and Auto Approve in the Cline panel once; environment is ready for user-owned package installs.')
+        log('CLINE_READY Paste the class OpenRouter key (see AI_KEY_READY) and set Auto Approve in the Cline panel once; environment is ready for user-owned package installs.')
     else:
         log('ANTIGRAVITY_PERMISSIONS Configure terminal execution/download approval once in the IDE; the installer does not change IDE-wide policy.')
     log(f'RUNTIME_ROOT {root}')
+
+
+def fetch_ai_key(workspace, python):
+    """OpenRouter learners: fetch the class-issued key into ~/.airr/ai-key.txt.
+
+    The key is never printed or logged; the learner pastes it into Cline and
+    then deletes the file (tools/airr ai-key --clear). Never fails Module 1.
+    """
+    client = workspace / AIRR_CLIENT
+    if not (workspace / '.airr' / 'config.json').exists() or not client.is_file():
+        log('AI_KEY_SKIPPED AIRR is not connected yet; after connecting, ask for tools/airr ai-key.')
+        return
+    try:
+        result = subprocess.run([str(python), str(client), '--workspace', str(workspace), 'ai-key'],
+                                capture_output=True, text=True, timeout=60)
+    except (OSError, subprocess.TimeoutExpired) as error:
+        log(f'AI_KEY_SKIPPED {type(error).__name__}; run tools/airr ai-key later.')
+        return
+    lines = (result.stdout or '').strip().splitlines()
+    if result.returncode == 0 and lines:
+        path = next((line[5:] for line in lines if line.startswith('file=')), '~/.airr/ai-key.txt')
+        log(f'AI_KEY_READY {lines[0]} -> {path}; open it in VS Code, paste line 1 into Cline, then run tools/airr ai-key --clear.')
+    else:
+        reason = ((result.stderr or result.stdout or '').strip().splitlines() or ['unknown error'])[-1]
+        log(f'AI_KEY_SKIPPED {reason[:200]}')
 
 
 def traced_main():
@@ -684,6 +709,8 @@ def main():
     configure(workspace, args.agent, root, env, python_receipt)
     setup_airr(workspace, python_bin / ('python.exe' if os.name == 'nt' else 'python'))
     practice_ready = fetch_module_practice_files(workspace, python_bin / ('python.exe' if os.name == 'nt' else 'python'))
+    if args.agent == 'openrouter':
+        fetch_ai_key(workspace, python_bin / ('python.exe' if os.name == 'nt' else 'python'))
     for path in tracked:
         trace_path(path, 'after')
     trace('snapshot', 'python-packages', env['UV_PROJECT_ENVIRONMENT'], 'after', json.dumps(python_receipt['packages']))

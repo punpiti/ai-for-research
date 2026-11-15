@@ -140,6 +140,7 @@ def run() -> None:
     else:
         raise AssertionError("invalid highlight count was accepted")
     materials_test()
+    ai_key_test()
     print("AIRR Module 7 VS Code client tests passed.")
 
 
@@ -171,6 +172,39 @@ def materials_test() -> None:
             assert (workspace / "module-04-work/thai-mock/input/original/mock-paper-th.pdf").is_file()
         finally:
             client.request_bytes = original
+
+
+def ai_key_test() -> None:
+    """`airr ai-key` writes the key to a private file outside the workspace and never prints it."""
+    with tempfile.TemporaryDirectory(prefix="airr-aikey-") as folder:
+        workspace, home = Path(folder) / "ws", Path(folder) / "home"
+        (workspace / ".airr").mkdir(parents=True)
+        (workspace / ".airr/config.json").write_text(json.dumps({"schema_version": "airr.workspace.v1", "api_base": "https://example.test/api/airr/v1", "api_key": "airr_x", "classroom_id": "c"}), encoding="utf-8")
+        key = "sk-or-v1-" + "a1" * 32
+        calls = []
+        original_request, original_path = client.request_json, client.ai_key_path
+        client.request_json = lambda method, url, api_key=None, payload=None: calls.append((method, url)) or {
+            "provider": "openrouter", "label": "L01", "tier": "learner", "api_key": key}
+        client.ai_key_path = lambda: home / ".airr" / "ai-key.txt"
+        try:
+            out = io.StringIO()
+            with contextlib.redirect_stdout(out):
+                assert client.main(["--workspace", str(workspace), "ai-key"]) == 0
+            assert calls == [("POST", "https://example.test/api/airr/v1/ai-key")]
+            assert key not in out.getvalue() and "AIRR AI-KEY READY" in out.getvalue()
+            path = home / ".airr" / "ai-key.txt"
+            assert path.read_text(encoding="utf-8").splitlines()[0] == key
+            assert oct(path.stat().st_mode & 0o777) == "0o600"
+            assert not any(key in item.read_text(encoding="utf-8", errors="ignore") for item in workspace.rglob("*") if item.is_file())
+            with contextlib.redirect_stdout(io.StringIO()):
+                assert client.main(["--workspace", str(workspace), "ai-key", "--clear"]) == 0
+            assert not path.exists()
+            client.request_json = lambda *a, **k: {"api_key": "not-a-key"}
+            with contextlib.redirect_stderr(io.StringIO()):
+                assert client.main(["--workspace", str(workspace), "ai-key"]) == 1
+            assert not path.exists()
+        finally:
+            client.request_json, client.ai_key_path = original_request, original_path
 
 
 if __name__ == "__main__":

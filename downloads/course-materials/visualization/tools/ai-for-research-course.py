@@ -517,6 +517,54 @@ def command_materials(args: argparse.Namespace) -> None:
     print(f"AIRR MATERIALS PASS · {args.module}")
 
 
+def ai_key_path() -> Path:
+    # Outside the workspace on purpose: workspaces may be synced or committed.
+    return Path.home() / ".airr" / "ai-key.txt"
+
+
+def command_ai_key(args: argparse.Namespace) -> None:
+    """Fetch this learner's OpenRouter key into a private file, never to stdout.
+
+    The AI agent runs this command, so the key must not appear in its output.
+    """
+    path = ai_key_path()
+    if args.clear:
+        if path.exists():
+            path.unlink()
+            print(f"AIRR AI-KEY CLEARED · ลบ {path} แล้ว (key ที่ใส่ใน Cline ยังใช้ได้ตามปกติ)")
+        else:
+            print("AIRR AI-KEY CLEARED · ไม่มีไฟล์ key ค้างอยู่")
+        return
+    workspace = resolve_workspace(args.workspace)
+    config = read_config(workspace)
+    assert config is not None
+    value = request_json("POST", f"{config['api_base']}/ai-key", config["api_key"], {})
+    key = str(value.get("api_key", ""))
+    if not re.fullmatch(r"sk-or-v1-[A-Za-z0-9]{32,128}", key):
+        raise AIRRError("AIRR ส่ง AI key ที่รูปแบบไม่ถูกต้อง แจ้งผู้สอน")
+    path.parent.mkdir(parents=True, exist_ok=True)
+    temporary = path.with_suffix(".tmp")
+    temporary.write_text(
+        f"{key}\n\n"
+        "# บรรทัดแรกคือ OpenRouter API key ของคุณ (ห้ามส่งต่อ ห้ามวางในแชต AI)\n"
+        "# 1) คัดลอกบรรทัดแรก  2) วางในช่อง OpenRouter API Key ของ Cline\n"
+        "# 3) ทดสอบส่งข้อความใน Cline ได้แล้ว ให้ AI รันคำสั่ง ai-key --clear เพื่อลบไฟล์นี้\n",
+        encoding="utf-8",
+    )
+    os.replace(temporary, path)
+    if os.name != "nt":
+        path.chmod(0o600)
+    print(f"AIRR AI-KEY READY · {value.get('provider')} {value.get('label')} ({value.get('tier')})")
+    print(f"file={path}")
+    print("ห้ามแสดงหรืออ่านเนื้อหาไฟล์นี้ในแชต · ให้ผู้เรียนเปิดไฟล์เองใน VS Code แล้วคัดลอกบรรทัดแรกไปวางใน Cline")
+    if args.open:
+        try:
+            subprocess.run(["code", "--reuse-window", str(path)], check=False, timeout=30,
+                           shell=os.name == "nt")
+        except (OSError, subprocess.SubprocessError):
+            print("เปิด VS Code อัตโนมัติไม่ได้ · เปิดไฟล์ตาม path ด้านบนเอง")
+
+
 def command_whoami(args: argparse.Namespace) -> None:
     workspace = resolve_workspace(args.workspace)
     config = read_config(workspace)
@@ -656,10 +704,12 @@ HELP_OVERVIEW = """AIRR — เครื่องมือเชื่อม wor
   submit MODULE   ส่งงานหรือสถานะให้ผู้สอน
   status MODULE   ดูผลตรวจ module-1/2/3/4/7
   materials MOD   ดาวน์โหลดไฟล์ฝึกของ module-2 หรือ module-4
+  ai-key          รับ OpenRouter key ของคุณจากคลาส ลงไฟล์ส่วนตัวสำหรับวางใน Cline
   login / logout  เชื่อมหรือยกเลิก AIRR Key ใน workspace นี้ (ตัวติดตั้งทำให้แล้ว)
 
 ความปลอดภัย
   - AIRR Key เก็บใน .airr/ ของ workspace ห้ามเปิดดู คัดลอก หรือส่งต่อ
+  - ai-key ไม่แสดง key บนจอ · เก็บใน ~/.airr/ai-key.txt จนกว่าจะสั่ง ai-key --clear
   - check ไม่ส่งอะไรออกจากเครื่อง · submit ส่งเฉพาะสิ่งที่สรุปให้ดูก่อนยืนยัน
 
 ดูรายละเอียดทีละคำสั่ง: help submit · ดูตัวเลือกทั้งหมด: <คำสั่ง> --help"""
@@ -673,6 +723,7 @@ HELP_TOPICS = {
     "check": "check MODULE [--file ...] [--graph ...]\n  ตรวจไฟล์ของโมดูลในเครื่องว่าครบตามรูปแบบก่อนส่ง ไม่ส่งอะไรออกจากเครื่อง\n  ตัวอย่าง: check module-1 · check module-7 --graph module-07-work/figures/fig1.png",
     "submit": "submit MODULE [--yes] [--short]\n  ส่งงานหรือสถานะของโมดูลให้ผู้สอน แสดงสรุปและถามยืนยันก่อนส่ง (--yes = ไม่ถามซ้ำ)\n  Module 1 ส่งเฉพาะเช็กลิสต์และเวลา ไม่ส่งไฟล์งาน · Module 7 ส่ง highlights และกราฟ 1–5 ภาพ\n  --short (Module 2/3) แจ้งว่าเสร็จด้วยจำนวนบรรทัด ไม่ส่งเนื้อหา\n  ตัวอย่าง: submit module-1",
     "status": "status module-1|module-2|module-3|module-4|module-7\n  ดูว่าผู้สอนได้รับงานแล้วหรือยัง ผลตรวจ และ feedback\n  ตัวอย่าง: status module-7",
+    "ai-key": "ai-key [--open] [--clear]\n  รับ OpenRouter key ที่ผู้สอนจัดให้ (หนึ่งคนหนึ่ง key รันซ้ำได้ key เดิม) ลงไฟล์ ~/.airr/ai-key.txt\n  ไม่แสดง key บนจอ · --open เปิดไฟล์ใน VS Code · คัดลอกบรรทัดแรกไปวางใน Cline\n  ใส่ใน Cline และทดสอบได้แล้ว: ai-key --clear เพื่อลบไฟล์",
     "materials": "materials module-2|module-4 [--thai]\n  ดาวน์โหลดไฟล์ฝึกของโมดูลลง workspace (ถ้าติดตั้งพร้อม key ไฟล์จะมีอยู่แล้ว)\n  ตัวอย่าง: materials module-4 --thai",
 }
 
@@ -726,6 +777,10 @@ def parser() -> argparse.ArgumentParser:
     materials.add_argument("module", choices=("module-2", "module-4"))
     materials.add_argument("--thai", action="store_true", help="Module 4: ดาวน์โหลดบทความจำลองภาษาไทยไปที่ module-04-work/thai-mock")
     materials.set_defaults(handler=command_materials)
+    ai_key = commands.add_parser("ai-key", help="รับ OpenRouter key ของคุณลงไฟล์ส่วนตัว (ไม่แสดงบนจอ)")
+    ai_key.add_argument("--open", action="store_true", help="เปิดไฟล์ key ใน VS Code")
+    ai_key.add_argument("--clear", action="store_true", help="ลบไฟล์ key หลังใส่ใน Cline แล้ว")
+    ai_key.set_defaults(handler=command_ai_key)
     status = commands.add_parser("status", help="ดูผลตรวจและ feedback")
     status.add_argument("module", choices=("module-1", "module-2", "module-3", "module-4", "module-7"))
     status.set_defaults(handler=command_status)
