@@ -28,8 +28,47 @@ grep -q 'name="enrollment_status"' "$page"
 grep -q 'name="summary"' "$page"
 grep -q '01 · Class details' "$page"
 grep -q '02 · Enrollment' "$page"
-grep -q 'ผู้สอน ผู้ลงทะเบียน และ Token' "$page"
-grep -q '<th>ชื่อ</th><th>นามสกุล</th>' "$page"
+grep -q 'ผู้สอน ผู้เรียน และงบ AI' "$page"
+# Shared shell + console mode (no private header, no own logout button).
+grep -q '<body class="console">' "$page"
+grep -q '<body class="console">' "$root/admin/airr.html"
+grep -q 'assets/site-shell.js?v=' "$page"
+grep -q 'assets/console.css?v=' "$page"
+grep -q 'assets/site-shell.js?v=' "$root/admin/airr.html"
+grep -q 'assets/console.css?v=' "$root/admin/airr.html"
+grep -q '<site-header current="console" root="../"' "$page"
+grep -q 'public-class-link' "$page"
+grep -q 'back-link' "$root/admin/airr.html"
+grep -q 'current === "console"' "$root/assets/site-shell.js"
+if grep -q 'data-logout\|instructor-header' "$page" "$root/admin/airr.html"; then
+  echo 'Admin pages must use the shared site header (logout is in its user menu).' >&2
+  exit 1
+fi
+if grep -q '^\.instructor-' "$root/assets/styles.css"; then
+  echo 'Instructor console rules belong in assets/console.css, not styles.css.' >&2
+  exit 1
+fi
+# Enrollment table: compact, filterable, expandable, no sideways scroll.
+grep -q 'class="data-table enrollment-table"' "$page"
+grep -q 'data-enrollment-search' "$page"
+grep -q 'data-enrollment-role-filter' "$page"
+grep -q 'data-enrollment-status-filter' "$page"
+grep -q 'data-instructor-management-panel' "$page"
+grep -q 'data-student-management-panel' "$page"
+grep -q '<th class="col-budget num" scope="col">งบ AI (\$)</th>' "$page"
+grep -q '<th class="col-name" scope="col">ชื่อ</th><th class="col-role" scope="col">บทบาท</th>' "$page"
+grep -q 'data-summary-ta' "$page"
+if grep -q 'Token quota\|ไม่จำกัด' "$page" "$root/assets/instructor-admin.js"; then
+  echo 'AI budget replaces the token quota input; never show "unlimited".' >&2
+  exit 1
+fi
+grep -q 'table-layout: fixed' "$root/assets/console.css"
+grep -q 'body.console' "$root/assets/console.css"
+grep -q 'setAttribute("aria-expanded"' "$root/assets/instructor-admin.js"
+grep -q 'setAttribute("aria-controls", detailId)' "$root/assets/instructor-admin.js"
+grep -q 'roleSelect.addEventListener("change", saveEnrollment)' "$root/assets/instructor-admin.js"
+grep -q 'budgetInput.step = "0.5"' "$root/assets/instructor-admin.js"
+grep -q 'budgetInput.value = String(budgetValue(item))' "$root/assets/instructor-admin.js"
 grep -q 'item.given_name' "$root/assets/instructor-admin.js"
 grep -q 'item.family_name' "$root/assets/instructor-admin.js"
 grep -q '03 · Syllabus' "$page"
@@ -60,7 +99,7 @@ grep -q 'parseBulkEmails' "$root/assets/instructor-admin.js"
 grep -q 'const emails = parseBulkEmails' "$root/assets/instructor-admin.js"
 grep -q 'method: "DELETE"' "$root/assets/instructor-admin.js"
 grep -q 'statusSelect.addEventListener("change", saveEnrollment)' "$root/assets/instructor-admin.js"
-grep -q 'quotaInput.addEventListener("input"' "$root/assets/instructor-admin.js"
+grep -q 'budgetInput.addEventListener("input"' "$root/assets/instructor-admin.js"
 grep -q 'setTimeout(saveEnrollment, 700)' "$root/assets/instructor-admin.js"
 grep -q 'บันทึกอัตโนมัติ' "$root/assets/instructor-admin.js"
 if grep -q 'const saveButton' "$root/assets/instructor-admin.js"; then

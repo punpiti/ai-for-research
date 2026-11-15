@@ -48,7 +48,54 @@
     return [...new Set(String(value || "").split(/[\s,;]+/).map((email) => email.trim().toLowerCase()).filter(Boolean))];
   }
 
-  const testApi = { apiBase, classroomListEndpoint, classroomIdFromSearch, loginPath, dashboardEndpoint, moduleContentPath, formatTokens, submissionLabel, enrollmentLabel, parseBulkEmails };
+  function roleLabel(role) {
+    return ({ teacher: "ผู้สอน", ta: "TA", student: "ผู้เรียน" })[role] || "ผู้เรียน";
+  }
+
+  function formatDateTime(value) {
+    if (!value) return "—";
+    const date = new Date(value);
+    return Number.isNaN(date.getTime()) ? "—" : date.toLocaleString("th-TH", { dateStyle: "medium", timeStyle: "short" });
+  }
+
+  // AI budget in USD: missing/invalid -> 0 (never "unlimited").
+  function budgetValue(item) {
+    const value = Number(item?.ai_budget_usd);
+    return Number.isFinite(value) && value >= 0 ? value : 0;
+  }
+
+  // Input text -> budget (0-1000, cents precision) or null when invalid. Empty means 0.
+  function parseBudget(raw) {
+    const text = String(raw ?? "").trim();
+    if (text === "") return 0;
+    const value = Number(text);
+    if (!Number.isFinite(value) || value < 0 || value > 1000) return null;
+    return Math.round(value * 100) / 100;
+  }
+
+  // PATCH body for one enrollment row: status + legacy token_quota always, role only for non-teachers.
+  function enrollmentPatchBody(item, { status, role, budget }) {
+    const body = { status, token_quota: item.token_quota ?? null, ai_budget_usd: budget };
+    if (item.role !== "teacher" && ["student", "ta"].includes(role)) body.role = role;
+    return body;
+  }
+
+  function enrollmentName(item) {
+    return (item.display_name || "").trim()
+      || [item.given_name, item.family_name].filter(Boolean).join(" ")
+      || item.email || "—";
+  }
+
+  function matchesEnrollmentFilter(item, { query = "", role = "all", status = "all" } = {}) {
+    if (role !== "all" && item.role !== role) return false;
+    if (status !== "all" && item.status !== status) return false;
+    const needle = String(query).trim().toLowerCase();
+    if (!needle) return true;
+    return [item.display_name, item.given_name, item.family_name, item.email]
+      .some((value) => String(value || "").toLowerCase().includes(needle));
+  }
+
+  const testApi = { apiBase, classroomListEndpoint, classroomIdFromSearch, loginPath, dashboardEndpoint, moduleContentPath, formatTokens, submissionLabel, enrollmentLabel, parseBulkEmails, roleLabel, formatDateTime, budgetValue, parseBudget, enrollmentPatchBody, enrollmentName, matchesEnrollmentFilter };
   if (typeof module !== "undefined" && module.exports) module.exports = testApi;
   globalObject.instructorAdminTestApi = testApi;
 
@@ -74,6 +121,13 @@
   const studentEmails = document.querySelector("[data-student-emails]");
   const studentAdd = document.querySelector("[data-student-add]");
   const studentManagementStatus = document.querySelector("[data-student-management-status]");
+  const enrollmentSearch = document.querySelector("[data-enrollment-search]");
+  const enrollmentRoleFilter = document.querySelector("[data-enrollment-role-filter]");
+  const enrollmentStatusFilter = document.querySelector("[data-enrollment-status-filter]");
+  const enrollmentCount = document.querySelector("[data-enrollment-count]");
+  const enrollmentFilter = { query: "", role: "all", status: "all" };
+  const expandedEnrollments = new Set();
+  let enrollmentItems = [];
   const submissionRows = document.querySelector("[data-submission-rows]");
   const submissionModuleRows = document.querySelector("[data-submission-module-rows]");
   const recentSubmissionRows = document.querySelector("[data-recent-submission-rows]");
@@ -202,7 +256,10 @@
     const code = data.classroom.course_code ? `${data.classroom.course_code} · ` : "";
     const english = data.classroom.title_en ? ` / ${data.classroom.title_en}` : "";
     document.querySelector("[data-class-title]").textContent = `${code}${data.classroom.title}${english}`;
+    // Learners = role "student"; TAs are counted on their own (summary, chips).
     document.querySelector("[data-summary-enrolled]").textContent = data.enrollments.filter((item) => item.role === "student" && item.status === "active").length;
+    const taSummary = document.querySelector("[data-summary-ta]");
+    if (taSummary) taSummary.textContent = data.enrollments.filter((item) => item.role === "ta" && item.status === "active").length;
     document.querySelector("[data-summary-pending]").textContent = data.enrollments.filter((item) => item.status === "pending").length;
     document.querySelector("[data-summary-module]").textContent = data.classroom.active_module_id?.replace("module-", "M") || "—";
     document.querySelector("[data-active-module]").textContent = data.classroom.active_module_title
@@ -284,6 +341,77 @@
     return { enrollment_status: currentEnrollmentStatus, details };
   }
 
+  const ROLE_FILTERS = [["all", "ทุกบทบาท"], ["teacher", "ผู้สอน"], ["ta", "TA"], ["student", "ผู้เรียน"]];
+  const STATUS_FILTERS = [["all", "ทุกสถานะ"], ["pending", "รออนุมัติ"], ["active", "อนุมัติแล้ว"], ["rejected", "ไม่อนุมัติ"]];
+
+  function renderEnrollmentChips() {
+    const chip = (group, key, value, label, count) => {
+      const button = node("button", "chip");
+      button.type = "button";
+      button.setAttribute("aria-pressed", String(enrollmentFilter[key] === value));
+      button.append(node("span", "", label), node("span", "chip-count", String(count)));
+      button.addEventListener("click", () => {
+        enrollmentFilter[key] = value;
+        renderEnrollmentChips();
+        applyEnrollmentFilter();
+      });
+      group.append(button);
+    };
+    enrollmentRoleFilter.replaceChildren();
+    enrollmentStatusFilter.replaceChildren();
+    ROLE_FILTERS.forEach(([value, label]) => chip(enrollmentRoleFilter, "role", value, label,
+      enrollmentItems.filter((item) => value === "all" || item.role === value).length));
+    STATUS_FILTERS.forEach(([value, label]) => chip(enrollmentStatusFilter, "status", value, label,
+      enrollmentItems.filter((item) => value === "all" || item.status === value).length));
+  }
+
+  function applyEnrollmentFilter() {
+    let shown = 0;
+    enrollmentRows.querySelectorAll("tr[data-enrollment-row]").forEach((row) => {
+      const item = enrollmentItems[Number(row.dataset.enrollmentRow)];
+      const visible = Boolean(item) && matchesEnrollmentFilter(item, enrollmentFilter);
+      row.hidden = !visible;
+      const detail = row.nextElementSibling;
+      if (detail?.classList.contains("data-table-detail")) detail.hidden = !visible || !expandedEnrollments.has(item.user_id);
+      if (visible) shown += 1;
+    });
+    enrollmentCount.textContent = `แสดง ${shown} จาก ${enrollmentItems.length} คน`;
+  }
+
+  function enrollmentDetail(item) {
+    const key = item.ai_key || null;
+    const keyState = key ? ({ assigned: "ใช้งาน", disabled: "ปิดใช้" })[key.state] || key.state || "—" : "—";
+    const tokenText = Number.isInteger(item.token_usage)
+      ? `${formatTokens(item.token_usage)} token · ${item.token_records || 0} records`
+      : "ยังไม่มีข้อมูล";
+    const fields = [
+      ["อีเมล", item.email || "—"],
+      ["ชื่อ", item.given_name || "—"],
+      ["นามสกุล", item.family_name || "—"],
+      ["บทบาท", roleLabel(item.role)],
+      ["สถานะการลงทะเบียน", enrollmentLabel(item.status) || "—"],
+      ["บัญชี", item.account_status === "invited" ? "ได้รับเชิญ · ยังไม่เคยเข้าสู่ระบบ" : item.account_status === "active" ? "ใช้งานแล้ว" : "—"],
+      ["ขอเข้าร่วมเมื่อ", formatDateTime(item.requested_at)],
+      ["อัปเดตล่าสุด", formatDateTime(item.updated_at)],
+      ["เข้าสู่ระบบล่าสุด", formatDateTime(item.last_login_at)],
+      ["ใช้ AIRR ล่าสุด", formatDateTime(item.airr_last_used_at)],
+      ["งบ AI", `$${budgetValue(item).toFixed(2)}`],
+      ["AI key", key ? [key.label, key.tier, key.provider].filter(Boolean).join(" · ") || "—" : "ยังไม่ได้รับ"],
+      ["สถานะ key", keyState],
+      ["ดึง key แล้ว", key && Number.isInteger(key.fetch_count) ? `${key.fetch_count} ครั้ง` : "—"],
+      ["ดึง key ล่าสุด", formatDateTime(key?.last_fetched_at)],
+      ["Token ที่ใช้", tokenText],
+      ["จำนวนครั้งที่ส่งงาน", Number.isInteger(item.submission_attempts) ? String(item.submission_attempts) : "—"],
+    ];
+    const list = node("dl", "detail-grid");
+    fields.forEach(([label, value]) => {
+      const pair = node("div");
+      pair.append(node("dt", "", label), node("dd", "", value));
+      list.append(pair);
+    });
+    return list;
+  }
+
   function renderEnrollments(data) {
     enrollmentRows.replaceChildren();
     if (data.classroom.classroom_type === "template") return;
@@ -291,117 +419,186 @@
     canManageInstructors = management.can_manage_instructors === true;
     canManageStudents = management.can_manage_students === true;
     viewerEmail = String(data.viewer?.email || "").toLowerCase();
-    instructorManagementForm.hidden = !canManageInstructors;
-    studentManagementForm.hidden = !canManageStudents;
-    data.enrollments.forEach((item) => {
+    (instructorManagementForm.closest("details") || instructorManagementForm).hidden = !canManageInstructors;
+    (studentManagementForm.closest("details") || studentManagementForm).hidden = !canManageStudents;
+    enrollmentItems = Array.isArray(data.enrollments) ? data.enrollments : [];
+    enrollmentItems.forEach((item, index) => {
       const row = node("tr");
-      const displayParts = (item.display_name || "").trim().split(/\s+/).filter(Boolean);
-      const givenName = item.given_name || displayParts[0] || "—";
-      const familyName = item.family_name || displayParts.slice(1).join(" ") || "—";
-      const accountCell = node("td");
-      accountCell.append(node("strong", "", item.email));
-      if (item.owner) accountCell.append(node("small", "", "เจ้าของวิชา"));
-      row.append(
-        accountCell,
-        node("td", "", givenName),
-        node("td", "", familyName),
-        node("td", "", item.role === "teacher" ? "ผู้สอน" : "ผู้เรียน"),
-      );
+      row.dataset.enrollmentRow = String(index);
+      const name = enrollmentName(item);
+      const isTeacher = item.role === "teacher";
+      const editable = !isTeacher && canManageStudents;
+      const cell = (className, label) => {
+        const td = node("td", className);
+        td.dataset.label = label;
+        return td;
+      };
 
-      const statusCell = node("td");
+      const nameCell = cell("col-name", "ชื่อ");
+      const nameLine = node("div", "cell-title");
+      nameLine.append(node("strong", "truncate", name));
+      if (item.owner) nameLine.append(node("span", "badge", "เจ้าของวิชา"));
+      if (item.account_status === "invited") {
+        const invited = node("span", "badge is-muted", "รอเข้าระบบ");
+        invited.title = "ได้รับเชิญแล้ว แต่ยังไม่เคยเข้าสู่ระบบ";
+        nameLine.append(invited);
+      }
+      nameLine.querySelector("strong").title = name;
+      const emailLine = node("small", "truncate", item.email || "");
+      emailLine.title = item.email || "";
+      nameCell.append(nameLine, emailLine);
+
+      const roleCell = cell("col-role", "บทบาท");
+      let roleSelect = null;
+      if (editable) {
+        roleSelect = node("select");
+        roleSelect.setAttribute("aria-label", `บทบาทของ ${name}`);
+        roleSelect.dataset.enrollmentRole = "";
+        [["student", "ผู้เรียน"], ["ta", "TA"]].forEach(([value, label]) => {
+          const option = node("option", "", label);
+          option.value = value;
+          option.selected = (item.role === "ta" ? "ta" : "student") === value;
+          roleSelect.append(option);
+        });
+        roleCell.append(roleSelect);
+      } else {
+        roleCell.textContent = roleLabel(item.role);
+      }
+
+      const statusCell = cell("col-status", "สถานะ");
       const statusSelect = node("select");
-      statusSelect.setAttribute("aria-label", `สถานะของ ${item.display_name || item.email}`);
+      statusSelect.setAttribute("aria-label", `สถานะของ ${name}`);
       [["pending", "รออนุมัติ"], ["active", "อนุมัติแล้ว"], ["rejected", "ไม่อนุมัติ"]].forEach(([value, label]) => {
         const option = node("option", "", label);
         option.value = value;
         option.selected = item.status === value;
         statusSelect.append(option);
       });
-      if (item.role === "teacher") statusSelect.disabled = true;
+      statusSelect.disabled = !editable;
       statusCell.append(statusSelect);
 
-      const quotaCell = node("td");
-      const quotaInput = node("input");
-      quotaInput.type = "number";
-      quotaInput.min = "0";
-      quotaInput.max = "1000000000";
-      quotaInput.step = "1000";
-      quotaInput.value = item.token_quota ?? "";
-      quotaInput.placeholder = "ไม่จำกัด";
-      quotaInput.setAttribute("aria-label", `Token quota ของ ${item.display_name || item.email}`);
-      if (item.role === "teacher") quotaInput.disabled = true;
-      quotaCell.append(quotaInput);
+      const budgetCell = cell("col-budget num", "งบ AI ($)");
+      const budgetInput = node("input");
+      budgetInput.type = "number";
+      budgetInput.min = "0";
+      budgetInput.max = "1000";
+      budgetInput.step = "0.5";
+      budgetInput.inputMode = "decimal";
+      budgetInput.value = String(budgetValue(item));
+      budgetInput.dataset.enrollmentBudget = "";
+      budgetInput.setAttribute("aria-label", `งบ AI (ดอลลาร์) ของ ${name}`);
+      budgetInput.disabled = !editable;
+      budgetCell.append(budgetInput);
 
-      const usageCell = node("td", "", formatTokens(item.token_usage));
-      usageCell.append(node("small", "", item.token_records ? `${item.token_records} records` : "ยังไม่มีข้อมูล"));
+      // Module 1 gate: learners ask their AI to run `airr whoami`; show when AIRR was last used.
+      const airrCell = cell("col-airr", "AIRR");
+      airrCell.append(node("span", item.airr_last_used_at ? "is-ok" : "is-muted", item.airr_last_used_at ? "เชื่อมแล้ว" : (isTeacher ? "—" : "ยังไม่เชื่อม")));
+      if (item.airr_last_used_at) airrCell.append(node("small", "", formatDateTime(item.airr_last_used_at)));
 
-      const actionCell = node("td");
-      if (item.role === "student" && canManageStudents) {
-        const saveState = node("small", "instructor-row-save-state", "บันทึกอัตโนมัติ");
+      const keyCell = cell("col-key", "AI key");
+      if (item.ai_key) {
+        const label = node("span", "truncate", item.ai_key.label || item.ai_key.tier || "มี key");
+        label.title = [item.ai_key.label, item.ai_key.tier].filter(Boolean).join(" · ");
+        keyCell.append(label);
+        if (item.ai_key.state === "disabled") keyCell.append(node("span", "badge is-muted", "ปิดใช้"));
+      } else {
+        keyCell.textContent = "—";
+      }
+
+      const detailId = `enrollment-detail-${index}`;
+      const expandCell = cell("col-expand", "");
+      const expandButton = node("button", "row-expand");
+      expandButton.type = "button";
+      expandButton.dataset.rowExpand = "";
+      expandButton.setAttribute("aria-controls", detailId);
+      expandButton.setAttribute("aria-label", `รายละเอียดของ ${name}`);
+      expandButton.title = "ดูรายละเอียด";
+      expandButton.innerHTML = '<span aria-hidden="true">▸</span><span class="row-expand-text">รายละเอียด</span>';
+      expandCell.append(expandButton);
+
+      const actionCell = cell("col-actions", "");
+      if (editable) {
+        // Autosave (บันทึกอัตโนมัติ): the state line stays empty until something is saving or saved.
+        const saveState = node("small", "instructor-row-save-state");
         saveState.setAttribute("role", "status");
         saveState.setAttribute("aria-live", "polite");
         let savedStatus = item.status;
-        let savedQuota = item.token_quota;
-        let quotaSaveTimer = null;
+        let savedRole = item.role === "ta" ? "ta" : "student";
+        let savedBudget = budgetValue(item);
+        let budgetSaveTimer = null;
+        const controls = [statusSelect, roleSelect, budgetInput];
         const saveEnrollment = async () => {
-          globalObject.clearTimeout(quotaSaveTimer);
-          const rawQuota = quotaInput.value.trim();
-          const nextQuota = rawQuota === "" ? null : Number(rawQuota);
-          if (statusSelect.value === savedStatus && nextQuota === savedQuota) {
-            saveState.textContent = "บันทึกแล้ว";
+          globalObject.clearTimeout(budgetSaveTimer);
+          const nextBudget = parseBudget(budgetInput.value);
+          if (nextBudget === null) {
+            saveState.textContent = "งบต้องอยู่ระหว่าง 0–1000";
+            saveState.classList.add("is-error");
             return;
           }
-          statusSelect.disabled = true;
-          quotaInput.disabled = true;
+          if (statusSelect.value === savedStatus && roleSelect.value === savedRole && nextBudget === savedBudget) {
+            saveState.textContent = "บันทึกแล้ว";
+            saveState.classList.remove("is-error");
+            return;
+          }
+          controls.forEach((control) => { control.disabled = true; });
           saveState.textContent = "กำลังบันทึก…";
           saveState.classList.remove("is-error");
           try {
-            await request(`${dashboardEndpoint(classroomId)}/enrollments/${encodeURIComponent(item.user_id)}`, {
+            const result = await request(`${dashboardEndpoint(classroomId)}/enrollments/${encodeURIComponent(item.user_id)}`, {
               method: "PATCH",
               headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ status: statusSelect.value, token_quota: nextQuota }),
+              body: JSON.stringify(enrollmentPatchBody(item, { status: statusSelect.value, role: roleSelect.value, budget: nextBudget })),
             });
-            savedStatus = statusSelect.value;
-            savedQuota = nextQuota;
-            item.status = savedStatus;
-            item.token_quota = savedQuota;
+            const saved = result?.enrollment || {};
+            savedStatus = saved.status || statusSelect.value;
+            savedRole = ["student", "ta"].includes(saved.role) ? saved.role : roleSelect.value;
+            savedBudget = Number.isFinite(Number(saved.ai_budget_usd)) ? Number(saved.ai_budget_usd) : nextBudget;
+            Object.assign(item, { status: savedStatus, role: savedRole, ai_budget_usd: savedBudget });
+            statusSelect.value = savedStatus;
+            roleSelect.value = savedRole;
+            budgetInput.value = String(savedBudget);
             saveState.textContent = "บันทึกแล้ว";
             renderSummary(data);
+            renderEnrollmentChips();
+            applyEnrollmentFilter();
+            const detail = row.nextElementSibling;
+            if (detail?.classList.contains("data-table-detail")) detail.firstChild.replaceChildren(enrollmentDetail(item));
           } catch (error) {
             statusSelect.value = savedStatus;
-            quotaInput.value = savedQuota ?? "";
+            roleSelect.value = savedRole;
+            budgetInput.value = String(savedBudget);
             saveState.textContent = error.message === "authentication-required" ? "กรุณาเข้าสู่ระบบใหม่" : "บันทึกไม่สำเร็จ";
             saveState.classList.add("is-error");
           } finally {
-            statusSelect.disabled = false;
-            quotaInput.disabled = false;
+            controls.forEach((control) => { control.disabled = false; });
           }
         };
         statusSelect.addEventListener("change", saveEnrollment);
-        quotaInput.addEventListener("input", () => {
-          globalObject.clearTimeout(quotaSaveTimer);
+        roleSelect.addEventListener("change", saveEnrollment);
+        budgetInput.addEventListener("input", () => {
+          globalObject.clearTimeout(budgetSaveTimer);
           saveState.textContent = "รอบันทึก…";
-          quotaSaveTimer = globalObject.setTimeout(saveEnrollment, 700);
+          budgetSaveTimer = globalObject.setTimeout(saveEnrollment, 700);
         });
-        quotaInput.addEventListener("change", saveEnrollment);
+        budgetInput.addEventListener("change", saveEnrollment);
         actionCell.append(saveState);
       }
-      const canRemove = item.role === "teacher" ? canManageInstructors : canManageStudents;
+      const canRemove = isTeacher ? canManageInstructors : canManageStudents;
       if (canRemove) {
         const removeButton = node("button", "button secondary instructor-row-save", item.owner ? "Owner" : "นำออก");
         removeButton.type = "button";
-        removeButton.disabled = item.owner === true || item.email.toLowerCase() === viewerEmail;
+        removeButton.disabled = item.owner === true || String(item.email || "").toLowerCase() === viewerEmail;
         removeButton.addEventListener("click", async () => {
           removeButton.disabled = true;
           removeButton.textContent = "กำลังนำออก…";
+          // TAs leave through the students route (the backend accepts it).
+          const collection = isTeacher ? "instructors" : "students";
+          const statusNode = isTeacher ? instructorManagementStatus : studentManagementStatus;
           try {
-            const collection = item.role === "teacher" ? "instructors" : "students";
             await request(`${dashboardEndpoint(classroomId)}/${collection}/${encodeURIComponent(item.email)}`, { method: "DELETE" });
-            const statusNode = item.role === "teacher" ? instructorManagementStatus : studentManagementStatus;
             statusNode.textContent = `นำ ${item.email} ออกจากคลาสแล้ว`;
             await loadDashboard({ silent: true });
           } catch (error) {
-            const statusNode = item.role === "teacher" ? instructorManagementStatus : studentManagementStatus;
             statusNode.textContent = error.message;
             removeButton.disabled = false;
             removeButton.textContent = "ลองอีกครั้ง";
@@ -409,12 +606,29 @@
         });
         actionCell.append(removeButton);
       }
-      // Module 1 gate: learners ask their AI to run `airr whoami`; show when AIRR was last used.
-      const airrCell = node("td", "", item.airr_last_used_at ? "เชื่อมแล้ว" : (item.role === "teacher" ? "—" : "ยังไม่เชื่อม"));
-      if (item.airr_last_used_at) airrCell.append(node("small", "", new Date(item.airr_last_used_at).toLocaleString("th-TH")));
-      row.append(statusCell, quotaCell, usageCell, airrCell, actionCell);
-      enrollmentRows.append(row);
+
+      row.append(nameCell, roleCell, statusCell, budgetCell, airrCell, keyCell, expandCell, actionCell);
+
+      const detailRow = node("tr", "data-table-detail");
+      detailRow.id = detailId;
+      const detailCell = node("td");
+      detailCell.colSpan = 8;
+      detailCell.append(enrollmentDetail(item));
+      detailRow.append(detailCell);
+      const setExpanded = (open) => {
+        expandButton.setAttribute("aria-expanded", String(open));
+        row.classList.toggle("is-expanded", open);
+        detailRow.hidden = !open;
+        if (open) expandedEnrollments.add(item.user_id);
+        else expandedEnrollments.delete(item.user_id);
+      };
+      setExpanded(expandedEnrollments.has(item.user_id));
+      expandButton.addEventListener("click", () => setExpanded(expandButton.getAttribute("aria-expanded") !== "true"));
+
+      enrollmentRows.append(row, detailRow);
     });
+    renderEnrollmentChips();
+    applyEnrollmentFilter();
   }
 
   function renderSyllabus(data) {
@@ -846,14 +1060,12 @@
     }
   });
 
-  document.querySelector("[data-logout]").addEventListener("click", async () => {
-    try {
-      await request(`${apiBase}/auth/logout`, { method: "POST" });
-    } finally {
-      globalObject.aiResearchDevAuth?.clear();
-      globalObject.location.assign("../index.html");
-    }
+  enrollmentSearch.addEventListener("input", () => {
+    enrollmentFilter.query = enrollmentSearch.value;
+    applyEnrollmentFilter();
   });
+
+  // Logout lives in the shared site header user menu (assets/site-shell.js).
 
   async function initialize() {
     try {

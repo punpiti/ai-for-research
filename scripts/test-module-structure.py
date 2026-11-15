@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-"""Check module pages against admin/standards/MODULE_PAGE_STANDARD.md.
+"""Check module pages against admin/standards/MODULE_PAGE_STANDARD.md,
+and every public HTML page against the shared-shell rule (see check_shell).
 
 Pages listed in PENDING still deviate and are reported as warnings only;
 remove a page from PENDING once it has been restructured.
@@ -87,8 +88,51 @@ def problems(path):
     return out
 
 
-def main():
+# Shared interface rule for every public HTML page (keeps new pages on one shell):
+#   1. loads assets/site-shell.js (header, nav, light/dark theme);
+#   2. <body> carries exactly one mode class: learn (lessons, + learn.css),
+#      console (app/admin pages, + console.css) or landing (entry/marketing pages);
+#   3. no inline <style> blocks: page styles live in the shared CSS files.
+MODES = {"learn": "learn.css", "console": "console.css", "landing": None}
+SHELL_EXEMPT = {"404.html": "static error page served at any depth, no header"}
+BODY = re.compile(r"<body\b[^>]*>", re.I)
+BODY_CLASS = re.compile(r"""class\s*=\s*["']([^"']*)["']""", re.I)
+
+
+def shell_problems(path):
+    text = path.read_text(encoding="utf-8")
+    out = []
+    if "site-shell.js" not in text:
+        out.append("does not load assets/site-shell.js")
+    body = BODY.search(text)
+    match = BODY_CLASS.search(body.group(0)) if body else None
+    modes = [c for c in (match.group(1).split() if match else []) if c in MODES]
+    if len(modes) != 1:
+        out.append(f"<body> needs exactly one mode class of {sorted(MODES)}, found {modes or 'none'}")
+    elif MODES[modes[0]] and MODES[modes[0]] not in text:
+        out.append(f"body.{modes[0]} page must load assets/{MODES[modes[0]]}")
+    if re.search(r"<style\b", text, re.I):
+        out.append("inline <style> block (move it to a shared CSS file)")
+    return out
+
+
+def check_shell():
     failed = False
+    pages = sorted(p for p in ROOT.rglob("*.html") if ".git" not in p.parts and "downloads" not in p.parts)
+    for page in pages:
+        name = page.relative_to(ROOT).as_posix()
+        if name in SHELL_EXEMPT:
+            continue
+        found = shell_problems(page)
+        if found:
+            failed = True
+            print(f"FAIL shell {name}: " + "; ".join(found))
+    print(f"Shared-shell checks {'failed' if failed else 'passed'} ({len(pages) - len(SHELL_EXEMPT)} pages; exempt: {', '.join(SHELL_EXEMPT)}).")
+    return failed
+
+
+def main():
+    failed = check_shell()
     for number, name in PAGES.items():
         found = problems(ROOT / name)
         if not found:

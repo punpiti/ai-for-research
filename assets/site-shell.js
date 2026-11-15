@@ -23,7 +23,12 @@ const PRODUCTION_BASE = "https://urban.cpe.ku.ac.th/ai-for-research/";
 const GOOGLE_ANALYTICS_ID = "G-BWX7PFH4XM";
 const CLASSROOM_API_BASE = "/api/ai-for-research/classrooms";
 const FEATURED_CLASSROOM_ID = "faculty-pilot-2569";
-const productionFile = location.pathname.endsWith("/") ? "" : location.pathname.split("/").pop();
+// Path of this page below the site root (the folder above assets/), so pages in
+// sub-folders such as admin/ keep their own canonical URL and analytics path.
+const siteRootPath = document.currentScript?.src ? new URL("../", document.currentScript.src).pathname : "";
+const productionFile = siteRootPath && location.pathname.startsWith(siteRootPath)
+  ? location.pathname.slice(siteRootPath.length)
+  : (location.pathname.endsWith("/") ? "" : location.pathname.split("/").pop());
 const canonical = document.querySelector('link[rel="canonical"]') || document.createElement("link");
 canonical.rel = "canonical";
 canonical.href = PRODUCTION_BASE + productionFile;
@@ -134,9 +139,36 @@ function userMenuHtml() {
     </details>`;
 }
 
+// Console pages (body.console, e.g. admin/): brand + page links + user menu only.
+// <site-header current="console" root="../" links='[["href", "label", "data-attr-name"]]'>
+// root: prefix from the page to the site root; links: page-relative, optional data-* hook for page scripts.
+function consoleHeaderHtml(element) {
+  const root = element.getAttribute("root") || "";
+  let links = "";
+  try {
+    const items = JSON.parse(element.getAttribute("links") || "[]");
+    links = (Array.isArray(items) ? items : []).map(([href, label, hook]) => {
+      const data = /^[a-z][a-z0-9-]*$/.test(hook || "") ? ` data-${hook}` : "";
+      return `<a href="${escapeHtml(href)}"${data}>${escapeHtml(label)}</a>`;
+    }).join("");
+  } catch (_error) { links = ""; }
+  return `<header class="site-header">
+      <a class="brand" href="${escapeHtml(root)}index.html" aria-label="AIRR หน้าแรก"><span class="brand-mark brand-logo"><img class="logo-on-dark" src="${new URL("images/madlab-ku-mark-dark.svg", SHELL_SCRIPT_URL).href}" alt="" width="36" height="36"><img class="logo-on-light" src="${new URL("images/madlab-ku-mark-light.svg", SHELL_SCRIPT_URL).href}" alt="" width="36" height="36"></span><span>AIRR</span></a>
+      <nav aria-label="เมนูหลัก">
+        ${links}
+        ${userMenuHtml()}
+      </nav>
+    </header>`;
+}
+
 class SiteHeader extends HTMLElement {
   connectedCallback() {
     const current = this.getAttribute("current") || "";
+    if (current === "console") {
+      this.innerHTML = consoleHeaderHtml(this);
+      this.setupUserMenu(current);
+      return;
+    }
     const isHome = current === "home";
     const isClassroomEntry = ["home", "classroom", "login"].includes(current);
     const classroomDirectoryHref = isHome ? "#course" : "index.html#course";
