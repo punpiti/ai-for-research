@@ -88,7 +88,9 @@ def resolve_workspace(value: str | None) -> Path:
 
 def load_json(path: Path, label: str) -> dict[str, Any]:
     if not path.is_file():
-        raise AIRRError(f"ไม่พบ {label}: {path}")
+        made_by_init = re.match(r"(module-[1-9])-(progress|evaluation)\.json$", label)
+        hint = f" · ยังไม่ได้สร้างไฟล์: ใช้คำสั่ง init {made_by_init.group(1)} ก่อน แล้วกรอกตามคำตอบของผู้เรียน" if made_by_init else ""
+        raise AIRRError(f"ไม่พบ {label}: {path}{hint}")
     try:
         value = json.loads(path.read_text(encoding="utf-8"))
     except (OSError, UnicodeDecodeError, json.JSONDecodeError) as error:
