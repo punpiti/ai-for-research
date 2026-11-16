@@ -156,6 +156,11 @@ def install_course_materials(workspace, manifest_url=COURSE_MATERIALS_MANIFEST_U
         current_sha = hashlib.sha256(target.read_bytes()).hexdigest() if target.is_file() else None
         if current_sha == item['sha256']:
             reused += 1; status = 'reused'; destination = target
+        elif target.exists() and relative.as_posix() == AIRR_CLIENT:
+            # The AIRR tool is a system file (learners never edit tools/): always
+            # replace it so fixes reach existing workspaces on a rerun.
+            _download_verified(item['url'], target, item['sha256'], item['bytes'], allowed_url_prefix)
+            installed += 1; status = 'updated'; destination = target
         elif target.exists():
             update_target = (update_root / target.relative_to(module_root)).resolve()
             if update_root not in update_target.parents:

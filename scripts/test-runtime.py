@@ -255,6 +255,24 @@ class RuntimeTests(unittest.TestCase):
             update = workspace / '.course-updates/course-materials/module-07/notebooks/part-a.ipynb'
             self.assertEqual(update.read_bytes(), b'notebook-v2')
 
+    def test_airr_client_is_always_replaced_on_rerun(self):
+        with tempfile.TemporaryDirectory(prefix='airr client ') as scratch:
+            root = Path(scratch); web = root / 'web'; workspace = root / 'workspace'
+            web.mkdir(); workspace.mkdir()
+            client = web / 'client.py'; client.write_bytes(b'client-v1')
+            def manifest_for(content):
+                client.write_bytes(content)
+                manifest = {'schema_version':'ai-for-research.course-materials.v1', 'module_id':'module-07', 'files':[
+                    {'url': client.as_uri(), 'path': runtime.AIRR_CLIENT,
+                     'sha256': hashlib.sha256(content).hexdigest(), 'bytes': len(content)}]}
+                path = web / 'manifest.json'; path.write_text(json.dumps(manifest), encoding='utf-8')
+                return path.as_uri()
+            prefix = web.as_uri() + '/'
+            runtime.install_course_materials(workspace, manifest_for(b'client-v1'), prefix)
+            result = runtime.install_course_materials(workspace, manifest_for(b'client-v2'), prefix)
+            self.assertEqual((result['installed'], result['updates_available']), (1, 0))
+            self.assertEqual((workspace / runtime.AIRR_CLIENT).read_bytes(), b'client-v2')
+
     def test_module7_material_installer_rejects_path_traversal(self):
         with tempfile.TemporaryDirectory(prefix='module7 unsafe ') as scratch:
             root=Path(scratch); source=root/'file'; source.write_bytes(b'x')
