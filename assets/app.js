@@ -415,14 +415,33 @@ decorateModuleActions();
 
 async function copyCommand(event) {
   const button = event.currentTarget;
-  const idleLabel = button.textContent;
+  const idleLabel = button.dataset.idleLabel || button.textContent;
+  button.dataset.idleLabel = idleLabel;
   const command = button.closest(".command");
   const editor = command.querySelector(".prompt-editor");
   const code = command.querySelector("code");
+  // Install commands carry the learner's AIRR Key: create it on the first copy.
+  let note = "";
+  if (code?.dataset.template?.includes("{airr") && typeof window.airrEnsureInstallKey === "function" && !window.airrInstallKey) {
+    button.disabled = true;
+    button.textContent = "กำลังเตรียมคำสั่ง…";
+    try {
+      await window.airrEnsureInstallKey();
+    } catch (error) {
+      note = ` (ยังไม่มีรหัสเชื่อมคลาส: ${error.message})`;
+    } finally {
+      button.disabled = false;
+    }
+  }
   const value = editor ? editor.value : code.textContent;
-  await navigator.clipboard.writeText(value);
-  button.textContent = "คัดลอกแล้ว";
-  setTimeout(() => { button.textContent = idleLabel; }, 1500);
+  try {
+    await navigator.clipboard.writeText(value);
+    button.textContent = `คัดลอกแล้ว${note}`;
+  } catch (_error) {
+    button.textContent = "กดอีกครั้งเพื่อคัดลอก";
+    return;
+  }
+  setTimeout(() => { button.textContent = idleLabel; }, note ? 6000 : 1500);
 }
 for (const button of document.querySelectorAll("[data-copy]")) {
   button.addEventListener("click", copyCommand);
