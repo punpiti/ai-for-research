@@ -222,6 +222,8 @@ def run_update() -> None:
         update = lambda: subprocess.run([sys.executable, str(installed), "update", "--manifest-url", (web / "manifest.json").as_uri()], capture_output=True, text=True)
         assert update().returncode == 0 and installed.read_bytes() == content
         assert "รุ่นล่าสุดแล้ว" in update().stdout
+        version = subprocess.run([sys.executable, str(installed), "version", "--manifest-url", (web / "manifest.json").as_uri()], capture_output=True, text=True)
+        assert version.returncode == 0 and version.stdout.startswith("AIRR ") and "รุ่นล่าสุดแล้ว" in version.stdout
         newer.write_bytes(content + b"# tampered\n"); shutil.copy(CLIENT_PATH, installed)
         assert update().returncode == 1 and installed.read_bytes() == CLIENT_PATH.read_bytes()
 

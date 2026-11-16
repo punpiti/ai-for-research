@@ -21,6 +21,7 @@ from uuid import uuid4
 
 
 DEFAULT_API_BASE = "https://urban.cpe.ku.ac.th/api/airr/v1"
+AIRR_VERSION = "2026.11.16.3"  # bump on every published change of this file
 DOWNLOADS_PREFIX = "https://urban.cpe.ku.ac.th/ai-for-research/downloads/"
 MANIFEST_URL = DOWNLOADS_PREFIX + "course-materials.json"
 CLIENT_MANIFEST_SUFFIX = "tools/ai-for-research-course.py"
@@ -152,9 +153,11 @@ AI_TOOL_HELP = ("ai_tool ต้องเป็น codex (Codex / บัญชี
                 "openrouter (Cline ที่ใช้ OpenRouter key ของคลาส ไม่ว่าจะเลือก model ไหน), other หรือ unknown")
 
 
-def check_ai_tool(value: Any) -> None:
+def check_ai_tool(value: Any, workspace: Path | None = None) -> None:
     if value not in AI_TOOLS:
-        raise AIRRError(f"{AI_TOOL_HELP} · ตอนนี้เป็น {value!r}")
+        installed = installed_ai_tool(workspace) if workspace else None
+        fix = f" · เครื่องนี้ติดตั้งแบบ {installed} ให้ใส่ \"{installed}\" (ไม่ต้องถามผู้เรียน)" if installed else ""
+        raise AIRRError(f"{AI_TOOL_HELP} · ตอนนี้เป็น {value!r}{fix}")
 
 
 def installed_ai_tool(workspace: Path) -> str | None:
@@ -227,7 +230,7 @@ def module_payload(workspace: Path, args: argparse.Namespace) -> tuple[dict[str,
         required = {"schema_version", "module_id", "checks", "completion_status", "ai_tool", "completion_minutes", "token_source", "total_tokens"}
         if set(progress) != required or progress.get("schema_version") != "ai-for-research.module-1-progress.v1" or progress.get("module_id") != "module-1":
             raise AIRRError("module-1-progress.json ไม่ตรง schema ของ Module 1")
-        check_ai_tool(progress.get("ai_tool"))
+        check_ai_tool(progress.get("ai_tool"), workspace)
         checks = progress.get("checks")
         if not isinstance(checks, dict) or not all(isinstance(item, bool) for item in checks.values()):
             raise AIRRError("checks ใน module-1-progress.json ต้องเป็น true/false")
@@ -612,10 +615,9 @@ def command_ai_key(args: argparse.Namespace) -> None:
             print("เปิด VS Code อัตโนมัติไม่ได้ · เปิดไฟล์ตาม path ด้านบนเอง")
 
 
-def command_update(args: argparse.Namespace) -> None:
-    """Replace this AIRR tool with the latest published version (hash-checked)."""
-    manifest_url = args.manifest_url or MANIFEST_URL
-    prefix = DOWNLOADS_PREFIX if not args.manifest_url else manifest_url.rsplit("/", 1)[0] + "/"
+def latest_client_entry(manifest_url_override: str | None) -> tuple[dict[str, Any], str]:
+    manifest_url = manifest_url_override or MANIFEST_URL
+    prefix = DOWNLOADS_PREFIX if not manifest_url_override else manifest_url.rsplit("/", 1)[0] + "/"
     try:
         with urlopen(Request(manifest_url, headers={"User-Agent": "airr-update/1"}), timeout=30) as response:
             manifest = json.loads(response.read(256 * 1024).decode("utf-8"))
@@ -625,6 +627,29 @@ def command_update(args: argparse.Namespace) -> None:
                   and str(item.get("path", "")).replace("\\", "/").endswith(CLIENT_MANIFEST_SUFFIX)), None)
     if entry is None or not str(entry.get("url", "")).startswith(prefix):
         raise AIRRError("รายการรุ่นล่าสุดไม่มีเครื่องมือ AIRR ที่เชื่อถือได้")
+    return entry, prefix
+
+
+def own_sha256() -> str:
+    return hashlib.sha256(Path(__file__).resolve().read_bytes()).hexdigest()
+
+
+def command_version(args: argparse.Namespace) -> None:
+    print(f"AIRR {AIRR_VERSION} · build {own_sha256()[:12]}")
+    try:
+        entry, _ = latest_client_entry(args.manifest_url)
+    except AIRRError as error:
+        print(f"ตรวจรุ่นล่าสุดไม่ได้: {error}")
+        return
+    if entry.get("sha256") == own_sha256():
+        print("เป็นรุ่นล่าสุดแล้ว")
+    else:
+        print("มีรุ่นใหม่กว่า: ใช้คำสั่ง update")
+
+
+def command_update(args: argparse.Namespace) -> None:
+    """Replace this AIRR tool with the latest published version (hash-checked)."""
+    entry, _ = latest_client_entry(args.manifest_url)
     expected, size = str(entry.get("sha256", "")), int(entry.get("bytes", 0))
     target = Path(__file__).resolve()
     if hashlib.sha256(target.read_bytes()).hexdigest() == expected:
@@ -640,7 +665,9 @@ def command_update(args: argparse.Namespace) -> None:
     temporary = target.with_name(target.name + ".new")
     temporary.write_bytes(content)
     os.replace(temporary, target)
-    print("AIRR UPDATE PASS · อัปเดตเครื่องมือ AIRR เป็นรุ่นล่าสุดแล้ว (งานและไฟล์ของคุณไม่ถูกแตะ)")
+    new_version = re.search(rb'AIRR_VERSION = "([^"]+)"', content)
+    label = new_version.group(1).decode() if new_version else "ล่าสุด"
+    print(f"AIRR UPDATE PASS · {AIRR_VERSION} → {label} (งานและไฟล์ของคุณไม่ถูกแตะ)")
 
 
 def command_whoami(args: argparse.Namespace) -> None:
@@ -777,6 +804,7 @@ HELP_OVERVIEW = """AIRR — เครื่องมือเชื่อม wor
 คำสั่ง
   help [คำสั่ง]   อธิบายการใช้ AIRR หรือคำสั่งที่ระบุ
   whoami          ดูคลาสและบัญชีที่เชื่อมอยู่
+  version         ดูรุ่นของเครื่องมือ AIRR และว่ามีรุ่นใหม่หรือไม่
   update          อัปเดตเครื่องมือ AIRR เป็นรุ่นล่าสุด (ไม่แตะงานของคุณ)
   init MODULE     สร้างไฟล์เริ่มต้นของ module-1, module-2 หรือ module-3
   check MODULE    ตรวจไฟล์ในเครื่องก่อนส่ง
@@ -794,6 +822,7 @@ HELP_OVERVIEW = """AIRR — เครื่องมือเชื่อม wor
 ดูรายละเอียดทีละคำสั่ง: help submit · ดูตัวเลือกทั้งหมด: <คำสั่ง> --help"""
 
 HELP_TOPICS = {
+    "version": "version\n  แสดงรุ่นของเครื่องมือ AIRR ในเครื่องนี้ และตรวจกับเว็บคลาสว่ามีรุ่นใหม่หรือไม่\n  ไม่ส่งข้อมูลใด ๆ · มีรุ่นใหม่: ใช้คำสั่ง update",
     "update": "update\n  ดาวน์โหลดเครื่องมือ AIRR รุ่นล่าสุดจากเว็บคลาส ตรวจ checksum แล้วแทนที่ไฟล์ใน tools/ ของ workspace\n  ไม่แตะงานใน module-0N-work/ และไม่ส่งข้อมูลใด ๆ · ใช้เมื่อผู้สอนแจ้งว่ามีการแก้เครื่องมือ",
     "help": "help [คำสั่ง]\n  แสดงคำอธิบายภาพรวม หรือคำอธิบายของคำสั่งที่ระบุ เช่น help init",
     "whoami": "whoami\n  ถาม server ว่า AIRR Key ของ workspace นี้ผูกกับบัญชีและคลาสใด และโมดูลไหนเปิดอยู่\n  ใช้ทดสอบหลังติดตั้ง ผู้สอนจะเห็นว่าคุณเชื่อมแล้ว\n  ไม่ส่งไฟล์ใด ๆ · ถ้าแจ้งว่าไม่มี key: สร้าง AIRR Key ในหน้าเว็บแล้วรันคำสั่งติดตั้งซ้ำ",
@@ -840,6 +869,9 @@ def parser() -> argparse.ArgumentParser:
     login.set_defaults(handler=command_login)
     logout = commands.add_parser("logout", help="ลบ AIRR Key ออกจาก workspace นี้")
     logout.set_defaults(handler=command_logout)
+    version = commands.add_parser("version", help="ดูรุ่นของเครื่องมือ AIRR")
+    version.add_argument("--manifest-url", help=argparse.SUPPRESS)
+    version.set_defaults(handler=command_version)
     update = commands.add_parser("update", help="อัปเดตเครื่องมือ AIRR เป็นรุ่นล่าสุด")
     update.add_argument("--manifest-url", help=argparse.SUPPRESS)
     update.set_defaults(handler=command_update)
