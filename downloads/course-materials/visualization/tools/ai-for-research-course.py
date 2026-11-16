@@ -88,9 +88,17 @@ def resolve_workspace(value: str | None) -> Path:
 
 def load_json(path: Path, label: str) -> dict[str, Any]:
     if not path.is_file():
-        made_by_init = re.match(r"(module-[1-9])-(progress|evaluation)\.json$", label)
-        hint = f" · ยังไม่ได้สร้างไฟล์: ใช้คำสั่ง init {made_by_init.group(1)} ก่อน แล้วกรอกตามคำตอบของผู้เรียน" if made_by_init else ""
-        raise AIRRError(f"ไม่พบ {label}: {path}{hint}")
+        # Progress/evaluation forms are created by AIRR itself (same as init), so the
+        # learner never has to know about init: create it, then ask for the real answers.
+        template = None
+        if label == "module-1-progress.json":
+            template = INIT_MODULE_1_PROGRESS
+        elif label in ("module-2-evaluation.json", "module-3-evaluation.json"):
+            template = INIT_EVALUATIONS[label.split("-evaluation")[0]]
+        if template is not None and path.name == label:
+            write_private_json(path, dict(template))
+            raise AIRRError(f"AIRR สร้าง {label} ให้แล้วที่ {path} · ถามผู้เรียนทีละข้อแล้วแก้ค่าในไฟล์ให้ตรงกับคำตอบจริง จากนั้นสั่งคำสั่งเดิมอีกครั้ง")
+        raise AIRRError(f"ไม่พบ {label}: {path}")
     try:
         value = json.loads(path.read_text(encoding="utf-8"))
     except (OSError, UnicodeDecodeError, json.JSONDecodeError) as error:
@@ -127,6 +135,8 @@ def evaluation_path(workspace: Path, module: str, value: str | None) -> Path:
         return Path(value).expanduser().resolve()
     return module_file(workspace, module, f"{module}-evaluation.json")
 
+
+INIT_MODULE_1_PROGRESS = {"schema_version": "ai-for-research.module-1-progress.v1", "module_id": "module-1", "checks": {"workspace_opened": False, "ai_connected": False, "folder_boundary_understood": False, "text_file_created_and_opened": False}, "completion_status": "could_not_complete", "ai_tool": "codex", "completion_minutes": 1, "token_source": "not_available", "total_tokens": None}
 
 INIT_EVALUATIONS = {
     "module-2": {"ai_tool": "codex", "ai_turns": 1, "retry_count": 0, "completion_minutes": 1, "token_source": "not_available", "input_tokens": None, "output_tokens": None, "total_tokens": None, "completion_status": "completed", "difficulty_rating": 3, "usefulness_rating": 3, "hardest_step": "none"},
@@ -583,7 +593,7 @@ def command_init(args: argparse.Namespace) -> None:
     workspace = resolve_workspace(args.workspace)
     if args.module == "module-1":
         path = module_file(workspace, "module-1", "module-1-progress.json")
-        value = {"schema_version": "ai-for-research.module-1-progress.v1", "module_id": "module-1", "checks": {"workspace_opened": False, "ai_connected": False, "folder_boundary_understood": False, "text_file_created_and_opened": False}, "completion_status": "could_not_complete", "ai_tool": "codex", "completion_minutes": 1, "token_source": "not_available", "total_tokens": None}
+        value = dict(INIT_MODULE_1_PROGRESS)
     elif args.module == "module-2":
         path = evaluation_path(workspace, "module-2", None)
         value = dict(INIT_EVALUATIONS["module-2"])

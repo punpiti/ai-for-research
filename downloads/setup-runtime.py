@@ -591,6 +591,33 @@ def configure(workspace, agent, root, env, python_receipt=None):
     log(f'RUNTIME_ROOT {root}')
 
 
+def prepare_module_forms(workspace, python):
+    """Create the progress/evaluation forms for the class syllabus (local only).
+
+    The syllabus already says which modules the learner takes, so the learner and
+    their AI never have to create these files. Existing files are kept. Never fails.
+    """
+    client = workspace / AIRR_CLIENT
+    if not client.is_file():
+        return
+    modules = ['module-1']
+    if (workspace / '.airr' / 'config.json').exists():
+        try:
+            result = subprocess.run([str(python), str(client), '--workspace', str(workspace), 'whoami'],
+                                    capture_output=True, text=True, timeout=60)
+            listed = [line.split()[0] for line in (result.stdout or '').splitlines() if line.startswith('module-')]
+            modules = [m for m in ('module-1', 'module-2', 'module-3') if m in listed] or modules
+        except (OSError, subprocess.TimeoutExpired):
+            pass
+    for module in modules:
+        try:
+            subprocess.run([str(python), str(client), '--workspace', str(workspace), 'init', module],
+                           capture_output=True, text=True, timeout=60)
+        except (OSError, subprocess.TimeoutExpired):
+            continue
+    log(f'MODULE_FORMS_READY {", ".join(modules)}')
+
+
 def fetch_ai_key(workspace, python):
     """OpenRouter learners: fetch the class-issued key into ~/.airr/ai-key.txt.
 
@@ -709,6 +736,7 @@ def main():
     configure(workspace, args.agent, root, env, python_receipt)
     setup_airr(workspace, python_bin / ('python.exe' if os.name == 'nt' else 'python'))
     practice_ready = fetch_module_practice_files(workspace, python_bin / ('python.exe' if os.name == 'nt' else 'python'))
+    prepare_module_forms(workspace, python_bin / ('python.exe' if os.name == 'nt' else 'python'))
     if args.agent == 'openrouter':
         fetch_ai_key(workspace, python_bin / ('python.exe' if os.name == 'nt' else 'python'))
     for path in tracked:
