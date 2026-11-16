@@ -227,24 +227,24 @@
 <li><label><input type="checkbox">ขั้น 6: AI บอกว่าส่งสถานะความพร้อมสำเร็จ และ <code>module-01-work/output/module-1-progress.json</code> ตรงกับคำตอบของคุณ</label></li>
 </ul>
 </div></section>
-<section class="section markdown-section topic-panel" id="open-explore" aria-labelledby="open-explore-heading"><div class="section-heading compact"><p class="eyebrow">Exploring</p><h2 id="open-explore-heading">เตรียมเครื่อง: ต้องทำอะไร โครงสร้างเป็นอย่างไร และใช้งานเบื้องต้น</h2></div><div class="markdown-body"><p>ไม่มี prompt สำเร็จรูป — คุณเขียนเองทั้งหมด เป้าหมายคือคุ้นกับการสั่ง AI ให้ทำงานกับไฟล์ในเครื่องอย่างมีขอบเขต</p>
-<h3 id="โจทย์-เลือกทำอย่างน้อย-2-ข้อ">โจทย์ (เลือกทำอย่างน้อย 2 ข้อ)</h3>
+<section class="section markdown-section topic-panel" id="open-explore" aria-labelledby="open-explore-heading"><div class="section-heading compact"><p class="eyebrow">Exploring</p><h2 id="open-explore-heading">เตรียมเครื่อง: ต้องทำอะไร โครงสร้างเป็นอย่างไร และใช้งานเบื้องต้น</h2></div><div class="markdown-body"><p>ในคลาสนี้คุณจะเจอไฟล์ 4 แบบซ้ำ ๆ คือ Markdown (<code>.md</code>), CSV (<code>.csv</code>), JSON (<code>.json</code>) และ PDF (<code>.pdf</code>) ตัวติดตั้งวางตัวอย่างของจริงไว้ใน workspace แล้ว รอบนี้ให้คุณเขียน prompt เองทั้งหมด เพื่อให้ AI อธิบายไฟล์เหล่านี้ แล้วเปิดไฟล์ดูเองว่า AI พูดถูกไหม</p>
+<p>ทุกไฟล์ในรอบนี้ <strong>อ่านอย่างเดียว ห้ามแก้</strong> (อยู่ใน <code>course-materials/</code> หรือ <code>input/original/</code>)</p>
+<h3 id="โจทย์-เลือกทำอย่างน้อย-2-แบบ">โจทย์ (เลือกทำอย่างน้อย 2 แบบ)</h3>
 <ol type="1">
-<li><strong>สำรวจ workspace</strong>: ให้ AI พาดูว่ามีอะไรอยู่ใน <code>course-materials/</code> และ <code>tools/</code> และแต่ละอย่างใช้ทำอะไร โดยไม่แก้ไฟล์</li>
-<li><strong>สำรวจเครื่องมือ</strong>: ให้ AI ตรวจว่าเครื่องมือที่ติดตั้ง (Pandoc แปลงเอกสาร, Python, OCR อ่านข้อความจากภาพ ฯลฯ) ใช้งานได้ และบอกเวอร์ชัน แล้วอธิบายว่าเครื่องมือไหนจะได้ใช้ในงานของคุณ</li>
-<li><strong>ไฟล์ข้อความของคุณเอง</strong>: ให้ AI สร้างไฟล์ <code>.txt</code> ในโฟลเดอร์งานที่สรุปงานวิจัยของคุณ 3 บรรทัด (เปิดเผยได้ ไม่มีข้อมูลลับ) แล้วสั่งแก้ทีละบรรทัดตามที่คุณกำหนด</li>
-<li><strong>แผนที่ไฟล์ของงานจริง</strong>: ให้ AI เสนอโครงโฟลเดอร์และชื่อไฟล์สำหรับงานวิจัยจริงหนึ่งงานของคุณตามหลักห้าข้อของแผนที่ไฟล์ (ขั้นที่ 4 ของ workshop) โดยไม่ย้ายหรือแก้ไฟล์ต้นฉบับ แล้วเขียนประโยคเปิดคำสั่งแรกของงานนั้นเอง</li>
+<li><strong>Markdown</strong> — <code>course-materials/module-04/citation-audit-rules.md</code> ให้ AI อธิบายว่าเครื่องหมาย <code>#</code> <code>##</code> <code>1.</code> <code>**…**</code> ในไฟล์นี้หมายถึงอะไร แล้วเปิดไฟล์เอง กด Preview (Ctrl+Shift+V) เทียบว่าหน้าตาตรงกับที่ AI อธิบายไหม อ่านต่อ: หัวข้อ <a href="topic-markdown-structure-and-preview.html">Markdown: หัวข้อ รายการ และ Preview — แก้ที่ต้นฉบับ ไม่แก้ที่ PDF</a></li>
+<li><strong>CSV</strong> — <code>course-materials/module-07/examples/figure-consistency/mock-study-data.csv</code> (ข้อมูลจำลอง PM2.5) ให้ AI บอกว่าหนึ่งแถวแทนอะไร มีกี่คอลัมน์ แต่ละคอลัมน์มีหน่วยอะไร แล้วเปิดไฟล์เองนับหัวคอลัมน์และดูแถวแรก อ่านต่อ: หัวข้อ <a href="topic-csv-rows-columns-units.html">CSV: หนึ่งแถวแทนอะไร ชื่อคอลัมน์ หน่วย และค่าที่ขาด</a></li>
+<li><strong>JSON</strong> — <code>course-materials/module-07/install-receipt.json</code> (บันทึกของตัวติดตั้ง) ให้ AI อธิบายว่าไฟล์บันทึกอะไร field ไหนเป็นตัวเลข ข้อความ หรือรายการ แล้วเปิดไฟล์เองเทียบค่า <code>installed</code> กับจำนวนรายการใน <code>files</code> อ่านต่อ: หัวข้อ <a href="topic-json-fields-and-status-values.html">JSON: ชื่อช่อง ค่า และสถานะ true/false/null — อ่านผ่านไม่ได้แปลว่าค่าถูก</a></li>
+<li><strong>PDF</strong> — <code>module-04-work/input/original/mock-paper.pdf</code> (บทความจำลอง) ให้ AI บอกว่า PDF นี้มีข้อความที่เลือกและคัดลอกได้ หรือเป็นภาพสแกน และชื่อบทความคืออะไร แล้วเปิด PDF เองลองลากเลือกข้อความเทียบ อ่านต่อ: หัวข้อ <a href="topic-pdf-text-vs-scan-verification.html">PDF: ข้อความที่เลือกได้ ภาพสแกน และการตรวจสิ่งที่ AI อ่านกับหน้าต้นทาง</a></li>
 </ol>
 <h3 id="ข้อกำหนด">ข้อกำหนด</h3>
 <ul>
-<li>เก็บ prompt ทุกรอบไว้ในไฟล์ข้อความ <code>module-01-work/output/prompts.txt</code> (ไฟล์ .txt แบบเดียวกับ first-note.txt ในขั้นที่ 5) แต่ละรอบเขียนเป็นย่อหน้า: prompt ที่ใช้ แล้วตามด้วยบรรทัดสั้น ๆ ว่าปรับ prompt เพราะอะไร จะพิมพ์เองหรือสั่ง AI เพิ่มต่อท้ายไฟล์ก็ได้</li>
-<li>ทุก prompt ต้องบอกขอบเขต: ไฟล์ที่อ่าน ไฟล์ที่สร้าง และสิ่งที่ห้ามเปลี่ยน</li>
-<li>ระบุว่าตรวจผลของ AI อย่างไร (เปิดไฟล์เอง เทียบกับที่เห็น ตรวจว่าต้นฉบับไม่ถูกแก้) และส่วนไหนคุณแก้เอง</li>
-<li>ไม่นำข้อมูลลับ ต้นฉบับบทความที่ไม่มีสิทธิ์ หรือข้อมูลส่วนบุคคลเข้า workspace ฝึก</li>
+<li>เขียน prompt เอง ทุก prompt ต้องบอกขอบเขต: ไฟล์ที่ให้อ่าน และสั่งชัดว่าห้ามแก้ไฟล์ใด</li>
+<li>ตรวจคำตอบของ AI โดยเปิดไฟล์ดูเองทุกครั้ง</li>
+<li>เก็บ prompt ทุกรอบไว้ในไฟล์ข้อความ <code>module-01-work/output/prompts.txt</code> (ไฟล์ .txt แบบเดียวกับ first-note.txt ในขั้นที่ 5) แต่ละรอบเขียน prompt ที่ใช้ แล้วตามด้วยบรรทัดสั้น ๆ ว่าตรวจแล้วตรงหรือไม่ และปรับ prompt เพราะอะไร จะพิมพ์เองหรือสั่ง AI เพิ่มต่อท้ายไฟล์ก็ได้</li>
 </ul>
 <h3 id="เกณฑ์ผ่าน">เกณฑ์ผ่าน</h3>
 <ul class="task-list">
-<li><label><input type="checkbox">ทำครบอย่างน้อย 2 ข้อ และมีหลักฐานว่าไฟล์ต้นฉบับไม่ถูกแก้โดยไม่ได้สั่ง</label></li>
+<li><label><input type="checkbox">ทำครบอย่างน้อย 2 แบบ และไฟล์ตัวอย่างไม่ถูกแก้</label></li>
 <li><label><input type="checkbox">พบอย่างน้อยหนึ่งจุดที่คำตอบของ AI ไม่ตรงกับที่คุณเห็นเอง หรืออธิบายได้ว่าตรวจแล้วตรงอย่างไร</label></li>
 <li><label><input type="checkbox"><code>prompts.txt</code> แสดงการปรับ prompt อย่างน้อย 1 รอบ พร้อมเหตุผล</label></li>
 </ul>
