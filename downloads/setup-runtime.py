@@ -543,7 +543,7 @@ def verify_python_runtime(uv, environment):
 def configure(workspace, agent, root, env, python_receipt=None):
     tools = workspace / 'tools'
     tools.mkdir(parents=True, exist_ok=True)
-    receipt = {'tool_root': str(root), 'env': env}
+    receipt = {'tool_root': str(root), 'env': env, 'agent': agent}
     if os.environ.get('AI_RESEARCH_TRACE_FILE'):
         receipt['install_trace'] = os.environ['AI_RESEARCH_TRACE_FILE']
     if python_receipt:

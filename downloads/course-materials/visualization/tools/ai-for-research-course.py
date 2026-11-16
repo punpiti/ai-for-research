@@ -96,7 +96,7 @@ def load_json(path: Path, label: str) -> dict[str, Any]:
         elif label in ("module-2-evaluation.json", "module-3-evaluation.json"):
             template = INIT_EVALUATIONS[label.split("-evaluation")[0]]
         if template is not None and path.name == label:
-            write_private_json(path, dict(template))
+            write_private_json(path, form_template(template, path.parents[2]))
             raise AIRRError(f"AIRR สร้าง {label} ให้แล้วที่ {path} · ถามผู้เรียนทีละข้อแล้วแก้ค่าในไฟล์ให้ตรงกับคำตอบจริง จากนั้นสั่งคำสั่งเดิมอีกครั้ง")
         raise AIRRError(f"ไม่พบ {label}: {path}")
     try:
@@ -144,15 +144,46 @@ INIT_EVALUATIONS = {
 }
 
 
+AI_TOOLS = ("codex", "claude", "openrouter", "other", "unknown")
+AI_TOOL_HELP = ("ai_tool ต้องเป็น codex (Codex / บัญชี ChatGPT), claude (Claude Code / บัญชี Claude), "
+                "openrouter (Cline ที่ใช้ OpenRouter key ของคลาส ไม่ว่าจะเลือก model ไหน), other หรือ unknown")
+
+
+def check_ai_tool(value: Any) -> None:
+    if value not in AI_TOOLS:
+        raise AIRRError(f"{AI_TOOL_HELP} · ตอนนี้เป็น {value!r}")
+
+
+def installed_ai_tool(workspace: Path) -> str | None:
+    """AI chosen at install (tools/runtime-env.json), so forms start with the right ai_tool."""
+    try:
+        agent = json.loads((workspace / "tools" / "runtime-env.json").read_text(encoding="utf-8")).get("agent")
+    except (OSError, ValueError, AttributeError):
+        return None
+    return agent if agent in AI_TOOLS else None
+
+
+def form_template(template: dict[str, Any], workspace: Path) -> dict[str, Any]:
+    value = dict(template)
+    value["ai_tool"] = installed_ai_tool(workspace) or value["ai_tool"]
+    return value
+
+
+def untouched_template(value: dict[str, Any], template: dict[str, Any] | None) -> bool:
+    if template is None:
+        return False
+    strip = lambda item: {k: v for k, v in item.items() if k != "ai_tool"}
+    return strip(value) == strip(template)
+
+
 def validate_evaluation(value: dict[str, Any], module: str) -> dict[str, Any]:
-    if value == INIT_EVALUATIONS.get(module):
+    if untouched_template(value, INIT_EVALUATIONS.get(module)):
         raise AIRRError(f"{module}-evaluation.json ยังเป็นค่าตัวอย่างจาก airr init ให้แก้ ai_tool, ai_turns, completion_minutes, ความยาก ประโยชน์ และขั้นที่ยากที่สุดตามจริงก่อน")
     common = {"ai_tool", "ai_turns", "retry_count", "completion_minutes", "token_source", "total_tokens", "completion_status", "difficulty_rating", "usefulness_rating", "hardest_step"}
     expected = common | ({"input_tokens", "output_tokens"} if module == "module-2" else set())
     if set(value) != expected:
         raise AIRRError(f"ไฟล์ evaluation ของ {module} มี field ไม่ครบหรือเกิน")
-    if value["ai_tool"] not in {"codex", "claude", "openrouter", "other", "unknown"}:
-        raise AIRRError("ai_tool ไม่ถูกต้อง")
+    check_ai_tool(value["ai_tool"])
     if value["completion_status"] not in {"completed", "completed_with_help", "could_not_complete"}:
         raise AIRRError("completion_status ไม่ถูกต้อง")
     for key, low, high in (("ai_turns", 1, 100), ("retry_count", 0, 50), ("completion_minutes", 1, 2400), ("difficulty_rating", 1, 5), ("usefulness_rating", 1, 5)):
@@ -193,6 +224,7 @@ def module_payload(workspace: Path, args: argparse.Namespace) -> tuple[dict[str,
         required = {"schema_version", "module_id", "checks", "completion_status", "ai_tool", "completion_minutes", "token_source", "total_tokens"}
         if set(progress) != required or progress.get("schema_version") != "ai-for-research.module-1-progress.v1" or progress.get("module_id") != "module-1":
             raise AIRRError("module-1-progress.json ไม่ตรง schema ของ Module 1")
+        check_ai_tool(progress.get("ai_tool"))
         checks = progress.get("checks")
         if not isinstance(checks, dict) or not all(isinstance(item, bool) for item in checks.values()):
             raise AIRRError("checks ใน module-1-progress.json ต้องเป็น true/false")
@@ -593,13 +625,13 @@ def command_init(args: argparse.Namespace) -> None:
     workspace = resolve_workspace(args.workspace)
     if args.module == "module-1":
         path = module_file(workspace, "module-1", "module-1-progress.json")
-        value = dict(INIT_MODULE_1_PROGRESS)
+        value = form_template(INIT_MODULE_1_PROGRESS, workspace)
     elif args.module == "module-2":
         path = evaluation_path(workspace, "module-2", None)
-        value = dict(INIT_EVALUATIONS["module-2"])
+        value = form_template(INIT_EVALUATIONS["module-2"], workspace)
     else:
         path = evaluation_path(workspace, "module-3", None)
-        value = dict(INIT_EVALUATIONS["module-3"])
+        value = form_template(INIT_EVALUATIONS["module-3"], workspace)
     if path.exists() and not args.force:
         print(f"AIRR INIT SKIP · มีไฟล์อยู่แล้ว: {path}")
         return
