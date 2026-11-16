@@ -266,3 +266,9 @@ body.learn .airr-connect .button { min-height: 2.2rem; padding: .35rem .9rem; fo
 /* terminal commands carry a label in ::before — keep room above the code */
 body.learn .terminal-command { padding-top: 2rem; }
 body.learn .terminal-command::before { top: .55rem; left: .8rem; }
+
+/* strong warning (e.g. Cline's expensive default model) */
+body.learn .notice.is-warning { border-left: 6px solid #e5533d; background: rgba(229, 83, 61, .12); }
+body.learn .notice.is-warning > strong:first-child { display: block; color: #ff8a73; font-size: 1.08rem; margin-bottom: .35rem; }
+:root[data-theme="light"] body.learn .notice.is-warning > strong:first-child { color: #b3261e; }
+@media (prefers-color-scheme: light) { :root:not([data-theme="dark"]) body.learn .notice.is-warning > strong:first-child { color: #b3261e; } }
