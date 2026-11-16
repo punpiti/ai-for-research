@@ -21,6 +21,9 @@ from uuid import uuid4
 
 
 DEFAULT_API_BASE = "https://urban.cpe.ku.ac.th/api/airr/v1"
+DOWNLOADS_PREFIX = "https://urban.cpe.ku.ac.th/ai-for-research/downloads/"
+MANIFEST_URL = DOWNLOADS_PREFIX + "course-materials.json"
+CLIENT_MANIFEST_SUFFIX = "tools/ai-for-research-course.py"
 EXPECTED_FILENAME = "module-07-highlights.md"
 MAX_MARKDOWN_BYTES = 64 * 1024
 MAX_GRAPH_BYTES = 2 * 1024 * 1024
@@ -609,6 +612,37 @@ def command_ai_key(args: argparse.Namespace) -> None:
             print("เปิด VS Code อัตโนมัติไม่ได้ · เปิดไฟล์ตาม path ด้านบนเอง")
 
 
+def command_update(args: argparse.Namespace) -> None:
+    """Replace this AIRR tool with the latest published version (hash-checked)."""
+    manifest_url = args.manifest_url or MANIFEST_URL
+    prefix = DOWNLOADS_PREFIX if not args.manifest_url else manifest_url.rsplit("/", 1)[0] + "/"
+    try:
+        with urlopen(Request(manifest_url, headers={"User-Agent": "airr-update/1"}), timeout=30) as response:
+            manifest = json.loads(response.read(256 * 1024).decode("utf-8"))
+    except (HTTPError, URLError, ValueError) as error:
+        raise AIRRError(f"อ่านรายการรุ่นล่าสุดไม่ได้ ({error}); ลองใหม่ หรือรันคำสั่งติดตั้งซ้ำจากหน้า Module 1") from error
+    entry = next((item for item in manifest.get("files", []) if isinstance(item, dict)
+                  and str(item.get("path", "")).replace("\\", "/").endswith(CLIENT_MANIFEST_SUFFIX)), None)
+    if entry is None or not str(entry.get("url", "")).startswith(prefix):
+        raise AIRRError("รายการรุ่นล่าสุดไม่มีเครื่องมือ AIRR ที่เชื่อถือได้")
+    expected, size = str(entry.get("sha256", "")), int(entry.get("bytes", 0))
+    target = Path(__file__).resolve()
+    if hashlib.sha256(target.read_bytes()).hexdigest() == expected:
+        print("AIRR UPDATE · เครื่องมือ AIRR เป็นรุ่นล่าสุดแล้ว")
+        return
+    try:
+        with urlopen(Request(entry["url"], headers={"User-Agent": "airr-update/1"}), timeout=60) as response:
+            content = response.read(size + 1)
+    except (HTTPError, URLError) as error:
+        raise AIRRError(f"ดาวน์โหลดรุ่นใหม่ไม่ได้ ({error})") from error
+    if len(content) != size or hashlib.sha256(content).hexdigest() != expected:
+        raise AIRRError("ไฟล์ที่ดาวน์โหลดไม่ตรงกับรายการรุ่นล่าสุด ไม่ได้เปลี่ยนอะไร")
+    temporary = target.with_name(target.name + ".new")
+    temporary.write_bytes(content)
+    os.replace(temporary, target)
+    print("AIRR UPDATE PASS · อัปเดตเครื่องมือ AIRR เป็นรุ่นล่าสุดแล้ว (งานและไฟล์ของคุณไม่ถูกแตะ)")
+
+
 def command_whoami(args: argparse.Namespace) -> None:
     workspace = resolve_workspace(args.workspace)
     config = read_config(workspace)
@@ -743,6 +777,7 @@ HELP_OVERVIEW = """AIRR — เครื่องมือเชื่อม wor
 คำสั่ง
   help [คำสั่ง]   อธิบายการใช้ AIRR หรือคำสั่งที่ระบุ
   whoami          ดูคลาสและบัญชีที่เชื่อมอยู่
+  update          อัปเดตเครื่องมือ AIRR เป็นรุ่นล่าสุด (ไม่แตะงานของคุณ)
   init MODULE     สร้างไฟล์เริ่มต้นของ module-1, module-2 หรือ module-3
   check MODULE    ตรวจไฟล์ในเครื่องก่อนส่ง
   submit MODULE   ส่งงานหรือสถานะให้ผู้สอน
@@ -759,6 +794,7 @@ HELP_OVERVIEW = """AIRR — เครื่องมือเชื่อม wor
 ดูรายละเอียดทีละคำสั่ง: help submit · ดูตัวเลือกทั้งหมด: <คำสั่ง> --help"""
 
 HELP_TOPICS = {
+    "update": "update\n  ดาวน์โหลดเครื่องมือ AIRR รุ่นล่าสุดจากเว็บคลาส ตรวจ checksum แล้วแทนที่ไฟล์ใน tools/ ของ workspace\n  ไม่แตะงานใน module-0N-work/ และไม่ส่งข้อมูลใด ๆ · ใช้เมื่อผู้สอนแจ้งว่ามีการแก้เครื่องมือ",
     "help": "help [คำสั่ง]\n  แสดงคำอธิบายภาพรวม หรือคำอธิบายของคำสั่งที่ระบุ เช่น help init",
     "whoami": "whoami\n  ถาม server ว่า AIRR Key ของ workspace นี้ผูกกับบัญชีและคลาสใด และโมดูลไหนเปิดอยู่\n  ใช้ทดสอบหลังติดตั้ง ผู้สอนจะเห็นว่าคุณเชื่อมแล้ว\n  ไม่ส่งไฟล์ใด ๆ · ถ้าแจ้งว่าไม่มี key: สร้าง AIRR Key ในหน้าเว็บแล้วรันคำสั่งติดตั้งซ้ำ",
     "login": "login\n  เชื่อม workspace ด้วย AIRR Key (ระบบจะถามโดยไม่แสดงตัวอักษร)\n  ปกติไม่ต้องใช้ เพราะตัวติดตั้งเชื่อมให้แล้ว",
@@ -804,6 +840,9 @@ def parser() -> argparse.ArgumentParser:
     login.set_defaults(handler=command_login)
     logout = commands.add_parser("logout", help="ลบ AIRR Key ออกจาก workspace นี้")
     logout.set_defaults(handler=command_logout)
+    update = commands.add_parser("update", help="อัปเดตเครื่องมือ AIRR เป็นรุ่นล่าสุด")
+    update.add_argument("--manifest-url", help=argparse.SUPPRESS)
+    update.set_defaults(handler=command_update)
     whoami = commands.add_parser("whoami", help="ดูคลาสที่เชื่อมกับ AIRR")
     whoami.set_defaults(handler=command_whoami)
     init = commands.add_parser("init", help="สร้างไฟล์ progress/evaluation สำหรับแก้ใน VS Code")

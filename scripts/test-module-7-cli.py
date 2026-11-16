@@ -207,5 +207,25 @@ def ai_key_test() -> None:
             client.request_json, client.ai_key_path = original_request, original_path
 
 
+
+def run_update() -> None:
+    """airr update replaces only a hash-verified copy; already-latest and tampered cases change nothing."""
+    import hashlib, shutil, subprocess, sys
+    with tempfile.TemporaryDirectory(prefix="airr-update-") as folder:
+        root = Path(folder); web = root / "web"; tools = root / "ws" / "tools"
+        web.mkdir(); tools.mkdir(parents=True)
+        installed = tools / "client.py"; shutil.copy(CLIENT_PATH, installed)
+        newer = web / "client.py"; newer.write_bytes(CLIENT_PATH.read_bytes() + b"\n# newer\n")
+        content = newer.read_bytes()
+        (web / "manifest.json").write_text(json.dumps({"files": [{"url": newer.as_uri(), "path": "course-materials/module-07/tools/ai-for-research-course.py",
+            "sha256": hashlib.sha256(content).hexdigest(), "bytes": len(content)}]}), encoding="utf-8")
+        update = lambda: subprocess.run([sys.executable, str(installed), "update", "--manifest-url", (web / "manifest.json").as_uri()], capture_output=True, text=True)
+        assert update().returncode == 0 and installed.read_bytes() == content
+        assert "รุ่นล่าสุดแล้ว" in update().stdout
+        newer.write_bytes(content + b"# tampered\n"); shutil.copy(CLIENT_PATH, installed)
+        assert update().returncode == 1 and installed.read_bytes() == CLIENT_PATH.read_bytes()
+
+
 if __name__ == "__main__":
     run()
+    run_update()
