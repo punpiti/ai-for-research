@@ -53,6 +53,9 @@ function Log([string]$Message) {
 function Run-Quiet([string]$Step, [scriptblock]$Action, [int[]]$AcceptCodes = @(0)) {
   if (-not $TraceFile) { & $Action; return }
   Trace 'command' 'process' $Step 'started'
+  # Visible progress: say what runs now and how long it took (details stay in the log).
+  Write-Host "[AI for Research]   > $Step ..."
+  $stepClock = [Diagnostics.Stopwatch]::StartNew()
   $capture = $TraceFile + '.step-' + [guid]::NewGuid() + '.log'
   $savedPreference = $ErrorActionPreference
   try {
@@ -65,6 +68,7 @@ function Run-Quiet([string]$Step, [scriptblock]$Action, [int[]]$AcceptCodes = @(
     $ErrorActionPreference = $savedPreference
     if ($AcceptCodes -notcontains $code) { throw "$Step failed (exit $code)." }
     Trace 'command' 'process' $Step 'completed' ([string]$code)
+    Write-Host ("[AI for Research]     done: {0} ({1:N0} s)" -f $Step, $stepClock.Elapsed.TotalSeconds)
   } catch {
     Trace 'command' 'process' $Step 'failed' $_.Exception.Message
     throw

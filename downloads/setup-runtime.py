@@ -49,6 +49,39 @@ def trace_path(path, stage):
     trace('snapshot', 'path', path, stage, state)
 
 
+def console(message, end='\n'):
+    """Write to the learner's terminal even though the installer captures stdout into the log."""
+    try:
+        with open('CONOUT$' if os.name == 'nt' else '/dev/tty', 'w', encoding='utf-8', errors='replace') as tty:
+            tty.write(message + end)
+            tty.flush()
+    except OSError:
+        pass
+
+
+def step(message):
+    """A visible progress line, so long silent phases show what is happening."""
+    console(f'[AI for Research]   - {message}')
+
+
+def download_progress(label):
+    """urlretrieve hook: a 20-step bar with percent and MB."""
+    state = {'last': -1}
+
+    def hook(blocks, block_size, total):
+        if total <= 0:
+            return
+        done = min(blocks * block_size, total)
+        percent = done * 100 // total
+        if percent == state['last'] or (percent % 5 and percent != 100):
+            return
+        state['last'] = percent
+        bar = '#' * (percent // 5) + '.' * (20 - percent // 5)
+        console(f'\r[AI for Research]     {label} [{bar}] {percent:3d}%  {done / 1e6:5.1f}/{total / 1e6:.1f} MB',
+                end='\n' if percent >= 100 else '')
+    return hook
+
+
 def log(message):
     trace('message', 'installer', 'runtime', 'observed', message)
     diagnostic(message)
@@ -355,7 +388,7 @@ def ensure_node(root, agent):
     log(f'INSTALL compatible Node LTS {filename}; selected frontend requires Node >= {minimum}.')
     with tempfile.TemporaryDirectory(prefix='ai-research-node-') as scratch:
         archive = Path(scratch) / filename
-        urllib.request.urlretrieve(base_url + filename, archive)
+        urllib.request.urlretrieve(base_url + filename, archive, download_progress('Node.js'))
         if hashlib.sha256(archive.read_bytes()).hexdigest() != digest:
             raise RuntimeError('Node archive checksum mismatch.')
         if os.name == 'nt':
@@ -421,7 +454,7 @@ def install_tex(root):
         log('INSTALL user-owned TinyTeX (LaTeX/XeLaTeX); existing system TeX is retained.')
         with tempfile.TemporaryDirectory(prefix='ai-research-tex-') as scratch:
             archive = Path(scratch) / f'TinyTeX.{extension}'
-            urllib.request.urlretrieve(url, archive)
+            urllib.request.urlretrieve(url, archive, download_progress('TinyTeX'))
             if os.name == 'nt':
                 run(archive, '-y', cwd=scratch)
             else:
@@ -439,6 +472,7 @@ def install_tex(root):
     if not tlmgr.exists() or not os.access(tex, os.W_OK):
         raise RuntimeError(f'TinyTeX is incomplete or not user-writable: {tex}')
     os.environ['PATH'] = str(bin_dir) + os.pathsep + os.environ['PATH']
+    step('TinyTeX: adding Thai/XeLaTeX packages')
     run(tlmgr, 'postaction', 'install', 'script', 'xetex')
     # dvipdfmx provides xdvipdfmx, the driver XeLaTeX calls to write the PDF;
     # the macOS TinyTeX bundle does not always include it (driver exit 127).
@@ -707,15 +741,20 @@ def main():
             data = Path(env['TESSDATA_PREFIX']) / f'{language}.traineddata'
             if not data.exists() or data.stat().st_size == 0:
                 log(f'INSTALL OCR language {language}; only English/Thai data are downloaded.')
-                urllib.request.urlretrieve(f'https://github.com/tesseract-ocr/tessdata_fast/raw/4.1.0/{language}.traineddata', data)
+                step(f'Downloading OCR language data ({language})')
+                urllib.request.urlretrieve(f'https://github.com/tesseract-ocr/tessdata_fast/raw/4.1.0/{language}.traineddata', data,
+                                           download_progress(f'OCR {language}'))
     os.environ.update(env)
     uv = shutil.which('uv')
     if not uv:
         raise RuntimeError('uv is missing. Rerun the main installer.')
+    step('Python 3.12 (download about 30 MB on first run)')
     run(uv, 'python', 'install', '3.12')
     run(uv, 'venv', '--python', '3.12', env['UV_PROJECT_ENVIRONMENT'], '--allow-existing')
     python_receipt = verify_python_runtime(uv, Path(env['UV_PROJECT_ENVIRONMENT']))
+    step('Node.js for the AI extensions')
     node_bin = ensure_node(root, args.agent)
+    step('TinyTeX for PDF output (download about 120 MB and several packages on first run)')
     tex_bin = install_tex(root)
     python_bin = Path(env['UV_PROJECT_ENVIRONMENT']) / ('Scripts' if os.name == 'nt' else 'bin')
     npm_bin = root / 'npm' if os.name == 'nt' else root / 'npm' / 'bin'
@@ -724,6 +763,7 @@ def main():
     os.environ.update(env)
     run(python_bin / ('python.exe' if os.name == 'nt' else 'python'), '--version')
     run(tex_bin / ('xelatex.exe' if os.name == 'nt' else 'xelatex'), '--version', stdout=subprocess.DEVNULL)
+    step('Testing a Thai PDF (the first run builds a font cache and can take a few minutes)')
     # Exercise the actual course template and Thai fonts before reporting success.
     with tempfile.TemporaryDirectory(prefix='ai-research-pdf-') as scratch:
         source = Path(scratch) / 'check.md'
@@ -736,9 +776,12 @@ def main():
             raise
         if not pdf.is_file() or pdf.stat().st_size == 0:
             raise RuntimeError('Thai PDF check did not produce a PDF.')
+    step('Course files for the modules')
     install_course_materials(workspace)
+    step('Module 7 notebook packages: pandas, matplotlib, JupyterLab ... (about 200 MB on first run)')
     module7_ready = setup_module07(workspace, uv)
     configure(workspace, args.agent, root, env, python_receipt)
+    step('Connecting AIRR to your class and preparing practice files')
     setup_airr(workspace, python_bin / ('python.exe' if os.name == 'nt' else 'python'))
     practice_ready = fetch_module_practice_files(workspace, python_bin / ('python.exe' if os.name == 'nt' else 'python'))
     prepare_module_forms(workspace, python_bin / ('python.exe' if os.name == 'nt' else 'python'))

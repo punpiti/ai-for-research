@@ -393,7 +393,7 @@ class RuntimeTests(unittest.TestCase):
             with self.subTest(system=system, arch=arch), tempfile.TemporaryDirectory(prefix='research tex ') as scratch, patch.dict(os.environ):
                 root = Path(scratch) / 'tools'; root.mkdir()
                 calls = []
-                def download(url, target):
+                def download(url, target, *_):
                     calls.append(url)
                     self.assertIn(url_suffix, url)
                     with tarfile.open(target, 'w:xz') as bundle:
@@ -447,7 +447,7 @@ class RuntimeTests(unittest.TestCase):
             root = Path(scratch)
             filename = 'node-v24.1.0-linux-x64.tar.xz'
             response = io.BytesIO(('0' * 64 + '  ' + filename + '\n').encode())
-            def download(url, target):
+            def download(url, target, *_):
                 Path(target).write_bytes(b'invalid archive')
             with patch.object(runtime.platform, 'system', return_value='Linux'), patch.object(runtime.platform, 'machine', return_value='x86_64'), patch.object(runtime.shutil, 'which', return_value='/usr/bin/node'), patch.object(runtime, 'run', return_value=subprocess.CompletedProcess([], 0, stdout='20.1.0')), patch.object(runtime.urllib.request, 'urlopen', return_value=response), patch.object(runtime.urllib.request, 'urlretrieve', side_effect=download):
                 with self.assertRaisesRegex(RuntimeError, 'checksum mismatch'):

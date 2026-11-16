@@ -78,8 +78,17 @@ quiet() {
   if [[ -z "$trace_file" ]]; then "$@"; return; fi
   local result
   trace command process "$1" started "${2:-}"
+  # Visible progress: what runs now and how long it took (details stay in the log).
+  # Name only the program (and file/package for downloads); never echo arguments,
+  # which may carry paths or keys.
+  local label="${1##*/}"
+  if [[ "$1" == curl ]]; then label="${*: -3:1}"; label="download ${label##*/}"
+  elif [[ "$1" == npm && "${2:-}" == install ]]; then label="npm install ${*: -1}"; fi
+  printf '[AI for Research]   > %s ...\n' "$label"
+  local started=$SECONDS
   if "$@" >> "${trace_file%.jsonl}.log" 2>&1; then
     trace command process "$1" completed
+    printf '[AI for Research]     done (%s s)\n' "$((SECONDS - started))"
   else
     result=$?; trace command process "$1" failed "$result"
     printf '[AI for Research] INSTALL_FAILED %s (exit %s). Details: %s\n' "$1" "$result" "${trace_file%.jsonl}.log" >&2
