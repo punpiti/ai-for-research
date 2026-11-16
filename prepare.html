@@ -11,7 +11,7 @@
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/styles.css?v=20261113-2">
   <link rel="stylesheet" href="assets/learn.css?v=20261115-2">
-  <script src="assets/app.js?v=20261116-1" defer></script>
+  <script src="assets/app.js?v=20261116-2" defer></script>
   <script src="assets/module-1-steps.js?v=20261010-3" defer></script>
   <script src="assets/module-1-submission.js?v=20261011-2" defer></script>
   <script src="assets/airr-connect.js?v=20261116-1" defer></script>
@@ -137,22 +137,34 @@
     </section>
 
     <section class="section" id="airr-gate">
-      <div class="section-heading compact"><p class="eyebrow">ทดสอบหลังติดตั้ง</p><h2>ให้ AI รัน AIRR whoami</h2></div>
-      <div class="task-heading"><span class="content-kind is-prompt">Prompt</span><strong>ให้ AI ทดสอบ AIRR และแจ้งระบบของคลาสว่าติดตั้งแล้ว</strong></div>
-      <p>ทำหลังเห็น <code>FINAL_RESULT PASS</code> แล้ว: ใน VS Code เปิด AI panel ลงชื่อเข้าใช้บัญชีที่เลือก แล้ววางข้อความในกล่องนี้ (ไม่ต้องพิมพ์ใน Terminal เอง)</p>
-      <div class="command ai-prompt"><code>AIRR whoami</code><button type="button" data-copy>คัดลอก Prompt</button></div>
-      <p class="expected">AI จะรันเครื่องมือ AIRR ใน <code>tools/</code> ของ workspace ให้ แล้วบอกว่าเชื่อมกับคลาสและบัญชีใด โดยไม่แสดง AIRR Key และไม่แก้ไฟล์ · คำสั่ง AIRR อื่น: พิมพ์ <code>AIRR help</code></p>
-      <div class="done-shows"><strong>เสร็จแล้วจะเห็น</strong><p>AI ตอบชื่อคลาสของคุณ = เชื่อม AIRR แล้ว และผู้สอนเห็นว่าคุณผ่านขั้นติดตั้ง · ถ้า AI แจ้งว่าไม่มี key ให้กลับไปกดคัดลอกคำสั่งติดตั้ง (ข้อ 3 ในกล่องติดตั้ง) แล้วรันซ้ำ</p></div>
-    </section>
-
-    <section class="section platform-section" id="practice" data-agent-required hidden>
-      <div class="section-heading compact"><p class="eyebrow">3 · เริ่มใช้</p><h2>เชื่อม AI แล้วทดลองให้ AI สร้างไฟล์</h2></div>
+      <div class="section-heading compact"><p class="eyebrow">ทดสอบหลังติดตั้ง</p><h2>เชื่อม AI แล้วให้ AI รัน AIRR whoami</h2></div>
+      <div class="task-heading"><strong>เชื่อม AI ใน VS Code (ครั้งแรกครั้งเดียว)</strong></div>
       <ol class="readiness-steps" data-login-steps>
         <li><span>01</span><div><strong>เปิด AI panel</strong></div></li>
         <li><span>02</span><div><strong>ลงชื่อเข้าใช้</strong></div></li>
         <li><span>03</span><div><strong>กลับมาที่ VS Code</strong></div></li>
       </ol>
       <p class="expected"><a data-login-source href="https://openrouter.ai/works-with-openrouter/cline" target="_blank" rel="noopener">คู่มือจากผู้ให้บริการ</a></p>
+      <div class="notice" data-agent-only="openrouter" hidden><strong>เลือก model แบบง่าย</strong> · ชื่ออ่านว่า <code>ผู้พัฒนา/รุ่น</code> · คำว่า haiku, flash, luna = รุ่นเล็ก เร็ว ถูก · sonnet, terra = รุ่นเก่งขึ้น แพงขึ้น · opus = ใหญ่สุด แพงสุด (ไม่แนะนำ งบจะหมดเร็ว)
+        <div class="table-wrap"><table>
+          <thead><tr><th>ใช้เมื่อ</th><th>model</th><th>ค่าใช้ต่อคำสั่งสั้น ๆ ใน Cline (ประมาณ)</th></tr></thead>
+          <tbody>
+            <tr><td><strong>ใช้ประจำ (เริ่มที่นี่)</strong> อ่าน สรุป แก้ไฟล์ ทำตามขั้นในคลาส</td><td><code>anthropic/claude-haiku-5.5</code><br><code>openai/gpt-6-luna-pro</code></td><td>$0.002–0.005</td></tr>
+            <tr><td><strong>งานยาก</strong> วางแผนวิจัย เขียนหรือแก้บทความยาว โค้ดที่ติดปัญหา</td><td><code>anthropic/claude-sonnet-5.5</code><br><code>openai/gpt-6.1-terra</code></td><td>$0.02–0.05 (แพงกว่าประมาณ 10–20 เท่า)</td></tr>
+            <tr><td><strong>ประหยัดที่สุด</strong> งานง่ายที่ทำซ้ำหลายครั้ง</td><td><code>deepseek/deepseek-v4.1-flash</code><br><code>z-ai/glm-5.3-flash</code></td><td>ต่ำกว่า $0.002</td></tr>
+          </tbody>
+        </table></div>
+        <p>ผู้เรียนแต่ละคนมีงบ $2 · รุ่นใช้ประจำพอสำหรับทั้งคลาส ส่วนรุ่นงานยากใช้ได้ราว 50 คำสั่งสั้น · เปลี่ยน model ได้ตลอดที่ชื่อ model ใต้ช่องพิมพ์ของ Cline · model อื่นลองเองได้ ถ้าตัวไหนไม่ผ่านการป้องกันข้อมูล (ZDR) ระบบจะปฏิเสธเอง ไม่มีข้อมูลหลุด · ข้อมูลไม่ถูกนำไปฝึก AI แต่ผู้ให้บริการบางรายอาจเก็บไว้ชั่วคราวเพื่อตรวจการใช้ผิด จึงห้ามใส่ข้อมูลระบุตัวบุคคลของผู้ให้ข้อมูลวิจัย</p>
+      </div>
+      <div class="task-heading"><span class="content-kind is-prompt">Prompt</span><strong>ให้ AI ทดสอบ AIRR และแจ้งระบบของคลาสว่าติดตั้งแล้ว</strong></div>
+      <p>ทำหลังเชื่อม AI ตามขั้นด้านบนแล้ว: วางข้อความในกล่องนี้ใน AI panel (ไม่ต้องพิมพ์ใน Terminal เอง)</p>
+      <div class="command ai-prompt"><code>AIRR whoami</code><button type="button" data-copy>คัดลอก Prompt</button></div>
+      <p class="expected">AI จะรันเครื่องมือ AIRR ใน <code>tools/</code> ของ workspace ให้ แล้วบอกว่าเชื่อมกับคลาสและบัญชีใด โดยไม่แสดง AIRR Key และไม่แก้ไฟล์ · คำสั่ง AIRR อื่น: พิมพ์ <code>AIRR help</code></p>
+      <div class="done-shows"><strong>เสร็จแล้วจะเห็น</strong><p>AI ตอบชื่อคลาสของคุณ = เชื่อม AIRR แล้ว และผู้สอนเห็นว่าคุณผ่านขั้นติดตั้ง · ถ้า AI แจ้งว่าไม่มี key ให้กลับไปกดคัดลอกคำสั่งติดตั้ง (ข้อ 3 ในกล่องติดตั้ง) แล้วรันซ้ำ</p></div>
+    </section>
+
+    <section class="section platform-section" id="practice" data-agent-required hidden>
+      <div class="section-heading compact"><p class="eyebrow">3 · เริ่มใช้</p><h2>ทดลองให้ AI สร้างไฟล์</h2></div>
 
       <section id="project-basics" aria-labelledby="project-basics-heading">
         <h3 class="section-zone-heading" id="project-basics-heading"><span class="content-kind is-read">อ่าน</span> โฟลเดอร์ที่ใช้</h3>

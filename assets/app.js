@@ -551,6 +551,7 @@ function selectAgent(agent, persist = false) {
   for (const label of document.querySelectorAll("[data-workspace-open-command]")) label.textContent = agent === "antigravity" ? "agy-ide ." : "code .";
   const agentPanel = { codex: "Codex panel", claude: "Claude Code panel", openrouter: "Cline panel", antigravity: "Antigravity Agent panel" }[agent];
   for (const label of document.querySelectorAll("[data-agent-panel]")) label.textContent = agentPanel;
+  for (const element of document.querySelectorAll("[data-agent-only]")) element.hidden = element.dataset.agentOnly !== agent;
   renderWorkspaceState(savedProjectName(), agent);
   const loginSteps = document.querySelector("[data-login-steps]");
   if (loginSteps) {
@@ -566,9 +567,11 @@ function selectAgent(agent, persist = false) {
         ["ยืนยันใน Browser", "ลงชื่อเข้าใช้ Claude.ai หรือ Anthropic Console ตามสิทธิ์ แล้วอนุญาตการเชื่อมต่อ"]
       ],
       openrouter: [
-        ["เปิด Cline panel", "คลิกไอคอน Cline ใน VS Code แล้วเปิด Settings"],
-        ["เลือก API Provider: OpenRouter", "สร้าง API key ในบัญชี OpenRouter แล้ววางในช่อง key ของ Cline โดยตรง"],
-        ["เลือกโมเดลและตรวจบัญชี", "เลือกโมเดลที่ต้องการ ตรวจเครดิตและราคา จากนั้นเริ่มงานใน Workspace; ไม่ส่ง key ในช่องสนทนาหรือไฟล์งาน"]
+        ["เปิด Cline panel", "คลิกไอคอน Cline (รูปหุ่นยนต์) ที่แถบซ้ายของ VS Code · หน้า Meet Cline ที่เด้งขึ้นมาปิดได้เลย"],
+        ["เลือก Bring my own API key", "หน้า How will you use Cline? เลือก <strong>Bring my own API key</strong> แล้วกด Continue · ไม่เลือก Absolutely Free, ClinePass, Frontier Model หรือ Login to Cline เพราะข้ามการป้องกันข้อมูลและงบของคลาส"],
+        ["วาง OpenRouter key", "API Provider เลือก <strong>OpenRouter</strong> · ใน VS Code กด File → Open File… เปิด <code>.airr/ai-key.txt</code> ในโฟลเดอร์ผู้ใช้ (Windows: <code>C:\\Users\\ชื่อคุณ\\.airr\\ai-key.txt</code>) คัดลอกบรรทัดแรก (ขึ้นต้น <code>sk-or-v1-</code>) วางในช่อง OpenRouter API Key · ห้ามถ่ายภาพหน้าจอตอนเปิดไฟล์นี้"],
+        ["เลือก model", "กด ✕ ในช่อง Model เพื่อล้างก่อน แล้วพิมพ์ <code>claude-haiku-5.5</code> เลือก <code>anthropic/claude-haiku-5.5</code> แล้วกด Continue (ดูตารางเลือก model ด้านล่าง)"],
+        ["ปิดไฟล์ key", "ปิดแท็บ ai-key.txt โดยไม่บันทึก · หลัง AI ตอบ AIRR whoami ได้แล้ว พิมพ์ใน Cline ว่า <code>รัน tools/airr ai-key --clear</code> เพื่อลบไฟล์ key ออกจากเครื่อง"]
       ],
       antigravity: [
         ["เปิด Antigravity IDE", "ที่ Welcome screen กด Sign in"],

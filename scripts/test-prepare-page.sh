@@ -20,7 +20,7 @@ for platform in windows macos linux; do
 done
 
 grep -q 'คำสั่งเดียวจบ' "$page"
-grep -q 'เชื่อม AI แล้วทดลองให้ AI สร้างไฟล์' "$page"
+grep -q 'เชื่อม AI แล้วให้ AI รัน AIRR whoami' "$page"
 grep -q '<details class="fallback-details">' "$page"
 grep -q 'Workspace ไม่เปิดอัตโนมัติ? ดูวิธีเปิดใหม่' "$page"
 grep -q '<code data-project-path>~/ai-for-research-workspace</code>' "$page"
