@@ -110,6 +110,15 @@ def run() -> None:
                 module1_path.write_text(json.dumps(module1), encoding="utf-8")
                 assert client.main(["--workspace", str(workspace), "check", "module-1"]) == 0
                 assert client.main(["--workspace", str(workspace), "submit", "module-1", "--yes"]) == 0
+                # Module 1 short path: learner ticked the web checklist; AIRR only says "done", no progress file needed.
+                module1_path.unlink()
+                assert client.main(["--workspace", str(workspace), "submit", "module-1", "--short", "--yes"]) == 0
+                short_call = calls[-1]
+                assert short_call[1].endswith("/modules/module-1/submissions"), short_call[1]
+                assert short_call[3]["progress"]["completion_status"] == "completed"
+                assert all(short_call[3]["progress"]["checks"].values())
+                assert 1 <= short_call[3]["progress"]["completion_minutes"] <= 600
+                assert not module1_path.exists(), "--short must not create a progress file"
                 # Module 2 short path: placeholder evaluation and missing files are refused locally.
                 assert client.main(["--workspace", str(workspace), "init", "module-2"]) == 0
                 (workspace / "module-02-work/output/meal-card.md").write_text("# full\n# short\n", encoding="utf-8")

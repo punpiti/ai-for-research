@@ -48,7 +48,9 @@ grep -q 'เล่าเรื่องงานวิจัยของคุ�
 if grep -q 'data-research-profile' "$page"; then echo 'Retired research-profile form on prepare page' >&2; exit 1; fi
 grep -q 'data-module-1-submission-form' "$page"
 grep -q 'data-module-1-check="workspace_opened"' "$page"
-grep -q 'ส่งสถานะ Module 1' "$page"
+grep -q 'แจ้งผู้สอนว่าเสร็จ' "$page"
+grep -q 'submit module-1 --short --yes' "$page"
+if grep -q 'ส่งสถานะความพร้อม Module 1' "$page"; then echo 'M1 must not ask readiness questions through AI'; exit 1; fi
 grep -q 'assets/module-1-steps\.js?v=20261010-3' "$page"
 grep -q 'module-top-progress' "$root/assets/module-1-steps.js"
 grep -q 'data-module-1-progress-bar' "$root/assets/module-1-steps.js"

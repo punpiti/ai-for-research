@@ -21,7 +21,7 @@ from uuid import uuid4
 
 
 DEFAULT_API_BASE = "https://urban.cpe.ku.ac.th/api/airr/v1"
-AIRR_VERSION = "2026.11.16.3"  # bump on every published change of this file
+AIRR_VERSION = "2026.11.17.1"  # bump on every published change of this file
 DOWNLOADS_PREFIX = "https://urban.cpe.ku.ac.th/ai-for-research/downloads/"
 MANIFEST_URL = DOWNLOADS_PREFIX + "course-materials.json"
 CLIENT_MANIFEST_SUFFIX = "tools/ai-for-research-course.py"
@@ -169,6 +169,15 @@ def installed_ai_tool(workspace: Path) -> str | None:
     return agent if agent in AI_TOOLS else None
 
 
+def minutes_since_install(workspace: Path) -> int:
+    """Rough time spent: from install (tools/runtime-env.json) to now, kept within the server's 1–600."""
+    try:
+        started = (workspace / "tools" / "runtime-env.json").stat().st_mtime
+    except OSError:
+        return 1
+    return max(1, min(600, round((datetime.now(timezone.utc).timestamp() - started) / 60)))
+
+
 def form_template(template: dict[str, Any], workspace: Path) -> dict[str, Any]:
     value = dict(template)
     value["ai_tool"] = installed_ai_tool(workspace) or value["ai_tool"]
@@ -224,6 +233,13 @@ def run_local_validator(workspace: Path, module: str, artifact: Path, markdown: 
 
 def module_payload(workspace: Path, args: argparse.Namespace) -> tuple[dict[str, Any], str]:
     now = datetime.now(timezone.utc).isoformat()
+    if args.module == "module-1" and getattr(args, "short", False):
+        # Learners tick the readiness checklist on the web themselves (self-review, not graded);
+        # --short only tells the instructor "done". No questions, no progress file.
+        progress = dict(INIT_MODULE_1_PROGRESS, checks={name: True for name in INIT_MODULE_1_PROGRESS["checks"]},
+                        completion_status="completed", ai_tool=installed_ai_tool(workspace) or "unknown",
+                        completion_minutes=minutes_since_install(workspace))
+        return {"event_type": "ai_for_research_module_1_progress", "submission_id": str(uuid4()), "client_submitted_at": now, "progress": progress}, "เช็กลิสต์บนเว็บ (ผู้เรียนตรวจเอง)"
     if args.module == "module-1":
         path = Path(args.file).expanduser().resolve() if args.file else module_file(workspace, "module-1", "module-1-progress.json")
         progress = load_json(path, "module-1-progress.json")
@@ -240,7 +256,7 @@ def module_payload(workspace: Path, args: argparse.Namespace) -> tuple[dict[str,
         return {"event_type": "ai_for_research_module_1_progress", "submission_id": str(uuid4()), "client_submitted_at": now, "progress": progress}, str(path)
     if getattr(args, "short", False):
         if args.module not in SHORT_PATH_FILES:
-            raise AIRRError("--short ใช้ได้กับ module-2 และ module-3 เท่านั้น")
+            raise AIRRError("--short ใช้ได้กับ module-1, module-2 และ module-3 เท่านั้น")
         counts, paths = short_path_counts(workspace, args.module)
         evaluation = validate_evaluation(load_json(evaluation_path(workspace, args.module, args.evaluation), f"{args.module}-evaluation.json"), args.module)
         progress = {"schema_version": "ai-for-research.short-path-done.v1", "module_id": args.module, "path": "short", "line_counts": counts}
@@ -749,7 +765,7 @@ def command_submit(args: argparse.Namespace) -> None:
     if not args.yes and input("ยืนยันส่งงานผ่าน AIRR? [y/N] ").strip().lower() not in {"y", "yes"}:
         print("ยกเลิกการส่งงาน")
         return
-    endpoint = "done" if getattr(args, "short", False) else "submissions"
+    endpoint = "done" if getattr(args, "short", False) and args.module != "module-1" else "submissions"
     result = request_json("POST", f"{config['api_base']}/modules/{args.module}/{endpoint}", config["api_key"], payload)
     if result.get("status") != "accepted" and not (args.module == "module-7" and result.get("review_status") == "pending_review"):
         raise AIRRError("AIRR ไม่คืนสถานะ accepted")
@@ -830,7 +846,7 @@ HELP_TOPICS = {
     "logout": "logout\n  ลบ AIRR Key ออกจาก workspace นี้ ใช้เมื่อเลิกใช้เครื่องหรือ key รั่ว\n  หลัง logout ต้องสร้าง key ใหม่และเชื่อมใหม่ก่อนส่งงาน",
     "init": "init module-1|module-2|module-3 [--force]\n  สร้างไฟล์ progress หรือ evaluation ของโมดูลใน module-0N-work/output/ ให้แก้ใน VS Code\n  ไม่เขียนทับไฟล์เดิม ยกเว้นใส่ --force · ไม่ติดต่อ server\n  ตัวอย่าง: init module-1",
     "check": "check MODULE [--file ...] [--graph ...]\n  ตรวจไฟล์ของโมดูลในเครื่องว่าครบตามรูปแบบก่อนส่ง ไม่ส่งอะไรออกจากเครื่อง\n  ตัวอย่าง: check module-1 · check module-7 --graph module-07-work/figures/fig1.png",
-    "submit": "submit MODULE [--yes] [--short]\n  ส่งงานหรือสถานะของโมดูลให้ผู้สอน แสดงสรุปและถามยืนยันก่อนส่ง (--yes = ไม่ถามซ้ำ)\n  Module 1 ส่งเฉพาะเช็กลิสต์และเวลา ไม่ส่งไฟล์งาน · Module 7 ส่ง highlights และกราฟ 1–5 ภาพ\n  --short (Module 2/3) แจ้งว่าเสร็จด้วยจำนวนบรรทัด ไม่ส่งเนื้อหา\n  ตัวอย่าง: submit module-1",
+    "submit": "submit MODULE [--yes] [--short]\n  ส่งงานหรือสถานะของโมดูลให้ผู้สอน แสดงสรุปและถามยืนยันก่อนส่ง (--yes = ไม่ถามซ้ำ)\n  Module 1 ส่งเฉพาะเช็กลิสต์และเวลา ไม่ส่งไฟล์งาน · Module 7 ส่ง highlights และกราฟ 1–5 ภาพ\n  --short Module 1: แจ้งผู้สอนว่าเสร็จ (ผู้เรียนติ๊กเช็กลิสต์บนเว็บเองแล้ว) · Module 2/3: แจ้งว่าเสร็จด้วยจำนวนบรรทัด ไม่ส่งเนื้อหา\n  ตัวอย่าง: submit module-1 --short --yes",
     "status": "status module-1|module-2|module-3|module-4|module-7\n  ดูว่าผู้สอนได้รับงานแล้วหรือยัง ผลตรวจ และ feedback\n  ตัวอย่าง: status module-7",
     "ai-key": "ai-key [--open] [--clear]\n  รับ OpenRouter key ที่ผู้สอนจัดให้ (หนึ่งคนหนึ่ง key รันซ้ำได้ key เดิม) ลงไฟล์ ~/.airr/ai-key.txt\n  ไม่แสดง key บนจอ · --open เปิดไฟล์ใน VS Code · คัดลอกบรรทัดแรกไปวางใน Cline\n  ใส่ใน Cline และทดสอบได้แล้ว: ai-key --clear เพื่อลบไฟล์",
     "materials": "materials module-2|module-4 [--thai]\n  ดาวน์โหลดไฟล์ฝึกของโมดูลลง workspace (ถ้าติดตั้งพร้อม key ไฟล์จะมีอยู่แล้ว)\n  ตัวอย่าง: materials module-4 --thai",
@@ -853,7 +869,7 @@ def add_module_files(parser: argparse.ArgumentParser) -> None:
     parser.add_argument("--graph", action="append", help="ระบุกราฟซ้ำได้ 1–5 ครั้ง; ค่าเริ่มต้นอ่าน module-07-work/figures")
     parser.add_argument("--markdown", help="ตำแหน่ง module-2-conclusion.md")
     parser.add_argument("--evaluation", help="ตำแหน่งไฟล์ evaluation ของ Module 2 หรือ 3")
-    parser.add_argument("--short", action="store_true", help="Module 2 หรือ 3 ทางสั้นของวันอบรม: แจ้งว่าเสร็จด้วยจำนวนบรรทัดของไฟล์ ไม่ส่งเนื้อหา")
+    parser.add_argument("--short", action="store_true", help="ทางสั้น: Module 1 แจ้งว่าเสร็จ (ติ๊กเช็กลิสต์บนเว็บแล้ว) · Module 2/3 แจ้งว่าเสร็จด้วยจำนวนบรรทัดของไฟล์ ไม่ส่งเนื้อหา")
 
 
 def parser() -> argparse.ArgumentParser:

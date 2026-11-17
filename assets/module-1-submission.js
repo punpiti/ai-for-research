@@ -57,12 +57,31 @@
   globalObject.module1SubmissionTestApi = testApi;
   if (typeof document === "undefined") return;
 
+  // Self-review: ticking all checkpoints shows "ผ่าน" at once. Nobody grades it; no AI needed.
+  const passNode = document.querySelector("[data-module-1-pass]");
+  const checkBoxes = checkNames.map((name) => document.querySelector(`[data-module-1-check="${name}"]`)).filter(Boolean);
+  const allTicked = () => checkBoxes.length === checkNames.length && checkBoxes.every((box) => box.checked);
+
   const form = document.querySelector("[data-module-1-submission-form]");
+  const doneButton = form?.querySelector("[data-module-1-done]");
+  const notDoneButton = form?.querySelector("[data-module-1-not-done]");
+  let classroomsReady = false;
+  let sending = false;
+  function refresh() {
+    if (passNode) passNode.hidden = !allTicked();
+    if (doneButton) doneButton.disabled = sending || !classroomsReady || !allTicked();
+    if (notDoneButton) notDoneButton.disabled = sending || !classroomsReady;
+  }
+  checkBoxes.forEach((box) => box.addEventListener("change", refresh));
+  // app.js restores saved ticks on load; check again once it has run.
+  globalObject.addEventListener("load", refresh);
+  refresh();
   if (!form) return;
+
   const statusNode = document.querySelector("[data-module-1-submission-status]");
   const receipt = document.querySelector("[data-module-1-receipt]");
   const classroomSelect = form.elements.classroom_id;
-  const sendButton = form.querySelector('button[type="submit"]');
+  const classroomField = form.querySelector("[data-module-1-classroom-field]");
 
   function showStatus(message, isError = false) {
     statusNode.textContent = message;
@@ -77,11 +96,10 @@
   }
 
   async function loadClassrooms() {
-    sendButton.disabled = true;
     try {
       const response = await fetch("/api/ai-for-research/classrooms/me", { credentials: "same-origin" });
       if (response.status === 401) {
-        statusNode.replaceChildren(document.createTextNode("เข้าสู่ระบบก่อนส่งสถานะ "));
+        statusNode.replaceChildren(document.createTextNode("เข้าสู่ระบบก่อนแจ้งผู้สอน "));
         const link = document.createElement("a");
         link.href = loginUrl();
         link.textContent = "เข้าสู่ระบบ";
@@ -98,14 +116,18 @@
       if (requested && classrooms.some((item) => item.classroom_id === requested)) classroomSelect.value = requested;
       else if (classrooms.length === 1) classroomSelect.value = classrooms[0].classroom_id;
       if (!classrooms.length) throw new Error("ยังไม่มีคลาสที่อนุมัติให้คุณส่งงาน");
-      sendButton.disabled = false;
-      showStatus("พร้อมส่งสถานะให้ผู้สอน");
+      // Ask for the class only when it cannot be chosen automatically.
+      if (classroomField) classroomField.hidden = Boolean(classroomSelect.value);
+      classroomsReady = true;
+      showStatus(allTicked() ? "พร้อมแจ้งผู้สอน" : "ติ๊กให้ครบ 4 ข้อก่อน หรือแจ้งว่ายังทำไม่สำเร็จ");
     } catch (error) {
       showStatus(error.message, true);
+    } finally {
+      refresh();
     }
   }
 
-  // Suggest elapsed minutes from the first visit; learners can still edit it.
+  // Rough minutes since the first visit to this page; the server needs 1–600.
   const startedKey = "ai-for-research.module-1.started-at";
   let startedAt = 0;
   try {
@@ -115,31 +137,24 @@
       globalObject.localStorage.setItem(startedKey, String(startedAt));
     }
   } catch (_error) { startedAt = 0; }
-  function suggestMinutes() {
-    const input = form.elements.completion_minutes;
-    if (!startedAt || input.value) return;
-    const minutes = Math.round((Date.now() - startedAt) / 60000);
-    if (minutes >= 1 && minutes <= 600) {
-      input.value = String(minutes);
-      const hint = form.querySelector("[data-module-1-minutes-hint]");
-      if (hint) hint.textContent = "ระบบประมาณจากเวลาที่เปิดบทนี้ครั้งแรก แก้ได้ถ้าไม่ตรง";
-    }
+  function estimatedMinutes() {
+    if (!startedAt) return 1;
+    return Math.max(1, Math.min(600, Math.round((Date.now() - startedAt) / 60000)));
   }
-  form.addEventListener("focusin", suggestMinutes, { once: true });
 
-  // Token fields are optional in the page; without them the server receives "not_available".
-  form.elements.token_source?.addEventListener("change", () => {
-    const unavailable = form.elements.token_source.value === "not_available";
-    form.elements.total_tokens.disabled = unavailable;
-    form.elements.total_tokens.required = !unavailable;
-    if (unavailable) form.elements.total_tokens.value = "";
-  });
+  checkBoxes.forEach((box) => box.addEventListener("change", () => {
+    if (classroomsReady) showStatus(allTicked() ? "พร้อมแจ้งผู้สอน" : "ติ๊กให้ครบ 4 ข้อก่อน หรือแจ้งว่ายังทำไม่สำเร็จ");
+  }));
 
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
     receipt.hidden = true;
+    const completionStatus = event.submitter?.value === "could_not_complete" ? "could_not_complete" : "completed";
     try {
-      if (!form.reportValidity()) throw new Error("กรอกข้อมูลให้ครบ");
+      if (!classroomSelect.value) {
+        if (classroomField) classroomField.hidden = false;
+        throw new Error("เลือกคลาสก่อน");
+      }
       const checks = Object.fromEntries(checkNames.map((name) => [
         name,
         document.querySelector(`[data-module-1-check="${name}"]`)?.checked === true,
@@ -147,14 +162,14 @@
       const selectedAgent = document.querySelector('input[name="agent"]:checked')?.value || "unknown";
       const envelope = buildEnvelope({
         classroomId: classroomSelect.value,
-        completionStatus: form.elements.completion_status.value,
-        aiTool: selectedAgent,
-        completionMinutes: form.elements.completion_minutes.value,
-        tokenSource: form.elements.token_source?.value || "not_available",
-        totalTokens: form.elements.total_tokens?.value || "",
+        completionStatus,
+        aiTool: aiTools.includes(selectedAgent) ? selectedAgent : "unknown",
+        completionMinutes: estimatedMinutes(),
+        tokenSource: "not_available",
         checks,
       });
-      sendButton.disabled = true;
+      sending = true;
+      refresh();
       showStatus("กำลังส่ง…");
       const response = await fetch(endpoint, {
         method: "POST",
@@ -174,7 +189,8 @@
     } catch (error) {
       showStatus(`ยังส่งไม่ได้: ${error.message}`, true);
     } finally {
-      sendButton.disabled = false;
+      sending = false;
+      refresh();
     }
   });
 
