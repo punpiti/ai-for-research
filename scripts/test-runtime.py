@@ -416,6 +416,34 @@ class RuntimeTests(unittest.TestCase):
                 self.assertTrue(any(c.args[1] == 'setspace.sty' for c in command.call_args_list))
                 self.assertTrue(any(c.args[1] == 'fontsize.sty' for c in command.call_args_list))
 
+    def test_rerun_with_complete_tex_skips_tlmgr(self):
+        # An older tlmgr refuses to run once the repository moves on; a complete install must not call it.
+        with tempfile.TemporaryDirectory() as scratch:
+            bin_dir = Path(scratch) / 'TinyTeX/bin/x86_64-linux'; bin_dir.mkdir(parents=True)
+            for name in ('tlmgr', 'xelatex', 'xdvipdfmx', 'kpsewhich'):
+                (bin_dir / name).write_text('x'); (bin_dir / name).chmod(0o755)
+            with patch.object(runtime, 'run') as command:
+                runtime.install_tex(Path(scratch))
+            self.assertFalse(any(c.args[0] == bin_dir / 'tlmgr' for c in command.call_args_list))
+            self.assertTrue(any(c.args[1] == 'fontsize.sty' for c in command.call_args_list))
+
+    def test_missing_packages_update_tlmgr_before_install(self):
+        with tempfile.TemporaryDirectory() as scratch:
+            bin_dir = Path(scratch) / 'TinyTeX/bin/x86_64-linux'; bin_dir.mkdir(parents=True)
+            for name in ('tlmgr', 'xelatex', 'xdvipdfmx', 'kpsewhich'):
+                (bin_dir / name).write_text('x'); (bin_dir / name).chmod(0o755)
+            first = {'done': False}
+            def fake_run(*args, **kwargs):
+                if args[0] == bin_dir / 'kpsewhich' and args[1] == 'fontsize.sty' and not first['done']:
+                    first['done'] = True
+                    raise subprocess.CalledProcessError(1, args)
+                return subprocess.CompletedProcess(args, 0)
+            with patch.object(runtime, 'run', side_effect=fake_run) as command:
+                runtime.install_tex(Path(scratch))
+            tlmgr_calls = [c.args[1:3] for c in command.call_args_list if c.args[0] == bin_dir / 'tlmgr']
+            self.assertEqual(tlmgr_calls[0], ('update', '--self'))
+            self.assertTrue(any(args[0] == 'install' for args in tlmgr_calls))
+
     def test_missing_xdvipdfmx_driver_fails_with_clear_message(self):
         with tempfile.TemporaryDirectory() as scratch:
             bin_dir = Path(scratch) / 'TinyTeX/bin/universal-darwin'; bin_dir.mkdir(parents=True)
