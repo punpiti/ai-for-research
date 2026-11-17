@@ -20,86 +20,121 @@
   <main id="main">
 <section class="prepare-hero module-hero"><p class="eyebrow">หัวข้อย่อย · M02</p><h1>อ่านหลักฐานหลายรูปแบบและชี้ระดับต้นทาง</h1><ul class="outcomes"><li>สั่ง AI ตรวจรายการ แตกไฟล์ และอ่านชุดหลักฐานหลายรูปแบบโดยไม่แก้ต้นฉบับ บอกได้ว่าไฟล์แต่ละชนิดยืนยันอะไรได้และไม่ได้ และเก็บคำตอบรอบแรกที่ยังไม่กำหนดกติกาหลักฐานไว้เปรียบเทียบ</li><li>แยกข้อความในคำตอบของ AI เป็น L1–L4 เขียน Prompt ที่บังคับให้ระบุไฟล์และตำแหน่งที่รองรับพร้อมสิ่งที่ยังตอบไม่ได้ และเปรียบเทียบผลกับรอบแรกโดยรายงานตามจริงแม้ไม่ดีขึ้น</li></ul></section>
 <div class="topic-layout"><nav class="topic-tabs" aria-label="ส่วนของหัวข้อ"><a href="#slides" title="สไลด์">สไลด์</a><a href="#workshop-multiformat-evidence-intake" title="นำเข้าหลักฐานหลายรูปแบบ แล้วดูคำตอบรอบแรกของ AI">Workshop 1</a><a href="#open-multiformat-evidence-intake-explore" title="นำเข้าหลักฐานหลายรูปแบบ แล้วดูคำตอบรอบแรกของ AI">Exploring 1</a><a href="#workshop-evidence-levels-source-tracing" title="L1–L4 และ Prompt ที่บังคับให้ระบุที่มา">Workshop 2</a><a href="#open-evidence-levels-source-tracing-explore" title="L1–L4 และ Prompt ที่บังคับให้ระบุที่มา">Exploring 2</a></nav><div class="topic-main"><section class="section markdown-section topic-panel" id="slides" aria-labelledby="slides-heading"><div class="section-heading compact"><p class="eyebrow">สไลด์</p><h2 id="slides-heading">สไลด์</h2></div><div class="markdown-body"><p>สไลด์ของหัวข้อนี้กำลังจัดทำ</p></div></section>
-<section class="section markdown-section topic-panel" id="workshop-multiformat-evidence-intake" aria-labelledby="workshop-multiformat-evidence-intake-heading"><div class="section-heading compact"><p class="eyebrow">Workshop 1</p><h2 id="workshop-multiformat-evidence-intake-heading">นำเข้าหลักฐานหลายรูปแบบ แล้วดูคำตอบรอบแรกของ AI</h2></div><div class="markdown-body"><p>หัวข้อนี้ไม่มีไฟล์ใน mock/ เพราะใช้ชุดของโมดูลโดยตรง สำเนาสำหรับผู้สอน: downloads/module-02-food-evidence.zip และไฟล์ที่แตกแล้วใน downloads/module-02-food-evidence/ --&gt;</p>
-<p>ใน workshop นี้คุณจะให้ AI ตรวจและแตกชุดหลักฐานอาหารของ Module 2 โดยไม่แก้ต้นฉบับ แล้วถามคำถามร่วมหนึ่งรอบเพื่อเก็บคำตอบรอบแรกของ AI ไว้เปรียบเทียบ</p>
-<p>ชุดหลักฐานเป็นกรณีสมมติ ข้อมูล ชื่อบุคคล และรีวิวสร้างขึ้นเพื่อการสอน ไม่มีข้อมูลจริงของใคร</p>
-<h3 id="ก่อนเริ่ม-ต้องมีอยู่แล้ว">ก่อนเริ่ม (ต้องมีอยู่แล้ว)</h3>
-<ul>
-<li>ผ่าน Module 1: เปิด <code>ai-for-research-workspace</code> ใน VS Code และ AI panel เชื่อมแล้ว</li>
-<li>ไฟล์ <code>module-02-work/input/original/module-02-food-evidence.zip</code> (ยังไม่แตกไฟล์) — ตัวติดตั้ง Module 1 วางไว้ให้ถ้าตอนติดตั้งเห็น <code>PRACTICE_FILES_READY</code> ถ้ายังไม่มี ให้ดาวน์โหลดจากหน้า Module 2 (โหลดผ่าน API ของโมดูล) แล้ววางไว้ที่ตำแหน่งนี้</li>
-</ul>
-<h3 id="คำถามร่วม">คำถามร่วม</h3>
-<div class="command ai-prompt"><code>มื้อข้าวไข่เจียวเหมาะกับนักศึกษาที่มีงบไม่เกิน 80 บาท มีเวลา 30 นาที และต้องการอิ่มถึง 16:00 หรือไม่</code><button type="button" data-copy="">คัดลอก</button></div><h3 id="ขั้นตอน">ขั้นตอน</h3>
-<p>ทำทีละ Prompt แล้วหยุดดูผลก่อนไปขั้นต่อไป</p>
-<ol type="1">
-<li><p><strong>Prompt เริ่ม — เปิดชุดที่เตรียมให้</strong> สั่ง AI</p>
-<div class="command ai-prompt"><code>ใช้ module-02-food-evidence.zip ใน module-02-work/input/original/ ตรวจรายการและแตกไฟล์อย่างปลอดภัยโดยไม่เขียนทับต้นฉบับ ถ้าไม่พบ ZIP ให้ถามฉันก่อน แสดงรายการไฟล์ที่อ่านได้และอ่านไม่ได้ แล้วหยุดรอ ยังไม่ตอบเรื่องอาหาร</code><button type="button" data-copy="">คัดลอก</button></div><p>AI จะแตกไฟล์ไว้ในโฟลเดอร์ <code>module-02-work/input/original/module-02-food-evidence/</code> และแสดงรายการไฟล์ในแชต <strong>สังเกต:</strong> AI พบไฟล์อะไรบ้าง ถ้าอ่านไฟล์ไม่ได้ บอกตรง ๆ หรือข้ามไปโดยไม่บอก</p></li>
-<li><p><strong>เปิดโฟลเดอร์ที่เพิ่งแตก</strong> แล้วเทียบกับรายการที่ควรมี 9 ไฟล์: <code>01-lunch-brief-th.pdf</code>, <code>02-menu-observations.xlsx</code>, <code>03-omelette-recipe-bilingual.docx</code>, <code>04-lunch-tray.png</code>, <code>05-canteen-reviews.html</code>, <code>06-web-source.txt</code>, <code>07-mock-nutrition.csv</code>, <code>08-example-meal-card.md</code>, <code>README.md</code> อ่านตารางนี้ประกอบ ว่าไฟล์แต่ละชนิดบอกอะไรได้และไม่ได้</p>
+<section class="section markdown-section topic-panel" id="workshop-multiformat-evidence-intake" aria-labelledby="workshop-multiformat-evidence-intake-heading"><div class="section-heading compact"><p class="eyebrow">Workshop 1</p><h2 id="workshop-multiformat-evidence-intake-heading">นำเข้าหลักฐานหลายรูปแบบ แล้วดูคำตอบรอบแรกของ AI</h2></div><div class="markdown-body"><p>ใน workshop นี้คุณจะให้ AI เปิดชุดไฟล์ตัวอย่างเรื่องอาหารกลางวัน แล้วถามคำถามหนึ่งข้อโดยยังไม่กำหนดกติกาเรื่องหลักฐาน เพื่อดูว่า AI ตอบอย่างไรตามธรรมชาติ คำตอบนี้จะใช้เทียบใน Workshop 2</p>
+<h3 id="ชุดไฟล์ที่ใช้">ชุดไฟล์ที่ใช้</h3>
+<p>ชุดหลักฐานเรื่อง <strong>มื้อข้าวไข่เจียวในโรงอาหาร</strong> เป็นกรณีสมมติที่สร้างขึ้นเพื่อการสอน ไม่มีข้อมูลจริงของใคร มาเป็นไฟล์ ZIP ไฟล์เดียว ชื่อ <code>module-02-food-evidence.zip</code> ข้างในมี 9 ไฟล์ หลายชนิด เหมือนหลักฐานจริงที่มักกระจัดกระจาย</p>
 <table>
 <thead>
-<tr class="header">
+<tr>
 <th>ไฟล์</th>
-<th>สิ่งที่บอก</th>
-<th>สิ่งที่บอกไม่ได้</th>
+<th>คืออะไร</th>
 </tr>
 </thead>
 <tbody>
-<tr class="odd">
+<tr>
+<td><code>01-lunch-brief-th.pdf</code></td>
+<td>ประกาศของร้าน</td>
+</tr>
+<tr>
+<td><code>02-menu-observations.xlsx</code></td>
+<td>ตารางที่มีคนจดราคา เวลารอ และความหิว–อิ่ม</td>
+</tr>
+<tr>
+<td><code>03-omelette-recipe-bilingual.docx</code></td>
+<td>สูตรข้าวไข่เจียว สองภาษา</td>
+</tr>
+<tr>
+<td><code>04-lunch-tray.png</code></td>
+<td>ภาพถาดอาหาร</td>
+</tr>
+<tr>
+<td><code>05-canteen-reviews.html</code></td>
+<td>หน้ารีวิวโรงอาหาร (สำเนาหน้าเว็บ)</td>
+</tr>
+<tr>
+<td><code>06-web-source.txt</code></td>
+<td>ที่อยู่เว็บจริงของหน้ารีวิว</td>
+</tr>
+<tr>
+<td><code>07-mock-nutrition.csv</code></td>
+<td>ตารางโภชนาการ (ตัวเลขแต่งขึ้น)</td>
+</tr>
+<tr>
+<td><code>08-example-meal-card.md</code></td>
+<td>ตัวอย่างบัตรสรุปมื้ออาหาร</td>
+</tr>
+<tr>
+<td><code>README.md</code></td>
+<td>คำอธิบายชุดไฟล์</td>
+</tr>
+</tbody>
+</table>
+<p>ไฟล์ ZIP ปกติอยู่ใน workspace แล้วที่ <code>module-02-work/input/original/</code> ถ้ายังไม่มี Prompt แรกจะสั่ง AI ดาวน์โหลดให้</p>
+<h3 id="คำถามที่ใช้ทั้งหัวข้อ">คำถามที่ใช้ทั้งหัวข้อ</h3>
+<div class="command ai-prompt"><code>มื้อข้าวไข่เจียวเหมาะกับนักศึกษาที่มีงบไม่เกิน 80 บาท มีเวลา 30 นาที และต้องการอิ่มถึง 16:00 หรือไม่</code><button type="button" data-copy="">คัดลอก</button></div><h3 id="ขั้นตอน">ขั้นตอน</h3>
+<p>ทำทีละขั้น แล้วหยุดดูผลก่อนไปขั้นต่อไป</p>
+<ol type="1">
+<li><p><strong>ให้ AI เตรียมไฟล์</strong> วาง prompt นี้ใน AI panel</p>
+<div class="command ai-prompt"><code>ดูว่ามี module-02-work/input/original/module-02-food-evidence.zip หรือยัง ถ้ายังไม่มี ให้รันเครื่องมือ AIRR ในโฟลเดอร์ tools/ ด้วยคำสั่ง materials module-2 เพื่อดาวน์โหลด จากนั้นแตกไฟล์ไปที่ module-02-work/input/original/module-02-food-evidence/ โดยไม่ลบหรือเขียนทับ ZIP แสดงรายการไฟล์ที่อ่านได้และอ่านไม่ได้ แล้วหยุดรอ ยังไม่ต้องตอบเรื่องอาหาร</code><button type="button" data-copy="">คัดลอก</button></div><p><strong>เสร็จแล้วจะเห็น:</strong> AI แสดงรายการ 9 ไฟล์ และบอกว่าไฟล์ไหนอ่านได้หรืออ่านไม่ได้ <strong>สังเกต:</strong> ถ้า AI อ่านไฟล์ไหนไม่ได้ มันบอกตรง ๆ หรือข้ามไปเงียบ ๆ</p></li>
+<li><p><strong>เปิดดูเอง</strong> เปิดโฟลเดอร์ <code>module-02-work/input/original/module-02-food-evidence/</code> ใน VS Code ตรวจว่ามีครบ 9 ไฟล์ตามตารางด้านบน แล้วอ่านตารางนี้ว่าไฟล์แต่ละชนิดบอกอะไรได้และไม่ได้</p>
+<table>
+<thead>
+<tr>
+<th>ไฟล์</th>
+<th>บอกได้</th>
+<th>บอกไม่ได้</th>
+</tr>
+</thead>
+<tbody>
+<tr>
 <td>PDF ประกาศร้าน</td>
 <td>รายการอาหาร ราคาเริ่มต้น เวลาเปิด คำว่า “อิ่มนาน”</td>
 <td>“อิ่มนาน” ไม่มีนิยามหรือผลวัด</td>
 </tr>
-<tr class="even">
-<td>Excel ข้อมูลสังเกต</td>
-<td>ราคา เวลารอ คะแนนความหิว–อิ่ม บันทึกสองภาษา</td>
-<td>มีค่าที่ขาดหนึ่งช่อง</td>
+<tr>
+<td>Excel ที่จดไว้</td>
+<td>ราคา เวลารอ คะแนนความหิว–อิ่ม</td>
+<td>มีช่องที่ขาดหนึ่งช่อง</td>
 </tr>
-<tr class="odd">
-<td>Word สูตรสองภาษา</td>
-<td>ส่วนประกอบของสูตร</td>
+<tr>
+<td>Word สูตร</td>
+<td>ส่วนประกอบ</td>
 <td>น้ำหนักข้าว และน้ำมันที่เหลือหลังทอด</td>
 </tr>
-<tr class="even">
+<tr>
 <td>ภาพถาดอาหาร</td>
 <td>สิ่งที่มองเห็นบนถาด</td>
 <td>ราคา คุณค่าทางอาหาร รสชาติ ความอิ่ม</td>
 </tr>
-<tr class="odd">
-<td>เว็บไซต์รีวิว</td>
-<td>คำบอกเล่าของผู้รีวิวสองวัน (มีทั้ง URL จริงและสำเนา HTML)</td>
-<td>เนื้อหาบนเว็บอาจเปลี่ยนภายหลัง</td>
+<tr>
+<td>หน้ารีวิว</td>
+<td>คำบอกเล่าของผู้รีวิวสองวัน</td>
+<td>หน้าเว็บจริงอาจเปลี่ยนไปแล้ว</td>
 </tr>
-<tr class="even">
+<tr>
 <td>CSV โภชนาการ</td>
-<td>ตัวเลขจำลองสำหรับฝึกอ่านตาราง</td>
+<td>ตัวเลขไว้ฝึกอ่านตาราง</td>
 <td>ไม่ใช่ค่าที่วัดจากอาหารจริง</td>
 </tr>
 </tbody>
 </table>
-<p><strong>จุดที่ต้องสังเกต:</strong> PDF ระบุราคาเริ่มต้น 55 บาท แต่รีวิวหนึ่งรายจ่าย 60 บาทเพราะเพิ่มข้าว เวลารอมีทั้ง 8 และ 18 นาที และผู้รีวิวสองรายหิวอีกครั้งคนละเวลา ความต่างเหล่านี้อาจเกิดจากวัน ปริมาณ และบุคคล ห้ามเลือกตัวเลขหนึ่งค่าแล้วใช้เป็นคำตอบสากล</p></li>
-<li><p><strong>Prompt 1 — ถามสั้น ๆ</strong> สั่ง AI</p>
-<div class="command ai-prompt"><code>อ่านชุดอาหารที่เตรียมให้ แล้วสรุปว่าข้าวไข่เจียวมื้อนี้เหมาะกับคนงบ 80 บาท และทำให้อิ่มถึง 16:00 หรือไม่ ตอบสั้น ๆ เก็บคำตอบนี้ไว้เปรียบเทียบรอบต่อไป</code><button type="button" data-copy="">คัดลอก</button></div><p>AI จะตอบในแชต — นี่คือ <strong>คำตอบรอบแรก</strong> เก็บไว้ (ไม่ปิดแชตนี้ หรือคัดลอกเก็บไว้เอง) เพื่อใช้ในกิจกรรม <code>evidence-levels-source-tracing</code> <strong>สังเกต:</strong> มีคำตอบไหนระบุที่มา มีข้อไหนฟันธงทั้งที่ยังไม่มีข้อมูล ยังไม่ต้องตัดสินว่าคำตอบถูกหรือผิด เป้าหมายคือเห็นพฤติกรรมตามธรรมชาติของ AI เมื่อไม่กำหนดกติกาเรื่องหลักฐาน</p></li>
-<li><p><strong>(ไม่บังคับ — ขยายเวลา/ทำหลังเรียน) Prompt แรกฉบับเต็ม — นำเข้าพร้อม inventory และรายงานนำเข้า</strong> ใช้แทน Prompt เริ่มเมื่อมีเวลา (คัดจากหน้า Module 2 แบบฝึกเต็ม ขั้น 01) Prompt นี้ใช้บริหารจัดการข้อมูล ยังไม่ให้ AI ตอบคำถามเรื่องอาหาร ถ้าแตกไฟล์ไปแล้วในขั้นที่ 1 AI จะรายงานว่าปลายทางมีอยู่แล้วและถามคุณก่อน</p>
-<div class="command ai-prompt"><code>งาน: รับและจัดชุดข้อมูล Module 2 โดยยังไม่วิเคราะห์คำถามเรื่องอาหาร หา module-02-work/input/original/module-02-food-evidence.zip หากไม่พบให้หยุดและบอกฉัน ห้ามค้นทั้งเครื่อง แสดงรายการไฟล์ใน ZIP และตรวจว่า path ภายในไม่เขียนออกนอกโฟลเดอร์ปลายทาง แตกไฟล์ไปที่ module-02-work/input/original/module-02-food-evidence/ โดยไม่ลบ ZIP และไม่เขียนทับไฟล์เดิม หากปลายทางมีอยู่แล้วให้รายงานและถามก่อน สร้าง inventory ที่ระบุชื่อไฟล์ ชนิดไฟล์ ขนาด ภาษา และ SHA-256 พร้อมตรวจว่ามี PDF, XLSX, DOCX, PNG, HTML, TXT และ README ครบ อ่าน README ก่อน แล้วใช้เครื่องมือใน Workspace สร้างสำเนาที่ค้นได้ไว้ใน module-02-work/input/markdown/module-02-food-evidence/ อ่าน 06-web-source.txt แล้วดึงเฉพาะ live_url ที่กำหนด หากเข้าถึงได้ให้เก็บสำเนาแบบลงวันที่ พร้อม final URL, เวลาเข้าถึง, HTTP status, content type และ SHA-256 แล้วเปรียบเทียบกับ 05-canteen-reviews.html หากเข้าไม่ได้ให้ใช้สำเนาเดิมและบันทึกว่ายังไม่ได้ตรวจเว็บจริง ห้ามค้นเว็บเรื่องอาหารเพิ่มเติม สำหรับ Excel ให้เก็บชื่อ sheet หัวตาราง ชนิดข้อมูล และค่าที่ขาด สำหรับ Word/PDF ให้เก็บหัวข้อและตำแหน่ง สำหรับภาพให้แยกสิ่งที่มองเห็นออกจากสิ่งที่ภาพยืนยันไม่ได้ สำหรับ HTML ให้เก็บหัวข้อ ภาษา URL และเวลาที่เข้าถึง สร้าง module-02-work/input/markdown/module-02-food-evidence/import-report.md ระบุวิธีอ่านแต่ละไฟล์ ผลดึงเว็บ ความต่างระหว่างหน้าเว็บกับสำเนา สิ่งที่สูญหาย คำเตือน และจุดที่ฉันควรเปิดเทียบกับต้นฉบับ กติกา: ห้ามแก้ ลบ หรือเขียนทับไฟล์ต้นฉบับ ห้ามติดตั้งโปรแกรมเพิ่มก่อนตรวจเครื่องมือที่ Workspace มีอยู่ ยังไม่ตอบว่าควรเลือกมื้อข้าวไข่เจียวหรือไม่ เมื่อเสร็จ ให้แสดง inventory รายชื่อไฟล์ที่สร้าง และรอฉันตรวจ import-report.md</code><button type="button" data-copy="">คัดลอก</button></div><p>AI จะสร้างสำเนาที่ค้นได้และ <code>module-02-work/input/markdown/module-02-food-evidence/import-report.md</code> <strong>สังเกต:</strong> เปิด <code>import-report.md</code> แล้วเทียบกับต้นฉบับอย่างน้อยหนึ่งไฟล์ต่อชนิด เช่น ค่าที่ขาดใน Excel ถูกรายงานหรือไม่ และบันทึกว่าใช้เว็บจริงหรือสำเนา fallback เหตุที่ต้องบันทึก URL วันที่เข้าถึง และรุ่นที่ใช้: เนื้อหาบนเว็บอาจเปลี่ยนภายหลัง</p></li>
+<p><strong>จุดที่ข้อมูลไม่ตรงกัน:</strong> PDF บอกราคาเริ่มต้น 55 บาท แต่ผู้รีวิวคนหนึ่งจ่าย 60 บาทเพราะเพิ่มข้าว เวลารอมีทั้ง 8 และ 18 นาที และผู้รีวิวสองคนกลับมาหิวคนละเวลา ความต่างนี้มาจากวัน ปริมาณ และคน จึงไม่ควรเลือกตัวเลขเดียวมาเป็นคำตอบ</p></li>
+<li><p><strong>ถามสั้น ๆ หนึ่งรอบ</strong> วาง prompt นี้</p>
+<div class="command ai-prompt"><code>อ่านชุดอาหารที่เตรียมให้ แล้วสรุปว่าข้าวไข่เจียวมื้อนี้เหมาะกับคนงบ 80 บาท และทำให้อิ่มถึง 16:00 หรือไม่ ตอบสั้น ๆ</code><button type="button" data-copy="">คัดลอก</button></div><p><strong>เสร็จแล้วจะเห็น:</strong> คำตอบสั้น ๆ ในแชต นี่คือ <strong>คำตอบรอบแรก</strong> อย่าปิดแชตนี้ หรือคัดลอกเก็บไว้ เพราะ Workshop 2 ต้องใช้ <strong>สังเกต:</strong> ข้อไหนบอกว่ามาจากไฟล์ไหน ข้อไหนฟันธงทั้งที่ไฟล์ไม่มีข้อมูล ยังไม่ต้องตัดสินว่าถูกหรือผิด</p></li>
 </ol>
 <h3 id="ตรวจก่อนจบ">ตรวจก่อนจบ</h3>
 <ul class="task-list">
-<li><label><input type="checkbox"><code>module-02-work/input/original/module-02-food-evidence.zip</code> ยังอยู่ และไม่ถูกเขียนทับ</label></li>
-<li><label><input type="checkbox"><code>module-02-work/input/original/module-02-food-evidence/</code> มีครบ 9 ไฟล์ตามรายการในขั้นที่ 2</label></li>
-<li><label><input type="checkbox">รายการไฟล์ที่ AI อ่านได้และอ่านไม่ได้ (ในแชต) ตรงกับที่คุณเปิดดูเอง</label></li>
-<li><label><input type="checkbox">คำตอบรอบแรกจาก Prompt 1 ยังเก็บไว้ (ในแชตหรือคัดลอกไว้) และชี้ได้อย่างน้อยหนึ่งจุดที่ไม่ระบุที่มาหรือฟันธงเกินข้อมูล</label></li>
-<li><label><input type="checkbox">(ถ้าทำขั้นที่ 4) <code>module-02-work/input/markdown/module-02-food-evidence/import-report.md</code> มีอยู่ รายงานค่าที่ขาดใน Excel และบอกว่าใช้เว็บจริงหรือสำเนา fallback</label></li>
-</ul>
-<h3 id="ส่งงาน">ส่งงาน</h3>
-<ul>
-<li>หัวข้อนี้ยังไม่ส่งแยก ทำหัวข้อต่อไปให้ครบแล้วส่งตามขั้นส่งงานของ Module 2 (ให้ AI รันเครื่องมือ AIRR check → ยืนยัน → submit)</li>
+<li><label><input type="checkbox"><code>module-02-work/input/original/module-02-food-evidence.zip</code> ยังอยู่</label></li>
+<li><label><input type="checkbox">โฟลเดอร์ <code>module-02-food-evidence/</code> ที่แตกออกมามีครบ 9 ไฟล์</label></li>
+<li><label><input type="checkbox">รายการไฟล์ที่ AI บอกว่าอ่านได้–อ่านไม่ได้ ตรงกับที่คุณเปิดดูเอง</label></li>
+<li><label><input type="checkbox">เก็บคำตอบรอบแรกไว้แล้ว และชี้ได้อย่างน้อยหนึ่งจุดที่ไม่บอกที่มาหรือฟันธงเกินข้อมูล</label></li>
 </ul>
 </div></section>
 <section class="section markdown-section topic-panel" id="open-multiformat-evidence-intake-explore" aria-labelledby="open-multiformat-evidence-intake-explore-heading"><div class="section-heading compact"><p class="eyebrow">Exploring 1</p><h2 id="open-multiformat-evidence-intake-explore-heading">นำเข้าหลักฐานหลายรูปแบบ แล้วดูคำตอบรอบแรกของ AI</h2></div><div class="markdown-body"><p>ในโจทย์เปิดนี้คุณจะเขียน prompt เองให้ AI ตรวจและอ่านชุดไฟล์เรื่องเดียวกันของคุณโดยไม่แก้ต้นฉบับ แล้วเก็บคำตอบรอบแรกของ AI ไว้ พร้อม prompt log และตารางว่าไฟล์แต่ละชนิดบอกอะไรได้และไม่ได้</p>
 <p>ไม่มี prompt สำเร็จรูปให้</p>
 <h3 id="ก่อนเริ่ม-ต้องมีอยู่แล้ว">ก่อนเริ่ม (ต้องมีอยู่แล้ว)</h3>
 <ul>
-<li>ทำ workshop <code>multiformat-evidence-intake</code> แล้ว (รู้วิธีสั่ง AI ตรวจรายการไฟล์และหยุดรอ)</li>
+<li>ทำ Workshop 1 แล้ว (รู้วิธีสั่ง AI ตรวจรายการไฟล์และหยุดรอ)</li>
 <li>เรื่องและคำถามง่ายหนึ่งข้อจากงานของตนเอง (ไม่ต้องเป็น research gap ใหม่)</li>
 <li>ไฟล์ของคุณเองที่ <strong>มีสิทธิ์ใช้</strong> เรื่องเดียวกันอย่างน้อยสองชนิด เช่น PDF ตาราง เอกสาร Word ภาพ หรือหน้าเว็บ (ไม่จำเป็นต้องครบทุกชนิด) ตัดข้อมูลลับ ข้อมูลส่วนบุคคล และ manuscript ที่ยังไม่เผยแพร่ซึ่งไม่มีสิทธิ์นำเข้า AI ออกก่อน</li>
 <li>ถ้ายังไม่มีไฟล์ของตนเอง ใช้ชุดสำรอง <code>module-02-work/input/original/module-02-food-evidence/</code> ที่แตกไว้ใน workshop แต่ตั้งคำถามใหม่ของตนเอง</li>
@@ -127,40 +162,38 @@
 <li><label><input type="checkbox"><code>module-02-work/output/prompts.md</code> มีตารางไฟล์ และแสดงการปรับ prompt อย่างน้อย 1 รอบ พร้อมเหตุผล</label></li>
 </ul>
 </div></section>
-<section class="section markdown-section topic-panel" id="workshop-evidence-levels-source-tracing" aria-labelledby="workshop-evidence-levels-source-tracing-heading"><div class="section-heading compact"><p class="eyebrow">Workshop 2</p><h2 id="workshop-evidence-levels-source-tracing-heading">L1–L4 และ Prompt ที่บังคับให้ระบุที่มา</h2></div><div class="markdown-body"><p>หัวข้อนี้ไม่มีไฟล์ใน mock/ เพราะใช้ชุดของโมดูลโดยตรง; สำเนา ZIP ใน repo: downloads/module-02-food-evidence.zip --&gt;</p>
-<p>ใน workshop นี้คุณจะจัดข้อความในคำตอบรอบแรกเป็น L1–L4 แล้วส่ง Prompt ที่บังคับให้ AI ระบุไฟล์และตำแหน่ง จนได้ตารางข้อสรุปที่ตรวจย้อนได้ และข้อสังเกตว่ารอบสองต่างจากรอบแรกอย่างไร</p>
+<section class="section markdown-section topic-panel" id="workshop-evidence-levels-source-tracing" aria-labelledby="workshop-evidence-levels-source-tracing-heading"><div class="section-heading compact"><p class="eyebrow">Workshop 2</p><h2 id="workshop-evidence-levels-source-tracing-heading">L1–L4 และ Prompt ที่บังคับให้ระบุที่มา</h2></div><div class="markdown-body"><p>ใน workshop นี้คุณจะจัดข้อความในคำตอบรอบแรกเป็น L1–L4 แล้วส่ง Prompt ที่บังคับให้ AI ระบุไฟล์และตำแหน่ง จนได้ตารางข้อสรุปที่ตรวจย้อนได้ และข้อสังเกตว่ารอบสองต่างจากรอบแรกอย่างไร</p>
 <p>ชุดหลักฐานเป็นกรณีสมมติ ไม่มีข้อมูลจริงของใคร</p>
 <h3 id="ก่อนเริ่ม-ต้องมีอยู่แล้ว">ก่อนเริ่ม (ต้องมีอยู่แล้ว)</h3>
 <ul>
-<li>ไฟล์ที่แตกแล้วใน <code>module-02-work/input/original/module-02-food-evidence/</code> (จากกิจกรรม <code>multiformat-evidence-intake</code> ขั้นที่ 1) ถ้ายังไม่มี ให้ทำ Prompt เริ่มของกิจกรรมนั้นก่อน</li>
-<li>คำตอบรอบแรกจาก Prompt 1 ที่เก็บไว้ (จากกิจกรรม <code>multiformat-evidence-intake</code> ขั้นที่ 3) ถ้ายังไม่มี ให้ส่ง Prompt 1 ก่อน: “อ่านชุดอาหารที่เตรียมให้ แล้วสรุปว่าข้าวไข่เจียวมื้อนี้เหมาะกับคนงบ 80 บาท และทำให้อิ่มถึง 16:00 หรือไม่ ตอบสั้น ๆ เก็บคำตอบนี้ไว้เปรียบเทียบรอบต่อไป”</li>
+<li>ทำ Workshop 1 แล้ว: มีโฟลเดอร์ <code>module-02-work/input/original/module-02-food-evidence/</code> และคำตอบรอบแรกในแชต ถ้ายังไม่มี ให้กลับไปทำขั้นที่ 1 และ 3 ของ Workshop 1 ก่อน</li>
 </ul>
 <h3 id="l1l4-บอกว่าข้อความเชื่อได้แค่ไหน">L1–L4: บอกว่าข้อความเชื่อได้แค่ไหน</h3>
 <table>
 <thead>
-<tr class="header">
+<tr>
 <th>ระดับ</th>
 <th>ความหมาย</th>
 <th>ต้องมี</th>
 </tr>
 </thead>
 <tbody>
-<tr class="odd">
+<tr>
 <td>L1 พบโดยตรง</td>
 <td>ตัวเลข วันที่ คำพูด หรือข้อความที่อยู่ในต้นฉบับ</td>
 <td>ชื่อไฟล์และตำแหน่ง</td>
 </tr>
-<tr class="even">
+<tr>
 <td>L2 ความเห็นในต้นฉบับ</td>
 <td>การตีความหรือข้อสรุปของผู้เขียนเอกสาร</td>
 <td>ชื่อไฟล์และตำแหน่ง</td>
 </tr>
-<tr class="odd">
+<tr>
 <td>L3 การสังเคราะห์</td>
 <td>ข้อสังเกตที่เชื่อมจากหลายเอกสาร</td>
 <td>อย่างน้อยสองแหล่ง และมนุษย์ตรวจเหตุผล</td>
 </tr>
-<tr class="even">
+<tr>
 <td>L4 ยังไม่มีหลักฐาน</td>
 <td>คำตอบใหม่ การคาดการณ์ หรือสาเหตุที่เอกสารพิสูจน์ไม่ได้</td>
 <td>ระบุว่ายังไม่ทราบ หรือต้องค้นเพิ่ม</td>
@@ -191,16 +224,12 @@
 <li><label><input type="checkbox">ราคา 55/60 บาท และเวลารอ 8/18 นาที ถูกเขียนเป็นช่วงหรือเงื่อนไข ไม่ใช่ตัวเลขเดียว</label></li>
 <li><label><input type="checkbox">มีข้อสังเกตว่ารอบสองต่างจากรอบแรกอย่างไร ตามผลจริง</label></li>
 </ul>
-<h3 id="ส่งงาน">ส่งงาน</h3>
-<ul>
-<li>หัวข้อนี้ยังไม่ส่งแยก ทำหัวข้อ <a href="topic-faithful-summary-and-condensing.html">สร้างบัตรสรุปจากหลักฐาน แล้วสั่งย่อโดยตัวเลข หน่วย และข้อจำกัดไม่หาย</a> ต่อ แล้วส่งตามขั้นส่งงานของ Module 2 (ให้ AI รันเครื่องมือ AIRR check → ยืนยัน → submit)</li>
-</ul>
 </div></section>
 <section class="section markdown-section topic-panel" id="open-evidence-levels-source-tracing-explore" aria-labelledby="open-evidence-levels-source-tracing-explore-heading"><div class="section-heading compact"><p class="eyebrow">Exploring 2</p><h2 id="open-evidence-levels-source-tracing-explore-heading">L1–L4 และ Prompt ที่บังคับให้ระบุที่มา</h2></div><div class="markdown-body"><p>ในโจทย์เปิดนี้คุณจะเขียน prompt รอบสองเองให้ AI ระบุไฟล์และตำแหน่ง แล้วจัด L1–L4 ด้วยตนเองหลังเปิดต้นฉบับ จนได้ตารางระดับหลักฐานและผลเทียบรอบแรกกับรอบสอง</p>
 <p>ไม่มี prompt สำเร็จรูปให้</p>
 <h3 id="ก่อนเริ่ม-ต้องมีอยู่แล้ว">ก่อนเริ่ม (ต้องมีอยู่แล้ว)</h3>
 <ul>
-<li>ชุดไฟล์ คำถาม และคำตอบรอบแรกจากโจทย์เปิดของ <code>multiformat-evidence-intake</code> (หรือชุดสำรอง <code>module-02-work/input/original/module-02-food-evidence/</code> จาก workshop พร้อมคำถามใหม่ของตนเอง)</li>
+<li>ชุดไฟล์ คำถาม และคำตอบรอบแรกจาก Exploring 1 (หรือชุดสำรอง <code>module-02-work/input/original/module-02-food-evidence/</code> จาก workshop พร้อมคำถามใหม่ของตนเอง)</li>
 <li><code>module-02-work/output/prompts.md</code> ที่คุณสร้างไว้ในโจทย์เปิดก่อนหน้า (ถ้ายังไม่มี ให้สร้างเองตอนเริ่ม)</li>
 </ul>
 <h3 id="โจทย์">โจทย์</h3>
