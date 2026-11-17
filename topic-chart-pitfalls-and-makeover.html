@@ -19,192 +19,64 @@
   <site-header current="topic" plan="class-2026-11-20-engineering-faculty.html" menu='{&quot;module&quot;: &quot;M07&quot;, &quot;title&quot;: &quot;วิเคราะห์ข้อมูลและสร้างกราฟ&quot;, &quot;items&quot;: [{&quot;href&quot;: &quot;module-overview-m07.html&quot;, &quot;label&quot;: &quot;ภาพรวมและ LO&quot;, &quot;current&quot;: false}, {&quot;href&quot;: &quot;topic-reading-data-and-choosing-charts.html&quot;, &quot;label&quot;: &quot;อ่านข้อมูลและเลือกกราฟให้ตรงงานของผู้อ่าน&quot;, &quot;current&quot;: false}, {&quot;href&quot;: &quot;topic-chart-pitfalls-and-makeover.html&quot;, &quot;label&quot;: &quot;กับดักกราฟ และการปรับกราฟให้พร้อมใช้&quot;, &quot;current&quot;: true}, {&quot;href&quot;: &quot;topic-data-highlights-with-evidence.html&quot;, &quot;label&quot;: &quot;จากข้อมูลสู่ highlights ที่ตรวจย้อนได้&quot;, &quot;current&quot;: false}]}'></site-header>
   <main id="main">
 <section class="prepare-hero module-hero"><p class="eyebrow">หัวข้อย่อย · M07</p><h1>กับดักกราฟ และการปรับกราฟให้พร้อมใช้</h1><ul class="outcomes"><li>ชี้กับดัก baseline ใน bar chart, แกนตั้งสองข้าง, การเลือกช่วงเวลา/ค่าสะสม และหลาย panel ที่ตัวหารต่างกันได้ พร้อมวิธีแก้ และตรวจว่าการแก้ของ AI ไม่สร้างปัญหาใหม่</li><li>ปรับกราฟจาก Draft 0 (ค่า default ที่ AI ให้) เป็นภาพที่มีหน่วย n ชนิด interval และชื่อภาพเป็น claim ที่ตัวเลขในภาพรองรับ แล้วส่งออก PDF/SVG ขนาดหนึ่งคอลัมน์และตรวจที่ 100%</li></ul></section>
-<div class="topic-layout"><nav class="topic-tabs" aria-label="ส่วนของหัวข้อ"><a href="#slides" title="สไลด์">สไลด์</a><a href="#workshop-graph-clinic-misleading-chart-traps" title="Graph Clinic: กับดักกราฟสี่แบบที่พบบ่อย">Notebook 1</a><a href="#workshop-graph-clinic-misleading-chart-traps-prompt" title="Graph Clinic: กับดักกราฟสี่แบบที่พบบ่อย">Prompt 1</a><a href="#open-graph-clinic-misleading-chart-traps-explore" title="Graph Clinic: กับดักกราฟสี่แบบที่พบบ่อย">Exploring 1</a><a href="#workshop-figure-makeover-and-column-export" title="Makeover กราฟ: ชื่อภาพเป็น claim และส่งออกขนาดหนึ่งคอลัมน์">Notebook 2</a><a href="#workshop-figure-makeover-and-column-export-prompt" title="Makeover กราฟ: ชื่อภาพเป็น claim และส่งออกขนาดหนึ่งคอลัมน์">Prompt 2</a><a href="#open-figure-makeover-and-column-export-explore" title="Makeover กราฟ: ชื่อภาพเป็น claim และส่งออกขนาดหนึ่งคอลัมน์">Exploring 2</a><a href="#workshop-ai-chart-audit-twelve-questions" title="ให้ AI ตรวจกราฟด้วย 12 คำถาม (จุดอ่อนของกราฟ)">เสริม · Workshop</a><a href="#open-ai-chart-audit-twelve-questions-explore" title="ให้ AI ตรวจกราฟด้วย 12 คำถาม (จุดอ่อนของกราฟ)">เสริม · Exploring</a><button type="button" class="aside-toggle" data-aside-toggle aria-pressed="false">ซ่อนสไลด์ข้าง</button></nav><div class="topic-main"><section class="section markdown-section topic-panel" id="slides" aria-labelledby="slides-heading"><div class="section-heading compact"><p class="eyebrow">สไลด์</p><h2 id="slides-heading">สไลด์</h2></div><div class="markdown-body"><div class="slide-tools"><button type="button" class="slide-tool" data-fullscreen="#slide-frame-main">⛶ เต็มจอ</button><a class="slide-tool" href="downloads/topics/chart-pitfalls-and-makeover.pdf" target="_blank" rel="noopener">เปิดแท็บใหม่ ↗</a></div><iframe id="slide-frame-main" class="slide-frame" src="downloads/topics/chart-pitfalls-and-makeover.pdf#view=FitH" title="สไลด์ กับดักกราฟ และการปรับกราฟให้พร้อมใช้" allowfullscreen></iframe></div></section>
-<section class="section markdown-section topic-panel" id="workshop-graph-clinic-misleading-chart-traps" aria-labelledby="workshop-graph-clinic-misleading-chart-traps-heading"><div class="section-heading compact"><p class="eyebrow">Notebook 1</p><h2 id="workshop-graph-clinic-misleading-chart-traps-heading">Graph Clinic: กับดักกราฟสี่แบบที่พบบ่อย</h2></div><div class="markdown-body"><p>ใน Notebook นี้คุณจะดูกราฟกับดักสี่กรณีใน Part A แล้วสร้างตาราง <code>module-07-work/graph-clinic.md</code> ที่กรอกเองว่ากราฟชวนให้เชื่ออะไร และตัวเลขรองรับแค่ไหน</p>
-<p>ทำใน <strong>Google Colab อย่างเดียว</strong> ไม่ต้องใช้ AI ในส่วนนี้ — เปิด รัน ดู แล้วจดสิ่งที่เห็นด้วยตัวเอง</p>
+<div class="topic-layout"><nav class="topic-tabs" aria-label="ส่วนของหัวข้อ"><a href="#slides" title="สไลด์">สไลด์</a><a href="#workshop-core" title="Workshop หลัก">Workshop</a><a href="#open-explore" title="Exploring workshop">Exploring</a><a href="#workshop-ai-chart-audit-twelve-questions" title="ให้ AI ตรวจกราฟด้วย 12 คำถาม (จุดอ่อนของกราฟ)">เสริม · Workshop</a><a href="#open-ai-chart-audit-twelve-questions-explore" title="ให้ AI ตรวจกราฟด้วย 12 คำถาม (จุดอ่อนของกราฟ)">เสริม · Exploring</a><button type="button" class="aside-toggle" data-aside-toggle aria-pressed="false">ซ่อนสไลด์ข้าง</button></nav><div class="topic-main"><section class="section markdown-section topic-panel" id="slides" aria-labelledby="slides-heading"><div class="section-heading compact"><p class="eyebrow">สไลด์</p><h2 id="slides-heading">สไลด์</h2></div><div class="markdown-body"><div class="slide-tools"><button type="button" class="slide-tool" data-fullscreen="#slide-frame-main">⛶ เต็มจอ</button><a class="slide-tool" href="downloads/topics/chart-pitfalls-and-makeover.pdf" target="_blank" rel="noopener">เปิดแท็บใหม่ ↗</a></div><iframe id="slide-frame-main" class="slide-frame" src="downloads/topics/chart-pitfalls-and-makeover.pdf#view=FitH" title="สไลด์ กับดักกราฟ และการปรับกราฟให้พร้อมใช้" allowfullscreen></iframe></div></section>
+<section class="section markdown-section topic-panel" id="workshop-core" aria-labelledby="workshop-core-heading"><div class="section-heading compact"><p class="eyebrow">Workshop</p><h2 id="workshop-core-heading">กับดักกราฟ และการปรับกราฟให้พร้อมใช้</h2></div><div class="markdown-body"><p>ใน workshop นี้คุณจะให้ AI ตรวจกราฟ PM2.5 จำลอง แก้กับดักที่พบ สร้างภาพที่ชื่อภาพพูดเท่าที่ตัวเลขรองรับ และเปิดไฟล์ส่งออกที่ขนาดใช้งานจริง</p>
 <h3 id="ก่อนเริ่ม-ต้องมีอยู่แล้ว">ก่อนเริ่ม (ต้องมีอยู่แล้ว)</h3>
 <ul>
-<li>บัญชี Google สำหรับเปิด Google Colab</li>
-<li>notebook <a href="https://colab.research.google.com/github/punpiti/ai-for-research/blob/main/downloads/course-materials/visualization/notebooks/module-07a-read-and-audit.ipynb">Part A — อ่านกราฟและตรวจสิ่งที่ AI เลือก</a> (เปิดจากลิงก์ได้ทันที)</li>
-<li>ถ้าใช้ Colab ไม่ได้: ไฟล์ชุดเดียวกัน <code>course-materials/module-07/notebooks/module-07a-read-and-audit.ipynb</code> (ติดตั้งมากับ Module 1) เปิดด้วย <code>tools/start-module-07</code> (Module 1 สร้างให้เมื่อเห็น <code>MODULE7_READY</code>) หรือดาวน์โหลด <a href="downloads/module-07-notebooks/module-07-notebook-bundle.zip">module-07-notebook-bundle.zip</a></li>
-<li>โฟลเดอร์ <code>module-07-work/</code> ในเครื่อง (ตัวติดตั้ง Module 1 สร้างไว้) สำหรับเก็บตารางในขั้นที่ 5</li>
+<li>ผ่าน workshop “อ่านข้อมูลและเลือกกราฟให้ตรงงานของผู้อ่าน”</li>
+<li>มี <code>module-07-work/chart-choice-notes.md</code> และโฟลเดอร์ <code>module-07-work/figures/</code></li>
+<li>เปิด AI panel ใน VS Code และเห็น <code>.venv-module07</code></li>
 </ul>
-<h3 id="ขั้นตอน">ขั้นตอน</h3>
-<ol type="1">
-<li>เปิดลิงก์ Part A ด้วยบัญชี Google ของคุณ แล้วกด <strong>Runtime → Run all</strong> (cell แรกติดตั้งไลบรารีและฟอนต์ไทยให้เอง)
+<h3 id="คำที่ใช้ใน-workshop-นี้">คำที่ใช้ใน workshop นี้</h3>
 <ul>
-<li>หาหัวข้อจาก <strong>สารบัญ</strong> ด้านซ้ายของ Colab · อยากเก็บสิ่งที่แก้ให้ <strong>File → Save a copy in Drive</strong> ก่อน</li>
-<li>ข้อมูลทั้งหมดใน notebook เป็นข้อมูลจำลองเพื่อการสอน · ห้ามอัปโหลดข้อมูลวิจัยจริงหรือข้อมูลส่วนบุคคลขึ้น Colab</li>
-</ul></li>
-<li>ไปที่ <strong>Part A › หัวข้อ 4. กราฟที่รันได้ แต่ยังใช้ไม่ได้</strong> ดู <strong>กรณีที่ 1</strong> ถึง <strong>กรณีที่ 4</strong></li>
-<li>ทุกกรณี เขียนว่ากราฟชวนให้เชื่ออะไร</li>
-<li>ตรวจกับตัวเลขใน cell: ข้อมูลรองรับ claim นั้นแค่ไหน</li>
-<li>สร้างไฟล์ <code>module-07-work/graph-clinic.md</code> เอง (พิมพ์เองใน editor ใดก็ได้ ไม่ต้องใช้ AI) เป็นตาราง 4 แถว หัวตาราง: กรณี | 1. กราฟชวนให้เชื่ออะไร | 2. ตัวเลขรองรับแค่ไหน | 3. แก้อย่างไร — กรอกคอลัมน์ 1–2 จากขั้นที่ 3–4 ส่วนคอลัมน์ 3 เว้นไว้</li>
-</ol>
-<h3 id="ตรวจก่อนจบ">ตรวจก่อนจบ</h3>
+<li><strong>baseline</strong> — จุดอ้างอิงของแกน กราฟแท่งมักต้องเริ่มที่ศูนย์</li>
+<li><strong>dual axis</strong> — แกนตั้งสองข้างที่สเกลต่างกันและอาจทำให้ความสัมพันธ์ดูแรงเกินจริง</li>
+<li><strong>claim title</strong> — ชื่อภาพที่บอกข้อค้นพบซึ่งตัวเลขในภาพรองรับ</li>
+<li><strong>ขนาดหนึ่งคอลัมน์</strong> — ขนาดจริงเมื่อภาพอยู่ในคอลัมน์บทความ ต้องเปิดตรวจที่ 100%</li>
+</ul>
+<hr>
+<h3 id="ขั้นที่-1--ตรวจกราฟด้วยกับดักสี่แบบ">ขั้นที่ 1 — ตรวจกราฟด้วยกับดักสี่แบบ</h3>
+<p>ให้ AI อ่าน <code>course-materials/module-07/notebooks/module-07a-read-and-audit.ipynb</code> หัวข้อ Graph Clinic แล้วทำตารางสี่แถว: baseline ของกราฟแท่ง, dual axis, การเลือกช่วงเวลา/ค่าสะสม และหลาย panel ที่ใช้ตัวหารต่างกัน แต่ละแถวให้ระบุตำแหน่ง ปัญหา ผลต่อการตีความ วิธีแก้ และหลักฐานที่ใช้ตรวจ โดยห้ามแก้ notebook</p>
+<p>เปิดกราฟและโค้ดจริง ตรวจตารางทีละแถว แล้วบันทึกผลใน <code>module-07-work/graph-clinic-notes.md</code></p>
+<p><strong>ตรวจ:</strong> ทุกแถวมีตำแหน่งและหลักฐานจากกราฟหรือโค้ด ไม่ใช้คำตัดสินลอย ๆ ว่า “ทำให้เข้าใจผิด”</p>
+<hr>
+<h3 id="ขั้นที่-2--ทำกราฟฉบับพร้อมใช้">ขั้นที่ 2 — ทำกราฟฉบับพร้อมใช้</h3>
+<p>เลือกกราฟหนึ่งภาพ ให้ AI อ่าน Draft 2 ใน <code>module-07b-revise-and-publish.ipynb</code> แล้วสร้างสคริปต์ใหม่ใน <code>module-07-work/</code> ชื่อภาพต้องเป็น claim ที่คุณเขียนเอง คำบรรยายต้องมีหน่วย <code>n</code> และชนิด interval ส่งออก PDF และ SVG ไว้ใน <code>module-07-work/figures/</code> ห้ามแก้ notebook</p>
+<p><strong>ตรวจ:</strong> ทุกคำในชื่อภาพมีตัวเลขในภาพรองรับ และคำบรรยายระบุ IQR กับ <code>n</code> ตรงกับข้อมูล</p>
+<hr>
+<h3 id="ขั้นที่-3--เปิดตรวจที่ขนาดจริง">ขั้นที่ 3 — เปิดตรวจที่ขนาดจริง</h3>
+<p>เปิด PDF ที่ 100% เทียบกับ SVG ตรวจตัวอักษร แกน legend marker เส้น และสีในโหมดขาวดำ ถ้าอ่านไม่ได้ ให้แก้สคริปต์ต้นทางแล้วส่งออกใหม่</p>
+<p><strong>ตรวจ:</strong> ไฟล์ PDF/SVG เปิดได้ ตัวอักษรไม่ชนหรือขาด และภาพขาวดำยังแยกกลุ่มได้</p>
+<hr>
+<h3 id="ตรวจก่อนจบ-workshop">ตรวจก่อนจบ workshop</h3>
 <ul class="task-list">
-<li><label><input type="checkbox"><code>module-07-work/graph-clinic.md</code> มีตาราง 4 แถว (กรณีที่ 1–4) และหัวตารางครบสี่คอลัมน์</label></li>
-<li><label><input type="checkbox">คอลัมน์ 1–2 กรอกครบทุกแถว โดยคอลัมน์ 2 อ้างตัวเลขที่เห็นใน cell</label></li>
-<li><label><input type="checkbox">คอลัมน์ 3 "แก้อย่างไร" ยังว่าง (ทำใน Prompt ของส่วนนี้)</label></li>
+<li><label><input type="checkbox">ขั้น 1: <code>graph-clinic-notes.md</code> ตรวจครบสี่กับดักพร้อมหลักฐาน</label></li>
+<li><label><input type="checkbox">ขั้น 2: ชื่อภาพเป็น claim ที่ตัวเลขรองรับ และ caption มีหน่วย <code>n</code> กับ interval</label></li>
+<li><label><input type="checkbox">ขั้น 3: เปิด PDF/SVG ที่ 100% แล้วอ่านได้ทั้งสีและขาวดำ</label></li>
+<li><label><input type="checkbox">สคริปต์และภาพใหม่อยู่ใน <code>module-07-work/</code>; <code>course-materials/</code> ไม่ถูกแก้</label></li>
 </ul>
+<p>ผลจากหัวข้อนี้ยังไม่ส่งแยก ให้นำภาพไปใช้ในหัวข้อ “จากข้อมูลสู่ highlights ที่ตรวจย้อนได้”</p>
 </div></section>
-<section class="section markdown-section topic-panel" id="workshop-graph-clinic-misleading-chart-traps-prompt" aria-labelledby="workshop-graph-clinic-misleading-chart-traps-prompt-heading"><div class="section-heading compact"><p class="eyebrow">Prompt 1</p><h2 id="workshop-graph-clinic-misleading-chart-traps-prompt-heading">Graph Clinic: กับดักกราฟสี่แบบที่พบบ่อย</h2></div><div class="markdown-body"><p>ใน workshop นี้คุณจะให้ AI วาดกราฟกับดักหนึ่งกรณีใหม่ทั้งแบบเดิมและแบบแก้ ตรวจว่าการแก้ไม่สร้างปัญหาใหม่ แล้วกรอกคอลัมน์ "แก้อย่างไร" ในตาราง <code>module-07-work/graph-clinic.md</code> ให้ครบ</p>
-<p>ทำใน <strong>VS Code กับ AI อย่างเดียว</strong> ไม่ต้องเปิด Colab — AI อ่านไฟล์ notebook ที่ติดตั้งไว้ในเครื่องแล้ว</p>
-<h3 id="ก่อนเริ่ม-ต้องมีอยู่แล้ว">ก่อนเริ่ม (ต้องมีอยู่แล้ว)</h3>
-<ul>
-<li>ผ่าน Module 1: เปิด <code>ai-for-research-workspace</code> ใน VS Code และ AI panel เชื่อมแล้ว</li>
-<li><code>course-materials/module-07/notebooks/module-07a-read-and-audit.ipynb</code> (ติดตั้งมากับ Module 1 · อ่านอย่างเดียว ห้ามแก้)</li>
-<li>โฟลเดอร์ <code>module-07-work/</code> กับ <code>module-07-work/figures/</code> และ Python ของโมดูล <code>.venv-module07</code> (ตัวติดตั้ง Module 1 สร้างไว้ เมื่อเห็น <code>MODULE7_READY</code>)</li>
-<li><code>module-07-work/graph-clinic.md</code> ที่คุณสร้างใน Notebook ของส่วนนี้ (<code>graph-clinic-misleading-chart-traps</code>) โดยกรอกคอลัมน์ 1–2 แล้ว</li>
-</ul>
-<h3 id="ขั้นตอน">ขั้นตอน</h3>
+<section class="section markdown-section topic-panel" id="open-explore" aria-labelledby="open-explore-heading"><div class="section-heading compact"><p class="eyebrow">Exploring</p><h2 id="open-explore-heading">กับดักกราฟ และการปรับกราฟให้พร้อมใช้</h2></div><div class="markdown-body"><p>เลือกกราฟจากงานของคุณหนึ่งภาพ หรือใช้กราฟชุดฝึกสำรอง แล้วเขียน prompt เองทั้งหมด</p>
+<h3 id="โจทย์">โจทย์</h3>
 <ol type="1">
-<li><p>เลือกหนึ่งกรณีจากตารางของคุณ แล้วสั่ง AI (เติมเลขกรณีและชื่อกับดัก)</p>
-<div class="command ai-prompt"><code>อ่านโค้ดของกรณีที่ __ ในหัวข้อ 4 “กราฟที่รันได้ แต่ยังใช้ไม่ได้” จาก course-materials/module-07/notebooks/module-07a-read-and-audit.ipynb สร้างสคริปต์ใน module-07-work/ ที่วาดกราฟเดิมและกราฟที่แก้ตามวิธีแก้ของกับดัก “__” โดยไม่เปลี่ยนข้อมูล รันด้วย Python ของโมดูล บันทึกภาพไว้ใน module-07-work/figures/ แล้วบอกว่าเปลี่ยนอะไรไปบ้าง และมีอะไรในภาพใหม่ที่อาจทำให้ผู้อ่านเข้าใจผิดแบบอื่นหรือไม่</code><button type="button" data-copy="">คัดลอก</button></div></li>
-<li><p>เปิดภาพที่ AI เพิ่งบันทึกใน <code>module-07-work/figures/</code> แล้วตรวจว่าการแก้ไม่สร้างปัญหาใหม่ (เช่น แยก panel แล้ว scale ไม่ร่วมกัน หรือเปลี่ยนตัวหารโดยไม่บอก)</p></li>
-<li><p>กรอกคอลัมน์ 3 "แก้อย่างไร" ใน <code>module-07-work/graph-clinic.md</code> ให้ครบ 4 กรณี</p></li>
-</ol>
-<p>ประเด็นที่ควรได้: truncated axis ใช้ได้กับ point หรือ line แต่ไม่ใช่ bar · dual axis ควรแยกเป็นสอง panel · ต้องดูทั้งช่วงเวลา · panel ต้องใช้ตัวหารเดียวกัน</p>
-<h3 id="ตรวจก่อนจบ">ตรวจก่อนจบ</h3>
-<ul class="task-list">
-<li><label><input type="checkbox"><code>module-07-work/graph-clinic.md</code> กรอกครบทุกคอลัมน์ทั้ง 4 แถว และคอลัมน์ 3 ครอบคลุมประเด็นที่ควรได้ด้านบน</label></li>
-<li><label><input type="checkbox"><code>module-07-work/figures/</code> มีภาพเดิมและภาพที่แก้แล้วของกรณีที่เลือก</label></li>
-<li><label><input type="checkbox">ภาพที่แก้ใช้ข้อมูลเดิม ไม่มีกับดักใหม่ (scale ร่วม ตัวหารเดียวกัน)</label></li>
-<li><label><input type="checkbox"><code>course-materials/module-07/notebooks/module-07a-read-and-audit.ipynb</code> ไม่ถูกแก้</label></li>
-</ul>
-<h3 id="ส่งงาน">ส่งงาน</h3>
-<ul>
-<li>ส่วนนี้ไม่ส่งแยก เก็บผลไว้ใน <code>module-07-work/</code> แล้วนำไปใช้ใน workshop highlights (หัวข้อ <a href="topic-data-highlights-with-evidence.html">จากข้อมูลสู่ highlights ที่ตรวจย้อนได้</a>) ซึ่งส่งผ่าน AIRR</li>
-</ul>
-</div></section>
-<section class="section markdown-section topic-panel" id="open-graph-clinic-misleading-chart-traps-explore" aria-labelledby="open-graph-clinic-misleading-chart-traps-explore-heading"><div class="section-heading compact"><p class="eyebrow">Exploring 1</p><h2 id="open-graph-clinic-misleading-chart-traps-explore-heading">Graph Clinic: กับดักกราฟสี่แบบที่พบบ่อย</h2></div><div class="markdown-body"><p>ใน Exploring workshop นี้คุณจะตรวจกราฟ 2–4 ภาพในงานของคุณหากับดักสี่แบบด้วยตัวเองก่อน แล้วเขียน prompt เองให้ AI ตรวจซ้ำและแก้หนึ่งภาพ ได้ <code>module-07-work/output/graph-clinic.md</code> พร้อมภาพก่อน–หลัง</p>
-<p>ผู้เรียนเขียน prompt เอง ไม่มี prompt สำเร็จรูปให้</p>
-<h3 id="ก่อนเริ่ม-ต้องมีอยู่แล้ว">ก่อนเริ่ม (ต้องมีอยู่แล้ว)</h3>
-<ul>
-<li>ผ่าน Module 1: เปิด <code>ai-for-research-workspace</code> ใน VS Code และ AI panel เชื่อมแล้ว · โฟลเดอร์ <code>module-07-work/</code> และ Python ของโมดูล <code>.venv-module07</code> (ตัวติดตั้ง Module 1 สร้างไว้)</li>
-<li>ทำ workshop "Graph Clinic: กับดักกราฟสี่แบบที่พบบ่อย" ของหัวข้อนี้แล้ว</li>
-<li>กราฟ 2–4 ภาพจากงานของคุณ งานนิสิต หรือสื่อที่อ้างงานวิจัยในสาขาของคุณ (ที่มีสิทธิ์นำเข้า AI)
-<ul>
-<li>ถ้ายังไม่มี: ใช้ <code>course-materials/module-07/examples/figure-consistency/mock-study-data.csv</code> (ติดตั้งมากับ Module 1) หรือ<a href="module-7-thailand-population-lab.html">กรณีฝึกสำรองประชากรไทย</a> (ข้อมูลเปิด ให้ AI ดาวน์โหลดและทำใบรับข้อมูลตามหน้านั้น)</li>
-</ul></li>
-</ul>
-<h3 id="ขั้นตอน">ขั้นตอน</h3>
-<ol type="1">
-<li>สร้างโฟลเดอร์ <code>module-07-work/output/</code> และไฟล์ <code>module-07-work/output/prompts.md</code> (ถ้ามีจาก Exploring workshop ข้ออื่นแล้ว ให้เพิ่มหัวข้อใหม่ต่อท้าย) ไว้จดทุกรอบเป็น prompt → สรุปคำตอบของ AI → สิ่งที่คุณตัดสินใจ</li>
-<li>สร้าง <code>module-07-work/output/graph-clinic.md</code> เป็นตาราง "กราฟชวนให้เชื่ออะไร | ตัวเลขรองรับแค่ไหน | แก้อย่างไร" แล้วตรวจเองก่อนว่าแต่ละภาพมีกับดักสี่แบบ (baseline ใน bar, แกนสองข้าง, ช่วงเวลา/ค่าสะสม, ตัวหารต่างกันข้าม panel) ข้อใดบ้าง</li>
-<li>เขียน prompt ให้ AI ตรวจกับดักเดียวกันโดยอิสระ แล้วเทียบกับผลของคุณ</li>
-<li>เลือกหนึ่งภาพที่พบกับดัก ให้ AI แก้และบันทึกภาพก่อน–หลังไว้ใน <code>module-07-work/output/</code> แล้วตรวจว่าการแก้ไม่สร้างปัญหาใหม่</li>
+<li>ตรวจ baseline, dual axis, ช่วงเวลาหรือค่าสะสม และตัวหารข้าม panel</li>
+<li>ปรับกราฟให้มี claim title, caption, หน่วย, <code>n</code> และ interval</li>
+<li>ส่งออก PDF/SVG ขนาดใช้งานจริงและตรวจที่ 100% ทั้งสีและขาวดำ</li>
 </ol>
 <h3 id="ข้อกำหนด">ข้อกำหนด</h3>
 <ul>
-<li>เขียน prompt เองทุกข้อ ไม่ใช้ prompt สำเร็จรูปจาก workshop และจดทุกรอบใน <code>module-07-work/output/prompts.md</code></li>
-<li>ระบุว่าตรวจผลของ AI อย่างไร (เปิดภาพดูเอง คำนวณเอง หรือเปิดข้อมูลต้นทาง) และแก้อะไรเอง</li>
-<li>ข้อมูลที่ไม่มีสิทธิ์นำเข้า AI (ข้อมูลส่วนบุคคล ข้อมูลลับ manuscript ที่ยังไม่เผยแพร่) ให้ใช้ข้อมูลจำลอง/ข้อมูลเปิดแทน</li>
-<li>ถ้า AI เสนอวิธีทางสถิติที่คุณอธิบายเหตุผลไม่ได้ ให้หยุดและปรึกษาผู้เชี่ยวชาญก่อนใช้ผล</li>
+<li>เก็บต้นฉบับเดิมและภาพหลังแก้แยกกัน</li>
+<li>เก็บ prompt และเหตุผลที่แก้ไว้ใน <code>module-07-work/output/prompts.md</code></li>
+<li>ระบุอย่างน้อยหนึ่งข้อเสนอของ AI ที่คุณไม่รับ พร้อมหลักฐาน</li>
 </ul>
 <h3 id="เกณฑ์ผ่าน">เกณฑ์ผ่าน</h3>
 <ul class="task-list">
-<li><label><input type="checkbox">ตรวจด้วยตนเองก่อนถาม AI (prompt log แสดงลำดับนี้)</label></li>
-<li><label><input type="checkbox">ทุกภาพใน <code>module-07-work/output/graph-clinic.md</code> มีครบสามช่อง: ชวนเชื่ออะไร ตัวเลขรองรับแค่ไหน แก้อย่างไร</label></li>
-<li><label><input type="checkbox">ระบุจุดที่ผลของ AI ต่างจากของคุณ และตัดสินว่าใครถูกพร้อมหลักฐาน</label></li>
-<li><label><input type="checkbox">ภาพที่แก้แล้วใน <code>module-07-work/output/</code> ไม่มีกับดักใหม่ (scale ร่วม หน่วยครบ ตัวหารเดียวกัน)</label></li>
-<li><label><input type="checkbox">prompt log แสดงการปรับ prompt อย่างน้อย 1 รอบ พร้อมเหตุผล</label></li>
+<li><label><input type="checkbox">มีบันทึกก่อน–หลังและเหตุผลที่ตรวจย้อนข้อมูลได้</label></li>
+<li><label><input type="checkbox">ชื่อภาพไม่อ้างเกินตัวเลขในภาพ</label></li>
+<li><label><input type="checkbox">PDF/SVG อ่านได้ที่ 100% และไม่ใช้สีเป็นสัญญาณเพียงอย่างเดียว</label></li>
+<li><label><input type="checkbox"><code>prompts.md</code> แสดงการปรับ promptอย่างน้อยหนึ่งรอบพร้อมเหตุผล</label></li>
 </ul>
-<p><strong>เกณฑ์:</strong> ทำ Exploring workshop อย่างน้อย 2 ข้อจากที่คลาสเปิดให้</p>
-</div></section>
-<section class="section markdown-section topic-panel" id="workshop-figure-makeover-and-column-export" aria-labelledby="workshop-figure-makeover-and-column-export-heading"><div class="section-heading compact"><p class="eyebrow">Notebook 2</p><h2 id="workshop-figure-makeover-and-column-export-heading">Makeover กราฟ: ชื่อภาพเป็น claim และส่งออกขนาดหนึ่งคอลัมน์</h2></div><div class="markdown-body"><p>ใน Notebook นี้คุณจะดูกราฟหนึ่งภาพถูกปรับจาก Draft 0 ถึง Draft 2 ใน Part B แล้วได้บันทึกของตัวเองว่าแต่ละขั้นเปลี่ยนอะไร พร้อม claim หนึ่งประโยคที่ตัวเลขในภาพรองรับ</p>
-<p>ทำใน <strong>Google Colab อย่างเดียว</strong> ไม่ต้องใช้ AI ในส่วนนี้ — เปิด รัน ดู แล้วจดสิ่งที่เห็นด้วยตัวเอง</p>
-<h3 id="ก่อนเริ่ม-ต้องมีอยู่แล้ว">ก่อนเริ่ม (ต้องมีอยู่แล้ว)</h3>
-<ul>
-<li>บัญชี Google สำหรับเปิด Google Colab</li>
-<li>notebook <a href="https://colab.research.google.com/github/punpiti/ai-for-research/blob/main/downloads/course-materials/visualization/notebooks/module-07b-revise-and-publish.ipynb">Part B — ปรับกราฟและส่งออกให้พร้อมใช้</a> (เปิดจากลิงก์ได้ทันที)</li>
-<li>ถ้าใช้ Colab ไม่ได้: ไฟล์ชุดเดียวกัน <code>course-materials/module-07/notebooks/module-07b-revise-and-publish.ipynb</code> (ติดตั้งมากับ Module 1) เปิดด้วย <code>tools/start-module-07</code> (Module 1 สร้างให้เมื่อเห็น <code>MODULE7_READY</code>) หรือดาวน์โหลด <a href="downloads/module-07-notebooks/module-07-notebook-bundle.zip">module-07-notebook-bundle.zip</a></li>
-</ul>
-<h3 id="ขั้นตอน">ขั้นตอน</h3>
-<ol type="1">
-<li>เปิดลิงก์ Part B ด้วยบัญชี Google ของคุณ แล้วกด <strong>Runtime → Run all</strong> (cell แรกติดตั้งไลบรารีและฟอนต์ไทยให้เอง)
-<ul>
-<li>หาหัวข้อจาก <strong>สารบัญ</strong> ด้านซ้ายของ Colab · อยากเก็บสิ่งที่แก้ให้ <strong>File → Save a copy in Drive</strong> ก่อน</li>
-<li>ข้อมูลทั้งหมดใน notebook เป็นข้อมูลจำลองเพื่อการสอน · ห้ามอัปโหลดข้อมูลวิจัยจริงหรือข้อมูลส่วนบุคคลขึ้น Colab</li>
-</ul></li>
-<li>ไปที่ <strong>Part B › หัวข้อ 1 › Draft 0</strong>, <strong>Draft 1</strong>, <strong>Draft 2</strong> ดูทีละภาพ และจดว่าแต่ละขั้นเปลี่ยนอะไร (<strong>บันทึก "Draft 0 → 2"</strong>)</li>
-<li>เขียน <strong>claim</strong> ของคุณเองหนึ่งประโยคจากภาพนี้ (ทุกคำต้องมีตัวเลขในภาพรองรับ)</li>
-<li>ดู <strong>Part B › หัวข้อ 1 › ทดสอบภาพที่ขนาดใช้งานจริงและเมื่อฉาย</strong> และ <strong>ทำภาพขนาดหนึ่งคอลัมน์ ส่งออก raster/vector</strong></li>
-</ol>
-<h3 id="ตรวจก่อนจบ">ตรวจก่อนจบ</h3>
-<ul class="task-list">
-<li><label><input type="checkbox">บันทึก "Draft 0 → 2" ระบุสิ่งที่เปลี่ยนในแต่ละขั้น (Draft 0 → 1 และ 1 → 2)</label></li>
-<li><label><input type="checkbox">claim หนึ่งประโยคที่ทุกคำมีตัวเลขในภาพรองรับ ไม่มีคำอย่าง "ดีที่สุด" หรือ "พิสูจน์" (เก็บไว้ใช้ใน Prompt ของส่วนนี้)</label></li>
-</ul>
-</div></section>
-<section class="section markdown-section topic-panel" id="workshop-figure-makeover-and-column-export-prompt" aria-labelledby="workshop-figure-makeover-and-column-export-prompt-heading"><div class="section-heading compact"><p class="eyebrow">Prompt 2</p><h2 id="workshop-figure-makeover-and-column-export-prompt-heading">Makeover กราฟ: ชื่อภาพเป็น claim และส่งออกขนาดหนึ่งคอลัมน์</h2></div><div class="markdown-body"><p>ใน workshop นี้คุณจะให้ AI ทำ Draft 2 ใหม่ให้ชื่อภาพเป็น claim ของคุณ ส่งออกเป็น PDF กว้างหนึ่งคอลัมน์ใน <code>module-07-work/figures/</code> แล้วตรวจที่ขนาดจริงเอง</p>
-<p>ทำใน <strong>VS Code กับ AI อย่างเดียว</strong> ไม่ต้องเปิด Colab — AI อ่านไฟล์ notebook ที่ติดตั้งไว้ในเครื่องแล้ว</p>
-<h3 id="ก่อนเริ่ม-ต้องมีอยู่แล้ว">ก่อนเริ่ม (ต้องมีอยู่แล้ว)</h3>
-<ul>
-<li>ผ่าน Module 1: เปิด <code>ai-for-research-workspace</code> ใน VS Code และ AI panel เชื่อมแล้ว</li>
-<li><code>course-materials/module-07/notebooks/module-07b-revise-and-publish.ipynb</code> (ติดตั้งมากับ Module 1 · อ่านอย่างเดียว ห้ามแก้)</li>
-<li>โฟลเดอร์ <code>module-07-work/</code> กับ <code>module-07-work/figures/</code> และ Python ของโมดูล <code>.venv-module07</code> (ตัวติดตั้ง Module 1 สร้างไว้ เมื่อเห็น <code>MODULE7_READY</code>)</li>
-<li>claim หนึ่งประโยคที่คุณเขียนใน Notebook ของส่วนนี้ (<code>figure-makeover-and-column-export</code>)</li>
-</ul>
-<h3 id="ขั้นตอน">ขั้นตอน</h3>
-<ol type="1">
-<li><p>สั่ง AI (ใส่ claim ของคุณแทน …)</p>
-<div class="command ai-prompt"><code>อ่านโค้ดของ Draft 2 ใน Part B หัวข้อ 1 จาก course-materials/module-07/notebooks/module-07b-revise-and-publish.ipynb สร้างสคริปต์ใน module-07-work/ ที่ทำภาพใหม่ให้ชื่อภาพเป็น claim: … ใช้ median และ IQR ระบุ n ในคำบรรยายภาพ เน้นเส้นเดียวด้วยสีและ label ที่ปลายเส้น รันด้วย Python ของโมดูล แล้วส่งออก PDF กว้าง 3.5 นิ้วไว้ใน module-07-work/figures/</code><button type="button" data-copy="">คัดลอก</button></div></li>
-<li><p>ตรวจ: ทุกคำในชื่อภาพมีตัวเลขในภาพรองรับ (ถ้ามีคำอย่าง "ดีที่สุด" หรือ "พิสูจน์" ให้ตัดออก) และคำบรรยายภาพระบุ IQR กับ n</p></li>
-<li><p>เปิด PDF ที่ AI เพิ่งส่งออกใน <code>module-07-work/figures/</code> ที่ 100% ตรวจขนาดตัวอักษร ป้าย และหน่วย ถ้าอ่านไม่ได้ให้สั่ง AI ปรับขนาดตัวอักษรหรือตัดเส้นที่ไม่ช่วย claim แล้วส่งออกใหม่</p></li>
-<li><p>สร้างไฟล์ <code>module-07-work/makeover-notes.md</code> แล้วจดสั้น ๆ ว่าตรวจที่ 100% แล้วแก้อะไร</p></li>
-</ol>
-<p>หมายเหตุ: AIRR รับกราฟเป็น PNG/JPEG/WebP ไม่เกิน 2 MB; ไฟล์ PDF/SVG เก็บไว้ใน workspace</p>
-<h3 id="ตรวจก่อนจบ">ตรวจก่อนจบ</h3>
-<ul class="task-list">
-<li><label><input type="checkbox"><code>module-07-work/figures/</code> มี PDF หนึ่งคอลัมน์ ≈ 3.5 × 2.4 นิ้ว ที่ชื่อภาพเป็น claim ซึ่งตัวเลขในภาพรองรับ</label></li>
-<li><label><input type="checkbox">คำบรรยายภาพระบุ median, IQR และ n</label></li>
-<li><label><input type="checkbox">เปิด PDF ที่ 100% แล้วอ่านตัวอักษร ป้าย และหน่วยได้</label></li>
-<li><label><input type="checkbox"><code>module-07-work/makeover-notes.md</code> บันทึกว่าตรวจที่ 100% แล้วแก้อะไร</label></li>
-<li><label><input type="checkbox"><code>course-materials/module-07/notebooks/module-07b-revise-and-publish.ipynb</code> ไม่ถูกแก้</label></li>
-</ul>
-<h3 id="ส่งงาน">ส่งงาน</h3>
-<ul>
-<li>ส่วนนี้ไม่ส่งแยก เก็บผลไว้ใน <code>module-07-work/</code> แล้วนำไปใช้ใน workshop highlights (หัวข้อ <a href="topic-data-highlights-with-evidence.html">จากข้อมูลสู่ highlights ที่ตรวจย้อนได้</a>) ซึ่งส่งผ่าน AIRR</li>
-</ul>
-</div></section>
-<section class="section markdown-section topic-panel" id="open-figure-makeover-and-column-export-explore" aria-labelledby="open-figure-makeover-and-column-export-explore-heading"><div class="section-heading compact"><p class="eyebrow">Exploring 2</p><h2 id="open-figure-makeover-and-column-export-explore-heading">Makeover กราฟ: ชื่อภาพเป็น claim และส่งออกขนาดหนึ่งคอลัมน์</h2></div><div class="markdown-body"><p>ใน Exploring workshop นี้คุณจะเขียน prompt เองให้ AI ปรับกราฟหนึ่งภาพในงานของคุณจาก Draft 0 ถึง Draft 2 แล้วส่งออกขนาดหนึ่งคอลัมน์ ได้ไฟล์ทุกขั้นกับ <code>module-07-work/output/makeover.md</code> ใน <code>module-07-work/output/</code></p>
-<p>ผู้เรียนเขียน prompt เอง ไม่มี prompt สำเร็จรูปให้</p>
-<h3 id="ก่อนเริ่ม-ต้องมีอยู่แล้ว">ก่อนเริ่ม (ต้องมีอยู่แล้ว)</h3>
-<ul>
-<li>ผ่าน Module 1: เปิด <code>ai-for-research-workspace</code> ใน VS Code และ AI panel เชื่อมแล้ว · โฟลเดอร์ <code>module-07-work/</code> และ Python ของโมดูล <code>.venv-module07</code> (ตัวติดตั้ง Module 1 สร้างไว้)</li>
-<li>ทำ workshop "Makeover กราฟ: ชื่อภาพเป็น claim และส่งออกขนาดหนึ่งคอลัมน์" ของหัวข้อนี้แล้ว</li>
-<li>กราฟหนึ่งภาพจากงานของคุณที่ยังเป็น "Draft 0" (ค่า default, ไม่มีหน่วย, สีไม่มีความหมาย, ไม่มีข้อความหลัก) พร้อมข้อมูลที่ใช้วาด ที่มีสิทธิ์นำเข้า AI
-<ul>
-<li>ถ้ายังไม่มี: ใช้ <code>course-materials/module-07/examples/figure-consistency/mock-study-data.csv</code> (ติดตั้งมากับ Module 1) หรือ<a href="module-7-thailand-population-lab.html">กรณีฝึกสำรองประชากรไทย</a> (ข้อมูลเปิด ให้ AI ดาวน์โหลดและทำใบรับข้อมูลตามหน้านั้น)</li>
-</ul></li>
-<li>ขนาดหนึ่งคอลัมน์ของวารสารเป้าหมาย (ถ้าไม่ทราบ ใช้ ≈ 3.5 × 2.4 นิ้ว)</li>
-</ul>
-<h3 id="ขั้นตอน">ขั้นตอน</h3>
-<ol type="1">
-<li>สร้างโฟลเดอร์ <code>module-07-work/output/</code> และไฟล์ <code>module-07-work/output/prompts.md</code> (ถ้ามีจาก Exploring workshop ข้ออื่นแล้ว ให้เพิ่มหัวข้อใหม่ต่อท้าย) ไว้จดทุกรอบเป็น prompt → สรุปคำตอบของ AI → สิ่งที่คุณตัดสินใจ</li>
-<li>คัดลอกกราฟเดิมไว้ใน <code>module-07-work/output/</code> เป็น Draft 0</li>
-<li>เขียน claim หนึ่งประโยคที่ตัวเลขในภาพรองรับได้จริง</li>
-<li>เขียน prompt ให้ AI ทำ Draft 1 (สรุปที่ยังรักษาความแปรปรวน หน่วยครบ scale ร่วม เน้นเรื่องเดียว) และ Draft 2 (ชื่อภาพเป็น claim + annotation ชี้หลักฐาน) เก็บไว้ใน <code>module-07-work/output/</code></li>
-<li>ให้ AI ส่งออก Draft 2 ขนาดหนึ่งคอลัมน์เป็น PDF หรือ SVG และทำเวอร์ชันฉายบนจอหนึ่งภาพ แล้วเปิดไฟล์ vector ที่ 100% ตรวจเอง</li>
-<li>สร้าง <code>module-07-work/output/makeover.md</code> อธิบายการเปลี่ยนแต่ละขั้นและผลตรวจที่ 100%</li>
-</ol>
-<h3 id="ข้อกำหนด">ข้อกำหนด</h3>
-<ul>
-<li>เขียน prompt เองทุกข้อ ไม่ใช้ prompt สำเร็จรูปจาก workshop และจดทุกรอบใน <code>module-07-work/output/prompts.md</code></li>
-<li>ระบุว่าตรวจผลของ AI อย่างไร (เปิดภาพดูเอง คำนวณเอง หรือเปิดข้อมูลต้นทาง) และแก้อะไรเอง</li>
-<li>ข้อมูลที่ไม่มีสิทธิ์นำเข้า AI (ข้อมูลส่วนบุคคล ข้อมูลลับ manuscript ที่ยังไม่เผยแพร่) ให้ใช้ข้อมูลจำลอง/ข้อมูลเปิดแทน</li>
-<li>ถ้า AI เสนอวิธีทางสถิติที่คุณอธิบายเหตุผลไม่ได้ ให้หยุดและปรึกษาผู้เชี่ยวชาญก่อนใช้ผล</li>
-</ul>
-<h3 id="เกณฑ์ผ่าน">เกณฑ์ผ่าน</h3>
-<ul class="task-list">
-<li><label><input type="checkbox"><code>module-07-work/output/</code> มีภาพ Draft 0 → 1 → 2 ครบ และ <code>makeover.md</code> บอกได้ว่าแต่ละขั้นเปลี่ยนอะไรและทำไม</label></li>
-<li><label><input type="checkbox">ทุกคำในชื่อภาพมีตัวเลขในภาพรองรับ ไม่มีคำอย่าง "ดีที่สุด" หรือ "พิสูจน์" ที่ไม่มีหลักฐาน</label></li>
-<li><label><input type="checkbox">มีหน่วย n และชนิด interval (ถ้ามี) ในภาพหรือคำบรรยายภาพ</label></li>
-<li><label><input type="checkbox">ไฟล์ vector ขนาดคอลัมน์ที่เปิดดูที่ 100% แล้วอ่านป้ายและหน่วยได้ (บันทึกว่าตรวจแล้ว) และมีเวอร์ชันฉายบนจอหนึ่งภาพ</label></li>
-<li><label><input type="checkbox">prompt log แสดงการปรับ prompt อย่างน้อย 1 รอบ พร้อมเหตุผล</label></li>
-</ul>
-<p><strong>เกณฑ์:</strong> ทำ Exploring workshop อย่างน้อย 2 ข้อจากที่คลาสเปิดให้</p>
 </div></section>
 <section class="section markdown-section topic-panel" id="workshop-ai-chart-audit-twelve-questions" aria-labelledby="workshop-ai-chart-audit-twelve-questions-heading"><div class="section-heading compact"><p class="eyebrow">เสริม · Workshop</p><h2 id="workshop-ai-chart-audit-twelve-questions-heading">ให้ AI ตรวจกราฟด้วย 12 คำถาม (จุดอ่อนของกราฟ)</h2></div><div class="markdown-body"><p>ใน workshop นี้คุณจะให้ AI ตรวจกราฟที่คุณทำไว้ใน <code>module-07-work/figures/</code> ด้วยรายการ 12 คำถาม ตรวจทุกข้อที่ AI รายงานด้วยตาตัวเอง แล้วสร้างตาราง <code>module-07-work/chart-audit-12.md</code> ที่บอกว่าแก้หรือไม่แก้ข้อใดเพราะอะไร</p>
 <p>ใช้กราฟที่ทำจากข้อมูล PM2.5 จำลองหรือจาก notebook ของบทเรียน ไม่ต้องสร้าง mock เพิ่ม</p>
@@ -285,7 +157,6 @@
 <li><label><input type="checkbox">มีเหตุผลสำหรับข้อที่ไม่แก้</label></li>
 <li><label><input type="checkbox">prompt log แสดงการปรับ prompt อย่างน้อย 1 รอบ พร้อมเหตุผล</label></li>
 </ul>
-<p><strong>เกณฑ์:</strong> ทำ Exploring workshop อย่างน้อย 2 ข้อจากที่คลาสเปิดให้</p>
 </div></section></div><aside class="slide-aside" aria-label="สไลด์ประกอบ"><div class="slide-tools"><button type="button" class="slide-tool" data-fullscreen="#slide-frame-aside">⛶ เต็มจอ</button><a class="slide-tool" href="downloads/topics/chart-pitfalls-and-makeover.pdf" target="_blank" rel="noopener">เปิดแท็บใหม่ ↗</a></div><iframe id="slide-frame-aside" src="downloads/topics/chart-pitfalls-and-makeover.pdf#view=FitH" title="สไลด์ กับดักกราฟ และการปรับกราฟให้พร้อมใช้" loading="lazy" allowfullscreen></iframe></aside></div>
 <script>
 (() => {

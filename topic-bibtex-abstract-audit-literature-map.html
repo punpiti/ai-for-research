@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="ตรวจระเบียนใน references.bib ทีละ field พร้อมที่มาของ abstract บันทึกผลใน bibliography audit และทำ literature map / candidate gap ที่แยกสิ่งที่พบใน corpus ออกจากสิ่งที่ต้องค้นต่อ โดยไม่อ้าง novelty">
+  <meta name="theme-color" content="#101817">
+  <title>ตรวจ references.bib พร้อมที่มาของ abstract และทำ literature map · AIRR</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/styles.css?v=20261113-2">
+  <link rel="stylesheet" href="assets/learn.css?v=20261116-2">
+  <script src="assets/site-shell.js?v=20261116-2"></script>
+  <script src="assets/app.js?v=20261116-2" defer></script>
+</head>
+<body class="learn" data-no-case>
+  <a class="skip-link" href="#main">ข้ามไปยังเนื้อหา</a>
+  <site-header current="topic" plan="class-2026-11-20-engineering-faculty.html" menu='{&quot;module&quot;: &quot;M08&quot;, &quot;title&quot;: &quot;ผลิตเอกสารวิจัย&quot;, &quot;items&quot;: [{&quot;href&quot;: &quot;module-overview-m08.html&quot;, &quot;label&quot;: &quot;ภาพรวมและ LO&quot;, &quot;current&quot;: false}, {&quot;href&quot;: &quot;topic-journal-fit-and-venue-switch.html&quot;, &quot;label&quot;: &quot;เลือกวารสาร และผลของการเปลี่ยนวารสาร&quot;, &quot;current&quot;: false}, {&quot;href&quot;: &quot;topic-bibtex-abstract-audit-literature-map.html&quot;, &quot;label&quot;: &quot;ตรวจ references.bib พร้อมที่มาของ abstract และทำ literature map&quot;, &quot;current&quot;: true}, {&quot;href&quot;: &quot;topic-paragraph-contract-reverse-check.html&quot;, &quot;label&quot;: &quot;จาก highlights สู่ย่อหน้า: ข้อตกลงของย่อหน้าและการตรวจย้อนทุกประโยค&quot;, &quot;current&quot;: false}, {&quot;href&quot;: &quot;topic-markdown-single-source-latex-pdf-build.html&quot;, &quot;label&quot;: &quot;ต้นฉบับ Markdown ชุดเดียว → LaTeX ที่ AI สร้าง → PDF และการแก้ build ตามชั้น&quot;, &quot;current&quot;: false}, {&quot;href&quot;: &quot;topic-pdf-qa-submission-readiness.html&quot;, &quot;label&quot;: &quot;ตรวจ PDF ก่อนส่ง: ตรวจเนื้อหาแยกจากหน้ากระดาษ แก้หนึ่งรอบ และบันทึกความพร้อมส่ง&quot;, &quot;current&quot;: false}, {&quot;href&quot;: &quot;topic-kuthesis-thai-thesis-template.html&quot;, &quot;label&quot;: &quot;วิทยานิพนธ์รูปแบบ มก. ด้วย kuthesis: สร้าง PDF จากตัวอย่างและใช้ refs.bib ของตัวเอง&quot;, &quot;current&quot;: false}]}'></site-header>
+  <main id="main">
+<section class="prepare-hero module-hero"><p class="eyebrow">หัวข้อย่อย · M08</p><h1>ตรวจ references.bib พร้อมที่มาของ abstract และทำ literature map</h1><ul class="outcomes"><li>ตรวจระเบียนใน references.bib ทีละ field พร้อมที่มาของ abstract บันทึกผลใน bibliography audit และทำ literature map / candidate gap ที่แยกสิ่งที่พบใน corpus ออกจากสิ่งที่ต้องค้นต่อ โดยไม่อ้าง novelty</li></ul></section>
+<div class="topic-layout"><nav class="topic-tabs" aria-label="ส่วนของหัวข้อ"><a href="#slides" title="สไลด์">สไลด์</a><a href="#workshop-core" title="Workshop หลัก">Workshop</a><a href="#open-explore" title="Exploring workshop">Exploring</a></nav><div class="topic-main"><section class="section markdown-section topic-panel" id="slides" aria-labelledby="slides-heading"><div class="section-heading compact"><p class="eyebrow">สไลด์</p><h2 id="slides-heading">สไลด์</h2></div><div class="markdown-body"><p>สไลด์ของหัวข้อนี้กำลังจัดทำ</p></div></section>
+<section class="section markdown-section topic-panel" id="workshop-core" aria-labelledby="workshop-core-heading"><div class="section-heading compact"><p class="eyebrow">Workshop</p><h2 id="workshop-core-heading">ตรวจ references.bib พร้อมที่มาของ abstract และทำ literature map</h2></div><div class="markdown-body"><p>ใน workshop นี้คุณจะให้ AI ตรวจระเบียนใน <code>references.bib</code> แล้วกรอกผลลง bibliography audit, literature map และ candidate gap จากนั้นตรวจทุกแถวกลับไปที่ <code>.bib</code> ด้วยตัวเอง</p>
+<p>ใช้ระเบียนอ้างอิงจำลอง 3 รายการ (ทุกระเบียนติดป้าย <code>Synthetic teaching record; not a real publication</code> — ห้ามนำไปอ้างนอกแบบฝึก)</p>
+<h3 id="ก่อนเริ่ม-ต้องมีอยู่แล้ว">ก่อนเริ่ม (ต้องมีอยู่แล้ว)</h3>
+<ul>
+<li>ผ่าน Module 1: เปิด <code>ai-for-research-workspace</code> ใน VS Code และ AI panel เชื่อมแล้ว</li>
+<li>ติดตั้ง Module 8 แล้ว ตัวติดตั้งวางไฟล์เหล่านี้ไว้ให้:
+<ul>
+<li><code>module-08-work/literature/references.bib</code> — 3 ระเบียน: <code>Arun2024CommunityPM</code>, <code>Chen2023SensorWeeks</code>, <code>Diaz2025BeforeAfter</code></li>
+<li><code>module-08-work/literature/bibliography-audit.md</code>, <code>literature-map.md</code>, <code>candidate-gap.md</code> — ไฟล์ที่มีแต่หัวตาราง/หัวข้อ ยังไม่มีเนื้อหา</li>
+<li><code>module-08-work/input/module-07-highlights.md</code> — ใช้เทียบว่าวรรณกรรมเกี่ยวกับงานอย่างไร</li>
+</ul></li>
+</ul>
+<h3 id="คำที่ใช้ใน-workshop-นี้">คำที่ใช้ใน workshop นี้</h3>
+<ul>
+<li><strong>BibTeX record</strong> — ระเบียนอ้างอิงหนึ่งรายการในไฟล์ <code>.bib</code></li>
+<li><strong>citation key</strong> — รหัสที่เชื่อมข้อความในต้นฉบับกับระเบียน BibTeX</li>
+<li><strong>abstract source</strong> — แหล่งที่นำ abstract ต้นฉบับมา ต้องตรวจย้อนกลับได้</li>
+<li><strong>literature map</strong> — ตารางที่แยก problem, context, method, finding และ limitation ของแต่ละงาน</li>
+<li><strong>candidate gap</strong> — ประเด็นที่ควรค้นต่อ ยังไม่ใช่หลักฐานยืนยันความใหม่</li>
+</ul>
+<h3 id="ขั้นตอน">ขั้นตอน</h3>
+<ol type="1">
+<li><p><strong>อ่านเองก่อน (1 นาที)</strong> เปิด <code>literature/references.bib</code> ดูหนึ่งระเบียน: มี <code>abstract</code>, <code>abstract_source</code>, <code>accessed</code> และ <code>note</code> อะไรบ้าง สังเกตบรรทัดแรกของไฟล์ที่บอกว่าเป็นระเบียนสังเคราะห์</p>
+<p><strong>ตรวจ:</strong> ชี้ citation key และตำแหน่งของ <code>abstract_source</code> ในระเบียนที่เปิดได้</p></li>
+<li><p><strong>ส่ง prompt ให้ AI ตรวจระเบียน</strong> AI จะเติมแถวลงตารางใน <code>literature/bibliography-audit.md</code></p>
+<div class="command ai-prompt"><code>อ่านเฉพาะไฟล์ module-08-work/literature/references.bib ไม่ต้องค้นเว็บ ตรวจทุกระเบียน: ชนิดรายการ citation key, author, title, year, venue, DOI/URL, abstract, abstract_source และ accessed ตรวจ key ซ้ำ field ขาด และ DOI ซ้ำ ระบุว่าระเบียนใดติดป้ายว่าเป็นข้อมูลจำลอง ห้ามแต่ง author, title, year, DOI หรือ abstract ห้ามสร้าง abstract จากชื่อเรื่อง ระเบียนที่ตรวจไม่ได้ให้เว้น field และระบุสถานะ บันทึกผลลงตารางใน module-08-work/literature/bibliography-audit.md (Citation key | Metadata | Abstract source | Status / action) แล้วหยุดให้ฉันตรวจ</code><button type="button" data-copy="">คัดลอก</button></div><p><strong>ตรวจ:</strong> audit มีทั้งสาม citation key และไม่มี metadata หรือ abstract ที่ไม่มีใน <code>.bib</code></p></li>
+<li><p><strong>ตรวจผลของ AI (2 นาที)</strong> เลือกอย่างน้อย 1 ระเบียน เปิด <code>.bib</code> เทียบกับแถวใน <code>bibliography-audit.md</code> ทีละ field</p>
+<ul>
+<li>abstract ใน audit (ถ้ามีการคัดลอก) ตรงกับใน <code>.bib</code> ทุกคำหรือไม่ AI สรุปหรือแปลแทนต้นฉบับโดยไม่ติดป้ายหรือไม่</li>
+<li>สถานะบอกชัดหรือไม่ว่าเป็น synthetic record ใช้ในแบบฝึกเท่านั้น (DOI ในชุดนี้ไม่ใช่ DOI จริง จึงตรวจกับ publisher ไม่ได้ — สถานะต้องบอกตามนั้น ไม่ใช่ “verified”)</li>
+</ul>
+<p><strong>ตรวจ:</strong> ระเบียนที่สุ่มเทียบตรงกับ <code>.bib</code> ทีละ field และยังติดป้าย synthetic record</p></li>
+<li><p><strong>ส่ง prompt ให้ AI ทำ literature map และ candidate gap</strong> AI จะเติม <code>literature/literature-map.md</code> และ <code>literature/candidate-gap.md</code></p>
+<div class="command ai-prompt"><code>สร้าง literature map จาก module-08-work/literature/references.bib โดยใช้เฉพาะ title, abstract และ metadata แยก problem/context, method, finding และ limitation ของแต่ละรายการ อ้าง citation key ทุกข้อ แยกสิ่งที่พบจริงจากการตีความ บันทึกใน module-08-work/literature/literature-map.md จากนั้นเติม module-08-work/literature/candidate-gap.md ตามหัวข้อ Observed in corpus, Candidate gap, Counterevidence และ Search needed ทุก candidate gap ต้องมี citation key ที่รองรับ และคำค้นต่อ ห้ามใช้คำว่า novel หรือยืนยันว่าเป็น research gap แล้วรอฉันตรวจ</code><button type="button" data-copy="">คัดลอก</button></div><p><strong>ตรวจ:</strong> ทุกแถวใน literature map มี citation key และทุก candidate gap มี counterevidence หรือคำค้นต่อ</p></li>
+<li><p><strong>ตรวจและแก้เอง</strong> เปิด <code>literature-map.md</code> ดูว่าทุกแถวชี้กลับไปที่ abstract ได้ เปิด <code>candidate-gap.md</code> เทียบกับ <code>input/module-07-highlights.md</code> ว่าข้อใดสัมพันธ์กับคำถามของงาน PM2.5 (ผลรวมกับผลแยกพื้นที่, repeated sensor observations, การใช้ถ้อยคำเชิงเหตุ) แล้วแก้หรือลบข้อที่ไม่มีหลักฐาน</p>
+<p><strong>ตรวจ:</strong> ไม่มีข้อใดอ้าง novelty และไฟล์ <code>references.bib</code> ไม่ถูกแก้</p></li>
+</ol>
+<h3 id="ข้อควรรู้">ข้อควรรู้</h3>
+<ul>
+<li>งานจริง: นำเข้าระเบียนจาก DOI, publisher, Crossref หรือฐานข้อมูลที่ตรวจสอบได้ และเก็บ abstract ต้นฉบับจากหน้า publisher หรือฐานข้อมูลที่ตรวจแล้ว ระเบียนที่ยังตรวจไม่ได้ใช้ <code>abstract = {}</code> และบันทึกใน audit</li>
+<li>การไม่พบประเด็นใน corpus ชุดเล็กเป็นเพียงข้อจำกัดของการค้น ยังไม่ใช่หลักฐานความใหม่ของงาน</li>
+</ul>
+<h3 id="ตรวจก่อนจบ">ตรวจก่อนจบ</h3>
+<ul class="task-list">
+<li><label><input type="checkbox"><code>module-08-work/literature/bibliography-audit.md</code> มีแถวของทั้ง 3 citation key พร้อมที่มาของ abstract และสถานะที่ระบุว่าเป็น synthetic record (ไม่ใช่ “verified”) และคุณเทียบกับ <code>.bib</code> แล้วอย่างน้อย 1 ระเบียน</label></li>
+<li><label><input type="checkbox"><code>module-08-work/literature/literature-map.md</code> ทุกแถวอ้าง citation key ที่มีอยู่ใน <code>references.bib</code></label></li>
+<li><label><input type="checkbox"><code>module-08-work/literature/candidate-gap.md</code> มีเนื้อหาครบสี่หัวข้อ ทุก candidate gap มี citation key และคำค้นต่อ และไม่มีคำอ้าง novelty</label></li>
+<li><label><input type="checkbox"><code>module-08-work/literature/references.bib</code> ไม่ถูกแก้</label></li>
+</ul>
+<h3 id="ส่งงาน">ส่งงาน</h3>
+<ul>
+<li>ส่งตามขั้นตอนส่งงานของโมดูลที่ใช้หัวข้อนี้ (<code>runtime.submit</code> ใน <code>module.json</code>; ณ ตอนนี้ M08 ยังไม่กำหนดช่องทางส่ง)</li>
+</ul>
+</div></section>
+<section class="section markdown-section topic-panel" id="open-explore" aria-labelledby="open-explore-heading"><div class="section-heading compact"><p class="eyebrow">Exploring</p><h2 id="open-explore-heading">ตรวจ references.bib พร้อมที่มาของ abstract และทำ literature map</h2></div><div class="markdown-body"><p>ในกิจกรรมนี้คุณจะเขียน prompt เองเพื่อให้ AI ช่วยสร้างหรือตรวจ BibTeX ของรายการอ้างอิงในงานของคุณ แล้วทำ bibliography audit, literature map และ candidate gap (ไม่มี prompt สำเร็จรูปให้)</p>
+<h3 id="ก่อนเริ่ม-ต้องมีอยู่แล้ว">ก่อนเริ่ม (ต้องมีอยู่แล้ว)</h3>
+<ul>
+<li>ผ่าน Module 1: เปิด <code>ai-for-research-workspace</code> ใน VS Code และ AI panel เชื่อมแล้ว</li>
+<li>งานของคุณเองที่กำลังเขียน (บทความ/ข้อเสนอโครงการ/บทในวิทยานิพนธ์) ที่มีรายการอ้างอิง</li>
+<li>DOI หรือหน้า publisher ของรายการอ้างอิงที่จะใช้ ที่คุณเปิดดูได้</li>
+</ul>
+<h3 id="โจทย์">โจทย์</h3>
+<ol type="1">
+<li>เลือกรายการอ้างอิง 3–5 รายการจากงานของคุณ</li>
+<li>สร้างโฟลเดอร์ <code>output/</code> ในโฟลเดอร์งานของคุณ (ถ้ายังไม่มี) และไฟล์ <code>output/prompts.md</code> สำหรับบันทึก prompt ทุกรอบ (prompt, สรุปผลที่ได้, สิ่งที่ปรับในรอบถัดไปและเหตุผล)</li>
+<li>เขียน prompt ให้ AI ช่วยสร้างหรือตรวจ BibTeX จาก DOI/หน้า publisher ที่คุณให้ ลง <code>output/references.bib</code> พร้อม abstract ต้นฉบับ <code>abstract_source</code> และ <code>accessed</code> — ระเบียนหรือ abstract ที่ตรวจไม่ได้ให้เว้นไว้และบันทึกสถานะ ห้ามให้ AI แต่งจากความจำหรือจากชื่อเรื่อง</li>
+<li>ให้ AI บันทึกผลตรวจลง <code>output/bibliography-audit.md</code> แล้วเปิดตรวจกับต้นทางเอง บันทึกว่าตรวจกับเอกสารใดและแก้อะไรเอง</li>
+<li>ทำ <code>output/literature-map.md</code> และ <code>output/candidate-gap.md</code> จากระเบียนชุดนั้น</li>
+</ol>
+<h3 id="เกณฑ์ผ่าน">เกณฑ์ผ่าน</h3>
+<ul class="task-list">
+<li><label><input type="checkbox">ทุกระเบียนใน <code>output/references.bib</code> มี author, title, year, venue และ DOI/URL ที่คุณเปิดตรวจกับต้นทางเอง และบันทึกผลใน <code>output/bibliography-audit.md</code></label></li>
+<li><label><input type="checkbox">ทุก abstract มี <code>abstract_source</code> และ <code>accessed</code> หรือถูกเว้นไว้พร้อมสถานะ — ไม่มี abstract ที่ AI แต่ง</label></li>
+<li><label><input type="checkbox"><code>output/literature-map.md</code> อ้าง citation key ทุกแถว และ <code>output/candidate-gap.md</code> แยก observed / candidate / counterevidence / search needed โดยไม่อ้าง novelty</label></li>
+<li><label><input type="checkbox"><code>output/prompts.md</code> แสดงการปรับ prompt อย่างน้อย 1 รอบ พร้อมเหตุผล</label></li>
+</ul>
+</div></section></div></div>
+<script>
+(() => {
+  const tabs = [...document.querySelectorAll('.topic-tabs a')];
+  const panels = tabs.map(t => document.getElementById(t.hash.slice(1)));
+  function show(id) {
+    const i = Math.max(0, panels.findIndex(p => p && p.id === id));
+    panels.forEach((p, k) => { if (p) p.hidden = k !== i; });
+    tabs.forEach((t, k) => t.setAttribute('aria-current', k === i ? 'page' : 'false'));
+    const layout = document.querySelector('.topic-layout'); if (layout && panels[i]) layout.dataset.active = panels[i].id;
+  }
+  tabs.forEach(t => t.addEventListener('click', e => { e.preventDefault(); history.replaceState(null, '', t.hash); show(t.hash.slice(1)); window.scrollTo({top: 0}); }));
+  document.querySelectorAll('[data-next-tab]').forEach(b => b.addEventListener('click', e => { e.preventDefault(); const h = b.getAttribute('href'); history.replaceState(null, '', h); show(h.slice(1)); window.scrollTo({top: 0}); }));
+  document.querySelectorAll('[data-fullscreen]').forEach(b => b.addEventListener('click', () => {
+    const frame = document.querySelector(b.dataset.fullscreen);
+    const go = frame && (frame.requestFullscreen || frame.webkitRequestFullscreen);
+    if (go) go.call(frame); else if (frame) window.open(frame.src, '_blank', 'noopener');
+  }));
+  const layout0 = document.querySelector('.topic-layout');
+  const toggle = document.querySelector('[data-aside-toggle]');
+  function setAside(hidden) {
+    if (!layout0 || !toggle) return;
+    layout0.classList.toggle('aside-hidden', hidden);
+    toggle.setAttribute('aria-pressed', String(hidden));
+    toggle.textContent = hidden ? 'แสดงสไลด์ข้าง' : 'ซ่อนสไลด์ข้าง';
+    try { localStorage.setItem('airr.slideAsideHidden', hidden ? '1' : '0'); } catch (e) {}
+  }
+  if (toggle) {
+    let saved = true; try { saved = localStorage.getItem('airr.slideAsideHidden') !== '0'; } catch (e) {}  // hidden by default
+    setAside(saved);
+    toggle.addEventListener('click', () => setAside(!layout0.classList.contains('aside-hidden')));
+  }
+  show(location.hash.slice(1));
+  if (location.hash) requestAnimationFrame(() => window.scrollTo({top: 0}));
+})();
+</script>
+  </main>
+  <site-footer></site-footer>
+</body>
+</html>

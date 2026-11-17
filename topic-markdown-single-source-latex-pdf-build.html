@@ -16,7 +16,7 @@
 </head>
 <body class="learn" data-no-case>
   <a class="skip-link" href="#main">ข้ามไปยังเนื้อหา</a>
-  <site-header current="topic" plan="class-2026-11-20-engineering-faculty.html" menu='{&quot;module&quot;: &quot;M08&quot;, &quot;title&quot;: &quot;ผลิตเอกสารวิจัย&quot;, &quot;items&quot;: [{&quot;href&quot;: &quot;module-overview-m08.html&quot;, &quot;label&quot;: &quot;ภาพรวมและ LO&quot;, &quot;current&quot;: false}, {&quot;href&quot;: &quot;topic-journal-fit-and-venue-switch.html&quot;, &quot;label&quot;: &quot;เลือกวารสาร และผลของการเปลี่ยนวารสาร&quot;, &quot;current&quot;: false}, {&quot;href&quot;: &quot;topic-markdown-single-source-latex-pdf-build.html&quot;, &quot;label&quot;: &quot;ต้นฉบับ Markdown ชุดเดียว → LaTeX ที่ AI สร้าง → PDF และการแก้ build ตามชั้น&quot;, &quot;current&quot;: true}, {&quot;href&quot;: &quot;topic-pdf-qa-submission-readiness.html&quot;, &quot;label&quot;: &quot;ตรวจ PDF ก่อนส่ง: ตรวจเนื้อหาแยกจากหน้ากระดาษ แก้หนึ่งรอบ และบันทึกความพร้อมส่ง&quot;, &quot;current&quot;: false}, {&quot;href&quot;: &quot;topic-kuthesis-thai-thesis-template.html&quot;, &quot;label&quot;: &quot;วิทยานิพนธ์รูปแบบ มก. ด้วย kuthesis: สร้าง PDF จากตัวอย่างและใช้ refs.bib ของตัวเอง&quot;, &quot;current&quot;: false}]}'></site-header>
+  <site-header current="topic" plan="class-2026-11-20-engineering-faculty.html" menu='{&quot;module&quot;: &quot;M08&quot;, &quot;title&quot;: &quot;ผลิตเอกสารวิจัย&quot;, &quot;items&quot;: [{&quot;href&quot;: &quot;module-overview-m08.html&quot;, &quot;label&quot;: &quot;ภาพรวมและ LO&quot;, &quot;current&quot;: false}, {&quot;href&quot;: &quot;topic-journal-fit-and-venue-switch.html&quot;, &quot;label&quot;: &quot;เลือกวารสาร และผลของการเปลี่ยนวารสาร&quot;, &quot;current&quot;: false}, {&quot;href&quot;: &quot;topic-bibtex-abstract-audit-literature-map.html&quot;, &quot;label&quot;: &quot;ตรวจ references.bib พร้อมที่มาของ abstract และทำ literature map&quot;, &quot;current&quot;: false}, {&quot;href&quot;: &quot;topic-paragraph-contract-reverse-check.html&quot;, &quot;label&quot;: &quot;จาก highlights สู่ย่อหน้า: ข้อตกลงของย่อหน้าและการตรวจย้อนทุกประโยค&quot;, &quot;current&quot;: false}, {&quot;href&quot;: &quot;topic-markdown-single-source-latex-pdf-build.html&quot;, &quot;label&quot;: &quot;ต้นฉบับ Markdown ชุดเดียว → LaTeX ที่ AI สร้าง → PDF และการแก้ build ตามชั้น&quot;, &quot;current&quot;: true}, {&quot;href&quot;: &quot;topic-pdf-qa-submission-readiness.html&quot;, &quot;label&quot;: &quot;ตรวจ PDF ก่อนส่ง: ตรวจเนื้อหาแยกจากหน้ากระดาษ แก้หนึ่งรอบ และบันทึกความพร้อมส่ง&quot;, &quot;current&quot;: false}, {&quot;href&quot;: &quot;topic-kuthesis-thai-thesis-template.html&quot;, &quot;label&quot;: &quot;วิทยานิพนธ์รูปแบบ มก. ด้วย kuthesis: สร้าง PDF จากตัวอย่างและใช้ refs.bib ของตัวเอง&quot;, &quot;current&quot;: false}]}'></site-header>
   <main id="main">
 <section class="prepare-hero module-hero"><p class="eyebrow">หัวข้อย่อย · M08</p><h1>ต้นฉบับ Markdown ชุดเดียว → LaTeX ที่ AI สร้าง → PDF และการแก้ build ตามชั้น</h1><ul class="outcomes"><li>ใช้ Markdown เป็นต้นฉบับเพียงชุดเดียว ให้ AI สร้าง generated/main.tex ตามข้อกำหนดวารสาร build เป็น PDF อ่าน log และแก้ปัญหา build ที่ไฟล์ต้นทางตามชั้น (เนื้อหา, citation key, path รูป, environment) โดยไม่แก้ PDF หรือ .tex ที่สร้างขึ้นโดยตรง</li></ul></section>
 <div class="topic-layout"><nav class="topic-tabs" aria-label="ส่วนของหัวข้อ"><a href="#slides" title="สไลด์">สไลด์</a><a href="#workshop-core" title="Workshop หลัก">Workshop</a><a href="#open-explore" title="Exploring workshop">Exploring</a></nav><div class="topic-main"><section class="section markdown-section topic-panel" id="slides" aria-labelledby="slides-heading"><div class="section-heading compact"><p class="eyebrow">สไลด์</p><h2 id="slides-heading">สไลด์</h2></div><div class="markdown-body"><p>สไลด์ของหัวข้อนี้กำลังจัดทำ</p></div></section>
@@ -34,61 +34,74 @@
 </ul></li>
 <li>(ไม่บังคับ) ตัวอย่าง .tex สำหรับเทียบรูปแบบเท่านั้น ห้ามคัดลอกไปเป็นงาน: <a href="https://urban.cpe.ku.ac.th/ai-for-research/downloads/module-08-mock-report.tex">module-08-mock-report.tex</a></li>
 </ul>
+<h3 id="คำที่ใช้ใน-workshop-นี้">คำที่ใช้ใน workshop นี้</h3>
+<ul>
+<li><strong>source of truth</strong> — ต้นฉบับชุดเดียวที่ใช้แก้เนื้อหา ในโมดูลนี้คือ <code>source/manuscript.md</code></li>
+<li><strong>generated</strong> — LaTeX ที่ AI สร้างใหม่ได้จาก Markdown ไม่ใช่ที่แก้เนื้อหาหลัก</li>
+<li><strong>build</strong> — PDF และ log ที่ได้จากคำสั่งสร้างเอกสาร</li>
+<li><strong>build log</strong> — บันทึก warning/error ที่ใช้หาชั้นของปัญหา</li>
+</ul>
 <h3 id="ขั้นตอน">ขั้นตอน</h3>
 <ol type="1">
-<li><p><strong>ดูสายการผลิต (1 นาที)</strong> เปิดโฟลเดอร์ <code>module-08-work/</code> ใน Explorer แล้วดูว่า <code>source/</code> คือที่คุณแก้ <code>generated/</code> คือที่ AI จะสร้างไฟล์ LaTeX (สร้างใหม่ได้ทุกเมื่อ) และ <code>build/</code> คือที่ PDF กับ log จะไปอยู่ — ตอนนี้ <code>generated/</code> และ <code>build/</code> ยังว่าง</p></li>
-<li><p><strong>ใส่รูปใน Markdown</strong> เปิด <code>source/manuscript.md</code> ใต้หัวข้อ Results เขียนตำแหน่งรูป caption ป้ายอ้างถึง และแหล่งที่มา แล้วอ้างรูปจากข้อความ caption ที่ดีบอกสิ่งที่วัด กลุ่ม หน่วย จำนวนตัวอย่าง และชนิดของความไม่แน่นอน (ตรวจจำนวนตัวอย่างจาก <code>input/module-07-highlights.md</code>: 120 observations ต่อ arm-period, 40 ต่อ site-arm-period)</p></li>
+<li><p><strong>ดูสายการผลิต (1 นาที)</strong> เปิดโฟลเดอร์ <code>module-08-work/</code> ใน Explorer แล้วดูว่า <code>source/</code> คือที่คุณแก้ <code>generated/</code> คือที่ AI จะสร้างไฟล์ LaTeX (สร้างใหม่ได้ทุกเมื่อ) และ <code>build/</code> คือที่ PDF กับ log จะไปอยู่ — ตอนนี้ <code>generated/</code> และ <code>build/</code> ยังว่าง</p>
+<p><strong>ตรวจ:</strong> อธิบายได้ว่าเนื้อหาแก้ที่ <code>source/</code> ส่วน <code>generated/</code> กับ <code>build/</code> สร้างใหม่ได้</p></li>
+<li><p><strong>ใส่รูปใน Markdown</strong> เปิด <code>source/manuscript.md</code> ใต้หัวข้อ Results เขียนตำแหน่งรูป caption ป้ายอ้างถึง และแหล่งที่มา แล้วอ้างรูปจากข้อความ caption ที่ดีบอกสิ่งที่วัด กลุ่ม หน่วย จำนวนตัวอย่าง และชนิดของความไม่แน่นอน (ตรวจจำนวนตัวอย่างจาก <code>input/module-07-highlights.md</code>: 120 observations ต่อ arm-period, 40 ต่อ site-arm-period)</p>
+<p><strong>ตรวจ:</strong> Markdown อ้างรูปและ caption มีสิ่งที่วัด กลุ่ม หน่วย <code>n</code> และ interval</p></li>
 <li><p><strong>ให้ AI สร้าง LaTeX</strong> ส่ง prompt นี้ AI จะสร้าง <code>module-08-work/generated/main.tex</code></p>
-<div class="command ai-prompt"><code>ใช้ module-08-work/source/manuscript.md เป็น source of truth สร้าง module-08-work/generated/main.tex ตามข้อกำหนดใน module-08-work/journal-dossiers/journal-a/original/profile.md (หัวข้อ, author–year citations และ BibTeX, ฉบับ review ไม่มีชื่อผู้แต่ง) เชื่อม module-08-work/literature/references.bib และรูปใน module-08-work/figures/ ใช้เฉพาะเนื้อหาที่อยู่ใน Markdown ห้ามเพิ่มผล ตัวเลข citation หรือขั้นตอนวิธีที่ไม่มีในต้นฉบับ ห้ามแก้ generated LaTeX เป็นเนื้อหาหลัก รายงานว่าหัวข้อใดใน Markdown ไปอยู่ส่วนใดของ .tex แล้วหยุดรอ</code><button type="button" data-copy="">คัดลอก</button></div><p>อ่านรายงานของ AI แล้วดูว่าทุกหัวข้อใน <code>manuscript.md</code> มีที่อยู่ใน <code>main.tex</code></p></li>
+<div class="command ai-prompt"><code>ใช้ module-08-work/source/manuscript.md เป็น source of truth สร้าง module-08-work/generated/main.tex ตามข้อกำหนดใน module-08-work/journal-dossiers/journal-a/original/profile.md (หัวข้อ, author–year citations และ BibTeX, ฉบับ review ไม่มีชื่อผู้แต่ง) เชื่อม module-08-work/literature/references.bib และรูปใน module-08-work/figures/ ใช้เฉพาะเนื้อหาที่อยู่ใน Markdown ห้ามเพิ่มผล ตัวเลข citation หรือขั้นตอนวิธีที่ไม่มีในต้นฉบับ ห้ามแก้ generated LaTeX เป็นเนื้อหาหลัก รายงานว่าหัวข้อใดใน Markdown ไปอยู่ส่วนใดของ .tex แล้วหยุดรอ</code><button type="button" data-copy="">คัดลอก</button></div><p>อ่านรายงานของ AI แล้วดูว่าทุกหัวข้อใน <code>manuscript.md</code> มีที่อยู่ใน <code>main.tex</code></p>
+<p><strong>ตรวจ:</strong> <code>generated/main.tex</code> มีเนื้อหาเฉพาะที่อยู่ใน Markdown และเชื่อม BibTeX กับรูปถูกตำแหน่ง</p></li>
 <li><p><strong>build PDF</strong> เปิด Terminal ที่โฟลเดอร์ workspace แล้วรัน คำสั่งนี้จะสร้าง <code>module-08-work/build/manuscript.pdf</code> และ log ใน <code>build/</code></p>
 <table>
 <thead>
-<tr class="header">
+<tr>
 <th>Windows (PowerShell)</th>
 <th>macOS / Linux</th>
 </tr>
 </thead>
 <tbody>
-<tr class="odd">
+<tr>
 <td><code>&amp; .\tools\build-module-08.ps1</code></td>
 <td><code>bash tools/build-module-08.sh</code></td>
 </tr>
 </tbody>
 </table>
-<p>หรือสั่ง AI ให้รันคำสั่งนี้และรายงาน error/warning จาก log ใน <code>build/</code> จากนั้นเปิด <code>module-08-work/build/manuscript.pdf</code></p></li>
+<p>หรือสั่ง AI ให้รันคำสั่งนี้และรายงาน error/warning จาก log ใน <code>build/</code> จากนั้นเปิด <code>module-08-work/build/manuscript.pdf</code></p>
+<p><strong>ตรวจ:</strong> PDF เปิดได้ และ log ไม่มี undefined citation</p></li>
 <li><p><strong>ถ้า build พัง ให้แก้ตามชั้น</strong> ให้ AI อ่าน log แล้วชี้ชั้นที่เป็นปัญหาก่อนแก้</p>
 <div class="command ai-prompt"><code>อ่าน log ใน module-08-work/build/ บอกว่าปัญหาอยู่ชั้นใด: เนื้อหาใน Markdown, citation key กับ references.bib, ชื่อ/ตำแหน่งรูปใน figures/, หรือ environment/package เสนอการแก้ที่ไฟล์ต้นทาง ห้ามแก้ PDF ห้ามแก้ generated/main.tex แทนต้นฉบับ ห้ามดาวน์โหลด package จากแหล่งไม่ทราบที่มา แล้วหยุดรอให้ฉันอนุมัติ</code><button type="button" data-copy="">คัดลอก</button></div><table>
 <thead>
-<tr class="header">
+<tr>
 <th>อาการ</th>
 <th>ตรวจชั้นใดก่อน</th>
 <th>ห้ามทำ</th>
 </tr>
 </thead>
 <tbody>
-<tr class="odd">
+<tr>
 <td><code>Missing generated/main.tex</code></td>
 <td>ยังไม่ได้ให้ AI สร้างจาก Markdown (ขั้น 3)</td>
 <td>เขียน .tex เอง</td>
 </tr>
-<tr class="even">
+<tr>
 <td>citation หรือ reference ขึ้นเป็น ?</td>
 <td>citation key ใน Markdown กับ <code>references.bib</code></td>
 <td>แก้เลขใน PDF ด้วยมือ</td>
 </tr>
-<tr class="odd">
+<tr>
 <td>หารูปไม่พบ</td>
 <td>ชื่อและตำแหน่งไฟล์ใน <code>figures/</code></td>
 <td>แก้ <code>generated/main.tex</code> แทนต้นฉบับ</td>
 </tr>
-<tr class="even">
+<tr>
 <td><code>latexmk</code> หรือ <code>xelatex</code> หายไป</td>
 <td>รันตัวติดตั้ง Module 1 ซ้ำ แล้วรันตัวติดตั้ง Module 8 ซ้ำ</td>
 <td>ดาวน์โหลด package จากแหล่งสุ่ม</td>
 </tr>
 </tbody>
-</table></li>
-<li><p><strong>(ถ้ามีเวลา) ลองทำพังแล้วซ่อม</strong> ถ้า <code>source/manuscript.md</code> มี citation key อยู่แล้ว (เช่น <code>Arun2024CommunityPM</code> จาก <code>references.bib</code>) แก้ key หนึ่งตัวให้ผิด เช่น ตัดปีออก ให้ AI สร้าง <code>main.tex</code> ใหม่และ build — ดูว่า PDF แสดง ? และ log เตือนอะไร แล้วแก้กลับที่ Markdown ไม่ใช่ที่ PDF แล้ว build อีกครั้ง</p></li>
+</table>
+<p><strong>ตรวจ:</strong> ระบุชั้นของปัญหาก่อนแก้ และแก้ที่ source, literature, figures หรือ environment ตามหลักฐานจาก log</p></li>
+<li><p><strong>(ถ้ามีเวลา) ลองทำพังแล้วซ่อม</strong> ถ้า <code>source/manuscript.md</code> มี citation key อยู่แล้ว (เช่น <code>Arun2024CommunityPM</code> จาก <code>references.bib</code>) แก้ key หนึ่งตัวให้ผิด เช่น ตัดปีออก ให้ AI สร้าง <code>main.tex</code> ใหม่และ build — ดูว่า PDF แสดง ? และ log เตือนอะไร แล้วแก้กลับที่ Markdown ไม่ใช่ที่ PDF แล้ว build อีกครั้ง</p>
+<p><strong>ตรวจ:</strong> key ถูกแก้กลับที่ Markdown และ PDF ล่าสุดไม่มี <code>?</code></p></li>
 </ol>
 <h3 id="ตรวจก่อนจบ">ตรวจก่อนจบ</h3>
 <ul class="task-list">
