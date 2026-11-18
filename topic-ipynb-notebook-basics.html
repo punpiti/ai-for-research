@@ -10,9 +10,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/styles.css?v=20261113-2">
-  <link rel="stylesheet" href="assets/learn.css?v=20261118-1">
-  <script src="assets/site-shell.js?v=20261118-1"></script>
-  <script src="assets/app.js?v=20261118-1" defer></script>
+  <link rel="stylesheet" href="assets/learn.css?v=20261119-1">
+  <script src="assets/site-shell.js?v=20261119-1"></script>
+  <script src="assets/app.js?v=20261119-1" defer></script>
   <link rel="icon" href="assets/images/airr-mark-dark.svg" type="image/svg+xml">
   <link rel="icon" href="assets/images/favicon-32.png" sizes="32x32" type="image/png">
   <link rel="apple-touch-icon" href="assets/images/favicon-180.png">
@@ -22,7 +22,7 @@
   <site-header current="topic" plan="class-2026-11-20-engineering-faculty.html" menu='{&quot;module&quot;: &quot;X01&quot;, &quot;title&quot;: &quot;พื้นฐานไฟล์ MD · CSV · PDF · JSON&quot;, &quot;items&quot;: [{&quot;href&quot;: &quot;module-overview-x01.html&quot;, &quot;label&quot;: &quot;ภาพรวมและ LO&quot;, &quot;current&quot;: false}, {&quot;href&quot;: &quot;topic-csv-rows-columns-units.html&quot;, &quot;label&quot;: &quot;CSV: หนึ่งแถวแทนอะไร ชื่อคอลัมน์ หน่วย และค่าที่ขาด&quot;, &quot;current&quot;: false}, {&quot;href&quot;: &quot;topic-markdown-structure-and-preview.html&quot;, &quot;label&quot;: &quot;Markdown: หัวข้อ รายการ และ Preview — แก้ที่ต้นฉบับ ไม่แก้ที่ PDF&quot;, &quot;current&quot;: false}, {&quot;href&quot;: &quot;topic-markdown-to-pdf-first-build.html&quot;, &quot;label&quot;: &quot;สร้าง PDF แรกจาก Markdown ด้วย AI: แก้ที่ต้นฉบับ แล้วสร้างใหม่&quot;, &quot;current&quot;: false}, {&quot;href&quot;: &quot;topic-pdf-text-vs-scan-verification.html&quot;, &quot;label&quot;: &quot;PDF: ข้อความที่เลือกได้ ภาพสแกน และการตรวจสิ่งที่ AI อ่านกับหน้าต้นทาง&quot;, &quot;current&quot;: false}, {&quot;href&quot;: &quot;topic-json-fields-and-status-values.html&quot;, &quot;label&quot;: &quot;JSON: ชื่อช่อง ค่า และสถานะ true/false/null — อ่านผ่านไม่ได้แปลว่าค่าถูก&quot;, &quot;current&quot;: false}, {&quot;href&quot;: &quot;topic-ipynb-notebook-basics.html&quot;, &quot;label&quot;: &quot;Notebook (.ipynb): cell, ลำดับการรัน และผลลัพธ์ที่ต้องรันใหม่ก่อนเชื่อ&quot;, &quot;current&quot;: true}]}'></site-header>
   <main id="main">
 <section class="prepare-hero module-hero"><p class="eyebrow">หัวข้อย่อย · X01</p><h1>Notebook (.ipynb): cell, ลำดับการรัน และผลลัพธ์ที่ต้องรันใหม่ก่อนเชื่อ</h1><ul class="outcomes"><li>แยก cell ข้อความกับ cell โค้ดและผลลัพธ์ใน notebook ได้</li><li>เปิด notebook จาก VS Code ด้วย JupyterLab ในเครื่องและรันตามลำดับ</li><li>รู้ว่าผลลัพธ์ที่บันทึกไว้อาจไม่ตรงกับโค้ดจนกว่าจะรันใหม่</li><li>ให้ AI ใน VS Code อ่านและตรวจไฟล์ .ipynb ในเครื่องได้</li></ul></section>
-<div class="topic-layout"><nav class="topic-tabs topic-menu" aria-label="ในหัวข้อนี้"><p class="topic-menu-title">ในหัวข้อนี้</p><ul><li><a href="#slides" title="สไลด์">สไลด์</a></li><li><a href="#workshop-core" title="เปิด รัน และอ่าน notebook จาก VS Code">Notebook</a><ul class="topic-submenu"><li><a href="#workshop-core--ก่อนเริ่ม-ต้องมีอยู่แล้ว" data-sub>ก่อนเริ่ม (ต้องมีอยู่แล้ว)</a></li><li><a href="#workshop-core--คำที่ใช้ใน-workshop-นี้" data-sub>คำที่ใช้ใน workshop นี้</a></li><li><a href="#workshop-core--ขั้นที่-1--เปิด-jupyterlab-จาก-vs-code" data-sub>ขั้นที่ 1 — เปิด JupyterLab จาก VS Code</a></li><li><a href="#workshop-core--ขั้นที่-2--ดูโครง-notebook" data-sub>ขั้นที่ 2 — ดูโครง notebook</a></li><li><a href="#workshop-core--ขั้นที่-3--ใช้สารบัญ" data-sub>ขั้นที่ 3 — ใช้สารบัญ</a></li><li><a href="#workshop-core--ขั้นที่-4--รัน-cell-กลางเรื่องก่อน" data-sub>ขั้นที่ 4 — รัน cell กลางเรื่องก่อน</a></li><li><a href="#workshop-core--ขั้นที่-5--รันทุก-cell-ตามลำดับ" data-sub>ขั้นที่ 5 — รันทุก cell ตามลำดับ</a></li><li><a href="#workshop-core--ขั้นที่-6--restart-แล้วรันใหม่ตั้งแต่ต้น" data-sub>ขั้นที่ 6 — Restart แล้วรันใหม่ตั้งแต่ต้น</a></li><li><a href="#workshop-core--ขั้นที่-7--ถ้าจะลองแก้-ทำสำเนาก่อน-แล้วปิด-jupyterlab" data-sub>ขั้นที่ 7 — (ถ้าจะลองแก้) ทำสำเนาก่อน แล้วปิด JupyterLab</a></li><li><a href="#workshop-core--ตรวจก่อนจบ-workshop" data-sub>ตรวจก่อนจบ workshop</a></li></ul></li><li><a href="#open-explore" title="Exploring workshop">Exploring</a><ul class="topic-submenu"><li><a href="#open-explore--ก่อนเริ่ม-ต้องมีอยู่แล้ว" data-sub>ก่อนเริ่ม (ต้องมีอยู่แล้ว)</a></li><li><a href="#open-explore--โจทย์-เลือกอย่างน้อย-1-ข้อ" data-sub>โจทย์ (เลือกอย่างน้อย 1 ข้อ)</a></li><li><a href="#open-explore--ข้อกำหนด" data-sub>ข้อกำหนด</a></li><li><a href="#open-explore--เกณฑ์ผ่าน" data-sub>เกณฑ์ผ่าน</a></li></ul></li></ul><button type="button" class="aside-toggle" data-aside-toggle aria-pressed="false">ซ่อนสไลด์ข้าง</button></nav><div class="topic-main"><section class="section markdown-section topic-panel" id="slides" aria-labelledby="slides-heading"><div class="section-heading compact"><p class="eyebrow">สไลด์</p><h2 id="slides-heading">สไลด์</h2></div><div class="markdown-body"><div class="slide-tools"><button type="button" class="slide-tool" data-fullscreen="#slide-frame-main">⛶ เต็มจอ</button><a class="slide-tool" href="downloads/topics/ipynb-notebook-basics.pdf" target="_blank" rel="noopener">เปิดแท็บใหม่ ↗</a></div><iframe id="slide-frame-main" class="slide-frame" src="downloads/topics/ipynb-notebook-basics.pdf#view=FitH" title="สไลด์ Notebook (.ipynb): cell, ลำดับการรัน และผลลัพธ์ที่ต้องรันใหม่ก่อนเชื่อ" allowfullscreen></iframe></div></section>
+<div class="topic-layout"><nav class="topic-tabs topic-menu" aria-label="ในหัวข้อนี้"><p class="topic-menu-title">ในหัวข้อนี้</p><ul><li><a href="#slides" title="สไลด์">สไลด์</a></li><li><a href="#workshop-core" title="เปิด รัน และอ่าน notebook จาก VS Code">Notebook</a><ul class="topic-submenu"><li><a href="#workshop-core--ก่อนเริ่ม-ต้องมีอยู่แล้ว" data-sub>ก่อนเริ่ม (ต้องมีอยู่แล้ว)</a></li><li><a href="#workshop-core--คำที่ใช้ใน-workshop-นี้" data-sub>คำที่ใช้ใน workshop นี้</a></li><li><a href="#workshop-core--ขั้นที่-1--เปิด-jupyterlab-จาก-vs-code" data-sub>ขั้นที่ 1 — เปิด JupyterLab จาก VS Code</a></li><li><a href="#workshop-core--ขั้นที่-2--ดูโครง-notebook" data-sub>ขั้นที่ 2 — ดูโครง notebook</a></li><li><a href="#workshop-core--ขั้นที่-3--ใช้สารบัญ" data-sub>ขั้นที่ 3 — ใช้สารบัญ</a></li><li><a href="#workshop-core--ขั้นที่-4--รัน-cell-กลางเรื่องก่อน" data-sub>ขั้นที่ 4 — รัน cell กลางเรื่องก่อน</a></li><li><a href="#workshop-core--ขั้นที่-5--รันทุก-cell-ตามลำดับ" data-sub>ขั้นที่ 5 — รันทุก cell ตามลำดับ</a></li><li><a href="#workshop-core--ขั้นที่-6--restart-แล้วรันใหม่ตั้งแต่ต้น" data-sub>ขั้นที่ 6 — Restart แล้วรันใหม่ตั้งแต่ต้น</a></li><li><a href="#workshop-core--ขั้นที่-7--ถ้าจะลองแก้-ทำสำเนาก่อน-แล้วปิด-jupyterlab" data-sub>ขั้นที่ 7 — (ถ้าจะลองแก้) ทำสำเนาก่อน แล้วปิด JupyterLab</a></li><li><a href="#workshop-core--ตรวจก่อนจบ-workshop" data-sub>ตรวจก่อนจบ workshop</a></li></ul></li><li><a href="#open-explore" title="Exploring workshop">Exploring</a><ul class="topic-submenu"><li><a href="#open-explore--ก่อนเริ่ม-ต้องมีอยู่แล้ว" data-sub>ก่อนเริ่ม (ต้องมีอยู่แล้ว)</a></li><li><a href="#open-explore--โจทย์-เลือกอย่างน้อย-1-ข้อ" data-sub>โจทย์ (เลือกอย่างน้อย 1 ข้อ)</a></li><li><a href="#open-explore--ข้อกำหนด" data-sub>ข้อกำหนด</a></li><li><a href="#open-explore--เกณฑ์ผ่าน" data-sub>เกณฑ์ผ่าน</a></li></ul></li></ul><button type="button" class="aside-toggle" data-aside-toggle aria-pressed="false">ซ่อนสไลด์ข้าง</button></nav><div class="topic-main"><section class="section markdown-section topic-panel" id="slides" aria-labelledby="slides-heading"><div class="section-heading compact"><p class="eyebrow">สไลด์</p><h2 id="slides-heading">สไลด์</h2></div><div class="markdown-body"><div class="slide-tools"><button type="button" class="slide-tool" data-fullscreen="#slide-frame-main">⛶ เต็มจอ</button><a class="slide-tool" href="downloads/topics/ipynb-notebook-basics.pdf" target="_blank" rel="noopener">เปิดแท็บใหม่ ↗</a><a class="slide-tool" href="downloads/instructor-slides-f1464f310a04ae61/ipynb-notebook-basics.pptx" download data-instructor-only hidden title="สำหรับผู้สอน: ไฟล์ PowerPoint พร้อม speaker notes">ดาวน์โหลด .pptx (ผู้สอน)</a></div><iframe id="slide-frame-main" class="slide-frame" src="downloads/topics/ipynb-notebook-basics.pdf#view=FitH" title="สไลด์ Notebook (.ipynb): cell, ลำดับการรัน และผลลัพธ์ที่ต้องรันใหม่ก่อนเชื่อ" allowfullscreen></iframe></div></section>
 <section class="section markdown-section topic-panel" id="workshop-core" aria-labelledby="workshop-core-heading"><div class="section-heading compact"><p class="eyebrow">Notebook</p><h2 id="workshop-core-heading">เปิด รัน และอ่าน notebook จาก VS Code</h2></div><div class="markdown-body"><p>ใน workshop นี้คุณจะเปิด notebook Part A ของ Module 7 จาก VS Code รันตามลำดับ และรันใหม่ตั้งแต่ต้นเพื่อดูว่าผลลัพธ์เชื่อได้หรือไม่ ไม่ต้องติดตั้งอะไรเพิ่ม และไม่ต้องใช้ AI ในส่วนนี้ notebook ใช้ข้อมูลจำลองทั้งหมด</p>
 <p>ใช้เมื่อ: ก่อนเปิด notebook ใน Module 7 หรือเมื่อได้รับไฟล์ <code>.ipynb</code> จากผู้อื่น</p>
 <h3 id="workshop-core--ก่อนเริ่ม-ต้องมีอยู่แล้ว">ก่อนเริ่ม (ต้องมีอยู่แล้ว)</h3>
@@ -111,13 +111,32 @@
 <li><label><input type="checkbox">notebook ต้นฉบับไม่ถูกแก้</label></li>
 <li><label><input type="checkbox"><code>prompts.md</code> แสดงการปรับ prompt อย่างน้อย 1 รอบ พร้อมเหตุผล</label></li>
 </ul>
-</div></section></div><aside class="slide-aside" aria-label="สไลด์ประกอบ"><div class="slide-tools"><button type="button" class="slide-tool" data-fullscreen="#slide-frame-aside">⛶ เต็มจอ</button><a class="slide-tool" href="downloads/topics/ipynb-notebook-basics.pdf" target="_blank" rel="noopener">เปิดแท็บใหม่ ↗</a></div><iframe id="slide-frame-aside" src="downloads/topics/ipynb-notebook-basics.pdf#view=FitH" title="สไลด์ Notebook (.ipynb): cell, ลำดับการรัน และผลลัพธ์ที่ต้องรันใหม่ก่อนเชื่อ" loading="lazy" allowfullscreen></iframe></aside></div>
+</div></section></div><aside class="slide-aside" aria-label="สไลด์ประกอบ"><div class="slide-tools"><button type="button" class="slide-tool" data-fullscreen="#slide-frame-aside">⛶ เต็มจอ</button><a class="slide-tool" href="downloads/topics/ipynb-notebook-basics.pdf" target="_blank" rel="noopener">เปิดแท็บใหม่ ↗</a><a class="slide-tool" href="downloads/instructor-slides-f1464f310a04ae61/ipynb-notebook-basics.pptx" download data-instructor-only hidden title="สำหรับผู้สอน: ไฟล์ PowerPoint พร้อม speaker notes">ดาวน์โหลด .pptx (ผู้สอน)</a></div><iframe id="slide-frame-aside" src="downloads/topics/ipynb-notebook-basics.pdf#view=FitH" title="สไลด์ Notebook (.ipynb): cell, ลำดับการรัน และผลลัพธ์ที่ต้องรันใหม่ก่อนเชื่อ" loading="lazy" allowfullscreen></iframe></aside></div>
 <script>
 (() => {
   const tabs = [...document.querySelectorAll('.topic-tabs > ul > li > a')];
   const panels = tabs.map(t => document.getElementById(t.hash.slice(1)));
   const subs = [...document.querySelectorAll('.topic-tabs a[data-sub]')];
   const idOf = a => decodeURIComponent(a.getAttribute('href').slice(1));  // .hash is percent-encoded for Thai ids
+  // owner 2026-11-19: each menu step folds (<details>, open by default). Picking step n opens n..end
+  // and folds 1..n-1 in that panel, so the page stays short.
+  const folds = new Map();  // step id -> <details>
+  subs.forEach(s => {
+    const h = document.getElementById(idOf(s));
+    if (!h || h.tagName !== 'H3' || h.closest('details.step-fold')) return;
+    const box = document.createElement('details'); box.className = 'step-fold'; box.open = true;
+    const sum = document.createElement('summary'); box.append(sum);
+    h.before(box); sum.append(h);
+    let n = box.nextSibling;
+    while (n && !(n.nodeType === 1 && n.tagName === 'H3' && subs.some(x => idOf(x) === n.id))) { const nx = n.nextSibling; box.append(n); n = nx; }
+    folds.set(h.id, box);
+  });
+  function foldFrom(id) {
+    const box = folds.get(id); if (!box) return;
+    const same = [...folds.values()].filter(b => b.parentElement === box.parentElement);
+    const at = same.indexOf(box);
+    same.forEach((b, k) => { b.open = k >= at; });
+  }
   function show(id) {
     const target = id && document.getElementById(id);
     const owner = target && target.closest('.topic-panel');
@@ -128,7 +147,7 @@
     return target && owner && target !== owner ? target : null;
   }
   tabs.forEach(t => t.addEventListener('click', e => { e.preventDefault(); history.replaceState(null, '', t.hash); show(t.hash.slice(1)); window.scrollTo({top: 0}); }));
-  subs.forEach(s => s.addEventListener('click', e => { e.preventDefault(); history.replaceState(null, '', s.hash); const h = show(idOf(s)); if (h) h.scrollIntoView({block: 'start'}); }));
+  subs.forEach(s => s.addEventListener('click', e => { e.preventDefault(); history.replaceState(null, '', s.hash); const h = show(idOf(s)); foldFrom(idOf(s)); if (h) h.scrollIntoView({block: 'start'}); }));
   if ('IntersectionObserver' in window && subs.length) {  // highlight the step being read
     const byId = new Map(subs.map(s => [idOf(s), s]));
     const seen = new Set();
@@ -161,6 +180,7 @@
   }
   let hashId = location.hash.slice(1); try { hashId = decodeURIComponent(hashId); } catch (e) {}
   const deep = show(hashId);
+  foldFrom(hashId);
   if (location.hash) requestAnimationFrame(() => deep ? deep.scrollIntoView({block: 'start'}) : window.scrollTo({top: 0}));
 })();
 </script>

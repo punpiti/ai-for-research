@@ -10,9 +10,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/styles.css?v=20261113-2">
-  <link rel="stylesheet" href="assets/learn.css?v=20261118-1">
-  <script src="assets/site-shell.js?v=20261118-1"></script>
-  <script src="assets/app.js?v=20261118-1" defer></script>
+  <link rel="stylesheet" href="assets/learn.css?v=20261119-1">
+  <script src="assets/site-shell.js?v=20261119-1"></script>
+  <script src="assets/app.js?v=20261119-1" defer></script>
   <link rel="icon" href="assets/images/airr-mark-dark.svg" type="image/svg+xml">
   <link rel="icon" href="assets/images/favicon-32.png" sizes="32x32" type="image/png">
   <link rel="apple-touch-icon" href="assets/images/favicon-180.png">
@@ -159,6 +159,25 @@
   const panels = tabs.map(t => document.getElementById(t.hash.slice(1)));
   const subs = [...document.querySelectorAll('.topic-tabs a[data-sub]')];
   const idOf = a => decodeURIComponent(a.getAttribute('href').slice(1));  // .hash is percent-encoded for Thai ids
+  // owner 2026-11-19: each menu step folds (<details>, open by default). Picking step n opens n..end
+  // and folds 1..n-1 in that panel, so the page stays short.
+  const folds = new Map();  // step id -> <details>
+  subs.forEach(s => {
+    const h = document.getElementById(idOf(s));
+    if (!h || h.tagName !== 'H3' || h.closest('details.step-fold')) return;
+    const box = document.createElement('details'); box.className = 'step-fold'; box.open = true;
+    const sum = document.createElement('summary'); box.append(sum);
+    h.before(box); sum.append(h);
+    let n = box.nextSibling;
+    while (n && !(n.nodeType === 1 && n.tagName === 'H3' && subs.some(x => idOf(x) === n.id))) { const nx = n.nextSibling; box.append(n); n = nx; }
+    folds.set(h.id, box);
+  });
+  function foldFrom(id) {
+    const box = folds.get(id); if (!box) return;
+    const same = [...folds.values()].filter(b => b.parentElement === box.parentElement);
+    const at = same.indexOf(box);
+    same.forEach((b, k) => { b.open = k >= at; });
+  }
   function show(id) {
     const target = id && document.getElementById(id);
     const owner = target && target.closest('.topic-panel');
@@ -169,7 +188,7 @@
     return target && owner && target !== owner ? target : null;
   }
   tabs.forEach(t => t.addEventListener('click', e => { e.preventDefault(); history.replaceState(null, '', t.hash); show(t.hash.slice(1)); window.scrollTo({top: 0}); }));
-  subs.forEach(s => s.addEventListener('click', e => { e.preventDefault(); history.replaceState(null, '', s.hash); const h = show(idOf(s)); if (h) h.scrollIntoView({block: 'start'}); }));
+  subs.forEach(s => s.addEventListener('click', e => { e.preventDefault(); history.replaceState(null, '', s.hash); const h = show(idOf(s)); foldFrom(idOf(s)); if (h) h.scrollIntoView({block: 'start'}); }));
   if ('IntersectionObserver' in window && subs.length) {  // highlight the step being read
     const byId = new Map(subs.map(s => [idOf(s), s]));
     const seen = new Set();
@@ -202,6 +221,7 @@
   }
   let hashId = location.hash.slice(1); try { hashId = decodeURIComponent(hashId); } catch (e) {}
   const deep = show(hashId);
+  foldFrom(hashId);
   if (location.hash) requestAnimationFrame(() => deep ? deep.scrollIntoView({block: 'start'}) : window.scrollTo({top: 0}));
 })();
 </script>

@@ -298,3 +298,14 @@ body.learn .topic-submenu { display: none; }
   body.learn .topic-layout:has(.slide-aside) { grid-template-columns: 250px minmax(0, 860px) minmax(420px, 1fr); }
   body.learn .topic-layout.aside-hidden:has(.slide-aside) { grid-template-columns: 250px minmax(0, 1fr); }
 }
+
+/* Topic steps fold (owner 2026-11-19): each menu step is a <details class="step-fold">; the h3 sits in the summary */
+body.learn details.step-fold { margin: 0; }
+body.learn details.step-fold > summary { display: flex; align-items: baseline; gap: .6rem; cursor: pointer; list-style: none; }
+body.learn details.step-fold > summary::-webkit-details-marker { display: none; }
+body.learn details.step-fold > summary::before { content: "▾"; flex: 0 0 auto; width: 1rem; color: var(--ink-soft); transition: transform .15s ease; }
+body.learn details.step-fold:not([open]) > summary::before { transform: rotate(-90deg); }
+body.learn details.step-fold > summary > h3 { flex: 1 1 auto; }
+body.learn details.step-fold:not([open]) > summary > h3 { color: var(--ink-soft); }
+body.learn details.step-fold > summary:hover > h3, body.learn details.step-fold > summary:focus-visible > h3 { text-decoration: underline; text-underline-offset: .2em; }
+@media (prefers-reduced-motion: reduce) { body.learn details.step-fold > summary::before { transition: none; } }

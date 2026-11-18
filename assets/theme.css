@@ -128,3 +128,5 @@
 :root[data-theme="light"] .footer-lab-logo { box-shadow: inset 0 0 0 1px var(--line); }
 .footer-institution a { color: inherit; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: .2em; }
 .footer-institution a:hover, .footer-institution a:focus-visible { color: var(--ink); }
+/* Instructor-only links stay hidden even when a class sets display */
+[data-instructor-only][hidden] { display: none !important; }

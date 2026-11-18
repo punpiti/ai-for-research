@@ -91,7 +91,7 @@ systemDark?.addEventListener?.("change", () => { if (themePreference() === "syst
 if (!document.querySelector('link[data-airr-theme]')) {
   const themeLink = document.createElement("link");
   themeLink.rel = "stylesheet";
-  themeLink.href = new URL("theme.css?v=20261119-1", SHELL_SCRIPT_URL).href;
+  themeLink.href = new URL("theme.css?v=20261119-2", SHELL_SCRIPT_URL).href;
   themeLink.dataset.airrTheme = "";
   document.head.append(themeLink);
 }
@@ -208,8 +208,8 @@ class SiteHeader extends HTMLElement {
       .map(([id, label]) => `<a href="#${id}">${label}</a>`)
       .join("");
     // Classroom detail page: the enrolment box is the only action, so the header keeps
-    // just the brand (back to home) and the user menu.
-    if (current === "classroom") {
+    // just the brand (back to home) and the user menu. The 404 page (current="error") uses the same.
+    if (current === "classroom" || current === "error") {
       this.innerHTML = `<header class="site-header">
       <a class="brand" href="index.html" aria-label="AIRR หน้าแรก"><span class="brand-mark brand-logo"><img class="logo-on-dark" src="${new URL("images/airr-mark-dark.svg", SHELL_SCRIPT_URL).href}" alt="" width="36" height="36"><img class="logo-on-light" src="${new URL("images/airr-mark-light.svg", SHELL_SCRIPT_URL).href}" alt="" width="36" height="36"></span><span class="brand-full">AI for Research and Review</span><span class="brand-short" aria-hidden="true">AIRR</span></a>
       <nav aria-label="เมนูหลัก">${userMenuHtml()}</nav>
@@ -355,3 +355,20 @@ if (location.hash) {
     target?.scrollIntoView({ block: "start" });
   }));
 }
+
+// Instructor-only links (e.g. the slide .pptx on topic pages): shown to admins and active
+// teachers/TAs of any class. This only hides the link from learners; the file itself is public.
+async function revealInstructorOnly() {
+  const items = document.querySelectorAll("[data-instructor-only]");
+  if (!items.length || typeof fetch !== "function") return;
+  try {
+    const session = await currentSession();
+    const staff = session?.user?.system_role === "admin"
+      || (Array.isArray(session?.classrooms) && session.classrooms.some((c) => c.status === "active" && (c.role === "teacher" || c.role === "ta")));
+    if (staff) items.forEach((el) => { el.hidden = false; });
+  } catch (_error) {
+    // No session: keep instructor-only links hidden.
+  }
+}
+if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", revealInstructorOnly);
+else revealInstructorOnly();
