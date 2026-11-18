@@ -211,7 +211,7 @@ class SiteHeader extends HTMLElement {
       <a class="brand" href="${isHome ? "#top" : "index.html"}" aria-label="AIRR หน้าแรก"><span class="brand-mark brand-logo"><img class="logo-on-dark" src="${new URL("images/madlab-ku-mark-dark.svg", SHELL_SCRIPT_URL).href}" alt="" width="36" height="36"><img class="logo-on-light" src="${new URL("images/madlab-ku-mark-light.svg", SHELL_SCRIPT_URL).href}" alt="" width="36" height="36"></span><span>AIRR</span></a>
       <nav aria-label="เมนูหลัก">
         ${isHome ? "" : planLink}
-        ${isClassroomEntry ? `<a href="${classroomDirectoryHref}">คลาสที่เปิดรับ</a>` : current === "class" ? "" : topicMenu || `<details class="module-menu"><summary aria-label="เลือกโมดูล (ตอนนี้: ${currentModule ? `โมดูล ${currentModule[0]}` : current === "file-basics" ? "โมดูลเสริม" : "ยังไม่ได้เลือก"})">${menuLabel}</summary><div>${moduleLinks}</div></details>`}
+        ${isClassroomEntry ? `<a class="nav-directory" href="${classroomDirectoryHref}">คลาสที่เปิดรับ</a>` : current === "class" ? "" : topicMenu || `<details class="module-menu"><summary aria-label="เลือกโมดูล (ตอนนี้: ${currentModule ? `โมดูล ${currentModule[0]}` : current === "file-basics" ? "โมดูลเสริม" : "ยังไม่ได้เลือก"})">${menuLabel}</summary><div>${moduleLinks}</div></details>`}
         ${localLinks}
         <a class="nav-cta" href="${ctaHref}">${ctaLabel}</a>
         ${userMenuHtml()}
@@ -277,6 +277,13 @@ class SiteHeader extends HTMLElement {
         ? session.classrooms.find((item) => item.classroom_id === targetClassroomId)
         : null;
       const classroomHref = `classroom.html?id=${targetClassroomId}`;
+
+      // Home page signed in: the page itself lists "คลาสของฉัน" and "เลือกคลาสเพิ่ม",
+      // so the header keeps only the user menu (plus the admin console link).
+      if (current === "home" && session.authenticated) {
+        this.querySelector(".nav-directory")?.remove();
+        if (session.user?.system_role !== "admin") { cta.remove(); return; }
+      }
 
       if (session.user?.system_role === "admin") {
         cta.textContent = "จัดการผู้สอน";

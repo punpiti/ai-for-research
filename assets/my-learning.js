@@ -29,6 +29,22 @@
     return element;
   }
 
+  // Signed in: no promo hero, and classes the user already joined are not offered again.
+  function showSignedInView(classrooms) {
+    document.body.classList.add("is-signed-in");
+    document.querySelectorAll("[data-signed-out-only]").forEach((element) => { element.hidden = true; });
+    const joined = new Set(classrooms.map((item) => item.classroom_id));
+    let remaining = 0;
+    document.querySelectorAll(".open-classroom-card[data-classroom-id]").forEach((card) => {
+      card.hidden = joined.has(card.dataset.classroomId);
+      if (!card.hidden) remaining += 1;
+    });
+    const heading = document.querySelector("[data-open-heading]");
+    if (heading) heading.textContent = "เลือกคลาสเพิ่ม";
+    const empty = document.querySelector("[data-open-empty]");
+    if (empty) empty.hidden = remaining > 0;
+  }
+
   async function load() {
     const response = await globalObject.fetch(endpoint, {
       credentials: "same-origin",
@@ -37,7 +53,9 @@
     if (response.status === 401) return;
     if (!response.ok) throw new Error("โหลดรายการคลาสไม่สำเร็จ");
     const payload = await response.json();
+    if (payload.authenticated === false) return;
     const classrooms = (payload.classrooms || []).filter((item) => item.classroom_type !== "template");
+    showSignedInView(classrooms);
     section.hidden = false;
     status.textContent = classrooms.length ? "" : "ยังไม่มีวิชาหรือคลาสในบัญชีนี้";
     classrooms.forEach((item) => {
@@ -45,7 +63,7 @@
       const meta = node("p", "my-learning-meta", `${roleLabel(item.role)} · ${statusLabel(item.status)}`);
       const title = node("h3", "", item.title || item.course_title || item.classroom_id);
       const course = node("p", "", [item.course_code, item.course_title].filter(Boolean).join(" · "));
-      const link = node("a", "button secondary", item.status === "active" ? "เปิดคลาส" : "ดูสถานะ");
+      const link = node("a", "button primary", item.status === "active" ? (item.role === "teacher" ? "จัดการคลาส" : "เข้าเรียน") : "ดูสถานะ");
       link.href = classroomPath(item);
       card.append(meta, title);
       if (course.textContent) card.append(course);

@@ -27,10 +27,10 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/styles.css?v=20261113-2">
+  <link rel="stylesheet" href="assets/styles.css?v=20261118-1">
   <script src="assets/dev-auth.js?v=20261010-1"></script>
-  <script src="assets/site-shell.js?v=20261115-3"></script>
-  <script src="assets/my-learning.js?v=20261010-1" defer></script>
+  <script src="assets/site-shell.js?v=20261118-1"></script>
+  <script src="assets/my-learning.js?v=20261118-1" defer></script>
 </head>
 <body class="landing">
   <a class="skip-link" href="#main">ข้ามไปยังเนื้อหา</a>
@@ -38,7 +38,7 @@
   <site-header current="home"></site-header>
 
   <main id="main">
-    <section class="hero" id="top">
+    <section class="hero" id="top" data-signed-out-only>
       <div class="hero-copy">
         <div class="institution-lockup"><img src="https://upload.wikimedia.org/wikipedia/commons/4/43/Kasetsart_Sublogo-TH.svg" alt="ตราสัญลักษณ์พร้อมชื่อมหาวิทยาลัยเกษตรศาสตร์" width="232" height="300"><span>ภาควิชาวิศวกรรมคอมพิวเตอร์<br>มหาวิทยาลัยเกษตรศาสตร์</span></div>
         <p class="eyebrow">AIRR · AI for Research &amp; Review</p>
@@ -65,8 +65,7 @@
     <section class="section my-learning" id="my-learning" data-my-learning hidden>
       <div class="section-heading compact">
         <p class="eyebrow">My learning</p>
-        <h2>วิชาและคลาส<br>ของฉัน</h2>
-        <p>รายการคลาสที่คุณเป็นผู้เรียนหรือผู้สอน รวมทั้งรายการที่กำลังรออนุมัติ</p>
+        <h2>คลาสของฉัน</h2>
       </div>
       <p data-my-learning-status role="status" aria-live="polite">กำลังโหลดรายการ…</p>
       <div class="my-learning-grid" data-my-learning-list></div>
@@ -75,10 +74,10 @@
     <section class="section open-classrooms" id="course">
       <div class="section-heading compact">
         <p class="eyebrow">Open classrooms</p>
-        <h2>คลาสที่เปิดรับ<br>ตอนนี้</h2>
-        <p>คลาสนี้มุ่งเพิ่มทั้งกำลังการผลิตและคุณภาพของงานวิจัย ให้ AI ช่วยรับงานที่กินเวลา พร้อมวางจุดตรวจหลักฐาน วิธีวิจัย และข้อสรุปก่อนนำผลไปใช้</p>
+        <h2 data-open-heading>คลาสที่เปิดรับ<br>ตอนนี้</h2>
+        <p data-signed-out-only>คลาสนี้มุ่งเพิ่มทั้งกำลังการผลิตและคุณภาพของงานวิจัย ให้ AI ช่วยรับงานที่กินเวลา พร้อมวางจุดตรวจหลักฐาน วิธีวิจัย และข้อสรุปก่อนนำผลไปใช้</p>
       </div>
-      <article class="open-classroom-card">
+      <article class="open-classroom-card" data-classroom-id="faculty-pilot-2569">
         <div>
           <div class="classroom-status-row"><span class="classroom-status is-open">เปิดรับลงทะเบียน</span><span>อาจารย์/นักวิจัย · 20 พฤศจิกายน 2569</span></div>
           <h3>AI for Research สำหรับอาจารย์/นักวิจัย 2569</h3>
@@ -103,6 +102,7 @@
           <a class="button primary" href="classroom.html?id=faculty-pilot-2569">ดูรายละเอียดและลงทะเบียน</a>
         </div>
       </article>
+      <p data-open-empty hidden>ตอนนี้ยังไม่มีคลาสอื่นที่เปิดรับเพิ่ม</p>
     </section>
 
 
