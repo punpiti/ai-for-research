@@ -95,31 +95,31 @@
    "note": ""
   },
   "csv-rows-columns-units": {
-   "status": "not-ready",
+   "status": "ready",
    "note": ""
   },
   "ipynb-notebook-basics": {
-   "status": "not-ready",
+   "status": "ready",
    "note": ""
   },
   "json-fields-and-status-values": {
-   "status": "not-ready",
+   "status": "ready",
    "note": ""
   },
   "markdown-structure-and-preview": {
-   "status": "not-ready",
+   "status": "ready",
    "note": ""
   },
   "markdown-to-pdf-first-build": {
-   "status": "not-ready",
+   "status": "ready",
    "note": ""
   },
   "pdf-text-vs-scan-verification": {
-   "status": "not-ready",
+   "status": "ready",
    "note": ""
   },
   "airr-commands-with-ai": {
-   "status": "not-ready",
+   "status": "ready",
    "note": ""
   }
  }

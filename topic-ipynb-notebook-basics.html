@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="แยก cell ข้อความกับ cell โค้ดและผลลัพธ์ใน notebook ได้ · รัน notebook ตามลำดับบน Colab และรู้ว่าผลลัพธ์ที่บันทึกไว้อาจไม่ตรงกับโค้ดจนกว่าจะรันใหม่ · รู้ว่า .ipynb ชุดเดียวกันอยู่ในเครื่องและ AI อ่านไฟล์นี้ได้โดยไม่ต้องเปิด Colab">
+  <meta name="description" content="แยก cell ข้อความกับ cell โค้ดและผลลัพธ์ใน notebook ได้ · เปิด notebook จาก VS Code ด้วย JupyterLab ในเครื่องและรันตามลำดับ · รู้ว่าผลลัพธ์ที่บันทึกไว้อาจไม่ตรงกับโค้ดจนกว่าจะรันใหม่ · ให้ AI ใน VS Code อ่านและตรวจไฟล์ .ipynb ในเครื่องได้">
   <meta name="theme-color" content="#101817">
   <title>Notebook (.ipynb): cell, ลำดับการรัน และผลลัพธ์ที่ต้องรันใหม่ก่อนเชื่อ · AIRR</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -18,84 +18,94 @@
   <a class="skip-link" href="#main">ข้ามไปยังเนื้อหา</a>
   <site-header current="topic" plan="class-2026-11-20-engineering-faculty.html" menu='{&quot;module&quot;: &quot;X01&quot;, &quot;title&quot;: &quot;พื้นฐานไฟล์ MD · CSV · PDF · JSON&quot;, &quot;items&quot;: [{&quot;href&quot;: &quot;module-overview-x01.html&quot;, &quot;label&quot;: &quot;ภาพรวมและ LO&quot;, &quot;current&quot;: false}, {&quot;href&quot;: &quot;topic-csv-rows-columns-units.html&quot;, &quot;label&quot;: &quot;CSV: หนึ่งแถวแทนอะไร ชื่อคอลัมน์ หน่วย และค่าที่ขาด&quot;, &quot;current&quot;: false}, {&quot;href&quot;: &quot;topic-markdown-structure-and-preview.html&quot;, &quot;label&quot;: &quot;Markdown: หัวข้อ รายการ และ Preview — แก้ที่ต้นฉบับ ไม่แก้ที่ PDF&quot;, &quot;current&quot;: false}, {&quot;href&quot;: &quot;topic-markdown-to-pdf-first-build.html&quot;, &quot;label&quot;: &quot;สร้าง PDF แรกจาก Markdown ด้วย AI: แก้ที่ต้นฉบับ แล้วสร้างใหม่&quot;, &quot;current&quot;: false}, {&quot;href&quot;: &quot;topic-pdf-text-vs-scan-verification.html&quot;, &quot;label&quot;: &quot;PDF: ข้อความที่เลือกได้ ภาพสแกน และการตรวจสิ่งที่ AI อ่านกับหน้าต้นทาง&quot;, &quot;current&quot;: false}, {&quot;href&quot;: &quot;topic-json-fields-and-status-values.html&quot;, &quot;label&quot;: &quot;JSON: ชื่อช่อง ค่า และสถานะ true/false/null — อ่านผ่านไม่ได้แปลว่าค่าถูก&quot;, &quot;current&quot;: false}, {&quot;href&quot;: &quot;topic-ipynb-notebook-basics.html&quot;, &quot;label&quot;: &quot;Notebook (.ipynb): cell, ลำดับการรัน และผลลัพธ์ที่ต้องรันใหม่ก่อนเชื่อ&quot;, &quot;current&quot;: true}]}'></site-header>
   <main id="main">
-<section class="prepare-hero module-hero"><p class="eyebrow">หัวข้อย่อย · X01</p><h1>Notebook (.ipynb): cell, ลำดับการรัน และผลลัพธ์ที่ต้องรันใหม่ก่อนเชื่อ</h1><ul class="outcomes"><li>แยก cell ข้อความกับ cell โค้ดและผลลัพธ์ใน notebook ได้</li><li>รัน notebook ตามลำดับบน Colab และรู้ว่าผลลัพธ์ที่บันทึกไว้อาจไม่ตรงกับโค้ดจนกว่าจะรันใหม่</li><li>รู้ว่า .ipynb ชุดเดียวกันอยู่ในเครื่องและ AI อ่านไฟล์นี้ได้โดยไม่ต้องเปิด Colab</li></ul></section>
-<div class="topic-layout"><nav class="topic-tabs" aria-label="ส่วนของหัวข้อ"><a href="#slides" title="สไลด์">สไลด์</a><a href="#workshop-core" title="เปิด รัน และอ่าน notebook บน Colab">Notebook</a><a href="#open-explore" title="Exploring workshop">Exploring</a><button type="button" class="aside-toggle" data-aside-toggle aria-pressed="false">ซ่อนสไลด์ข้าง</button></nav><div class="topic-main"><section class="section markdown-section topic-panel" id="slides" aria-labelledby="slides-heading"><div class="section-heading compact"><p class="eyebrow">สไลด์</p><h2 id="slides-heading">สไลด์</h2></div><div class="markdown-body"><div class="slide-tools"><button type="button" class="slide-tool" data-fullscreen="#slide-frame-main">⛶ เต็มจอ</button><a class="slide-tool" href="downloads/topics/ipynb-notebook-basics.pdf" target="_blank" rel="noopener">เปิดแท็บใหม่ ↗</a></div><iframe id="slide-frame-main" class="slide-frame" src="downloads/topics/ipynb-notebook-basics.pdf#view=FitH" title="สไลด์ Notebook (.ipynb): cell, ลำดับการรัน และผลลัพธ์ที่ต้องรันใหม่ก่อนเชื่อ" allowfullscreen></iframe></div></section>
-<section class="section markdown-section topic-panel" id="workshop-core" aria-labelledby="workshop-core-heading"><div class="section-heading compact"><p class="eyebrow">Notebook</p><h2 id="workshop-core-heading">เปิด รัน และอ่าน notebook บน Colab</h2></div><div class="markdown-body"><p>ใน workshop นี้คุณจะเปิด notebook Part A ของ Module 7 ใน Google Colab รันตามลำดับ และรันใหม่ตั้งแต่ต้นเพื่อดูว่าผลลัพธ์เชื่อได้หรือไม่</p>
-<p>ทำใน <strong>Google Colab อย่างเดียว</strong> ไม่ต้องใช้ AI ในส่วนนี้ notebook ใช้ข้อมูลจำลองทั้งหมด</p>
+<section class="prepare-hero module-hero"><p class="eyebrow">หัวข้อย่อย · X01</p><h1>Notebook (.ipynb): cell, ลำดับการรัน และผลลัพธ์ที่ต้องรันใหม่ก่อนเชื่อ</h1><ul class="outcomes"><li>แยก cell ข้อความกับ cell โค้ดและผลลัพธ์ใน notebook ได้</li><li>เปิด notebook จาก VS Code ด้วย JupyterLab ในเครื่องและรันตามลำดับ</li><li>รู้ว่าผลลัพธ์ที่บันทึกไว้อาจไม่ตรงกับโค้ดจนกว่าจะรันใหม่</li><li>ให้ AI ใน VS Code อ่านและตรวจไฟล์ .ipynb ในเครื่องได้</li></ul></section>
+<div class="topic-layout"><nav class="topic-tabs" aria-label="ส่วนของหัวข้อ"><a href="#slides" title="สไลด์">สไลด์</a><a href="#workshop-core" title="เปิด รัน และอ่าน notebook จาก VS Code">Notebook</a><a href="#open-explore" title="Exploring workshop">Exploring</a><button type="button" class="aside-toggle" data-aside-toggle aria-pressed="false">ซ่อนสไลด์ข้าง</button></nav><div class="topic-main"><section class="section markdown-section topic-panel" id="slides" aria-labelledby="slides-heading"><div class="section-heading compact"><p class="eyebrow">สไลด์</p><h2 id="slides-heading">สไลด์</h2></div><div class="markdown-body"><div class="slide-tools"><button type="button" class="slide-tool" data-fullscreen="#slide-frame-main">⛶ เต็มจอ</button><a class="slide-tool" href="downloads/topics/ipynb-notebook-basics.pdf" target="_blank" rel="noopener">เปิดแท็บใหม่ ↗</a></div><iframe id="slide-frame-main" class="slide-frame" src="downloads/topics/ipynb-notebook-basics.pdf#view=FitH" title="สไลด์ Notebook (.ipynb): cell, ลำดับการรัน และผลลัพธ์ที่ต้องรันใหม่ก่อนเชื่อ" allowfullscreen></iframe></div></section>
+<section class="section markdown-section topic-panel" id="workshop-core" aria-labelledby="workshop-core-heading"><div class="section-heading compact"><p class="eyebrow">Notebook</p><h2 id="workshop-core-heading">เปิด รัน และอ่าน notebook จาก VS Code</h2></div><div class="markdown-body"><p>ใน workshop นี้คุณจะเปิด notebook Part A ของ Module 7 จาก VS Code รันตามลำดับ และรันใหม่ตั้งแต่ต้นเพื่อดูว่าผลลัพธ์เชื่อได้หรือไม่ ไม่ต้องติดตั้งอะไรเพิ่ม และไม่ต้องใช้ AI ในส่วนนี้ notebook ใช้ข้อมูลจำลองทั้งหมด</p>
+<p>ใช้เมื่อ: ก่อนเปิด notebook ใน Module 7 หรือเมื่อได้รับไฟล์ <code>.ipynb</code> จากผู้อื่น</p>
 <h3 id="ก่อนเริ่ม-ต้องมีอยู่แล้ว">ก่อนเริ่ม (ต้องมีอยู่แล้ว)</h3>
 <ul>
-<li>บัญชี Google หนึ่งบัญชี</li>
-<li>ลิงก์ notebook: <a href="https://colab.research.google.com/github/punpiti/ai-for-research/blob/main/downloads/course-materials/visualization/notebooks/module-07a-read-and-audit.ipynb">Part A — อ่านกราฟและตรวจสิ่งที่ AI เลือก</a></li>
-<li>ไม่มี Colab: ไฟล์ <code>.ipynb</code> ชุดเดียวกันอยู่ที่ <code>course-materials/module-07/notebooks/</code> (ตัวติดตั้ง Module 1 วางไว้ให้) เปิดด้วย <code>tools/start-module-07</code></li>
+<li>ผ่าน Module 1: เปิด <code>ai-for-research-workspace</code> ใน VS Code (ตัวติดตั้ง Module 1 ลง JupyterLab และไลบรารีของ Module 7 ไว้ใน <code>.venv-module07</code> แล้ว)</li>
+<li><code>course-materials/module-07/notebooks/module-07a-read-and-audit.ipynb</code> (อ่านอย่างเดียว ห้ามแก้)</li>
+<li>ทางสำรอง ถ้าเปิด JupyterLab ไม่ได้: <a href="https://colab.research.google.com/github/punpiti/ai-for-research/blob/main/downloads/course-materials/visualization/notebooks/module-07a-read-and-audit.ipynb">Part A ใน Google Colab</a> ใช้บัญชี Google ทำขั้นเดียวกัน (ชื่อเมนูของ Colab อยู่ในวงเล็บ)</li>
 </ul>
 <h3 id="คำที่ใช้ใน-workshop-นี้">คำที่ใช้ใน workshop นี้</h3>
 <ul>
 <li><strong>notebook (<code>.ipynb</code>)</strong> — ไฟล์ที่มี cell ข้อความ cell โค้ด และผลลัพธ์อยู่ด้วยกัน</li>
-<li><strong>cell ข้อความ</strong> — หัวข้อและคำอธิบาย · <strong>cell โค้ด</strong> — มีปุ่ม ▶ · <strong>ผลลัพธ์</strong> — ตารางหรือกราฟใต้ cell โค้ด</li>
-<li><strong>Run all</strong> — รันทุก cell ตามลำดับจากบนลงล่าง</li>
-<li><strong>Restart session</strong> — ล้างตัวแปรทั้งหมดในหน่วยความจำ เหมือนเริ่มเปิดใหม่</li>
+<li><strong>cell ข้อความ</strong> — หัวข้อและคำอธิบาย · <strong>cell โค้ด</strong> — มี <code>[ ]:</code> ด้านซ้าย · <strong>ผลลัพธ์</strong> — ตารางหรือกราฟใต้ cell โค้ด</li>
+<li><strong>kernel</strong> — โปรแกรม Python ที่รันโค้ดของ notebook ชื่อ <code>Python (AI for Research M07)</code></li>
+<li><strong>Restart kernel</strong> — ล้างตัวแปรทั้งหมดในหน่วยความจำ เหมือนเริ่มเปิดใหม่</li>
 </ul>
 <hr>
-<h3 id="ขั้นที่-1--เปิดลิงก์และดูโครง-notebook">ขั้นที่ 1 — เปิดลิงก์และดูโครง notebook</h3>
-<p>เปิดลิงก์ Part A แล้วเลื่อนดู cell ข้อความ cell โค้ด และผลลัพธ์ที่สลับกัน</p>
+<h3 id="ขั้นที่-1--เปิด-jupyterlab-จาก-vs-code">ขั้นที่ 1 — เปิด JupyterLab จาก VS Code</h3>
+<p>ใน VS Code เลือก Terminal → New Terminal แล้วรันคำสั่งของระบบตนเอง</p>
+<ul>
+<li>Windows: <code>powershell -NoProfile -ExecutionPolicy Bypass -File tools\start-module-07.ps1</code></li>
+<li>macOS / Linux: <code>bash tools/start-module-07.sh</code></li>
+</ul>
+<p>JupyterLab จะเปิดในเบราว์เซอร์ที่หน้ารวม Part A–C ให้เปิด <code>module-07a-read-and-audit.ipynb</code> จากหน้ารวมหรือแถบไฟล์ด้านซ้าย</p>
+<p><strong>ตรวจ:</strong> แท็บที่เปิดชื่อ <code>module-07a-read-and-audit.ipynb</code> และมุมขวาบนแสดง kernel <code>Python (AI for Research M07)</code> (Colab: เปิดลิงก์ทางสำรองแล้ว)</p>
+<hr>
+<h3 id="ขั้นที่-2--ดูโครง-notebook">ขั้นที่ 2 — ดูโครง notebook</h3>
+<p>เลื่อนดู cell ข้อความ cell โค้ด และผลลัพธ์ที่สลับกัน</p>
 <p><strong>ตรวจ:</strong> ชี้ได้หนึ่งตัวอย่างของแต่ละแบบ: cell ข้อความ cell โค้ด และผลลัพธ์</p>
 <hr>
-<h3 id="ขั้นที่-2--ใช้สารบัญ">ขั้นที่ 2 — ใช้สารบัญ</h3>
-<p>เปิดสารบัญด้านซ้าย แล้วกระโดดไปหัวข้อ 1</p>
+<h3 id="ขั้นที่-3--ใช้สารบัญ">ขั้นที่ 3 — ใช้สารบัญ</h3>
+<p>เปิดสารบัญ: View → Table of Contents (Colab: ไอคอนสารบัญด้านซ้าย) แล้วกระโดดไปหัวข้อ 1</p>
 <p><strong>ตรวจ:</strong> หัวข้อในสารบัญตรงกับหัวข้อใน cell ข้อความ</p>
 <hr>
-<h3 id="ขั้นที่-3--รัน-cell-กลางเรื่องก่อน">ขั้นที่ 3 — รัน cell กลางเรื่องก่อน</h3>
-<p>กด ▶ ที่ cell โค้ดกลางเรื่อง ก่อนรัน cell แรก แล้วจดว่าเกิดอะไร</p>
+<h3 id="ขั้นที่-4--รัน-cell-กลางเรื่องก่อน">ขั้นที่ 4 — รัน cell กลางเรื่องก่อน</h3>
+<p>คลิก cell โค้ดกลางเรื่องแล้วกด Shift+Enter ก่อนรัน cell แรก จดว่าเกิดอะไร</p>
 <p><strong>ตรวจ:</strong> คุณจดข้อผิดพลาดที่ขึ้นไว้ และอธิบายได้หนึ่งบรรทัดว่าเกิดเพราะ cell ก่อนหน้ายังไม่ได้รัน</p>
 <hr>
-<h3 id="ขั้นที่-4--run-all">ขั้นที่ 4 — Run all</h3>
-<p>กด Runtime → Run all รอจนทุก cell รันเสร็จ แล้วดูกราฟของหัวข้อ 1</p>
-<p><strong>ตรวจ:</strong> ทุก cell มีเครื่องหมายรันเสร็จ และไม่มีข้อผิดพลาดค้าง</p>
+<h3 id="ขั้นที่-5--รันทุก-cell-ตามลำดับ">ขั้นที่ 5 — รันทุก cell ตามลำดับ</h3>
+<p>Run → Run All Cells (Colab: Runtime → Run all) รอจนทุก cell รันเสร็จ แล้วดูกราฟของหัวข้อ 1</p>
+<p><strong>ตรวจ:</strong> ทุก cell โค้ดมีตัวเลขใน <code>[ ]:</code> (ไม่มี <code>[*]</code> ค้าง) และไม่มีข้อผิดพลาดค้าง</p>
 <hr>
-<h3 id="ขั้นที่-5--restart-แล้วรันใหม่ตั้งแต่ต้น">ขั้นที่ 5 — Restart แล้วรันใหม่ตั้งแต่ต้น</h3>
-<p>กด Runtime → Restart session and run all แล้วเทียบกราฟหัวข้อ 1 กับก่อน Restart</p>
+<h3 id="ขั้นที่-6--restart-แล้วรันใหม่ตั้งแต่ต้น">ขั้นที่ 6 — Restart แล้วรันใหม่ตั้งแต่ต้น</h3>
+<p>Kernel → Restart Kernel and Run All Cells (Colab: Runtime → Restart session and run all) แล้วเทียบกราฟหัวข้อ 1 กับก่อน Restart</p>
 <p><strong>ตรวจ:</strong> กราฟเหมือนเดิม (หรือคุณจดได้ว่าต่างตรงไหน) — ผลที่เชื่อได้คือผลที่รันใหม่ตั้งแต่ต้นแล้วได้เท่าเดิม</p>
 <hr>
-<h3 id="ขั้นที่-6--ถ้าจะลองแก้-ทำสำเนาก่อน">ขั้นที่ 6 — (ถ้าจะลองแก้) ทำสำเนาก่อน</h3>
-<p>กด File → Save a copy in Drive แล้วแก้ในสำเนาของคุณ</p>
-<p><strong>ตรวจ:</strong> ชื่อไฟล์ที่เปิดอยู่ขึ้นต้นด้วย "Copy of" และ notebook ต้นฉบับของคลาสไม่เปลี่ยน</p>
+<h3 id="ขั้นที่-7--ถ้าจะลองแก้-ทำสำเนาก่อน-แล้วปิด-jupyterlab">ขั้นที่ 7 — (ถ้าจะลองแก้) ทำสำเนาก่อน แล้วปิด JupyterLab</h3>
+<p>File → Save Notebook As… บันทึกเป็น <code>module-07-work/notebook-practice.ipynb</code> แล้วแก้ในสำเนา (Colab: File → Save a copy in Drive) เมื่อเลิกใช้ ให้กลับไปที่ Terminal ใน VS Code แล้วกด Ctrl+C เพื่อปิด JupyterLab</p>
+<p><strong>ตรวจ:</strong> แท็บที่แก้อยู่ชื่อ <code>notebook-practice.ipynb</code> และ notebook ต้นฉบับใน <code>course-materials/</code> ไม่เปลี่ยน</p>
 <hr>
 <h3 id="ตรวจก่อนจบ-workshop">ตรวจก่อนจบ workshop</h3>
 <ul class="task-list">
-<li><label><input type="checkbox">ขั้น 1: ชี้ได้ว่าส่วนไหนคือ cell ข้อความ cell โค้ด และผลลัพธ์</label></li>
-<li><label><input type="checkbox">ขั้น 2: ใช้สารบัญกระโดดไปหัวข้อได้</label></li>
-<li><label><input type="checkbox">ขั้น 3: อธิบายได้ว่าทำไมรัน cell กลางเรื่องก่อนจึงผิด</label></li>
-<li><label><input type="checkbox">ขั้น 4: Run all แล้วทุก cell รันเสร็จ</label></li>
-<li><label><input type="checkbox">ขั้น 5: หลัง Restart กราฟหัวข้อ 1 เหมือนก่อน (หรือจดไว้ว่าต่างตรงไหน)</label></li>
-<li><label><input type="checkbox">ขั้น 6: (ถ้าแก้) มีสำเนาใน Drive และต้นฉบับของคลาสไม่เปลี่ยน</label></li>
+<li><label><input type="checkbox">ขั้น 1: เปิด Part A ด้วย kernel <code>Python (AI for Research M07)</code> ได้ (หรือเปิดใน Colab)</label></li>
+<li><label><input type="checkbox">ขั้น 2: ชี้ได้ว่าส่วนไหนคือ cell ข้อความ cell โค้ด และผลลัพธ์</label></li>
+<li><label><input type="checkbox">ขั้น 3: ใช้สารบัญกระโดดไปหัวข้อได้</label></li>
+<li><label><input type="checkbox">ขั้น 4: อธิบายได้ว่าทำไมรัน cell กลางเรื่องก่อนจึงผิด</label></li>
+<li><label><input type="checkbox">ขั้น 5: รันทุก cell แล้วไม่มีข้อผิดพลาดค้าง</label></li>
+<li><label><input type="checkbox">ขั้น 6: หลัง Restart กราฟหัวข้อ 1 เหมือนก่อน (หรือจดไว้ว่าต่างตรงไหน)</label></li>
+<li><label><input type="checkbox">ขั้น 7: (ถ้าแก้) แก้ในสำเนา และต้นฉบับใน <code>course-materials/</code> ไม่เปลี่ยน</label></li>
 </ul>
 </div></section>
-<section class="section markdown-section topic-panel" id="open-explore" aria-labelledby="open-explore-heading"><div class="section-heading compact"><p class="eyebrow">Exploring</p><h2 id="open-explore-heading">Notebook (.ipynb): cell, ลำดับการรัน และผลลัพธ์ที่ต้องรันใหม่ก่อนเชื่อ</h2></div><div class="markdown-body"><p>ในโจทย์นี้คุณจะเขียน prompt เองให้ AI ใน VS Code อ่านไฟล์ <code>.ipynb</code> ในเครื่อง แล้วตรวจคำตอบของ AI กับ notebook จริง</p>
-<p>ไม่มี prompt สำเร็จรูป — เขียนเองกับ AI ใน VS Code โดยให้ AI อ่านไฟล์ <code>.ipynb</code> ในเครื่อง (ไม่ต้องเปิด Colab ให้ AI)</p>
+<section class="section markdown-section topic-panel" id="open-explore" aria-labelledby="open-explore-heading"><div class="section-heading compact"><p class="eyebrow">Exploring</p><h2 id="open-explore-heading">Notebook (.ipynb): cell, ลำดับการรัน และผลลัพธ์ที่ต้องรันใหม่ก่อนเชื่อ</h2></div><div class="markdown-body"><p>ในโจทย์นี้คุณจะเขียน prompt เองให้ AI ใน VS Code อ่านและตรวจไฟล์ <code>.ipynb</code> ในเครื่อง แล้วตรวจคำตอบของ AI กับ notebook จริงใน JupyterLab</p>
+<p>ไม่มี prompt สำเร็จรูปให้</p>
 <h3 id="ก่อนเริ่ม-ต้องมีอยู่แล้ว">ก่อนเริ่ม (ต้องมีอยู่แล้ว)</h3>
 <ul>
-<li>ทำ workshop ของหัวข้อนี้ใน Colab แล้ว</li>
+<li>ทำ workshop ของหัวข้อนี้แล้ว (เปิด Part A ใน JupyterLab ได้)</li>
 <li>ผ่าน Module 1: เปิด <code>ai-for-research-workspace</code> ใน VS Code และ AI panel เชื่อมแล้ว</li>
-<li><code>course-materials/module-07/notebooks/module-07a-read-and-audit.ipynb</code> (ตัวติดตั้ง Module 1 วางไว้ให้ อ่านอย่างเดียว)</li>
-<li>(ข้อ 3 เท่านั้น) notebook ของงานคุณเอง หรือของนิสิตที่ดูแล</li>
+<li><code>course-materials/module-07/notebooks/module-07a-read-and-audit.ipynb</code> (อ่านอย่างเดียว)</li>
+<li>(ข้อ 3 เท่านั้น) notebook ของงานคุณเอง หรือของนิสิตที่ดูแล วางไว้ในโฟลเดอร์งาน เช่น <code>module-07-work/input/</code></li>
 </ul>
 <h3 id="โจทย์-เลือกอย่างน้อย-1-ข้อ">โจทย์ (เลือกอย่างน้อย 1 ข้อ)</h3>
-<p>ก่อนเริ่ม สร้างไฟล์ <code>output/prompts.md</code> ในโฟลเดอร์งานของคุณ สำหรับเก็บ prompt ทุกรอบ</p>
+<p>ก่อนเริ่ม สร้างไฟล์ <code>module-07-work/output/prompts.md</code> สำหรับเก็บ prompt ทุกรอบ</p>
 <ol type="1">
-<li>ให้ AI อ่าน <code>course-materials/module-07/notebooks/module-07a-read-and-audit.ipynb</code> แล้วสรุปโครงของ notebook: มีกี่หัวข้อ แต่ละหัวข้อใช้ข้อมูลอะไรและสร้างกราฟอะไร — ตรวจกับสารบัญใน Colab ว่าตรงกันไหม</li>
-<li>ให้ AI บอกว่า cell โค้ดใดต้องรันก่อน cell ใด (ตัวแปรหรือข้อมูลที่ถูกสร้างไว้ก่อน) แล้วลองพิสูจน์ใน Colab ด้วยการรัน cell นั้นก่อน</li>
-<li>ถ้ามี notebook ของงานคุณเอง (หรือของนิสิตที่ดูแล): ให้ AI ตรวจว่ามี cell ที่ผลลัพธ์ไม่ตรงกับโค้ดหรือข้อมูลที่ใช้ไม่มีอยู่ในเครื่องหรือไม่ โดยห้ามแก้ไฟล์</li>
+<li>ให้ AI อ่าน <code>module-07a-read-and-audit.ipynb</code> แล้วสรุปโครง: มีกี่หัวข้อ แต่ละหัวข้อใช้ข้อมูลอะไรและสร้างกราฟอะไร — ตรวจกับสารบัญใน JupyterLab ว่าตรงกันไหม</li>
+<li>ให้ AI บอกว่า cell โค้ดใดต้องรันก่อน cell ใด (ตัวแปรหรือข้อมูลที่ถูกสร้างไว้ก่อน) แล้วพิสูจน์เองใน JupyterLab ด้วยการรัน cell นั้นหลัง Restart kernel</li>
+<li>ให้ AI ตรวจ notebook ของงานคุณว่ารันใหม่ตั้งแต่ต้นได้หรือไม่ โดยให้ AI รันสำเนาด้วย Python ใน <code>.venv-module07</code> (เช่น <code>jupyter nbconvert --to notebook --execute</code> เขียนผลลง <code>module-07-work/output/</code>) และรายงาน cell ที่ผิดหรือใช้ไฟล์ที่ไม่มีอยู่ในเครื่อง ห้ามแก้ไฟล์ต้นฉบับ</li>
 </ol>
 <h3 id="ข้อกำหนด">ข้อกำหนด</h3>
 <ul>
-<li>ระบุว่าตรวจคำตอบของ AI อย่างไร (เปิด notebook ดูเอง รันใหม่ใน Colab)</li>
-<li>ไม่อัปโหลดข้อมูลวิจัยจริงหรือข้อมูลส่วนบุคคลขึ้น Colab</li>
+<li>ระบุว่าตรวจคำตอบของ AI อย่างไร (เปิด notebook ดูเอง หรือรันใหม่ใน JupyterLab)</li>
+<li>notebook ต้นฉบับไม่ถูกแก้ ผลรันเก็บเป็นไฟล์ใหม่ใน <code>module-07-work/output/</code></li>
 </ul>
 <h3 id="เกณฑ์ผ่าน">เกณฑ์ผ่าน</h3>
 <ul class="task-list">
-<li><label><input type="checkbox">สรุปโครง notebook ที่ตรวจกับสารบัญแล้ว</label></li>
-<li><label><input type="checkbox">อย่างน้อยหนึ่งจุดที่พิสูจน์ลำดับการรันด้วยตัวเอง</label></li>
-<li><label><input type="checkbox">notebook ที่ให้ AI อ่านไม่ถูกแก้</label></li>
+<li><label><input type="checkbox">สรุปโครง notebook ที่ตรวจกับสารบัญแล้ว หรือมีรายงานการรันใหม่ตั้งแต่ต้นที่ตรวจเองแล้ว</label></li>
+<li><label><input type="checkbox">อย่างน้อยหนึ่งจุดที่พิสูจน์ด้วยตัวเองใน JupyterLab</label></li>
+<li><label><input type="checkbox">notebook ต้นฉบับไม่ถูกแก้</label></li>
 <li><label><input type="checkbox"><code>prompts.md</code> แสดงการปรับ prompt อย่างน้อย 1 รอบ พร้อมเหตุผล</label></li>
 </ul>
 </div></section></div><aside class="slide-aside" aria-label="สไลด์ประกอบ"><div class="slide-tools"><button type="button" class="slide-tool" data-fullscreen="#slide-frame-aside">⛶ เต็มจอ</button><a class="slide-tool" href="downloads/topics/ipynb-notebook-basics.pdf" target="_blank" rel="noopener">เปิดแท็บใหม่ ↗</a></div><iframe id="slide-frame-aside" src="downloads/topics/ipynb-notebook-basics.pdf#view=FitH" title="สไลด์ Notebook (.ipynb): cell, ลำดับการรัน และผลลัพธ์ที่ต้องรันใหม่ก่อนเชื่อ" loading="lazy" allowfullscreen></iframe></aside></div>
