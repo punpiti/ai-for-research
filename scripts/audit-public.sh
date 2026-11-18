@@ -9,7 +9,7 @@ status=0
 while IFS= read -r path; do
   relative="${path#"${site_root}/"}"
   case "${relative}" in
-    admin/index.html|admin/airr.html|assets/instructor-admin.js|assets/airr-connect.js|assets/airr-instructor.js|assets/module-3-access.js|assets/my-learning.js|scripts/test-instructor-admin.js|scripts/test-instructor-admin-page.sh|scripts/test-my-learning.js|scripts/test-module-7-cli.py|downloads/course-materials/visualization/tools/ai-for-research-course.py) continue ;;
+    admin/index.html|admin/airr.html|assets/test-status.js|assets/topic-test-status.json|assets/instructor-admin.js|assets/airr-connect.js|assets/airr-instructor.js|assets/module-3-access.js|assets/my-learning.js|scripts/test-instructor-admin.js|scripts/test-instructor-admin-page.sh|scripts/test-my-learning.js|scripts/test-module-7-cli.py|downloads/course-materials/visualization/tools/ai-for-research-course.py) continue ;;
     downloads/course-materials-module-08.json|downloads/setup-module-08.py|downloads/setup-module-08-linux.sh|downloads/setup-module-08-macos.sh|downloads/setup-module-08-windows.ps1|downloads/course-materials/document-production/*|scripts/test-module-8-installer.py|scripts/test-module-7-8-platforms.py|downloads/module-04-mock/mock-paper.pdf|downloads/module-04-mock/mock-paper.md|downloads/module-04-mock/citation-audit-rules.md|downloads/module-04-mock/citation-register-template.csv|downloads/module-04-mock/mock-paper-th.pdf|downloads/module-04-mock/mock-paper-th.md) continue ;;
   esac
   if [[ ! "${relative}" =~ ${allowed_pattern} ]]; then
