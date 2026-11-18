@@ -1,0 +1,125 @@
+{
+ "_comment": "Topic test status, shown on the class page only to viewers whose sha256(lowercase email) is listed. status: not-ready | ready | issue | passed",
+ "updated": "2026-11-18",
+ "viewers": [
+  "06d2486ab966da913725dd1876d3387745b06767d55ed0da54683a979986e8f3",
+  "210782f11d12b702e0b63c7359a1906ee697253e0004f612d096bdd49f3dd531",
+  "1d2baec913a3fad1b8c80fcf88576d6f0615e08f499eaa0ae90960e9e0b188d2",
+  "6cac21e320f68ee064b0fc6289da1fccab4e9ab99af8cf85aaf5c3f644649f4b",
+  "78760749cb0d1ec9cb2f483471f715d5e60084f6cf5c85acd1bcba648a3a84f7"
+ ],
+ "topics": {
+  "class-introduction": {
+   "status": "ready",
+   "note": ""
+  },
+  "prepare-machine": {
+   "status": "ready",
+   "note": ""
+  },
+  "claim-level-audit-and-learner-additions": {
+   "status": "not-ready",
+   "note": ""
+  },
+  "faithful-summary-and-condensing": {
+   "status": "not-ready",
+   "note": ""
+  },
+  "multiformat-evidence-and-source-levels": {
+   "status": "not-ready",
+   "note": ""
+  },
+  "candidate-gap-ledger-and-prosecution": {
+   "status": "not-ready",
+   "note": ""
+  },
+  "problem-statement-diagnosis-with-locations": {
+   "status": "not-ready",
+   "note": ""
+  },
+  "rq-stress-test-and-traceability": {
+   "status": "not-ready",
+   "note": ""
+  },
+  "verify-critique-and-revise": {
+   "status": "not-ready",
+   "note": ""
+  },
+  "citation-register-with-openalex": {
+   "status": "not-ready",
+   "note": ""
+  },
+  "reference-existence-vs-citation-support": {
+   "status": "not-ready",
+   "note": ""
+  },
+  "thai-reference-verification": {
+   "status": "not-ready",
+   "note": ""
+  },
+  "chart-pitfalls-and-makeover": {
+   "status": "ready",
+   "note": ""
+  },
+  "data-highlights-with-evidence": {
+   "status": "ready",
+   "note": ""
+  },
+  "reading-data-and-choosing-charts": {
+   "status": "ready",
+   "note": ""
+  },
+  "bibtex-abstract-audit-literature-map": {
+   "status": "ready",
+   "note": ""
+  },
+  "journal-fit-and-venue-switch": {
+   "status": "ready",
+   "note": ""
+  },
+  "kuthesis-thai-thesis-template": {
+   "status": "ready",
+   "note": ""
+  },
+  "markdown-single-source-latex-pdf-build": {
+   "status": "ready",
+   "note": ""
+  },
+  "paragraph-contract-reverse-check": {
+   "status": "ready",
+   "note": ""
+  },
+  "pdf-qa-submission-readiness": {
+   "status": "ready",
+   "note": ""
+  },
+  "csv-rows-columns-units": {
+   "status": "not-ready",
+   "note": ""
+  },
+  "ipynb-notebook-basics": {
+   "status": "not-ready",
+   "note": ""
+  },
+  "json-fields-and-status-values": {
+   "status": "not-ready",
+   "note": ""
+  },
+  "markdown-structure-and-preview": {
+   "status": "not-ready",
+   "note": ""
+  },
+  "markdown-to-pdf-first-build": {
+   "status": "not-ready",
+   "note": ""
+  },
+  "pdf-text-vs-scan-verification": {
+   "status": "not-ready",
+   "note": ""
+  },
+  "airr-commands-with-ai": {
+   "status": "not-ready",
+   "note": ""
+  }
+ }
+}
