@@ -323,7 +323,7 @@ class SiteFooter extends HTMLElement {
   connectedCallback() {
     this.innerHTML = `<footer>
       <div class="footer-owner"><p><a href="index.html">AIRR · AI for Research &amp; Review</a></p><div class="institution-lockup footer-institution"><img src="https://upload.wikimedia.org/wikipedia/commons/4/43/Kasetsart_Sublogo-TH.svg" alt="ตราสัญลักษณ์พร้อมชื่อมหาวิทยาลัยเกษตรศาสตร์" width="232" height="300" loading="lazy"><a class="footer-lab-logo" href="https://madlab.cpe.ku.ac.th" target="_blank" rel="noopener" aria-label="MADLab - Multimedia Analysis and Discovery Laboratory"><img class="logo-on-dark" src="${new URL("images/madlab-ku-mark-dark.svg", SHELL_SCRIPT_URL).href}" alt="" width="64" height="64" loading="lazy"><img class="logo-on-light" src="${new URL("images/madlab-ku-mark-light.svg", SHELL_SCRIPT_URL).href}" alt="" width="64" height="64" loading="lazy"></a><span><a href="https://madlab.cpe.ku.ac.th" target="_blank" rel="noopener">MADLab - Multimedia Analysis and Discovery Laboratory</a><br>ภาควิชาวิศวกรรมคอมพิวเตอร์<br>มหาวิทยาลัยเกษตรศาสตร์</span></div></div>
-      <div class="footer-credit"><p>Developed by One234@KU</p><p>© 2026 พันธุ์ปิติ เปี่ยมสง่า. All rights reserved.</p></div>
+      <div class="footer-credit"><p>© <a href="https://punpiti.github.io/" target="_blank" rel="noopener">One234</a>@KU All rights reserved.</p></div>
     </footer>`;
   }
 }
