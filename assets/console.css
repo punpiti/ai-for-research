@@ -296,3 +296,19 @@ body.console .submission-status.is-could_not_complete { color: var(--accent); }
   .template-facts div:last-child { border-bottom: 0; }
   .submission-live-controls { flex-wrap: wrap; margin-top: .6rem; }
 }
+
+/* syllabus tab: topics learners of this class see (read-only, owner 2026-11-18) */
+.instructor-module-list:has(.instructor-module-topics) { grid-template-columns: repeat(auto-fill, minmax(min(100%, 22rem), 1fr)); }
+.instructor-module:has(.instructor-module-topics) { grid-template-rows: auto auto 1fr; align-content: start; }
+.instructor-module-topics { padding-top: .5rem; border-top: 1px solid var(--line); font-size: .85rem; }
+.instructor-module-topics:empty { display: none; }
+.instructor-topic-heading { margin: 0 0 .3rem; color: var(--ink-soft); font-size: .75rem; font-weight: 600; }
+.instructor-topic-note { color: var(--ink-soft); }
+.instructor-topic-list { margin: 0; padding-left: 1.2rem; display: grid; gap: .25rem; }
+.instructor-topic-list a { color: var(--ink); text-decoration: none; line-height: 1.4; }
+.instructor-topic-list a:hover { color: var(--mint); text-decoration: underline; }
+.instructor-topic-tag { display: inline-block; margin-left: .35rem; padding: 0 .4rem; border: 1px solid var(--mint); border-radius: 99px; color: var(--mint); font-size: .68rem; vertical-align: middle; }
+.instructor-topic-unused { margin-top: .45rem; }
+.instructor-topic-unused summary { color: var(--ink-soft); font-size: .78rem; cursor: pointer; }
+.instructor-topic-list.is-unused { margin-top: .3rem; }
+.instructor-topic-list.is-unused a { color: var(--ink-soft); }

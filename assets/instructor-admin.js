@@ -667,7 +667,7 @@
         if (module.active) content.append(node("span", "instructor-module-active-label", "โมดูลเริ่มต้น"));
         card.classList.add(module.included ? "is-included" : "is-excluded");
         card.classList.toggle("is-active", module.active);
-        card.append(content);
+        card.append(content, topicBox(module.id));
         moduleList.append(card);
         return;
       }
@@ -708,9 +708,88 @@
         syncCard();
       });
 
-      card.append(includeLabel, activeLabel);
+      card.append(includeLabel, activeLabel, topicBox(module.id));
       syncCard();
       moduleList.append(card);
+    });
+    showClassTopics(data.classroom.classroom_id || classroomId);
+  }
+
+  // Topics learners of this class see, read from the class syllabus page that learners open
+  // (owner 2026-11-18: show only; topics are not moved between modules here).
+  const CLASS_SYLLABUS_PAGES = { "faculty-pilot-2569": "class-2026-11-20-engineering-faculty.html" };
+
+  function topicBox(moduleId) {
+    const box = node("div", "instructor-module-topics");
+    box.dataset.moduleTopics = moduleId;
+    return box;
+  }
+
+  function classTopicsFromPage(doc) {
+    const byModule = {};
+    doc.querySelectorAll("details.syllabus-module").forEach((details) => {
+      const number = Number((details.id || "").replace(/^m0?/i, ""));
+      if (!number) return;
+      const upcoming = !details.querySelector("summary .status.is-open");
+      byModule[`module-${number}`] = [...details.querySelectorAll("li[data-topic]")].map((li) => {
+        const link = li.querySelector("a[href], span.locked[data-href]");
+        return {
+          id: li.dataset.topic,
+          title: (link?.textContent || li.dataset.topic).trim(),
+          href: link?.getAttribute("href") || link?.dataset.href || `topic-${li.dataset.topic}.html`,
+          optional: Boolean(li.querySelector(".content-kind")),
+          inPlan: !li.hasAttribute("data-tester-only"),
+          upcoming,
+        };
+      });
+    });
+    return byModule;
+  }
+
+  async function showClassTopics(id) {
+    const boxes = [...moduleList.querySelectorAll("[data-module-topics]")];
+    const page = CLASS_SYLLABUS_PAGES[id];
+    if (!page) {
+      boxes.forEach((box) => box.replaceChildren(node("small", "instructor-topic-note", "คลาสนี้ยังไม่มีแผนหัวข้อ")));
+      return;
+    }
+    let byModule;
+    try {
+      const response = await globalObject.fetch(`../${page}`, { credentials: "same-origin" });
+      if (!response.ok) throw new Error(String(response.status));
+      byModule = classTopicsFromPage(new DOMParser().parseFromString(await response.text(), "text/html"));
+    } catch (_error) {
+      boxes.forEach((box) => box.replaceChildren(node("small", "instructor-topic-note", "โหลดรายการหัวข้อไม่สำเร็จ")));
+      return;
+    }
+    boxes.forEach((box) => {
+      const topics = byModule[box.dataset.moduleTopics] || [];
+      const used = topics.filter((topic) => topic.inPlan);
+      const unused = topics.filter((topic) => !topic.inPlan);
+      const upcoming = used.some((topic) => topic.upcoming);
+      const heading = node("p", "instructor-topic-heading", !used.length ? "ยังไม่มีหัวข้อในแผน"
+        : upcoming ? `หัวข้อในแผน (${used.length}) · โมดูลยังไม่เปิดให้ผู้เรียน` : `หัวข้อที่ผู้เรียนเห็น (${used.length})`);
+      box.replaceChildren(heading);
+      const list = (items, className) => {
+        const ol = node("ol", className);
+        items.forEach((topic) => {
+          const li = node("li");
+          const link = node("a", "", topic.title);
+          link.href = `../${topic.href}`;
+          link.target = "_blank";
+          link.rel = "noopener";
+          li.append(link);
+          if (topic.optional) li.append(node("span", "instructor-topic-tag", "เสริม"));
+          ol.append(li);
+        });
+        return ol;
+      };
+      if (used.length) box.append(list(used, "instructor-topic-list"));
+      if (unused.length) {
+        const more = node("details", "instructor-topic-unused");
+        more.append(node("summary", "", `ไม่ได้ใช้ในคลาสนี้ (${unused.length})`), list(unused, "instructor-topic-list is-unused"));
+        box.append(more);
+      }
     });
   }
 
