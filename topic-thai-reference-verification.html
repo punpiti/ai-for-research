@@ -158,6 +158,7 @@
   const tabs = [...document.querySelectorAll('.topic-tabs > ul > li > a')];
   const panels = tabs.map(t => document.getElementById(t.hash.slice(1)));
   const subs = [...document.querySelectorAll('.topic-tabs a[data-sub]')];
+  const idOf = a => decodeURIComponent(a.getAttribute('href').slice(1));  // .hash is percent-encoded for Thai ids
   function show(id) {
     const target = id && document.getElementById(id);
     const owner = target && target.closest('.topic-panel');
@@ -168,9 +169,9 @@
     return target && owner && target !== owner ? target : null;
   }
   tabs.forEach(t => t.addEventListener('click', e => { e.preventDefault(); history.replaceState(null, '', t.hash); show(t.hash.slice(1)); window.scrollTo({top: 0}); }));
-  subs.forEach(s => s.addEventListener('click', e => { e.preventDefault(); history.replaceState(null, '', s.hash); const h = show(s.hash.slice(1)); if (h) h.scrollIntoView({block: 'start'}); }));
+  subs.forEach(s => s.addEventListener('click', e => { e.preventDefault(); history.replaceState(null, '', s.hash); const h = show(idOf(s)); if (h) h.scrollIntoView({block: 'start'}); }));
   if ('IntersectionObserver' in window && subs.length) {  // highlight the step being read
-    const byId = new Map(subs.map(s => [s.hash.slice(1), s]));
+    const byId = new Map(subs.map(s => [idOf(s), s]));
     const seen = new Set();
     const io = new IntersectionObserver(entries => {
       entries.forEach(en => { if (en.isIntersecting) seen.add(en.target.id); else seen.delete(en.target.id); });
@@ -199,7 +200,8 @@
     setAside(saved);
     toggle.addEventListener('click', () => setAside(!layout0.classList.contains('aside-hidden')));
   }
-  const deep = show(location.hash.slice(1));
+  let hashId = location.hash.slice(1); try { hashId = decodeURIComponent(hashId); } catch (e) {}
+  const deep = show(hashId);
   if (location.hash) requestAnimationFrame(() => deep ? deep.scrollIntoView({block: 'start'}) : window.scrollTo({top: 0}));
 })();
 </script>
