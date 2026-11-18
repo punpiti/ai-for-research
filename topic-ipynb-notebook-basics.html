@@ -28,25 +28,46 @@
 <li>ลิงก์ notebook: <a href="https://colab.research.google.com/github/punpiti/ai-for-research/blob/main/downloads/course-materials/visualization/notebooks/module-07a-read-and-audit.ipynb">Part A — อ่านกราฟและตรวจสิ่งที่ AI เลือก</a></li>
 <li>ไม่มี Colab: ไฟล์ <code>.ipynb</code> ชุดเดียวกันอยู่ที่ <code>course-materials/module-07/notebooks/</code> (ตัวติดตั้ง Module 1 วางไว้ให้) เปิดด้วย <code>tools/start-module-07</code></li>
 </ul>
-<h3 id="ขั้นตอน">ขั้นตอน</h3>
-<ol type="1">
-<li><strong>เปิดลิงก์ Part A</strong> แล้วดูโครงของ notebook: <strong>cell ข้อความ</strong> (หัวข้อ คำอธิบาย) กับ <strong>cell โค้ด</strong> (มีปุ่ม ▶) สลับกัน ใต้ cell โค้ดคือ <strong>ผลลัพธ์</strong> เช่น ตารางหรือกราฟ</li>
-<li><strong>เปิดสารบัญ</strong> ด้านซ้าย แล้วกระโดดไปหัวข้อ 1 ดูว่าหัวข้อในสารบัญมาจาก cell ข้อความ</li>
-<li><strong>ลองกด ▶ ที่ cell โค้ดกลางเรื่องก่อนรัน cell แรก</strong> แล้วจดว่าเกิดอะไร (มักขึ้นข้อผิดพลาด เพราะ cell ก่อนหน้ายังไม่ได้รัน)</li>
-<li><strong>กด Runtime → Run all</strong> รอจนทุก cell มีเครื่องหมายรันเสร็จ แล้วดูกราฟของหัวข้อ 1 อีกครั้ง</li>
-<li><strong>กด Runtime → Restart session and run all</strong> แล้วเทียบว่ากราฟยังเหมือนเดิมหรือไม่ — ผลลัพธ์ที่เชื่อได้คือผลที่รันใหม่ตั้งแต่ต้นแล้วได้เท่าเดิม</li>
-<li><strong>ถ้าจะลองแก้: กด File → Save a copy in Drive ก่อน</strong> แล้วแก้ในสำเนาของคุณ (ต้นฉบับของคลาสไม่เปลี่ยน)</li>
-</ol>
-<h3 id="ตรวจก่อนจบ">ตรวจก่อนจบ</h3>
-<ul class="task-list">
-<li><label><input type="checkbox">ชี้ได้ใน notebook ว่าส่วนไหนคือ cell ข้อความ cell โค้ด และผลลัพธ์</label></li>
-<li><label><input type="checkbox">จดไว้แล้วว่าเกิดอะไรเมื่อรัน cell กลางเรื่องก่อน และอธิบายได้หนึ่งบรรทัดว่าทำไมจึงผิด</label></li>
-<li><label><input type="checkbox">หลัง Restart session and run all ทุก cell รันเสร็จ และกราฟหัวข้อ 1 เหมือนก่อน Restart (หรือจดไว้ว่าต่างตรงไหน)</label></li>
-<li><label><input type="checkbox">(ถ้าแก้) มีสำเนา notebook ใน Drive ของคุณ และ notebook ต้นฉบับของคลาสไม่เปลี่ยน</label></li>
-</ul>
-<h3 id="ส่งงาน">ส่งงาน</h3>
+<h3 id="คำที่ใช้ใน-workshop-นี้">คำที่ใช้ใน workshop นี้</h3>
 <ul>
-<li>หัวข้อเสริมนี้ไม่ส่งงาน</li>
+<li><strong>notebook (<code>.ipynb</code>)</strong> — ไฟล์ที่มี cell ข้อความ cell โค้ด และผลลัพธ์อยู่ด้วยกัน</li>
+<li><strong>cell ข้อความ</strong> — หัวข้อและคำอธิบาย · <strong>cell โค้ด</strong> — มีปุ่ม ▶ · <strong>ผลลัพธ์</strong> — ตารางหรือกราฟใต้ cell โค้ด</li>
+<li><strong>Run all</strong> — รันทุก cell ตามลำดับจากบนลงล่าง</li>
+<li><strong>Restart session</strong> — ล้างตัวแปรทั้งหมดในหน่วยความจำ เหมือนเริ่มเปิดใหม่</li>
+</ul>
+<hr>
+<h3 id="ขั้นที่-1--เปิดลิงก์และดูโครง-notebook">ขั้นที่ 1 — เปิดลิงก์และดูโครง notebook</h3>
+<p>เปิดลิงก์ Part A แล้วเลื่อนดู cell ข้อความ cell โค้ด และผลลัพธ์ที่สลับกัน</p>
+<p><strong>ตรวจ:</strong> ชี้ได้หนึ่งตัวอย่างของแต่ละแบบ: cell ข้อความ cell โค้ด และผลลัพธ์</p>
+<hr>
+<h3 id="ขั้นที่-2--ใช้สารบัญ">ขั้นที่ 2 — ใช้สารบัญ</h3>
+<p>เปิดสารบัญด้านซ้าย แล้วกระโดดไปหัวข้อ 1</p>
+<p><strong>ตรวจ:</strong> หัวข้อในสารบัญตรงกับหัวข้อใน cell ข้อความ</p>
+<hr>
+<h3 id="ขั้นที่-3--รัน-cell-กลางเรื่องก่อน">ขั้นที่ 3 — รัน cell กลางเรื่องก่อน</h3>
+<p>กด ▶ ที่ cell โค้ดกลางเรื่อง ก่อนรัน cell แรก แล้วจดว่าเกิดอะไร</p>
+<p><strong>ตรวจ:</strong> คุณจดข้อผิดพลาดที่ขึ้นไว้ และอธิบายได้หนึ่งบรรทัดว่าเกิดเพราะ cell ก่อนหน้ายังไม่ได้รัน</p>
+<hr>
+<h3 id="ขั้นที่-4--run-all">ขั้นที่ 4 — Run all</h3>
+<p>กด Runtime → Run all รอจนทุก cell รันเสร็จ แล้วดูกราฟของหัวข้อ 1</p>
+<p><strong>ตรวจ:</strong> ทุก cell มีเครื่องหมายรันเสร็จ และไม่มีข้อผิดพลาดค้าง</p>
+<hr>
+<h3 id="ขั้นที่-5--restart-แล้วรันใหม่ตั้งแต่ต้น">ขั้นที่ 5 — Restart แล้วรันใหม่ตั้งแต่ต้น</h3>
+<p>กด Runtime → Restart session and run all แล้วเทียบกราฟหัวข้อ 1 กับก่อน Restart</p>
+<p><strong>ตรวจ:</strong> กราฟเหมือนเดิม (หรือคุณจดได้ว่าต่างตรงไหน) — ผลที่เชื่อได้คือผลที่รันใหม่ตั้งแต่ต้นแล้วได้เท่าเดิม</p>
+<hr>
+<h3 id="ขั้นที่-6--ถ้าจะลองแก้-ทำสำเนาก่อน">ขั้นที่ 6 — (ถ้าจะลองแก้) ทำสำเนาก่อน</h3>
+<p>กด File → Save a copy in Drive แล้วแก้ในสำเนาของคุณ</p>
+<p><strong>ตรวจ:</strong> ชื่อไฟล์ที่เปิดอยู่ขึ้นต้นด้วย "Copy of" และ notebook ต้นฉบับของคลาสไม่เปลี่ยน</p>
+<hr>
+<h3 id="ตรวจก่อนจบ-workshop">ตรวจก่อนจบ workshop</h3>
+<ul class="task-list">
+<li><label><input type="checkbox">ขั้น 1: ชี้ได้ว่าส่วนไหนคือ cell ข้อความ cell โค้ด และผลลัพธ์</label></li>
+<li><label><input type="checkbox">ขั้น 2: ใช้สารบัญกระโดดไปหัวข้อได้</label></li>
+<li><label><input type="checkbox">ขั้น 3: อธิบายได้ว่าทำไมรัน cell กลางเรื่องก่อนจึงผิด</label></li>
+<li><label><input type="checkbox">ขั้น 4: Run all แล้วทุก cell รันเสร็จ</label></li>
+<li><label><input type="checkbox">ขั้น 5: หลัง Restart กราฟหัวข้อ 1 เหมือนก่อน (หรือจดไว้ว่าต่างตรงไหน)</label></li>
+<li><label><input type="checkbox">ขั้น 6: (ถ้าแก้) มีสำเนาใน Drive และต้นฉบับของคลาสไม่เปลี่ยน</label></li>
 </ul>
 </div></section>
 <section class="section markdown-section topic-panel" id="open-explore" aria-labelledby="open-explore-heading"><div class="section-heading compact"><p class="eyebrow">Exploring</p><h2 id="open-explore-heading">Notebook (.ipynb): cell, ลำดับการรัน และผลลัพธ์ที่ต้องรันใหม่ก่อนเชื่อ</h2></div><div class="markdown-body"><p>ในโจทย์นี้คุณจะเขียน prompt เองให้ AI ใน VS Code อ่านไฟล์ <code>.ipynb</code> ในเครื่อง แล้วตรวจคำตอบของ AI กับ notebook จริง</p>

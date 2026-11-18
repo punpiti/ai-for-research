@@ -21,15 +21,23 @@
 <section class="prepare-hero module-hero"><p class="eyebrow">หัวข้อย่อย · X01</p><h1>JSON: ชื่อช่อง ค่า และสถานะ true/false/null — อ่านผ่านไม่ได้แปลว่าค่าถูก</h1><ul class="outcomes"><li>อ่านชื่อช่อง ค่า และกลุ่มข้อมูลใน JSON แยกข้อความ จำนวน true/false/null ได้ ให้ AI แก้เฉพาะค่าที่ตนยืนยันจากการทำจริงโดยคงชื่อช่อง และอธิบายได้ว่า JSON ที่อ่านผ่านยังอาจรายงานค่าผิด</li></ul></section>
 <div class="topic-layout"><nav class="topic-tabs" aria-label="ส่วนของหัวข้อ"><a href="#slides" title="สไลด์">สไลด์</a><a href="#workshop-core" title="Workshop หลัก">Workshop</a><a href="#open-explore" title="Exploring workshop">Exploring</a><button type="button" class="aside-toggle" data-aside-toggle aria-pressed="false">ซ่อนสไลด์ข้าง</button></nav><div class="topic-main"><section class="section markdown-section topic-panel" id="slides" aria-labelledby="slides-heading"><div class="section-heading compact"><p class="eyebrow">สไลด์</p><h2 id="slides-heading">สไลด์</h2></div><div class="markdown-body"><div class="slide-tools"><button type="button" class="slide-tool" data-fullscreen="#slide-frame-main">⛶ เต็มจอ</button><a class="slide-tool" href="downloads/topics/json-fields-and-status-values.pdf" target="_blank" rel="noopener">เปิดแท็บใหม่ ↗</a></div><iframe id="slide-frame-main" class="slide-frame" src="downloads/topics/json-fields-and-status-values.pdf#view=FitH" title="สไลด์ JSON: ชื่อช่อง ค่า และสถานะ true/false/null — อ่านผ่านไม่ได้แปลว่าค่าถูก" allowfullscreen></iframe></div></section>
 <section class="section markdown-section topic-panel" id="workshop-core" aria-labelledby="workshop-core-heading"><div class="section-heading compact"><p class="eyebrow">Workshop</p><h2 id="workshop-core-heading">JSON: ชื่อช่อง ค่า และสถานะ true/false/null — อ่านผ่านไม่ได้แปลว่าค่าถูก</h2></div><div class="markdown-body"><p>ใน workshop นี้คุณจะสร้างไฟล์ JSON บันทึกสถานะฝึกอ่านไฟล์ ให้ AI อธิบายชื่อช่องและค่า แล้วให้ AI แก้เฉพาะค่าที่คุณยืนยันจากสิ่งที่ทำจริง</p>
-<p>ใช้เมื่อ: จำเป็นต้องเปิดไฟล์สถานะหรือค่าตั้งต้น</p>
+<p>ใช้เมื่อ: ต้องเปิดไฟล์สถานะหรือไฟล์ค่าตั้งต้นของเครื่องมือ</p>
 <h3 id="ก่อนเริ่ม-ต้องมีอยู่แล้ว">ก่อนเริ่ม (ต้องมีอยู่แล้ว)</h3>
 <ul>
 <li>ผ่าน Module 1: เปิด <code>ai-for-research-workspace</code> ใน VS Code และ AI panel เชื่อมแล้ว</li>
-<li>ควรทำ workshop <code>csv-rows-columns-units</code> มาก่อน: ผลตรวจค่าสองค่าจาก CSV ที่บันทึกไว้ใน <code>module-07-work/notes/file-reading.md</code> ใช้ในขั้นที่ 4 (ถ้ายังไม่ได้ทำ ให้บอกผลตามจริงในขั้นที่ 4)</li>
+<li>ควรทำ workshop CSV ของ X01 มาก่อน: ผลตรวจสองค่าที่บันทึกไว้ใน <code>module-07-work/notes/file-reading.md</code> ใช้ในขั้นที่ 4 (ถ้ายังไม่ได้ทำ ให้บอกผลตามจริงในขั้นที่ 4)</li>
 </ul>
-<h3 id="ขั้นตอน">ขั้นตอน</h3>
-<ol type="1">
-<li><p><strong>สร้างไฟล์ JSON ตัวอย่าง</strong> ใน VS Code สร้างไฟล์ใหม่ <code>module-07-work/notes/file-reading-practice.json</code> (สร้างโฟลเดอร์ถ้ายังไม่มี) แล้ววางเนื้อหานี้ (ตัวอย่างจำลอง บันทึกสถานะฝึกอ่านไฟล์ <strong>ไม่ใช่ไฟล์ส่งงาน AIRR</strong>)</p>
+<h3 id="คำที่ใช้ใน-workshop-นี้">คำที่ใช้ใน workshop นี้</h3>
+<ul>
+<li><strong>ชื่อช่อง (key)</strong> — ชื่อในเครื่องหมายคำพูดหน้าเครื่องหมาย <code>:</code> เช่น <code>"activity"</code></li>
+<li><strong>ค่า</strong> — สิ่งหลัง <code>:</code> เป็นข้อความ (<code>"..."</code>), จำนวน (<code>0</code>), กลุ่ม (<code>{ }</code>) หรือสถานะ</li>
+<li><strong><code>true</code> / <code>false</code></strong> — จริง / เท็จ ตามความหมายของช่องนั้น</li>
+<li><strong><code>null</code></strong> — ไม่มีค่าระบุ ต่างจาก <code>0</code> และข้อความว่าง <code>""</code></li>
+<li><strong>อ่านเป็น JSON ได้</strong> — รูปแบบถูก (คำพูดคู่ วงเล็บปีกกา จุลภาค) แต่ไม่ได้บอกว่าค่าถูกต้องตามความจริง</li>
+</ul>
+<hr>
+<h3 id="ขั้นที่-1--สร้างไฟล์-json-ตัวอย่าง">ขั้นที่ 1 — สร้างไฟล์ JSON ตัวอย่าง</h3>
+<p>ใน VS Code สร้างไฟล์ใหม่ <code>module-07-work/notes/file-reading-practice.json</code> (สร้างโฟลเดอร์ถ้ายังไม่มี) แล้ววางเนื้อหานี้ (ตัวอย่างจำลองสำหรับฝึก)</p>
 <div class="sourceCode" id="cb1"><div class="command markdown-command"><code class="sourceCode json"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"activity"</span><span class="fu">:</span> <span class="st">"file-reading-practice"</span><span class="fu">,</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"checks"</span><span class="fu">:</span> <span class="fu">{</span></span>
@@ -39,28 +47,36 @@
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"verified_count"</span><span class="fu">:</span> <span class="dv">0</span><span class="fu">,</span></span>
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"review_note"</span><span class="fu">:</span> <span class="kw">null</span></span>
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button type="button" data-copy="">คัดลอก</button></div></div>
-<ul>
-<li><code>activity</code> เป็นข้อความ · <code>verified_count</code> เป็นจำนวน · <code>checks</code> รวมสถานะย่อย</li>
-<li><code>true</code> = จริง <code>false</code> = เท็จ ตามความหมายของช่องนั้น · <code>null</code> = ไม่มีค่าระบุ ต่างจาก <code>0</code> และข้อความว่าง <code>""</code></li>
-<li>ชื่อช่องและข้อความใช้เครื่องหมายคำพูดคู่ วงเล็บปีกกาครอบกลุ่ม จุลภาคคั่นรายการ</li>
-</ul></li>
-<li><p><strong>ให้ AI อธิบายชื่อช่องและค่า</strong> วาง prompt นี้ (ระบุ path ของไฟล์ที่เพิ่งสร้าง)</p>
-<div class="command ai-prompt"><code>อธิบายชื่อช่องและค่าใน JSON นี้ก่อน ฉันจะบอกผลที่ทำจริงทีละข้อ จากนั้นแก้เฉพาะค่าที่ฉันยืนยัน คงชื่อช่องไว้ ตรวจว่าอ่านเป็น JSON ได้ และแสดงรายการเปลี่ยนให้ฉันตรวจ</code><button type="button" data-copy="">คัดลอก</button></div></li>
-<li><p><strong>อธิบายเอง</strong> ว่าเหตุใด <code>source_opened</code> จึงเป็น <code>true</code> แต่ <code>values_verified</code> ยังเป็น <code>false</code></p></li>
-<li><p><strong>บอก AI ผลที่ทำจริง</strong> ถ้าตรวจค่าจาก CSV ครบสองค่าแล้ว (จาก workshop <code>csv-rows-columns-units</code>) ให้บอก AI แก้สถานะเป็น <code>true</code> และจำนวนเป็น 2 ถ้ายังตรวจไม่ครบสองค่า ให้บอกผลตามจริง (เช่น ตรวจได้ 1 ค่า) และไม่เปลี่ยน <code>values_verified</code> เป็น <code>true</code></p></li>
-<li><p><strong>เปิด JSON ที่แก้แล้ว</strong> ตรวจว่าชื่อช่องคงเดิม และมีเฉพาะค่าที่ได้รับการยืนยันเปลี่ยนไป</p></li>
-<li><p><strong>ให้ AI หรือโปรแกรมตรวจว่าไฟล์อ่านเป็น JSON ได้</strong> แล้วตอบเองว่า "ตรวจรูปแบบผ่าน" ยังไม่ได้ยืนยันอะไรเกี่ยวกับความถูกของค่า</p></li>
-</ol>
-<h3 id="ตรวจก่อนจบ">ตรวจก่อนจบ</h3>
+<p><strong>ตรวจ:</strong> VS Code ไม่ขีดเส้นแดงใต้บรรทัดใด (ถ้ามี แปลว่ารูปแบบผิด เช่น ขาดจุลภาคหรือคำพูด)</p>
+<hr>
+<h3 id="ขั้นที่-2--ให้-ai-อธิบายชื่อช่องและค่า">ขั้นที่ 2 — ให้ AI อธิบายชื่อช่องและค่า</h3>
+<p>วาง prompt นี้ แล้วระบุ path ของไฟล์ที่เพิ่งสร้าง</p>
+<div class="command ai-prompt"><code>อธิบายชื่อช่องและค่าใน JSON นี้ก่อน ฉันจะบอกผลที่ทำจริงทีละข้อ จากนั้นแก้เฉพาะค่าที่ฉันยืนยัน คงชื่อช่องไว้ ตรวจว่าอ่านเป็น JSON ได้ และแสดงรายการเปลี่ยนให้ฉันตรวจ</code><button type="button" data-copy="">คัดลอก</button></div><p><strong>ตรวจ:</strong> AI แยกได้ว่า <code>activity</code> เป็นข้อความ <code>verified_count</code> เป็นจำนวน <code>checks</code> เป็นกลุ่ม และ <code>review_note</code> เป็น <code>null</code></p>
+<hr>
+<h3 id="ขั้นที่-3--อธิบายเองเรื่องสถานะ">ขั้นที่ 3 — อธิบายเองเรื่องสถานะ</h3>
+<p>เขียนหนึ่งประโยคว่าเหตุใด <code>source_opened</code> จึงเป็น <code>true</code> แต่ <code>values_verified</code> ยังเป็น <code>false</code></p>
+<p><strong>ตรวจ:</strong> คำอธิบายของคุณแยก "เปิดไฟล์แล้ว" ออกจาก "ตรวจค่าแล้ว"</p>
+<hr>
+<h3 id="ขั้นที่-4--บอก-ai-ผลที่ทำจริง">ขั้นที่ 4 — บอก AI ผลที่ทำจริง</h3>
+<p>ถ้าตรวจค่าจาก CSV ครบสองค่าแล้ว ให้บอก AI แก้ <code>values_verified</code> เป็น <code>true</code> และ <code>verified_count</code> เป็น <code>2</code> ถ้ายังไม่ครบ ให้บอกผลตามจริง (เช่น ตรวจได้ 1 ค่า) และไม่เปลี่ยน <code>values_verified</code> เป็น <code>true</code></p>
+<p><strong>ตรวจ:</strong> ค่าที่ AI แก้ตรงกับจำนวนที่คุณตรวจจริง</p>
+<hr>
+<h3 id="ขั้นที่-5--เปิดไฟล์ที่แก้แล้ว">ขั้นที่ 5 — เปิดไฟล์ที่แก้แล้ว</h3>
+<p>เปิด JSON ดูทีละบรรทัด และให้ AI ตรวจว่ายังอ่านเป็น JSON ได้</p>
+<p><strong>ตรวจ:</strong> ชื่อช่องทั้งหมดเหมือนขั้นที่ 1 มีเฉพาะ <code>values_verified</code> และ <code>verified_count</code> ที่เปลี่ยน และไฟล์ยังอ่านเป็น JSON ได้</p>
+<hr>
+<h3 id="ขั้นที่-6--แยก-รูปแบบผ่าน-ออกจาก-ค่าถูก">ขั้นที่ 6 — แยก "รูปแบบผ่าน" ออกจาก "ค่าถูก"</h3>
+<p>เขียนหนึ่งประโยคว่าการที่ไฟล์อ่านเป็น JSON ได้ ยืนยันอะไรได้ และยืนยันอะไรไม่ได้</p>
+<p><strong>ตรวจ:</strong> คำตอบบอกว่ารูปแบบผ่านไม่ได้แปลว่าค่าในไฟล์ตรงกับสิ่งที่ทำจริง</p>
+<hr>
+<h3 id="ตรวจก่อนจบ-workshop">ตรวจก่อนจบ workshop</h3>
 <ul class="task-list">
-<li><label><input type="checkbox"><code>module-07-work/notes/file-reading-practice.json</code> อ่านเป็น JSON ได้ และชื่อช่องทั้งหมดเหมือนตัวอย่างในขั้นที่ 1</label></li>
-<li><label><input type="checkbox">ค่าที่เปลี่ยนมีเฉพาะ <code>values_verified</code> และ <code>verified_count</code> และตรงกับจำนวนค่าที่คุณตรวจจริง (ตรวจไม่ครบสองค่า → <code>values_verified</code> ยังเป็น <code>false</code>)</label></li>
-<li><label><input type="checkbox">อธิบายได้ว่า <code>null</code>, <code>0</code> และ <code>""</code> ต่างกันอย่างไร</label></li>
-<li><label><input type="checkbox">อธิบายได้ว่า JSON ที่อ่านผ่านยังอาจมีค่ารายงานผิด</label></li>
-</ul>
-<h3 id="ส่งงาน">ส่งงาน</h3>
-<ul>
-<li>X01 ไม่มีงานส่งแยก ไฟล์สถานะจริงของโมดูลอื่น (เช่น <code>module-01-work/output/module-1-progress.json</code>) ให้แก้ตามจริงแล้วส่งตามขั้นตอนของโมดูลนั้น: ให้ AI รันเครื่องมือ AIRR check → ยืนยัน → submit</li>
+<li><label><input type="checkbox">ขั้น 1: <code>module-07-work/notes/file-reading-practice.json</code> มีอยู่และไม่มีเส้นแดง</label></li>
+<li><label><input type="checkbox">ขั้น 2: แยกข้อความ จำนวน กลุ่ม และ <code>null</code> ได้</label></li>
+<li><label><input type="checkbox">ขั้น 3: อธิบายได้ว่า <code>true</code> กับ <code>false</code> ในไฟล์นี้หมายถึงอะไร</label></li>
+<li><label><input type="checkbox">ขั้น 4: ค่าที่เปลี่ยนตรงกับจำนวนที่ตรวจจริง (ไม่ครบสองค่า → <code>values_verified</code> ยังเป็น <code>false</code>)</label></li>
+<li><label><input type="checkbox">ขั้น 5: ชื่อช่องคงเดิม และไฟล์อ่านเป็น JSON ได้</label></li>
+<li><label><input type="checkbox">ขั้น 6: อธิบายได้ว่า JSON ที่อ่านผ่านยังอาจมีค่ารายงานผิด</label></li>
 </ul>
 </div></section>
 <section class="section markdown-section topic-panel" id="open-explore" aria-labelledby="open-explore-heading"><div class="section-heading compact"><p class="eyebrow">Exploring</p><h2 id="open-explore-heading">JSON: ชื่อช่อง ค่า และสถานะ true/false/null — อ่านผ่านไม่ได้แปลว่าค่าถูก</h2></div><div class="markdown-body"><p>ในโจทย์นี้คุณจะเขียน prompt เองให้ AI อธิบายไฟล์ JSON ในงานของคุณ แล้วแก้เฉพาะค่าที่คุณยืนยันจากสิ่งที่ทำจริง</p>
@@ -70,8 +86,8 @@
 <li>ทำ workshop ของหัวข้อนี้แล้ว</li>
 <li>ไฟล์ JSON ที่เกี่ยวกับงานของคุณ (ไม่มี key หรือข้อมูลส่วนบุคคล) เช่น
 <ul>
-<li><code>module-01-work/output/module-1-progress.json</code> (สร้างด้วยคำสั่ง <code>init</code> ใน Module 1)</li>
 <li>ไฟล์ค่าตั้งต้นของเครื่องมือ หรือผลส่งออกจากระบบที่ใช้ในงานวิจัย</li>
+<li><code>.vscode/extensions.json</code> ใน workspace (รายการส่วนขยายที่ตัวติดตั้งแนะนำ)</li>
 <li>ชุดสำรอง: <code>module-07-work/notes/file-reading-practice.json</code> ที่คุณสร้างใน workshop</li>
 </ul></li>
 </ul>
