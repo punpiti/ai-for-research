@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="ซ้อมตอบคำถามกรรมการสอบโดยให้ AI ถามจากเนื้องานทีละข้อ · ปรับคำตอบให้อ้างหลักฐานในงาน · รู้ว่าคำถามใดยังตอบไม่ได้">
+  <meta name="theme-color" content="#101817">
+  <title>คำถามที่กรรมการสอบถาม และการเตรียมตอบด้วยหลักฐาน · AIRR</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/styles.css?v=20261113-2">
+  <link rel="stylesheet" href="assets/learn.css?v=20261116-2">
+  <script src="assets/site-shell.js?v=20261116-2"></script>
+  <script src="assets/app.js?v=20261116-2" defer></script>
+</head>
+<body class="learn" data-no-case>
+  <a class="skip-link" href="#main">ข้ามไปยังเนื้อหา</a>
+  <site-header current="topic" plan="class-2026-11-20-engineering-faculty.html" menu='{&quot;module&quot;: &quot;M09&quot;, &quot;title&quot;: &quot;งานปลายทาง: เตรียมสอบและผลิตเอกสาร&quot;, &quot;items&quot;: [{&quot;href&quot;: &quot;topic-thesis-exam-questions-review.html&quot;, &quot;label&quot;: &quot;คำถามที่กรรมการสอบถาม และการเตรียมตอบด้วยหลักฐาน&quot;, &quot;current&quot;: true}, {&quot;href&quot;: &quot;topic-pandoc-thai-handout-build.html&quot;, &quot;label&quot;: &quot;สร้างเอกสารประกอบการสอนภาษาไทยด้วย pandoc ตัวกรอง Lua และ XeLaTeX&quot;, &quot;current&quot;: false}]}'></site-header>
+  <main id="main">
+<section class="prepare-hero module-hero"><p class="eyebrow">หัวข้อย่อย · M09</p><h1>คำถามที่กรรมการสอบถาม และการเตรียมตอบด้วยหลักฐาน</h1></section>
+<div class="topic-layout"><nav class="topic-tabs" aria-label="ส่วนของหัวข้อ"><a href="#slides" title="สไลด์">สไลด์</a><a href="#workshop-core" title="Workshop หลัก">Workshop</a><a href="#open-explore" title="Exploring workshop">Exploring</a></nav><div class="topic-main"><section class="section markdown-section topic-panel" id="slides" aria-labelledby="slides-heading"><div class="section-heading compact"><p class="eyebrow">สไลด์</p><h2 id="slides-heading">สไลด์</h2></div><div class="markdown-body"><p>สไลด์ของหัวข้อนี้กำลังจัดทำ</p></div></section>
+<section class="section markdown-section topic-panel" id="workshop-core" aria-labelledby="workshop-core-heading"><div class="section-heading compact"><p class="eyebrow">Workshop</p><h2 id="workshop-core-heading">คำถามที่กรรมการสอบถาม และการเตรียมตอบด้วยหลักฐาน</h2></div><div class="markdown-body"><p>ใน workshop นี้คุณจะให้ AI ทำหน้าที่กรรมการสอบ ถามคำถามจากเนื้องานของคุณทีละข้อ แล้วเตรียมคำตอบที่อ้างหลักฐานในงานได้</p>
+<p>ใช้เมื่อ: ก่อนสอบโครงร่างหรือสอบปากเปล่าวิทยานิพนธ์</p>
+<h3 id="ก่อนเริ่ม-ต้องมีอยู่แล้ว">ก่อนเริ่ม (ต้องมีอยู่แล้ว)</h3>
+<ul>
+<li>ผ่าน Module 1: เปิด <code>ai-for-research-workspace</code> ใน VS Code และ AI panel เชื่อมแล้ว</li>
+<li>ร่างโครงร่างหรือวิทยานิพนธ์ของคุณ วางไว้ใน <code>module-09-work/input/</code></li>
+</ul>
+<hr>
+<h3 id="ขั้นที่-1--ให้-ai-ถามแบบกรรมการทีละข้อ">ขั้นที่ 1 — ให้ AI ถามแบบกรรมการทีละข้อ</h3>
+<div class="command ai-prompt"><code>อ่านเอกสารใน module-09-work/input/ แล้วทำหน้าที่กรรมการสอบ ถามคำถามทีละข้อครอบคลุม ปัญหาและความสำคัญ ความใหม่ วิธีวิจัย การวัด ผลและข้อสรุป ข้อจำกัด และการนำไปใช้ ทุกคำถามให้บอกตำแหน่งในเอกสารที่ทำให้ถามข้อนี้ ถามข้อเดียวแล้วรอคำตอบของฉัน ห้ามแก้ไฟล์</code><button type="button" data-copy="">คัดลอก</button></div><p><strong>ตรวจ:</strong> ทุกคำถามมีตำแหน่งในเอกสารที่เป็นที่มา</p>
+<hr>
+<h3 id="ขั้นที่-2--ตอบเอง-แล้วให้-ai-ชี้จุดอ่อนของคำตอบ">ขั้นที่ 2 — ตอบเอง แล้วให้ AI ชี้จุดอ่อนของคำตอบ</h3>
+<p>ตอบด้วยคำของคุณเอง แล้วให้ AI บอกว่าคำตอบยังขาดหลักฐานส่วนใด และส่วนใดในเอกสารใช้สนับสนุนได้</p>
+<p><strong>ตรวจ:</strong> คำตอบที่ปรับแล้วอ้างตำแหน่งในงานของคุณได้ ไม่ใช่ข้อความที่ AI แต่งให้</p>
+<hr>
+<h3 id="ขั้นที่-3--สรุปคำถามที่ยังตอบไม่ได้">ขั้นที่ 3 — สรุปคำถามที่ยังตอบไม่ได้</h3>
+<p>บันทึกคำถามที่ยังตอบไม่ได้หรือหลักฐานยังไม่พอลง <code>module-09-work/notes/defense-prep.md</code> พร้อมสิ่งที่ต้องทำเพิ่ม</p>
+<p><strong>ตรวจ:</strong> ทุกข้อใน <code>defense-prep.md</code> มีสิ่งที่ต้องทำต่อ</p>
+<hr>
+<h3 id="ตรวจก่อนจบ-workshop">ตรวจก่อนจบ workshop</h3>
+<ul class="task-list">
+<li><label><input type="checkbox">ขั้น 1: คำถามของ AI มีที่มาในเอกสาร</label></li>
+<li><label><input type="checkbox">ขั้น 2: คำตอบอ้างหลักฐานในงานของคุณ</label></li>
+<li><label><input type="checkbox">ขั้น 3: มีรายการคำถามที่ยังตอบไม่ได้พร้อมงานที่ต้องทำ</label></li>
+</ul>
+</div></section>
+<section class="section markdown-section topic-panel" id="open-explore" aria-labelledby="open-explore-heading"><div class="section-heading compact"><p class="eyebrow">Exploring</p><h2 id="open-explore-heading">คำถามที่กรรมการสอบถาม และการเตรียมตอบด้วยหลักฐาน</h2></div><div class="markdown-body"><p>ในโจทย์นี้คุณจะเขียน prompt เองให้ AI ซ้อมสอบจากมุมของกรรมการคนละแบบ</p>
+<p>ไม่มี prompt สำเร็จรูปให้</p>
+<h3 id="ก่อนเริ่ม-ต้องมีอยู่แล้ว">ก่อนเริ่ม (ต้องมีอยู่แล้ว)</h3>
+<ul>
+<li>ทำ workshop ของหัวข้อนี้แล้ว</li>
+</ul>
+<h3 id="โจทย์">โจทย์</h3>
+<ol type="1">
+<li>สร้างไฟล์ <code>module-09-work/output/prompts.md</code> สำหรับเก็บ prompt ทุกรอบ</li>
+<li>ให้ AI ถามจากมุมกรรมการต่างสาขา หรือกรรมการที่เน้นสถิติ/การวัด แล้วเตรียมคำตอบพร้อมหลักฐาน</li>
+</ol>
+<h3 id="เกณฑ์ผ่าน">เกณฑ์ผ่าน</h3>
+<ul class="task-list">
+<li><label><input type="checkbox">คำถามทุกข้อมีที่มาในเอกสาร</label></li>
+<li><label><input type="checkbox">คำตอบทุกข้ออ้างตำแหน่งในงานของคุณ</label></li>
+<li><label><input type="checkbox"><code>prompts.md</code> แสดงการปรับ prompt อย่างน้อย 1 รอบ พร้อมเหตุผล</label></li>
+</ul>
+</div></section></div></div>
+<script>
+(() => {
+  const tabs = [...document.querySelectorAll('.topic-tabs a')];
+  const panels = tabs.map(t => document.getElementById(t.hash.slice(1)));
+  function show(id) {
+    const i = Math.max(0, panels.findIndex(p => p && p.id === id));
+    panels.forEach((p, k) => { if (p) p.hidden = k !== i; });
+    tabs.forEach((t, k) => t.setAttribute('aria-current', k === i ? 'page' : 'false'));
+    const layout = document.querySelector('.topic-layout'); if (layout && panels[i]) layout.dataset.active = panels[i].id;
+  }
+  tabs.forEach(t => t.addEventListener('click', e => { e.preventDefault(); history.replaceState(null, '', t.hash); show(t.hash.slice(1)); window.scrollTo({top: 0}); }));
+  document.querySelectorAll('[data-next-tab]').forEach(b => b.addEventListener('click', e => { e.preventDefault(); const h = b.getAttribute('href'); history.replaceState(null, '', h); show(h.slice(1)); window.scrollTo({top: 0}); }));
+  document.querySelectorAll('[data-fullscreen]').forEach(b => b.addEventListener('click', () => {
+    const frame = document.querySelector(b.dataset.fullscreen);
+    const go = frame && (frame.requestFullscreen || frame.webkitRequestFullscreen);
+    if (go) go.call(frame); else if (frame) window.open(frame.src, '_blank', 'noopener');
+  }));
+  const layout0 = document.querySelector('.topic-layout');
+  const toggle = document.querySelector('[data-aside-toggle]');
+  function setAside(hidden) {
+    if (!layout0 || !toggle) return;
+    layout0.classList.toggle('aside-hidden', hidden);
+    toggle.setAttribute('aria-pressed', String(hidden));
+    toggle.textContent = hidden ? 'แสดงสไลด์ข้าง' : 'ซ่อนสไลด์ข้าง';
+    try { localStorage.setItem('airr.slideAsideHidden', hidden ? '1' : '0'); } catch (e) {}
+  }
+  if (toggle) {
+    let saved = true; try { saved = localStorage.getItem('airr.slideAsideHidden') !== '0'; } catch (e) {}  // hidden by default
+    setAside(saved);
+    toggle.addEventListener('click', () => setAside(!layout0.classList.contains('aside-hidden')));
+  }
+  show(location.hash.slice(1));
+  if (location.hash) requestAnimationFrame(() => window.scrollTo({top: 0}));
+})();
+</script>
+  </main>
+  <site-footer></site-footer>
+</body>
+</html>

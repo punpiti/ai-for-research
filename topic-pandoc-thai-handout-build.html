@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="แยกเนื้อหา Markdown ออกจากรูปแบบ (metadata ส่วนหัว LaTeX ตัวกรอง Lua) · ให้ AI สร้างชุดสร้าง PDF ภาษาไทยที่มีสารบัญ ตาราง และเลขหน้า">
+  <meta name="theme-color" content="#101817">
+  <title>สร้างเอกสารประกอบการสอนภาษาไทยด้วย pandoc ตัวกรอง Lua และ XeLaTeX · AIRR</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/styles.css?v=20261113-2">
+  <link rel="stylesheet" href="assets/learn.css?v=20261116-2">
+  <script src="assets/site-shell.js?v=20261116-2"></script>
+  <script src="assets/app.js?v=20261116-2" defer></script>
+</head>
+<body class="learn" data-no-case>
+  <a class="skip-link" href="#main">ข้ามไปยังเนื้อหา</a>
+  <site-header current="topic" plan="class-2026-11-20-engineering-faculty.html" menu='{&quot;module&quot;: &quot;M09&quot;, &quot;title&quot;: &quot;งานปลายทาง: เตรียมสอบและผลิตเอกสาร&quot;, &quot;items&quot;: [{&quot;href&quot;: &quot;topic-thesis-exam-questions-review.html&quot;, &quot;label&quot;: &quot;คำถามที่กรรมการสอบถาม และการเตรียมตอบด้วยหลักฐาน&quot;, &quot;current&quot;: false}, {&quot;href&quot;: &quot;topic-pandoc-thai-handout-build.html&quot;, &quot;label&quot;: &quot;สร้างเอกสารประกอบการสอนภาษาไทยด้วย pandoc ตัวกรอง Lua และ XeLaTeX&quot;, &quot;current&quot;: true}]}'></site-header>
+  <main id="main">
+<section class="prepare-hero module-hero"><p class="eyebrow">หัวข้อย่อย · M09</p><h1>สร้างเอกสารประกอบการสอนภาษาไทยด้วย pandoc ตัวกรอง Lua และ XeLaTeX</h1><ul class="outcomes"><li>แยกเนื้อหา Markdown ออกจากรูปแบบ (metadata ส่วนหัว LaTeX ตัวกรอง Lua)</li><li>ให้ AI สร้างชุดสร้าง PDF ภาษาไทยที่มีสารบัญ ตาราง และเลขหน้า</li></ul></section>
+<div class="topic-layout"><nav class="topic-tabs" aria-label="ส่วนของหัวข้อ"><a href="#slides" title="สไลด์">สไลด์</a><a href="#workshop-core" title="Workshop หลัก">Workshop</a><a href="#open-explore" title="Exploring workshop">Exploring</a></nav><div class="topic-main"><section class="section markdown-section topic-panel" id="slides" aria-labelledby="slides-heading"><div class="section-heading compact"><p class="eyebrow">สไลด์</p><h2 id="slides-heading">สไลด์</h2></div><div class="markdown-body"><p>สไลด์ของหัวข้อนี้กำลังจัดทำ</p></div></section>
+<section class="section markdown-section topic-panel" id="workshop-core" aria-labelledby="workshop-core-heading"><div class="section-heading compact"><p class="eyebrow">Workshop</p><h2 id="workshop-core-heading">สร้างเอกสารประกอบการสอนภาษาไทยด้วย pandoc ตัวกรอง Lua และ XeLaTeX</h2></div><div class="markdown-body"><p>ใน workshop นี้คุณจะแยกเนื้อหา Markdown ออกจากรูปแบบ (metadata ส่วนหัว LaTeX ตัวกรอง Lua)</p>
+<h3 id="ก่อนเริ่ม-ต้องมีอยู่แล้ว">ก่อนเริ่ม (ต้องมีอยู่แล้ว)</h3>
+<ul>
+<li>ผ่าน Module 1: เปิด <code>ai-for-research-workspace</code> ใน VS Code และ AI panel เชื่อมแล้ว (มี pandoc และ XeLaTeX จากตัวติดตั้ง)</li>
+<li>ทำหัวข้อ "สร้าง PDF จาก Markdown ครั้งแรก" ของ X01 แล้ว</li>
+<li>ไฟล์ Markdown ภาษาไทยของคุณ เช่น เอกสารประกอบการสอน คู่มือ หรือรายงาน</li>
+</ul>
+<h3 id="ขั้นที่-1--แยกเนื้อหาออกจากรูปแบบ">ขั้นที่ 1 — แยกเนื้อหาออกจากรูปแบบ</h3>
+<p>เขียนเนื้อหาเป็น Markdown ไฟล์เดียว ส่วนรูปแบบเก็บแยก: metadata (<code>.yaml</code>) ส่วนหัว LaTeX (<code>.tex</code>) และตัวกรอง Lua (<code>.lua</code>) ที่ปรับตาราง กล่องข้อความ และหัวข้อ</p>
+<p><strong>ตรวจ:</strong> ไฟล์เนื้อหาไม่มีคำสั่ง LaTeX ปนอยู่</p>
+<hr>
+<h3 id="ขั้นที่-2--ให้-ai-สร้างชุดสร้าง-pdf">ขั้นที่ 2 — ให้ AI สร้างชุดสร้าง PDF</h3>
+<div class="command ai-prompt"><code>สร้างโฟลเดอร์ module-09-work/handout/ มี metadata.yaml (ชื่อเรื่อง ผู้เขียน ภาษา th ฟอนต์ Sarabun) header.tex (ส่วนหัว/ท้ายหน้า เลขหน้า) filter.lua (ปรับความกว้างคอลัมน์ของตารางตามเนื้อหา) และ build.sh ที่เรียก pandoc --pdf-engine=xelatex กับไฟล์ Markdown ของฉัน แสดงไฟล์ที่สร้างให้ฉันตรวจก่อนรัน</code><button type="button" data-copy="">คัดลอก</button></div><p><strong>ตรวจ:</strong> มีครบสี่ไฟล์ และ <code>build.sh</code> ไม่ลบหรือแก้ไฟล์ Markdown ต้นฉบับ</p>
+<hr>
+<h3 id="ขั้นที่-3--สร้างและตรวจ-pdf">ขั้นที่ 3 — สร้างและตรวจ PDF</h3>
+<p>ให้ AI รัน <code>build.sh</code> แล้วเปิด PDF ตรวจภาษาไทย ตาราง สารบัญ และลิงก์</p>
+<p><strong>ตรวจ:</strong> ไม่มีกล่องสี่เหลี่ยม ตารางไม่ล้นหน้า และสารบัญกดไปหัวข้อได้</p>
+<hr>
+<h3 id="ตรวจก่อนจบ-workshop">ตรวจก่อนจบ workshop</h3>
+<ul class="task-list">
+<li><label><input type="checkbox">ขั้น 1: เนื้อหาและรูปแบบแยกกัน</label></li>
+<li><label><input type="checkbox">ขั้น 2: ชุดสร้าง PDF ครบสี่ไฟล์</label></li>
+<li><label><input type="checkbox">ขั้น 3: PDF ภาษาไทยถูกต้อง ตารางพอดีหน้า</label></li>
+</ul>
+</div></section>
+<section class="section markdown-section topic-panel" id="open-explore" aria-labelledby="open-explore-heading"><div class="section-heading compact"><p class="eyebrow">Exploring</p><h2 id="open-explore-heading">สร้างเอกสารประกอบการสอนภาษาไทยด้วย pandoc ตัวกรอง Lua และ XeLaTeX</h2></div><div class="markdown-body"><p>ในโจทย์นี้คุณจะเขียน prompt เองให้ AI ช่วยตรวจงานของคุณด้วยแนวคิดของหัวข้อนี้</p>
+<p>ไม่มี prompt สำเร็จรูปให้</p>
+<h3 id="ก่อนเริ่ม-ต้องมีอยู่แล้ว">ก่อนเริ่ม (ต้องมีอยู่แล้ว)</h3>
+<ul>
+<li>ทำ workshop ของหัวข้อนี้แล้ว</li>
+<li>งานอีกส่วนหนึ่งของคุณ (หรือของนิสิตที่ดูแล) ที่ยังไม่ได้ตรวจใน workshop</li>
+</ul>
+<h3 id="โจทย์">โจทย์</h3>
+<ol type="1">
+<li>สร้างไฟล์ <code>output/prompts.md</code> ในโฟลเดอร์งานของคุณ สำหรับเก็บ prompt ทุกรอบ</li>
+<li>เขียน prompt ของตนให้ AI ตรวจการสร้างเอกสารภาษาไทยจาก Markdown โดยบังคับให้ยกข้อความพร้อมตำแหน่ง</li>
+<li>ตัดสินเองทุกประเด็น แล้วแก้งานจริงอย่างน้อยหนึ่งจุด</li>
+</ol>
+<h3 id="เกณฑ์ผ่าน">เกณฑ์ผ่าน</h3>
+<ul class="task-list">
+<li><label><input type="checkbox">ทุกประเด็นที่ใช้มีข้อความและตำแหน่งจริง</label></li>
+<li><label><input type="checkbox">มีการแก้งานอย่างน้อยหนึ่งจุดพร้อมเหตุผล</label></li>
+<li><label><input type="checkbox"><code>prompts.md</code> แสดงการปรับ prompt อย่างน้อย 1 รอบ พร้อมเหตุผล</label></li>
+</ul>
+</div></section></div></div>
+<script>
+(() => {
+  const tabs = [...document.querySelectorAll('.topic-tabs a')];
+  const panels = tabs.map(t => document.getElementById(t.hash.slice(1)));
+  function show(id) {
+    const i = Math.max(0, panels.findIndex(p => p && p.id === id));
+    panels.forEach((p, k) => { if (p) p.hidden = k !== i; });
+    tabs.forEach((t, k) => t.setAttribute('aria-current', k === i ? 'page' : 'false'));
+    const layout = document.querySelector('.topic-layout'); if (layout && panels[i]) layout.dataset.active = panels[i].id;
+  }
+  tabs.forEach(t => t.addEventListener('click', e => { e.preventDefault(); history.replaceState(null, '', t.hash); show(t.hash.slice(1)); window.scrollTo({top: 0}); }));
+  document.querySelectorAll('[data-next-tab]').forEach(b => b.addEventListener('click', e => { e.preventDefault(); const h = b.getAttribute('href'); history.replaceState(null, '', h); show(h.slice(1)); window.scrollTo({top: 0}); }));
+  document.querySelectorAll('[data-fullscreen]').forEach(b => b.addEventListener('click', () => {
+    const frame = document.querySelector(b.dataset.fullscreen);
+    const go = frame && (frame.requestFullscreen || frame.webkitRequestFullscreen);
+    if (go) go.call(frame); else if (frame) window.open(frame.src, '_blank', 'noopener');
+  }));
+  const layout0 = document.querySelector('.topic-layout');
+  const toggle = document.querySelector('[data-aside-toggle]');
+  function setAside(hidden) {
+    if (!layout0 || !toggle) return;
+    layout0.classList.toggle('aside-hidden', hidden);
+    toggle.setAttribute('aria-pressed', String(hidden));
+    toggle.textContent = hidden ? 'แสดงสไลด์ข้าง' : 'ซ่อนสไลด์ข้าง';
+    try { localStorage.setItem('airr.slideAsideHidden', hidden ? '1' : '0'); } catch (e) {}
+  }
+  if (toggle) {
+    let saved = true; try { saved = localStorage.getItem('airr.slideAsideHidden') !== '0'; } catch (e) {}  // hidden by default
+    setAside(saved);
+    toggle.addEventListener('click', () => setAside(!layout0.classList.contains('aside-hidden')));
+  }
+  show(location.hash.slice(1));
+  if (location.hash) requestAnimationFrame(() => window.scrollTo({top: 0}));
+})();
+</script>
+  </main>
+  <site-footer></site-footer>
+</body>
+</html>

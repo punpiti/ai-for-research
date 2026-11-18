@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="หาจุดที่สายเหตุผลไม่ต่อกันในรายงานจำลองด้วยตัวเองก่อน แล้วเทียบกับผลของ AI · จัดระดับความรุนแรงพร้อมข้อความจริง">
+  <meta name="theme-color" content="#101817">
+  <title>หาจุดที่ตรรกะขาดในรายงานจำลอง หิว → กิน → อิ่ม · AIRR</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/styles.css?v=20261113-2">
+  <link rel="stylesheet" href="assets/learn.css?v=20261116-2">
+  <script src="assets/site-shell.js?v=20261116-2"></script>
+  <script src="assets/app.js?v=20261116-2" defer></script>
+</head>
+<body class="learn" data-no-case>
+  <a class="skip-link" href="#main">ข้ามไปยังเนื้อหา</a>
+  <site-header current="topic" plan="class-2026-11-20-engineering-faculty.html" menu='{&quot;module&quot;: &quot;M05&quot;, &quot;title&quot;: &quot;ตรรกะงานวิจัย: แหล่งเผยแพร่ สายเหตุผล และแบบวิจัย&quot;, &quot;items&quot;: [{&quot;href&quot;: &quot;topic-venue-landscape-and-readiness.html&quot;, &quot;label&quot;: &quot;เลือกกลุ่มผู้อ่านและแหล่งเผยแพร่ แล้วประเมินความพร้อมของงาน&quot;, &quot;current&quot;: false}, {&quot;href&quot;: &quot;topic-research-logic-chain-and-gap-check.html&quot;, &quot;label&quot;: &quot;สร้างสายเหตุผล ปัญหา–วิธี–ผล–ข้อสรุป และหาจุดที่ตรรกะไม่ต่อกัน&quot;, &quot;current&quot;: false}, {&quot;href&quot;: &quot;topic-idea-selection-and-falsifiable-design.html&quot;, &quot;label&quot;: &quot;สร้างและคัดแนวคิด แล้วร่างแบบวิจัยที่มีเงื่อนไขหักล้างได้&quot;, &quot;current&quot;: false}, {&quot;href&quot;: &quot;topic-find-broken-logic-mock-report.html&quot;, &quot;label&quot;: &quot;หาจุดที่ตรรกะขาดในรายงานจำลอง หิว → กิน → อิ่ม&quot;, &quot;current&quot;: true}, {&quot;href&quot;: &quot;topic-five-sharp-thesis-review-tests.html&quot;, &quot;label&quot;: &quot;ห้าด่านคมสำหรับตรวจวิทยานิพนธ์ ก่อนขัดภาษา&quot;, &quot;current&quot;: false}, {&quot;href&quot;: &quot;topic-cross-section-traceability-matrix.html&quot;, &quot;label&quot;: &quot;ตารางไล่รอยข้ามบท ปัญหา → วัตถุประสงค์ → วิธี → ผล → ข้อสรุป&quot;, &quot;current&quot;: false}, {&quot;href&quot;: &quot;topic-output-vs-outcome.html&quot;, &quot;label&quot;: &quot;ผลผลิต (output) กับผลลัพธ์ต่อเนื่อง (outcome) และผลงานสนับสนุน&quot;, &quot;current&quot;: false}]}'></site-header>
+  <main id="main">
+<section class="prepare-hero module-hero"><p class="eyebrow">หัวข้อย่อย · M05</p><h1>หาจุดที่ตรรกะขาดในรายงานจำลอง หิว → กิน → อิ่ม</h1><ul class="outcomes"><li>หาจุดที่สายเหตุผลไม่ต่อกันในรายงานจำลองด้วยตัวเองก่อน แล้วเทียบกับผลของ AI</li><li>จัดระดับความรุนแรงพร้อมข้อความจริง</li></ul></section>
+<div class="topic-layout"><nav class="topic-tabs" aria-label="ส่วนของหัวข้อ"><a href="#slides" title="สไลด์">สไลด์</a><a href="#workshop-core" title="Workshop หลัก">Workshop</a><a href="#open-explore" title="Exploring workshop">Exploring</a></nav><div class="topic-main"><section class="section markdown-section topic-panel" id="slides" aria-labelledby="slides-heading"><div class="section-heading compact"><p class="eyebrow">สไลด์</p><h2 id="slides-heading">สไลด์</h2></div><div class="markdown-body"><p>สไลด์ของหัวข้อนี้กำลังจัดทำ</p></div></section>
+<section class="section markdown-section topic-panel" id="workshop-core" aria-labelledby="workshop-core-heading"><div class="section-heading compact"><p class="eyebrow">Workshop</p><h2 id="workshop-core-heading">หาจุดที่ตรรกะขาดในรายงานจำลอง หิว → กิน → อิ่ม</h2></div><div class="markdown-body"><p>ใน workshop นี้คุณจะหาจุดที่สายเหตุผลไม่ต่อกันในรายงานจำลองด้วยตัวเองก่อน แล้วเทียบกับผลของ AI</p>
+<h3 id="ก่อนเริ่ม-ต้องมีอยู่แล้ว">ก่อนเริ่ม (ต้องมีอยู่แล้ว)</h3>
+<ul>
+<li>ผ่าน Module 1: เปิด <code>ai-for-research-workspace</code> ใน VS Code และ AI panel เชื่อมแล้ว</li>
+<li>รายงานจำลอง "หิว → กิน → อิ่ม" Version B ด้านล่าง (ข้อมูลสมมติทั้งหมด จงใจมีจุดผิดหลายจุด)</li>
+</ul>
+<h3 id="ขั้นที่-1--ให้-ai-สร้างไฟล์รายงานจำลอง">ขั้นที่ 1 — ให้ AI สร้างไฟล์รายงานจำลอง</h3>
+<div class="command ai-prompt"><code>สร้างไฟล์ module-05-work/input/version-b-report.md ด้วยข้อความ Markdown ต่อไปนี้ทุกตัวอักษร ถ้ามีไฟล์ชื่อนี้อยู่แล้วให้หยุดและบอกฉันก่อน</code><button type="button" data-copy="">คัดลอก</button></div><p>แล้ววางข้อความในกล่องด้านล่างต่อท้าย</p>
+<div class="sourceCode" id="cb1"><div class="command markdown-command"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu"># รายงานตัวอย่าง Version B: หิว → กิน → อิ่ม</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; ฉบับสำหรับนักเรียนจับผิด ข้อมูลทั้งหมดเป็นสมมติ รายงานนี้จงใจมีปัญหาด้าน research logic, evidence และความสอดคล้องหลายจุด</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">## ชื่อเรื่อง</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>ประสิทธิผลสูงสุดของการรับประทานอาหารเพื่อแก้ปัญหาความหิวของคนไทย</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">## บทคัดย่อ</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>งานวิจัยนี้พิสูจน์ว่าอาหารที่เลือกสามารถแก้ปัญหาความหิวได้อย่างมีประสิทธิภาพในประชากรไทย กลุ่มตัวอย่างเป็นผู้ใหญ่ 30 คนที่ไม่ได้รับประทานอาหารเป็นเวลา 8 ชั่วโมง ผู้วิจัยให้กลุ่มตัวอย่างรับประทานอาหารและวัดความหิวเป็นเวลา 60 นาที ผลการศึกษาพบว่าความหิวลดลงจาก 8 เป็น 1 ภายใน 30 นาที คิดเป็นประสิทธิผลร้อยละ 100 และไม่มีข้อจำกัดที่สำคัญ ผลนี้ยืนยันว่าอาหารดังกล่าวเหมาะกับทุกคน</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="fu">## 1. บทนำ</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="fu">### 1.1 ความเป็นมาและปัญหา</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>มนุษย์ทุกคนต้องรับประทานอาหารเมื่อหิว และเป็นที่ทราบกันดีว่าเมื่อกินแล้วจะอิ่ม อย่างไรก็ตาม ยังไม่มีนักวิจัยคนใดในโลกศึกษาว่าอาหารช่วยแก้ปัญหาความหิวได้หรือไม่ <span class="co">[</span><span class="ot">1</span><span class="co">]</span> ปัญหาวิจัยจึงเป็นการค้นหาอาหารที่ดีที่สุดสำหรับทำให้ทุกคนอิ่ม</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="fu">### 1.2 วัตถุประสงค์</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>เพื่อรับประทานอาหารให้อิ่ม</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>เพื่อพิสูจน์ว่าอาหารที่เลือกดีที่สุด</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>เพื่อเปรียบเทียบอาหารทุกประเภท</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="fu">### 1.3 คำถามวิจัยและสมมติฐาน</span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>คำถามวิจัย: อาหารชนิดใดดีที่สุดสำหรับประชากรไทย</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>สมมติฐาน: เมื่อกินอาหารแล้วทุกคนน่าจะอิ่ม</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a><span class="fu">### 1.4 ขอบเขต</span></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>งานนี้ครอบคลุมผู้ใหญ่ทุกคนในประเทศไทย อาหารทุกประเภท และผลของความอิ่มในระยะยาว โดยใช้ผู้วิจัยเป็นผู้ทดลองเพียงคนเดียวเพื่อประหยัดเวลา</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a><span class="fu">### 1.5 Output และ Outcome</span></span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Output:** จัดทำรายงานวิจัยและสูตรอาหารเพื่อจดสิทธิบัตร</span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Outcome:** ประชากรไทยทุกคนมีสุขภาพและคุณภาพชีวิตดีขึ้น และค่าใช้จ่ายของโรงพยาบาลลดลง</span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>ไม่จำเป็นต้องวัด outcome เพราะเป็นผลที่คาดว่าจะเกิดขึ้นแน่นอนหลังรับประทานอาหาร</span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a><span class="fu">## 2. ความรู้และนิยามที่ใช้</span></span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>งานวิจัยก่อนหน้าระบุว่าอาหารทุกชนิดให้ผลต่อความอิ่มเท่ากัน <span class="co">[</span><span class="ot">1</span><span class="co">]</span> จึงไม่จำเป็นต้องทบทวนงานอื่นเพิ่มเติม</span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>ผู้วิจัยเลือกอาหารที่ตนเองชอบทันทีโดยไม่ต้องค้นว่ามีทางเลือกอื่นอะไร ไม่ต้องกำหนด criteria และไม่ต้องเปรียบเทียบผล ราคา ความเสี่ยง หรือความเป็นไปได้ เพราะวิธีที่สะดวกที่สุดย่อมเป็นวิธีที่ดีที่สุด</span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>กำหนดให้ “หิว” หมายถึงความรู้สึกอยากกินอาหาร ส่วน “อิ่ม” หมายถึงคะแนนความหิวไม่เกิน 3 อย่างไรก็ตาม ในการวิเคราะห์จะใช้คะแนนไม่เกิน 2 เพื่อให้ผลชัดเจนขึ้น</span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a>กรอบแนวคิดของงานประกอบด้วยอาหาร ความหิว ความอิ่ม สุขภาพ รายได้ อายุ อาชีพ และคุณภาพชีวิต แต่ไม่ได้เก็บข้อมูลตัวแปรเหล่านี้ทั้งหมด</span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a><span class="fu">## 3. ระเบียบวิธีวิจัย</span></span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a><span class="fu">### 3.1 รูปแบบและกลุ่มตัวอย่าง</span></span>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a>ใช้การทดลองแบบสมบูรณ์ ผู้วิจัยหนึ่งคนให้คะแนนความหิวของตนเองหนึ่งครั้ง และถือว่าการวัดในแต่ละเวลาเป็นกลุ่มตัวอย่างแยกกัน รวมทั้งหมด 4 คน</span>
+<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a><span class="fu">### 3.2 ตัวแปรและเครื่องมือ</span></span>
+<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>ตัวแปรต้น: การกินอาหารทุกประเภท</span>
+<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>ตัวแปรตาม: สุขภาพและความอิ่มของประชากรไทย</span>
+<span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>เครื่องมือ: คะแนนความหิวที่ผู้วิจัยสร้างขึ้นเอง</span>
+<span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a>เครื่องมือมีความเที่ยงตรงสูงเพราะคำถามสั้นและเข้าใจง่าย จึงไม่ต้องตรวจ validity หรือ reliability</span>
+<span id="cb1-63"><a href="#cb1-63" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-64"><a href="#cb1-64" aria-hidden="true" tabindex="-1"></a><span class="fu">### 3.3 ขั้นตอน</span></span>
+<span id="cb1-65"><a href="#cb1-65" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-66"><a href="#cb1-66" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>ผู้วิจัยไม่ได้กินอาหาร 6 ชั่วโมง</span>
+<span id="cb1-67"><a href="#cb1-67" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>ผู้วิจัยให้คะแนนความหิวก่อนกิน</span>
+<span id="cb1-68"><a href="#cb1-68" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>ผู้วิจัยกินอาหารหนึ่งมื้อโดยไม่บันทึกชนิดหรือปริมาณ</span>
+<span id="cb1-69"><a href="#cb1-69" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>วัดความหิวหลัง 15, 30 และ 60 นาที</span>
+<span id="cb1-70"><a href="#cb1-70" aria-hidden="true" tabindex="-1"></a><span class="ss">5. </span>ไม่บันทึกการนอน ความเครียด กิจกรรม หรือมื้อก่อนหน้า เพราะไม่น่ามีผล</span>
+<span id="cb1-71"><a href="#cb1-71" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-72"><a href="#cb1-72" aria-hidden="true" tabindex="-1"></a><span class="fu">### 3.4 การวิเคราะห์</span></span>
+<span id="cb1-73"><a href="#cb1-73" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-74"><a href="#cb1-74" aria-hidden="true" tabindex="-1"></a>คำนวณค่าเฉลี่ยและใช้ผลที่ 30 นาทีเป็นตัวแทนของผู้ใหญ่ทั้งประเทศ หากคะแนนลดลงถือว่าอาหารมีประสิทธิผลและยืนยันความสัมพันธ์เชิงสาเหตุ</span>
+<span id="cb1-75"><a href="#cb1-75" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-76"><a href="#cb1-76" aria-hidden="true" tabindex="-1"></a><span class="fu">## 4. ผลการศึกษา</span></span>
+<span id="cb1-77"><a href="#cb1-77" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-78"><a href="#cb1-78" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> เวลา <span class="pp">|</span> Hunger score <span class="pp">|</span> สรุปผล <span class="pp">|</span></span>
+<span id="cb1-79"><a href="#cb1-79" aria-hidden="true" tabindex="-1"></a><span class="pp">|---:|---:|---|</span></span>
+<span id="cb1-80"><a href="#cb1-80" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> ก่อนกิน <span class="pp">|</span> 8 <span class="pp">|</span> หิวมาก <span class="pp">|</span></span>
+<span id="cb1-81"><a href="#cb1-81" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> 15 นาที <span class="pp">|</span> 4 <span class="pp">|</span> เริ่มอิ่ม <span class="pp">|</span></span>
+<span id="cb1-82"><a href="#cb1-82" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> 30 นาที <span class="pp">|</span> 2 <span class="pp">|</span> อิ่มสมบูรณ์ <span class="pp">|</span></span>
+<span id="cb1-83"><a href="#cb1-83" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> 60 นาที <span class="pp">|</span> 3 <span class="pp">|</span> อิ่มคงที่ <span class="pp">|</span></span>
+<span id="cb1-84"><a href="#cb1-84" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-85"><a href="#cb1-85" aria-hidden="true" tabindex="-1"></a>จากตาราง คะแนนที่ 30 นาทีเท่ากับ 1 และคะแนนลดลงอย่างต่อเนื่องตลอด 60 นาที ผลมีนัยสำคัญทางสถิติและแสดงประสิทธิผลร้อยละ 100 แม้ไม่ได้คำนวณค่า p-value หรือช่วงความเชื่อมั่น</span>
+<span id="cb1-86"><a href="#cb1-86" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-87"><a href="#cb1-87" aria-hidden="true" tabindex="-1"></a><span class="fu">## 5. อภิปรายผล</span></span>
+<span id="cb1-88"><a href="#cb1-88" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-89"><a href="#cb1-89" aria-hidden="true" tabindex="-1"></a>ผลยืนยันว่าอาหารที่เลือกเป็นสาเหตุโดยตรงของความอิ่ม และไม่มีคำอธิบายอื่นที่เป็นไปได้ เนื่องจากคะแนนลดลงมาก จึงสรุปได้ว่าอาหารทุกชนิดน่าจะให้ผลเช่นเดียวกันกับทุกคน ผลยังสอดคล้องกับงานเดิม <span class="co">[</span><span class="ot">1</span><span class="co">]</span> แม้ไม่ได้ตรวจรายละเอียดของแหล่งอ้างอิง</span>
+<span id="cb1-90"><a href="#cb1-90" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-91"><a href="#cb1-91" aria-hidden="true" tabindex="-1"></a>งานนี้ไม่มีข้อจำกัด เพราะผู้วิจัยควบคุมการทดลองด้วยตนเอง และการใช้คนเดียวช่วยลดความแปรปรวน การไม่มี control ไม่เป็นปัญหาเนื่องจากทุกคนทราบอยู่แล้วว่าการกินทำให้อิ่ม</span>
+<span id="cb1-92"><a href="#cb1-92" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-93"><a href="#cb1-93" aria-hidden="true" tabindex="-1"></a><span class="fu">## 6. สรุปและข้อเสนอแนะ</span></span>
+<span id="cb1-94"><a href="#cb1-94" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-95"><a href="#cb1-95" aria-hidden="true" tabindex="-1"></a>อาหารที่ทดสอบสามารถแก้ความหิวได้ดีที่สุดและใช้ได้กับประชากรไทยทุกคน รัฐบาลและโรงพยาบาลควรนำผลนี้ไปกำหนดนโยบายทันที งานต่อไปควรจดสิทธิบัตรสูตรอาหารก่อนทดลองซ้ำ เพื่อป้องกันผู้อื่นนำผลไปใช้</span>
+<span id="cb1-96"><a href="#cb1-96" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-97"><a href="#cb1-97" aria-hidden="true" tabindex="-1"></a><span class="fu">## 7. จริยธรรมและเอกสารอ้างอิง</span></span>
+<span id="cb1-98"><a href="#cb1-98" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-99"><a href="#cb1-99" aria-hidden="true" tabindex="-1"></a>งานเกี่ยวกับอาหารเป็นเรื่องธรรมดาจึงไม่จำเป็นต้องพิจารณาจริยธรรม ความเป็นส่วนตัว หรือความเสี่ยง แม้ว่าจะนำวิธีนี้ไปทดลองกับบุคคลอื่นในอนาคต</span>
+<span id="cb1-100"><a href="#cb1-100" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-101"><a href="#cb1-101" aria-hidden="true" tabindex="-1"></a>เอกสารอ้างอิง:</span>
+<span id="cb1-102"><a href="#cb1-102" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-103"><a href="#cb1-103" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`[2] Example, A. (20XX). Food solves all hunger. Placeholder Journal.`</span></span>
+<span id="cb1-104"><a href="#cb1-104" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-105"><a href="#cb1-105" aria-hidden="true" tabindex="-1"></a>หมายเหตุ: รายการอ้างอิงนี้เป็นข้อความสมมติและไม่ใช่ source ที่ตรวจสอบแล้ว</span></code><button type="button" data-copy="">คัดลอก</button></div></div>
+<p><strong>ตรวจ:</strong> เปิด <code>module-05-work/input/version-b-report.md</code> แล้วหัวข้อตรงกับกล่องด้านบน</p>
+<hr>
+<h3 id="ขั้นที่-2--หาเองก่อน-ยังไม่ใช้-ai">ขั้นที่ 2 — หาเองก่อน (ยังไม่ใช้ AI)</h3>
+<p>อ่านรายงานแล้วหาจุดที่ตรรกะไม่ต่อกันอย่างน้อย 5 จุด สำหรับแต่ละจุดจดหัวข้อ ข้อความที่มีปัญหา ปัญหาคืออะไร และระดับความรุนแรง (สำคัญ / ควรแก้ / เล็กน้อย) ลง <code>module-05-work/notes/my-findings.md</code></p>
+<p><strong>ตรวจ:</strong> <code>my-findings.md</code> มีอย่างน้อย 5 จุด ทุกจุดมีข้อความจริงจากรายงาน</p>
+<hr>
+<h3 id="ขั้นที่-3--ให้-ai-หาโดยผูกกับหลักฐาน">ขั้นที่ 3 — ให้ AI หาโดยผูกกับหลักฐาน</h3>
+<div class="command ai-prompt"><code>อ่าน module-05-work/input/version-b-report.md หาจุดที่สายเหตุผล ปัญหา → วัตถุประสงค์ → วิธี → ผล → ข้อสรุป ไม่ต่อกัน ทุกประเด็นต้องยกข้อความจริงพร้อมหัวข้อ บอกว่าเชื่อมกับส่วนใดไม่ได้ และจัดระดับความรุนแรง ห้ามแก้ไฟล์ ห้ามอ่าน module-05-work/notes/</code><button type="button" data-copy="">คัดลอก</button></div><p><strong>ตรวจ:</strong> ทุกประเด็นของ AI มีข้อความจริงและหัวข้อ</p>
+<hr>
+<h3 id="ขั้นที่-4--เทียบของคุณกับของ-ai">ขั้นที่ 4 — เทียบของคุณกับของ AI</h3>
+<p>ทำตารางสามช่อง: เจอทั้งคู่ / เจอเฉพาะคุณ / เจอเฉพาะ AI แล้วตัดสินว่าประเด็นที่ AI เจอแต่คุณไม่เจอ ถูกจริงหรือไม่</p>
+<p><strong>ตรวจ:</strong> ทุกประเด็นในช่อง "เจอเฉพาะ AI" มีคำตัดสินของคุณพร้อมเหตุผล</p>
+<hr>
+<h3 id="ตรวจก่อนจบ-workshop">ตรวจก่อนจบ workshop</h3>
+<ul class="task-list">
+<li><label><input type="checkbox">ขั้น 1: มีไฟล์รายงานจำลองใน <code>module-05-work/input/</code></label></li>
+<li><label><input type="checkbox">ขั้น 2: หาเองได้อย่างน้อย 5 จุดก่อนใช้ AI</label></li>
+<li><label><input type="checkbox">ขั้น 3: ประเด็นของ AI ทุกข้อมีข้อความจริง</label></li>
+<li><label><input type="checkbox">ขั้น 4: ตัดสินประเด็นที่ AI เจอเพิ่มด้วยตัวเอง</label></li>
+</ul>
+</div></section>
+<section class="section markdown-section topic-panel" id="open-explore" aria-labelledby="open-explore-heading"><div class="section-heading compact"><p class="eyebrow">Exploring</p><h2 id="open-explore-heading">หาจุดที่ตรรกะขาดในรายงานจำลอง หิว → กิน → อิ่ม</h2></div><div class="markdown-body"><p>ในโจทย์นี้คุณจะเขียน prompt เองให้ AI ช่วยตรวจงานของคุณด้วยแนวคิดของหัวข้อนี้</p>
+<p>ไม่มี prompt สำเร็จรูปให้</p>
+<h3 id="ก่อนเริ่ม-ต้องมีอยู่แล้ว">ก่อนเริ่ม (ต้องมีอยู่แล้ว)</h3>
+<ul>
+<li>ทำ workshop ของหัวข้อนี้แล้ว</li>
+<li>งานอีกส่วนหนึ่งของคุณ (หรือของนิสิตที่ดูแล) ที่ยังไม่ได้ตรวจใน workshop</li>
+</ul>
+<h3 id="โจทย์">โจทย์</h3>
+<ol type="1">
+<li>สร้างไฟล์ <code>output/prompts.md</code> ในโฟลเดอร์งานของคุณ สำหรับเก็บ prompt ทุกรอบ</li>
+<li>เขียน prompt ของตนให้ AI ตรวจจุดที่ตรรกะไม่ต่อกัน โดยบังคับให้ยกข้อความพร้อมตำแหน่ง</li>
+<li>ตัดสินเองทุกประเด็น แล้วแก้งานจริงอย่างน้อยหนึ่งจุด</li>
+</ol>
+<h3 id="เกณฑ์ผ่าน">เกณฑ์ผ่าน</h3>
+<ul class="task-list">
+<li><label><input type="checkbox">ทุกประเด็นที่ใช้มีข้อความและตำแหน่งจริง</label></li>
+<li><label><input type="checkbox">มีการแก้งานอย่างน้อยหนึ่งจุดพร้อมเหตุผล</label></li>
+<li><label><input type="checkbox"><code>prompts.md</code> แสดงการปรับ prompt อย่างน้อย 1 รอบ พร้อมเหตุผล</label></li>
+</ul>
+</div></section></div></div>
+<script>
+(() => {
+  const tabs = [...document.querySelectorAll('.topic-tabs a')];
+  const panels = tabs.map(t => document.getElementById(t.hash.slice(1)));
+  function show(id) {
+    const i = Math.max(0, panels.findIndex(p => p && p.id === id));
+    panels.forEach((p, k) => { if (p) p.hidden = k !== i; });
+    tabs.forEach((t, k) => t.setAttribute('aria-current', k === i ? 'page' : 'false'));
+    const layout = document.querySelector('.topic-layout'); if (layout && panels[i]) layout.dataset.active = panels[i].id;
+  }
+  tabs.forEach(t => t.addEventListener('click', e => { e.preventDefault(); history.replaceState(null, '', t.hash); show(t.hash.slice(1)); window.scrollTo({top: 0}); }));
+  document.querySelectorAll('[data-next-tab]').forEach(b => b.addEventListener('click', e => { e.preventDefault(); const h = b.getAttribute('href'); history.replaceState(null, '', h); show(h.slice(1)); window.scrollTo({top: 0}); }));
+  document.querySelectorAll('[data-fullscreen]').forEach(b => b.addEventListener('click', () => {
+    const frame = document.querySelector(b.dataset.fullscreen);
+    const go = frame && (frame.requestFullscreen || frame.webkitRequestFullscreen);
+    if (go) go.call(frame); else if (frame) window.open(frame.src, '_blank', 'noopener');
+  }));
+  const layout0 = document.querySelector('.topic-layout');
+  const toggle = document.querySelector('[data-aside-toggle]');
+  function setAside(hidden) {
+    if (!layout0 || !toggle) return;
+    layout0.classList.toggle('aside-hidden', hidden);
+    toggle.setAttribute('aria-pressed', String(hidden));
+    toggle.textContent = hidden ? 'แสดงสไลด์ข้าง' : 'ซ่อนสไลด์ข้าง';
+    try { localStorage.setItem('airr.slideAsideHidden', hidden ? '1' : '0'); } catch (e) {}
+  }
+  if (toggle) {
+    let saved = true; try { saved = localStorage.getItem('airr.slideAsideHidden') !== '0'; } catch (e) {}  // hidden by default
+    setAside(saved);
+    toggle.addEventListener('click', () => setAside(!layout0.classList.contains('aside-hidden')));
+  }
+  show(location.hash.slice(1));
+  if (location.hash) requestAnimationFrame(() => window.scrollTo({top: 0}));
+})();
+</script>
+  </main>
+  <site-footer></site-footer>
+</body>
+</html>

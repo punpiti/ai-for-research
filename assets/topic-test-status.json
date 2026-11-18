@@ -145,6 +145,54 @@
   "result-response-matrix-and-design-challenge": {
    "status": "not-ready",
    "note": "เนื้อหาเดิมยกมาก่อน"
+  },
+  "abstract-and-title-critique": {
+   "status": "not-ready",
+   "note": "เนื้อหาเดิมยกมาก่อน"
+  },
+  "evidence-bound-review-severity": {
+   "status": "not-ready",
+   "note": "เนื้อหาเดิมยกมาก่อน"
+  },
+  "cross-section-traceability-matrix": {
+   "status": "not-ready",
+   "note": "เนื้อหาเดิมยกมาก่อน"
+  },
+  "find-broken-logic-mock-report": {
+   "status": "not-ready",
+   "note": "เนื้อหาเดิมยกมาก่อน"
+  },
+  "five-sharp-thesis-review-tests": {
+   "status": "not-ready",
+   "note": "เนื้อหาเดิมยกมาก่อน"
+  },
+  "output-vs-outcome": {
+   "status": "not-ready",
+   "note": "เนื้อหาเดิมยกมาก่อน"
+  },
+  "claim-discipline-conclusion-audit": {
+   "status": "not-ready",
+   "note": "เนื้อหาเดิมยกมาก่อน"
+  },
+  "engineering-indicators-measurement": {
+   "status": "not-ready",
+   "note": "เนื้อหาเดิมยกมาก่อน"
+  },
+  "research-ethics-check": {
+   "status": "not-ready",
+   "note": "เนื้อหาเดิมยกมาก่อน"
+  },
+  "scope-assumption-limitation": {
+   "status": "not-ready",
+   "note": "เนื้อหาเดิมยกมาก่อน"
+  },
+  "pandoc-thai-handout-build": {
+   "status": "not-ready",
+   "note": "เนื้อหาเดิมยกมาก่อน"
+  },
+  "thesis-exam-questions-review": {
+   "status": "not-ready",
+   "note": "เนื้อหาเดิมยกมาก่อน"
   }
  }
 }
