@@ -91,7 +91,7 @@ systemDark?.addEventListener?.("change", () => { if (themePreference() === "syst
 if (!document.querySelector('link[data-airr-theme]')) {
   const themeLink = document.createElement("link");
   themeLink.rel = "stylesheet";
-  themeLink.href = new URL("theme.css?v=20261115-1", SHELL_SCRIPT_URL).href;
+  themeLink.href = new URL("theme.css?v=20261119-1", SHELL_SCRIPT_URL).href;
   themeLink.dataset.airrTheme = "";
   document.head.append(themeLink);
 }
@@ -153,7 +153,7 @@ function consoleHeaderHtml(element) {
     }).join("");
   } catch (_error) { links = ""; }
   return `<header class="site-header">
-      <a class="brand" href="${escapeHtml(root)}index.html" aria-label="AIRR หน้าแรก"><span class="brand-mark brand-logo"><img class="logo-on-dark" src="${new URL("images/madlab-ku-mark-dark.svg", SHELL_SCRIPT_URL).href}" alt="" width="36" height="36"><img class="logo-on-light" src="${new URL("images/madlab-ku-mark-light.svg", SHELL_SCRIPT_URL).href}" alt="" width="36" height="36"></span><span>AIRR</span></a>
+      <a class="brand" href="${escapeHtml(root)}index.html" aria-label="AIRR หน้าแรก"><span class="brand-mark brand-logo"><img class="logo-on-dark" src="${new URL("images/airr-mark-dark.svg", SHELL_SCRIPT_URL).href}" alt="" width="36" height="36"><img class="logo-on-light" src="${new URL("images/airr-mark-light.svg", SHELL_SCRIPT_URL).href}" alt="" width="36" height="36"></span><span class="brand-full">AI for Research and Review</span><span class="brand-short" aria-hidden="true">AIRR</span></a>
       <nav aria-label="เมนูหลัก">
         ${links}
         ${userMenuHtml()}
@@ -211,14 +211,14 @@ class SiteHeader extends HTMLElement {
     // just the brand (back to home) and the user menu.
     if (current === "classroom") {
       this.innerHTML = `<header class="site-header">
-      <a class="brand" href="index.html" aria-label="AIRR หน้าแรก"><span class="brand-mark brand-logo"><img class="logo-on-dark" src="${new URL("images/madlab-ku-mark-dark.svg", SHELL_SCRIPT_URL).href}" alt="" width="36" height="36"><img class="logo-on-light" src="${new URL("images/madlab-ku-mark-light.svg", SHELL_SCRIPT_URL).href}" alt="" width="36" height="36"></span><span>AIRR</span></a>
+      <a class="brand" href="index.html" aria-label="AIRR หน้าแรก"><span class="brand-mark brand-logo"><img class="logo-on-dark" src="${new URL("images/airr-mark-dark.svg", SHELL_SCRIPT_URL).href}" alt="" width="36" height="36"><img class="logo-on-light" src="${new URL("images/airr-mark-light.svg", SHELL_SCRIPT_URL).href}" alt="" width="36" height="36"></span><span class="brand-full">AI for Research and Review</span><span class="brand-short" aria-hidden="true">AIRR</span></a>
       <nav aria-label="เมนูหลัก">${userMenuHtml()}</nav>
     </header>`;
       this.setupUserMenu(current);
       return;
     }
     this.innerHTML = `<header class="site-header">
-      <a class="brand" href="${isHome ? "#top" : "index.html"}" aria-label="AIRR หน้าแรก"><span class="brand-mark brand-logo"><img class="logo-on-dark" src="${new URL("images/madlab-ku-mark-dark.svg", SHELL_SCRIPT_URL).href}" alt="" width="36" height="36"><img class="logo-on-light" src="${new URL("images/madlab-ku-mark-light.svg", SHELL_SCRIPT_URL).href}" alt="" width="36" height="36"></span><span>AIRR</span></a>
+      <a class="brand" href="${isHome ? "#top" : "index.html"}" aria-label="AIRR หน้าแรก"><span class="brand-mark brand-logo"><img class="logo-on-dark" src="${new URL("images/airr-mark-dark.svg", SHELL_SCRIPT_URL).href}" alt="" width="36" height="36"><img class="logo-on-light" src="${new URL("images/airr-mark-light.svg", SHELL_SCRIPT_URL).href}" alt="" width="36" height="36"></span><span class="brand-full">AI for Research and Review</span><span class="brand-short" aria-hidden="true">AIRR</span></a>
       <nav aria-label="เมนูหลัก">
         ${isHome ? "" : planLink}
         ${isClassroomEntry ? `<a class="nav-directory" href="${classroomDirectoryHref}">คลาสที่เปิดรับ</a>` : current === "class" ? "" : topicMenu || `<details class="module-menu"><summary aria-label="เลือกโมดูล (ตอนนี้: ${currentModule ? `โมดูล ${currentModule[0]}` : current === "file-basics" ? "โมดูลเสริม" : "ยังไม่ได้เลือก"})">${menuLabel}</summary><div>${moduleLinks}</div></details>`}
@@ -322,7 +322,7 @@ class SiteHeader extends HTMLElement {
 class SiteFooter extends HTMLElement {
   connectedCallback() {
     this.innerHTML = `<footer>
-      <div class="footer-owner"><p><a href="index.html">AIRR · AI for Research &amp; Review</a></p><div class="institution-lockup footer-institution"><img src="https://upload.wikimedia.org/wikipedia/commons/4/43/Kasetsart_Sublogo-TH.svg" alt="ตราสัญลักษณ์พร้อมชื่อมหาวิทยาลัยเกษตรศาสตร์" width="232" height="300" loading="lazy"><span>MADLab - Multimedia Analysis and Discovery Laboratory<br>ภาควิชาวิศวกรรมคอมพิวเตอร์<br>มหาวิทยาลัยเกษตรศาสตร์</span></div></div>
+      <div class="footer-owner"><p><a href="index.html">AIRR · AI for Research &amp; Review</a></p><div class="institution-lockup footer-institution"><img src="https://upload.wikimedia.org/wikipedia/commons/4/43/Kasetsart_Sublogo-TH.svg" alt="ตราสัญลักษณ์พร้อมชื่อมหาวิทยาลัยเกษตรศาสตร์" width="232" height="300" loading="lazy"><a class="footer-lab-logo" href="https://madlab.cpe.ku.ac.th" target="_blank" rel="noopener" aria-label="MADLab - Multimedia Analysis and Discovery Laboratory"><img class="logo-on-dark" src="${new URL("images/madlab-ku-mark-dark.svg", SHELL_SCRIPT_URL).href}" alt="" width="64" height="64" loading="lazy"><img class="logo-on-light" src="${new URL("images/madlab-ku-mark-light.svg", SHELL_SCRIPT_URL).href}" alt="" width="64" height="64" loading="lazy"></a><span><a href="https://madlab.cpe.ku.ac.th" target="_blank" rel="noopener">MADLab - Multimedia Analysis and Discovery Laboratory</a><br>ภาควิชาวิศวกรรมคอมพิวเตอร์<br>มหาวิทยาลัยเกษตรศาสตร์</span></div></div>
       <div class="footer-credit"><p>Developed by One234@KU</p><p>© 2026 พันธุ์ปิติ เปี่ยมสง่า. All rights reserved.</p></div>
     </footer>`;
   }

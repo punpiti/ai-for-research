@@ -109,10 +109,22 @@
 :root[data-theme="light"] .chain li { border-bottom-color: var(--line); }
 :root[data-theme="light"] .chain li small { color: var(--ink-soft); }
 
-/* MADLab@KU mark replaces the "A" brand circle: navy tile on dark, light tile on light */
+/* AIRR mark in the header brand: dark tile on dark, light tile on light */
 .brand-mark.brand-logo { width: 2.3rem; height: 2.3rem; padding: 0; overflow: hidden; border-radius: .5rem; background: transparent; }
 .brand-logo img { display: block; width: 100%; height: 100%; }
 .brand-logo .logo-on-light { display: none; }
 :root[data-theme="light"] .brand-logo .logo-on-dark { display: none; }
 :root[data-theme="light"] .brand-logo .logo-on-light { display: block; }
 :root[data-theme="light"] .brand-mark.brand-logo { box-shadow: inset 0 0 0 1px var(--line); }
+/* Header brand: full name, "AIRR" on narrow screens */
+.brand .brand-short { display: none; }
+@media (max-width: 760px) { .brand .brand-full { display: none; } .brand .brand-short { display: inline; } }
+/* Footer: MADLab mark sits after the KU logo and links to the lab site */
+.footer-lab-logo { display: block; flex: 0 0 auto; line-height: 0; border-radius: .5rem; overflow: hidden; }
+.footer-institution .footer-lab-logo img { height: 3.8rem; width: 3.8rem; padding: 0; border-radius: 0; background: transparent; }
+.footer-lab-logo .logo-on-light { display: none; }
+:root[data-theme="light"] .footer-lab-logo .logo-on-dark { display: none; }
+:root[data-theme="light"] .footer-lab-logo .logo-on-light { display: block; }
+:root[data-theme="light"] .footer-lab-logo { box-shadow: inset 0 0 0 1px var(--line); }
+.footer-institution a { color: inherit; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: .2em; }
+.footer-institution a:hover, .footer-institution a:focus-visible { color: var(--ink); }
