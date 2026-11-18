@@ -10,17 +10,20 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/styles.css?v=20261113-2">
-  <link rel="stylesheet" href="assets/learn.css?v=20261116-2">
-  <script src="assets/site-shell.js?v=20261116-2"></script>
-  <script src="assets/app.js?v=20261116-2" defer></script>
+  <link rel="stylesheet" href="assets/learn.css?v=20261118-1">
+  <script src="assets/site-shell.js?v=20261118-1"></script>
+  <script src="assets/app.js?v=20261118-1" defer></script>
+  <link rel="icon" href="assets/images/madlab-ku-mark-dark.svg" type="image/svg+xml">
+  <link rel="icon" href="assets/images/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="assets/images/favicon-180.png">
 </head>
 <body class="learn" data-no-case>
   <a class="skip-link" href="#main">ข้ามไปยังเนื้อหา</a>
   <site-header current="topic" plan="class-2026-11-20-engineering-faculty.html" menu='{&quot;module&quot;: &quot;M06&quot;, &quot;title&quot;: &quot;ทดสอบความแข็งแรงของแบบการทดลอง&quot;, &quot;items&quot;: [{&quot;href&quot;: &quot;topic-claim-to-hypotheses-stress-test.html&quot;, &quot;label&quot;: &quot;ตรึงข้อกล่าวอ้าง แล้วแตกเป็นสมมติฐานที่ตรวจได้&quot;, &quot;current&quot;: false}, {&quot;href&quot;: &quot;topic-study-components-and-instruments.html&quot;, &quot;label&quot;: &quot;ระบุส่วนประกอบของการศึกษา เครื่องมือวัด และข้อกำกับ&quot;, &quot;current&quot;: true}, {&quot;href&quot;: &quot;topic-result-response-matrix-and-design-challenge.html&quot;, &quot;label&quot;: &quot;เตรียมรับผลหลายแบบ แล้วให้ AI ท้าทายแบบวิจัย&quot;, &quot;current&quot;: false}, {&quot;href&quot;: &quot;topic-scope-assumption-limitation.html&quot;, &quot;label&quot;: &quot;นิยาม ขอบเขต สมมติฐานตั้งต้น และข้อจำกัด&quot;, &quot;current&quot;: false}, {&quot;href&quot;: &quot;topic-engineering-indicators-measurement.html&quot;, &quot;label&quot;: &quot;ตัวชี้วัดทางวิศวกรรม เครื่องมือ และคุณภาพการวัด&quot;, &quot;current&quot;: false}, {&quot;href&quot;: &quot;topic-research-ethics-check.html&quot;, &quot;label&quot;: &quot;จริยธรรม ความเป็นส่วนตัว กฎหมาย และความรับผิดชอบในการวิจัย&quot;, &quot;current&quot;: false}, {&quot;href&quot;: &quot;topic-claim-discipline-conclusion-audit.html&quot;, &quot;label&quot;: &quot;ผล ตาราง อภิปราย และข้อสรุปที่ไม่เกินหลักฐาน&quot;, &quot;current&quot;: false}]}'></site-header>
   <main id="main">
 <section class="prepare-hero module-hero"><p class="eyebrow">หัวข้อย่อย · M06</p><h1>ระบุส่วนประกอบของการศึกษา เครื่องมือวัด และข้อกำกับ</h1><ul class="outcomes"><li>แยก parameter, metric และ decision rule</li><li>เลือก comparator ที่ตอบข้อโต้แย้ง</li><li>ระบุ dataset/environment/sample</li><li>ผูกเครื่องมือกับ construct</li><li>ระบุ ethics/permission trigger โดยไม่ให้ AI สรุปว่าอนุมัติแล้ว</li></ul></section>
-<div class="topic-layout"><nav class="topic-tabs" aria-label="ส่วนของหัวข้อ"><a href="#slides" title="สไลด์">สไลด์</a><a href="#workshop-core" title="Workshop หลัก">Workshop</a><a href="#open-explore" title="Exploring workshop">Exploring</a></nav><div class="topic-main"><section class="section markdown-section topic-panel" id="slides" aria-labelledby="slides-heading"><div class="section-heading compact"><p class="eyebrow">สไลด์</p><h2 id="slides-heading">สไลด์</h2></div><div class="markdown-body"><p>สไลด์ของหัวข้อนี้กำลังจัดทำ</p></div></section>
-<section class="section markdown-section topic-panel" id="workshop-core" aria-labelledby="workshop-core-heading"><div class="section-heading compact"><p class="eyebrow">Workshop</p><h2 id="workshop-core-heading">ระบุส่วนประกอบของการศึกษา เครื่องมือวัด และข้อกำกับ</h2></div><div class="markdown-body"><h3 id="แนวคิดที่ใช้">แนวคิดที่ใช้</h3>
+<div class="topic-layout"><nav class="topic-tabs topic-menu" aria-label="ในหัวข้อนี้"><p class="topic-menu-title">ในหัวข้อนี้</p><ul><li><a href="#slides" title="สไลด์">สไลด์</a></li><li><a href="#workshop-core" title="Workshop หลัก">Workshop</a><ul class="topic-submenu"><li><a href="#workshop-core--แนวคิดที่ใช้" data-sub>แนวคิดที่ใช้</a></li><li><a href="#workshop-core--ลงมือทำ" data-sub>ลงมือทำ</a></li></ul></li><li><a href="#open-explore" title="Exploring workshop">Exploring</a><ul class="topic-submenu"><li><a href="#open-explore--ก่อนเริ่ม-ต้องมีอยู่แล้ว" data-sub>ก่อนเริ่ม (ต้องมีอยู่แล้ว)</a></li><li><a href="#open-explore--โจทย์" data-sub>โจทย์</a></li><li><a href="#open-explore--เกณฑ์ผ่าน" data-sub>เกณฑ์ผ่าน</a></li></ul></li></ul></nav><div class="topic-main"><section class="section markdown-section topic-panel" id="slides" aria-labelledby="slides-heading"><div class="section-heading compact"><p class="eyebrow">สไลด์</p><h2 id="slides-heading">สไลด์</h2></div><div class="markdown-body"><p>สไลด์ของหัวข้อนี้ยังไม่เสร็จ</p></div></section>
+<section class="section markdown-section topic-panel" id="workshop-core" aria-labelledby="workshop-core-heading"><div class="section-heading compact"><p class="eyebrow">Workshop</p><h2 id="workshop-core-heading">ระบุส่วนประกอบของการศึกษา เครื่องมือวัด และข้อกำกับ</h2></div><div class="markdown-body"><h3 id="workshop-core--แนวคิดที่ใช้">แนวคิดที่ใช้</h3>
 <h4 id="3-แยก-parameter-metric-และ-decision-rule">3. แยก parameter, metric และ decision rule</h4>
 <ul>
 <li><strong>Parameter:</strong> สิ่งที่ตั้ง/เปลี่ยน/ควบคุม เช่น dose, threshold, model setting, duration</li>
@@ -77,7 +80,7 @@
 <li>ต้องใช้ consent/assent, information sheet, recruitment material, data-management/retention plan หรือ adverse-event process หรือไม่</li>
 </ul>
 <p>ผล screening ใช้ตั้งสถานะ <code>no trigger identified</code>, <code>official determination required</code>, <code>approval/permission pending</code> หรือ <code>blocked</code> เท่านั้น ห้ามให้ AI หรือ workshop รับรองว่า exempt, expedited, approved หรือถูกกฎหมาย ผู้วิจัย มก. ต้องตรวจระเบียบ/แบบฟอร์มปัจจุบันและขอคำวินิจฉัยจากหน่วยงานที่รับผิดชอบ; หน้า KUREC ระบุให้ใช้แบบฟอร์มปัจจุบันและอาจต้องมีเอกสารเพิ่มเติมตามโครงการ (<a href="https://fam.csc.ku.ac.th/?p=2757">ข้อมูลจริยธรรมการวิจัยในมนุษย์ มก.</a>, <a href="https://re.kps.ku.ac.th/v4/index.php/research-management/%E0%B8%88%E0%B8%A3%E0%B8%B4%E0%B8%A2%E0%B8%98%E0%B8%A3%E0%B8%A3%E0%B8%A1%E0%B8%81%E0%B8%B2%E0%B8%A3%E0%B8%A7%E0%B8%B4%E0%B8%88%E0%B8%B1%E0%B8%A2%E0%B9%83%E0%B8%99%E0%B8%A1%E0%B8%99%E0%B8%B8%E0%B8%A9%E0%B8%A2%E0%B9%8C-%E0%B8%A1%E0%B8%AB%E0%B8%B2%E0%B8%A7%E0%B8%B4%E0%B8%97%E0%B8%A2%E0%B8%B2%E0%B8%A5%E0%B8%B1%E0%B8%A2%E0%B9%80%E0%B8%81%E0%B8%A9%E0%B8%95%E0%B8%A3%E0%B8%A8%E0%B8%B2%E0%B8%AA%E0%B8%95%E0%B8%A3%E0%B9%8C">ระเบียบและแนวปฏิบัติ มก.</a>)</p>
-<h3 id="ลงมือทำ">ลงมือทำ</h3>
+<h3 id="workshop-core--ลงมือทำ">ลงมือทำ</h3>
 <h4 id="ช่วง-3--ระบุส่วนประกอบของการศึกษา">ช่วง 3 — ระบุส่วนประกอบของการศึกษา</h4>
 <p>ทำทีละแถว ไม่ต้องจำรายการทั้งหมด ให้ AI ตรวจหน่วยที่ศึกษา ประชากร/ตัวอย่าง การเลือกตัวอย่าง สิ่งที่เปลี่ยนหรือสิ่งที่ได้รับ คู่เทียบ ค่าที่กำหนด ผลที่วัด ชุดข้อมูล สภาพแวดล้อม เครื่องมือ ขั้นตอน เวลา ปัจจัยกวน วิธีวิเคราะห์ และเกณฑ์ตัดสิน</p>
 <div class="command markdown-command"><code>เปิดส่วนระบุส่วนประกอบของการศึกษาในสมุดงาน แล้วถามฉันเติมทีละแถว เริ่มจากหน่วยที่ศึกษาและประชากร ก่อนถามเรื่องตัวอย่าง คู่เทียบ สิ่งที่วัด เครื่องมือ ขั้นตอน และเกณฑ์ตัดสิน ทุกครั้งให้เชื่อมแถวนั้นกับรหัสสมมติฐานจากช่วง 2 ถ้าข้อมูลไม่พอ ให้เสนอคำถามที่ฉันควรนำไปถามผู้เชี่ยวชาญ แต่ห้ามเลือกวิธี จำนวนตัวอย่าง ค่าพารามิเตอร์ หรือวิธีวิเคราะห์แทนฉัน</code><button type="button" data-copy="">คัดลอก</button></div><p><strong>คุณต้องตัดสิน:</strong> สิ่งที่จะเปรียบเทียบ วัด ควบคุม และเกณฑ์ที่ใช้บอกว่าผ่านหรือไม่ผ่าน</p>
@@ -89,18 +92,18 @@
 </div></section>
 <section class="section markdown-section topic-panel" id="open-explore" aria-labelledby="open-explore-heading"><div class="section-heading compact"><p class="eyebrow">Exploring</p><h2 id="open-explore-heading">ระบุส่วนประกอบของการศึกษา เครื่องมือวัด และข้อกำกับ</h2></div><div class="markdown-body"><p>ในโจทย์นี้คุณจะนำสิ่งที่ทำในหัวข้อนี้ไปใช้กับงานของคุณเอง</p>
 <p>ไม่มี prompt สำเร็จรูปให้</p>
-<h3 id="ก่อนเริ่ม-ต้องมีอยู่แล้ว">ก่อนเริ่ม (ต้องมีอยู่แล้ว)</h3>
+<h3 id="open-explore--ก่อนเริ่ม-ต้องมีอยู่แล้ว">ก่อนเริ่ม (ต้องมีอยู่แล้ว)</h3>
 <ul>
 <li>ทำ workshop ของหัวข้อนี้แล้ว</li>
 <li>หัวข้อ proposal หรือบทความของคุณที่นำเข้า AI ได้</li>
 </ul>
-<h3 id="โจทย์">โจทย์</h3>
+<h3 id="open-explore--โจทย์">โจทย์</h3>
 <ol type="1">
 <li>ระบุ comparator, metric, decision rule และเครื่องมือวัดของงานคุณเอง โดยเขียน prompt เอง</li>
 <li>ตอบ: comparator ที่เลือกช่วยตัดคำอธิบายคู่แข่งใด และเครื่องมือวัด construct จริงหรือเป็นเพียง proxy</li>
 <li>ระบุประเด็นที่ต้องส่งต่อให้นักสถิติ ผู้เชี่ยวชาญ หรือหน่วยงานจริยธรรมตัดสิน</li>
 </ol>
-<h3 id="เกณฑ์ผ่าน">เกณฑ์ผ่าน</h3>
+<h3 id="open-explore--เกณฑ์ผ่าน">เกณฑ์ผ่าน</h3>
 <ul class="task-list">
 <li><label><input type="checkbox">เครื่องมือทุกชิ้นผูกกับ construct</label></li>
 <li><label><input type="checkbox">ไม่มีเรื่องจริยธรรมหรือการอนุญาตที่ AI สรุปว่าอนุมัติแล้ว</label></li>
@@ -109,15 +112,30 @@
 </div></section></div></div>
 <script>
 (() => {
-  const tabs = [...document.querySelectorAll('.topic-tabs a')];
+  const tabs = [...document.querySelectorAll('.topic-tabs > ul > li > a')];
   const panels = tabs.map(t => document.getElementById(t.hash.slice(1)));
+  const subs = [...document.querySelectorAll('.topic-tabs a[data-sub]')];
   function show(id) {
-    const i = Math.max(0, panels.findIndex(p => p && p.id === id));
+    const target = id && document.getElementById(id);
+    const owner = target && target.closest('.topic-panel');
+    const i = Math.max(0, panels.findIndex(p => p && p.id === (owner ? owner.id : id)));
     panels.forEach((p, k) => { if (p) p.hidden = k !== i; });
-    tabs.forEach((t, k) => t.setAttribute('aria-current', k === i ? 'page' : 'false'));
+    tabs.forEach((t, k) => { t.setAttribute('aria-current', k === i ? 'page' : 'false'); t.parentElement.classList.toggle('is-open', k === i); });
     const layout = document.querySelector('.topic-layout'); if (layout && panels[i]) layout.dataset.active = panels[i].id;
+    return target && owner && target !== owner ? target : null;
   }
   tabs.forEach(t => t.addEventListener('click', e => { e.preventDefault(); history.replaceState(null, '', t.hash); show(t.hash.slice(1)); window.scrollTo({top: 0}); }));
+  subs.forEach(s => s.addEventListener('click', e => { e.preventDefault(); history.replaceState(null, '', s.hash); const h = show(s.hash.slice(1)); if (h) h.scrollIntoView({block: 'start'}); }));
+  if ('IntersectionObserver' in window && subs.length) {  // highlight the step being read
+    const byId = new Map(subs.map(s => [s.hash.slice(1), s]));
+    const seen = new Set();
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(en => { if (en.isIntersecting) seen.add(en.target.id); else seen.delete(en.target.id); });
+      const visible = [...byId.keys()].find(k => seen.has(k));
+      if (visible) subs.forEach(s => s.classList.toggle('is-here', s === byId.get(visible)));
+    }, {rootMargin: '-15% 0px -70% 0px'});
+    byId.forEach((_, k) => { const h = document.getElementById(k); if (h) io.observe(h); });
+  }
   document.querySelectorAll('[data-next-tab]').forEach(b => b.addEventListener('click', e => { e.preventDefault(); const h = b.getAttribute('href'); history.replaceState(null, '', h); show(h.slice(1)); window.scrollTo({top: 0}); }));
   document.querySelectorAll('[data-fullscreen]').forEach(b => b.addEventListener('click', () => {
     const frame = document.querySelector(b.dataset.fullscreen);
@@ -138,8 +156,8 @@
     setAside(saved);
     toggle.addEventListener('click', () => setAside(!layout0.classList.contains('aside-hidden')));
   }
-  show(location.hash.slice(1));
-  if (location.hash) requestAnimationFrame(() => window.scrollTo({top: 0}));
+  const deep = show(location.hash.slice(1));
+  if (location.hash) requestAnimationFrame(() => deep ? deep.scrollIntoView({block: 'start'}) : window.scrollTo({top: 0}));
 })();
 </script>
   </main>

@@ -10,17 +10,20 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/styles.css?v=20261113-2">
-  <link rel="stylesheet" href="assets/learn.css?v=20261116-2">
-  <script src="assets/site-shell.js?v=20261116-2"></script>
-  <script src="assets/app.js?v=20261116-2" defer></script>
+  <link rel="stylesheet" href="assets/learn.css?v=20261118-1">
+  <script src="assets/site-shell.js?v=20261118-1"></script>
+  <script src="assets/app.js?v=20261118-1" defer></script>
+  <link rel="icon" href="assets/images/madlab-ku-mark-dark.svg" type="image/svg+xml">
+  <link rel="icon" href="assets/images/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="assets/images/favicon-180.png">
 </head>
 <body class="learn" data-no-case>
   <a class="skip-link" href="#main">ข้ามไปยังเนื้อหา</a>
   <site-header current="topic" plan="class-2026-11-20-engineering-faculty.html" menu='{&quot;module&quot;: &quot;M06&quot;, &quot;title&quot;: &quot;ทดสอบความแข็งแรงของแบบการทดลอง&quot;, &quot;items&quot;: [{&quot;href&quot;: &quot;topic-claim-to-hypotheses-stress-test.html&quot;, &quot;label&quot;: &quot;ตรึงข้อกล่าวอ้าง แล้วแตกเป็นสมมติฐานที่ตรวจได้&quot;, &quot;current&quot;: false}, {&quot;href&quot;: &quot;topic-study-components-and-instruments.html&quot;, &quot;label&quot;: &quot;ระบุส่วนประกอบของการศึกษา เครื่องมือวัด และข้อกำกับ&quot;, &quot;current&quot;: false}, {&quot;href&quot;: &quot;topic-result-response-matrix-and-design-challenge.html&quot;, &quot;label&quot;: &quot;เตรียมรับผลหลายแบบ แล้วให้ AI ท้าทายแบบวิจัย&quot;, &quot;current&quot;: true}, {&quot;href&quot;: &quot;topic-scope-assumption-limitation.html&quot;, &quot;label&quot;: &quot;นิยาม ขอบเขต สมมติฐานตั้งต้น และข้อจำกัด&quot;, &quot;current&quot;: false}, {&quot;href&quot;: &quot;topic-engineering-indicators-measurement.html&quot;, &quot;label&quot;: &quot;ตัวชี้วัดทางวิศวกรรม เครื่องมือ และคุณภาพการวัด&quot;, &quot;current&quot;: false}, {&quot;href&quot;: &quot;topic-research-ethics-check.html&quot;, &quot;label&quot;: &quot;จริยธรรม ความเป็นส่วนตัว กฎหมาย และความรับผิดชอบในการวิจัย&quot;, &quot;current&quot;: false}, {&quot;href&quot;: &quot;topic-claim-discipline-conclusion-audit.html&quot;, &quot;label&quot;: &quot;ผล ตาราง อภิปราย และข้อสรุปที่ไม่เกินหลักฐาน&quot;, &quot;current&quot;: false}]}'></site-header>
   <main id="main">
 <section class="prepare-hero module-hero"><p class="eyebrow">หัวข้อย่อย · M06</p><h1>เตรียมรับผลหลายแบบ แล้วให้ AI ท้าทายแบบวิจัย</h1><ul class="outcomes"><li>ทำ result-response matrix อย่างน้อย 4 สถานะพร้อมข้อสรุปที่อนุญาต/ห้าม ก่อนเห็นผลจริง</li><li>ให้ AI red-team แบบวิจัย</li><li>ตัดสินความพร้อมและแก้แบบอย่างน้อยหนึ่งจุด</li></ul></section>
-<div class="topic-layout"><nav class="topic-tabs" aria-label="ส่วนของหัวข้อ"><a href="#slides" title="สไลด์">สไลด์</a><a href="#workshop-core" title="Workshop หลัก">Workshop</a><a href="#open-explore" title="Exploring workshop">Exploring</a></nav><div class="topic-main"><section class="section markdown-section topic-panel" id="slides" aria-labelledby="slides-heading"><div class="section-heading compact"><p class="eyebrow">สไลด์</p><h2 id="slides-heading">สไลด์</h2></div><div class="markdown-body"><p>สไลด์ของหัวข้อนี้กำลังจัดทำ</p></div></section>
-<section class="section markdown-section topic-panel" id="workshop-core" aria-labelledby="workshop-core-heading"><div class="section-heading compact"><p class="eyebrow">Workshop</p><h2 id="workshop-core-heading">เตรียมรับผลหลายแบบ แล้วให้ AI ท้าทายแบบวิจัย</h2></div><div class="markdown-body"><h3 id="แนวคิดที่ใช้">แนวคิดที่ใช้</h3>
+<div class="topic-layout"><nav class="topic-tabs topic-menu" aria-label="ในหัวข้อนี้"><p class="topic-menu-title">ในหัวข้อนี้</p><ul><li><a href="#slides" title="สไลด์">สไลด์</a></li><li><a href="#workshop-core" title="Workshop หลัก">Workshop</a><ul class="topic-submenu"><li><a href="#workshop-core--แนวคิดที่ใช้" data-sub>แนวคิดที่ใช้</a></li><li><a href="#workshop-core--ลงมือทำ" data-sub>ลงมือทำ</a></li></ul></li><li><a href="#open-explore" title="Exploring workshop">Exploring</a><ul class="topic-submenu"><li><a href="#open-explore--คำถามทบทวนท้ายบท" data-sub>คำถามทบทวนท้ายบท</a></li><li><a href="#open-explore--ทบทวนและพัฒนาต่อ" data-sub>ทบทวนและพัฒนาต่อ</a></li></ul></li></ul></nav><div class="topic-main"><section class="section markdown-section topic-panel" id="slides" aria-labelledby="slides-heading"><div class="section-heading compact"><p class="eyebrow">สไลด์</p><h2 id="slides-heading">สไลด์</h2></div><div class="markdown-body"><p>สไลด์ของหัวข้อนี้ยังไม่เสร็จ</p></div></section>
+<section class="section markdown-section topic-panel" id="workshop-core" aria-labelledby="workshop-core-heading"><div class="section-heading compact"><p class="eyebrow">Workshop</p><h2 id="workshop-core-heading">เตรียมรับผลหลายแบบ แล้วให้ AI ท้าทายแบบวิจัย</h2></div><div class="markdown-body"><h3 id="workshop-core--แนวคิดที่ใช้">แนวคิดที่ใช้</h3>
 <h4 id="8-result-response-matrix-ป้องกันการมโนย้อนหลัง">8. Result-response matrix ป้องกันการมโนย้อนหลัง</h4>
 <p>ก่อนเก็บข้อมูล ให้กำหนดอย่างน้อยสี่ outcome states:</p>
 <ul>
@@ -30,7 +33,7 @@
 <li>ผลสรุปไม่ได้เพราะ measurement, protocol, missing data, power/adequacy หรือ assumption ล้มเหลว</li>
 </ul>
 <p>สำหรับแต่ละ state ให้เขียน <code>permitted conclusion</code>, <code>forbidden conclusion</code>, <code>next action</code> และ <code>claim status</code> ไว้ล่วงหน้า เพื่อลดการเลือกเล่าเฉพาะผลที่เข้าทางและการสร้างคำอธิบายหลังเห็นผล</p>
-<h3 id="ลงมือทำ">ลงมือทำ</h3>
+<h3 id="workshop-core--ลงมือทำ">ลงมือทำ</h3>
 <h4 id="ช่วง-5--เตรียมรับผลหลายแบบก่อนเห็นผลจริง">ช่วง 5 — เตรียมรับผลหลายแบบก่อนเห็นผลจริง</h4>
 <p>ใช้เพียงสถานการณ์สมมติสี่แบบ: สนับสนุน ไม่ต่าง ขัดแย้ง และสรุปไม่ได้ ทุกใบต้องระบุชัดว่า <code>สถานการณ์สมมติ — ไม่ใช่หลักฐานวิจัย</code></p>
 <div class="command markdown-command"><code>ใช้สมมติฐานและเกณฑ์ตัดสินที่ฉันยืนยัน ช่วยฉันทำบัตรสถานการณ์สมมติทีละใบ เริ่มจาก “ผลสนับสนุน” แล้วจึง “ผลไม่ต่าง” “ผลขัดแย้ง” และ “ผลสรุปไม่ได้” ในแต่ละใบให้ถามฉันว่า อนุญาตให้สรุปอะไร ห้ามสรุปอะไร ต้องทำอะไรต่อ และข้อกล่าวอ้างมีสถานะใด ถ้าฉันสรุปแรงเกินแบบวิจัย ให้ถามท้าทาย แต่ห้ามสร้างตัวเลขหรือผลการศึกษาจริง</code><button type="button" data-copy="">คัดลอก</button></div><p><strong>คุณต้องตัดสิน:</strong> ขอบเขตของข้อสรุปและสิ่งที่จะทำต่อในแต่ละสถานการณ์</p>
@@ -63,7 +66,7 @@
 </ul>
 </div></section>
 <section class="section markdown-section topic-panel" id="open-explore" aria-labelledby="open-explore-heading"><div class="section-heading compact"><p class="eyebrow">Exploring</p><h2 id="open-explore-heading">เตรียมรับผลหลายแบบ แล้วให้ AI ท้าทายแบบวิจัย</h2></div><div class="markdown-body"><p>ในโจทย์นี้คุณจะนำสิ่งที่ทำในหัวข้อนี้ไปใช้กับงานของคุณเอง แล้วตอบคำถามทบทวนด้วยหลักฐานจากไฟล์ของคุณ</p>
-<h3 id="คำถามทบทวนท้ายบท">คำถามทบทวนท้ายบท</h3>
+<h3 id="open-explore--คำถามทบทวนท้ายบท">คำถามทบทวนท้ายบท</h3>
 <ol type="1">
 <li>candidate claim ของคุณต้องอาศัยสมมุติฐานหรือเงื่อนไขจำเป็นใดบ้าง</li>
 <li>comparator หรือ negative case ที่เลือกช่วยตัดคำอธิบายคู่แข่งใด</li>
@@ -71,21 +74,36 @@
 <li>เมื่อผลไม่ต่างหรือสรุปไม่ได้ คุณได้รับอนุญาตให้กล่าวอะไรและห้ามกล่าวอะไร</li>
 <li>ประเด็นใด AI ช่วยตรวจโครงได้ แต่ต้องส่งต่อให้นักสถิติ ผู้เชี่ยวชาญ หรือหน่วยงานจริยธรรมตัดสิน</li>
 </ol>
-<h3 id="ทบทวนและพัฒนาต่อ">ทบทวนและพัฒนาต่อ</h3>
+<h3 id="open-explore--ทบทวนและพัฒนาต่อ">ทบทวนและพัฒนาต่อ</h3>
 <p><strong>ทบทวน:</strong> แก้ workbook ตาม red team แล้วนำจุด <code>expert review required</code> ไปถามอาจารย์ที่ปรึกษา นักสถิติ ผู้เชี่ยวชาญเครื่องมือ หรือหน่วยงานจริยธรรม/กำกับที่เกี่ยวข้อง บันทึกคำตอบและแหล่งอ้างอิง ห้ามให้ AI ปิด <code>TBD</code> เอง</p>
 <p><strong>พัฒนาต่อ:</strong> ใช้ hypothesis IDs, decision rules และ permitted-claim table เป็น analysis plan และ claim gate เมื่อมีข้อมูลจริงใน Module 7 หรือใช้ตรวจข้อความก่อนผลิตเอกสารใน Module 8 หากจบที่ Module 6 ให้ใช้ design verdict และ revision plan เป็นชิ้นงานปลายทาง</p>
 </div></section></div></div>
 <script>
 (() => {
-  const tabs = [...document.querySelectorAll('.topic-tabs a')];
+  const tabs = [...document.querySelectorAll('.topic-tabs > ul > li > a')];
   const panels = tabs.map(t => document.getElementById(t.hash.slice(1)));
+  const subs = [...document.querySelectorAll('.topic-tabs a[data-sub]')];
   function show(id) {
-    const i = Math.max(0, panels.findIndex(p => p && p.id === id));
+    const target = id && document.getElementById(id);
+    const owner = target && target.closest('.topic-panel');
+    const i = Math.max(0, panels.findIndex(p => p && p.id === (owner ? owner.id : id)));
     panels.forEach((p, k) => { if (p) p.hidden = k !== i; });
-    tabs.forEach((t, k) => t.setAttribute('aria-current', k === i ? 'page' : 'false'));
+    tabs.forEach((t, k) => { t.setAttribute('aria-current', k === i ? 'page' : 'false'); t.parentElement.classList.toggle('is-open', k === i); });
     const layout = document.querySelector('.topic-layout'); if (layout && panels[i]) layout.dataset.active = panels[i].id;
+    return target && owner && target !== owner ? target : null;
   }
   tabs.forEach(t => t.addEventListener('click', e => { e.preventDefault(); history.replaceState(null, '', t.hash); show(t.hash.slice(1)); window.scrollTo({top: 0}); }));
+  subs.forEach(s => s.addEventListener('click', e => { e.preventDefault(); history.replaceState(null, '', s.hash); const h = show(s.hash.slice(1)); if (h) h.scrollIntoView({block: 'start'}); }));
+  if ('IntersectionObserver' in window && subs.length) {  // highlight the step being read
+    const byId = new Map(subs.map(s => [s.hash.slice(1), s]));
+    const seen = new Set();
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(en => { if (en.isIntersecting) seen.add(en.target.id); else seen.delete(en.target.id); });
+      const visible = [...byId.keys()].find(k => seen.has(k));
+      if (visible) subs.forEach(s => s.classList.toggle('is-here', s === byId.get(visible)));
+    }, {rootMargin: '-15% 0px -70% 0px'});
+    byId.forEach((_, k) => { const h = document.getElementById(k); if (h) io.observe(h); });
+  }
   document.querySelectorAll('[data-next-tab]').forEach(b => b.addEventListener('click', e => { e.preventDefault(); const h = b.getAttribute('href'); history.replaceState(null, '', h); show(h.slice(1)); window.scrollTo({top: 0}); }));
   document.querySelectorAll('[data-fullscreen]').forEach(b => b.addEventListener('click', () => {
     const frame = document.querySelector(b.dataset.fullscreen);
@@ -106,8 +124,8 @@
     setAside(saved);
     toggle.addEventListener('click', () => setAside(!layout0.classList.contains('aside-hidden')));
   }
-  show(location.hash.slice(1));
-  if (location.hash) requestAnimationFrame(() => window.scrollTo({top: 0}));
+  const deep = show(location.hash.slice(1));
+  if (location.hash) requestAnimationFrame(() => deep ? deep.scrollIntoView({block: 'start'}) : window.scrollTo({top: 0}));
 })();
 </script>
   </main>

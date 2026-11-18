@@ -10,18 +10,21 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/styles.css?v=20261113-2">
-  <link rel="stylesheet" href="assets/learn.css?v=20261116-2">
-  <script src="assets/site-shell.js?v=20261116-2"></script>
-  <script src="assets/app.js?v=20261116-2" defer></script>
+  <link rel="stylesheet" href="assets/learn.css?v=20261118-1">
+  <script src="assets/site-shell.js?v=20261118-1"></script>
+  <script src="assets/app.js?v=20261118-1" defer></script>
+  <link rel="icon" href="assets/images/madlab-ku-mark-dark.svg" type="image/svg+xml">
+  <link rel="icon" href="assets/images/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="assets/images/favicon-180.png">
 </head>
 <body class="learn" data-no-case>
   <a class="skip-link" href="#main">ข้ามไปยังเนื้อหา</a>
   <site-header current="topic" plan="class-2026-11-20-engineering-faculty.html" menu='{&quot;module&quot;: &quot;M08&quot;, &quot;title&quot;: &quot;ผลิตเอกสารวิจัย&quot;, &quot;items&quot;: [{&quot;href&quot;: &quot;module-overview-m08.html&quot;, &quot;label&quot;: &quot;ภาพรวมและ LO&quot;, &quot;current&quot;: false}, {&quot;href&quot;: &quot;topic-journal-fit-and-venue-switch.html&quot;, &quot;label&quot;: &quot;เลือกวารสาร และผลของการเปลี่ยนวารสาร&quot;, &quot;current&quot;: false}, {&quot;href&quot;: &quot;topic-bibtex-abstract-audit-literature-map.html&quot;, &quot;label&quot;: &quot;ตรวจ references.bib พร้อมที่มาของ abstract และทำ literature map&quot;, &quot;current&quot;: false}, {&quot;href&quot;: &quot;topic-paragraph-contract-reverse-check.html&quot;, &quot;label&quot;: &quot;จาก highlights สู่ย่อหน้า: ข้อตกลงของย่อหน้าและการตรวจย้อนทุกประโยค&quot;, &quot;current&quot;: false}, {&quot;href&quot;: &quot;topic-markdown-single-source-latex-pdf-build.html&quot;, &quot;label&quot;: &quot;ต้นฉบับ Markdown ชุดเดียว → LaTeX ที่ AI สร้าง → PDF และการแก้ build ตามชั้น&quot;, &quot;current&quot;: true}, {&quot;href&quot;: &quot;topic-pdf-qa-submission-readiness.html&quot;, &quot;label&quot;: &quot;ตรวจ PDF ก่อนส่ง: ตรวจเนื้อหาแยกจากหน้ากระดาษ แก้หนึ่งรอบ และบันทึกความพร้อมส่ง&quot;, &quot;current&quot;: false}, {&quot;href&quot;: &quot;topic-kuthesis-thai-thesis-template.html&quot;, &quot;label&quot;: &quot;วิทยานิพนธ์รูปแบบ มก. ด้วย kuthesis: สร้าง PDF จากตัวอย่างและใช้ refs.bib ของตัวเอง&quot;, &quot;current&quot;: false}]}'></site-header>
   <main id="main">
 <section class="prepare-hero module-hero"><p class="eyebrow">หัวข้อย่อย · M08</p><h1>ต้นฉบับ Markdown ชุดเดียว → LaTeX ที่ AI สร้าง → PDF และการแก้ build ตามชั้น</h1><ul class="outcomes"><li>ใช้ Markdown เป็นต้นฉบับเพียงชุดเดียว ให้ AI สร้าง generated/main.tex ตามข้อกำหนดวารสาร build เป็น PDF อ่าน log และแก้ปัญหา build ที่ไฟล์ต้นทางตามชั้น (เนื้อหา, citation key, path รูป, environment) โดยไม่แก้ PDF หรือ .tex ที่สร้างขึ้นโดยตรง</li></ul></section>
-<div class="topic-layout"><nav class="topic-tabs" aria-label="ส่วนของหัวข้อ"><a href="#slides" title="สไลด์">สไลด์</a><a href="#workshop-core" title="Workshop หลัก">Workshop</a><a href="#open-explore" title="Exploring workshop">Exploring</a></nav><div class="topic-main"><section class="section markdown-section topic-panel" id="slides" aria-labelledby="slides-heading"><div class="section-heading compact"><p class="eyebrow">สไลด์</p><h2 id="slides-heading">สไลด์</h2></div><div class="markdown-body"><p>สไลด์ของหัวข้อนี้กำลังจัดทำ</p></div></section>
+<div class="topic-layout"><nav class="topic-tabs topic-menu" aria-label="ในหัวข้อนี้"><p class="topic-menu-title">ในหัวข้อนี้</p><ul><li><a href="#slides" title="สไลด์">สไลด์</a></li><li><a href="#workshop-core" title="Workshop หลัก">Workshop</a><ul class="topic-submenu"><li><a href="#workshop-core--ก่อนเริ่ม-ต้องมีอยู่แล้ว" data-sub>ก่อนเริ่ม (ต้องมีอยู่แล้ว)</a></li><li><a href="#workshop-core--คำที่ใช้ใน-workshop-นี้" data-sub>คำที่ใช้ใน workshop นี้</a></li><li><a href="#workshop-core--ขั้นตอน" data-sub>ขั้นตอน</a></li><li><a href="#workshop-core--ตรวจก่อนจบ" data-sub>ตรวจก่อนจบ</a></li><li><a href="#workshop-core--ข้อจำกัดของ-mock" data-sub>ข้อจำกัดของ mock</a></li><li><a href="#workshop-core--ส่งงาน" data-sub>ส่งงาน</a></li></ul></li><li><a href="#open-explore" title="Exploring workshop">Exploring</a><ul class="topic-submenu"><li><a href="#open-explore--ก่อนเริ่ม-ต้องมีอยู่แล้ว" data-sub>ก่อนเริ่ม (ต้องมีอยู่แล้ว)</a></li><li><a href="#open-explore--โจทย์" data-sub>โจทย์</a></li><li><a href="#open-explore--ข้อกำหนด" data-sub>ข้อกำหนด</a></li><li><a href="#open-explore--เกณฑ์ผ่าน" data-sub>เกณฑ์ผ่าน</a></li></ul></li></ul></nav><div class="topic-main"><section class="section markdown-section topic-panel" id="slides" aria-labelledby="slides-heading"><div class="section-heading compact"><p class="eyebrow">สไลด์</p><h2 id="slides-heading">สไลด์</h2></div><div class="markdown-body"><p>สไลด์ของหัวข้อนี้ยังไม่เสร็จ</p></div></section>
 <section class="section markdown-section topic-panel" id="workshop-core" aria-labelledby="workshop-core-heading"><div class="section-heading compact"><p class="eyebrow">Workshop</p><h2 id="workshop-core-heading">ต้นฉบับ Markdown ชุดเดียว → LaTeX ที่ AI สร้าง → PDF และการแก้ build ตามชั้น</h2></div><div class="markdown-body"><p>ใน workshop นี้คุณจะใส่รูปลงต้นฉบับ Markdown ให้ AI สร้าง LaTeX ตามข้อกำหนดของวารสารจำลอง Journal A แล้ว build เป็น PDF และแก้ build ที่พังตามชั้น — ได้ <code>generated/main.tex</code> และ <code>build/manuscript.pdf</code> (ใช้ต้นฉบับ PM2.5 จำลองและระเบียนอ้างอิงจำลองทั้งหมด)</p>
-<h3 id="ก่อนเริ่ม-ต้องมีอยู่แล้ว">ก่อนเริ่ม (ต้องมีอยู่แล้ว)</h3>
+<h3 id="workshop-core--ก่อนเริ่ม-ต้องมีอยู่แล้ว">ก่อนเริ่ม (ต้องมีอยู่แล้ว)</h3>
 <ul>
 <li>ผ่าน Module 1: เปิด <code>ai-for-research-workspace</code> ใน VS Code และ AI panel เชื่อมแล้ว (ตัวติดตั้ง Module 1 ติดตั้ง <code>latexmk</code> และ <code>xelatex</code> ให้)</li>
 <li>ติดตั้ง Module 8 แล้ว ตัวติดตั้งสร้างไฟล์เหล่านี้ให้ (คัดลอกมาจาก <code>course-materials/module-08/</code>):
@@ -34,14 +37,14 @@
 </ul></li>
 <li>(ไม่บังคับ) ตัวอย่าง .tex สำหรับเทียบรูปแบบเท่านั้น ห้ามคัดลอกไปเป็นงาน: <a href="https://urban.cpe.ku.ac.th/ai-for-research/downloads/module-08-mock-report.tex">module-08-mock-report.tex</a></li>
 </ul>
-<h3 id="คำที่ใช้ใน-workshop-นี้">คำที่ใช้ใน workshop นี้</h3>
+<h3 id="workshop-core--คำที่ใช้ใน-workshop-นี้">คำที่ใช้ใน workshop นี้</h3>
 <ul>
 <li><strong>source of truth</strong> — ต้นฉบับชุดเดียวที่ใช้แก้เนื้อหา ในโมดูลนี้คือ <code>source/manuscript.md</code></li>
 <li><strong>generated</strong> — LaTeX ที่ AI สร้างใหม่ได้จาก Markdown ไม่ใช่ที่แก้เนื้อหาหลัก</li>
 <li><strong>build</strong> — PDF และ log ที่ได้จากคำสั่งสร้างเอกสาร</li>
 <li><strong>build log</strong> — บันทึก warning/error ที่ใช้หาชั้นของปัญหา</li>
 </ul>
-<h3 id="ขั้นตอน">ขั้นตอน</h3>
+<h3 id="workshop-core--ขั้นตอน">ขั้นตอน</h3>
 <ol type="1">
 <li><p><strong>ดูสายการผลิต (1 นาที)</strong> เปิดโฟลเดอร์ <code>module-08-work/</code> ใน Explorer แล้วดูว่า <code>source/</code> คือที่คุณแก้ <code>generated/</code> คือที่ AI จะสร้างไฟล์ LaTeX (สร้างใหม่ได้ทุกเมื่อ) และ <code>build/</code> คือที่ PDF กับ log จะไปอยู่ — ตอนนี้ <code>generated/</code> และ <code>build/</code> ยังว่าง</p>
 <p><strong>ตรวจ:</strong> อธิบายได้ว่าเนื้อหาแก้ที่ <code>source/</code> ส่วน <code>generated/</code> กับ <code>build/</code> สร้างใหม่ได้</p></li>
@@ -103,7 +106,7 @@
 <li><p><strong>(ถ้ามีเวลา) ลองทำพังแล้วซ่อม</strong> ถ้า <code>source/manuscript.md</code> มี citation key อยู่แล้ว (เช่น <code>Arun2024CommunityPM</code> จาก <code>references.bib</code>) แก้ key หนึ่งตัวให้ผิด เช่น ตัดปีออก ให้ AI สร้าง <code>main.tex</code> ใหม่และ build — ดูว่า PDF แสดง ? และ log เตือนอะไร แล้วแก้กลับที่ Markdown ไม่ใช่ที่ PDF แล้ว build อีกครั้ง</p>
 <p><strong>ตรวจ:</strong> key ถูกแก้กลับที่ Markdown และ PDF ล่าสุดไม่มี <code>?</code></p></li>
 </ol>
-<h3 id="ตรวจก่อนจบ">ตรวจก่อนจบ</h3>
+<h3 id="workshop-core--ตรวจก่อนจบ">ตรวจก่อนจบ</h3>
 <ul class="task-list">
 <li><label><input type="checkbox"><code>module-08-work/generated/main.tex</code> มีอยู่ และสร้างจาก <code>source/manuscript.md</code> (ไม่มีผล ตัวเลข หรือ citation ที่ไม่มีใน Markdown)</label></li>
 <li><label><input type="checkbox"><code>module-08-work/build/manuscript.pdf</code> เปิดอ่านได้ และ log ใน <code>build/</code> ไม่มี undefined citation</label></li>
@@ -111,37 +114,37 @@
 <li><label><input type="checkbox">การแก้ทุกครั้งเกิดที่ <code>source/</code>, <code>literature/</code> หรือ <code>figures/</code> ไม่มีการแก้ด้วยมือใน <code>generated/</code> หรือ <code>build/</code></label></li>
 <li><label><input type="checkbox">(ถ้าทำขั้น 6) citation key ใน <code>source/manuscript.md</code> ถูกแก้กลับแล้ว และ PDF ล่าสุดไม่มี ?</label></li>
 </ul>
-<h3 id="ข้อจำกัดของ-mock">ข้อจำกัดของ mock</h3>
+<h3 id="workshop-core--ข้อจำกัดของ-mock">ข้อจำกัดของ mock</h3>
 <ul>
 <li>Journal A จำลองไม่มี LaTeX author kit จริง จึงฝึกด่าน “ทดสอบแม่แบบเดิม (pristine template)” ไม่ได้ — งานจริงต้อง compile template ทางการก่อนใส่เนื้อหา และเก็บ PDF/log เป็น baseline</li>
 </ul>
-<h3 id="ส่งงาน">ส่งงาน</h3>
+<h3 id="workshop-core--ส่งงาน">ส่งงาน</h3>
 <ul>
 <li>ส่งตามขั้นตอนส่งงานของโมดูล (ตอนนี้ Module 8 ยังไม่กำหนดช่องทางส่ง)</li>
 </ul>
 </div></section>
 <section class="section markdown-section topic-panel" id="open-explore" aria-labelledby="open-explore-heading"><div class="section-heading compact"><p class="eyebrow">Exploring</p><h2 id="open-explore-heading">ต้นฉบับ Markdown ชุดเดียว → LaTeX ที่ AI สร้าง → PDF และการแก้ build ตามชั้น</h2></div><div class="markdown-body"><p>ในโจทย์นี้คุณจะเขียน prompt เอง (ไม่มี prompt สำเร็จรูปให้) เพื่อเปลี่ยนเอกสารสั้นของตัวเองเป็นต้นฉบับ Markdown ชุดเดียว ให้ AI สร้าง LaTeX ตามแม่แบบของแหล่งเผยแพร่ที่เลือก แล้ว build เป็น PDF พร้อมบันทึกการแก้ build</p>
-<h3 id="ก่อนเริ่ม-ต้องมีอยู่แล้ว">ก่อนเริ่ม (ต้องมีอยู่แล้ว)</h3>
+<h3 id="open-explore--ก่อนเริ่ม-ต้องมีอยู่แล้ว">ก่อนเริ่ม (ต้องมีอยู่แล้ว)</h3>
 <ul>
 <li>ทำ workshop หลักของหัวข้อนี้แล้ว: build <code>module-08-work/build/manuscript.pdf</code> ได้ด้วย <code>tools/build-module-08.sh</code> หรือ <code>tools/build-module-08.ps1</code> (ตัวติดตั้ง Module 8 สร้างให้)</li>
 <li>เอกสารสั้นของคุณเอง 2–4 หน้า (รายงานความก้าวหน้า บทคัดย่อขยาย หรือหนึ่งส่วนของบทความ) ที่มีอย่างน้อย 1 รูปและ 2 citation พร้อมไฟล์รูปและข้อมูลอ้างอิงของ citation เหล่านั้น</li>
 <li>แม่แบบ LaTeX ทางการของแหล่งเผยแพร่ที่คุณเลือก ดาวน์โหลดจากเว็บของแหล่งเผยแพร่นั้นเอง (ถ้าแหล่งเผยแพร่กำหนด Word ให้ระบุเหตุผลและเลือกแหล่งที่ใช้ LaTeX สำหรับแบบฝึกนี้)</li>
 </ul>
-<h3 id="โจทย์">โจทย์</h3>
+<h3 id="open-explore--โจทย์">โจทย์</h3>
 <ol type="1">
 <li>สร้างโฟลเดอร์ <code>output/</code> สำหรับงานนี้ และเริ่มไฟล์ <code>output/prompts.md</code> ไว้บันทึก prompt ทุกรอบ</li>
 <li>เขียนเนื้อหาเป็น Markdown ต้นฉบับชุดเดียวที่ <code>output/source/manuscript.md</code> วางรูปใน <code>output/figures/</code> และทำ <code>output/references.bib</code></li>
 <li>เขียน prompt ให้ AI สร้าง <code>output/generated/main.tex</code> ตามแม่แบบที่ดาวน์โหลดมา</li>
 <li>build เป็น PDF ใน <code>output/build/</code> และแก้ปัญหา build อย่างน้อยหนึ่งครั้งตามชั้น (Markdown / citation key กับ .bib / รูป / environment) บันทึกลง <code>output/repair-log.md</code> ที่คุณสร้างในขั้นนี้ (อาการ → ชั้นที่ตรวจ → ไฟล์ต้นทางที่แก้)</li>
 </ol>
-<h3 id="ข้อกำหนด">ข้อกำหนด</h3>
+<h3 id="open-explore--ข้อกำหนด">ข้อกำหนด</h3>
 <ul>
 <li><code>output/prompts.md</code> เก็บ prompt ทุกรอบ (prompt, สรุปผลที่ได้, สิ่งที่ปรับในรอบถัดไปและเหตุผล)</li>
 <li>ระบุว่าตรวจผลของ AI อย่างไร (เทียบกับไฟล์/เอกสารต้นทางใด) และแก้อะไรเอง</li>
 <li>ผลงาน: <code>output/source/manuscript.md</code>, <code>output/references.bib</code>, <code>output/figures/</code>, <code>output/generated/main.tex</code>, <code>output/build/*.pdf</code> และ <code>output/repair-log.md</code></li>
 <li>ใช้แม่แบบจากแหล่งทางการเท่านั้น และไม่แก้ <code>.cls</code>/<code>.sty</code>/<code>.bst</code> ของแหล่งเผยแพร่</li>
 </ul>
-<h3 id="เกณฑ์ผ่าน">เกณฑ์ผ่าน</h3>
+<h3 id="open-explore--เกณฑ์ผ่าน">เกณฑ์ผ่าน</h3>
 <ul class="task-list">
 <li><label><input type="checkbox">PDF ใน <code>output/build/</code> เปิดได้ ไม่มี citation/reference ที่ขึ้นเป็น ? และรูปถูกอ้างถึงในข้อความ</label></li>
 <li><label><input type="checkbox">การแก้ทุกครั้งเกิดที่ไฟล์ต้นทาง (Markdown, .bib, figures) — สร้าง <code>main.tex</code> ใหม่แล้วยังได้ผลเดิม</label></li>
@@ -153,15 +156,30 @@
 </div></section></div></div>
 <script>
 (() => {
-  const tabs = [...document.querySelectorAll('.topic-tabs a')];
+  const tabs = [...document.querySelectorAll('.topic-tabs > ul > li > a')];
   const panels = tabs.map(t => document.getElementById(t.hash.slice(1)));
+  const subs = [...document.querySelectorAll('.topic-tabs a[data-sub]')];
   function show(id) {
-    const i = Math.max(0, panels.findIndex(p => p && p.id === id));
+    const target = id && document.getElementById(id);
+    const owner = target && target.closest('.topic-panel');
+    const i = Math.max(0, panels.findIndex(p => p && p.id === (owner ? owner.id : id)));
     panels.forEach((p, k) => { if (p) p.hidden = k !== i; });
-    tabs.forEach((t, k) => t.setAttribute('aria-current', k === i ? 'page' : 'false'));
+    tabs.forEach((t, k) => { t.setAttribute('aria-current', k === i ? 'page' : 'false'); t.parentElement.classList.toggle('is-open', k === i); });
     const layout = document.querySelector('.topic-layout'); if (layout && panels[i]) layout.dataset.active = panels[i].id;
+    return target && owner && target !== owner ? target : null;
   }
   tabs.forEach(t => t.addEventListener('click', e => { e.preventDefault(); history.replaceState(null, '', t.hash); show(t.hash.slice(1)); window.scrollTo({top: 0}); }));
+  subs.forEach(s => s.addEventListener('click', e => { e.preventDefault(); history.replaceState(null, '', s.hash); const h = show(s.hash.slice(1)); if (h) h.scrollIntoView({block: 'start'}); }));
+  if ('IntersectionObserver' in window && subs.length) {  // highlight the step being read
+    const byId = new Map(subs.map(s => [s.hash.slice(1), s]));
+    const seen = new Set();
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(en => { if (en.isIntersecting) seen.add(en.target.id); else seen.delete(en.target.id); });
+      const visible = [...byId.keys()].find(k => seen.has(k));
+      if (visible) subs.forEach(s => s.classList.toggle('is-here', s === byId.get(visible)));
+    }, {rootMargin: '-15% 0px -70% 0px'});
+    byId.forEach((_, k) => { const h = document.getElementById(k); if (h) io.observe(h); });
+  }
   document.querySelectorAll('[data-next-tab]').forEach(b => b.addEventListener('click', e => { e.preventDefault(); const h = b.getAttribute('href'); history.replaceState(null, '', h); show(h.slice(1)); window.scrollTo({top: 0}); }));
   document.querySelectorAll('[data-fullscreen]').forEach(b => b.addEventListener('click', () => {
     const frame = document.querySelector(b.dataset.fullscreen);
@@ -182,8 +200,8 @@
     setAside(saved);
     toggle.addEventListener('click', () => setAside(!layout0.classList.contains('aside-hidden')));
   }
-  show(location.hash.slice(1));
-  if (location.hash) requestAnimationFrame(() => window.scrollTo({top: 0}));
+  const deep = show(location.hash.slice(1));
+  if (location.hash) requestAnimationFrame(() => deep ? deep.scrollIntoView({block: 'start'}) : window.scrollTo({top: 0}));
 })();
 </script>
   </main>

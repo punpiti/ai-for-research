@@ -10,26 +10,29 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/styles.css?v=20261113-2">
-  <link rel="stylesheet" href="assets/learn.css?v=20261116-2">
-  <script src="assets/site-shell.js?v=20261116-2"></script>
-  <script src="assets/app.js?v=20261116-2" defer></script>
+  <link rel="stylesheet" href="assets/learn.css?v=20261118-1">
+  <script src="assets/site-shell.js?v=20261118-1"></script>
+  <script src="assets/app.js?v=20261118-1" defer></script>
   <script src="assets/airr-connect.js?v=20261116-1" defer></script>
   <script src="assets/dev-auth.js?v=20261010-1"></script>
+  <link rel="icon" href="assets/images/madlab-ku-mark-dark.svg" type="image/svg+xml">
+  <link rel="icon" href="assets/images/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="assets/images/favicon-180.png">
 </head>
 <body class="learn" data-no-case>
   <a class="skip-link" href="#main">ข้ามไปยังเนื้อหา</a>
   <site-header current="topic" plan="class-2026-11-20-engineering-faculty.html" menu='{&quot;module&quot;: &quot;M01&quot;, &quot;title&quot;: &quot;เตรียมเครื่องและ workspace&quot;, &quot;items&quot;: [{&quot;href&quot;: &quot;module-overview-m01.html&quot;, &quot;label&quot;: &quot;ภาพรวมและ LO&quot;, &quot;current&quot;: false}, {&quot;href&quot;: &quot;topic-class-introduction.html&quot;, &quot;label&quot;: &quot;แนะนำคลาส&quot;, &quot;current&quot;: false}, {&quot;href&quot;: &quot;topic-prepare-machine.html&quot;, &quot;label&quot;: &quot;เตรียมเครื่อง: ต้องทำอะไร โครงสร้างเป็นอย่างไร และใช้งานเบื้องต้น&quot;, &quot;current&quot;: true}]}'></site-header>
   <main id="main">
 <section class="prepare-hero module-hero"><p class="eyebrow">หัวข้อย่อย · M01</p><h1>เตรียมเครื่อง: ต้องทำอะไร โครงสร้างเป็นอย่างไร และใช้งานเบื้องต้น</h1><ul class="outcomes"><li>ติดตั้งเครื่องมือจนเห็น FINAL_RESULT PASS อธิบายได้ว่าเครื่องมือและโฟลเดอร์แต่ละส่วนทำอะไร แยกต้นฉบับกับงานที่ AI สร้าง สั่ง AI สร้างและแก้ไฟล์ข้อความแล้วตรวจเอง ทบทวนความพร้อมด้วยเช็กลิสต์บนเว็บ และเปิดงานกลับมาทำต่อได้</li></ul></section>
-<div class="topic-layout"><nav class="topic-tabs" aria-label="ส่วนของหัวข้อ"><a href="#slides" title="สไลด์">สไลด์</a><a href="#workshop-core" title="Workshop หลัก">Workshop</a><a href="#open-explore" title="Exploring workshop">Exploring</a><button type="button" class="aside-toggle" data-aside-toggle aria-pressed="false">ซ่อนสไลด์ข้าง</button></nav><div class="topic-main"><section class="section markdown-section topic-panel" id="slides" aria-labelledby="slides-heading"><div class="section-heading compact"><p class="eyebrow">สไลด์</p><h2 id="slides-heading">สไลด์</h2></div><div class="markdown-body"><div class="slide-tools"><button type="button" class="slide-tool" data-fullscreen="#slide-frame-main">⛶ เต็มจอ</button><a class="slide-tool" href="downloads/topics/prepare-machine.pdf" target="_blank" rel="noopener">เปิดแท็บใหม่ ↗</a></div><iframe id="slide-frame-main" class="slide-frame" src="downloads/topics/prepare-machine.pdf#view=FitH" title="สไลด์ เตรียมเครื่อง: ต้องทำอะไร โครงสร้างเป็นอย่างไร และใช้งานเบื้องต้น" allowfullscreen></iframe></div></section>
+<div class="topic-layout"><nav class="topic-tabs topic-menu" aria-label="ในหัวข้อนี้"><p class="topic-menu-title">ในหัวข้อนี้</p><ul><li><a href="#slides" title="สไลด์">สไลด์</a></li><li><a href="#workshop-core" title="Workshop หลัก">Workshop</a><ul class="topic-submenu"><li><a href="#workshop-core--ก่อนเริ่ม-ต้องมีอยู่แล้ว" data-sub>ก่อนเริ่ม (ต้องมีอยู่แล้ว)</a></li><li><a href="#workshop-core--คำที่ใช้ใน-workshop-นี้" data-sub>คำที่ใช้ใน workshop นี้</a></li><li><a href="#workshop-core--ขั้นที่-1--ติดตั้ง" data-sub>ขั้นที่ 1 — ติดตั้ง</a></li><li><a href="#workshop-core--software-list-heading" data-sub>สิ่งที่จะพร้อมใช้หลังติดตั้ง</a></li><li><a href="#workshop-core--ขั้นที่-2--ให้-ai-ทดสอบ-airr-whoami" data-sub>ขั้นที่ 2 — ให้ AI ทดสอบ AIRR (whoami)</a></li><li><a href="#workshop-core--ขั้นที่-3--ดูพื้นที่ทำงาน" data-sub>ขั้นที่ 3 — ดูพื้นที่ทำงาน</a></li><li><a href="#workshop-core--ขั้นที่-4--ให้-ai-อธิบายโครงสร้าง-โดยยังไม่แก้อะไร" data-sub>ขั้นที่ 4 — ให้ AI อธิบายโครงสร้าง โดยยังไม่แก้อะไร</a></li><li><a href="#workshop-core--ขั้นที่-5--ให้-ai-สร้างและแก้ไฟล์แรก" data-sub>ขั้นที่ 5 — ให้ AI สร้างและแก้ไฟล์แรก</a></li><li><a href="#workshop-core--ขั้นที่-6--ทบทวนและติ๊กความพร้อมบนเว็บ-ไม่ใช้-ai" data-sub>ขั้นที่ 6 — ทบทวนและติ๊กความพร้อมบนเว็บ (ไม่ใช้ AI)</a></li><li><a href="#workshop-core--ตรวจก่อนจบ-workshop" data-sub>ตรวจก่อนจบ workshop</a></li></ul></li><li><a href="#open-explore" title="Exploring workshop">Exploring</a><ul class="topic-submenu"><li><a href="#open-explore--โจทย์-เลือกทำอย่างน้อย-2-แบบ" data-sub>โจทย์ (เลือกทำอย่างน้อย 2 แบบ)</a></li><li><a href="#open-explore--ข้อกำหนด" data-sub>ข้อกำหนด</a></li><li><a href="#open-explore--เกณฑ์ผ่าน" data-sub>เกณฑ์ผ่าน</a></li></ul></li></ul><button type="button" class="aside-toggle" data-aside-toggle aria-pressed="false">ซ่อนสไลด์ข้าง</button></nav><div class="topic-main"><section class="section markdown-section topic-panel" id="slides" aria-labelledby="slides-heading"><div class="section-heading compact"><p class="eyebrow">สไลด์</p><h2 id="slides-heading">สไลด์</h2></div><div class="markdown-body"><div class="slide-tools"><button type="button" class="slide-tool" data-fullscreen="#slide-frame-main">⛶ เต็มจอ</button><a class="slide-tool" href="downloads/topics/prepare-machine.pdf" target="_blank" rel="noopener">เปิดแท็บใหม่ ↗</a></div><iframe id="slide-frame-main" class="slide-frame" src="downloads/topics/prepare-machine.pdf#view=FitH" title="สไลด์ เตรียมเครื่อง: ต้องทำอะไร โครงสร้างเป็นอย่างไร และใช้งานเบื้องต้น" allowfullscreen></iframe></div></section>
 <section class="section markdown-section topic-panel" id="workshop-core" aria-labelledby="workshop-core-heading"><div class="section-heading compact"><p class="eyebrow">Workshop</p><h2 id="workshop-core-heading">เตรียมเครื่อง: ต้องทำอะไร โครงสร้างเป็นอย่างไร และใช้งานเบื้องต้น</h2></div><div class="markdown-body"><p>ใน workshop นี้คุณจะติดตั้งเครื่องมือ ให้ AI ทดสอบการเชื่อม AIRR ให้ AI สร้างและแก้ไฟล์แรก แล้วติ๊กทบทวนความพร้อมบนเว็บ</p>
-<h3 id="ก่อนเริ่ม-ต้องมีอยู่แล้ว">ก่อนเริ่ม (ต้องมีอยู่แล้ว)</h3>
+<h3 id="workshop-core--ก่อนเริ่ม-ต้องมีอยู่แล้ว">ก่อนเริ่ม (ต้องมีอยู่แล้ว)</h3>
 <ul>
 <li>คอมพิวเตอร์ที่จะใช้จริง อินเทอร์เน็ต และสิทธิ์ติดตั้งโปรแกรม</li>
 <li>OpenRouter key ที่ได้รับจากผู้สอน (ทุกคนได้) — ถ้ามีบัญชี Claude หรือ ChatGPT ของตนเองก็ใช้แทนได้</li>
 <li>เข้าสู่ระบบเว็บคลาสด้วยบัญชี Google แล้ว (คำสั่งติดตั้งจะใส่รหัสเชื่อมคลาสให้เอง)</li>
 </ul>
-<h3 id="คำที่ใช้ใน-workshop-นี้">คำที่ใช้ใน workshop นี้</h3>
+<h3 id="workshop-core--คำที่ใช้ใน-workshop-นี้">คำที่ใช้ใน workshop นี้</h3>
 <ul>
 <li><strong>Terminal</strong> — หน้าต่างพิมพ์คำสั่งของเครื่อง (Windows เรียก PowerShell) ใช้แค่ตอนติดตั้ง</li>
 <li><strong>workspace</strong> — โฟลเดอร์งานของคลาสชื่อ <code>ai-for-research-workspace</code> ที่ตัวติดตั้งสร้างให้</li>
@@ -40,7 +43,7 @@
 <li><strong>AIRR Key</strong> — รหัสที่ผูก workspace กับบัญชีและคลาสของคุณ ห้ามส่งต่อหรือแสดงให้ใครเห็น</li>
 </ul>
 <hr>
-<h3 id="ขั้นที่-1--ติดตั้ง">ขั้นที่ 1 — ติดตั้ง</h3>
+<h3 id="workshop-core--ขั้นที่-1--ติดตั้ง">ขั้นที่ 1 — ติดตั้ง</h3>
 <p>ทำตามขั้น 1–5 ในกล่องด้านล่าง: เลือกระบบ → เลือก AI (ขั้น 3–5 จะแสดงหลังเลือก AI) → คัดลอกคำสั่ง (ระบบใส่ AIRR Key ให้เอง) → เปิด Terminal แล้ววาง → ดูผล (AIRR Key ผูกกับบัญชีและคลาสนี้ ห้ามส่งต่อ · หลังติดตั้งเสร็จไม่ต้องพิมพ์คำสั่งใน Terminal เอง ให้ AI รันให้)</p>
 <div class="embedded-ui"><section class="section" id="choose-ai">
       <div class="section-heading compact"><p class="eyebrow">1 · เลือกระบบและ AI</p><h2>เลือกระบบและ AI</h2></div>
@@ -65,7 +68,7 @@
       <summary>ดูรายการโปรแกรมที่จะติดตั้งให้ (ไม่ต้องอ่านก็ติดตั้งได้)</summary>
       <div class="software-table-wrap" aria-labelledby="software-list-heading">
         <span class="content-kind is-read">อ่าน</span>
-        <h3 id="software-list-heading">สิ่งที่จะพร้อมใช้หลังติดตั้ง</h3>
+        <h3 id="workshop-core--software-list-heading">สิ่งที่จะพร้อมใช้หลังติดตั้ง</h3>
         <table class="software-table">
           <thead><tr><th>ใช้ทำอะไร</th><th>ซอฟต์แวร์</th><th>รุ่น</th></tr></thead>
           <tbody>
@@ -138,7 +141,7 @@
 <li><label><input type="checkbox">VS Code เปิดโฟลเดอร์ <code>ai-for-research-workspace</code> ให้เอง</label></li>
 </ul>
 <hr>
-<h3 id="ขั้นที่-2--ให้-ai-ทดสอบ-airr-whoami">ขั้นที่ 2 — ให้ AI ทดสอบ AIRR (whoami)</h3>
+<h3 id="workshop-core--ขั้นที่-2--ให้-ai-ทดสอบ-airr-whoami">ขั้นที่ 2 — ให้ AI ทดสอบ AIRR (whoami)</h3>
 <p>ขั้นนี้แจ้ง AIRR ว่าคุณติดตั้งผ่านแล้ว ผู้สอนจะเห็นสถานะ "เชื่อมแล้ว" ของคุณ</p>
 <div class="embedded-ui"><section class="section" id="airr-gate">
       <div class="section-heading compact"><p class="eyebrow">ทดสอบหลังติดตั้ง</p><h2>เชื่อม AI แล้วให้ AI รัน AIRR whoami</h2></div>
@@ -170,14 +173,14 @@
 
     </div><p><strong>ตรวจ:</strong> AI ตอบชื่อคลาสของคุณ และไม่แสดง AIRR Key</p>
 <hr>
-<h3 id="ขั้นที่-3--ดูพื้นที่ทำงาน">ขั้นที่ 3 — ดูพื้นที่ทำงาน</h3>
+<h3 id="workshop-core--ขั้นที่-3--ดูพื้นที่ทำงาน">ขั้นที่ 3 — ดูพื้นที่ทำงาน</h3>
 <ol type="1">
 <li>ดูว่า VS Code เปิดโฟลเดอร์ <code>ai-for-research-workspace</code> ให้เองหลังติดตั้ง ถ้าไม่เปิด: เปิด VS Code แล้วเลือก <strong>File → Open Folder → ai-for-research-workspace</strong></li>
 <li>ดูแผง Explorer ด้านซ้ายว่ามีโฟลเดอร์ที่ตัวติดตั้งสร้างให้</li>
 </ol>
 <p><strong>ตรวจ:</strong> แผง Explorer มีโฟลเดอร์ <code>course-materials/</code>, <code>module-01-work/</code> และ <code>tools/</code></p>
 <hr>
-<h3 id="ขั้นที่-4--ให้-ai-อธิบายโครงสร้าง-โดยยังไม่แก้อะไร">ขั้นที่ 4 — ให้ AI อธิบายโครงสร้าง โดยยังไม่แก้อะไร</h3>
+<h3 id="workshop-core--ขั้นที่-4--ให้-ai-อธิบายโครงสร้าง-โดยยังไม่แก้อะไร">ขั้นที่ 4 — ให้ AI อธิบายโครงสร้าง โดยยังไม่แก้อะไร</h3>
 <ol type="1">
 <li><p>วาง prompt นี้ใน AI panel (ประโยคแรกบอกขอบเขตไฟล์ให้ AI ใช้ซ้ำได้ เปลี่ยนแค่เลขโมดูล)</p>
 <div class="command ai-prompt"><code>ทำงานใน ai-for-research-workspace ตามแผนที่ไฟล์ของหลักสูตร: งานของโมดูลนี้อยู่ใน module-01-work/ เท่านั้น อ่านต้นฉบับจาก input/original/ และ course-materials/ โดยห้ามแก้ เขียนผลงานลง output/ ใช้ literature/ เป็นคลังอ้างอิงร่วม และห้ามแตะ tools/ กับ .airr/ ตอนนี้ยังไม่ต้องสร้างหรือแก้ไฟล์ใด แสดงโฟลเดอร์ระดับบนสุดของ workspace แล้วจัดแต่ละโฟลเดอร์เป็น ต้นฉบับ (ห้ามแก้) / งานของฉัน / ไฟล์จากผู้สอน (อ่านอย่างเดียว) / ระบบ (ห้ามแตะ) / ใช้ร่วมทุกโมดูล</code><button type="button" data-copy="">คัดลอก</button></div></li>
@@ -193,7 +196,7 @@
 </ol>
 <p><strong>ตรวจ:</strong> ใน Explorer ไม่มีไฟล์ใหม่หรือไฟล์ที่ถูกแก้จากขั้นนี้</p>
 <hr>
-<h3 id="ขั้นที่-5--ให้-ai-สร้างและแก้ไฟล์แรก">ขั้นที่ 5 — ให้ AI สร้างและแก้ไฟล์แรก</h3>
+<h3 id="workshop-core--ขั้นที่-5--ให้-ai-สร้างและแก้ไฟล์แรก">ขั้นที่ 5 — ให้ AI สร้างและแก้ไฟล์แรก</h3>
 <ol type="1">
 <li><p>สั่ง AI (แทน … ด้วยหัวข้องานวิจัยของคุณ ไม่ใส่ข้อมูลลับหรือข้อมูลส่วนบุคคล)</p>
 <div class="command ai-prompt"><code>สร้างไฟล์ module-01-work/output/first-note.txt ที่มีสองบรรทัด: บรรทัดแรกคือหัวข้องานวิจัยของฉัน "…" บรรทัดที่สองคือวันที่วันนี้ ห้ามแก้ไฟล์อื่น แล้วบอกว่าไฟล์อยู่ที่ไหน</code><button type="button" data-copy="">คัดลอก</button></div></li>
@@ -206,7 +209,7 @@
 <p><strong>ตรวจ:</strong> <code>module-01-work/output/first-note.txt</code> มีสามบรรทัด และไม่มีไฟล์อื่นถูกแก้</p>
 <p>อยากลองสร้าง PDF ต่อ: ดูหัวข้อ <a href="topic-markdown-to-pdf-first-build.html">สร้าง PDF แรกจาก Markdown ด้วย AI: แก้ที่ต้นฉบับ แล้วสร้างใหม่</a> ในโมดูลเสริม (ไม่บังคับ)</p>
 <hr>
-<h3 id="ขั้นที่-6--ทบทวนและติ๊กความพร้อมบนเว็บ-ไม่ใช้-ai">ขั้นที่ 6 — ทบทวนและติ๊กความพร้อมบนเว็บ (ไม่ใช้ AI)</h3>
+<h3 id="workshop-core--ขั้นที่-6--ทบทวนและติ๊กความพร้อมบนเว็บ-ไม่ใช้-ai">ขั้นที่ 6 — ทบทวนและติ๊กความพร้อมบนเว็บ (ไม่ใช้ AI)</h3>
 <ol type="1">
 <li>เปิดหน้า <a href="/api/ai-for-research/classrooms/faculty-pilot-2569/content/prepare.html?classroom_id=faculty-pilot-2569#homework">Module 1 · จบบทเรียน</a></li>
 <li>ติ๊กเฉพาะข้อที่ทำได้จริง 4 ข้อ: เปิด workspace ได้ · เชื่อม AI panel ได้ · รู้ว่าต้นฉบับอยู่ใน <code>module-01-work/input/</code> และงานใหม่อยู่ใน <code>module-01-work/output/</code> · ให้ AI สร้าง <code>module-01-work/output/first-note.txt</code> และเปิดดูได้</li>
@@ -215,7 +218,7 @@
 <p>ขั้นนี้เป็นการทบทวนตัวเอง ผู้สอนไม่ได้ตรวจให้คะแนน ข้อไหนยังทำไม่ได้ ให้กลับไปทำขั้นนั้นซ้ำหรือแจ้งผู้ช่วยสอน</p>
 <p><strong>ตรวจ:</strong> หน้าเว็บขึ้น "ผ่าน" และบรรทัด "ส่งแล้ว · ครั้งที่ …"</p>
 <hr>
-<h3 id="ตรวจก่อนจบ-workshop">ตรวจก่อนจบ workshop</h3>
+<h3 id="workshop-core--ตรวจก่อนจบ-workshop">ตรวจก่อนจบ workshop</h3>
 <p>ตรวจด้วยตัวเองทีละขั้น</p>
 <ul class="task-list">
 <li><label><input type="checkbox">ขั้น 1: หน้าต่างติดตั้งแสดง <code>FINAL_RESULT PASS</code></label></li>
@@ -228,20 +231,20 @@
 </div></section>
 <section class="section markdown-section topic-panel" id="open-explore" aria-labelledby="open-explore-heading"><div class="section-heading compact"><p class="eyebrow">Exploring</p><h2 id="open-explore-heading">เตรียมเครื่อง: ต้องทำอะไร โครงสร้างเป็นอย่างไร และใช้งานเบื้องต้น</h2></div><div class="markdown-body"><p>ในคลาสนี้คุณจะเจอไฟล์ 4 แบบซ้ำ ๆ คือ Markdown (<code>.md</code>), CSV (<code>.csv</code>), JSON (<code>.json</code>) และ PDF (<code>.pdf</code>) ตัวติดตั้งวางตัวอย่างของจริงไว้ใน workspace แล้ว รอบนี้ให้คุณเขียน prompt เองทั้งหมด เพื่อให้ AI อธิบายไฟล์เหล่านี้ แล้วเปิดไฟล์ดูเองว่า AI พูดถูกไหม</p>
 <p>ทุกไฟล์ในรอบนี้ <strong>อ่านอย่างเดียว ห้ามแก้</strong> (อยู่ใน <code>course-materials/</code> หรือ <code>input/original/</code>)</p>
-<h3 id="โจทย์-เลือกทำอย่างน้อย-2-แบบ">โจทย์ (เลือกทำอย่างน้อย 2 แบบ)</h3>
+<h3 id="open-explore--โจทย์-เลือกทำอย่างน้อย-2-แบบ">โจทย์ (เลือกทำอย่างน้อย 2 แบบ)</h3>
 <ol type="1">
 <li><strong>Markdown</strong> — <code>course-materials/module-04/citation-audit-rules.md</code> ให้ AI อธิบายว่าเครื่องหมาย <code>#</code> <code>##</code> <code>1.</code> <code>**…**</code> ในไฟล์นี้หมายถึงอะไร แล้วเปิดไฟล์เอง กด Preview (Ctrl+Shift+V) เทียบว่าหน้าตาตรงกับที่ AI อธิบายไหม อ่านต่อ: หัวข้อ <a href="topic-markdown-structure-and-preview.html">Markdown: หัวข้อ รายการ และ Preview — แก้ที่ต้นฉบับ ไม่แก้ที่ PDF</a></li>
 <li><strong>CSV</strong> — <code>course-materials/module-07/examples/figure-consistency/mock-study-data.csv</code> (ข้อมูลจำลอง PM2.5) ให้ AI บอกว่าหนึ่งแถวแทนอะไร มีกี่คอลัมน์ แต่ละคอลัมน์มีหน่วยอะไร แล้วเปิดไฟล์เองนับหัวคอลัมน์และดูแถวแรก อ่านต่อ: หัวข้อ <a href="topic-csv-rows-columns-units.html">CSV: หนึ่งแถวแทนอะไร ชื่อคอลัมน์ หน่วย และค่าที่ขาด</a></li>
 <li><strong>JSON</strong> — <code>course-materials/module-07/install-receipt.json</code> (บันทึกของตัวติดตั้ง) ให้ AI อธิบายว่าไฟล์บันทึกอะไร field ไหนเป็นตัวเลข ข้อความ หรือรายการ แล้วเปิดไฟล์เองเทียบค่า <code>installed</code> กับจำนวนรายการใน <code>files</code> อ่านต่อ: หัวข้อ <a href="topic-json-fields-and-status-values.html">JSON: ชื่อช่อง ค่า และสถานะ true/false/null — อ่านผ่านไม่ได้แปลว่าค่าถูก</a></li>
 <li><strong>PDF</strong> — <code>module-04-work/input/original/mock-paper.pdf</code> (บทความจำลอง) ให้ AI บอกว่า PDF นี้มีข้อความที่เลือกและคัดลอกได้ หรือเป็นภาพสแกน และชื่อบทความคืออะไร แล้วเปิด PDF เองลองลากเลือกข้อความเทียบ อ่านต่อ: หัวข้อ <a href="topic-pdf-text-vs-scan-verification.html">PDF: ข้อความที่เลือกได้ ภาพสแกน และการตรวจสิ่งที่ AI อ่านกับหน้าต้นทาง</a></li>
 </ol>
-<h3 id="ข้อกำหนด">ข้อกำหนด</h3>
+<h3 id="open-explore--ข้อกำหนด">ข้อกำหนด</h3>
 <ul>
 <li>เขียน prompt เอง ทุก prompt ต้องบอกขอบเขต: ไฟล์ที่ให้อ่าน และสั่งชัดว่าห้ามแก้ไฟล์ใด</li>
 <li>ตรวจคำตอบของ AI โดยเปิดไฟล์ดูเองทุกครั้ง</li>
 <li>เก็บ prompt ทุกรอบไว้ในไฟล์ข้อความ <code>module-01-work/output/prompts.txt</code> (ไฟล์ .txt แบบเดียวกับ first-note.txt ในขั้นที่ 5) แต่ละรอบเขียน prompt ที่ใช้ แล้วตามด้วยบรรทัดสั้น ๆ ว่าตรวจแล้วตรงหรือไม่ และปรับ prompt เพราะอะไร จะพิมพ์เองหรือสั่ง AI เพิ่มต่อท้ายไฟล์ก็ได้</li>
 </ul>
-<h3 id="เกณฑ์ผ่าน">เกณฑ์ผ่าน</h3>
+<h3 id="open-explore--เกณฑ์ผ่าน">เกณฑ์ผ่าน</h3>
 <ul class="task-list">
 <li><label><input type="checkbox">ทำครบอย่างน้อย 2 แบบ และไฟล์ตัวอย่างไม่ถูกแก้</label></li>
 <li><label><input type="checkbox">พบอย่างน้อยหนึ่งจุดที่คำตอบของ AI ไม่ตรงกับที่คุณเห็นเอง หรืออธิบายได้ว่าตรวจแล้วตรงอย่างไร</label></li>
@@ -250,15 +253,30 @@
 </div></section></div><aside class="slide-aside" aria-label="สไลด์ประกอบ"><div class="slide-tools"><button type="button" class="slide-tool" data-fullscreen="#slide-frame-aside">⛶ เต็มจอ</button><a class="slide-tool" href="downloads/topics/prepare-machine.pdf" target="_blank" rel="noopener">เปิดแท็บใหม่ ↗</a></div><iframe id="slide-frame-aside" src="downloads/topics/prepare-machine.pdf#view=FitH" title="สไลด์ เตรียมเครื่อง: ต้องทำอะไร โครงสร้างเป็นอย่างไร และใช้งานเบื้องต้น" loading="lazy" allowfullscreen></iframe></aside></div>
 <script>
 (() => {
-  const tabs = [...document.querySelectorAll('.topic-tabs a')];
+  const tabs = [...document.querySelectorAll('.topic-tabs > ul > li > a')];
   const panels = tabs.map(t => document.getElementById(t.hash.slice(1)));
+  const subs = [...document.querySelectorAll('.topic-tabs a[data-sub]')];
   function show(id) {
-    const i = Math.max(0, panels.findIndex(p => p && p.id === id));
+    const target = id && document.getElementById(id);
+    const owner = target && target.closest('.topic-panel');
+    const i = Math.max(0, panels.findIndex(p => p && p.id === (owner ? owner.id : id)));
     panels.forEach((p, k) => { if (p) p.hidden = k !== i; });
-    tabs.forEach((t, k) => t.setAttribute('aria-current', k === i ? 'page' : 'false'));
+    tabs.forEach((t, k) => { t.setAttribute('aria-current', k === i ? 'page' : 'false'); t.parentElement.classList.toggle('is-open', k === i); });
     const layout = document.querySelector('.topic-layout'); if (layout && panels[i]) layout.dataset.active = panels[i].id;
+    return target && owner && target !== owner ? target : null;
   }
   tabs.forEach(t => t.addEventListener('click', e => { e.preventDefault(); history.replaceState(null, '', t.hash); show(t.hash.slice(1)); window.scrollTo({top: 0}); }));
+  subs.forEach(s => s.addEventListener('click', e => { e.preventDefault(); history.replaceState(null, '', s.hash); const h = show(s.hash.slice(1)); if (h) h.scrollIntoView({block: 'start'}); }));
+  if ('IntersectionObserver' in window && subs.length) {  // highlight the step being read
+    const byId = new Map(subs.map(s => [s.hash.slice(1), s]));
+    const seen = new Set();
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(en => { if (en.isIntersecting) seen.add(en.target.id); else seen.delete(en.target.id); });
+      const visible = [...byId.keys()].find(k => seen.has(k));
+      if (visible) subs.forEach(s => s.classList.toggle('is-here', s === byId.get(visible)));
+    }, {rootMargin: '-15% 0px -70% 0px'});
+    byId.forEach((_, k) => { const h = document.getElementById(k); if (h) io.observe(h); });
+  }
   document.querySelectorAll('[data-next-tab]').forEach(b => b.addEventListener('click', e => { e.preventDefault(); const h = b.getAttribute('href'); history.replaceState(null, '', h); show(h.slice(1)); window.scrollTo({top: 0}); }));
   document.querySelectorAll('[data-fullscreen]').forEach(b => b.addEventListener('click', () => {
     const frame = document.querySelector(b.dataset.fullscreen);
@@ -279,8 +297,8 @@
     setAside(saved);
     toggle.addEventListener('click', () => setAside(!layout0.classList.contains('aside-hidden')));
   }
-  show(location.hash.slice(1));
-  if (location.hash) requestAnimationFrame(() => window.scrollTo({top: 0}));
+  const deep = show(location.hash.slice(1));
+  if (location.hash) requestAnimationFrame(() => deep ? deep.scrollIntoView({block: 'start'}) : window.scrollTo({top: 0}));
 })();
 </script>
   </main>

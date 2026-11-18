@@ -272,3 +272,29 @@ body.learn .notice.is-warning { border-left: 6px solid #e5533d; background: rgba
 body.learn .notice.is-warning > strong:first-child { display: block; color: #ff8a73; font-size: 1.08rem; margin-bottom: .35rem; }
 :root[data-theme="light"] body.learn .notice.is-warning > strong:first-child { color: #b3261e; }
 @media (prefers-color-scheme: light) { :root:not([data-theme="dark"]) body.learn .notice.is-warning > strong:first-child { color: #b3261e; } }
+
+/* topic menu (owner 2026-11-18): a menu, not a row of buttons; the open section lists its steps */
+body.learn .topic-menu ul { list-style: none; margin: 0; padding: 0; }
+body.learn .topic-menu > ul { display: flex; flex-wrap: wrap; gap: .2rem 1.1rem; }
+body.learn .topic-menu-title { display: none; }
+body.learn .topic-menu > ul > li > a { padding: .35rem 0; border: 0; border-bottom: 2px solid transparent; border-radius: 0; color: var(--ink-soft); background: none; font-size: .95rem; }
+body.learn .topic-menu > ul > li > a:hover { color: var(--ink); }
+body.learn .topic-menu > ul > li > a[aria-current="page"] { color: var(--ink); background: none; border-color: var(--mint); font-weight: 600; }
+body.learn .topic-submenu { display: none; }
+@media (min-width: 1400px) {
+  body.learn .topic-layout { grid-template-columns: 250px minmax(0, 900px); max-width: 1180px; }
+  body.learn .module-hero:has(+ .topic-layout) { max-width: 1180px; padding-left: calc(1.25rem + 250px + 1.5rem); }
+  body.learn .topic-layout .topic-menu { display: block; max-height: calc(100vh - 7rem); overflow-y: auto; padding: .2rem .4rem 1rem 0; text-align: left; }
+  body.learn .topic-menu-title { display: block; margin: 0 0 .5rem; color: var(--ink-soft); font-size: .75rem; font-weight: 700; letter-spacing: .08em; }
+  body.learn .topic-menu > ul { display: block; border-left: 1px solid var(--line); }
+  body.learn .topic-menu > ul > li > a { display: block; margin-left: -1px; padding: .4rem .8rem; border-bottom: 0; border-left: 2px solid transparent; }
+  body.learn .topic-menu > ul > li > a[aria-current="page"] { border-left-color: var(--mint); color: var(--mint); }
+  body.learn .topic-menu li.is-open > .topic-submenu { display: block; margin: 0 0 .5rem; }
+  body.learn .topic-submenu a { display: block; padding: .22rem .8rem .22rem 1.5rem; color: var(--ink-soft); font-size: .82rem; line-height: 1.4; text-decoration: none; white-space: normal; border: 0; border-radius: 0; }
+  body.learn .topic-submenu a:hover { color: var(--ink); }
+  body.learn .topic-submenu a.is-here { color: var(--ink); font-weight: 600; }
+}
+@media (min-width: 1900px) {
+  body.learn .topic-layout:has(.slide-aside) { grid-template-columns: 250px minmax(0, 860px) minmax(420px, 1fr); }
+  body.learn .topic-layout.aside-hidden:has(.slide-aside) { grid-template-columns: 250px minmax(0, 1fr); }
+}

@@ -10,19 +10,22 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/styles.css?v=20261113-2">
-  <link rel="stylesheet" href="assets/learn.css?v=20261116-2">
-  <script src="assets/site-shell.js?v=20261116-2"></script>
-  <script src="assets/app.js?v=20261116-2" defer></script>
+  <link rel="stylesheet" href="assets/learn.css?v=20261118-1">
+  <script src="assets/site-shell.js?v=20261118-1"></script>
+  <script src="assets/app.js?v=20261118-1" defer></script>
+  <link rel="icon" href="assets/images/madlab-ku-mark-dark.svg" type="image/svg+xml">
+  <link rel="icon" href="assets/images/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="assets/images/favicon-180.png">
 </head>
 <body class="learn" data-no-case>
   <a class="skip-link" href="#main">ข้ามไปยังเนื้อหา</a>
   <site-header current="topic" plan="class-2026-11-20-engineering-faculty.html" menu='{&quot;module&quot;: &quot;M08&quot;, &quot;title&quot;: &quot;ผลิตเอกสารวิจัย&quot;, &quot;items&quot;: [{&quot;href&quot;: &quot;module-overview-m08.html&quot;, &quot;label&quot;: &quot;ภาพรวมและ LO&quot;, &quot;current&quot;: false}, {&quot;href&quot;: &quot;topic-journal-fit-and-venue-switch.html&quot;, &quot;label&quot;: &quot;เลือกวารสาร และผลของการเปลี่ยนวารสาร&quot;, &quot;current&quot;: false}, {&quot;href&quot;: &quot;topic-bibtex-abstract-audit-literature-map.html&quot;, &quot;label&quot;: &quot;ตรวจ references.bib พร้อมที่มาของ abstract และทำ literature map&quot;, &quot;current&quot;: false}, {&quot;href&quot;: &quot;topic-paragraph-contract-reverse-check.html&quot;, &quot;label&quot;: &quot;จาก highlights สู่ย่อหน้า: ข้อตกลงของย่อหน้าและการตรวจย้อนทุกประโยค&quot;, &quot;current&quot;: true}, {&quot;href&quot;: &quot;topic-markdown-single-source-latex-pdf-build.html&quot;, &quot;label&quot;: &quot;ต้นฉบับ Markdown ชุดเดียว → LaTeX ที่ AI สร้าง → PDF และการแก้ build ตามชั้น&quot;, &quot;current&quot;: false}, {&quot;href&quot;: &quot;topic-pdf-qa-submission-readiness.html&quot;, &quot;label&quot;: &quot;ตรวจ PDF ก่อนส่ง: ตรวจเนื้อหาแยกจากหน้ากระดาษ แก้หนึ่งรอบ และบันทึกความพร้อมส่ง&quot;, &quot;current&quot;: false}, {&quot;href&quot;: &quot;topic-kuthesis-thai-thesis-template.html&quot;, &quot;label&quot;: &quot;วิทยานิพนธ์รูปแบบ มก. ด้วย kuthesis: สร้าง PDF จากตัวอย่างและใช้ refs.bib ของตัวเอง&quot;, &quot;current&quot;: false}]}'></site-header>
   <main id="main">
 <section class="prepare-hero module-hero"><p class="eyebrow">หัวข้อย่อย · M08</p><h1>จาก highlights สู่ย่อหน้า: ข้อตกลงของย่อหน้าและการตรวจย้อนทุกประโยค</h1><ul class="outcomes"><li>กรอกข้อตกลงของย่อหน้า (paragraph contract) จากผลที่ตรวจแล้ว สั่ง AI เรียบเรียงเฉพาะสิ่งที่อยู่ในข้อตกลง แล้วตรวจย้อนทุกประโยคและตัดสินว่าแต่ละประโยค supported, revise หรือ remove โดยไม่ใช้ถ้อยคำเชิงเหตุและผลกับข้อมูลเชิงสังเกต</li></ul></section>
-<div class="topic-layout"><nav class="topic-tabs" aria-label="ส่วนของหัวข้อ"><a href="#slides" title="สไลด์">สไลด์</a><a href="#workshop-core" title="Workshop หลัก">Workshop</a><a href="#open-explore" title="Exploring workshop">Exploring</a></nav><div class="topic-main"><section class="section markdown-section topic-panel" id="slides" aria-labelledby="slides-heading"><div class="section-heading compact"><p class="eyebrow">สไลด์</p><h2 id="slides-heading">สไลด์</h2></div><div class="markdown-body"><p>สไลด์ของหัวข้อนี้กำลังจัดทำ</p></div></section>
+<div class="topic-layout"><nav class="topic-tabs topic-menu" aria-label="ในหัวข้อนี้"><p class="topic-menu-title">ในหัวข้อนี้</p><ul><li><a href="#slides" title="สไลด์">สไลด์</a></li><li><a href="#workshop-core" title="Workshop หลัก">Workshop</a><ul class="topic-submenu"><li><a href="#workshop-core--ก่อนเริ่ม-ต้องมีอยู่แล้ว" data-sub>ก่อนเริ่ม (ต้องมีอยู่แล้ว)</a></li><li><a href="#workshop-core--คำที่ใช้ใน-workshop-นี้" data-sub>คำที่ใช้ใน workshop นี้</a></li><li><a href="#workshop-core--ข้อตกลงของย่อหน้า-สิบช่อง" data-sub>ข้อตกลงของย่อหน้า (สิบช่อง)</a></li><li><a href="#workshop-core--ขั้นตอน" data-sub>ขั้นตอน</a></li><li><a href="#workshop-core--ลำดับย่อหน้าตามส่วนของบทความ-อ้างอิง" data-sub>ลำดับย่อหน้าตามส่วนของบทความ (อ้างอิง)</a></li><li><a href="#workshop-core--ตรวจก่อนจบ" data-sub>ตรวจก่อนจบ</a></li><li><a href="#workshop-core--ส่งงาน" data-sub>ส่งงาน</a></li></ul></li><li><a href="#open-explore" title="Exploring workshop">Exploring</a><ul class="topic-submenu"><li><a href="#open-explore--ก่อนเริ่ม-ต้องมีอยู่แล้ว" data-sub>ก่อนเริ่ม (ต้องมีอยู่แล้ว)</a></li><li><a href="#open-explore--โจทย์" data-sub>โจทย์</a></li><li><a href="#open-explore--เกณฑ์ผ่าน" data-sub>เกณฑ์ผ่าน</a></li></ul></li></ul></nav><div class="topic-main"><section class="section markdown-section topic-panel" id="slides" aria-labelledby="slides-heading"><div class="section-heading compact"><p class="eyebrow">สไลด์</p><h2 id="slides-heading">สไลด์</h2></div><div class="markdown-body"><p>สไลด์ของหัวข้อนี้ยังไม่เสร็จ</p></div></section>
 <section class="section markdown-section topic-panel" id="workshop-core" aria-labelledby="workshop-core-heading"><div class="section-heading compact"><p class="eyebrow">Workshop</p><h2 id="workshop-core-heading">จาก highlights สู่ย่อหน้า: ข้อตกลงของย่อหน้าและการตรวจย้อนทุกประโยค</h2></div><div class="markdown-body"><p>ใน workshop นี้คุณจะกรอกข้อตกลงของย่อหน้า 2 ชุด (Results และ Limitations) ลงไฟล์ที่คุณสร้าง ให้ AI เรียบเรียงเป็นย่อหน้าใน <code>source/manuscript.md</code> แล้วตรวจย้อนทุกประโยคกับข้อตกลงและ CSV</p>
 <p>ใช้ผล PM2.5 จำลองชุดเดียวกับ Module 7 (480 แถว ข้อมูลสมมติ) ถ้ามาจาก Module 7 ใช้ highlights ของตัวเองได้ ถ้าเริ่มที่หัวข้อนี้ใช้ฉบับตัวอย่าง</p>
-<h3 id="ก่อนเริ่ม-ต้องมีอยู่แล้ว">ก่อนเริ่ม (ต้องมีอยู่แล้ว)</h3>
+<h3 id="workshop-core--ก่อนเริ่ม-ต้องมีอยู่แล้ว">ก่อนเริ่ม (ต้องมีอยู่แล้ว)</h3>
 <ul>
 <li>ผ่าน Module 1: เปิด <code>ai-for-research-workspace</code> ใน VS Code และ AI panel เชื่อมแล้ว</li>
 <li>ติดตั้ง Module 8 แล้ว ตัวติดตั้งวางไฟล์เหล่านี้ไว้ให้:
@@ -33,14 +36,14 @@
 <li><code>module-08-work/figures/pm25-before-after.png</code></li>
 </ul></li>
 </ul>
-<h3 id="คำที่ใช้ใน-workshop-นี้">คำที่ใช้ใน workshop นี้</h3>
+<h3 id="workshop-core--คำที่ใช้ใน-workshop-นี้">คำที่ใช้ใน workshop นี้</h3>
 <ul>
 <li><strong>paragraph contract</strong> — ข้อตกลงที่ล็อก statement, evidence, limitation และสิ่งที่ห้ามเพิ่มก่อนให้ AI เขียน</li>
 <li><strong>reverse check</strong> — การตรวจย้อนทุกประโยคกลับไปยังช่องในข้อตกลงและไฟล์หลักฐาน</li>
 <li><strong>supported / revise / remove</strong> — สถานะว่าประโยคมีหลักฐาน ต้องแก้ หรือควรลบ</li>
 <li><strong>ถ้อยคำเชิงเหตุและผล</strong> — คำที่บอกว่าเหตุหนึ่งทำให้เกิดผล ซึ่งข้อมูลเชิงสังเกตชุดนี้ยังรองรับไม่ได้</li>
 </ul>
-<h3 id="ข้อตกลงของย่อหน้า-สิบช่อง">ข้อตกลงของย่อหน้า (สิบช่อง)</h3>
+<h3 id="workshop-core--ข้อตกลงของย่อหน้า-สิบช่อง">ข้อตกลงของย่อหน้า (สิบช่อง)</h3>
 <div class="command markdown-command"><code>Section/purpose:
 Statement:
 Evidence and exact numbers:
@@ -50,7 +53,7 @@ Alternative explanation or limitation:
 Uncertainty and scope:
 Terms that must remain unchanged:
 Claims that must not be added:
-Target length and tone:</code><button type="button" data-copy="">คัดลอก</button></div><h3 id="ขั้นตอน">ขั้นตอน</h3>
+Target length and tone:</code><button type="button" data-copy="">คัดลอก</button></div><h3 id="workshop-core--ขั้นตอน">ขั้นตอน</h3>
 <ol type="1">
 <li><p><strong>ตรวจตัวเลขก่อนกรอก (3 นาที)</strong> เปิด <code>input/module-07-highlights.md</code> และ <code>input/analysis-summary.csv</code> ตรวจว่าตัวเลขใน highlights ตรงกับ CSV เมื่อปัดสองตำแหน่ง เช่น แถว <code>All,Intervention,Before</code> = 37.018 และ <code>All,Intervention,After</code> = 34.357 → 37.02 → 34.36 µg/m³; แถว <code>South,Intervention,Before/After</code> = 29.224 → 34.560 → 29.22 → 34.56 µg/m³</p>
 <p><strong>ตรวจ:</strong> ตัวเลขรวมและ South ตรงกับ CSV เมื่อปัดสองตำแหน่ง</p></li>
@@ -101,7 +104,7 @@ Target length and tone:</code><button type="button" data-copy="">คัดลอ
 <li><p><strong>ตรวจตารางของ AI ด้วยตัวเองแล้วแก้</strong> เปิดข้อตกลงและ CSV เทียบอย่างน้อยทุกประโยคที่มีตัวเลข แล้วแก้หรือลบประโยคที่ไม่มีช่องรองรับใน <code>source/manuscript.md</code> ด้วยตัวเอง</p>
 <p><strong>ตรวจ:</strong> ไม่มีประโยค revise/remove ค้าง และไฟล์ input ไม่ถูกแก้</p></li>
 </ol>
-<h3 id="ลำดับย่อหน้าตามส่วนของบทความ-อ้างอิง">ลำดับย่อหน้าตามส่วนของบทความ (อ้างอิง)</h3>
+<h3 id="workshop-core--ลำดับย่อหน้าตามส่วนของบทความ-อ้างอิง">ลำดับย่อหน้าตามส่วนของบทความ (อ้างอิง)</h3>
 <table>
 <thead>
 <tr>
@@ -138,7 +141,7 @@ Target length and tone:</code><button type="button" data-copy="">คัดลอ
 </tr>
 </tbody>
 </table>
-<h3 id="ตรวจก่อนจบ">ตรวจก่อนจบ</h3>
+<h3 id="workshop-core--ตรวจก่อนจบ">ตรวจก่อนจบ</h3>
 <ul class="task-list">
 <li><label><input type="checkbox"><code>module-08-work/source/paragraph-contracts.md</code> มีข้อตกลง 2 ชุด (Results, Limitations) ที่กรอกครบทั้งสิบช่อง</label></li>
 <li><label><input type="checkbox"><code>module-08-work/source/manuscript.md</code> มีย่อหน้าใต้หัวข้อ Results และ Limitations และหัวข้ออื่นไม่ถูกแก้</label></li>
@@ -146,26 +149,26 @@ Target length and tone:</code><button type="button" data-copy="">คัดลอ
 <li><label><input type="checkbox">ทุกประโยคในตารางตรวจย้อนมีสถานะ supported / revise / remove และประโยคที่เป็น revise/remove ถูกแก้หรือลบแล้ว ไม่มีถ้อยคำเชิงเหตุและผล</label></li>
 <li><label><input type="checkbox"><code>input/module-07-highlights.md</code> และ <code>input/analysis-summary.csv</code> ไม่ถูกแก้</label></li>
 </ul>
-<h3 id="ส่งงาน">ส่งงาน</h3>
+<h3 id="workshop-core--ส่งงาน">ส่งงาน</h3>
 <ul>
 <li>ส่งตามขั้นตอนส่งงานของโมดูลที่ใช้หัวข้อนี้ (<code>runtime.submit</code> ใน <code>module.json</code>; ณ ตอนนี้ M08 ยังไม่กำหนดช่องทางส่ง)</li>
 </ul>
 </div></section>
 <section class="section markdown-section topic-panel" id="open-explore" aria-labelledby="open-explore-heading"><div class="section-heading compact"><p class="eyebrow">Exploring</p><h2 id="open-explore-heading">จาก highlights สู่ย่อหน้า: ข้อตกลงของย่อหน้าและการตรวจย้อนทุกประโยค</h2></div><div class="markdown-body"><p>ในกิจกรรมนี้คุณจะเขียน prompt เองเพื่อให้ AI เรียบเรียงย่อหน้าจากข้อตกลงของย่อหน้าที่คุณกรอกจากผลงานของตัวเอง แล้วตรวจย้อนทุกประโยค (ไม่มี prompt สำเร็จรูปให้)</p>
-<h3 id="ก่อนเริ่ม-ต้องมีอยู่แล้ว">ก่อนเริ่ม (ต้องมีอยู่แล้ว)</h3>
+<h3 id="open-explore--ก่อนเริ่ม-ต้องมีอยู่แล้ว">ก่อนเริ่ม (ต้องมีอยู่แล้ว)</h3>
 <ul>
 <li>ผ่าน Module 1: เปิด <code>ai-for-research-workspace</code> ใน VS Code และ AI panel เชื่อมแล้ว</li>
 <li>ผลวิจัยของคุณเอง 2 ข้อที่ตรวจตัวเลขแล้ว พร้อมไฟล์ต้นทาง (ตาราง กราฟ หรือผลวิเคราะห์)</li>
 <li>แม่แบบข้อตกลงของย่อหน้าสิบช่องจาก workshop หลักของหัวข้อนี้</li>
 </ul>
-<h3 id="โจทย์">โจทย์</h3>
+<h3 id="open-explore--โจทย์">โจทย์</h3>
 <ol type="1">
 <li>สร้างโฟลเดอร์ <code>output/</code> ในโฟลเดอร์งานของคุณ (ถ้ายังไม่มี) และไฟล์ <code>output/prompts.md</code> สำหรับบันทึก prompt ทุกรอบ (prompt, สรุปผลที่ได้, สิ่งที่ปรับในรอบถัดไปและเหตุผล)</li>
 <li>สร้าง <code>output/paragraph-contracts.md</code> แล้วกรอกข้อตกลงของย่อหน้าครบสิบช่องสำหรับแต่ละข้อ — อย่างน้อยหนึ่งชุดเป็นส่วนที่ไม่ใช่ Results (เช่น Discussion หรือ Limitations) และใช้ลำดับย่อหน้าที่เหมาะกับส่วนนั้น</li>
 <li>เขียน prompt ให้ AI เรียบเรียงย่อหน้าจากข้อตกลง แล้วเก็บไว้ใน <code>output/paragraphs.md</code> (ฉบับ AI ร่าง และฉบับที่คุณแก้)</li>
 <li>ตรวจย้อนทุกประโยคลง <code>output/reverse-check.md</code> (ประโยค | ช่องที่รองรับ | สถานะ supported / revise / remove) — ทุกตัวเลขในย่อหน้าต้องชี้ได้ว่ามาจากไฟล์ต้นทางใด บันทึกว่าตรวจกับไฟล์ใดและแก้อะไรเอง</li>
 </ol>
-<h3 id="เกณฑ์ผ่าน">เกณฑ์ผ่าน</h3>
+<h3 id="open-explore--เกณฑ์ผ่าน">เกณฑ์ผ่าน</h3>
 <ul class="task-list">
 <li><label><input type="checkbox"><code>output/paragraph-contracts.md</code> มีข้อตกลงสองชุดที่กรอกครบ โดยเฉพาะช่อง “Claims that must not be added” และ “Uncertainty and scope”</label></li>
 <li><label><input type="checkbox">ทุกประโยคในฉบับสุดท้ายของ <code>output/paragraphs.md</code> ชี้กลับไปที่ช่องของข้อตกลงได้ และตัวเลขตรงกับไฟล์ต้นทาง</label></li>
@@ -176,15 +179,30 @@ Target length and tone:</code><button type="button" data-copy="">คัดลอ
 </div></section></div></div>
 <script>
 (() => {
-  const tabs = [...document.querySelectorAll('.topic-tabs a')];
+  const tabs = [...document.querySelectorAll('.topic-tabs > ul > li > a')];
   const panels = tabs.map(t => document.getElementById(t.hash.slice(1)));
+  const subs = [...document.querySelectorAll('.topic-tabs a[data-sub]')];
   function show(id) {
-    const i = Math.max(0, panels.findIndex(p => p && p.id === id));
+    const target = id && document.getElementById(id);
+    const owner = target && target.closest('.topic-panel');
+    const i = Math.max(0, panels.findIndex(p => p && p.id === (owner ? owner.id : id)));
     panels.forEach((p, k) => { if (p) p.hidden = k !== i; });
-    tabs.forEach((t, k) => t.setAttribute('aria-current', k === i ? 'page' : 'false'));
+    tabs.forEach((t, k) => { t.setAttribute('aria-current', k === i ? 'page' : 'false'); t.parentElement.classList.toggle('is-open', k === i); });
     const layout = document.querySelector('.topic-layout'); if (layout && panels[i]) layout.dataset.active = panels[i].id;
+    return target && owner && target !== owner ? target : null;
   }
   tabs.forEach(t => t.addEventListener('click', e => { e.preventDefault(); history.replaceState(null, '', t.hash); show(t.hash.slice(1)); window.scrollTo({top: 0}); }));
+  subs.forEach(s => s.addEventListener('click', e => { e.preventDefault(); history.replaceState(null, '', s.hash); const h = show(s.hash.slice(1)); if (h) h.scrollIntoView({block: 'start'}); }));
+  if ('IntersectionObserver' in window && subs.length) {  // highlight the step being read
+    const byId = new Map(subs.map(s => [s.hash.slice(1), s]));
+    const seen = new Set();
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(en => { if (en.isIntersecting) seen.add(en.target.id); else seen.delete(en.target.id); });
+      const visible = [...byId.keys()].find(k => seen.has(k));
+      if (visible) subs.forEach(s => s.classList.toggle('is-here', s === byId.get(visible)));
+    }, {rootMargin: '-15% 0px -70% 0px'});
+    byId.forEach((_, k) => { const h = document.getElementById(k); if (h) io.observe(h); });
+  }
   document.querySelectorAll('[data-next-tab]').forEach(b => b.addEventListener('click', e => { e.preventDefault(); const h = b.getAttribute('href'); history.replaceState(null, '', h); show(h.slice(1)); window.scrollTo({top: 0}); }));
   document.querySelectorAll('[data-fullscreen]').forEach(b => b.addEventListener('click', () => {
     const frame = document.querySelector(b.dataset.fullscreen);
@@ -205,8 +223,8 @@ Target length and tone:</code><button type="button" data-copy="">คัดลอ
     setAside(saved);
     toggle.addEventListener('click', () => setAside(!layout0.classList.contains('aside-hidden')));
   }
-  show(location.hash.slice(1));
-  if (location.hash) requestAnimationFrame(() => window.scrollTo({top: 0}));
+  const deep = show(location.hash.slice(1));
+  if (location.hash) requestAnimationFrame(() => deep ? deep.scrollIntoView({block: 'start'}) : window.scrollTo({top: 0}));
 })();
 </script>
   </main>

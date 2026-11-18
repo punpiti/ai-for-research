@@ -10,18 +10,21 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/styles.css?v=20261113-2">
-  <link rel="stylesheet" href="assets/learn.css?v=20261116-2">
-  <script src="assets/site-shell.js?v=20261116-2"></script>
-  <script src="assets/app.js?v=20261116-2" defer></script>
+  <link rel="stylesheet" href="assets/learn.css?v=20261118-1">
+  <script src="assets/site-shell.js?v=20261118-1"></script>
+  <script src="assets/app.js?v=20261118-1" defer></script>
+  <link rel="icon" href="assets/images/madlab-ku-mark-dark.svg" type="image/svg+xml">
+  <link rel="icon" href="assets/images/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="assets/images/favicon-180.png">
 </head>
 <body class="learn" data-no-case>
   <a class="skip-link" href="#main">ข้ามไปยังเนื้อหา</a>
   <site-header current="topic" plan="class-2026-11-20-engineering-faculty.html" menu='{&quot;module&quot;: &quot;M08&quot;, &quot;title&quot;: &quot;ผลิตเอกสารวิจัย&quot;, &quot;items&quot;: [{&quot;href&quot;: &quot;module-overview-m08.html&quot;, &quot;label&quot;: &quot;ภาพรวมและ LO&quot;, &quot;current&quot;: false}, {&quot;href&quot;: &quot;topic-journal-fit-and-venue-switch.html&quot;, &quot;label&quot;: &quot;เลือกวารสาร และผลของการเปลี่ยนวารสาร&quot;, &quot;current&quot;: false}, {&quot;href&quot;: &quot;topic-bibtex-abstract-audit-literature-map.html&quot;, &quot;label&quot;: &quot;ตรวจ references.bib พร้อมที่มาของ abstract และทำ literature map&quot;, &quot;current&quot;: false}, {&quot;href&quot;: &quot;topic-paragraph-contract-reverse-check.html&quot;, &quot;label&quot;: &quot;จาก highlights สู่ย่อหน้า: ข้อตกลงของย่อหน้าและการตรวจย้อนทุกประโยค&quot;, &quot;current&quot;: false}, {&quot;href&quot;: &quot;topic-markdown-single-source-latex-pdf-build.html&quot;, &quot;label&quot;: &quot;ต้นฉบับ Markdown ชุดเดียว → LaTeX ที่ AI สร้าง → PDF และการแก้ build ตามชั้น&quot;, &quot;current&quot;: false}, {&quot;href&quot;: &quot;topic-pdf-qa-submission-readiness.html&quot;, &quot;label&quot;: &quot;ตรวจ PDF ก่อนส่ง: ตรวจเนื้อหาแยกจากหน้ากระดาษ แก้หนึ่งรอบ และบันทึกความพร้อมส่ง&quot;, &quot;current&quot;: true}, {&quot;href&quot;: &quot;topic-kuthesis-thai-thesis-template.html&quot;, &quot;label&quot;: &quot;วิทยานิพนธ์รูปแบบ มก. ด้วย kuthesis: สร้าง PDF จากตัวอย่างและใช้ refs.bib ของตัวเอง&quot;, &quot;current&quot;: false}]}'></site-header>
   <main id="main">
 <section class="prepare-hero module-hero"><p class="eyebrow">หัวข้อย่อย · M08</p><h1>ตรวจ PDF ก่อนส่ง: ตรวจเนื้อหาแยกจากหน้ากระดาษ แก้หนึ่งรอบ และบันทึกความพร้อมส่ง</h1><ul class="outcomes"><li>ตรวจ PDF ที่ build แล้วโดยแยกการตรวจเนื้อหา (ตัวเลขตรง input, ไม่อ้างเกินผล) ออกจากการตรวจหน้ากระดาษ (ไม่มี ?, ไม่ล้น, รูปอ่านได้, ตามข้อกำหนด) แก้ที่ต้นทางหนึ่งรอบ และบันทึก submission readiness แบบ PASS/FAIL/BLOCKED พร้อมตำแหน่งและวิธีแก้</li></ul></section>
-<div class="topic-layout"><nav class="topic-tabs" aria-label="ส่วนของหัวข้อ"><a href="#slides" title="สไลด์">สไลด์</a><a href="#workshop-core" title="Workshop หลัก">Workshop</a><a href="#open-explore" title="Exploring workshop">Exploring</a></nav><div class="topic-main"><section class="section markdown-section topic-panel" id="slides" aria-labelledby="slides-heading"><div class="section-heading compact"><p class="eyebrow">สไลด์</p><h2 id="slides-heading">สไลด์</h2></div><div class="markdown-body"><p>สไลด์ของหัวข้อนี้กำลังจัดทำ</p></div></section>
+<div class="topic-layout"><nav class="topic-tabs topic-menu" aria-label="ในหัวข้อนี้"><p class="topic-menu-title">ในหัวข้อนี้</p><ul><li><a href="#slides" title="สไลด์">สไลด์</a></li><li><a href="#workshop-core" title="Workshop หลัก">Workshop</a><ul class="topic-submenu"><li><a href="#workshop-core--ก่อนเริ่ม-ต้องมีอยู่แล้ว" data-sub>ก่อนเริ่ม (ต้องมีอยู่แล้ว)</a></li><li><a href="#workshop-core--คำที่ใช้ใน-workshop-นี้" data-sub>คำที่ใช้ใน workshop นี้</a></li><li><a href="#workshop-core--ขั้นตอน" data-sub>ขั้นตอน</a></li><li><a href="#workshop-core--ตรวจก่อนจบ" data-sub>ตรวจก่อนจบ</a></li><li><a href="#workshop-core--ส่งงาน" data-sub>ส่งงาน</a></li></ul></li><li><a href="#open-explore" title="Exploring workshop">Exploring</a><ul class="topic-submenu"><li><a href="#open-explore--ก่อนเริ่ม-ต้องมีอยู่แล้ว" data-sub>ก่อนเริ่ม (ต้องมีอยู่แล้ว)</a></li><li><a href="#open-explore--โจทย์" data-sub>โจทย์</a></li><li><a href="#open-explore--ข้อกำหนด" data-sub>ข้อกำหนด</a></li><li><a href="#open-explore--เกณฑ์ผ่าน" data-sub>เกณฑ์ผ่าน</a></li></ul></li></ul></nav><div class="topic-main"><section class="section markdown-section topic-panel" id="slides" aria-labelledby="slides-heading"><div class="section-heading compact"><p class="eyebrow">สไลด์</p><h2 id="slides-heading">สไลด์</h2></div><div class="markdown-body"><p>สไลด์ของหัวข้อนี้ยังไม่เสร็จ</p></div></section>
 <section class="section markdown-section topic-panel" id="workshop-core" aria-labelledby="workshop-core-heading"><div class="section-heading compact"><p class="eyebrow">Workshop</p><h2 id="workshop-core-heading">ตรวจ PDF ก่อนส่ง: ตรวจเนื้อหาแยกจากหน้ากระดาษ แก้หนึ่งรอบ และบันทึกความพร้อมส่ง</h2></div><div class="markdown-body"><p>ใน workshop นี้คุณจะตรวจ PDF ของต้นฉบับ PM2.5 จำลองทั้งด้านเนื้อหาและหน้ากระดาษเทียบกับข้อกำหนด Journal A แก้ที่ต้นทางหนึ่งรอบแล้ว build ใหม่ และกรอก <code>submission/submission-readiness.md</code> ให้ทุกแถวมีสถานะพร้อมหลักฐาน</p>
-<h3 id="ก่อนเริ่ม-ต้องมีอยู่แล้ว">ก่อนเริ่ม (ต้องมีอยู่แล้ว)</h3>
+<h3 id="workshop-core--ก่อนเริ่ม-ต้องมีอยู่แล้ว">ก่อนเริ่ม (ต้องมีอยู่แล้ว)</h3>
 <ul>
 <li>จากหัวข้อ “ต้นฉบับ Markdown ชุดเดียว → LaTeX → PDF” (workshop หลัก):
 <ul>
@@ -38,14 +41,14 @@
 <li><code>tools/build-module-08.sh</code> หรือ <code>tools/build-module-08.ps1</code> — คำสั่ง build</li>
 </ul></li>
 </ul>
-<h3 id="คำที่ใช้ใน-workshop-นี้">คำที่ใช้ใน workshop นี้</h3>
+<h3 id="workshop-core--คำที่ใช้ใน-workshop-นี้">คำที่ใช้ใน workshop นี้</h3>
 <ul>
 <li><strong>content QA</strong> — ตรวจข้ออ้าง ตัวเลข citation และข้อจำกัดกับไฟล์หลักฐาน</li>
 <li><strong>visual QA</strong> — ตรวจหน้ากระดาษ ตัวอักษร รูป ตาราง และการล้น</li>
 <li><strong>PASS / FAIL / BLOCKED</strong> — ผ่าน, ไม่ผ่าน, หรือยังตัดสินไม่ได้เพราะขาดหลักฐาน/การตัดสิน</li>
 <li><strong>next action</strong> — การแก้ถัดไปพร้อมผู้รับผิดชอบและตำแหน่งไฟล์</li>
 </ul>
-<h3 id="ขั้นตอน">ขั้นตอน</h3>
+<h3 id="workshop-core--ขั้นตอน">ขั้นตอน</h3>
 <ol type="1">
 <li><p><strong>ตรวจเนื้อหาด้วยตัวเอง (4 นาที)</strong> เปิด <code>build/manuscript.pdf</code> คู่กับ <code>input/analysis-summary.csv</code> แล้วจดสิ่งที่พบ</p>
 <ul>
@@ -69,7 +72,7 @@
 <div class="command ai-prompt"><code>เก็บ snapshot ของ generated/main.tex ฉบับก่อนแก้และฉบับปัจจุบัน ใช้ latexdiff สร้าง diff.tex และ compile สำเนานั้น ตรวจทุกจุดที่เปลี่ยนข้อกล่าวอ้าง ตัวเลข citation หรือข้อจำกัด รายงานการเปลี่ยนที่ตั้งใจและผิดคาด ห้ามแก้ diff.tex แล้วนำกลับไปแทน source หลัก</code><button type="button" data-copy="">คัดลอก</button></div><p>ถ้าไม่ได้เก็บ <code>main.tex</code> ฉบับก่อนแก้ไว้ในขั้น 4 ให้ข้ามขั้นนี้</p>
 <p><strong>ตรวจ:</strong> diff แยกจาก source หลักและทุกการเปลี่ยนข้ออ้าง/ตัวเลขได้รับการตรวจ</p></li>
 </ol>
-<h3 id="ตรวจก่อนจบ">ตรวจก่อนจบ</h3>
+<h3 id="workshop-core--ตรวจก่อนจบ">ตรวจก่อนจบ</h3>
 <ul class="task-list">
 <li><label><input type="checkbox">มีรายการตรวจของคุณที่แยก “เนื้อหา” กับ “หน้ากระดาษ” และแต่ละข้อมีตำแหน่งใน PDF (หน้า/หัวข้อ)</label></li>
 <li><label><input type="checkbox">ตัวเลขหลักใน PDF (เช่น 37.02 → 34.36 และ South 29.22 → 34.56 µg/m³) ตรงกับ <code>input/analysis-summary.csv</code> — ตรวจด้วยตัวเอง</label></li>
@@ -77,34 +80,34 @@
 <li><label><input type="checkbox"><code>module-08-work/submission/submission-readiness.md</code> ทุกแถวมี PASS / FAIL / BLOCKED พร้อมหลักฐานและ next action</label></li>
 <li><label><input type="checkbox">แถวที่เกี่ยวกับ title page cover letter และ declarations ไม่เป็น PASS และ “Human decision required” มีรายการที่ต้องให้คนตัดสิน</label></li>
 </ul>
-<h3 id="ส่งงาน">ส่งงาน</h3>
+<h3 id="workshop-core--ส่งงาน">ส่งงาน</h3>
 <ul>
 <li>ส่งตามขั้นตอนส่งงานของโมดูล (ตอนนี้ Module 8 ยังไม่กำหนดช่องทางส่ง)</li>
 </ul>
 </div></section>
 <section class="section markdown-section topic-panel" id="open-explore" aria-labelledby="open-explore-heading"><div class="section-heading compact"><p class="eyebrow">Exploring</p><h2 id="open-explore-heading">ตรวจ PDF ก่อนส่ง: ตรวจเนื้อหาแยกจากหน้ากระดาษ แก้หนึ่งรอบ และบันทึกความพร้อมส่ง</h2></div><div class="markdown-body"><p>ในโจทย์นี้คุณจะเขียน prompt เอง (ไม่มี prompt สำเร็จรูปให้) เพื่อตรวจ PDF ของเอกสารตัวเองแยกด้านเนื้อหาและหน้ากระดาษ แก้ที่ต้นทางหนึ่งรอบ แล้วเขียนรายงานความพร้อมส่ง</p>
-<h3 id="ก่อนเริ่ม-ต้องมีอยู่แล้ว">ก่อนเริ่ม (ต้องมีอยู่แล้ว)</h3>
+<h3 id="open-explore--ก่อนเริ่ม-ต้องมีอยู่แล้ว">ก่อนเริ่ม (ต้องมีอยู่แล้ว)</h3>
 <ul>
 <li>ทำ workshop หลักของหัวข้อนี้แล้ว (รู้ขั้นตรวจเนื้อหา/หน้ากระดาษ และตาราง Gate ใน <code>module-08-work/submission/submission-readiness.md</code>)</li>
 <li>PDF ของเอกสารตัวเองที่ build จากต้นฉบับได้แล้ว พร้อมไฟล์ต้นฉบับนั้น — จาก exploring workshop ของหัวข้อ “ต้นฉบับ Markdown ชุดเดียว → LaTeX → PDF” หรือบทความ/รายงานที่คุณกำลังจะส่ง</li>
 <li>ไฟล์ข้อมูล/ผลต้นทางที่ตัวเลขในเอกสารมาจาก (ของคุณเอง)</li>
 <li>ข้อกำหนดผู้แต่งของแหล่งเผยแพร่เป้าหมาย จากเว็บของแหล่งเผยแพร่นั้น</li>
 </ul>
-<h3 id="โจทย์">โจทย์</h3>
+<h3 id="open-explore--โจทย์">โจทย์</h3>
 <ol type="1">
 <li>เก็บสำเนา PDF ฉบับก่อนแก้ไว้ และเริ่มไฟล์ <code>output/prompts.md</code> ไว้บันทึก prompt ทุกรอบ</li>
 <li>ตรวจเนื้อหาและหน้ากระดาษแยกกัน บันทึกผลเป็น <code>output/qa-content.md</code> และ <code>output/qa-layout.md</code> ที่คุณสร้างในขั้นนี้</li>
 <li>แก้ที่ไฟล์ต้นทางอย่างน้อยหนึ่งรอบ แล้ว build PDF ฉบับหลังแก้</li>
 <li>เขียน <code>output/submission-readiness.md</code> (PASS / FAIL / BLOCKED + หลักฐาน + ตำแหน่ง + ผู้รับผิดชอบ)</li>
 </ol>
-<h3 id="ข้อกำหนด">ข้อกำหนด</h3>
+<h3 id="open-explore--ข้อกำหนด">ข้อกำหนด</h3>
 <ul>
 <li><code>output/prompts.md</code> เก็บ prompt ทุกรอบ (prompt, สรุปผลที่ได้, สิ่งที่ปรับในรอบถัดไปและเหตุผล)</li>
 <li>ระบุว่าตรวจผลของ AI อย่างไร (เทียบกับไฟล์/เอกสารต้นทางใด) และแก้อะไรเอง</li>
 <li>ผลงาน: <code>output/qa-content.md</code>, <code>output/qa-layout.md</code>, <code>output/submission-readiness.md</code> และ PDF ก่อน/หลังแก้</li>
 <li>ตัวเลขทุกตัวในบทคัดย่อและผลหลักต้องตรวจกับไฟล์ต้นทางด้วยตัวเอง ไม่ใช่เชื่อรายงานของ AI</li>
 </ul>
-<h3 id="เกณฑ์ผ่าน">เกณฑ์ผ่าน</h3>
+<h3 id="open-explore--เกณฑ์ผ่าน">เกณฑ์ผ่าน</h3>
 <ul class="task-list">
 <li><label><input type="checkbox"><code>output/qa-content.md</code> และ <code>output/qa-layout.md</code> แยกกัน และแต่ละข้อมีตำแหน่งใน PDF</label></li>
 <li><label><input type="checkbox">มีการแก้ที่ไฟล์ต้นทางอย่างน้อยหนึ่งรอบ พร้อม PDF ก่อน/หลัง และยืนยันว่าไม่มีจุดอื่นเปลี่ยนความหมาย</label></li>
@@ -116,15 +119,30 @@
 </div></section></div></div>
 <script>
 (() => {
-  const tabs = [...document.querySelectorAll('.topic-tabs a')];
+  const tabs = [...document.querySelectorAll('.topic-tabs > ul > li > a')];
   const panels = tabs.map(t => document.getElementById(t.hash.slice(1)));
+  const subs = [...document.querySelectorAll('.topic-tabs a[data-sub]')];
   function show(id) {
-    const i = Math.max(0, panels.findIndex(p => p && p.id === id));
+    const target = id && document.getElementById(id);
+    const owner = target && target.closest('.topic-panel');
+    const i = Math.max(0, panels.findIndex(p => p && p.id === (owner ? owner.id : id)));
     panels.forEach((p, k) => { if (p) p.hidden = k !== i; });
-    tabs.forEach((t, k) => t.setAttribute('aria-current', k === i ? 'page' : 'false'));
+    tabs.forEach((t, k) => { t.setAttribute('aria-current', k === i ? 'page' : 'false'); t.parentElement.classList.toggle('is-open', k === i); });
     const layout = document.querySelector('.topic-layout'); if (layout && panels[i]) layout.dataset.active = panels[i].id;
+    return target && owner && target !== owner ? target : null;
   }
   tabs.forEach(t => t.addEventListener('click', e => { e.preventDefault(); history.replaceState(null, '', t.hash); show(t.hash.slice(1)); window.scrollTo({top: 0}); }));
+  subs.forEach(s => s.addEventListener('click', e => { e.preventDefault(); history.replaceState(null, '', s.hash); const h = show(s.hash.slice(1)); if (h) h.scrollIntoView({block: 'start'}); }));
+  if ('IntersectionObserver' in window && subs.length) {  // highlight the step being read
+    const byId = new Map(subs.map(s => [s.hash.slice(1), s]));
+    const seen = new Set();
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(en => { if (en.isIntersecting) seen.add(en.target.id); else seen.delete(en.target.id); });
+      const visible = [...byId.keys()].find(k => seen.has(k));
+      if (visible) subs.forEach(s => s.classList.toggle('is-here', s === byId.get(visible)));
+    }, {rootMargin: '-15% 0px -70% 0px'});
+    byId.forEach((_, k) => { const h = document.getElementById(k); if (h) io.observe(h); });
+  }
   document.querySelectorAll('[data-next-tab]').forEach(b => b.addEventListener('click', e => { e.preventDefault(); const h = b.getAttribute('href'); history.replaceState(null, '', h); show(h.slice(1)); window.scrollTo({top: 0}); }));
   document.querySelectorAll('[data-fullscreen]').forEach(b => b.addEventListener('click', () => {
     const frame = document.querySelector(b.dataset.fullscreen);
@@ -145,8 +163,8 @@
     setAside(saved);
     toggle.addEventListener('click', () => setAside(!layout0.classList.contains('aside-hidden')));
   }
-  show(location.hash.slice(1));
-  if (location.hash) requestAnimationFrame(() => window.scrollTo({top: 0}));
+  const deep = show(location.hash.slice(1));
+  if (location.hash) requestAnimationFrame(() => deep ? deep.scrollIntoView({block: 'start'}) : window.scrollTo({top: 0}));
 })();
 </script>
   </main>

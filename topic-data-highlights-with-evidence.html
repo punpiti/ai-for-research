@@ -10,24 +10,27 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/styles.css?v=20261113-2">
-  <link rel="stylesheet" href="assets/learn.css?v=20261116-2">
-  <script src="assets/site-shell.js?v=20261116-2"></script>
-  <script src="assets/app.js?v=20261116-2" defer></script>
+  <link rel="stylesheet" href="assets/learn.css?v=20261118-1">
+  <script src="assets/site-shell.js?v=20261118-1"></script>
+  <script src="assets/app.js?v=20261118-1" defer></script>
+  <link rel="icon" href="assets/images/madlab-ku-mark-dark.svg" type="image/svg+xml">
+  <link rel="icon" href="assets/images/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="assets/images/favicon-180.png">
 </head>
 <body class="learn" data-no-case>
   <a class="skip-link" href="#main">ข้ามไปยังเนื้อหา</a>
   <site-header current="topic" plan="class-2026-11-20-engineering-faculty.html" menu='{&quot;module&quot;: &quot;M07&quot;, &quot;title&quot;: &quot;วิเคราะห์ข้อมูลและสร้างกราฟ&quot;, &quot;items&quot;: [{&quot;href&quot;: &quot;module-overview-m07.html&quot;, &quot;label&quot;: &quot;ภาพรวมและ LO&quot;, &quot;current&quot;: false}, {&quot;href&quot;: &quot;topic-reading-data-and-choosing-charts.html&quot;, &quot;label&quot;: &quot;อ่านข้อมูลและเลือกกราฟให้ตรงงานของผู้อ่าน&quot;, &quot;current&quot;: false}, {&quot;href&quot;: &quot;topic-chart-pitfalls-and-makeover.html&quot;, &quot;label&quot;: &quot;กับดักกราฟ และการปรับกราฟให้พร้อมใช้&quot;, &quot;current&quot;: false}, {&quot;href&quot;: &quot;topic-data-highlights-with-evidence.html&quot;, &quot;label&quot;: &quot;จากข้อมูลสู่ highlights ที่ตรวจย้อนได้&quot;, &quot;current&quot;: true}]}'></site-header>
   <main id="main">
 <section class="prepare-hero module-hero"><p class="eyebrow">หัวข้อย่อย · M07</p><h1>จากข้อมูลสู่ highlights ที่ตรวจย้อนได้</h1><ul class="outcomes"><li>ใช้ AI ทำใบรับการนำเข้า ระบุหน่วยวิเคราะห์และระดับการรวมค่า สำรวจการแจกแจงก่อนเลือกกราฟสื่อสาร แล้วเขียน highlights 3–5 ข้อที่มีตัวเลข หน่วย ฐานเปรียบเทียบ จำนวนค่าวัด และขอบเขตของข้อสรุป พร้อมข้อจำกัด</li><li>ตรวจกราฟและ highlights ด้วยรายการ 7 ข้อ (แกน ตัวหาร n ชนิด interval สี ชื่อภาพ และตรวจย้อน CSV) โดยตรวจตัวเลขอย่างน้อย 3 ค่ากับข้อมูลต้นทางด้วยตนเอง ไม่ให้ AI ตรวจงานที่ AI ทำเอง</li></ul></section>
-<div class="topic-layout"><nav class="topic-tabs" aria-label="ส่วนของหัวข้อ"><a href="#slides" title="สไลด์">สไลด์</a><a href="#workshop-core" title="Workshop หลัก">Workshop</a><a href="#open-explore" title="Exploring workshop">Exploring</a><a href="#workshop-figure-text-consistency-audit" title="ตรวจความสอดคล้องของภาพ ตาราง และข้อความทั้งเอกสาร">เสริม · Workshop</a><a href="#open-figure-text-consistency-audit-explore" title="ตรวจความสอดคล้องของภาพ ตาราง และข้อความทั้งเอกสาร">เสริม · Exploring</a><button type="button" class="aside-toggle" data-aside-toggle aria-pressed="false">ซ่อนสไลด์ข้าง</button></nav><div class="topic-main"><section class="section markdown-section topic-panel" id="slides" aria-labelledby="slides-heading"><div class="section-heading compact"><p class="eyebrow">สไลด์</p><h2 id="slides-heading">สไลด์</h2></div><div class="markdown-body"><div class="slide-tools"><button type="button" class="slide-tool" data-fullscreen="#slide-frame-main">⛶ เต็มจอ</button><a class="slide-tool" href="downloads/topics/data-highlights-with-evidence.pdf" target="_blank" rel="noopener">เปิดแท็บใหม่ ↗</a></div><iframe id="slide-frame-main" class="slide-frame" src="downloads/topics/data-highlights-with-evidence.pdf#view=FitH" title="สไลด์ จากข้อมูลสู่ highlights ที่ตรวจย้อนได้" allowfullscreen></iframe></div></section>
+<div class="topic-layout"><nav class="topic-tabs topic-menu" aria-label="ในหัวข้อนี้"><p class="topic-menu-title">ในหัวข้อนี้</p><ul><li><a href="#slides" title="สไลด์">สไลด์</a></li><li><a href="#workshop-core" title="Workshop หลัก">Workshop</a><ul class="topic-submenu"><li><a href="#workshop-core--ก่อนเริ่ม-ต้องมีอยู่แล้ว" data-sub>ก่อนเริ่ม (ต้องมีอยู่แล้ว)</a></li><li><a href="#workshop-core--คำที่ใช้ใน-workshop-นี้" data-sub>คำที่ใช้ใน workshop นี้</a></li><li><a href="#workshop-core--ขั้นที่-1--ตรวจ-intake-ก่อนวิเคราะห์" data-sub>ขั้นที่ 1 — ตรวจ intake ก่อนวิเคราะห์</a></li><li><a href="#workshop-core--ขั้นที่-2--สร้างกราฟและ-highlights" data-sub>ขั้นที่ 2 — สร้างกราฟและ highlights</a></li><li><a href="#workshop-core--ขั้นที่-3--red-team-กราฟกับข้อความ" data-sub>ขั้นที่ 3 — Red team กราฟกับข้อความ</a></li><li><a href="#workshop-core--ขั้นที่-4--ส่งงานผ่าน-airr" data-sub>ขั้นที่ 4 — ส่งงานผ่าน AIRR</a></li><li><a href="#workshop-core--ตรวจก่อนจบ-workshop" data-sub>ตรวจก่อนจบ workshop</a></li></ul></li><li><a href="#open-explore" title="Exploring workshop">Exploring</a><ul class="topic-submenu"><li><a href="#open-explore--โจทย์" data-sub>โจทย์</a></li><li><a href="#open-explore--ข้อกำหนด" data-sub>ข้อกำหนด</a></li><li><a href="#open-explore--เกณฑ์ผ่าน" data-sub>เกณฑ์ผ่าน</a></li></ul></li><li><a href="#workshop-figure-text-consistency-audit" title="ตรวจความสอดคล้องของภาพ ตาราง และข้อความทั้งเอกสาร">เสริม · Workshop</a><ul class="topic-submenu"><li><a href="#workshop-figure-text-consistency-audit--ก่อนเริ่ม-ต้องมีอยู่แล้ว" data-sub>ก่อนเริ่ม (ต้องมีอยู่แล้ว)</a></li><li><a href="#workshop-figure-text-consistency-audit--ขั้นตอน" data-sub>ขั้นตอน</a></li><li><a href="#workshop-figure-text-consistency-audit--ตรวจก่อนจบ" data-sub>ตรวจก่อนจบ</a></li><li><a href="#workshop-figure-text-consistency-audit--ส่งงาน" data-sub>ส่งงาน</a></li></ul></li><li><a href="#open-figure-text-consistency-audit-explore" title="ตรวจความสอดคล้องของภาพ ตาราง และข้อความทั้งเอกสาร">เสริม · Exploring</a><ul class="topic-submenu"><li><a href="#open-figure-text-consistency-audit-explore--ก่อนเริ่ม-ต้องมีอยู่แล้ว" data-sub>ก่อนเริ่ม (ต้องมีอยู่แล้ว)</a></li><li><a href="#open-figure-text-consistency-audit-explore--ขั้นตอน" data-sub>ขั้นตอน</a></li><li><a href="#open-figure-text-consistency-audit-explore--ข้อกำหนด" data-sub>ข้อกำหนด</a></li><li><a href="#open-figure-text-consistency-audit-explore--เกณฑ์ผ่าน" data-sub>เกณฑ์ผ่าน</a></li></ul></li></ul><button type="button" class="aside-toggle" data-aside-toggle aria-pressed="false">ซ่อนสไลด์ข้าง</button></nav><div class="topic-main"><section class="section markdown-section topic-panel" id="slides" aria-labelledby="slides-heading"><div class="section-heading compact"><p class="eyebrow">สไลด์</p><h2 id="slides-heading">สไลด์</h2></div><div class="markdown-body"><div class="slide-tools"><button type="button" class="slide-tool" data-fullscreen="#slide-frame-main">⛶ เต็มจอ</button><a class="slide-tool" href="downloads/topics/data-highlights-with-evidence.pdf" target="_blank" rel="noopener">เปิดแท็บใหม่ ↗</a></div><iframe id="slide-frame-main" class="slide-frame" src="downloads/topics/data-highlights-with-evidence.pdf#view=FitH" title="สไลด์ จากข้อมูลสู่ highlights ที่ตรวจย้อนได้" allowfullscreen></iframe></div></section>
 <section class="section markdown-section topic-panel" id="workshop-core" aria-labelledby="workshop-core-heading"><div class="section-heading compact"><p class="eyebrow">Workshop</p><h2 id="workshop-core-heading">จากข้อมูลสู่ highlights ที่ตรวจย้อนได้</h2></div><div class="markdown-body"><p>ใน workshop นี้คุณจะสร้างกราฟและ highlights 3–5 ข้อจากข้อมูล PM2.5 จำลอง ตรวจตัวเลขกับ CSV ด้วยตนเอง แล้วส่งงานผ่าน AIRR ให้ผู้สอนตรวจ</p>
-<h3 id="ก่อนเริ่ม-ต้องมีอยู่แล้ว">ก่อนเริ่ม (ต้องมีอยู่แล้ว)</h3>
+<h3 id="workshop-core--ก่อนเริ่ม-ต้องมีอยู่แล้ว">ก่อนเริ่ม (ต้องมีอยู่แล้ว)</h3>
 <ul>
 <li>ผ่านสองหัวข้อก่อนหน้า และมีภาพอย่างน้อยหนึ่งภาพใน <code>module-07-work/figures/</code></li>
 <li>มี <code>course-materials/module-07/examples/figure-consistency/mock-study-data.csv</code> และ <code>.venv-module07</code></li>
 <li>เปิด AI panel ใน VS Code และเชื่อม AIRR แล้ว</li>
 </ul>
-<h3 id="คำที่ใช้ใน-workshop-นี้">คำที่ใช้ใน workshop นี้</h3>
+<h3 id="workshop-core--คำที่ใช้ใน-workshop-นี้">คำที่ใช้ใน workshop นี้</h3>
 <ul>
 <li><strong>highlight</strong> — ข้อค้นพบสั้นที่มีตัวเลข หน่วย ฐานเปรียบเทียบ <code>n</code> และขอบเขตข้อสรุป</li>
 <li><strong>provenance</strong> — ที่มาของตัวเลขและขั้นตอนที่ใช้คำนวณ</li>
@@ -35,23 +38,23 @@
 <li><strong>submission</strong> — ชุดไฟล์ที่ AIRR ส่งให้ผู้สอนตรวจ ไม่รวมข้อมูลวิจัยต้นฉบับ</li>
 </ul>
 <hr>
-<h3 id="ขั้นที่-1--ตรวจ-intake-ก่อนวิเคราะห์">ขั้นที่ 1 — ตรวจ intake ก่อนวิเคราะห์</h3>
+<h3 id="workshop-core--ขั้นที่-1--ตรวจ-intake-ก่อนวิเคราะห์">ขั้นที่ 1 — ตรวจ intake ก่อนวิเคราะห์</h3>
 <p>ให้ AI อ่าน CSV แบบอ่านอย่างเดียว แล้วสร้าง <code>module-07-work/import-report.md</code> ระบุจำนวนแถว/คอลัมน์ ชื่อคอลัมน์ ชนิดข้อมูล missing/duplicate หน่วยวิเคราะห์ ระดับการรวมค่า และคำเตือน จากนั้นเปิด CSV ตรวจชื่อคอลัมน์และสุ่มเทียบอย่างน้อยสามแถว</p>
 <p><strong>ตรวจ:</strong> รายงานแยกสิ่งที่อ่านจากไฟล์ สิ่งที่อนุมาน และสิ่งที่ยังไม่รู้; จำนวนแถว/คอลัมน์ตรงกับไฟล์จริง</p>
 <hr>
-<h3 id="ขั้นที่-2--สร้างกราฟและ-highlights">ขั้นที่ 2 — สร้างกราฟและ highlights</h3>
+<h3 id="workshop-core--ขั้นที่-2--สร้างกราฟและ-highlights">ขั้นที่ 2 — สร้างกราฟและ highlights</h3>
 <p>ให้ AI ใช้คำถามกับกราฟที่คุณเลือก สร้างสคริปต์ใน <code>module-07-work/</code> รันด้วย Python ของโมดูล และบันทึกภาพใน <code>module-07-work/figures/</code> จากนั้นเขียน <code>module-07-work/module-07-highlights.md</code> จำนวน 3–5 ข้อ แต่ละข้อมีข้อความหลัก ตัวเลข หน่วย ฐานเปรียบเทียบ <code>n</code> ช่วงความไม่แน่นอน ข้อจำกัด และตำแหน่งใน CSV/โค้ดที่ตรวจย้อนกลับได้</p>
 <p><strong>ตรวจ:</strong> เปิด CSV หรือใช้สคริปต์คำนวณแยก ตรวจตัวเลขใน highlights อย่างน้อยสามค่าด้วยตนเอง</p>
 <hr>
-<h3 id="ขั้นที่-3--red-team-กราฟกับข้อความ">ขั้นที่ 3 — Red team กราฟกับข้อความ</h3>
+<h3 id="workshop-core--ขั้นที่-3--red-team-กราฟกับข้อความ">ขั้นที่ 3 — Red team กราฟกับข้อความ</h3>
 <p>ตรวจเจ็ดเรื่อง: แกนและหน่วย, ตัวหาร, <code>n</code>, ชนิด interval, สี, claim title และตัวเลขย้อนกลับไป CSV ให้ AI ช่วยค้นจุดเสี่ยงได้ แต่ผู้เรียนต้องเปิดไฟล์และตัดสินเอง บันทึกผลใน <code>module-07-work/figure-audit.md</code></p>
 <p><strong>ตรวจ:</strong> audit มีตำแหน่ง หลักฐาน สถานะ และการแก้ของทุกข้อ; จุดที่ยังตรวจไม่ได้ระบุว่า BLOCKED</p>
 <hr>
-<h3 id="ขั้นที่-4--ส่งงานผ่าน-airr">ขั้นที่ 4 — ส่งงานผ่าน AIRR</h3>
+<h3 id="workshop-core--ขั้นที่-4--ส่งงานผ่าน-airr">ขั้นที่ 4 — ส่งงานผ่าน AIRR</h3>
 <p>สั่ง AI ว่า “ส่งงาน Module 7 ให้ฉัน” AI ต้องตรวจไฟล์ก่อน แสดงรายการไฟล์ที่จะส่ง ขอคำยืนยันหนึ่งครั้ง แล้วจึงส่ง <code>module-07-highlights.md</code> กับภาพใน <code>module-07-work/figures/</code> ห้ามส่ง CSV ต้นฉบับหรือ AIRR Key</p>
 <p><strong>ตรวจ:</strong> AI รายงาน submission ID และสถานะปัจจุบันโดยไม่แสดง AIRR Key</p>
 <hr>
-<h3 id="ตรวจก่อนจบ-workshop">ตรวจก่อนจบ workshop</h3>
+<h3 id="workshop-core--ตรวจก่อนจบ-workshop">ตรวจก่อนจบ workshop</h3>
 <ul class="task-list">
 <li><label><input type="checkbox">ขั้น 1: <code>import-report.md</code> ระบุ grain, missing, duplicate และระดับการรวมค่า</label></li>
 <li><label><input type="checkbox">ขั้น 2: <code>module-07-highlights.md</code> มี 3–5 ข้อ และตรวจเลขกับ CSV เองอย่างน้อยสามค่า</label></li>
@@ -60,19 +63,19 @@
 </ul>
 </div></section>
 <section class="section markdown-section topic-panel" id="open-explore" aria-labelledby="open-explore-heading"><div class="section-heading compact"><p class="eyebrow">Exploring</p><h2 id="open-explore-heading">จากข้อมูลสู่ highlights ที่ตรวจย้อนได้</h2></div><div class="markdown-body"><p>ใช้ข้อมูลของคุณที่นำเข้า AI ได้ตามสิทธิ์ หรือใช้ข้อมูลจำลองชุดสำรอง เขียน prompt เองทั้งหมด</p>
-<h3 id="โจทย์">โจทย์</h3>
+<h3 id="open-explore--โจทย์">โจทย์</h3>
 <ol type="1">
 <li>ทำ intake report และ data dictionary ก่อนวิเคราะห์</li>
 <li>สร้างกราฟอย่างน้อยหนึ่งภาพและ highlights 3–5 ข้อ</li>
 <li>ตรวจเลขกับข้อมูลต้นทางอย่างน้อยสามค่า แล้ว red team กราฟกับข้อความ</li>
 </ol>
-<h3 id="ข้อกำหนด">ข้อกำหนด</h3>
+<h3 id="open-explore--ข้อกำหนด">ข้อกำหนด</h3>
 <ul>
 <li>เก็บข้อมูลต้นฉบับใน <code>input/original/</code> และห้ามแก้</li>
 <li>เก็บ prompt ทุกรอบใน <code>module-07-work/output/prompts.md</code></li>
 <li>ไม่อัปโหลดข้อมูลลับ ข้อมูลส่วนบุคคล หรือข้อมูลที่ไม่มีสิทธิ์ให้บริการภายนอก</li>
 </ul>
-<h3 id="เกณฑ์ผ่าน">เกณฑ์ผ่าน</h3>
+<h3 id="open-explore--เกณฑ์ผ่าน">เกณฑ์ผ่าน</h3>
 <ul class="task-list">
 <li><label><input type="checkbox">highlights ทุกข้อมีตัวเลข หน่วย ฐานเปรียบเทียบ <code>n</code> และข้อจำกัด</label></li>
 <li><label><input type="checkbox">กราฟและข้อความย้อนกลับไปยัง CSV/โค้ดได้</label></li>
@@ -82,7 +85,7 @@
 </div></section>
 <section class="section markdown-section topic-panel" id="workshop-figure-text-consistency-audit" aria-labelledby="workshop-figure-text-consistency-audit-heading"><div class="section-heading compact"><p class="eyebrow">เสริม · Workshop</p><h2 id="workshop-figure-text-consistency-audit-heading">ตรวจความสอดคล้องของภาพ ตาราง และข้อความทั้งเอกสาร</h2></div><div class="markdown-body"><p>ใน workshop นี้คุณจะตรวจบทความจำลองหาความไม่สอดคล้องระหว่าง Methods ตาราง รูป caption และข้อสรุปด้วยตัวเองก่อน ใช้ AI เป็นผู้ตรวจคนที่สอง แล้วกรอกผลลง <code>module-07-work/module-07-figure-audit.md</code></p>
 <p>ทำตามได้ครบด้วยบทความจำลองที่ฝังข้อผิดพลาดไว้เพื่อการเรียน (ข้อมูล PM2.5 จำลองชุดเดียวกัน) ไม่ต้องสร้าง mock เพิ่ม</p>
-<h3 id="ก่อนเริ่ม-ต้องมีอยู่แล้ว">ก่อนเริ่ม (ต้องมีอยู่แล้ว)</h3>
+<h3 id="workshop-figure-text-consistency-audit--ก่อนเริ่ม-ต้องมีอยู่แล้ว">ก่อนเริ่ม (ต้องมีอยู่แล้ว)</h3>
 <ul>
 <li>ผ่าน Module 1: เปิด <code>ai-for-research-workspace</code> ใน VS Code และ AI panel เชื่อมแล้ว</li>
 <li>ไฟล์ที่ติดตั้งมากับ Module 1 (อ่านอย่างเดียว):
@@ -93,7 +96,7 @@
 <li><code>module-07-work/module-07-figure-audit.md</code> (ตัวติดตั้ง Module 1 คัดลอกจาก <code>figure-consistency-audit-template.md</code> ไว้ให้ เป็นแม่แบบที่ยังไม่กรอก)</li>
 <li>ห้ามเปิดสคริปต์สร้างกรณีศึกษาหรือเฉลยผู้สอนก่อนส่งงาน</li>
 </ul>
-<h3 id="ขั้นตอน">ขั้นตอน</h3>
+<h3 id="workshop-figure-text-consistency-audit--ขั้นตอน">ขั้นตอน</h3>
 <ol type="1">
 <li><p><strong>รอบแรกทำเอง (ไม่ใช้ AI):</strong> อ่านบทความจำลองทั้งฉบับ แล้วเทียบ Methods, ตาราง, รูป, caption และข้อสรุป ไล่ตามหมวดในแม่แบบ</p>
 <ul>
@@ -110,7 +113,7 @@
 <li><p>เทียบผลของ AI กับ ledger ของคุณ ตัดสินเองว่าจะเพิ่มประเด็นใด (ตรวจหลักฐานทุกข้อที่ AI เสนอก่อนรับ) และทำเครื่องหมาย <code>AI used after the human-first pass: yes</code></p></li>
 <li><p>เขียน <code>Executive diagnosis</code> และ <code>Minimum corrected claim</code> ในแม่แบบ</p></li>
 </ol>
-<h3 id="ตรวจก่อนจบ">ตรวจก่อนจบ</h3>
+<h3 id="workshop-figure-text-consistency-audit--ตรวจก่อนจบ">ตรวจก่อนจบ</h3>
 <ul class="task-list">
 <li><label><input type="checkbox"><code>Cross-figure issue ledger</code> ใน <code>module-07-work/module-07-figure-audit.md</code> มีอย่างน้อย 6 ประเด็น และอย่างน้อย 4 ประเด็นอ้างตำแหน่งตั้งแต่สองที่ขึ้นไป</label></li>
 <li><label><input type="checkbox">ไฟล์เดียวกันมีการตรวจค่าจาก CSV ด้วยตนเองอย่างน้อย 3 ค่า และแต่ละค่าระบุว่าตรงหรือไม่ตรงกับบทความ</label></li>
@@ -118,14 +121,14 @@
 <li><label><input type="checkbox"><code>Executive diagnosis</code> และ <code>Minimum corrected claim</code> กรอกแล้ว</label></li>
 <li><label><input type="checkbox">ไฟล์ PDF และ CSV ใน <code>course-materials/module-07/examples/figure-consistency/</code> ไม่ถูกแก้</label></li>
 </ul>
-<h3 id="ส่งงาน">ส่งงาน</h3>
+<h3 id="workshop-figure-text-consistency-audit--ส่งงาน">ส่งงาน</h3>
 <ul>
 <li>ระบบรับงานของ Module 7 (AIRR) รับเฉพาะ <code>module-07-highlights.md</code> และกราฟ ไฟล์ figure audit เก็บไว้ใน workspace เพื่อคุยกับผู้สอน</li>
 </ul>
 </div></section>
 <section class="section markdown-section topic-panel" id="open-figure-text-consistency-audit-explore" aria-labelledby="open-figure-text-consistency-audit-explore-heading"><div class="section-heading compact"><p class="eyebrow">เสริม · Exploring</p><h2 id="open-figure-text-consistency-audit-explore-heading">ตรวจความสอดคล้องของภาพ ตาราง และข้อความทั้งเอกสาร</h2></div><div class="markdown-body"><p>ใน Exploring workshop นี้คุณจะตรวจเอกสารหนึ่งชิ้นที่มีหลายรูปและตารางหาความไม่สอดคล้องด้วยตัวเองก่อน แล้วเขียน prompt เองให้ AI เป็นผู้ตรวจคนที่สอง ได้ ledger ใน <code>module-07-work/output/figure-consistency-audit.md</code></p>
 <p>ผู้เรียนเขียน prompt เอง ไม่มี prompt สำเร็จรูปให้</p>
-<h3 id="ก่อนเริ่ม-ต้องมีอยู่แล้ว">ก่อนเริ่ม (ต้องมีอยู่แล้ว)</h3>
+<h3 id="open-figure-text-consistency-audit-explore--ก่อนเริ่ม-ต้องมีอยู่แล้ว">ก่อนเริ่ม (ต้องมีอยู่แล้ว)</h3>
 <ul>
 <li>ผ่าน Module 1: เปิด <code>ai-for-research-workspace</code> ใน VS Code และ AI panel เชื่อมแล้ว · โฟลเดอร์ <code>module-07-work/</code> (ตัวติดตั้ง Module 1 สร้างไว้)</li>
 <li>แม่แบบ <code>course-materials/module-07/examples/figure-consistency/figure-consistency-audit-template.md</code> (ติดตั้งมากับ Module 1 · อ่านอย่างเดียว)</li>
@@ -134,7 +137,7 @@
 <li>ถ้ายังไม่มี: ใช้บทความจำลอง <code>course-materials/module-07/examples/figure-consistency/mock-article-figure-consistency.pdf</code> คู่กับ <code>mock-study-data.csv</code> ในโฟลเดอร์เดียวกัน (ติดตั้งมากับ Module 1)</li>
 </ul></li>
 </ul>
-<h3 id="ขั้นตอน">ขั้นตอน</h3>
+<h3 id="open-figure-text-consistency-audit-explore--ขั้นตอน">ขั้นตอน</h3>
 <ol type="1">
 <li>สร้างโฟลเดอร์ <code>module-07-work/output/</code> และไฟล์ <code>module-07-work/output/prompts.md</code> (ถ้ามีจาก Exploring workshop ข้ออื่นแล้ว ให้เพิ่มหัวข้อใหม่ต่อท้าย) ไว้จดทุกรอบเป็น prompt → สรุปคำตอบของ AI → สิ่งที่คุณตัดสินใจ</li>
 <li>คัดลอกแม่แบบไปเป็น <code>module-07-work/output/figure-consistency-audit.md</code> (ใช้โครงนี้ได้ ไม่บังคับ)</li>
@@ -143,14 +146,14 @@
 <li>เขียน prompt ให้ AI เป็นผู้ตรวจคนที่สอง แล้วตัดสินเองว่ารับประเด็นใด (ตรวจหลักฐานก่อนรับ) และทำเครื่องหมายว่าประเด็นใดมาจาก AI</li>
 <li>เขียนข้อสรุปฉบับแก้ 2–4 ประโยคในไฟล์เดียวกัน</li>
 </ol>
-<h3 id="ข้อกำหนด">ข้อกำหนด</h3>
+<h3 id="open-figure-text-consistency-audit-explore--ข้อกำหนด">ข้อกำหนด</h3>
 <ul>
 <li>เขียน prompt เองทุกข้อ ไม่ใช้ prompt สำเร็จรูปจาก workshop และจดทุกรอบใน <code>module-07-work/output/prompts.md</code></li>
 <li>ระบุว่าตรวจผลของ AI อย่างไร (เปิดภาพดูเอง คำนวณเอง หรือเปิดข้อมูลต้นทาง) และแก้อะไรเอง</li>
 <li>ข้อมูลที่ไม่มีสิทธิ์นำเข้า AI (ข้อมูลส่วนบุคคล ข้อมูลลับ manuscript ที่ยังไม่เผยแพร่) ให้ใช้ข้อมูลจำลอง/ข้อมูลเปิดแทน</li>
 <li>ถ้า AI เสนอวิธีทางสถิติที่คุณอธิบายเหตุผลไม่ได้ ให้หยุดและปรึกษาผู้เชี่ยวชาญก่อนใช้ผล</li>
 </ul>
-<h3 id="เกณฑ์ผ่าน">เกณฑ์ผ่าน</h3>
+<h3 id="open-figure-text-consistency-audit-explore--เกณฑ์ผ่าน">เกณฑ์ผ่าน</h3>
 <ul class="task-list">
 <li><label><input type="checkbox"><code>module-07-work/output/figure-consistency-audit.md</code> มีอย่างน้อย 4 ประเด็นที่อาศัยการอ่านตั้งแต่สองตำแหน่งขึ้นไป แต่ละข้อระบุตำแหน่งและผลต่อข้อสรุป</label></li>
 <li><label><input type="checkbox">ไม่มีประเด็นที่เป็นเพียงความชอบด้านรูปแบบหรือความสวยงาม</label></li>
@@ -161,15 +164,30 @@
 </div></section></div><aside class="slide-aside" aria-label="สไลด์ประกอบ"><div class="slide-tools"><button type="button" class="slide-tool" data-fullscreen="#slide-frame-aside">⛶ เต็มจอ</button><a class="slide-tool" href="downloads/topics/data-highlights-with-evidence.pdf" target="_blank" rel="noopener">เปิดแท็บใหม่ ↗</a></div><iframe id="slide-frame-aside" src="downloads/topics/data-highlights-with-evidence.pdf#view=FitH" title="สไลด์ จากข้อมูลสู่ highlights ที่ตรวจย้อนได้" loading="lazy" allowfullscreen></iframe></aside></div>
 <script>
 (() => {
-  const tabs = [...document.querySelectorAll('.topic-tabs a')];
+  const tabs = [...document.querySelectorAll('.topic-tabs > ul > li > a')];
   const panels = tabs.map(t => document.getElementById(t.hash.slice(1)));
+  const subs = [...document.querySelectorAll('.topic-tabs a[data-sub]')];
   function show(id) {
-    const i = Math.max(0, panels.findIndex(p => p && p.id === id));
+    const target = id && document.getElementById(id);
+    const owner = target && target.closest('.topic-panel');
+    const i = Math.max(0, panels.findIndex(p => p && p.id === (owner ? owner.id : id)));
     panels.forEach((p, k) => { if (p) p.hidden = k !== i; });
-    tabs.forEach((t, k) => t.setAttribute('aria-current', k === i ? 'page' : 'false'));
+    tabs.forEach((t, k) => { t.setAttribute('aria-current', k === i ? 'page' : 'false'); t.parentElement.classList.toggle('is-open', k === i); });
     const layout = document.querySelector('.topic-layout'); if (layout && panels[i]) layout.dataset.active = panels[i].id;
+    return target && owner && target !== owner ? target : null;
   }
   tabs.forEach(t => t.addEventListener('click', e => { e.preventDefault(); history.replaceState(null, '', t.hash); show(t.hash.slice(1)); window.scrollTo({top: 0}); }));
+  subs.forEach(s => s.addEventListener('click', e => { e.preventDefault(); history.replaceState(null, '', s.hash); const h = show(s.hash.slice(1)); if (h) h.scrollIntoView({block: 'start'}); }));
+  if ('IntersectionObserver' in window && subs.length) {  // highlight the step being read
+    const byId = new Map(subs.map(s => [s.hash.slice(1), s]));
+    const seen = new Set();
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(en => { if (en.isIntersecting) seen.add(en.target.id); else seen.delete(en.target.id); });
+      const visible = [...byId.keys()].find(k => seen.has(k));
+      if (visible) subs.forEach(s => s.classList.toggle('is-here', s === byId.get(visible)));
+    }, {rootMargin: '-15% 0px -70% 0px'});
+    byId.forEach((_, k) => { const h = document.getElementById(k); if (h) io.observe(h); });
+  }
   document.querySelectorAll('[data-next-tab]').forEach(b => b.addEventListener('click', e => { e.preventDefault(); const h = b.getAttribute('href'); history.replaceState(null, '', h); show(h.slice(1)); window.scrollTo({top: 0}); }));
   document.querySelectorAll('[data-fullscreen]').forEach(b => b.addEventListener('click', () => {
     const frame = document.querySelector(b.dataset.fullscreen);
@@ -190,8 +208,8 @@
     setAside(saved);
     toggle.addEventListener('click', () => setAside(!layout0.classList.contains('aside-hidden')));
   }
-  show(location.hash.slice(1));
-  if (location.hash) requestAnimationFrame(() => window.scrollTo({top: 0}));
+  const deep = show(location.hash.slice(1));
+  if (location.hash) requestAnimationFrame(() => deep ? deep.scrollIntoView({block: 'start'}) : window.scrollTo({top: 0}));
 })();
 </script>
   </main>

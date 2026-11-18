@@ -10,24 +10,27 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/styles.css?v=20261113-2">
-  <link rel="stylesheet" href="assets/learn.css?v=20261116-2">
-  <script src="assets/site-shell.js?v=20261116-2"></script>
-  <script src="assets/app.js?v=20261116-2" defer></script>
+  <link rel="stylesheet" href="assets/learn.css?v=20261118-1">
+  <script src="assets/site-shell.js?v=20261118-1"></script>
+  <script src="assets/app.js?v=20261118-1" defer></script>
+  <link rel="icon" href="assets/images/madlab-ku-mark-dark.svg" type="image/svg+xml">
+  <link rel="icon" href="assets/images/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="assets/images/favicon-180.png">
 </head>
 <body class="learn" data-no-case>
   <a class="skip-link" href="#main">ข้ามไปยังเนื้อหา</a>
   <site-header current="topic" plan="class-2026-11-20-engineering-faculty.html" menu='{&quot;module&quot;: &quot;M03&quot;, &quot;title&quot;: &quot;ตรวจและปรับ problem statement / บทนำ&quot;, &quot;items&quot;: [{&quot;href&quot;: &quot;module-overview-m03.html&quot;, &quot;label&quot;: &quot;ภาพรวมและ LO&quot;, &quot;current&quot;: false}, {&quot;href&quot;: &quot;topic-problem-statement-diagnosis-with-locations.html&quot;, &quot;label&quot;: &quot;บันทึกมุมมองเดิม แล้วให้ AI วินิจฉัย problem statement พร้อมตำแหน่ง&quot;, &quot;current&quot;: true}, {&quot;href&quot;: &quot;topic-verify-critique-and-revise.html&quot;, &quot;label&quot;: &quot;ตรวจคำวิจารณ์ของ AI แล้วแก้พร้อมเหตุผล&quot;, &quot;current&quot;: false}]}'></site-header>
   <main id="main">
 <section class="prepare-hero module-hero"><p class="eyebrow">หัวข้อย่อย · M03</p><h1>บันทึกมุมมองเดิม แล้วให้ AI วินิจฉัย problem statement พร้อมตำแหน่ง</h1><ul class="outcomes"><li>แยกหกส่วน (หัวข้อ ปัญหาในโลกจริง problem statement ปัญหาเชิงความรู้ candidate gap คำถามวิจัย) และใช้องค์ประกอบเจ็ดข้อเป็นรายการตรวจ บันทึกมุมมองของตนก่อนเห็นผล AI แล้วสั่ง AI วินิจฉัยบทนำที่มีอยู่โดยทุกรายการมี heading, paragraph และ page marker</li></ul></section>
-<div class="topic-layout"><nav class="topic-tabs" aria-label="ส่วนของหัวข้อ"><a href="#slides" title="สไลด์">สไลด์</a><a href="#workshop-core" title="Workshop หลัก">Workshop</a><a href="#open-explore" title="Exploring workshop">Exploring</a></nav><div class="topic-main"><section class="section markdown-section topic-panel" id="slides" aria-labelledby="slides-heading"><div class="section-heading compact"><p class="eyebrow">สไลด์</p><h2 id="slides-heading">สไลด์</h2></div><div class="markdown-body"><p>สไลด์ของหัวข้อนี้กำลังจัดทำ</p></div></section>
+<div class="topic-layout"><nav class="topic-tabs topic-menu" aria-label="ในหัวข้อนี้"><p class="topic-menu-title">ในหัวข้อนี้</p><ul><li><a href="#slides" title="สไลด์">สไลด์</a></li><li><a href="#workshop-core" title="Workshop หลัก">Workshop</a><ul class="topic-submenu"><li><a href="#workshop-core--ก่อนเริ่ม-ต้องมีอยู่แล้ว" data-sub>ก่อนเริ่ม (ต้องมีอยู่แล้ว)</a></li><li><a href="#workshop-core--คำที่ใช้ใน-workshop-นี้" data-sub>คำที่ใช้ใน workshop นี้</a></li><li><a href="#workshop-core--ขั้นที่-1--วางต้นฉบับ" data-sub>ขั้นที่ 1 — วางต้นฉบับ</a></li><li><a href="#workshop-core--ขั้นที่-2--แปลงต้นฉบับเป็น-markdown" data-sub>ขั้นที่ 2 — แปลงต้นฉบับเป็น Markdown</a></li><li><a href="#workshop-core--ขั้นที่-3--บันทึกมุมมองของคุณก่อนเห็นผล-ai-คุณทำเอง" data-sub>ขั้นที่ 3 — บันทึกมุมมองของคุณก่อนเห็นผล AI (คุณทำเอง)</a></li><li><a href="#workshop-core--ขั้นที่-4--ให้-ai-วินิจฉัยพร้อมตำแหน่ง" data-sub>ขั้นที่ 4 — ให้ AI วินิจฉัยพร้อมตำแหน่ง</a></li><li><a href="#workshop-core--ขั้นที่-5--บันทึกตารางวินิจฉัย" data-sub>ขั้นที่ 5 — บันทึกตารางวินิจฉัย</a></li><li><a href="#workshop-core--ขั้นที่-6--เทียบกับมุมมองเดิมของคุณ-คุณทำเอง" data-sub>ขั้นที่ 6 — เทียบกับมุมมองเดิมของคุณ (คุณทำเอง)</a></li><li><a href="#workshop-core--ตรวจก่อนจบ-workshop" data-sub>ตรวจก่อนจบ workshop</a></li></ul></li><li><a href="#open-explore" title="Exploring workshop">Exploring</a><ul class="topic-submenu"><li><a href="#open-explore--ก่อนเริ่ม-ต้องมีอยู่แล้ว" data-sub>ก่อนเริ่ม (ต้องมีอยู่แล้ว)</a></li><li><a href="#open-explore--โจทย์" data-sub>โจทย์</a></li><li><a href="#open-explore--ข้อกำหนด" data-sub>ข้อกำหนด</a></li><li><a href="#open-explore--เกณฑ์ผ่าน" data-sub>เกณฑ์ผ่าน</a></li></ul></li></ul></nav><div class="topic-main"><section class="section markdown-section topic-panel" id="slides" aria-labelledby="slides-heading"><div class="section-heading compact"><p class="eyebrow">สไลด์</p><h2 id="slides-heading">สไลด์</h2></div><div class="markdown-body"><p>สไลด์ของหัวข้อนี้ยังไม่เสร็จ</p></div></section>
 <section class="section markdown-section topic-panel" id="workshop-core" aria-labelledby="workshop-core-heading"><div class="section-heading compact"><p class="eyebrow">Workshop</p><h2 id="workshop-core-heading">บันทึกมุมมองเดิม แล้วให้ AI วินิจฉัย problem statement พร้อมตำแหน่ง</h2></div><div class="markdown-body"><p>ใน workshop นี้คุณจะเขียนมุมมองเดิมของคุณต่อ problem statement ลง <code>author-prior.md</code> ก่อน แล้วให้ AI วินิจฉัยบทนำพร้อมตำแหน่ง จนได้ตาราง <code>problem-statement-diagnosis.md</code> ที่ทุกแถวตรวจย้อนได้</p>
-<h3 id="ก่อนเริ่ม-ต้องมีอยู่แล้ว">ก่อนเริ่ม (ต้องมีอยู่แล้ว)</h3>
+<h3 id="workshop-core--ก่อนเริ่ม-ต้องมีอยู่แล้ว">ก่อนเริ่ม (ต้องมีอยู่แล้ว)</h3>
 <ul>
 <li>ผ่าน Module 1: เปิด <code>ai-for-research-workspace</code> ใน VS Code และ AI panel เชื่อมแล้ว — โฟลเดอร์ <code>module-03-work/input/original/</code>, <code>module-03-work/input/markdown/</code>, <code>module-03-work/output/</code> และ <code>module-03-work/notes/</code> ตัวติดตั้งสร้างไว้ให้แล้ว (ว่าง)</li>
 <li>บทความหรือร่างบทนำของคุณเอง 1 เรื่องที่อ่านเข้าใจและมีสิทธิ์ใช้กับ AI ห้ามนำ manuscript ที่ยังไม่เผยแพร่ ข้อมูลส่วนบุคคล หรือข้อมูลของผู้ร่วมวิจัยเข้า AI โดยไม่ได้ตรวจสิทธิ์ ถ้ามีผู้ร่วมเขียน ใช้เฉพาะไฟล์ที่มีสิทธิ์นำมาใช้กับ AI</li>
 <li><strong>ชุดสำรองถ้าไม่มีเอกสารของตนเอง:</strong> บทความจำลองภาษาไทย <code>mock-paper-th.pdf</code> (บทความจำลอง ไม่ใช่ผลงานตีพิมพ์จริง) ตัวติดตั้ง Module 1 วางไว้ที่ <code>module-04-work/thai-mock/input/original/mock-paper-th.pdf</code> ถ้าตอนติดตั้งเห็น <code>PRACTICE_FILES_READY</code> ถ้ายังไม่มี ให้ดาวน์โหลดจากหน้า Module 4 บทความนี้เขียนขึ้นเพื่อฝึกและตั้งใจใส่ปัญหาไว้ บทนำ (หัวข้อ "1. บทนำ") มีเพียงสองย่อหน้า จึงอาจพบว่าหลายองค์ประกอบไม่มีในเอกสาร ซึ่งเป็นผลวินิจฉัยที่ใช้ได้</li>
 </ul>
-<h3 id="คำที่ใช้ใน-workshop-นี้">คำที่ใช้ใน workshop นี้</h3>
+<h3 id="workshop-core--คำที่ใช้ใน-workshop-นี้">คำที่ใช้ใน workshop นี้</h3>
 <ul>
 <li><strong>problem statement</strong> — ข้อความในบทนำที่บอกว่าปัญหาคืออะไร เกิดกับใคร และทำไมต้องแก้</li>
 <li><strong>เจ็ดองค์ประกอบ</strong> — ผู้ได้รับผล สภาวะปัญหา หลักฐาน ผลกระทบ ขอบเขต สภาพที่ต้องการ สิ่งที่ยังไม่ทราบ</li>
@@ -36,16 +39,16 @@
 <li><strong>ตำแหน่ง</strong> — heading, paragraph และ page marker ที่ใช้เปิดหาข้อความเดิมได้</li>
 </ul>
 <hr>
-<h3 id="ขั้นที่-1--วางต้นฉบับ">ขั้นที่ 1 — วางต้นฉบับ</h3>
+<h3 id="workshop-core--ขั้นที่-1--วางต้นฉบับ">ขั้นที่ 1 — วางต้นฉบับ</h3>
 <p>คัดลอกไฟล์ของคุณ (หรือ <code>mock-paper-th.pdf</code>) ไปไว้ใน <code>module-03-work/input/original/</code> ห้ามแก้ไฟล์ในโฟลเดอร์นี้หลังวาง</p>
 <p><strong>ตรวจ:</strong> ใน Explorer ของ VS Code เห็นไฟล์ PDF ของคุณใน <code>module-03-work/input/original/</code> และเปิดอ่านได้</p>
 <hr>
-<h3 id="ขั้นที่-2--แปลงต้นฉบับเป็น-markdown">ขั้นที่ 2 — แปลงต้นฉบับเป็น Markdown</h3>
+<h3 id="workshop-core--ขั้นที่-2--แปลงต้นฉบับเป็น-markdown">ขั้นที่ 2 — แปลงต้นฉบับเป็น Markdown</h3>
 <p>ข้ามได้ถ้ามี <code>module-03-work/input/markdown/seed-paper.md</code> อยู่แล้ว สั่ง AI</p>
 <div class="command ai-prompt"><code>ใช้ไฟล์ที่ฉันวางไว้ใน module-03-work/input/original/ ถ้ามีหลายเรื่องให้ถามฉันเลือกหนึ่ง แปลงเป็น module-03-work/input/markdown/seed-paper.md โดยเก็บหน้า (page marker) และหัวข้อไว้ ห้ามแก้ไฟล์ต้นฉบับ แปลงเสร็จแล้วบอกตำแหน่งไฟล์และหยุด</code><button type="button" data-copy="">คัดลอก</button></div><p>เปิด <code>seed-paper.md</code> ที่ AI เพิ่งสร้าง เทียบกับ PDF คร่าว ๆ</p>
 <p><strong>ตรวจ:</strong> <code>seed-paper.md</code> มีหัวข้อ Introduction (หรือ "1. บทนำ" ในบทความจำลอง) และ page marker ครบทุกหน้า เลขหน้าตรงกับ PDF</p>
 <hr>
-<h3 id="ขั้นที่-3--บันทึกมุมมองของคุณก่อนเห็นผล-ai-คุณทำเอง">ขั้นที่ 3 — บันทึกมุมมองของคุณก่อนเห็นผล AI (คุณทำเอง)</h3>
+<h3 id="workshop-core--ขั้นที่-3--บันทึกมุมมองของคุณก่อนเห็นผล-ai-คุณทำเอง">ขั้นที่ 3 — บันทึกมุมมองของคุณก่อนเห็นผล AI (คุณทำเอง)</h3>
 <p>สร้างไฟล์ <code>module-03-work/output/author-prior.md</code> แล้วเขียนเองสั้น ๆ ว่าคุณคิดว่า problem statement นี้มี</p>
 <ul>
 <li>จุดแข็งอะไร</li>
@@ -56,16 +59,16 @@
 <p>ทำขั้นนี้ก่อนให้ AI วิจารณ์ เพื่อจะรู้ได้ว่าอะไรเป็นมุมมองใหม่จริง และไม่คล้อยตามผล AI ภายหลัง ไฟล์นี้คุณเขียนเท่านั้น ถ้าต้องการให้ AI ช่วยถาม ใช้ prompt นี้ (ไม่บังคับ):</p>
 <div class="command ai-prompt"><code>ให้ฉันเขียน module-03-work/output/author-prior.md เองก่อนเห็นผลประเมิน โดยถามทีละข้อถึงจุดแข็ง จุดอ่อน ข้อจำกัด ประเด็นที่คิดว่าครบแล้ว และข้อสงสัย ห้าม AI เติมคำตอบแทน และห้ามแสดงผลวินิจฉัยก่อนฉันเขียนเสร็จ</code><button type="button" data-copy="">คัดลอก</button></div><p><strong>ตรวจ:</strong> เปิด <code>author-prior.md</code> แล้วเห็นสามส่วน จุดแข็ง จุดอ่อน ข้อสงสัย เป็นคำของคุณเอง และยังไม่มีผลวินิจฉัยของ AI ในแชตหรือในไฟล์ใด</p>
 <hr>
-<h3 id="ขั้นที่-4--ให้-ai-วินิจฉัยพร้อมตำแหน่ง">ขั้นที่ 4 — ให้ AI วินิจฉัยพร้อมตำแหน่ง</h3>
+<h3 id="workshop-core--ขั้นที่-4--ให้-ai-วินิจฉัยพร้อมตำแหน่ง">ขั้นที่ 4 — ให้ AI วินิจฉัยพร้อมตำแหน่ง</h3>
 <p>สั่ง AI</p>
 <div class="command ai-prompt"><code>อ่าน Introduction ใน module-03-work/input/markdown/seed-paper.md เป็นหลัก แยก core statement, ผู้ได้รับผล, สภาวะปัญหา, หลักฐาน, ผลกระทบ, ขอบเขต, สภาพที่ต้องการ, สิ่งที่ยังไม่ทราบ และภาษาที่ผูกกับวิธีแก้ ระบุ heading, paragraph และ page marker ของทุกรายการ จากนั้นชี้ข้อความที่ไม่ชัด ข้ออ้างที่เกินหลักฐาน และความไม่สอดคล้อง แยกสิ่งที่บทความระบุออกจากข้อเสนอของคุณ ห้ามเขียนข้อความใหม่แทนฉัน ถ้า Markdown แยกหัวข้อผิดให้ตรวจ PDF ต้นฉบับ แสดงเป็นตารางแล้วหยุดรอ</code><button type="button" data-copy="">คัดลอก</button></div><p>AI จะแสดงตารางวินิจฉัยในแชต ถ้าแถวใดไม่มีตำแหน่ง หรือ AI เขียนบทนำใหม่ให้ ให้สั่งทำใหม่ตามกติกาใน prompt</p>
 <p><strong>ตรวจ:</strong> ทุกแถวในตารางมี heading, paragraph และ page marker สุ่มสองแถวแล้วเปิด <code>seed-paper.md</code> ตามตำแหน่งนั้น เจอข้อความที่ AI พูดถึงจริง และไม่มีแถวใดเป็นบทนำที่ AI เขียนใหม่</p>
 <hr>
-<h3 id="ขั้นที่-5--บันทึกตารางวินิจฉัย">ขั้นที่ 5 — บันทึกตารางวินิจฉัย</h3>
+<h3 id="workshop-core--ขั้นที่-5--บันทึกตารางวินิจฉัย">ขั้นที่ 5 — บันทึกตารางวินิจฉัย</h3>
 <p>สั่ง AI</p>
 <div class="command ai-prompt"><code>บันทึกตารางวินิจฉัยนี้ลง module-03-work/output/problem-statement-diagnosis.md ตามที่แสดง ห้ามเพิ่มหรือแก้เนื้อหา แล้วหยุด</code><button type="button" data-copy="">คัดลอก</button></div><p><strong>ตรวจ:</strong> เปิด <code>module-03-work/output/problem-statement-diagnosis.md</code> แล้วจำนวนแถวและเนื้อหาตรงกับตารางในแชต</p>
 <hr>
-<h3 id="ขั้นที่-6--เทียบกับมุมมองเดิมของคุณ-คุณทำเอง">ขั้นที่ 6 — เทียบกับมุมมองเดิมของคุณ (คุณทำเอง)</h3>
+<h3 id="workshop-core--ขั้นที่-6--เทียบกับมุมมองเดิมของคุณ-คุณทำเอง">ขั้นที่ 6 — เทียบกับมุมมองเดิมของคุณ (คุณทำเอง)</h3>
 <p>วาง <code>author-prior.md</code> คู่กับ <code>problem-statement-diagnosis.md</code> (VS Code: คลิกขวาที่แท็บ แล้วเลือก Split Right) แล้วจดลง <code>module-03-work/notes/prior-vs-ai.md</code> ว่า</p>
 <ul>
 <li>ข้อใดที่คุณเห็นอยู่แล้ว</li>
@@ -75,7 +78,7 @@
 <p>ห้ามแก้ <code>author-prior.md</code> ในขั้นนี้</p>
 <p><strong>ตรวจ:</strong> <code>prior-vs-ai.md</code> มีครบสามรายการ (รายการใดไม่มี ให้เขียนว่า "ไม่มี") และ <code>author-prior.md</code> ยังเหมือนตอนจบขั้นที่ 3</p>
 <hr>
-<h3 id="ตรวจก่อนจบ-workshop">ตรวจก่อนจบ workshop</h3>
+<h3 id="workshop-core--ตรวจก่อนจบ-workshop">ตรวจก่อนจบ workshop</h3>
 <ul class="task-list">
 <li><label><input type="checkbox">ขั้น 1: ต้นฉบับอยู่ใน <code>module-03-work/input/original/</code></label></li>
 <li><label><input type="checkbox">ขั้น 2: <code>module-03-work/input/markdown/seed-paper.md</code> มีหัวข้อ Introduction และ page marker ตรงกับ PDF</label></li>
@@ -88,25 +91,25 @@
 </div></section>
 <section class="section markdown-section topic-panel" id="open-explore" aria-labelledby="open-explore-heading"><div class="section-heading compact"><p class="eyebrow">Exploring</p><h2 id="open-explore-heading">บันทึกมุมมองเดิม แล้วให้ AI วินิจฉัย problem statement พร้อมตำแหน่ง</h2></div><div class="markdown-body"><p>ในโจทย์เปิดนี้คุณจะบันทึกมุมมองเดิมของคุณก่อน แล้วเขียน prompt เองให้ AI วินิจฉัย problem statement จากงานอีกชิ้นของคุณตามเจ็ดองค์ประกอบพร้อมตำแหน่ง</p>
 <p>ไม่มี prompt สำเร็จรูปให้</p>
-<h3 id="ก่อนเริ่ม-ต้องมีอยู่แล้ว">ก่อนเริ่ม (ต้องมีอยู่แล้ว)</h3>
+<h3 id="open-explore--ก่อนเริ่ม-ต้องมีอยู่แล้ว">ก่อนเริ่ม (ต้องมีอยู่แล้ว)</h3>
 <ul>
 <li>ทำ workshop <code>problem-statement-diagnosis-with-locations</code> แล้ว</li>
 <li>ข้อความระบุปัญหาจากงานของคุณเองอีกหนึ่งชิ้นที่ไม่ใช่ชิ้นที่ใช้ใน workshop เช่น บทนำของ proposal ที่กำลังเขียน บทนำของบทความที่ตีพิมพ์แล้ว หรือบทนำวิทยานิพนธ์ของนิสิตในที่ปรึกษาที่ได้รับอนุญาตให้ใช้กับ AI</li>
 <li>ใช้เฉพาะเอกสารที่มีสิทธิ์นำเข้า AI</li>
 </ul>
-<h3 id="โจทย์">โจทย์</h3>
+<h3 id="open-explore--โจทย์">โจทย์</h3>
 <ol type="1">
 <li>สร้าง <code>module-03-work/output/prompts.md</code> เอง แล้วบันทึก prompt ที่ใช้ทุกรอบลงไฟล์นี้</li>
 <li>เขียนมุมมองเดิมของคุณลง <code>author-prior.md</code> ไฟล์ใหม่สำหรับเอกสารชิ้นนี้ (อย่าเขียนทับไฟล์ของ workshop) ให้เสร็จก่อนรัน prompt วินิจฉัยครั้งแรก และบันทึกเวลาหรือลำดับไว้</li>
 <li>เขียน prompt เองให้ AI วินิจฉัยตามเจ็ดองค์ประกอบ และชี้ภาษาที่ผูกกับวิธีแก้</li>
 <li>ปรับ prompt ให้เหมาะกับลักษณะเอกสารในสาขาคุณ เช่น บทนำที่ไม่มีหัวข้อแยก เอกสารหลายภาษา หรือ proposal ที่มีหัวข้อ “ความสำคัญและที่มาของปัญหา”</li>
 </ol>
-<h3 id="ข้อกำหนด">ข้อกำหนด</h3>
+<h3 id="open-explore--ข้อกำหนด">ข้อกำหนด</h3>
 <ul>
 <li>prompt ต้องบังคับให้ทุกรายการมีตำแหน่งที่ตรวจย้อนได้ และห้าม AI เขียนข้อความใหม่แทน</li>
 <li>ระบุว่าตรวจผลของ AI อย่างไร (สุ่มเปิดต้นฉบับตามตำแหน่งที่อ้างอย่างน้อย 3 รายการ) และแก้อะไรเอง</li>
 </ul>
-<h3 id="เกณฑ์ผ่าน">เกณฑ์ผ่าน</h3>
+<h3 id="open-explore--เกณฑ์ผ่าน">เกณฑ์ผ่าน</h3>
 <ul class="task-list">
 <li><label><input type="checkbox">มี <code>author-prior.md</code> ที่เขียนก่อนเห็นผล AI</label></li>
 <li><label><input type="checkbox">ตารางวินิจฉัยครบเจ็ดองค์ประกอบ ทุกแถวมีตำแหน่ง และองค์ประกอบที่ไม่มีในเอกสารถูกระบุว่าไม่พบ ไม่ใช่ถูกเติมขึ้น</label></li>
@@ -117,15 +120,30 @@
 </div></section></div></div>
 <script>
 (() => {
-  const tabs = [...document.querySelectorAll('.topic-tabs a')];
+  const tabs = [...document.querySelectorAll('.topic-tabs > ul > li > a')];
   const panels = tabs.map(t => document.getElementById(t.hash.slice(1)));
+  const subs = [...document.querySelectorAll('.topic-tabs a[data-sub]')];
   function show(id) {
-    const i = Math.max(0, panels.findIndex(p => p && p.id === id));
+    const target = id && document.getElementById(id);
+    const owner = target && target.closest('.topic-panel');
+    const i = Math.max(0, panels.findIndex(p => p && p.id === (owner ? owner.id : id)));
     panels.forEach((p, k) => { if (p) p.hidden = k !== i; });
-    tabs.forEach((t, k) => t.setAttribute('aria-current', k === i ? 'page' : 'false'));
+    tabs.forEach((t, k) => { t.setAttribute('aria-current', k === i ? 'page' : 'false'); t.parentElement.classList.toggle('is-open', k === i); });
     const layout = document.querySelector('.topic-layout'); if (layout && panels[i]) layout.dataset.active = panels[i].id;
+    return target && owner && target !== owner ? target : null;
   }
   tabs.forEach(t => t.addEventListener('click', e => { e.preventDefault(); history.replaceState(null, '', t.hash); show(t.hash.slice(1)); window.scrollTo({top: 0}); }));
+  subs.forEach(s => s.addEventListener('click', e => { e.preventDefault(); history.replaceState(null, '', s.hash); const h = show(s.hash.slice(1)); if (h) h.scrollIntoView({block: 'start'}); }));
+  if ('IntersectionObserver' in window && subs.length) {  // highlight the step being read
+    const byId = new Map(subs.map(s => [s.hash.slice(1), s]));
+    const seen = new Set();
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(en => { if (en.isIntersecting) seen.add(en.target.id); else seen.delete(en.target.id); });
+      const visible = [...byId.keys()].find(k => seen.has(k));
+      if (visible) subs.forEach(s => s.classList.toggle('is-here', s === byId.get(visible)));
+    }, {rootMargin: '-15% 0px -70% 0px'});
+    byId.forEach((_, k) => { const h = document.getElementById(k); if (h) io.observe(h); });
+  }
   document.querySelectorAll('[data-next-tab]').forEach(b => b.addEventListener('click', e => { e.preventDefault(); const h = b.getAttribute('href'); history.replaceState(null, '', h); show(h.slice(1)); window.scrollTo({top: 0}); }));
   document.querySelectorAll('[data-fullscreen]').forEach(b => b.addEventListener('click', () => {
     const frame = document.querySelector(b.dataset.fullscreen);
@@ -146,8 +164,8 @@
     setAside(saved);
     toggle.addEventListener('click', () => setAside(!layout0.classList.contains('aside-hidden')));
   }
-  show(location.hash.slice(1));
-  if (location.hash) requestAnimationFrame(() => window.scrollTo({top: 0}));
+  const deep = show(location.hash.slice(1));
+  if (location.hash) requestAnimationFrame(() => deep ? deep.scrollIntoView({block: 'start'}) : window.scrollTo({top: 0}));
 })();
 </script>
   </main>

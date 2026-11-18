@@ -10,49 +10,52 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/styles.css?v=20261113-2">
-  <link rel="stylesheet" href="assets/learn.css?v=20261116-2">
-  <script src="assets/site-shell.js?v=20261116-2"></script>
-  <script src="assets/app.js?v=20261116-2" defer></script>
+  <link rel="stylesheet" href="assets/learn.css?v=20261118-1">
+  <script src="assets/site-shell.js?v=20261118-1"></script>
+  <script src="assets/app.js?v=20261118-1" defer></script>
+  <link rel="icon" href="assets/images/madlab-ku-mark-dark.svg" type="image/svg+xml">
+  <link rel="icon" href="assets/images/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="assets/images/favicon-180.png">
 </head>
 <body class="learn" data-no-case>
   <a class="skip-link" href="#main">ข้ามไปยังเนื้อหา</a>
   <site-header current="topic" plan="class-2026-11-20-engineering-faculty.html" menu='{&quot;module&quot;: &quot;X01&quot;, &quot;title&quot;: &quot;พื้นฐานไฟล์ MD · CSV · PDF · JSON&quot;, &quot;items&quot;: [{&quot;href&quot;: &quot;module-overview-x01.html&quot;, &quot;label&quot;: &quot;ภาพรวมและ LO&quot;, &quot;current&quot;: false}, {&quot;href&quot;: &quot;topic-csv-rows-columns-units.html&quot;, &quot;label&quot;: &quot;CSV: หนึ่งแถวแทนอะไร ชื่อคอลัมน์ หน่วย และค่าที่ขาด&quot;, &quot;current&quot;: false}, {&quot;href&quot;: &quot;topic-markdown-structure-and-preview.html&quot;, &quot;label&quot;: &quot;Markdown: หัวข้อ รายการ และ Preview — แก้ที่ต้นฉบับ ไม่แก้ที่ PDF&quot;, &quot;current&quot;: false}, {&quot;href&quot;: &quot;topic-markdown-to-pdf-first-build.html&quot;, &quot;label&quot;: &quot;สร้าง PDF แรกจาก Markdown ด้วย AI: แก้ที่ต้นฉบับ แล้วสร้างใหม่&quot;, &quot;current&quot;: true}, {&quot;href&quot;: &quot;topic-pdf-text-vs-scan-verification.html&quot;, &quot;label&quot;: &quot;PDF: ข้อความที่เลือกได้ ภาพสแกน และการตรวจสิ่งที่ AI อ่านกับหน้าต้นทาง&quot;, &quot;current&quot;: false}, {&quot;href&quot;: &quot;topic-json-fields-and-status-values.html&quot;, &quot;label&quot;: &quot;JSON: ชื่อช่อง ค่า และสถานะ true/false/null — อ่านผ่านไม่ได้แปลว่าค่าถูก&quot;, &quot;current&quot;: false}, {&quot;href&quot;: &quot;topic-ipynb-notebook-basics.html&quot;, &quot;label&quot;: &quot;Notebook (.ipynb): cell, ลำดับการรัน และผลลัพธ์ที่ต้องรันใหม่ก่อนเชื่อ&quot;, &quot;current&quot;: false}]}'></site-header>
   <main id="main">
 <section class="prepare-hero module-hero"><p class="eyebrow">หัวข้อย่อย · X01</p><h1>สร้าง PDF แรกจาก Markdown ด้วย AI: แก้ที่ต้นฉบับ แล้วสร้างใหม่</h1><ul class="outcomes"><li>สั่ง AI สร้าง PDF จากไฟล์ Markdown โดยไม่เปลี่ยนต้นฉบับ</li><li>เปิด PDF ตรวจภาษาไทยเอง</li><li>แก้เนื้อหาที่ Markdown แล้วสร้าง PDF ใหม่แทนการแก้ PDF</li></ul></section>
-<div class="topic-layout"><nav class="topic-tabs" aria-label="ส่วนของหัวข้อ"><a href="#slides" title="สไลด์">สไลด์</a><a href="#workshop-core" title="สร้าง PDF จาก content.md">Prompt</a><a href="#open-explore" title="Exploring workshop">Exploring</a><button type="button" class="aside-toggle" data-aside-toggle aria-pressed="false">ซ่อนสไลด์ข้าง</button></nav><div class="topic-main"><section class="section markdown-section topic-panel" id="slides" aria-labelledby="slides-heading"><div class="section-heading compact"><p class="eyebrow">สไลด์</p><h2 id="slides-heading">สไลด์</h2></div><div class="markdown-body"><div class="slide-tools"><button type="button" class="slide-tool" data-fullscreen="#slide-frame-main">⛶ เต็มจอ</button><a class="slide-tool" href="downloads/topics/markdown-to-pdf-first-build.pdf" target="_blank" rel="noopener">เปิดแท็บใหม่ ↗</a></div><iframe id="slide-frame-main" class="slide-frame" src="downloads/topics/markdown-to-pdf-first-build.pdf#view=FitH" title="สไลด์ สร้าง PDF แรกจาก Markdown ด้วย AI: แก้ที่ต้นฉบับ แล้วสร้างใหม่" allowfullscreen></iframe></div></section>
+<div class="topic-layout"><nav class="topic-tabs topic-menu" aria-label="ในหัวข้อนี้"><p class="topic-menu-title">ในหัวข้อนี้</p><ul><li><a href="#slides" title="สไลด์">สไลด์</a></li><li><a href="#workshop-core" title="สร้าง PDF จาก content.md">Prompt</a><ul class="topic-submenu"><li><a href="#workshop-core--ก่อนเริ่ม-ต้องมีอยู่แล้ว" data-sub>ก่อนเริ่ม (ต้องมีอยู่แล้ว)</a></li><li><a href="#workshop-core--คำที่ใช้ใน-workshop-นี้" data-sub>คำที่ใช้ใน workshop นี้</a></li><li><a href="#workshop-core--ขั้นที่-1--ใส่หัวข้องานวิจัยในต้นฉบับ" data-sub>ขั้นที่ 1 — ใส่หัวข้องานวิจัยในต้นฉบับ</a></li><li><a href="#workshop-core--ขั้นที่-2--ให้-ai-สร้าง-pdf" data-sub>ขั้นที่ 2 — ให้ AI สร้าง PDF</a></li><li><a href="#workshop-core--ขั้นที่-3--เปิด-pdf-ตรวจภาษาไทยเอง" data-sub>ขั้นที่ 3 — เปิด PDF ตรวจภาษาไทยเอง</a></li><li><a href="#workshop-core--ขั้นที่-4--แก้ที่ต้นฉบับแล้วสร้างใหม่" data-sub>ขั้นที่ 4 — แก้ที่ต้นฉบับแล้วสร้างใหม่</a></li><li><a href="#workshop-core--ขั้นที่-5--บอกว่าถ้า-pdf-ผิดต้องแก้ที่ไหน" data-sub>ขั้นที่ 5 — บอกว่าถ้า PDF ผิดต้องแก้ที่ไหน</a></li><li><a href="#workshop-core--ตรวจก่อนจบ-workshop" data-sub>ตรวจก่อนจบ workshop</a></li></ul></li><li><a href="#open-explore" title="Exploring workshop">Exploring</a><ul class="topic-submenu"><li><a href="#open-explore--ก่อนเริ่ม-ต้องมีอยู่แล้ว" data-sub>ก่อนเริ่ม (ต้องมีอยู่แล้ว)</a></li><li><a href="#open-explore--โจทย์" data-sub>โจทย์</a></li><li><a href="#open-explore--ข้อกำหนด" data-sub>ข้อกำหนด</a></li><li><a href="#open-explore--เกณฑ์ผ่าน" data-sub>เกณฑ์ผ่าน</a></li></ul></li></ul><button type="button" class="aside-toggle" data-aside-toggle aria-pressed="false">ซ่อนสไลด์ข้าง</button></nav><div class="topic-main"><section class="section markdown-section topic-panel" id="slides" aria-labelledby="slides-heading"><div class="section-heading compact"><p class="eyebrow">สไลด์</p><h2 id="slides-heading">สไลด์</h2></div><div class="markdown-body"><div class="slide-tools"><button type="button" class="slide-tool" data-fullscreen="#slide-frame-main">⛶ เต็มจอ</button><a class="slide-tool" href="downloads/topics/markdown-to-pdf-first-build.pdf" target="_blank" rel="noopener">เปิดแท็บใหม่ ↗</a></div><iframe id="slide-frame-main" class="slide-frame" src="downloads/topics/markdown-to-pdf-first-build.pdf#view=FitH" title="สไลด์ สร้าง PDF แรกจาก Markdown ด้วย AI: แก้ที่ต้นฉบับ แล้วสร้างใหม่" allowfullscreen></iframe></div></section>
 <section class="section markdown-section topic-panel" id="workshop-core" aria-labelledby="workshop-core-heading"><div class="section-heading compact"><p class="eyebrow">Prompt</p><h2 id="workshop-core-heading">สร้าง PDF จาก content.md</h2></div><div class="markdown-body"><p>ใน workshop นี้คุณจะให้ AI สร้าง PDF จากไฟล์ Markdown เปิดตรวจเอง แล้วแก้ที่ต้นฉบับและสร้างใหม่</p>
 <p>ใช้เมื่อ: ยังไม่เคยสร้าง PDF ภาษาไทยจาก Markdown ใน workspace นี้ หรือก่อนทำ Module 8</p>
-<h3 id="ก่อนเริ่ม-ต้องมีอยู่แล้ว">ก่อนเริ่ม (ต้องมีอยู่แล้ว)</h3>
+<h3 id="workshop-core--ก่อนเริ่ม-ต้องมีอยู่แล้ว">ก่อนเริ่ม (ต้องมีอยู่แล้ว)</h3>
 <ul>
 <li>ผ่าน Module 1: เปิด <code>ai-for-research-workspace</code> ใน VS Code และ AI panel เชื่อมแล้ว</li>
 <li>ไฟล์ <code>module-01-work/content.md</code> (ตัวติดตั้ง Module 1 สร้างไว้ให้ เป็นข้อความตัวอย่าง)</li>
 </ul>
-<h3 id="คำที่ใช้ใน-workshop-นี้">คำที่ใช้ใน workshop นี้</h3>
+<h3 id="workshop-core--คำที่ใช้ใน-workshop-นี้">คำที่ใช้ใน workshop นี้</h3>
 <ul>
 <li><strong>ต้นฉบับ</strong> — ไฟล์ <code>.md</code> ที่แก้ได้ · <strong>ผลลัพธ์</strong> — PDF ที่สร้างจากต้นฉบับ แก้ตรงไม่ได้</li>
 <li><strong>สร้างใหม่ (build)</strong> — ให้ AI แปลงต้นฉบับเป็น PDF อีกรอบหลังแก้ต้นฉบับ</li>
 <li><strong>กล่องสี่เหลี่ยม</strong> — ตัวอักษรที่ฟอนต์ไม่มี เป็นสัญญาณว่า PDF ภาษาไทยมีปัญหา</li>
 </ul>
 <hr>
-<h3 id="ขั้นที่-1--ใส่หัวข้องานวิจัยในต้นฉบับ">ขั้นที่ 1 — ใส่หัวข้องานวิจัยในต้นฉบับ</h3>
+<h3 id="workshop-core--ขั้นที่-1--ใส่หัวข้องานวิจัยในต้นฉบับ">ขั้นที่ 1 — ใส่หัวข้องานวิจัยในต้นฉบับ</h3>
 <p>เปิด <code>module-01-work/content.md</code> แล้วพิมพ์หัวข้องานวิจัยของคุณเป็นภาษาไทยหนึ่งบรรทัด บันทึกไฟล์</p>
 <p><strong>ตรวจ:</strong> กด Ctrl+Shift+V (macOS: Command+Shift+V) แล้ว Preview แสดงหัวข้อตามที่พิมพ์</p>
 <hr>
-<h3 id="ขั้นที่-2--ให้-ai-สร้าง-pdf">ขั้นที่ 2 — ให้ AI สร้าง PDF</h3>
+<h3 id="workshop-core--ขั้นที่-2--ให้-ai-สร้าง-pdf">ขั้นที่ 2 — ให้ AI สร้าง PDF</h3>
 <div class="command ai-prompt"><code>อ่าน module-01-work/content.md แล้วสร้าง module-01-work/output/content.pdf โดยไม่เปลี่ยนไฟล์ต้นฉบับ จากนั้นตรวจว่า PDF เปิดอ่านได้</code><button type="button" data-copy="">คัดลอก</button></div><p><strong>ตรวจ:</strong> AI แจ้งว่าสร้าง <code>module-01-work/output/content.pdf</code> แล้ว และไม่ได้แก้ <code>content.md</code></p>
 <hr>
-<h3 id="ขั้นที่-3--เปิด-pdf-ตรวจภาษาไทยเอง">ขั้นที่ 3 — เปิด PDF ตรวจภาษาไทยเอง</h3>
+<h3 id="workshop-core--ขั้นที่-3--เปิด-pdf-ตรวจภาษาไทยเอง">ขั้นที่ 3 — เปิด PDF ตรวจภาษาไทยเอง</h3>
 <p>เปิด <code>module-01-work/output/content.pdf</code> ดูสระ วรรณยุกต์ และตัวอักษรทุกตัวในหัวข้อของคุณ</p>
 <p><strong>ตรวจ:</strong> ภาษาไทยอ่านถูก ไม่มีกล่องสี่เหลี่ยมแทนตัวอักษร และสระไม่ลอยหรือซ้อนผิดที่</p>
 <hr>
-<h3 id="ขั้นที่-4--แก้ที่ต้นฉบับแล้วสร้างใหม่">ขั้นที่ 4 — แก้ที่ต้นฉบับแล้วสร้างใหม่</h3>
+<h3 id="workshop-core--ขั้นที่-4--แก้ที่ต้นฉบับแล้วสร้างใหม่">ขั้นที่ 4 — แก้ที่ต้นฉบับแล้วสร้างใหม่</h3>
 <div class="command ai-prompt"><code>แก้ module-01-work/content.md โดยเพิ่มบรรทัดสั้น ๆ หนึ่งบรรทัดท้ายไฟล์ว่า "ทดสอบการแก้ไฟล์ด้วย AI" ห้ามเปลี่ยนบรรทัดอื่น แสดงสิ่งที่เปลี่ยน แล้วสร้าง module-01-work/output/content.pdf ใหม่จากไฟล์นี้</code><button type="button" data-copy="">คัดลอก</button></div><p><strong>ตรวจ:</strong> AI แสดงว่าเพิ่มเพียงหนึ่งบรรทัด และ PDF ที่เปิดใหม่มีบรรทัดนั้น</p>
 <hr>
-<h3 id="ขั้นที่-5--บอกว่าถ้า-pdf-ผิดต้องแก้ที่ไหน">ขั้นที่ 5 — บอกว่าถ้า PDF ผิดต้องแก้ที่ไหน</h3>
+<h3 id="workshop-core--ขั้นที่-5--บอกว่าถ้า-pdf-ผิดต้องแก้ที่ไหน">ขั้นที่ 5 — บอกว่าถ้า PDF ผิดต้องแก้ที่ไหน</h3>
 <p>เขียนหนึ่งประโยคว่าถ้าเจอคำผิดใน PDF จะกลับไปแก้ไฟล์ใด</p>
 <p><strong>ตรวจ:</strong> คำตอบคือแก้ <code>content.md</code> แล้วสร้าง PDF ใหม่ ไม่ใช่แก้ PDF</p>
 <hr>
-<h3 id="ตรวจก่อนจบ-workshop">ตรวจก่อนจบ workshop</h3>
+<h3 id="workshop-core--ตรวจก่อนจบ-workshop">ตรวจก่อนจบ workshop</h3>
 <ul class="task-list">
 <li><label><input type="checkbox">ขั้น 1: <code>module-01-work/content.md</code> มีหัวข้อของคุณ</label></li>
 <li><label><input type="checkbox">ขั้น 2: <code>module-01-work/output/content.pdf</code> มีอยู่และเปิดได้</label></li>
@@ -63,23 +66,23 @@
 </div></section>
 <section class="section markdown-section topic-panel" id="open-explore" aria-labelledby="open-explore-heading"><div class="section-heading compact"><p class="eyebrow">Exploring</p><h2 id="open-explore-heading">สร้าง PDF แรกจาก Markdown ด้วย AI: แก้ที่ต้นฉบับ แล้วสร้างใหม่</h2></div><div class="markdown-body"><p>ในโจทย์นี้คุณจะเขียน prompt เองให้ AI สร้าง PDF จากข้อความในงานของคุณ แล้วแก้ที่ต้นฉบับและสร้างใหม่</p>
 <p>ไม่มี prompt สำเร็จรูปให้</p>
-<h3 id="ก่อนเริ่ม-ต้องมีอยู่แล้ว">ก่อนเริ่ม (ต้องมีอยู่แล้ว)</h3>
+<h3 id="open-explore--ก่อนเริ่ม-ต้องมีอยู่แล้ว">ก่อนเริ่ม (ต้องมีอยู่แล้ว)</h3>
 <ul>
 <li>ทำ workshop ของหัวข้อนี้แล้ว (สร้าง <code>module-01-work/output/content.pdf</code> ได้)</li>
 <li>ข้อความสั้นจากงานของคุณที่เปิดเผยได้ ไม่เกินหนึ่งหน้า</li>
 </ul>
-<h3 id="โจทย์">โจทย์</h3>
+<h3 id="open-explore--โจทย์">โจทย์</h3>
 <ul>
 <li>เลือกข้อความสั้นจากงานของคุณที่เปิดเผยได้ (บทคัดย่อ คำอธิบายโครงการ ประกาศถึงนิสิต ไม่เกินหนึ่งหน้า)</li>
 <li>ให้ AI วางเป็นไฟล์ Markdown ใหม่ในโฟลเดอร์งาน แก้หนึ่งจุดตามที่คุณกำหนด แล้วสร้าง PDF ลง <code>output/</code></li>
 <li>เปิด PDF หาจุดที่ต้องแก้อย่างน้อยหนึ่งจุด แล้วแก้ที่ Markdown และสร้าง PDF ใหม่</li>
 </ul>
-<h3 id="ข้อกำหนด">ข้อกำหนด</h3>
+<h3 id="open-explore--ข้อกำหนด">ข้อกำหนด</h3>
 <ul>
 <li>เก็บ prompt ทุกรอบไว้ใน <code>output/prompts.md</code></li>
 <li>บันทึกเหตุผลว่าทำไมข้อความที่เลือกจึงนำเข้า AI ได้ (สิทธิ์และความเป็นส่วนตัว)</li>
 </ul>
-<h3 id="เกณฑ์ผ่าน">เกณฑ์ผ่าน</h3>
+<h3 id="open-explore--เกณฑ์ผ่าน">เกณฑ์ผ่าน</h3>
 <ul class="task-list">
 <li><label><input type="checkbox">มีไฟล์ <code>.md</code> และ PDF ใน <code>output/</code> ที่เปิดได้ ภาษาไทยถูกต้อง</label></li>
 <li><label><input type="checkbox">การแก้รอบสองทำที่ Markdown แล้วสร้าง PDF ใหม่</label></li>
@@ -88,15 +91,30 @@
 </div></section></div><aside class="slide-aside" aria-label="สไลด์ประกอบ"><div class="slide-tools"><button type="button" class="slide-tool" data-fullscreen="#slide-frame-aside">⛶ เต็มจอ</button><a class="slide-tool" href="downloads/topics/markdown-to-pdf-first-build.pdf" target="_blank" rel="noopener">เปิดแท็บใหม่ ↗</a></div><iframe id="slide-frame-aside" src="downloads/topics/markdown-to-pdf-first-build.pdf#view=FitH" title="สไลด์ สร้าง PDF แรกจาก Markdown ด้วย AI: แก้ที่ต้นฉบับ แล้วสร้างใหม่" loading="lazy" allowfullscreen></iframe></aside></div>
 <script>
 (() => {
-  const tabs = [...document.querySelectorAll('.topic-tabs a')];
+  const tabs = [...document.querySelectorAll('.topic-tabs > ul > li > a')];
   const panels = tabs.map(t => document.getElementById(t.hash.slice(1)));
+  const subs = [...document.querySelectorAll('.topic-tabs a[data-sub]')];
   function show(id) {
-    const i = Math.max(0, panels.findIndex(p => p && p.id === id));
+    const target = id && document.getElementById(id);
+    const owner = target && target.closest('.topic-panel');
+    const i = Math.max(0, panels.findIndex(p => p && p.id === (owner ? owner.id : id)));
     panels.forEach((p, k) => { if (p) p.hidden = k !== i; });
-    tabs.forEach((t, k) => t.setAttribute('aria-current', k === i ? 'page' : 'false'));
+    tabs.forEach((t, k) => { t.setAttribute('aria-current', k === i ? 'page' : 'false'); t.parentElement.classList.toggle('is-open', k === i); });
     const layout = document.querySelector('.topic-layout'); if (layout && panels[i]) layout.dataset.active = panels[i].id;
+    return target && owner && target !== owner ? target : null;
   }
   tabs.forEach(t => t.addEventListener('click', e => { e.preventDefault(); history.replaceState(null, '', t.hash); show(t.hash.slice(1)); window.scrollTo({top: 0}); }));
+  subs.forEach(s => s.addEventListener('click', e => { e.preventDefault(); history.replaceState(null, '', s.hash); const h = show(s.hash.slice(1)); if (h) h.scrollIntoView({block: 'start'}); }));
+  if ('IntersectionObserver' in window && subs.length) {  // highlight the step being read
+    const byId = new Map(subs.map(s => [s.hash.slice(1), s]));
+    const seen = new Set();
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(en => { if (en.isIntersecting) seen.add(en.target.id); else seen.delete(en.target.id); });
+      const visible = [...byId.keys()].find(k => seen.has(k));
+      if (visible) subs.forEach(s => s.classList.toggle('is-here', s === byId.get(visible)));
+    }, {rootMargin: '-15% 0px -70% 0px'});
+    byId.forEach((_, k) => { const h = document.getElementById(k); if (h) io.observe(h); });
+  }
   document.querySelectorAll('[data-next-tab]').forEach(b => b.addEventListener('click', e => { e.preventDefault(); const h = b.getAttribute('href'); history.replaceState(null, '', h); show(h.slice(1)); window.scrollTo({top: 0}); }));
   document.querySelectorAll('[data-fullscreen]').forEach(b => b.addEventListener('click', () => {
     const frame = document.querySelector(b.dataset.fullscreen);
@@ -117,8 +135,8 @@
     setAside(saved);
     toggle.addEventListener('click', () => setAside(!layout0.classList.contains('aside-hidden')));
   }
-  show(location.hash.slice(1));
-  if (location.hash) requestAnimationFrame(() => window.scrollTo({top: 0}));
+  const deep = show(location.hash.slice(1));
+  if (location.hash) requestAnimationFrame(() => deep ? deep.scrollIntoView({block: 'start'}) : window.scrollTo({top: 0}));
 })();
 </script>
   </main>

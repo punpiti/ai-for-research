@@ -10,25 +10,28 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/styles.css?v=20261113-2">
-  <link rel="stylesheet" href="assets/learn.css?v=20261116-2">
-  <script src="assets/site-shell.js?v=20261116-2"></script>
-  <script src="assets/app.js?v=20261116-2" defer></script>
+  <link rel="stylesheet" href="assets/learn.css?v=20261118-1">
+  <script src="assets/site-shell.js?v=20261118-1"></script>
+  <script src="assets/app.js?v=20261118-1" defer></script>
+  <link rel="icon" href="assets/images/madlab-ku-mark-dark.svg" type="image/svg+xml">
+  <link rel="icon" href="assets/images/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="assets/images/favicon-180.png">
 </head>
 <body class="learn" data-no-case>
   <a class="skip-link" href="#main">ข้ามไปยังเนื้อหา</a>
   <site-header current="topic" plan="class-2026-11-20-engineering-faculty.html" menu='{&quot;module&quot;: &quot;X01&quot;, &quot;title&quot;: &quot;พื้นฐานไฟล์ MD · CSV · PDF · JSON&quot;, &quot;items&quot;: [{&quot;href&quot;: &quot;module-overview-x01.html&quot;, &quot;label&quot;: &quot;ภาพรวมและ LO&quot;, &quot;current&quot;: false}, {&quot;href&quot;: &quot;topic-csv-rows-columns-units.html&quot;, &quot;label&quot;: &quot;CSV: หนึ่งแถวแทนอะไร ชื่อคอลัมน์ หน่วย และค่าที่ขาด&quot;, &quot;current&quot;: true}, {&quot;href&quot;: &quot;topic-markdown-structure-and-preview.html&quot;, &quot;label&quot;: &quot;Markdown: หัวข้อ รายการ และ Preview — แก้ที่ต้นฉบับ ไม่แก้ที่ PDF&quot;, &quot;current&quot;: false}, {&quot;href&quot;: &quot;topic-markdown-to-pdf-first-build.html&quot;, &quot;label&quot;: &quot;สร้าง PDF แรกจาก Markdown ด้วย AI: แก้ที่ต้นฉบับ แล้วสร้างใหม่&quot;, &quot;current&quot;: false}, {&quot;href&quot;: &quot;topic-pdf-text-vs-scan-verification.html&quot;, &quot;label&quot;: &quot;PDF: ข้อความที่เลือกได้ ภาพสแกน และการตรวจสิ่งที่ AI อ่านกับหน้าต้นทาง&quot;, &quot;current&quot;: false}, {&quot;href&quot;: &quot;topic-json-fields-and-status-values.html&quot;, &quot;label&quot;: &quot;JSON: ชื่อช่อง ค่า และสถานะ true/false/null — อ่านผ่านไม่ได้แปลว่าค่าถูก&quot;, &quot;current&quot;: false}, {&quot;href&quot;: &quot;topic-ipynb-notebook-basics.html&quot;, &quot;label&quot;: &quot;Notebook (.ipynb): cell, ลำดับการรัน และผลลัพธ์ที่ต้องรันใหม่ก่อนเชื่อ&quot;, &quot;current&quot;: false}]}'></site-header>
   <main id="main">
 <section class="prepare-hero module-hero"><p class="eyebrow">หัวข้อย่อย · X01</p><h1>CSV: หนึ่งแถวแทนอะไร ชื่อคอลัมน์ หน่วย และค่าที่ขาด</h1><ul class="outcomes"><li>อ่านชื่อคอลัมน์ ระบุว่าหนึ่งแถวแทนอะไร บอกหน่วยและค่าที่ขาดได้ (ช่องว่างไม่เท่ากับศูนย์) ให้ AI รายงานโครงไฟล์ก่อนคำนวณ และตรวจค่าตัวอย่างสองค่ากลับถึงแถวต้นทาง</li></ul></section>
-<div class="topic-layout"><nav class="topic-tabs" aria-label="ส่วนของหัวข้อ"><a href="#slides" title="สไลด์">สไลด์</a><a href="#workshop-core" title="Workshop หลัก">Workshop</a><a href="#open-explore" title="Exploring workshop">Exploring</a><button type="button" class="aside-toggle" data-aside-toggle aria-pressed="false">ซ่อนสไลด์ข้าง</button></nav><div class="topic-main"><section class="section markdown-section topic-panel" id="slides" aria-labelledby="slides-heading"><div class="section-heading compact"><p class="eyebrow">สไลด์</p><h2 id="slides-heading">สไลด์</h2></div><div class="markdown-body"><div class="slide-tools"><button type="button" class="slide-tool" data-fullscreen="#slide-frame-main">⛶ เต็มจอ</button><a class="slide-tool" href="downloads/topics/csv-rows-columns-units.pdf" target="_blank" rel="noopener">เปิดแท็บใหม่ ↗</a></div><iframe id="slide-frame-main" class="slide-frame" src="downloads/topics/csv-rows-columns-units.pdf#view=FitH" title="สไลด์ CSV: หนึ่งแถวแทนอะไร ชื่อคอลัมน์ หน่วย และค่าที่ขาด" allowfullscreen></iframe></div></section>
+<div class="topic-layout"><nav class="topic-tabs topic-menu" aria-label="ในหัวข้อนี้"><p class="topic-menu-title">ในหัวข้อนี้</p><ul><li><a href="#slides" title="สไลด์">สไลด์</a></li><li><a href="#workshop-core" title="Workshop หลัก">Workshop</a><ul class="topic-submenu"><li><a href="#workshop-core--ก่อนเริ่ม-ต้องมีอยู่แล้ว" data-sub>ก่อนเริ่ม (ต้องมีอยู่แล้ว)</a></li><li><a href="#workshop-core--คำที่ใช้ใน-workshop-นี้" data-sub>คำที่ใช้ใน workshop นี้</a></li><li><a href="#workshop-core--ขั้นที่-1--อุ่นเครื่องกับตัวอย่างบนหน้านี้-อ่านเอง-ไม่ใช้-ai" data-sub>ขั้นที่ 1 — อุ่นเครื่องกับตัวอย่างบนหน้านี้ (อ่านเอง ไม่ใช้ AI)</a></li><li><a href="#workshop-core--ขั้นที่-2--เปิดไฟล์จริงและระบุหน่วยวิเคราะห์" data-sub>ขั้นที่ 2 — เปิดไฟล์จริงและระบุหน่วยวิเคราะห์</a></li><li><a href="#workshop-core--ขั้นที่-3--เลือกสองคอลัมน์และบอกความหมาย-หน่วย-ค่าที่ขาด" data-sub>ขั้นที่ 3 — เลือกสองคอลัมน์และบอกความหมาย หน่วย ค่าที่ขาด</a></li><li><a href="#workshop-core--ขั้นที่-4--ให้-ai-รายงานโครงไฟล์ก่อนวิเคราะห์" data-sub>ขั้นที่ 4 — ให้ AI รายงานโครงไฟล์ก่อนวิเคราะห์</a></li><li><a href="#workshop-core--ขั้นที่-5--ตรวจสองค่ากลับกับไฟล์ด้วยตนเอง" data-sub>ขั้นที่ 5 — ตรวจสองค่ากลับกับไฟล์ด้วยตนเอง</a></li><li><a href="#workshop-core--ขั้นที่-6--บันทึกผล" data-sub>ขั้นที่ 6 — บันทึกผล</a></li><li><a href="#workshop-core--ตรวจก่อนจบ-workshop" data-sub>ตรวจก่อนจบ workshop</a></li></ul></li><li><a href="#open-explore" title="Exploring workshop">Exploring</a><ul class="topic-submenu"><li><a href="#open-explore--ก่อนเริ่ม-ต้องมีอยู่แล้ว" data-sub>ก่อนเริ่ม (ต้องมีอยู่แล้ว)</a></li><li><a href="#open-explore--โจทย์" data-sub>โจทย์</a></li><li><a href="#open-explore--ข้อกำหนด" data-sub>ข้อกำหนด</a></li><li><a href="#open-explore--เกณฑ์ผ่าน" data-sub>เกณฑ์ผ่าน</a></li></ul></li></ul><button type="button" class="aside-toggle" data-aside-toggle aria-pressed="false">ซ่อนสไลด์ข้าง</button></nav><div class="topic-main"><section class="section markdown-section topic-panel" id="slides" aria-labelledby="slides-heading"><div class="section-heading compact"><p class="eyebrow">สไลด์</p><h2 id="slides-heading">สไลด์</h2></div><div class="markdown-body"><div class="slide-tools"><button type="button" class="slide-tool" data-fullscreen="#slide-frame-main">⛶ เต็มจอ</button><a class="slide-tool" href="downloads/topics/csv-rows-columns-units.pdf" target="_blank" rel="noopener">เปิดแท็บใหม่ ↗</a></div><iframe id="slide-frame-main" class="slide-frame" src="downloads/topics/csv-rows-columns-units.pdf#view=FitH" title="สไลด์ CSV: หนึ่งแถวแทนอะไร ชื่อคอลัมน์ หน่วย และค่าที่ขาด" allowfullscreen></iframe></div></section>
 <section class="section markdown-section topic-panel" id="workshop-core" aria-labelledby="workshop-core-heading"><div class="section-heading compact"><p class="eyebrow">Workshop</p><h2 id="workshop-core-heading">CSV: หนึ่งแถวแทนอะไร ชื่อคอลัมน์ หน่วย และค่าที่ขาด</h2></div><div class="markdown-body"><p>ใน workshop นี้คุณจะอ่าน CSV ตัวอย่างและข้อมูลจำลอง PM2.5 ของ Module 7 ให้ AI รายงานโครงไฟล์ ตรวจค่าที่ AI ยกมากลับกับไฟล์เอง แล้วบันทึกผลลงไฟล์ <code>file-reading.md</code></p>
 <p>ใช้เมื่อ: ก่อนเปิดข้อมูลใน Module 7</p>
-<h3 id="ก่อนเริ่ม-ต้องมีอยู่แล้ว">ก่อนเริ่ม (ต้องมีอยู่แล้ว)</h3>
+<h3 id="workshop-core--ก่อนเริ่ม-ต้องมีอยู่แล้ว">ก่อนเริ่ม (ต้องมีอยู่แล้ว)</h3>
 <ul>
 <li>ผ่าน Module 1: เปิด <code>ai-for-research-workspace</code> ใน VS Code และ AI panel เชื่อมแล้ว</li>
 <li><code>course-materials/module-07/examples/figure-consistency/mock-study-data.csv</code> — ข้อมูลจำลอง PM2.5 480 แถว ไม่มีข้อมูลจริงของใคร (ตัวติดตั้ง Module 1 วางไว้ให้ อ่านอย่างเดียว ห้ามแก้)</li>
 <li>คำอธิบายชุดข้อมูล: ส่วน <strong>"นำเข้าข้อมูล"</strong> ในหน้า Module 7 (ตาราง "คอลัมน์ · ความหมาย")</li>
 </ul>
-<h3 id="คำที่ใช้ใน-workshop-นี้">คำที่ใช้ใน workshop นี้</h3>
+<h3 id="workshop-core--คำที่ใช้ใน-workshop-นี้">คำที่ใช้ใน workshop นี้</h3>
 <ul>
 <li><strong>CSV</strong> — ตารางที่เก็บเป็นข้อความ หนึ่งบรรทัดคือหนึ่งแถว ค่าในแถวคั่นด้วยจุลภาค</li>
 <li><strong>หน่วยวิเคราะห์</strong> — สิ่งที่หนึ่งแถวแทน เช่น การวัดหนึ่งครั้ง หรือหนึ่งเครื่องในหนึ่งสัปดาห์</li>
@@ -36,7 +39,7 @@
 <li><strong>ค่าที่ขาด</strong> — ช่องว่างในไฟล์ แปลว่าไม่มีค่าระบุ ไม่ใช่ศูนย์</li>
 </ul>
 <hr>
-<h3 id="ขั้นที่-1--อุ่นเครื่องกับตัวอย่างบนหน้านี้-อ่านเอง-ไม่ใช้-ai">ขั้นที่ 1 — อุ่นเครื่องกับตัวอย่างบนหน้านี้ (อ่านเอง ไม่ใช้ AI)</h3>
+<h3 id="workshop-core--ขั้นที่-1--อุ่นเครื่องกับตัวอย่างบนหน้านี้-อ่านเอง-ไม่ใช้-ai">ขั้นที่ 1 — อุ่นเครื่องกับตัวอย่างบนหน้านี้ (อ่านเอง ไม่ใช้ AI)</h3>
 <p>CSV จำลองด้านล่างมีสองแถว</p>
 <div class="sourceCode" id="cb1"><div class="command markdown-command"><code class="sourceCode csv"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>room_id,temperature_c<span class="va">,</span>reading_time</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>A,26.5<span class="va">,</span>2026-11-20T09:00:00+07:00</span>
@@ -44,28 +47,28 @@
 <p>ตอบให้ได้ว่าหนึ่งแถวแทนอะไร คอลัมน์ไหนเป็นรหัส คอลัมน์ไหนเป็นค่าและหน่วยอะไร และช่องว่างของห้อง B หมายความว่าอะไร</p>
 <p><strong>ตรวจ:</strong> คำตอบของคุณคือ หนึ่งแถว = การอ่านอุณหภูมิห้องหนึ่งครั้ง · <code>room_id</code> เป็นรหัส · <code>temperature_c</code> เป็นองศาเซลเซียส · ช่องว่างของห้อง B = ไม่มีค่า ใช้แทน 0 องศาไม่ได้</p>
 <hr>
-<h3 id="ขั้นที่-2--เปิดไฟล์จริงและระบุหน่วยวิเคราะห์">ขั้นที่ 2 — เปิดไฟล์จริงและระบุหน่วยวิเคราะห์</h3>
+<h3 id="workshop-core--ขั้นที่-2--เปิดไฟล์จริงและระบุหน่วยวิเคราะห์">ขั้นที่ 2 — เปิดไฟล์จริงและระบุหน่วยวิเคราะห์</h3>
 <p>เปิด <code>mock-study-data.csv</code> ใน VS Code แล้วอ่านส่วน "นำเข้าข้อมูล" ในหน้า Module 7 เขียนหนึ่งประโยคว่าหนึ่งแถวแทนอะไร</p>
 <p><strong>ตรวจ:</strong> ประโยคของคุณตรงกับคำอธิบายในหน้า Module 7 (ค่าจากเครื่องวัดหนึ่งเครื่องในหนึ่งสัปดาห์)</p>
 <hr>
-<h3 id="ขั้นที่-3--เลือกสองคอลัมน์และบอกความหมาย-หน่วย-ค่าที่ขาด">ขั้นที่ 3 — เลือกสองคอลัมน์และบอกความหมาย หน่วย ค่าที่ขาด</h3>
+<h3 id="workshop-core--ขั้นที่-3--เลือกสองคอลัมน์และบอกความหมาย-หน่วย-ค่าที่ขาด">ขั้นที่ 3 — เลือกสองคอลัมน์และบอกความหมาย หน่วย ค่าที่ขาด</h3>
 <p>เลือกสองคอลัมน์ ให้มีรหัสหนึ่งคอลัมน์และค่าหนึ่งคอลัมน์ (เช่น <code>sensor_id</code> กับ <code>pm25_ug_m3</code>) เขียนความหมายและหน่วยของแต่ละคอลัมน์ ถ้าคำอธิบายไม่ได้ระบุ ให้บันทึกว่า "ยังไม่ทราบ"</p>
 <p><strong>ตรวจ:</strong> บอกได้ว่าคอลัมน์ไหนเป็นรหัสและคอลัมน์ไหนนำมาคำนวณได้ และทุกหน่วยที่เขียนมีที่มาจากคำอธิบาย ไม่ได้เดา</p>
 <hr>
-<h3 id="ขั้นที่-4--ให้-ai-รายงานโครงไฟล์ก่อนวิเคราะห์">ขั้นที่ 4 — ให้ AI รายงานโครงไฟล์ก่อนวิเคราะห์</h3>
+<h3 id="workshop-core--ขั้นที่-4--ให้-ai-รายงานโครงไฟล์ก่อนวิเคราะห์">ขั้นที่ 4 — ให้ AI รายงานโครงไฟล์ก่อนวิเคราะห์</h3>
 <p>วาง prompt นี้ แล้วต่อท้ายด้วย path ของ CSV และชื่อสองคอลัมน์ที่เลือก</p>
 <div class="command ai-prompt"><code>อ่าน CSV นี้และคำอธิบายชุดข้อมูลในส่วน "นำเข้าข้อมูล" ของหน้า Module 7 (ฉันวางไว้ด้านล่าง) สรุปว่าหนึ่งแถวแทนอะไร คอลัมน์ที่ฉันเลือกมีความหมายและหน่วยใด นับจำนวนแถวและช่องว่างของสองคอลัมน์นี้ ยกตัวอย่างค่าสองค่าพร้อมเลขแถวให้ฉันตรวจ แจ้งสิ่งที่ยังไม่ทราบก่อนเสนอการคำนวณ ห้ามแก้ไฟล์</code><button type="button" data-copy="">คัดลอก</button></div><p>แล้ววางตาราง "คอลัมน์ · ความหมาย" ที่คัดลอกจากหน้า Module 7 ต่อท้าย</p>
 <p><strong>ตรวจ:</strong> AI รายงานจำนวนแถว 480 และจำนวนช่องว่างของสองคอลัมน์ (ชุดนี้ไม่มีค่าว่าง ถ้า AI บอกว่ามี ให้ถามว่าแถวไหน) และยกค่ามาสองค่าพร้อมเลขแถว</p>
 <hr>
-<h3 id="ขั้นที่-5--ตรวจสองค่ากลับกับไฟล์ด้วยตนเอง">ขั้นที่ 5 — ตรวจสองค่ากลับกับไฟล์ด้วยตนเอง</h3>
+<h3 id="workshop-core--ขั้นที่-5--ตรวจสองค่ากลับกับไฟล์ด้วยตนเอง">ขั้นที่ 5 — ตรวจสองค่ากลับกับไฟล์ด้วยตนเอง</h3>
 <p>เปิด CSV ไปที่แถวที่ AI ระบุ (VS Code: Ctrl+G แล้วพิมพ์เลขบรรทัด · macOS: Control+G ระวังว่าบรรทัดที่ 1 คือหัวตาราง) เทียบทศนิยม เครื่องหมาย และช่องว่าง</p>
 <p><strong>ตรวจ:</strong> ทั้งสองค่าตรงกับไฟล์ หรือคุณจดได้ว่าไม่ตรงตรงไหน</p>
 <hr>
-<h3 id="ขั้นที่-6--บันทึกผล">ขั้นที่ 6 — บันทึกผล</h3>
+<h3 id="workshop-core--ขั้นที่-6--บันทึกผล">ขั้นที่ 6 — บันทึกผล</h3>
 <p>สร้าง <code>module-07-work/notes/file-reading.md</code> (พิมพ์เอง หรือให้ AI สร้าง โดยสร้างโฟลเดอร์ <code>module-07-work/notes/</code> ถ้ายังไม่มี) ใส่คำตอบของขั้นที่ 2, 3 และ 5 ถ้าเปิดไฟล์แล้วคอลัมน์เลื่อน ภาษาไทยผิด หรือรหัสหายเลขศูนย์นำหน้า ให้จดไว้ด้วย (เป็นปัญหาตัวคั่น การเข้ารหัส หรือชนิดข้อมูล)</p>
 <p><strong>ตรวจ:</strong> เปิด <code>file-reading.md</code> แล้วเห็นคำตอบครบสามขั้น และ <code>mock-study-data.csv</code> ไม่ถูกแก้ (VS Code ไม่แสดงจุดแก้ค้างที่แท็บของไฟล์)</p>
 <hr>
-<h3 id="ตรวจก่อนจบ-workshop">ตรวจก่อนจบ workshop</h3>
+<h3 id="workshop-core--ตรวจก่อนจบ-workshop">ตรวจก่อนจบ workshop</h3>
 <ul class="task-list">
 <li><label><input type="checkbox">ขั้น 1: อธิบายได้ว่าช่องว่างของห้อง B ใช้แทน 0 ไม่ได้</label></li>
 <li><label><input type="checkbox">ขั้น 2: <code>file-reading.md</code> มีประโยคที่บอกว่าหนึ่งแถวของ <code>mock-study-data.csv</code> แทนอะไร ตรงกับหน้า Module 7</label></li>
@@ -77,24 +80,24 @@
 </div></section>
 <section class="section markdown-section topic-panel" id="open-explore" aria-labelledby="open-explore-heading"><div class="section-heading compact"><p class="eyebrow">Exploring</p><h2 id="open-explore-heading">CSV: หนึ่งแถวแทนอะไร ชื่อคอลัมน์ หน่วย และค่าที่ขาด</h2></div><div class="markdown-body"><p>ในโจทย์นี้คุณจะเขียน prompt เองให้ AI รายงานโครงของ CSV จากงานของคุณก่อนวิเคราะห์ แล้วตรวจค่ากลับถึงแถวต้นทางและบันทึกการตัดสินใจเรื่องค่าที่ขาด</p>
 <p>ไม่มี prompt สำเร็จรูปให้</p>
-<h3 id="ก่อนเริ่ม-ต้องมีอยู่แล้ว">ก่อนเริ่ม (ต้องมีอยู่แล้ว)</h3>
+<h3 id="open-explore--ก่อนเริ่ม-ต้องมีอยู่แล้ว">ก่อนเริ่ม (ต้องมีอยู่แล้ว)</h3>
 <ul>
 <li>ทำ workshop ของหัวข้อนี้แล้ว</li>
 <li>CSV จากงานของคุณที่มีสิทธิ์ใช้กับ AI และไม่มีข้อมูลส่วนบุคคล (เช่น ผลการทดลอง ข้อมูลเครื่องวัด หรือตารางสรุป) พร้อมคำอธิบายข้อมูลถ้ามี หรือชุดสำรอง <code>course-materials/module-07/examples/figure-consistency/mock-study-data.csv</code> (ตัวติดตั้ง Module 1 วางไว้ให้) กับคอลัมน์ที่ยังไม่ได้ใช้ใน workshop</li>
 </ul>
-<h3 id="โจทย์">โจทย์</h3>
+<h3 id="open-explore--โจทย์">โจทย์</h3>
 <ol type="1">
 <li>สร้างไฟล์ <code>output/prompts.md</code> ในโฟลเดอร์งานของคุณ (เช่น <code>module-07-work/output/prompts.md</code>) สำหรับเก็บ prompt ที่ใช้ทุกรอบ</li>
 <li>เขียน prompt ของตนให้ AI รายงานโครงไฟล์ก่อนวิเคราะห์ ได้แก่ หนึ่งแถวแทนอะไร คอลัมน์ หน่วย ค่าที่ขาด และสิ่งที่ยังไม่ทราบ</li>
 <li>หาค่าที่ขาดหรือค่าที่น่าสงสัยอย่างน้อยหนึ่งจุด แล้วตัดสินเองว่าควรจัดการอย่างไร โดยอ้างคำอธิบายข้อมูล (หรือบันทึกว่าคำอธิบายยังไม่ระบุ)</li>
 <li>ตรวจค่าอย่างน้อยสองค่ากลับถึงแถวต้นทาง (ทศนิยม เครื่องหมาย ช่องว่าง)</li>
 </ol>
-<h3 id="ข้อกำหนด">ข้อกำหนด</h3>
+<h3 id="open-explore--ข้อกำหนด">ข้อกำหนด</h3>
 <ul>
 <li>ห้ามแก้ CSV ต้นฉบับ</li>
 <li>ระบุว่าตรวจผลของ AI อย่างไร และแก้อะไรเอง</li>
 </ul>
-<h3 id="เกณฑ์ผ่าน">เกณฑ์ผ่าน</h3>
+<h3 id="open-explore--เกณฑ์ผ่าน">เกณฑ์ผ่าน</h3>
 <ul class="task-list">
 <li><label><input type="checkbox">ระบุได้ว่าหนึ่งแถวแทนอะไร พร้อมที่มาของคำตอบ (คำอธิบายข้อมูล หรือ "ยังไม่ทราบ")</label></li>
 <li><label><input type="checkbox">คอลัมน์ที่ใช้มีความหมายและหน่วย และแยกรหัสออกจากค่าที่นำมาคำนวณได้</label></li>
@@ -106,15 +109,30 @@
 </div></section></div><aside class="slide-aside" aria-label="สไลด์ประกอบ"><div class="slide-tools"><button type="button" class="slide-tool" data-fullscreen="#slide-frame-aside">⛶ เต็มจอ</button><a class="slide-tool" href="downloads/topics/csv-rows-columns-units.pdf" target="_blank" rel="noopener">เปิดแท็บใหม่ ↗</a></div><iframe id="slide-frame-aside" src="downloads/topics/csv-rows-columns-units.pdf#view=FitH" title="สไลด์ CSV: หนึ่งแถวแทนอะไร ชื่อคอลัมน์ หน่วย และค่าที่ขาด" loading="lazy" allowfullscreen></iframe></aside></div>
 <script>
 (() => {
-  const tabs = [...document.querySelectorAll('.topic-tabs a')];
+  const tabs = [...document.querySelectorAll('.topic-tabs > ul > li > a')];
   const panels = tabs.map(t => document.getElementById(t.hash.slice(1)));
+  const subs = [...document.querySelectorAll('.topic-tabs a[data-sub]')];
   function show(id) {
-    const i = Math.max(0, panels.findIndex(p => p && p.id === id));
+    const target = id && document.getElementById(id);
+    const owner = target && target.closest('.topic-panel');
+    const i = Math.max(0, panels.findIndex(p => p && p.id === (owner ? owner.id : id)));
     panels.forEach((p, k) => { if (p) p.hidden = k !== i; });
-    tabs.forEach((t, k) => t.setAttribute('aria-current', k === i ? 'page' : 'false'));
+    tabs.forEach((t, k) => { t.setAttribute('aria-current', k === i ? 'page' : 'false'); t.parentElement.classList.toggle('is-open', k === i); });
     const layout = document.querySelector('.topic-layout'); if (layout && panels[i]) layout.dataset.active = panels[i].id;
+    return target && owner && target !== owner ? target : null;
   }
   tabs.forEach(t => t.addEventListener('click', e => { e.preventDefault(); history.replaceState(null, '', t.hash); show(t.hash.slice(1)); window.scrollTo({top: 0}); }));
+  subs.forEach(s => s.addEventListener('click', e => { e.preventDefault(); history.replaceState(null, '', s.hash); const h = show(s.hash.slice(1)); if (h) h.scrollIntoView({block: 'start'}); }));
+  if ('IntersectionObserver' in window && subs.length) {  // highlight the step being read
+    const byId = new Map(subs.map(s => [s.hash.slice(1), s]));
+    const seen = new Set();
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(en => { if (en.isIntersecting) seen.add(en.target.id); else seen.delete(en.target.id); });
+      const visible = [...byId.keys()].find(k => seen.has(k));
+      if (visible) subs.forEach(s => s.classList.toggle('is-here', s === byId.get(visible)));
+    }, {rootMargin: '-15% 0px -70% 0px'});
+    byId.forEach((_, k) => { const h = document.getElementById(k); if (h) io.observe(h); });
+  }
   document.querySelectorAll('[data-next-tab]').forEach(b => b.addEventListener('click', e => { e.preventDefault(); const h = b.getAttribute('href'); history.replaceState(null, '', h); show(h.slice(1)); window.scrollTo({top: 0}); }));
   document.querySelectorAll('[data-fullscreen]').forEach(b => b.addEventListener('click', () => {
     const frame = document.querySelector(b.dataset.fullscreen);
@@ -135,8 +153,8 @@
     setAside(saved);
     toggle.addEventListener('click', () => setAside(!layout0.classList.contains('aside-hidden')));
   }
-  show(location.hash.slice(1));
-  if (location.hash) requestAnimationFrame(() => window.scrollTo({top: 0}));
+  const deep = show(location.hash.slice(1));
+  if (location.hash) requestAnimationFrame(() => deep ? deep.scrollIntoView({block: 'start'}) : window.scrollTo({top: 0}));
 })();
 </script>
   </main>

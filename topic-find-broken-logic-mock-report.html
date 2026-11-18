@@ -10,23 +10,26 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/styles.css?v=20261113-2">
-  <link rel="stylesheet" href="assets/learn.css?v=20261116-2">
-  <script src="assets/site-shell.js?v=20261116-2"></script>
-  <script src="assets/app.js?v=20261116-2" defer></script>
+  <link rel="stylesheet" href="assets/learn.css?v=20261118-1">
+  <script src="assets/site-shell.js?v=20261118-1"></script>
+  <script src="assets/app.js?v=20261118-1" defer></script>
+  <link rel="icon" href="assets/images/madlab-ku-mark-dark.svg" type="image/svg+xml">
+  <link rel="icon" href="assets/images/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="assets/images/favicon-180.png">
 </head>
 <body class="learn" data-no-case>
   <a class="skip-link" href="#main">ข้ามไปยังเนื้อหา</a>
   <site-header current="topic" plan="class-2026-11-20-engineering-faculty.html" menu='{&quot;module&quot;: &quot;M05&quot;, &quot;title&quot;: &quot;ตรรกะงานวิจัย: แหล่งเผยแพร่ สายเหตุผล และแบบวิจัย&quot;, &quot;items&quot;: [{&quot;href&quot;: &quot;topic-venue-landscape-and-readiness.html&quot;, &quot;label&quot;: &quot;เลือกกลุ่มผู้อ่านและแหล่งเผยแพร่ แล้วประเมินความพร้อมของงาน&quot;, &quot;current&quot;: false}, {&quot;href&quot;: &quot;topic-research-logic-chain-and-gap-check.html&quot;, &quot;label&quot;: &quot;สร้างสายเหตุผล ปัญหา–วิธี–ผล–ข้อสรุป และหาจุดที่ตรรกะไม่ต่อกัน&quot;, &quot;current&quot;: false}, {&quot;href&quot;: &quot;topic-idea-selection-and-falsifiable-design.html&quot;, &quot;label&quot;: &quot;สร้างและคัดแนวคิด แล้วร่างแบบวิจัยที่มีเงื่อนไขหักล้างได้&quot;, &quot;current&quot;: false}, {&quot;href&quot;: &quot;topic-find-broken-logic-mock-report.html&quot;, &quot;label&quot;: &quot;หาจุดที่ตรรกะขาดในรายงานจำลอง หิว → กิน → อิ่ม&quot;, &quot;current&quot;: true}, {&quot;href&quot;: &quot;topic-five-sharp-thesis-review-tests.html&quot;, &quot;label&quot;: &quot;ห้าด่านคมสำหรับตรวจวิทยานิพนธ์ ก่อนขัดภาษา&quot;, &quot;current&quot;: false}, {&quot;href&quot;: &quot;topic-cross-section-traceability-matrix.html&quot;, &quot;label&quot;: &quot;ตารางไล่รอยข้ามบท ปัญหา → วัตถุประสงค์ → วิธี → ผล → ข้อสรุป&quot;, &quot;current&quot;: false}, {&quot;href&quot;: &quot;topic-output-vs-outcome.html&quot;, &quot;label&quot;: &quot;ผลผลิต (output) กับผลลัพธ์ต่อเนื่อง (outcome) และผลงานสนับสนุน&quot;, &quot;current&quot;: false}]}'></site-header>
   <main id="main">
 <section class="prepare-hero module-hero"><p class="eyebrow">หัวข้อย่อย · M05</p><h1>หาจุดที่ตรรกะขาดในรายงานจำลอง หิว → กิน → อิ่ม</h1><ul class="outcomes"><li>หาจุดที่สายเหตุผลไม่ต่อกันในรายงานจำลองด้วยตัวเองก่อน แล้วเทียบกับผลของ AI</li><li>จัดระดับความรุนแรงพร้อมข้อความจริง</li></ul></section>
-<div class="topic-layout"><nav class="topic-tabs" aria-label="ส่วนของหัวข้อ"><a href="#slides" title="สไลด์">สไลด์</a><a href="#workshop-core" title="Workshop หลัก">Workshop</a><a href="#open-explore" title="Exploring workshop">Exploring</a></nav><div class="topic-main"><section class="section markdown-section topic-panel" id="slides" aria-labelledby="slides-heading"><div class="section-heading compact"><p class="eyebrow">สไลด์</p><h2 id="slides-heading">สไลด์</h2></div><div class="markdown-body"><p>สไลด์ของหัวข้อนี้กำลังจัดทำ</p></div></section>
+<div class="topic-layout"><nav class="topic-tabs topic-menu" aria-label="ในหัวข้อนี้"><p class="topic-menu-title">ในหัวข้อนี้</p><ul><li><a href="#slides" title="สไลด์">สไลด์</a></li><li><a href="#workshop-core" title="Workshop หลัก">Workshop</a><ul class="topic-submenu"><li><a href="#workshop-core--ก่อนเริ่ม-ต้องมีอยู่แล้ว" data-sub>ก่อนเริ่ม (ต้องมีอยู่แล้ว)</a></li><li><a href="#workshop-core--ขั้นที่-1--ให้-ai-สร้างไฟล์รายงานจำลอง" data-sub>ขั้นที่ 1 — ให้ AI สร้างไฟล์รายงานจำลอง</a></li><li><a href="#workshop-core--ขั้นที่-2--หาเองก่อน-ยังไม่ใช้-ai" data-sub>ขั้นที่ 2 — หาเองก่อน (ยังไม่ใช้ AI)</a></li><li><a href="#workshop-core--ขั้นที่-3--ให้-ai-หาโดยผูกกับหลักฐาน" data-sub>ขั้นที่ 3 — ให้ AI หาโดยผูกกับหลักฐาน</a></li><li><a href="#workshop-core--ขั้นที่-4--เทียบของคุณกับของ-ai" data-sub>ขั้นที่ 4 — เทียบของคุณกับของ AI</a></li><li><a href="#workshop-core--ตรวจก่อนจบ-workshop" data-sub>ตรวจก่อนจบ workshop</a></li></ul></li><li><a href="#open-explore" title="Exploring workshop">Exploring</a><ul class="topic-submenu"><li><a href="#open-explore--ก่อนเริ่ม-ต้องมีอยู่แล้ว" data-sub>ก่อนเริ่ม (ต้องมีอยู่แล้ว)</a></li><li><a href="#open-explore--โจทย์" data-sub>โจทย์</a></li><li><a href="#open-explore--เกณฑ์ผ่าน" data-sub>เกณฑ์ผ่าน</a></li></ul></li></ul></nav><div class="topic-main"><section class="section markdown-section topic-panel" id="slides" aria-labelledby="slides-heading"><div class="section-heading compact"><p class="eyebrow">สไลด์</p><h2 id="slides-heading">สไลด์</h2></div><div class="markdown-body"><p>สไลด์ของหัวข้อนี้ยังไม่เสร็จ</p></div></section>
 <section class="section markdown-section topic-panel" id="workshop-core" aria-labelledby="workshop-core-heading"><div class="section-heading compact"><p class="eyebrow">Workshop</p><h2 id="workshop-core-heading">หาจุดที่ตรรกะขาดในรายงานจำลอง หิว → กิน → อิ่ม</h2></div><div class="markdown-body"><p>ใน workshop นี้คุณจะหาจุดที่สายเหตุผลไม่ต่อกันในรายงานจำลองด้วยตัวเองก่อน แล้วเทียบกับผลของ AI</p>
-<h3 id="ก่อนเริ่ม-ต้องมีอยู่แล้ว">ก่อนเริ่ม (ต้องมีอยู่แล้ว)</h3>
+<h3 id="workshop-core--ก่อนเริ่ม-ต้องมีอยู่แล้ว">ก่อนเริ่ม (ต้องมีอยู่แล้ว)</h3>
 <ul>
 <li>ผ่าน Module 1: เปิด <code>ai-for-research-workspace</code> ใน VS Code และ AI panel เชื่อมแล้ว</li>
 <li>รายงานจำลอง "หิว → กิน → อิ่ม" Version B ด้านล่าง (ข้อมูลสมมติทั้งหมด จงใจมีจุดผิดหลายจุด)</li>
 </ul>
-<h3 id="ขั้นที่-1--ให้-ai-สร้างไฟล์รายงานจำลอง">ขั้นที่ 1 — ให้ AI สร้างไฟล์รายงานจำลอง</h3>
+<h3 id="workshop-core--ขั้นที่-1--ให้-ai-สร้างไฟล์รายงานจำลอง">ขั้นที่ 1 — ให้ AI สร้างไฟล์รายงานจำลอง</h3>
 <div class="command ai-prompt"><code>สร้างไฟล์ module-05-work/input/version-b-report.md ด้วยข้อความ Markdown ต่อไปนี้ทุกตัวอักษร ถ้ามีไฟล์ชื่อนี้อยู่แล้วให้หยุดและบอกฉันก่อน</code><button type="button" data-copy="">คัดลอก</button></div><p>แล้ววางข้อความในกล่องด้านล่างต่อท้าย</p>
 <div class="sourceCode" id="cb1"><div class="command markdown-command"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu"># รายงานตัวอย่าง Version B: หิว → กิน → อิ่ม</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -135,18 +138,18 @@
 <span id="cb1-105"><a href="#cb1-105" aria-hidden="true" tabindex="-1"></a>หมายเหตุ: รายการอ้างอิงนี้เป็นข้อความสมมติและไม่ใช่ source ที่ตรวจสอบแล้ว</span></code><button type="button" data-copy="">คัดลอก</button></div></div>
 <p><strong>ตรวจ:</strong> เปิด <code>module-05-work/input/version-b-report.md</code> แล้วหัวข้อตรงกับกล่องด้านบน</p>
 <hr>
-<h3 id="ขั้นที่-2--หาเองก่อน-ยังไม่ใช้-ai">ขั้นที่ 2 — หาเองก่อน (ยังไม่ใช้ AI)</h3>
+<h3 id="workshop-core--ขั้นที่-2--หาเองก่อน-ยังไม่ใช้-ai">ขั้นที่ 2 — หาเองก่อน (ยังไม่ใช้ AI)</h3>
 <p>อ่านรายงานแล้วหาจุดที่ตรรกะไม่ต่อกันอย่างน้อย 5 จุด สำหรับแต่ละจุดจดหัวข้อ ข้อความที่มีปัญหา ปัญหาคืออะไร และระดับความรุนแรง (สำคัญ / ควรแก้ / เล็กน้อย) ลง <code>module-05-work/notes/my-findings.md</code></p>
 <p><strong>ตรวจ:</strong> <code>my-findings.md</code> มีอย่างน้อย 5 จุด ทุกจุดมีข้อความจริงจากรายงาน</p>
 <hr>
-<h3 id="ขั้นที่-3--ให้-ai-หาโดยผูกกับหลักฐาน">ขั้นที่ 3 — ให้ AI หาโดยผูกกับหลักฐาน</h3>
+<h3 id="workshop-core--ขั้นที่-3--ให้-ai-หาโดยผูกกับหลักฐาน">ขั้นที่ 3 — ให้ AI หาโดยผูกกับหลักฐาน</h3>
 <div class="command ai-prompt"><code>อ่าน module-05-work/input/version-b-report.md หาจุดที่สายเหตุผล ปัญหา → วัตถุประสงค์ → วิธี → ผล → ข้อสรุป ไม่ต่อกัน ทุกประเด็นต้องยกข้อความจริงพร้อมหัวข้อ บอกว่าเชื่อมกับส่วนใดไม่ได้ และจัดระดับความรุนแรง ห้ามแก้ไฟล์ ห้ามอ่าน module-05-work/notes/</code><button type="button" data-copy="">คัดลอก</button></div><p><strong>ตรวจ:</strong> ทุกประเด็นของ AI มีข้อความจริงและหัวข้อ</p>
 <hr>
-<h3 id="ขั้นที่-4--เทียบของคุณกับของ-ai">ขั้นที่ 4 — เทียบของคุณกับของ AI</h3>
+<h3 id="workshop-core--ขั้นที่-4--เทียบของคุณกับของ-ai">ขั้นที่ 4 — เทียบของคุณกับของ AI</h3>
 <p>ทำตารางสามช่อง: เจอทั้งคู่ / เจอเฉพาะคุณ / เจอเฉพาะ AI แล้วตัดสินว่าประเด็นที่ AI เจอแต่คุณไม่เจอ ถูกจริงหรือไม่</p>
 <p><strong>ตรวจ:</strong> ทุกประเด็นในช่อง "เจอเฉพาะ AI" มีคำตัดสินของคุณพร้อมเหตุผล</p>
 <hr>
-<h3 id="ตรวจก่อนจบ-workshop">ตรวจก่อนจบ workshop</h3>
+<h3 id="workshop-core--ตรวจก่อนจบ-workshop">ตรวจก่อนจบ workshop</h3>
 <ul class="task-list">
 <li><label><input type="checkbox">ขั้น 1: มีไฟล์รายงานจำลองใน <code>module-05-work/input/</code></label></li>
 <li><label><input type="checkbox">ขั้น 2: หาเองได้อย่างน้อย 5 จุดก่อนใช้ AI</label></li>
@@ -156,18 +159,18 @@
 </div></section>
 <section class="section markdown-section topic-panel" id="open-explore" aria-labelledby="open-explore-heading"><div class="section-heading compact"><p class="eyebrow">Exploring</p><h2 id="open-explore-heading">หาจุดที่ตรรกะขาดในรายงานจำลอง หิว → กิน → อิ่ม</h2></div><div class="markdown-body"><p>ในโจทย์นี้คุณจะเขียน prompt เองให้ AI ช่วยตรวจงานของคุณด้วยแนวคิดของหัวข้อนี้</p>
 <p>ไม่มี prompt สำเร็จรูปให้</p>
-<h3 id="ก่อนเริ่ม-ต้องมีอยู่แล้ว">ก่อนเริ่ม (ต้องมีอยู่แล้ว)</h3>
+<h3 id="open-explore--ก่อนเริ่ม-ต้องมีอยู่แล้ว">ก่อนเริ่ม (ต้องมีอยู่แล้ว)</h3>
 <ul>
 <li>ทำ workshop ของหัวข้อนี้แล้ว</li>
 <li>งานอีกส่วนหนึ่งของคุณ (หรือของนิสิตที่ดูแล) ที่ยังไม่ได้ตรวจใน workshop</li>
 </ul>
-<h3 id="โจทย์">โจทย์</h3>
+<h3 id="open-explore--โจทย์">โจทย์</h3>
 <ol type="1">
 <li>สร้างไฟล์ <code>output/prompts.md</code> ในโฟลเดอร์งานของคุณ สำหรับเก็บ prompt ทุกรอบ</li>
 <li>เขียน prompt ของตนให้ AI ตรวจจุดที่ตรรกะไม่ต่อกัน โดยบังคับให้ยกข้อความพร้อมตำแหน่ง</li>
 <li>ตัดสินเองทุกประเด็น แล้วแก้งานจริงอย่างน้อยหนึ่งจุด</li>
 </ol>
-<h3 id="เกณฑ์ผ่าน">เกณฑ์ผ่าน</h3>
+<h3 id="open-explore--เกณฑ์ผ่าน">เกณฑ์ผ่าน</h3>
 <ul class="task-list">
 <li><label><input type="checkbox">ทุกประเด็นที่ใช้มีข้อความและตำแหน่งจริง</label></li>
 <li><label><input type="checkbox">มีการแก้งานอย่างน้อยหนึ่งจุดพร้อมเหตุผล</label></li>
@@ -176,15 +179,30 @@
 </div></section></div></div>
 <script>
 (() => {
-  const tabs = [...document.querySelectorAll('.topic-tabs a')];
+  const tabs = [...document.querySelectorAll('.topic-tabs > ul > li > a')];
   const panels = tabs.map(t => document.getElementById(t.hash.slice(1)));
+  const subs = [...document.querySelectorAll('.topic-tabs a[data-sub]')];
   function show(id) {
-    const i = Math.max(0, panels.findIndex(p => p && p.id === id));
+    const target = id && document.getElementById(id);
+    const owner = target && target.closest('.topic-panel');
+    const i = Math.max(0, panels.findIndex(p => p && p.id === (owner ? owner.id : id)));
     panels.forEach((p, k) => { if (p) p.hidden = k !== i; });
-    tabs.forEach((t, k) => t.setAttribute('aria-current', k === i ? 'page' : 'false'));
+    tabs.forEach((t, k) => { t.setAttribute('aria-current', k === i ? 'page' : 'false'); t.parentElement.classList.toggle('is-open', k === i); });
     const layout = document.querySelector('.topic-layout'); if (layout && panels[i]) layout.dataset.active = panels[i].id;
+    return target && owner && target !== owner ? target : null;
   }
   tabs.forEach(t => t.addEventListener('click', e => { e.preventDefault(); history.replaceState(null, '', t.hash); show(t.hash.slice(1)); window.scrollTo({top: 0}); }));
+  subs.forEach(s => s.addEventListener('click', e => { e.preventDefault(); history.replaceState(null, '', s.hash); const h = show(s.hash.slice(1)); if (h) h.scrollIntoView({block: 'start'}); }));
+  if ('IntersectionObserver' in window && subs.length) {  // highlight the step being read
+    const byId = new Map(subs.map(s => [s.hash.slice(1), s]));
+    const seen = new Set();
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(en => { if (en.isIntersecting) seen.add(en.target.id); else seen.delete(en.target.id); });
+      const visible = [...byId.keys()].find(k => seen.has(k));
+      if (visible) subs.forEach(s => s.classList.toggle('is-here', s === byId.get(visible)));
+    }, {rootMargin: '-15% 0px -70% 0px'});
+    byId.forEach((_, k) => { const h = document.getElementById(k); if (h) io.observe(h); });
+  }
   document.querySelectorAll('[data-next-tab]').forEach(b => b.addEventListener('click', e => { e.preventDefault(); const h = b.getAttribute('href'); history.replaceState(null, '', h); show(h.slice(1)); window.scrollTo({top: 0}); }));
   document.querySelectorAll('[data-fullscreen]').forEach(b => b.addEventListener('click', () => {
     const frame = document.querySelector(b.dataset.fullscreen);
@@ -205,8 +223,8 @@
     setAside(saved);
     toggle.addEventListener('click', () => setAside(!layout0.classList.contains('aside-hidden')));
   }
-  show(location.hash.slice(1));
-  if (location.hash) requestAnimationFrame(() => window.scrollTo({top: 0}));
+  const deep = show(location.hash.slice(1));
+  if (location.hash) requestAnimationFrame(() => deep ? deep.scrollIntoView({block: 'start'}) : window.scrollTo({top: 0}));
 })();
 </script>
   </main>

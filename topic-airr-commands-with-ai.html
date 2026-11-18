@@ -10,24 +10,27 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/styles.css?v=20261113-2">
-  <link rel="stylesheet" href="assets/learn.css?v=20261116-2">
-  <script src="assets/site-shell.js?v=20261116-2"></script>
-  <script src="assets/app.js?v=20261116-2" defer></script>
+  <link rel="stylesheet" href="assets/learn.css?v=20261118-1">
+  <script src="assets/site-shell.js?v=20261118-1"></script>
+  <script src="assets/app.js?v=20261118-1" defer></script>
+  <link rel="icon" href="assets/images/madlab-ku-mark-dark.svg" type="image/svg+xml">
+  <link rel="icon" href="assets/images/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="assets/images/favicon-180.png">
 </head>
 <body class="learn" data-no-case>
   <a class="skip-link" href="#main">ข้ามไปยังเนื้อหา</a>
   <site-header current="topic" plan="class-2026-11-20-engineering-faculty.html" menu='{&quot;module&quot;: &quot;X02&quot;, &quot;title&quot;: &quot;คำสั่ง AIRR (ให้ AI รันให้)&quot;, &quot;items&quot;: [{&quot;href&quot;: &quot;module-overview-x02.html&quot;, &quot;label&quot;: &quot;ภาพรวมและ LO&quot;, &quot;current&quot;: false}, {&quot;href&quot;: &quot;topic-airr-commands-with-ai.html&quot;, &quot;label&quot;: &quot;คำสั่ง AIRR: ให้ AI รันให้ และรู้ว่าแต่ละคำสั่งส่งอะไร&quot;, &quot;current&quot;: true}]}'></site-header>
   <main id="main">
 <section class="prepare-hero module-hero"><p class="eyebrow">หัวข้อย่อย · X02</p><h1>คำสั่ง AIRR: ให้ AI รันให้ และรู้ว่าแต่ละคำสั่งส่งอะไร</h1><ul class="outcomes"><li>สั่ง AI รันคำสั่ง AIRR ที่ไม่ส่งงานและไม่แก้ไฟล์ (help, version, status) และอ่านผลได้</li><li>อธิบายได้ว่ามีเพียง submit ที่ส่งงานออกจากเครื่อง</li><li>ยืนยันเองก่อน AI ส่งงานทุกครั้ง</li></ul></section>
-<div class="topic-layout"><nav class="topic-tabs" aria-label="ส่วนของหัวข้อ"><a href="#slides" title="สไลด์">สไลด์</a><a href="#workshop-core" title="ให้ AI รันคำสั่ง AIRR ที่ปลอดภัย">Prompt</a><a href="#open-explore" title="Exploring workshop">Exploring</a><button type="button" class="aside-toggle" data-aside-toggle aria-pressed="false">ซ่อนสไลด์ข้าง</button></nav><div class="topic-main"><section class="section markdown-section topic-panel" id="slides" aria-labelledby="slides-heading"><div class="section-heading compact"><p class="eyebrow">สไลด์</p><h2 id="slides-heading">สไลด์</h2></div><div class="markdown-body"><div class="slide-tools"><button type="button" class="slide-tool" data-fullscreen="#slide-frame-main">⛶ เต็มจอ</button><a class="slide-tool" href="downloads/topics/airr-commands-with-ai.pdf" target="_blank" rel="noopener">เปิดแท็บใหม่ ↗</a></div><iframe id="slide-frame-main" class="slide-frame" src="downloads/topics/airr-commands-with-ai.pdf#view=FitH" title="สไลด์ คำสั่ง AIRR: ให้ AI รันให้ และรู้ว่าแต่ละคำสั่งส่งอะไร" allowfullscreen></iframe></div></section>
+<div class="topic-layout"><nav class="topic-tabs topic-menu" aria-label="ในหัวข้อนี้"><p class="topic-menu-title">ในหัวข้อนี้</p><ul><li><a href="#slides" title="สไลด์">สไลด์</a></li><li><a href="#workshop-core" title="ให้ AI รันคำสั่ง AIRR ที่ปลอดภัย">Prompt</a><ul class="topic-submenu"><li><a href="#workshop-core--ก่อนเริ่ม-ต้องมีอยู่แล้ว" data-sub>ก่อนเริ่ม (ต้องมีอยู่แล้ว)</a></li><li><a href="#workshop-core--คำที่ใช้ใน-workshop-นี้" data-sub>คำที่ใช้ใน workshop นี้</a></li><li><a href="#workshop-core--ขั้นที่-1--ให้-ai-สรุปคำสั่งทั้งหมด" data-sub>ขั้นที่ 1 — ให้ AI สรุปคำสั่งทั้งหมด</a></li><li><a href="#workshop-core--ขั้นที่-2--ดูรุ่นเครื่องมือ" data-sub>ขั้นที่ 2 — ดูรุ่นเครื่องมือ</a></li><li><a href="#workshop-core--ขั้นที่-3--ดูผลที่-server-ได้รับของ-module-1" data-sub>ขั้นที่ 3 — ดูผลที่ server ได้รับของ Module 1</a></li><li><a href="#workshop-core--ขั้นที่-4--ยืนยันว่าไม่มีอะไรถูกส่ง" data-sub>ขั้นที่ 4 — ยืนยันว่าไม่มีอะไรถูกส่ง</a></li><li><a href="#workshop-core--ตรวจก่อนจบ-workshop" data-sub>ตรวจก่อนจบ workshop</a></li></ul></li><li><a href="#open-explore" title="Exploring workshop">Exploring</a><ul class="topic-submenu"><li><a href="#open-explore--ก่อนเริ่ม-ต้องมีอยู่แล้ว" data-sub>ก่อนเริ่ม (ต้องมีอยู่แล้ว)</a></li><li><a href="#open-explore--โจทย์-เลือกอย่างน้อย-1-ข้อ" data-sub>โจทย์ (เลือกอย่างน้อย 1 ข้อ)</a></li><li><a href="#open-explore--ข้อกำหนด" data-sub>ข้อกำหนด</a></li><li><a href="#open-explore--เกณฑ์ผ่าน" data-sub>เกณฑ์ผ่าน</a></li></ul></li></ul><button type="button" class="aside-toggle" data-aside-toggle aria-pressed="false">ซ่อนสไลด์ข้าง</button></nav><div class="topic-main"><section class="section markdown-section topic-panel" id="slides" aria-labelledby="slides-heading"><div class="section-heading compact"><p class="eyebrow">สไลด์</p><h2 id="slides-heading">สไลด์</h2></div><div class="markdown-body"><div class="slide-tools"><button type="button" class="slide-tool" data-fullscreen="#slide-frame-main">⛶ เต็มจอ</button><a class="slide-tool" href="downloads/topics/airr-commands-with-ai.pdf" target="_blank" rel="noopener">เปิดแท็บใหม่ ↗</a></div><iframe id="slide-frame-main" class="slide-frame" src="downloads/topics/airr-commands-with-ai.pdf#view=FitH" title="สไลด์ คำสั่ง AIRR: ให้ AI รันให้ และรู้ว่าแต่ละคำสั่งส่งอะไร" allowfullscreen></iframe></div></section>
 <section class="section markdown-section topic-panel" id="workshop-core" aria-labelledby="workshop-core-heading"><div class="section-heading compact"><p class="eyebrow">Prompt</p><h2 id="workshop-core-heading">ให้ AI รันคำสั่ง AIRR ที่ปลอดภัย</h2></div><div class="markdown-body"><p>ใน workshop นี้คุณจะให้ AI แสดงรายการคำสั่ง AIRR รันคำสั่งที่ไม่ส่งอะไรและไม่แก้ไฟล์ แล้วอ่านผลที่ AI รายงานกลับ</p>
 <p>ใช้เมื่อ: อยากรู้ว่า AI รันคำสั่ง AIRR อะไรให้ และคำสั่งไหนส่งข้อมูลออกจากเครื่อง</p>
-<h3 id="ก่อนเริ่ม-ต้องมีอยู่แล้ว">ก่อนเริ่ม (ต้องมีอยู่แล้ว)</h3>
+<h3 id="workshop-core--ก่อนเริ่ม-ต้องมีอยู่แล้ว">ก่อนเริ่ม (ต้องมีอยู่แล้ว)</h3>
 <ul>
 <li>ผ่าน Module 1: เปิด <code>ai-for-research-workspace</code> ใน VS Code และ AI panel เชื่อมแล้ว</li>
 <li>เครื่องมือ <code>tools/airr.ps1</code> (Windows) และ <code>tools/airr.sh</code> (macOS/Linux) ที่ตัวติดตั้ง Module 1 วางไว้</li>
 </ul>
-<h3 id="คำที่ใช้ใน-workshop-นี้">คำที่ใช้ใน workshop นี้</h3>
+<h3 id="workshop-core--คำที่ใช้ใน-workshop-นี้">คำที่ใช้ใน workshop นี้</h3>
 <ul>
 <li><strong>AIRR</strong> — เครื่องมือที่เชื่อม workspace ของคุณกับคลาส ปกติให้ AI รันให้ ไม่ต้องพิมพ์เอง</li>
 <li><strong>AIRR Key</strong> — รหัสที่ผูก workspace กับบัญชีของคุณ เก็บใน <code>.airr/</code> ห้ามแสดง คัดลอก หรือส่งต่อ</li>
@@ -75,20 +78,20 @@
 </tbody>
 </table>
 <hr>
-<h3 id="ขั้นที่-1--ให้-ai-สรุปคำสั่งทั้งหมด">ขั้นที่ 1 — ให้ AI สรุปคำสั่งทั้งหมด</h3>
+<h3 id="workshop-core--ขั้นที่-1--ให้-ai-สรุปคำสั่งทั้งหมด">ขั้นที่ 1 — ให้ AI สรุปคำสั่งทั้งหมด</h3>
 <div class="command ai-prompt"><code>ใช้เครื่องมือ AIRR ใน tools/ ของ workspace นี้ รัน help แล้วสรุปเป็นตารางภาษาไทยว่ามีคำสั่งอะไร แต่ละคำสั่งส่งงานออกจากเครื่องหรือไม่ ห้ามรันคำสั่งอื่น ห้ามแสดง AIRR Key</code><button type="button" data-copy="">คัดลอก</button></div><p><strong>ตรวจ:</strong> ตารางของ AI มีคำสั่งครบตามตารางข้างบน และบอกว่ามีเพียง <code>submit</code> ที่ส่งงานออก</p>
 <hr>
-<h3 id="ขั้นที่-2--ดูรุ่นเครื่องมือ">ขั้นที่ 2 — ดูรุ่นเครื่องมือ</h3>
+<h3 id="workshop-core--ขั้นที่-2--ดูรุ่นเครื่องมือ">ขั้นที่ 2 — ดูรุ่นเครื่องมือ</h3>
 <div class="command ai-prompt"><code>ใช้เครื่องมือ AIRR รันคำสั่ง version แล้วบอกฉันว่าเป็นรุ่นอะไร และมีรุ่นใหม่กว่าหรือไม่ ห้ามรัน update</code><button type="button" data-copy="">คัดลอก</button></div><p><strong>ตรวจ:</strong> AI รายงานเลขรุ่น และบอกว่ามีรุ่นใหม่หรือไม่ โดยไม่ได้รัน <code>update</code></p>
 <hr>
-<h3 id="ขั้นที่-3--ดูผลที่-server-ได้รับของ-module-1">ขั้นที่ 3 — ดูผลที่ server ได้รับของ Module 1</h3>
+<h3 id="workshop-core--ขั้นที่-3--ดูผลที่-server-ได้รับของ-module-1">ขั้นที่ 3 — ดูผลที่ server ได้รับของ Module 1</h3>
 <div class="command ai-prompt"><code>ใช้เครื่องมือ AIRR รันคำสั่ง status module-1 แล้วบอกฉันว่า server ได้รับสถานะอะไร เมื่อไร ห้ามแก้ไฟล์</code><button type="button" data-copy="">คัดลอก</button></div><p><strong>ตรวจ:</strong> AI รายงาน <code>completed</code> จำนวนครั้งที่ส่ง (<code>attempts</code>) และเวลาที่ server ได้รับ (ถ้ายังไม่ได้กด "แจ้งผู้สอนว่าเสร็จ" ใน Module 1 จะเห็น <code>attempts=0</code>) และไม่แสดง AIRR Key</p>
 <hr>
-<h3 id="ขั้นที่-4--ยืนยันว่าไม่มีอะไรถูกส่ง">ขั้นที่ 4 — ยืนยันว่าไม่มีอะไรถูกส่ง</h3>
+<h3 id="workshop-core--ขั้นที่-4--ยืนยันว่าไม่มีอะไรถูกส่ง">ขั้นที่ 4 — ยืนยันว่าไม่มีอะไรถูกส่ง</h3>
 <p>อ่านคำตอบของ AI ทั้งสามขั้น แล้วถาม AI ว่ารันคำสั่งอะไรไปบ้าง</p>
 <p><strong>ตรวจ:</strong> คำสั่งที่รันมีเพียง <code>help</code>, <code>version</code> และ <code>status</code> ไม่มี <code>submit</code> และไม่มีไฟล์ในเครื่องถูกแก้</p>
 <hr>
-<h3 id="ตรวจก่อนจบ-workshop">ตรวจก่อนจบ workshop</h3>
+<h3 id="workshop-core--ตรวจก่อนจบ-workshop">ตรวจก่อนจบ workshop</h3>
 <ul class="task-list">
 <li><label><input type="checkbox">ขั้น 1: มีตารางคำสั่งที่บอกว่ามีเพียง <code>submit</code> ที่ส่งงานออก</label></li>
 <li><label><input type="checkbox">ขั้น 2: AI รายงานรุ่นเครื่องมือโดยไม่ได้อัปเดต</label></li>
@@ -98,22 +101,22 @@
 </div></section>
 <section class="section markdown-section topic-panel" id="open-explore" aria-labelledby="open-explore-heading"><div class="section-heading compact"><p class="eyebrow">Exploring</p><h2 id="open-explore-heading">คำสั่ง AIRR: ให้ AI รันให้ และรู้ว่าแต่ละคำสั่งส่งอะไร</h2></div><div class="markdown-body"><p>ในโจทย์นี้คุณจะเขียน prompt เองให้ AI ทำงานกับ AIRR อย่างปลอดภัย</p>
 <p>ไม่มี prompt สำเร็จรูปให้</p>
-<h3 id="ก่อนเริ่ม-ต้องมีอยู่แล้ว">ก่อนเริ่ม (ต้องมีอยู่แล้ว)</h3>
+<h3 id="open-explore--ก่อนเริ่ม-ต้องมีอยู่แล้ว">ก่อนเริ่ม (ต้องมีอยู่แล้ว)</h3>
 <ul>
 <li>ทำ workshop ของหัวข้อนี้แล้ว (รู้ว่ามีเพียง <code>submit</code> ที่ส่งงานออก)</li>
 <li>Module ที่คุณกำลังเรียนและมีงานส่งผ่าน AIRR (เช่น Module 2, 3, 4 หรือ 7)</li>
 </ul>
-<h3 id="โจทย์-เลือกอย่างน้อย-1-ข้อ">โจทย์ (เลือกอย่างน้อย 1 ข้อ)</h3>
+<h3 id="open-explore--โจทย์-เลือกอย่างน้อย-1-ข้อ">โจทย์ (เลือกอย่างน้อย 1 ข้อ)</h3>
 <ol type="1">
 <li>ให้ AI อธิบายว่าเมื่อส่งงาน Module ที่คุณเรียนอยู่ ระบบส่งอะไรออกไปบ้าง โดยอ่านจากผล <code>help submit</code> และ <code>check</code> ของ Module นั้น ไม่ใช่เดา</li>
 <li>เขียน prompt ส่งงานของคุณเองที่บังคับให้ AI: ตรวจก่อน (check) → สรุปสิ่งที่จะส่ง → รอคุณยืนยัน → ส่ง → บอกผล</li>
 </ol>
-<h3 id="ข้อกำหนด">ข้อกำหนด</h3>
+<h3 id="open-explore--ข้อกำหนด">ข้อกำหนด</h3>
 <ul>
 <li>สร้างไฟล์ <code>module-01-work/output/prompts.md</code> เก็บ prompt ทุกรอบ</li>
 <li>ห้ามให้ AI แสดง คัดลอก หรือส่งต่อ AIRR Key · ห้ามรัน <code>logout</code> (จะตัดการเชื่อม)</li>
 </ul>
-<h3 id="เกณฑ์ผ่าน">เกณฑ์ผ่าน</h3>
+<h3 id="open-explore--เกณฑ์ผ่าน">เกณฑ์ผ่าน</h3>
 <ul class="task-list">
 <li><label><input type="checkbox">prompt ส่งงานของคุณมีขั้น "สรุปแล้วรอยืนยัน" ก่อน submit</label></li>
 <li><label><input type="checkbox">อธิบายได้ว่า check กับ submit ต่างกันอย่างไร โดยอ้างผลที่ AI รันจริง</label></li>
@@ -122,15 +125,30 @@
 </div></section></div><aside class="slide-aside" aria-label="สไลด์ประกอบ"><div class="slide-tools"><button type="button" class="slide-tool" data-fullscreen="#slide-frame-aside">⛶ เต็มจอ</button><a class="slide-tool" href="downloads/topics/airr-commands-with-ai.pdf" target="_blank" rel="noopener">เปิดแท็บใหม่ ↗</a></div><iframe id="slide-frame-aside" src="downloads/topics/airr-commands-with-ai.pdf#view=FitH" title="สไลด์ คำสั่ง AIRR: ให้ AI รันให้ และรู้ว่าแต่ละคำสั่งส่งอะไร" loading="lazy" allowfullscreen></iframe></aside></div>
 <script>
 (() => {
-  const tabs = [...document.querySelectorAll('.topic-tabs a')];
+  const tabs = [...document.querySelectorAll('.topic-tabs > ul > li > a')];
   const panels = tabs.map(t => document.getElementById(t.hash.slice(1)));
+  const subs = [...document.querySelectorAll('.topic-tabs a[data-sub]')];
   function show(id) {
-    const i = Math.max(0, panels.findIndex(p => p && p.id === id));
+    const target = id && document.getElementById(id);
+    const owner = target && target.closest('.topic-panel');
+    const i = Math.max(0, panels.findIndex(p => p && p.id === (owner ? owner.id : id)));
     panels.forEach((p, k) => { if (p) p.hidden = k !== i; });
-    tabs.forEach((t, k) => t.setAttribute('aria-current', k === i ? 'page' : 'false'));
+    tabs.forEach((t, k) => { t.setAttribute('aria-current', k === i ? 'page' : 'false'); t.parentElement.classList.toggle('is-open', k === i); });
     const layout = document.querySelector('.topic-layout'); if (layout && panels[i]) layout.dataset.active = panels[i].id;
+    return target && owner && target !== owner ? target : null;
   }
   tabs.forEach(t => t.addEventListener('click', e => { e.preventDefault(); history.replaceState(null, '', t.hash); show(t.hash.slice(1)); window.scrollTo({top: 0}); }));
+  subs.forEach(s => s.addEventListener('click', e => { e.preventDefault(); history.replaceState(null, '', s.hash); const h = show(s.hash.slice(1)); if (h) h.scrollIntoView({block: 'start'}); }));
+  if ('IntersectionObserver' in window && subs.length) {  // highlight the step being read
+    const byId = new Map(subs.map(s => [s.hash.slice(1), s]));
+    const seen = new Set();
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(en => { if (en.isIntersecting) seen.add(en.target.id); else seen.delete(en.target.id); });
+      const visible = [...byId.keys()].find(k => seen.has(k));
+      if (visible) subs.forEach(s => s.classList.toggle('is-here', s === byId.get(visible)));
+    }, {rootMargin: '-15% 0px -70% 0px'});
+    byId.forEach((_, k) => { const h = document.getElementById(k); if (h) io.observe(h); });
+  }
   document.querySelectorAll('[data-next-tab]').forEach(b => b.addEventListener('click', e => { e.preventDefault(); const h = b.getAttribute('href'); history.replaceState(null, '', h); show(h.slice(1)); window.scrollTo({top: 0}); }));
   document.querySelectorAll('[data-fullscreen]').forEach(b => b.addEventListener('click', () => {
     const frame = document.querySelector(b.dataset.fullscreen);
@@ -151,8 +169,8 @@
     setAside(saved);
     toggle.addEventListener('click', () => setAside(!layout0.classList.contains('aside-hidden')));
   }
-  show(location.hash.slice(1));
-  if (location.hash) requestAnimationFrame(() => window.scrollTo({top: 0}));
+  const deep = show(location.hash.slice(1));
+  if (location.hash) requestAnimationFrame(() => deep ? deep.scrollIntoView({block: 'start'}) : window.scrollTo({top: 0}));
 })();
 </script>
   </main>
