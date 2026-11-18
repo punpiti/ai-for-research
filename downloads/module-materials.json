@@ -1,6 +1,45 @@
 {
  "schema_version": "airr.module-materials.v1",
  "modules": {
+  "module-1": {
+   "files": [
+    {
+     "kind": "mock",
+     "url": "topics/markdown-structure-and-preview/mock/room-temperature-note.md",
+     "path": "module-01-work/input/file-basics/room-temperature-note.md",
+     "sha256": "c1b2e65694e22b0d2292f535d393940a17d6b49a4f8283a95085b8e70be53fb4",
+     "bytes": 164
+    },
+    {
+     "kind": "mock",
+     "url": "topics/csv-rows-columns-units/mock/room-temperature-readings.csv",
+     "path": "module-01-work/input/file-basics/room-temperature-readings.csv",
+     "sha256": "57e13b453d14ae861271c9497d7e53be1e4bf72c306d379005d2e3a3d367c3ba",
+     "bytes": 97
+    },
+    {
+     "kind": "mock",
+     "url": "topics/json-fields-and-status-values/mock/file-reading-practice.json",
+     "path": "module-01-work/input/file-basics/file-reading-practice.json",
+     "sha256": "d2cf6bfceb2c9e197d754bb61acac1bb5918877153163c46f173cc485e20c295",
+     "bytes": 163
+    },
+    {
+     "kind": "mock",
+     "url": "course-materials/visualization/examples/figure-consistency/mock-article-figure-consistency.pdf",
+     "path": "module-01-work/input/file-basics/mock-article.pdf",
+     "sha256": "9f629482c6f5f92e67e497d03ac0cf5c3edf4b3db24398a2f8b1caeb441b2dbb",
+     "bytes": 366002
+    },
+    {
+     "kind": "mock",
+     "url": "course-materials/visualization/examples/figure-consistency/mock-study-data.csv",
+     "path": "module-01-work/input/file-basics/mock-study-data.csv",
+     "sha256": "23d88b118b5afd0626f445f61227646c76c8539a13d4a0575645cfea04609956",
+     "bytes": 42270
+    }
+   ]
+  },
   "module-2": {
    "files": [
     {

@@ -1,0 +1,9 @@
+{
+  "activity": "file-reading-practice",
+  "checks": {
+    "source_opened": true,
+    "values_verified": false
+  },
+  "verified_count": 0,
+  "review_note": null
+}
