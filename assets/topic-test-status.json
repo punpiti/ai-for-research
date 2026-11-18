@@ -19,7 +19,7 @@
    "note": ""
   },
   "claim-level-audit-and-learner-additions": {
-   "status": "not-ready",
+   "status": "ready",
    "note": ""
   },
   "faithful-summary-and-condensing": {
@@ -194,5 +194,27 @@
    "status": "not-ready",
    "note": "เนื้อหาเดิมยกมาก่อน"
   }
+ },
+ "priority": {
+  "label": "ใช้วันศุกร์ 20 พ.ย.",
+  "note": "คลาสอาจารย์คณะวิศวกรรมศาสตร์ ตรวจกลุ่มนี้ก่อน",
+  "topics": [
+   "class-introduction",
+   "prepare-machine",
+   "multiformat-evidence-and-source-levels",
+   "faithful-summary-and-condensing",
+   "problem-statement-diagnosis-with-locations",
+   "verify-critique-and-revise",
+   "reference-existence-vs-citation-support",
+   "citation-register-with-openalex",
+   "reading-data-and-choosing-charts",
+   "chart-pitfalls-and-makeover",
+   "data-highlights-with-evidence",
+   "journal-fit-and-venue-switch",
+   "bibtex-abstract-audit-literature-map",
+   "paragraph-contract-reverse-check",
+   "markdown-single-source-latex-pdf-build",
+   "pdf-qa-submission-readiness"
+  ]
  }
 }

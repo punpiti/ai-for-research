@@ -29,6 +29,16 @@
     const data = await fetch("assets/topic-test-status.json", { cache: "no-store" }).then((r) => (r.ok ? r.json() : null)).catch(() => null);
     if (!data || !(data.viewers || []).includes(await sha256(email.trim().toLowerCase()))) return;
     const topics = data.topics || {};
+    const pri = data.priority || {};
+    const priSet = new Set(pri.topics || []);
+    const priBadge = () => {
+      const el = document.createElement("span");
+      el.className = "test-priority";
+      el.textContent = pri.label || "ตรวจก่อน";
+      el.title = pri.note || "";
+      el.style.cssText = "display:inline-block;margin-left:.3rem;padding:0 .45rem;border-radius:99px;background:#d9534f;color:#fff;font-size:.72rem;line-height:1.5;white-space:nowrap;vertical-align:middle";
+      return el;
+    };
     document.querySelectorAll("li[data-tester-only]").forEach((li) => { li.hidden = false; });
     // modules not yet open to learners: testers can still open the topic pages
     document.querySelectorAll("span.locked[data-href]").forEach((span) => {
@@ -38,18 +48,19 @@
       span.replaceWith(a);
     });
     document.querySelectorAll("details.syllabus-module").forEach((mod) => {
-      let passed = 0, total = 0;
+      let passed = 0, total = 0, priCount = 0;
       mod.querySelectorAll("li[data-topic]").forEach((li) => {
         const t = topics[li.dataset.topic] || { status: "not-ready" };
         total += 1; if (t.status === "passed") passed += 1;
         const small = li.querySelector("br");
         li.insertBefore(badge(t.status, t.note), small || null);
+        if (priSet.has(li.dataset.topic)) { priCount += 1; li.dataset.priority = "1"; li.insertBefore(priBadge(), small || null); }
       });
       const name = mod.querySelector("summary .name small");
       if (name && total) {
         const s = document.createElement("span");
         s.className = "test-status-count";
-        s.textContent = ` · ทดสอบผ่าน ${passed}/${total}`;
+        s.textContent = ` · ทดสอบผ่าน ${passed}/${total}` + (priCount ? ` · ${pri.label || "ตรวจก่อน"} ${priCount} หัวข้อ` : "");
         name.append(s);
       }
     });
@@ -60,6 +71,26 @@
       legend.style.cssText = "font-size:.8rem;margin:.4rem 0 .8rem";
       legend.append("สถานะทดสอบ (เห็นเฉพาะทีมทดสอบ · อัปเดต " + (data.updated || "") + "): ");
       Object.keys(LABELS).forEach((k) => legend.append(badge(k)));
+      if (priSet.size) {
+        legend.append(" · ", priBadge(), ` ${pri.note || ""} `);
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.textContent = "แสดงเฉพาะที่ใช้วันศุกร์";
+        btn.style.cssText = "margin-left:.4rem;font-size:.75rem;padding:.1rem .6rem;border-radius:99px;border:1px solid currentColor;background:transparent;color:inherit;cursor:pointer";
+        let only = false;
+        btn.addEventListener("click", () => {
+          only = !only;
+          btn.textContent = only ? "แสดงทุกหัวข้อ" : "แสดงเฉพาะที่ใช้วันศุกร์";
+          document.querySelectorAll("details.syllabus-module").forEach((mod) => {
+            const rows = mod.querySelectorAll("li[data-topic]");
+            let any = false;
+            rows.forEach((li) => { const keep = !only || li.dataset.priority === "1"; li.style.display = keep ? "" : "none"; if (keep) any = true; });
+            mod.style.display = only && !any ? "none" : "";
+            if (only && any) mod.open = true;
+          });
+        });
+        legend.append(btn);
+      }
       syllabus.before(legend);
     }
   }

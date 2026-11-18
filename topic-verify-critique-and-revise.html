@@ -184,8 +184,13 @@
 <div class="command ai-prompt"><code>จาก module-03-work/input/markdown/seed-paper.md ยกประโยคที่ฉันเลือกต่อไปนี้แบบคำต่อคำ พร้อม in-text citation รายการบรรณานุกรมที่ตรงกัน และตำแหน่ง heading, paragraph, page marker บันทึกลง module-03-work/output/citation-for-m4.md ถ้าหารายการบรรณานุกรมที่ตรงกันไม่พบ ให้เขียนว่าไม่พบ ห้ามเดาหรือเติม citation แล้วหยุด ประโยคที่เลือก: [วางประโยคของคุณ]</code><button type="button" data-copy="">คัดลอก</button></div><p>Module 4 จะตรวจว่าแหล่งอ้างอิงมีอยู่จริงหรือไม่ และรองรับข้อความนั้นจริงหรือไม่ ซึ่งเป็นการตรวจคนละเรื่องกัน ใน workshop นี้ยังไม่ต้องตรวจ</p>
 <p><strong>ตรวจ:</strong> ค้น (Ctrl+F) ประโยคใน <code>citation-for-m4.md</code> เจอตรงทุกตัวอักษรใน <code>seed-paper.md</code> และรายการบรรณานุกรมที่บันทึกมีอยู่ในส่วนรายการอ้างอิงของเอกสาร (หรือเขียนว่า "ไม่พบ")</p>
 <hr>
-<h3 id="ขั้นที่-5--ส่งงาน-module-3-ทางสั้น">ขั้นที่ 5 — ส่งงาน Module 3 (ทางสั้น)</h3>
-<p>ครบสี่ไฟล์แล้ว ให้ AI รันเครื่องมือ AIRR ตามลำดับนี้ (Windows: <code>&amp; .\tools\airr.ps1 …</code> · macOS/Linux: <code>bash tools/airr.sh …</code>)</p>
+<h3 id="ขั้นที่-5--ส่งงาน-module-3-เลือกหนึ่งแบบ">ขั้นที่ 5 — ส่งงาน Module 3 (เลือกหนึ่งแบบ)</h3>
+<p>ส่งได้สองแบบ เลือกตามงานที่ทำ:</p>
+<ul>
+<li><strong>แบบสั้น</strong> — ทำ workshop ของหัวข้อ Module 3 ครบสี่ไฟล์แล้ว (ทำตามข้อ 1–3 ด้านล่าง)</li>
+<li><strong>แบบเต็ม</strong> — ทำแบบฝึกเต็มในหน้า Module 3 จนได้ <code>module-03-work/output/module-3-completion.json</code> ที่ตัวตรวจขึ้น <code>LOCAL_CHECK PASS</code> แล้ว ให้ทำข้อ 1 แล้วสั่ง AI <code>check module-3</code> และ <code>submit module-3</code> (ไม่มี <code>--short</code>) หลังคุณยืนยัน ส่งเฉพาะตัวเลขสรุป สถานะ และ hash ไม่ส่งเนื้อหางาน</li>
+</ul>
+<p>แบบสั้น: ให้ AI รันเครื่องมือ AIRR ตามลำดับนี้ (Windows: <code>&amp; .\tools\airr.ps1 …</code> · macOS/Linux: <code>bash tools/airr.sh …</code>)</p>
 <ol type="1">
 <li><code>init module-3</code> — สร้างแบบประเมิน <code>module-03-work/output/module-3-evaluation.json</code> (ถ้ามีอยู่แล้วจะไม่เขียนทับ) เปิดไฟล์แล้วแก้ค่าตามจริง เช่น เครื่องมือ AI ที่ใช้ จำนวนรอบ เวลา ความยาก ประโยชน์ และขั้นที่ยากที่สุด ถ้าไม่แก้เลย เครื่องมือจะไม่ยอมส่ง</li>
 <li><code>check module-3 --short</code> — ตรวจในเครื่องว่าสี่ไฟล์มีอยู่และไม่ว่าง ไม่ส่งอะไรออกจากเครื่อง ถ้าขึ้น "ทางสั้นยังไม่ครบ" ให้ดูชื่อไฟล์ที่ขาดแล้วกลับไปทำขั้นนั้น</li>
@@ -199,7 +204,7 @@
 <li><label><input type="checkbox">ขั้น 2: AI เรียบเรียงเฉพาะแถว "แก้" และไม่แตะแถว "คงไว้"</label></li>
 <li><label><input type="checkbox">ขั้น 3: ฉบับแก้ที่คุณตรวจแล้วไม่มีข้อเท็จจริง ตัวเลข หรือ citation ที่ไม่อยู่ใน <code>seed-paper.md</code> และใช้คำว่า candidate gap เมื่อหลักฐานยังไม่พอ</label></li>
 <li><label><input type="checkbox">ขั้น 4: <code>module-03-work/output/citation-for-m4.md</code> มีหนึ่งรายการ: ประโยคคำต่อคำ citation รายการบรรณานุกรม (หรือ "ไม่พบ") ตำแหน่ง และเหตุผล</label></li>
-<li><label><input type="checkbox">ขั้น 5: เห็น <code>AIRR SUBMIT PASS · module-3</code></label></li>
+<li><label><input type="checkbox">ขั้น 5: เห็น <code>AIRR SUBMIT PASS · module-3</code> (แบบสั้นหรือแบบเต็ม)</label></li>
 <li><label><input type="checkbox">ต้นฉบับใน <code>module-03-work/input/original/</code> และ <code>seed-paper.md</code> ไม่ถูกแก้</label></li>
 </ul>
 </div></section>
