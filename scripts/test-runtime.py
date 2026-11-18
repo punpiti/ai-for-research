@@ -115,7 +115,7 @@ class ModuleInitInModule1Tests(unittest.TestCase):
         "    sys.exit(0)\n"
         "if args[2] == 'init' and (ws / ('deny-' + args[3])).exists():\n"
         "    print('AIRR ERROR: ' + args[3] + ' failed', file=sys.stderr); sys.exit(1)\n"
-        "print('AIRR INIT PASS · ' + args[3] + ' · ใหม่ 1 · มีอยู่แล้ว 0')\n"
+        "print('AIRR INIT PASS · ' + args[3] + ' · ใหม่ 1 · มีอยู่แล้ว 0' + (' · ข้าม 2' if (ws / ('skip-' + args[3])).exists() else ''))\n"
     )
 
     def workspace(self, folder, connected=True):
@@ -155,6 +155,14 @@ class ModuleInitInModule1Tests(unittest.TestCase):
             self.assertEqual(ready, [])
             self.assertEqual(self.calls(ws), [['init', 'module-1']])
             self.assertIn('PRACTICE_FILES_SKIPPED AIRR is not connected yet', out)
+
+    def test_module_with_skipped_files_is_not_reported_ready(self):
+        with tempfile.TemporaryDirectory() as folder:
+            ws = self.workspace(folder)
+            (ws / 'skip-module-4').write_text('x')
+            ready, out = self.run_init(ws)
+            self.assertEqual(ready, ['module-2', 'module-7'])
+            self.assertIn('PRACTICE_FILES_SKIPPED module-4: some files need AIRR', out)
 
     def test_one_module_failing_still_inits_the_rest(self):
         with tempfile.TemporaryDirectory() as folder:

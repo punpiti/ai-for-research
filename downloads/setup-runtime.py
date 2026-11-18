@@ -321,9 +321,12 @@ def init_class_modules(workspace, python):
             log(f'PRACTICE_FILES_SKIPPED {module}: {type(error).__name__}; rerun this installer later.')
             continue
         if result.returncode == 0:
-            ready.append(module)
             summary = [line for line in (result.stdout or '').splitlines() if line.startswith('AIRR INIT PASS')]
             log('MODULE_INIT ' + (summary[-1] if summary else module))
+            if summary and '· ข้าม' in summary[-1]:  # some files need AIRR (login-protected): not ready yet
+                log(f'PRACTICE_FILES_SKIPPED {module}: some files need AIRR; after connecting, run tools/airr init {module}.')
+            else:
+                ready.append(module)
         else:
             reason = ((result.stderr or result.stdout or '').strip().splitlines() or ['unknown error'])[-1]
             log(f'PRACTICE_FILES_SKIPPED {module}: {reason[:200]}')

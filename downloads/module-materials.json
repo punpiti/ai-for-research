@@ -198,6 +198,13 @@
      "bytes": 68558
     },
     {
+     "kind": "mock",
+     "url": "topics/data-highlights-with-evidence/mock/module-07-highlights.md",
+     "path": "module-07-work/module-07-highlights.md",
+     "sha256": "7089b1039dc51c0ad8412ede3edadbb3ded0d53c9277c1bedd2636d475a5d230",
+     "bytes": 277
+    },
+    {
      "kind": "copy",
      "from": "course-materials/module-07/examples/figure-consistency/figure-consistency-audit-template.md",
      "path": "module-07-work/module-07-figure-audit.md"
@@ -282,6 +289,27 @@
      "path": "course-materials/module-08/templates/venue-change-impact-template.md",
      "sha256": "e26ae6476bfd28e2e678bc9b3b52b82edb7d86cecd9fc54a052c170edcd4bbcc",
      "bytes": 723
+    },
+    {
+     "kind": "mock",
+     "url": "topics/bibtex-abstract-audit-literature-map/mock/bibliography-audit.md",
+     "path": "module-08-work/literature/bibliography-audit.md",
+     "sha256": "8b4954ffeac7f8f2999baf06fc459f2c08d5413e489be9fc957fd97ec01499b2",
+     "bytes": 104
+    },
+    {
+     "kind": "mock",
+     "url": "topics/bibtex-abstract-audit-literature-map/mock/literature-map.md",
+     "path": "module-08-work/literature/literature-map.md",
+     "sha256": "5c8c96a1a16e314930124db15ffe418e347bb77c6d5ee8ac1f68e0c5a04956f1",
+     "bytes": 107
+    },
+    {
+     "kind": "mock",
+     "url": "topics/bibtex-abstract-audit-literature-map/mock/candidate-gap.md",
+     "path": "module-08-work/literature/candidate-gap.md",
+     "sha256": "eb177e6b5237cb182458e080094421e5b42984140d7213a62dd4f263563a8bdb",
+     "bytes": 104
     },
     {
      "kind": "copy",
