@@ -20,37 +20,57 @@
   <main id="main">
 <section class="prepare-hero module-hero"><p class="eyebrow">หัวข้อย่อย · M04</p><h1>ตรวจสองชั้น: ref มีจริง กับ cite ถูกต้อง (สี่ชั้นของแหล่ง หกสถานะ ref ทิพย์)</h1><ul class="outcomes"><li>แยกการตรวจว่าแหล่งอ้างอิงมีอยู่จริง (ตัวตนและ metadata) ออกจากการตรวจว่าแหล่งนั้นรองรับข้อความที่อ้าง จัดแหล่งลงสี่ชั้น ใช้หกสถานะของ citation ได้ถูก และบอกสัญญาณเตือนของ ref ทิพย์และบทความที่ถูกถอนได้ โดยไม่เปลี่ยน not found เป็น fabricated</li></ul></section>
 <div class="topic-layout"><nav class="topic-tabs" aria-label="ส่วนของหัวข้อ"><a href="#slides" title="สไลด์">สไลด์</a><a href="#workshop-core" title="Workshop หลัก">Workshop</a><a href="#open-explore" title="Exploring workshop">Exploring</a></nav><div class="topic-main"><section class="section markdown-section topic-panel" id="slides" aria-labelledby="slides-heading"><div class="section-heading compact"><p class="eyebrow">สไลด์</p><h2 id="slides-heading">สไลด์</h2></div><div class="markdown-body"><p>สไลด์ของหัวข้อนี้กำลังจัดทำ</p></div></section>
-<section class="section markdown-section topic-panel" id="workshop-core" aria-labelledby="workshop-core-heading"><div class="section-heading compact"><p class="eyebrow">Workshop</p><h2 id="workshop-core-heading">ตรวจสองชั้น: ref มีจริง กับ cite ถูกต้อง (สี่ชั้นของแหล่ง หกสถานะ ref ทิพย์)</h2></div><div class="markdown-body"><p>ใน workshop นี้คุณจะให้ AI แยก citation ในบทความจำลองตามชนิดข้อความและสัญญาณเตือน แล้วเขียนบันทึกของคุณเองลงไฟล์ precheck หนึ่งไฟล์ โดยยังไม่ตัดสินสถานะของรายการใด</p>
+<section class="section markdown-section topic-panel" id="workshop-core" aria-labelledby="workshop-core-heading"><div class="section-heading compact"><p class="eyebrow">Workshop</p><h2 id="workshop-core-heading">ตรวจสองชั้น: ref มีจริง กับ cite ถูกต้อง (สี่ชั้นของแหล่ง หกสถานะ ref ทิพย์)</h2></div><div class="markdown-body"><p>ใน workshop นี้คุณจะให้ AI แยก citation ในบทความจำลองตามชนิดข้อความและสัญญาณเตือน แล้วเขียนบันทึกของคุณเองลงไฟล์ precheck หนึ่งไฟล์ โดยยังไม่ตัดสินสถานะของรายการใด ไฟล์นี้ใช้เป็นรายการเสี่ยงตั้งต้นของกิจกรรม <code>citation-register-audit</code> (หัวข้อ "ทะเบียนตรวจ citation: OpenAlex → full text → register") ซึ่งจะเทียบกับเฉลยของผู้สอนในห้อง</p>
 <p>บทความจำลองเป็นเอกสารสมมติที่เขียนขึ้นเพื่อฝึก ไม่ใช่ผลงานตีพิมพ์จริง ห้ามนำไปอ้างอิง และตั้งใจใส่ปัญหาการอ้างอิงไว้หลายแบบ ขั้นนี้ฝึกแค่แยกว่าแต่ละจุดต้องตรวจชั้นใด และด้วยแหล่งชั้นใด</p>
 <h3 id="ก่อนเริ่ม-ต้องมีอยู่แล้ว">ก่อนเริ่ม (ต้องมีอยู่แล้ว)</h3>
 <ul>
 <li>ผ่าน Module 1: เปิด <code>ai-for-research-workspace</code> ใน VS Code และ AI panel เชื่อมแล้ว</li>
 <li><code>module-04-work/input/original/mock-paper.pdf</code> — บทความจำลอง (ตัวติดตั้ง Module 1 วางไว้ให้ เมื่อหน้าต่างติดตั้งแสดง <code>PRACTICE_FILES_READY</code>)</li>
 <li><code>course-materials/module-04/citation-audit-rules.md</code> — กติกาการตรวจ (ตัวติดตั้ง Module 1 วางไว้ให้พร้อมกัน อ่านอย่างเดียว)</li>
-<li>ถ้ายังไม่มีสองไฟล์นี้: ใช้ Prompt "เตรียมไฟล์" บนหน้า Module 4 หรือดาวน์โหลดบทความจำลองและกติกาการตรวจจากหน้า Module 4 แล้ววางตามตำแหน่งข้างต้นเอง</li>
+<li>ถ้ายังไม่มีสองไฟล์นี้: ใช้ Prompt "เตรียมไฟล์" บนหน้า Module 4 (AI จะรันเครื่องมือ AIRR <code>materials module-4</code> ให้) หรือดาวน์โหลดบทความจำลองและกติกาการตรวจจากหน้า Module 4 แล้ววางตามตำแหน่งข้างต้นเอง</li>
 <li>ทบทวนจากสไลด์ 5–8 ของ Module 4: ตารางตรวจสองชั้น สี่ชั้นของแหล่งข้อมูล หกสถานะ และสัญญาณเตือนของ ref ทิพย์</li>
 </ul>
-<h3 id="ขั้นตอน">ขั้นตอน</h3>
-<ol type="1">
-<li><p><strong>ให้ AI แยกจุดที่อ้างและชนิดของข้อความ</strong> วาง Prompt นี้ใน AI — AI จะสร้างไฟล์ <code>module-04-work/output/two-layer-precheck.md</code></p>
-<div class="command ai-prompt"><code>อ่าน course-materials/module-04/citation-audit-rules.md ก่อน แล้วอ่านบทความใน module-04-work/input/original/ ทำตารางของ in-text citation ทุกจุดในหัวข้อ 1 และ 2 คอลัมน์: หัวข้อ, ประโยครอบ citation, citation ตามที่เขียน, ชนิดข้อความที่ถูกอ้าง (ข้อเท็จจริงหรือนิยาม / ตัวเลขหรือขนาดผล / ความสัมพันธ์หรือเหตุและผล / การขยายผลไปกลุ่มอื่น / ข้อเสนอแนะหรือมาตรฐาน) และคำที่ทำให้ข้อความแรงขึ้น เช่น ทุก เสมอ ห้าม ถ้ามี ยังไม่ต้องตัดสินว่าแหล่งรองรับหรือไม่ และห้ามค้นข้อมูลภายนอก บันทึกเป็น module-04-work/output/two-layer-precheck.md แล้วหยุดรอ</code><button type="button" data-copy="">คัดลอก</button></div></li>
-<li><p><strong>ให้ AI เพิ่มตารางสัญญาณเตือนของรายการอ้างอิง (ยังไม่ตัดสิน)</strong> วาง Prompt นี้ต่อ</p>
-<div class="command ai-prompt"><code>จากรายการอ้างอิงท้ายบทความเดียวกัน ให้เพิ่มตารางใน module-04-work/output/two-layer-precheck.md หนึ่งแถวต่อหนึ่งรายการ ระบุเฉพาะสัญญาณเตือนที่เห็นได้จากตัวเอกสาร ตามรายการสัญญาณเตือนของ ref ทิพย์ และแหล่งที่ไม่น่าเชื่อถือใน citation-audit-rules.md เช่น ไม่มี DOI ปีหรือรายละเอียดไม่สอดคล้อง ชื่อเรื่องตรงกับข้อความที่ต้องการอ้างพอดีเกินไป แหล่งเป็น Wikipedia หรือมาตรฐานรุ่นเก่า และ citation ในเนื้อหาที่ไม่มีในรายการ หรือรายการที่ไม่ถูกอ้าง ทุกแถวให้บอกว่าต้องตรวจต่อชั้นใด (ref มีจริง หรือ cite ถูกต้อง) และด้วยแหล่งชั้นใด (Metadata, Official page หรือ Full text) ห้ามสรุปว่ารายการใดปลอมหรือถูกต้อง เพราะยังไม่ได้ตรวจแหล่งต้นทาง แล้วหยุดรอ</code><button type="button" data-copy="">คัดลอก</button></div></li>
-<li><p><strong>ขีดออกแถวที่ AI ตัดสินเกินหลักฐาน</strong> ถ้ามีแถวใดที่ AI สรุปว่า "ปลอม" หรือ "ถูกต้อง" ให้ขีดออกและจดไว้ว่า AI ตัดสินเกินหลักฐาน</p></li>
-<li><p><strong>ตรวจชั้นแรกด้วยมือหนึ่งรายการ</strong> เลือกรายการที่มี DOI หนึ่งรายการจากตารางสัญญาณเตือน เปิด DOI ในเบราว์เซอร์เอง เทียบ author, year, title และ venue ทีละช่อง แล้วพิมพ์เองต่อท้าย <code>two-layer-precheck.md</code> สองบรรทัด:</p>
+<h3 id="คำที่ใช้ใน-workshop-นี้">คำที่ใช้ใน workshop นี้</h3>
+<ul>
+<li><strong>ref มีจริง</strong> — เอกสารมีอยู่จริง และ author, year, title, venue, DOI ตรงกับแหล่งทางการ</li>
+<li><strong>cite ถูกต้อง</strong> — ข้อความรอบ citation ตรงกับสิ่งที่เอกสารเขียน ในขอบเขตเดียวกัน</li>
+<li><strong>ชนิดข้อความที่ถูกอ้าง</strong> — ข้อเท็จจริงหรือนิยาม / ตัวเลขหรือขนาดผล / ความสัมพันธ์หรือเหตุและผล / การขยายผลไปกลุ่มอื่น / ข้อเสนอแนะหรือมาตรฐาน</li>
+<li><strong>สัญญาณเตือน</strong> — ลักษณะที่เห็นจากตัวเอกสารว่าควรตรวจต่อ เช่น ไม่มี DOI หรือปีไม่สอดคล้อง ยังไม่ใช่หลักฐานว่าเป็น ref ทิพย์</li>
+<li><strong>ชั้นของแหล่ง</strong> — Metadata, Official page หรือ Full text ที่ใช้ตรวจแต่ละชั้น</li>
+<li><strong>หกสถานะ</strong> — verified, partially supported, not supported, not found, outdated or superseded, fabricated / phantom</li>
+</ul>
+<hr>
+<h3 id="ขั้นที่-1--ให้-ai-แยกจุดที่อ้างและชนิดของข้อความ">ขั้นที่ 1 — ให้ AI แยกจุดที่อ้างและชนิดของข้อความ</h3>
+<p>วาง Prompt นี้ใน AI — AI จะสร้างไฟล์ <code>module-04-work/output/two-layer-precheck.md</code></p>
+<div class="command ai-prompt"><code>อ่าน course-materials/module-04/citation-audit-rules.md ก่อน แล้วอ่านบทความใน module-04-work/input/original/ ทำตารางของ in-text citation ทุกจุดในหัวข้อ 1 และ 2 คอลัมน์: หัวข้อ, ประโยครอบ citation, citation ตามที่เขียน, ชนิดข้อความที่ถูกอ้าง (ข้อเท็จจริงหรือนิยาม / ตัวเลขหรือขนาดผล / ความสัมพันธ์หรือเหตุและผล / การขยายผลไปกลุ่มอื่น / ข้อเสนอแนะหรือมาตรฐาน) และคำที่ทำให้ข้อความแรงขึ้น เช่น ทุก เสมอ ห้าม ถ้ามี ยังไม่ต้องตัดสินว่าแหล่งรองรับหรือไม่ และห้ามค้นข้อมูลภายนอก บันทึกเป็น module-04-work/output/two-layer-precheck.md แล้วหยุดรอ</code><button type="button" data-copy="">คัดลอก</button></div><p><strong>ตรวจ:</strong> นับ citation ในหัวข้อ 1 และ 2 ของ PDF เองแล้วได้เท่ากับจำนวนแถวในตาราง และทุกแถวมีชนิดข้อความหนึ่งในห้าชนิด</p>
+<hr>
+<h3 id="ขั้นที่-2--ให้-ai-เพิ่มตารางสัญญาณเตือนของรายการอ้างอิง-ยังไม่ตัดสิน">ขั้นที่ 2 — ให้ AI เพิ่มตารางสัญญาณเตือนของรายการอ้างอิง (ยังไม่ตัดสิน)</h3>
+<p>วาง Prompt นี้ต่อ</p>
+<div class="command ai-prompt"><code>จากรายการอ้างอิงท้ายบทความเดียวกัน ให้เพิ่มตารางใน module-04-work/output/two-layer-precheck.md หนึ่งแถวต่อหนึ่งรายการ ระบุเฉพาะสัญญาณเตือนที่เห็นได้จากตัวเอกสาร ตามรายการสัญญาณเตือนของ ref ทิพย์ และแหล่งที่ไม่น่าเชื่อถือใน citation-audit-rules.md เช่น ไม่มี DOI ปีหรือรายละเอียดไม่สอดคล้อง ชื่อเรื่องตรงกับข้อความที่ต้องการอ้างพอดีเกินไป แหล่งเป็น Wikipedia หรือมาตรฐานรุ่นเก่า และ citation ในเนื้อหาที่ไม่มีในรายการ หรือรายการที่ไม่ถูกอ้าง ทุกแถวให้บอกว่าต้องตรวจต่อชั้นใด (ref มีจริง หรือ cite ถูกต้อง) และด้วยแหล่งชั้นใด (Metadata, Official page หรือ Full text) ห้ามสรุปว่ารายการใดปลอมหรือถูกต้อง เพราะยังไม่ได้ตรวจแหล่งต้นทาง แล้วหยุดรอ</code><button type="button" data-copy="">คัดลอก</button></div><p><strong>ตรวจ:</strong> ตารางใหม่มีจำนวนแถวเท่ากับจำนวนรายการในหัวข้อ References ท้ายบทความ และทุกแถวมีทั้งชั้นที่ต้องตรวจต่อและชั้นของแหล่ง</p>
+<hr>
+<h3 id="ขั้นที่-3--ขีดออกแถวที่-ai-ตัดสินเกินหลักฐาน">ขั้นที่ 3 — ขีดออกแถวที่ AI ตัดสินเกินหลักฐาน</h3>
+<p>ถ้ามีแถวใดที่ AI สรุปว่า "ปลอม" หรือ "ถูกต้อง" ให้ขีดออกและจดไว้ว่า AI ตัดสินเกินหลักฐาน</p>
+<p><strong>ตรวจ:</strong> ค้นคำว่า "ปลอม" และ "ถูกต้อง" ใน <code>two-layer-precheck.md</code> (Ctrl+F) ทุกจุดที่เป็นคำตัดสินถูกขีดออกและมีบันทึกกำกับ</p>
+<hr>
+<h3 id="ขั้นที่-4--ตรวจชั้นแรกด้วยมือหนึ่งรายการ">ขั้นที่ 4 — ตรวจชั้นแรกด้วยมือหนึ่งรายการ</h3>
+<p>เลือกรายการที่มี DOI หนึ่งรายการจากตารางสัญญาณเตือน เปิด DOI ในเบราว์เซอร์เอง เทียบ author, year, title และ venue ทีละช่อง แล้วพิมพ์เองต่อท้าย <code>two-layer-precheck.md</code> สองบรรทัด:</p>
 <ul>
 <li>ผลชั้น "ref มีจริง" ของรายการนั้น</li>
 <li>สิ่งที่การเปิด DOI <strong>ยังบอกไม่ได้</strong> เกี่ยวกับชั้น "cite ถูกต้อง" ของประโยคที่อ้างรายการนั้น</li>
-</ul></li>
-<li><p><strong>เขียนสถานะที่เป็นไปได้</strong> เลือก 3 แถวจากตารางสัญญาณเตือน แล้วพิมพ์เองต่อท้ายไฟล์เดิมว่าแต่ละแถว "อาจ" อยู่ในสถานะใดของหกสถานะ และต้องมีหลักฐานอะไรก่อนจะตัดสินได้จริง (เช่น not found ต้องบันทึกว่าค้นที่ใดแล้ว fabricated ต้องตรวจหลายแหล่งทางการก่อน)</p></li>
-</ol>
-<p>ผู้สอนจะเฉลยปัญหาของบทความจำลองในห้อง และไฟล์ <code>two-layer-precheck.md</code> นี้จะใช้เป็นรายการเสี่ยงตั้งต้นของกิจกรรม <code>citation-register-audit</code> (หัวข้อ <a href="topic-citation-register-with-openalex.html">ทะเบียนตรวจ citation: OpenAlex → full text → register</a>)</p>
-<h3 id="ตรวจก่อนจบ">ตรวจก่อนจบ</h3>
+</ul>
+<p><strong>ตรวจ:</strong> ท้ายไฟล์มีสองบรรทัดนี้ และบรรทัดแรกระบุว่าช่องใดใน author, year, title, venue ตรงหรือไม่ตรงกับหน้าที่ DOI เปิดไป</p>
+<hr>
+<h3 id="ขั้นที่-5--เขียนสถานะที่เป็นไปได้">ขั้นที่ 5 — เขียนสถานะที่เป็นไปได้</h3>
+<p>เลือก 3 แถวจากตารางสัญญาณเตือน แล้วพิมพ์เองต่อท้ายไฟล์เดิมว่าแต่ละแถว "อาจ" อยู่ในสถานะใดของหกสถานะ และต้องมีหลักฐานอะไรก่อนจะตัดสินได้จริง (เช่น not found ต้องบันทึกว่าค้นที่ใดแล้ว fabricated ต้องตรวจหลายแหล่งทางการก่อน)</p>
+<p><strong>ตรวจ:</strong> ท้ายไฟล์มี 3 แถว แต่ละแถวมีสถานะที่สะกดตรงกับหนึ่งในหกสถานะ และหลักฐานที่ต้องใช้อย่างน้อยหนึ่งอย่าง</p>
+<hr>
+<h3 id="ตรวจก่อนจบ-workshop">ตรวจก่อนจบ workshop</h3>
 <ul class="task-list">
-<li><label><input type="checkbox"><code>module-04-work/output/two-layer-precheck.md</code> มีตาราง citation ของหัวข้อ 1 และ 2 พร้อมชนิดข้อความที่ถูกอ้าง</label></li>
-<li><label><input type="checkbox">ไฟล์เดียวกันมีตารางสัญญาณเตือน หนึ่งแถวต่อหนึ่งรายการอ้างอิง ทุกแถวบอกชั้นที่ต้องตรวจต่อและชั้นของแหล่ง</label></li>
-<li><label><input type="checkbox">ไม่มีแถวใดที่ยังเขียนว่า "ปลอม" หรือ "ถูกต้อง" โดยไม่ได้ตรวจแหล่ง (ถ้ามี ขีดออกและจดไว้แล้ว)</label></li>
-<li><label><input type="checkbox">ท้ายไฟล์มีบันทึกที่คุณเขียนเอง: ผลเปิด DOI หนึ่งรายการ (สองบรรทัด) และสถานะที่เป็นไปได้พร้อมหลักฐานที่ต้องใช้ของ 3 แถว</label></li>
+<li><label><input type="checkbox">ขั้น 1: <code>module-04-work/output/two-layer-precheck.md</code> มีตาราง citation ของหัวข้อ 1 และ 2 พร้อมชนิดข้อความที่ถูกอ้าง</label></li>
+<li><label><input type="checkbox">ขั้น 2: ไฟล์เดียวกันมีตารางสัญญาณเตือน หนึ่งแถวต่อหนึ่งรายการอ้างอิง ทุกแถวบอกชั้นที่ต้องตรวจต่อและชั้นของแหล่ง</label></li>
+<li><label><input type="checkbox">ขั้น 3: ไม่มีแถวใดที่ยังเขียนว่า "ปลอม" หรือ "ถูกต้อง" โดยไม่ได้ตรวจแหล่ง (ถ้ามี ขีดออกและจดไว้แล้ว)</label></li>
+<li><label><input type="checkbox">ขั้น 4: ท้ายไฟล์มีผลเปิด DOI หนึ่งรายการ (สองบรรทัด) ที่คุณเขียนเอง</label></li>
+<li><label><input type="checkbox">ขั้น 5: ท้ายไฟล์มีสถานะที่เป็นไปได้พร้อมหลักฐานที่ต้องใช้ของ 3 แถว</label></li>
 <li><label><input type="checkbox"><code>module-04-work/input/original/mock-paper.pdf</code> และ <code>course-materials/module-04/citation-audit-rules.md</code> ไม่ถูกแก้</label></li>
 </ul>
 </div></section>

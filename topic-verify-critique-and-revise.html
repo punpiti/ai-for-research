@@ -20,21 +20,33 @@
   <main id="main">
 <section class="prepare-hero module-hero"><p class="eyebrow">หัวข้อย่อย · M03</p><h1>ตรวจคำวิจารณ์ของ AI แล้วแก้พร้อมเหตุผล</h1><ul class="outcomes"><li>เปิดต้นฉบับตามตำแหน่งที่ AI อ้างทีละข้อ และจัดข้อวิจารณ์ทุกข้อเป็น ถูกต้อง / ไม่ตรงเอกสาร / ขึ้นกับดุลยพินิจ พร้อมจดจุดที่ AI อ่านผิดหรืออ้างผิดตำแหน่ง</li><li>ตัดสินแก้หรือคงข้อความทีละข้อพร้อมเหตุผล โดยไม่เติมข้อเท็จจริงที่เอกสารไม่มีและไม่อ้าง gap เกินหลักฐาน แล้วเลือกข้อความสำคัญหนึ่งประโยคพร้อม citation และตำแหน่งเพื่อส่งต่อ Module 4</li></ul></section>
 <div class="topic-layout"><nav class="topic-tabs" aria-label="ส่วนของหัวข้อ"><a href="#slides" title="สไลด์">สไลด์</a><a href="#workshop-verify-ai-manuscript-critique" title="ตรวจข้อวิจารณ์ของ AI กับต้นฉบับ">Workshop 1</a><a href="#open-verify-ai-manuscript-critique-explore" title="ตรวจข้อวิจารณ์ของ AI กับต้นฉบับ">Exploring 1</a><a href="#workshop-revise-with-rationale-and-citation-handoff" title="แก้หนึ่งรอบพร้อมเหตุผล และเลือก citation ส่งต่อการตรวจอ้างอิง">Workshop 2</a><a href="#open-revise-with-rationale-and-citation-handoff-explore" title="แก้หนึ่งรอบพร้อมเหตุผล และเลือก citation ส่งต่อการตรวจอ้างอิง">Exploring 2</a></nav><div class="topic-main"><section class="section markdown-section topic-panel" id="slides" aria-labelledby="slides-heading"><div class="section-heading compact"><p class="eyebrow">สไลด์</p><h2 id="slides-heading">สไลด์</h2></div><div class="markdown-body"><p>สไลด์ของหัวข้อนี้กำลังจัดทำ</p></div></section>
-<section class="section markdown-section topic-panel" id="workshop-verify-ai-manuscript-critique" aria-labelledby="workshop-verify-ai-manuscript-critique-heading"><div class="section-heading compact"><p class="eyebrow">Workshop 1</p><h2 id="workshop-verify-ai-manuscript-critique-heading">ตรวจข้อวิจารณ์ของ AI กับต้นฉบับ</h2></div><div class="markdown-body"><p>ใน workshop นี้คุณจะให้ AI เตรียมตาราง <code>revision-table.md</code> จากผลวินิจฉัย แล้วเปิดต้นฉบับตรวจข้อวิจารณ์ทีละข้อและกรอกผลตรวจเอง</p>
-<p>ต่อจากหัวข้อ <a href="topic-problem-statement-diagnosis-with-locations.html">บันทึกมุมมองเดิม แล้วให้ AI วินิจฉัย problem statement พร้อมตำแหน่ง</a> ใช้เอกสารชุดเดียวกัน (ของคุณเอง หรือบทความจำลอง <code>mock-paper-th.pdf</code>)</p>
-<p>เวลา: ประมาณ 15 นาที (ลองทำ 2 ของ Module 3)</p>
+<section class="section markdown-section topic-panel" id="workshop-verify-ai-manuscript-critique" aria-labelledby="workshop-verify-ai-manuscript-critique-heading"><div class="section-heading compact"><p class="eyebrow">Workshop 1</p><h2 id="workshop-verify-ai-manuscript-critique-heading">ตรวจข้อวิจารณ์ของ AI กับต้นฉบับ</h2></div><div class="markdown-body"><p>ใน workshop นี้คุณจะให้ AI เตรียมตาราง <code>revision-table.md</code> จากผลวินิจฉัย แล้วเปิดต้นฉบับตรวจข้อวิจารณ์ทีละข้อและกรอกผลตรวจเอง — AI ช่วยเตรียมรายการได้ แต่ไม่ตัดสินผลตรวจแทน</p>
+<p>ใช้เมื่อ: ทำ workshop "บันทึกมุมมองเดิม แล้วให้ AI วินิจฉัย problem statement พร้อมตำแหน่ง" เสร็จแล้ว</p>
 <h3 id="ก่อนเริ่ม-ต้องมีอยู่แล้ว">ก่อนเริ่ม (ต้องมีอยู่แล้ว)</h3>
 <ul>
-<li>ต้นฉบับใน <code>module-03-work/input/original/</code> และ <code>module-03-work/input/markdown/seed-paper.md</code> (จากหัวข้อ <a href="topic-problem-statement-diagnosis-with-locations.html">บันทึกมุมมองเดิม แล้วให้ AI วินิจฉัย problem statement พร้อมตำแหน่ง</a> ขั้นที่ 1–2)</li>
-<li><code>module-03-work/output/problem-statement-diagnosis.md</code> ตารางวินิจฉัยพร้อมตำแหน่ง (จากหัวข้อเดียวกัน ขั้นที่ 5)</li>
+<li>เอกสารชุดเดียวกับ workshop ก่อนหน้า (ของคุณเอง หรือบทความจำลอง <code>mock-paper-th.pdf</code>)</li>
+<li>ต้นฉบับใน <code>module-03-work/input/original/</code> และ <code>module-03-work/input/markdown/seed-paper.md</code> (จาก workshop ก่อนหน้า ขั้นที่ 1–2)</li>
+<li><code>module-03-work/output/problem-statement-diagnosis.md</code> ตารางวินิจฉัยพร้อมตำแหน่ง (จาก workshop ก่อนหน้า ขั้นที่ 5)</li>
 </ul>
-<p>ขั้นนี้ <strong>คุณตรวจเอง</strong> — AI ช่วยเตรียมรายการได้ แต่ไม่ตัดสินผลตรวจแทน</p>
-<h3 id="ขั้นตอน">ขั้นตอน</h3>
-<ol type="1">
-<li><p><strong>เปิด PDF ต้นฉบับใน <code>module-03-work/input/original/</code> ไว้ข้างจอ</strong></p></li>
-<li><p><strong>ให้ AI เตรียมรายการตรวจ (ไม่บังคับ — ถ้าไม่ใช้ ให้สร้างตารางคอลัมน์เดียวกันเอง)</strong> สั่ง AI</p>
-<div class="command ai-prompt"><code>จาก module-03-work/output/problem-statement-diagnosis.md สร้างตารางใน module-03-work/output/revision-table.md คอลัมน์: ลำดับ | ข้อความเดิม (ยกคำต่อคำจาก seed-paper.md) | ตำแหน่ง (heading, paragraph, page marker) | ข้อวิจารณ์ของ AI | ผลตรวจ | หมายเหตุ หนึ่งแถวต่อหนึ่งข้อวิจารณ์ เว้นช่อง ผลตรวจ และ หมายเหตุ ว่างไว้ให้ฉันกรอก ห้ามกรอกแทน ห้ามแก้ข้อวิจารณ์เดิม แล้วหยุด</code><button type="button" data-copy="">คัดลอก</button></div><p>AI จะสร้าง <code>module-03-work/output/revision-table.md</code> ที่ช่อง ผลตรวจ และ หมายเหตุ ยังว่าง ถ้า AI ยกข้อความเดิมไม่ได้แบบคำต่อคำ ให้ถือเป็นสัญญาณแรกว่าตำแหน่งอาจผิด</p></li>
-<li><p><strong>เปิดต้นฉบับตามตำแหน่งทีละข้อ (คุณทำเอง)</strong> — สำหรับข้อวิจารณ์แต่ละข้อใน <code>revision-table.md</code> เปิด PDF ตามหน้าและย่อหน้าที่ AI อ้าง อ่านข้อความจริงรอบ ๆ แล้วกรอกช่อง ผลตรวจ เป็นหนึ่งในสามกลุ่ม</p>
+<h3 id="คำที่ใช้ใน-workshop-นี้">คำที่ใช้ใน workshop นี้</h3>
+<ul>
+<li><strong>ข้อวิจารณ์</strong> — หนึ่งข้อสังเกตของ AI ใน <code>problem-statement-diagnosis.md</code> เช่น ข้อความไม่ชัด หรือข้ออ้างเกินหลักฐาน</li>
+<li><strong>ยกคำต่อคำ</strong> — คัดลอกข้อความจากเอกสารมาตรงทุกตัวอักษร ไม่สรุปหรือเรียบเรียงใหม่</li>
+<li><strong>ตำแหน่ง</strong> — heading, paragraph และ page marker ที่ใช้เปิดหาข้อความเดิมได้</li>
+<li><strong>ผลตรวจ</strong> — คำตัดสินของคุณหลังเปิดต้นฉบับ: ถูกต้อง / ไม่ตรงเอกสาร / ขึ้นกับดุลยพินิจ</li>
+</ul>
+<hr>
+<h3 id="ขั้นที่-1--เปิด-pdf-ต้นฉบับไว้ข้างจอ">ขั้นที่ 1 — เปิด PDF ต้นฉบับไว้ข้างจอ</h3>
+<p>เปิด PDF ใน <code>module-03-work/input/original/</code> ไว้ข้าง <code>seed-paper.md</code> เพื่อเทียบตำแหน่งได้ตลอด workshop</p>
+<p><strong>ตรวจ:</strong> เลือกหนึ่ง page marker ใน <code>seed-paper.md</code> แล้วเปิด PDF ไปหน้าเดียวกัน เจอข้อความต้นหน้าตรงกัน</p>
+<hr>
+<h3 id="ขั้นที่-2--ให้-ai-เตรียมรายการตรวจ">ขั้นที่ 2 — ให้ AI เตรียมรายการตรวจ</h3>
+<p>ไม่บังคับ — ถ้าไม่ใช้ AI ให้สร้างตารางคอลัมน์เดียวกันเอง สั่ง AI</p>
+<div class="command ai-prompt"><code>จาก module-03-work/output/problem-statement-diagnosis.md สร้างตารางใน module-03-work/output/revision-table.md คอลัมน์: ลำดับ | ข้อความเดิม (ยกคำต่อคำจาก seed-paper.md) | ตำแหน่ง (heading, paragraph, page marker) | ข้อวิจารณ์ของ AI | ผลตรวจ | หมายเหตุ หนึ่งแถวต่อหนึ่งข้อวิจารณ์ เว้นช่อง ผลตรวจ และ หมายเหตุ ว่างไว้ให้ฉันกรอก ห้ามกรอกแทน ห้ามแก้ข้อวิจารณ์เดิม แล้วหยุด</code><button type="button" data-copy="">คัดลอก</button></div><p>AI จะสร้าง <code>module-03-work/output/revision-table.md</code> ที่ช่อง ผลตรวจ และ หมายเหตุ ยังว่าง ถ้า AI ยกข้อความเดิมไม่ได้แบบคำต่อคำ ให้ถือเป็นสัญญาณแรกว่าตำแหน่งอาจผิด</p>
+<p><strong>ตรวจ:</strong> จำนวนแถวใน <code>revision-table.md</code> เท่ากับจำนวนข้อวิจารณ์ใน <code>problem-statement-diagnosis.md</code> ช่อง ผลตรวจ และ หมายเหตุ ว่างทุกแถว และเมื่อค้น (Ctrl+F) ข้อความเดิมของสองแถวใดก็ได้ใน <code>seed-paper.md</code> เจอตรงทุกตัวอักษร</p>
+<hr>
+<h3 id="ขั้นที่-3--เปิดต้นฉบับตามตำแหน่งทีละข้อ-คุณทำเอง">ขั้นที่ 3 — เปิดต้นฉบับตามตำแหน่งทีละข้อ (คุณทำเอง)</h3>
+<p>สำหรับข้อวิจารณ์แต่ละข้อใน <code>revision-table.md</code> เปิด PDF ตามหน้าและย่อหน้าที่ AI อ้าง อ่านข้อความจริงรอบ ๆ แล้วกรอกช่อง ผลตรวจ เป็นหนึ่งในสามกลุ่ม</p>
 <table>
 <thead>
 <tr>
@@ -56,20 +68,20 @@
 <td>เป็นความเห็นหรือรสนิยมการเขียน ต้องตัดสินด้วยความรู้ในสาขา</td>
 </tr>
 </tbody>
-</table></li>
-<li><p><strong>จดจุดอ่อนของเครื่องมือ (คุณทำเอง)</strong> — ในช่อง หมายเหตุ ของข้อที่ “ไม่ตรงเอกสาร” จดว่าผิดแบบใด เช่น อ้างผิดหน้า อ่านตารางหรือหัวข้อผิดจากการแปลง PDF หรือวิจารณ์ข้อความที่ไม่มีอยู่ เพื่อเห็นจุดอ่อนของเครื่องมือ</p></li>
-</ol>
-<h3 id="ตรวจก่อนจบ">ตรวจก่อนจบ</h3>
+</table>
+<p><strong>ตรวจ:</strong> ทุกแถวใน <code>revision-table.md</code> มีผลตรวจเป็นหนึ่งในสามคำนี้ ไม่มีแถวใดว่าง และทุกแถวคุณเปิด PDF ตามตำแหน่งแล้ว</p>
+<hr>
+<h3 id="ขั้นที่-4--จดจุดอ่อนของเครื่องมือ-คุณทำเอง">ขั้นที่ 4 — จดจุดอ่อนของเครื่องมือ (คุณทำเอง)</h3>
+<p>ในช่อง หมายเหตุ ของข้อที่ "ไม่ตรงเอกสาร" จดว่าผิดแบบใด เช่น อ้างผิดหน้า อ่านตารางหรือหัวข้อผิดจากการแปลง PDF หรือวิจารณ์ข้อความที่ไม่มีอยู่ เพื่อเห็นจุดอ่อนของเครื่องมือ</p>
+<p><strong>ตรวจ:</strong> ทุกแถวที่ผลตรวจเป็น "ไม่ตรงเอกสาร" มีหมายเหตุที่บอกตำแหน่งหรือข้อความที่ AI อ่านผิด (ถ้าไม่มีแถว "ไม่ตรงเอกสาร" เลย ขั้นนี้ผ่าน)</p>
+<hr>
+<h3 id="ตรวจก่อนจบ-workshop">ตรวจก่อนจบ workshop</h3>
 <ul class="task-list">
-<li><label><input type="checkbox"><code>module-03-work/output/revision-table.md</code> มีหนึ่งแถวต่อหนึ่งข้อวิจารณ์ใน <code>problem-statement-diagnosis.md</code></label></li>
-<li><label><input type="checkbox">ข้อวิจารณ์ <strong>ทุกข้อ</strong> มีผลตรวจหนึ่งในสามกลุ่ม ซึ่งคุณกรอกเองหลังเปิด PDF ตามตำแหน่ง</label></li>
-<li><label><input type="checkbox">ข้อ “ไม่ตรงเอกสาร” ทุกข้อมีหมายเหตุว่า AI อ่านผิดหรืออ้างผิดตำแหน่งตรงไหน</label></li>
-<li><label><input type="checkbox">ยังไม่มีการแก้ข้อความ — การแก้อยู่ในกิจกรรม <code>revise-with-rationale-and-citation-handoff</code></label></li>
-<li><label><input type="checkbox">ต้นฉบับใน <code>module-03-work/input/original/</code> และ <code>seed-paper.md</code> ไม่ถูกแก้</label></li>
-</ul>
-<h3 id="ส่งงาน">ส่งงาน</h3>
-<ul>
-<li>ส่งรวมกับทางสั้น Module 3 เมื่อครบสี่ไฟล์ ให้ AI รันเครื่องมือ AIRR check → ยืนยัน → submit ตามหน้า Module 3</li>
+<li><label><input type="checkbox">ขั้น 1: เปิด PDF ต้นฉบับคู่กับ <code>seed-paper.md</code> และ page marker ตรงกับเลขหน้า</label></li>
+<li><label><input type="checkbox">ขั้น 2: <code>module-03-work/output/revision-table.md</code> มีหนึ่งแถวต่อหนึ่งข้อวิจารณ์ใน <code>problem-statement-diagnosis.md</code></label></li>
+<li><label><input type="checkbox">ขั้น 3: ข้อวิจารณ์ <strong>ทุกข้อ</strong> มีผลตรวจหนึ่งในสามกลุ่ม ซึ่งคุณกรอกเองหลังเปิด PDF ตามตำแหน่ง</label></li>
+<li><label><input type="checkbox">ขั้น 4: ข้อ "ไม่ตรงเอกสาร" ทุกข้อมีหมายเหตุว่า AI อ่านผิดหรืออ้างผิดตำแหน่งตรงไหน</label></li>
+<li><label><input type="checkbox">ต้นฉบับใน <code>module-03-work/input/original/</code> และ <code>seed-paper.md</code> ไม่ถูกแก้ และยังไม่มีการแก้ข้อความ (การแก้อยู่ใน workshop ถัดไป)</label></li>
 </ul>
 </div></section>
 <section class="section markdown-section topic-panel" id="open-verify-ai-manuscript-critique-explore" aria-labelledby="open-verify-ai-manuscript-critique-explore-heading"><div class="section-heading compact"><p class="eyebrow">Exploring 1</p><h2 id="open-verify-ai-manuscript-critique-explore-heading">ตรวจข้อวิจารณ์ของ AI กับต้นฉบับ</h2></div><div class="markdown-body"><p>ในโจทย์เปิดนี้คุณจะเขียน prompt เองให้ AI วิจารณ์ problem statement ของเอกสารที่คุณต้องรับผิดชอบคำตัดสิน แล้วออกแบบตารางตรวจของคุณเองและกรอกผลตรวจทุกข้อจากต้นฉบับ</p>
@@ -102,18 +114,27 @@
 <li><label><input type="checkbox">prompt log แสดงการปรับ prompt อย่างน้อย 1 รอบ พร้อมเหตุผล</label></li>
 </ul>
 </div></section>
-<section class="section markdown-section topic-panel" id="workshop-revise-with-rationale-and-citation-handoff" aria-labelledby="workshop-revise-with-rationale-and-citation-handoff-heading"><div class="section-heading compact"><p class="eyebrow">Workshop 2</p><h2 id="workshop-revise-with-rationale-and-citation-handoff-heading">แก้หนึ่งรอบพร้อมเหตุผล และเลือก citation ส่งต่อการตรวจอ้างอิง</h2></div><div class="markdown-body"><p>ใน workshop นี้คุณจะตัดสินแก้หรือคงไว้ทีละข้อใน <code>revision-table.md</code> พร้อมเหตุผล ให้ AI เรียบเรียงเฉพาะแถวที่คุณตัดสินว่าแก้ แล้วสร้าง <code>citation-for-m4.md</code> หนึ่งรายการเพื่อส่งต่อ Module 4</p>
-<p>ต่อจากกิจกรรม <code>verify-ai-manuscript-critique</code> ใช้เอกสารชุดเดียวกัน (ของคุณเอง หรือบทความจำลอง <code>mock-paper-th.pdf</code>)</p>
-<p>เวลา: ประมาณ 20 นาที (ลองทำ 3 ของ Module 3)</p>
+<section class="section markdown-section topic-panel" id="workshop-revise-with-rationale-and-citation-handoff" aria-labelledby="workshop-revise-with-rationale-and-citation-handoff-heading"><div class="section-heading compact"><p class="eyebrow">Workshop 2</p><h2 id="workshop-revise-with-rationale-and-citation-handoff-heading">แก้หนึ่งรอบพร้อมเหตุผล และเลือก citation ส่งต่อการตรวจอ้างอิง</h2></div><div class="markdown-body"><p>ใน workshop นี้คุณจะตัดสินแก้หรือคงไว้ทีละข้อใน <code>revision-table.md</code> พร้อมเหตุผล ให้ AI เรียบเรียงเฉพาะแถวที่คุณตัดสินว่าแก้ สร้าง <code>citation-for-m4.md</code> หนึ่งรายการเพื่อส่งต่อ Module 4 แล้วส่งงาน Module 3</p>
+<p>ใช้เมื่อ: ทำ workshop "ตรวจข้อวิจารณ์ของ AI กับต้นฉบับ" เสร็จแล้ว</p>
 <h3 id="ก่อนเริ่ม-ต้องมีอยู่แล้ว">ก่อนเริ่ม (ต้องมีอยู่แล้ว)</h3>
 <ul>
-<li>ต้นฉบับใน <code>module-03-work/input/original/</code> และ <code>module-03-work/input/markdown/seed-paper.md</code> (จากหัวข้อ <a href="topic-problem-statement-diagnosis-with-locations.html">บันทึกมุมมองเดิม แล้วให้ AI วินิจฉัย problem statement พร้อมตำแหน่ง</a>)</li>
-<li><code>module-03-work/output/problem-statement-diagnosis.md</code> (จากหัวข้อเดียวกัน)</li>
-<li><code>module-03-work/output/revision-table.md</code> ที่ข้อวิจารณ์ทุกข้อมีผลตรวจแล้ว (จากกิจกรรม <code>verify-ai-manuscript-critique</code>)</li>
+<li>เอกสารชุดเดียวกับ workshop ก่อนหน้า (ของคุณเอง หรือบทความจำลอง <code>mock-paper-th.pdf</code>)</li>
+<li>ต้นฉบับใน <code>module-03-work/input/original/</code> และ <code>module-03-work/input/markdown/seed-paper.md</code></li>
+<li><code>module-03-work/output/author-prior.md</code> และ <code>module-03-work/output/problem-statement-diagnosis.md</code></li>
+<li><code>module-03-work/output/revision-table.md</code> ที่ข้อวิจารณ์ทุกข้อมีผลตรวจแล้ว</li>
+<li>เชื่อม AIRR แล้วตอนติดตั้ง Module 1 (เครื่องมือ <code>tools/airr.ps1</code> บน Windows หรือ <code>tools/airr.sh</code> บน macOS/Linux) — ใช้ในขั้นที่ 5</li>
 </ul>
-<h3 id="ขั้นตอน">ขั้นตอน</h3>
-<ol type="1">
-<li><p><strong>ตัดสินแก้หรือคงไว้ทีละข้อ (คุณตัดสิน)</strong> — เพิ่มสองคอลัมน์ใน <code>revision-table.md</code> คือ ตัดสิน และ เหตุผล (และคอลัมน์ ฉบับแก้ ที่ยังว่าง) ให้ได้โครงนี้</p>
+<h3 id="คำที่ใช้ใน-workshop-นี้">คำที่ใช้ใน workshop นี้</h3>
+<ul>
+<li><strong>ตัดสิน</strong> — คำตอบของคุณต่อข้อวิจารณ์แต่ละข้อ: แก้ หรือ คงไว้ พร้อมเหตุผล</li>
+<li><strong>candidate gap</strong> — ช่องว่างงานวิจัยที่ยังเป็นเพียงข้อสันนิษฐาน เพราะยังบอกไม่ได้ว่าค้นที่ไหน พบอะไร</li>
+<li><strong>in-text citation</strong> — การอ้างอิงในเนื้อความ เช่น (ชื่อผู้แต่ง, ปี) หรือ [3]</li>
+<li><strong>รายการบรรณานุกรม</strong> — รายการเต็มของแหล่งอ้างอิงท้ายบทความที่ตรงกับ in-text citation</li>
+<li><strong>ทางสั้น Module 3</strong> — ส่งเพียงสถานะว่าทำครบสี่ไฟล์ (<code>author-prior.md</code>, <code>problem-statement-diagnosis.md</code>, <code>revision-table.md</code>, <code>citation-for-m4.md</code>) ไม่ส่งเนื้อหาไฟล์</li>
+</ul>
+<hr>
+<h3 id="ขั้นที่-1--ตัดสินแก้หรือคงไว้ทีละข้อ-คุณตัดสิน">ขั้นที่ 1 — ตัดสินแก้หรือคงไว้ทีละข้อ (คุณตัดสิน)</h3>
+<p>เพิ่มสองคอลัมน์ใน <code>revision-table.md</code> คือ ตัดสิน และ เหตุผล (และคอลัมน์ ฉบับแก้ ที่ยังว่าง) ให้ได้โครงนี้</p>
 <table>
 <thead>
 <tr>
@@ -137,14 +158,22 @@
 </tbody>
 </table>
 <ul>
-<li>ข้อที่ผลตรวจเป็น “ไม่ตรงเอกสาร” โดยทั่วไปคงไว้ และเขียนเหตุผลว่า AI อ่านผิดตรงไหน</li>
+<li>ข้อที่ผลตรวจเป็น "ไม่ตรงเอกสาร" โดยทั่วไปคงไว้ และเขียนเหตุผลว่า AI อ่านผิดตรงไหน</li>
 <li>การคงข้อความเดิมไว้เป็นคำตัดสินที่ถูกต้องได้ เมื่ออธิบายเหตุผลได้</li>
-<li>ถ้าข้อความเดิมอ้าง gap เช่น “ยังไม่มีใครศึกษา” ให้ถามตัวเองว่าบอกได้ไหมว่าค้นที่ไหน พบอะไร และอะไรคัดค้านได้ ถ้ายังไม่ได้ ให้ลดความมั่นใจของข้อความ (candidate gap) และจดสิ่งที่ต้องค้นเพิ่ม แทนการคงคำยืนยันไว้</li>
-</ul></li>
-<li><p><strong>ให้ AI ช่วยเรียบเรียงเฉพาะแถวที่คุณตัดสินว่า “แก้”</strong> สั่ง AI</p>
-<div class="command ai-prompt"><code>อ่าน module-03-work/output/revision-table.md ช่วยเรียบเรียงช่อง ฉบับแก้ เฉพาะแถวที่ฉันตัดสินว่า “แก้” ตามเหตุผลที่ฉันเขียน คงความหมายและระดับความมั่นใจตามที่ฉันกำหนด ห้ามเติมข้อเท็จจริง ตัวเลข หรือ citation ที่ไม่มีใน seed-paper.md ถ้าเหตุผลของฉันไม่พอจะเรียบเรียงได้ ให้ถามฉันแทนการเดา ห้ามแก้แถวที่ฉันตัดสินว่า “คงไว้” แสดงข้อความเดิมคู่กับฉบับแก้ทีละแถว แล้วหยุดรอฉันตรวจ</code><button type="button" data-copy="">คัดลอก</button></div></li>
-<li><p><strong>ตรวจฉบับแก้ทุกแถว</strong> — ความหมายยังตรงกับเหตุผลของคุณหรือไม่ มีคำยืนยันแรงขึ้นกว่าหลักฐานหรือไม่ มีข้อเท็จจริงที่บทความไม่มีหรือไม่ แก้เองหรือสั่งแก้จนพอใจ แล้วจึงบันทึกลงช่อง ฉบับแก้ ใน <code>revision-table.md</code></p></li>
-<li><p><strong>เลือก citation หนึ่งรายการไปตรวจต่อใน Module 4 (คุณเลือก)</strong> — เลือกข้อความสำคัญหนึ่งประโยคใน <code>seed-paper.md</code> ที่มี citation รองรับ แล้วสร้าง <code>module-03-work/output/citation-for-m4.md</code> บันทึก</p>
+<li>ถ้าข้อความเดิมอ้าง gap เช่น "ยังไม่มีใครศึกษา" ให้ถามตัวเองว่าบอกได้ไหมว่าค้นที่ไหน พบอะไร และอะไรคัดค้านได้ ถ้ายังไม่ได้ ให้ลดความมั่นใจของข้อความ (candidate gap) และจดสิ่งที่ต้องค้นเพิ่ม แทนการคงคำยืนยันไว้</li>
+</ul>
+<p><strong>ตรวจ:</strong> ทุกแถวใน <code>revision-table.md</code> มีช่อง ตัดสิน เป็น "แก้" หรือ "คงไว้" และช่อง เหตุผล ไม่ว่าง รวมถึงแถวที่คงไว้</p>
+<hr>
+<h3 id="ขั้นที่-2--ให้-ai-ช่วยเรียบเรียงเฉพาะแถวที่คุณตัดสินว่า-แก้">ขั้นที่ 2 — ให้ AI ช่วยเรียบเรียงเฉพาะแถวที่คุณตัดสินว่า "แก้"</h3>
+<p>สั่ง AI</p>
+<div class="command ai-prompt"><code>อ่าน module-03-work/output/revision-table.md ช่วยเรียบเรียงช่อง ฉบับแก้ เฉพาะแถวที่ฉันตัดสินว่า "แก้" ตามเหตุผลที่ฉันเขียน คงความหมายและระดับความมั่นใจตามที่ฉันกำหนด ห้ามเติมข้อเท็จจริง ตัวเลข หรือ citation ที่ไม่มีใน seed-paper.md ถ้าเหตุผลของฉันไม่พอจะเรียบเรียงได้ ให้ถามฉันแทนการเดา ห้ามแก้แถวที่ฉันตัดสินว่า "คงไว้" แสดงข้อความเดิมคู่กับฉบับแก้ทีละแถว แล้วหยุดรอฉันตรวจ</code><button type="button" data-copy="">คัดลอก</button></div><p><strong>ตรวจ:</strong> AI แสดงคู่ข้อความเดิม–ฉบับแก้เฉพาะแถว "แก้" จำนวนคู่เท่ากับจำนวนแถว "แก้" ในตาราง และหยุดรอโดยยังไม่บันทึกลงไฟล์</p>
+<hr>
+<h3 id="ขั้นที่-3--ตรวจฉบับแก้ทุกแถว">ขั้นที่ 3 — ตรวจฉบับแก้ทุกแถว</h3>
+<p>ตรวจว่าความหมายยังตรงกับเหตุผลของคุณหรือไม่ มีคำยืนยันแรงขึ้นกว่าหลักฐานหรือไม่ มีข้อเท็จจริงที่บทความไม่มีหรือไม่ แก้เองหรือสั่งแก้จนพอใจ แล้วจึงบันทึกลงช่อง ฉบับแก้ ใน <code>revision-table.md</code></p>
+<p><strong>ตรวจ:</strong> ทุกตัวเลขและ citation ในช่อง ฉบับแก้ ค้น (Ctrl+F) เจอใน <code>seed-paper.md</code> แถว "คงไว้" ช่อง ฉบับแก้ ว่าง และข้อความที่ยังไม่มีหลักฐานพอใช้คำว่า candidate gap</p>
+<hr>
+<h3 id="ขั้นที่-4--เลือก-citation-หนึ่งรายการไปตรวจต่อใน-module-4-คุณเลือก">ขั้นที่ 4 — เลือก citation หนึ่งรายการไปตรวจต่อใน Module 4 (คุณเลือก)</h3>
+<p>เลือกข้อความสำคัญหนึ่งประโยคใน <code>seed-paper.md</code> ที่มี citation รองรับ แล้วสร้าง <code>module-03-work/output/citation-for-m4.md</code> บันทึก</p>
 <ul>
 <li>ข้อความประโยคนั้น (ยกคำต่อคำ)</li>
 <li>citation ตามที่ปรากฏในเอกสาร และรายการในบรรณานุกรม</li>
@@ -152,19 +181,26 @@
 <li>เหตุผลสั้น ๆ ว่าทำไมเลือกประโยคนี้</li>
 </ul>
 <p>ให้ AI ช่วยดึงข้อมูลและสร้างไฟล์ได้ด้วย prompt นี้ (ไม่บังคับ):</p>
-<div class="command ai-prompt"><code>จาก module-03-work/input/markdown/seed-paper.md ยกประโยคที่ฉันเลือกต่อไปนี้แบบคำต่อคำ พร้อม in-text citation รายการบรรณานุกรมที่ตรงกัน และตำแหน่ง heading, paragraph, page marker บันทึกลง module-03-work/output/citation-for-m4.md ถ้าหารายการบรรณานุกรมที่ตรงกันไม่พบ ให้เขียนว่าไม่พบ ห้ามเดาหรือเติม citation แล้วหยุด ประโยคที่เลือก: [วางประโยคของคุณ]</code><button type="button" data-copy="">คัดลอก</button></div><p>Module 4 จะตรวจว่าแหล่งอ้างอิงมีอยู่จริงหรือไม่ และรองรับข้อความนั้นจริงหรือไม่ ซึ่งเป็นการตรวจคนละเรื่องกัน ในคาบนี้ยังไม่ต้องตรวจ</p></li>
+<div class="command ai-prompt"><code>จาก module-03-work/input/markdown/seed-paper.md ยกประโยคที่ฉันเลือกต่อไปนี้แบบคำต่อคำ พร้อม in-text citation รายการบรรณานุกรมที่ตรงกัน และตำแหน่ง heading, paragraph, page marker บันทึกลง module-03-work/output/citation-for-m4.md ถ้าหารายการบรรณานุกรมที่ตรงกันไม่พบ ให้เขียนว่าไม่พบ ห้ามเดาหรือเติม citation แล้วหยุด ประโยคที่เลือก: [วางประโยคของคุณ]</code><button type="button" data-copy="">คัดลอก</button></div><p>Module 4 จะตรวจว่าแหล่งอ้างอิงมีอยู่จริงหรือไม่ และรองรับข้อความนั้นจริงหรือไม่ ซึ่งเป็นการตรวจคนละเรื่องกัน ใน workshop นี้ยังไม่ต้องตรวจ</p>
+<p><strong>ตรวจ:</strong> ค้น (Ctrl+F) ประโยคใน <code>citation-for-m4.md</code> เจอตรงทุกตัวอักษรใน <code>seed-paper.md</code> และรายการบรรณานุกรมที่บันทึกมีอยู่ในส่วนรายการอ้างอิงของเอกสาร (หรือเขียนว่า "ไม่พบ")</p>
+<hr>
+<h3 id="ขั้นที่-5--ส่งงาน-module-3-ทางสั้น">ขั้นที่ 5 — ส่งงาน Module 3 (ทางสั้น)</h3>
+<p>ครบสี่ไฟล์แล้ว ให้ AI รันเครื่องมือ AIRR ตามลำดับนี้ (Windows: <code>&amp; .\tools\airr.ps1 …</code> · macOS/Linux: <code>bash tools/airr.sh …</code>)</p>
+<ol type="1">
+<li><code>init module-3</code> — สร้างแบบประเมิน <code>module-03-work/output/module-3-evaluation.json</code> (ถ้ามีอยู่แล้วจะไม่เขียนทับ) เปิดไฟล์แล้วแก้ค่าตามจริง เช่น เครื่องมือ AI ที่ใช้ จำนวนรอบ เวลา ความยาก ประโยชน์ และขั้นที่ยากที่สุด ถ้าไม่แก้เลย เครื่องมือจะไม่ยอมส่ง</li>
+<li><code>check module-3 --short</code> — ตรวจในเครื่องว่าสี่ไฟล์มีอยู่และไม่ว่าง ไม่ส่งอะไรออกจากเครื่อง ถ้าขึ้น "ทางสั้นยังไม่ครบ" ให้ดูชื่อไฟล์ที่ขาดแล้วกลับไปทำขั้นนั้น</li>
+<li>ให้ AI สรุปสิ่งที่จะส่งและรอคุณยืนยัน แล้วจึง <code>submit module-3 --short</code> — ส่งเฉพาะจำนวนบรรทัดของสี่ไฟล์และแบบประเมิน ไม่ส่งเนื้อหางาน</li>
 </ol>
-<h3 id="ตรวจก่อนจบ">ตรวจก่อนจบ</h3>
+<p><strong>ตรวจ:</strong> ผลของ check มีบรรทัด <code>AIRR CHECK PASS · module-3</code> และผลของ submit มีบรรทัด <code>AIRR SUBMIT PASS · module-3</code></p>
+<hr>
+<h3 id="ตรวจก่อนจบ-workshop">ตรวจก่อนจบ workshop</h3>
 <ul class="task-list">
-<li><label><input type="checkbox"><code>module-03-work/output/revision-table.md</code> ทุกแถวมี ตัดสิน และ เหตุผล ของคุณ รวมถึงแถวที่คงไว้</label></li>
-<li><label><input type="checkbox">แถวที่ตัดสินว่า “แก้” มีฉบับแก้ที่คุณตรวจแล้ว และแถว “คงไว้” ไม่ถูกเปลี่ยน</label></li>
-<li><label><input type="checkbox">ฉบับแก้ไม่มีข้อเท็จจริง ตัวเลข หรือ citation ที่ไม่อยู่ใน <code>seed-paper.md</code> และใช้คำว่า candidate gap เมื่อหลักฐานยังไม่พอ</label></li>
-<li><label><input type="checkbox"><code>module-03-work/output/citation-for-m4.md</code> มีหนึ่งรายการ: ประโยคคำต่อคำ citation รายการบรรณานุกรม (หรือ “ไม่พบ”) ตำแหน่ง และเหตุผล</label></li>
+<li><label><input type="checkbox">ขั้น 1: <code>module-03-work/output/revision-table.md</code> ทุกแถวมี ตัดสิน และ เหตุผล ของคุณ รวมถึงแถวที่คงไว้</label></li>
+<li><label><input type="checkbox">ขั้น 2: AI เรียบเรียงเฉพาะแถว "แก้" และไม่แตะแถว "คงไว้"</label></li>
+<li><label><input type="checkbox">ขั้น 3: ฉบับแก้ที่คุณตรวจแล้วไม่มีข้อเท็จจริง ตัวเลข หรือ citation ที่ไม่อยู่ใน <code>seed-paper.md</code> และใช้คำว่า candidate gap เมื่อหลักฐานยังไม่พอ</label></li>
+<li><label><input type="checkbox">ขั้น 4: <code>module-03-work/output/citation-for-m4.md</code> มีหนึ่งรายการ: ประโยคคำต่อคำ citation รายการบรรณานุกรม (หรือ "ไม่พบ") ตำแหน่ง และเหตุผล</label></li>
+<li><label><input type="checkbox">ขั้น 5: เห็น <code>AIRR SUBMIT PASS · module-3</code></label></li>
 <li><label><input type="checkbox">ต้นฉบับใน <code>module-03-work/input/original/</code> และ <code>seed-paper.md</code> ไม่ถูกแก้</label></li>
-</ul>
-<h3 id="ส่งงาน">ส่งงาน</h3>
-<ul>
-<li>ครบสี่ไฟล์ของทางสั้นแล้ว (<code>author-prior.md</code>, <code>problem-statement-diagnosis.md</code>, <code>revision-table.md</code>, <code>citation-for-m4.md</code>) ให้ AI รันเครื่องมือ AIRR check → ยืนยัน → submit ตามหน้า Module 3 (ทางสั้นของวันอบรม)</li>
 </ul>
 </div></section>
 <section class="section markdown-section topic-panel" id="open-revise-with-rationale-and-citation-handoff-explore" aria-labelledby="open-revise-with-rationale-and-citation-handoff-explore-heading"><div class="section-heading compact"><p class="eyebrow">Exploring 2</p><h2 id="open-revise-with-rationale-and-citation-handoff-explore-heading">แก้หนึ่งรอบพร้อมเหตุผล และเลือก citation ส่งต่อการตรวจอ้างอิง</h2></div><div class="markdown-body"><p>ในโจทย์เปิดนี้คุณจะตัดสินแก้หรือคงไว้ทีละข้อพร้อมเหตุผลในงานของตนเอง เขียน prompt เองให้ AI เรียบเรียงเฉพาะส่วนที่แก้ และเลือก citation หนึ่งรายการไว้ตรวจต่อใน Module 4</p>

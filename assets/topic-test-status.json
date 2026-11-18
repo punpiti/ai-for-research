@@ -23,11 +23,11 @@
    "note": ""
   },
   "faithful-summary-and-condensing": {
-   "status": "not-ready",
+   "status": "ready",
    "note": ""
   },
   "multiformat-evidence-and-source-levels": {
-   "status": "not-ready",
+   "status": "ready",
    "note": ""
   },
   "candidate-gap-ledger-and-prosecution": {
@@ -35,7 +35,7 @@
    "note": ""
   },
   "problem-statement-diagnosis-with-locations": {
-   "status": "not-ready",
+   "status": "ready",
    "note": ""
   },
   "rq-stress-test-and-traceability": {
@@ -43,19 +43,19 @@
    "note": ""
   },
   "verify-critique-and-revise": {
-   "status": "not-ready",
+   "status": "ready",
    "note": ""
   },
   "citation-register-with-openalex": {
-   "status": "not-ready",
+   "status": "ready",
    "note": ""
   },
   "reference-existence-vs-citation-support": {
-   "status": "not-ready",
+   "status": "ready",
    "note": ""
   },
   "thai-reference-verification": {
-   "status": "not-ready",
+   "status": "ready",
    "note": ""
   },
   "chart-pitfalls-and-makeover": {
