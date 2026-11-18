@@ -207,6 +207,16 @@ class SiteHeader extends HTMLElement {
     const localLinks = (LOCAL_LINKS[current] || [])
       .map(([id, label]) => `<a href="#${id}">${label}</a>`)
       .join("");
+    // Classroom detail page: the enrolment box is the only action, so the header keeps
+    // just the brand (back to home) and the user menu.
+    if (current === "classroom") {
+      this.innerHTML = `<header class="site-header">
+      <a class="brand" href="index.html" aria-label="AIRR หน้าแรก"><span class="brand-mark brand-logo"><img class="logo-on-dark" src="${new URL("images/madlab-ku-mark-dark.svg", SHELL_SCRIPT_URL).href}" alt="" width="36" height="36"><img class="logo-on-light" src="${new URL("images/madlab-ku-mark-light.svg", SHELL_SCRIPT_URL).href}" alt="" width="36" height="36"></span><span>AIRR</span></a>
+      <nav aria-label="เมนูหลัก">${userMenuHtml()}</nav>
+    </header>`;
+      this.setupUserMenu(current);
+      return;
+    }
     this.innerHTML = `<header class="site-header">
       <a class="brand" href="${isHome ? "#top" : "index.html"}" aria-label="AIRR หน้าแรก"><span class="brand-mark brand-logo"><img class="logo-on-dark" src="${new URL("images/madlab-ku-mark-dark.svg", SHELL_SCRIPT_URL).href}" alt="" width="36" height="36"><img class="logo-on-light" src="${new URL("images/madlab-ku-mark-light.svg", SHELL_SCRIPT_URL).href}" alt="" width="36" height="36"></span><span>AIRR</span></a>
       <nav aria-label="เมนูหลัก">
