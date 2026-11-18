@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="แยก parameter, metric และ decision rule · เลือก comparator ที่ตอบข้อโต้แย้ง · ระบุ dataset/environment/sample · ผูกเครื่องมือกับ construct · ระบุ ethics/permission trigger โดยไม่ให้ AI สรุปว่าอนุมัติแล้ว">
+  <meta name="theme-color" content="#101817">
+  <title>ระบุส่วนประกอบของการศึกษา เครื่องมือวัด และข้อกำกับ · AIRR</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/styles.css?v=20261113-2">
+  <link rel="stylesheet" href="assets/learn.css?v=20261116-2">
+  <script src="assets/site-shell.js?v=20261116-2"></script>
+  <script src="assets/app.js?v=20261116-2" defer></script>
+</head>
+<body class="learn" data-no-case>
+  <a class="skip-link" href="#main">ข้ามไปยังเนื้อหา</a>
+  <site-header current="topic" plan="class-2026-11-20-engineering-faculty.html" menu='{&quot;module&quot;: &quot;M06&quot;, &quot;title&quot;: &quot;ทดสอบความแข็งแรงของแบบการทดลอง&quot;, &quot;items&quot;: [{&quot;href&quot;: &quot;topic-claim-to-hypotheses-stress-test.html&quot;, &quot;label&quot;: &quot;ตรึงข้อกล่าวอ้าง แล้วแตกเป็นสมมติฐานที่ตรวจได้&quot;, &quot;current&quot;: false}, {&quot;href&quot;: &quot;topic-study-components-and-instruments.html&quot;, &quot;label&quot;: &quot;ระบุส่วนประกอบของการศึกษา เครื่องมือวัด และข้อกำกับ&quot;, &quot;current&quot;: true}, {&quot;href&quot;: &quot;topic-result-response-matrix-and-design-challenge.html&quot;, &quot;label&quot;: &quot;เตรียมรับผลหลายแบบ แล้วให้ AI ท้าทายแบบวิจัย&quot;, &quot;current&quot;: false}]}'></site-header>
+  <main id="main">
+<section class="prepare-hero module-hero"><p class="eyebrow">หัวข้อย่อย · M06</p><h1>ระบุส่วนประกอบของการศึกษา เครื่องมือวัด และข้อกำกับ</h1><ul class="outcomes"><li>แยก parameter, metric และ decision rule</li><li>เลือก comparator ที่ตอบข้อโต้แย้ง</li><li>ระบุ dataset/environment/sample</li><li>ผูกเครื่องมือกับ construct</li><li>ระบุ ethics/permission trigger โดยไม่ให้ AI สรุปว่าอนุมัติแล้ว</li></ul></section>
+<div class="topic-layout"><nav class="topic-tabs" aria-label="ส่วนของหัวข้อ"><a href="#slides" title="สไลด์">สไลด์</a><a href="#workshop-core" title="Workshop หลัก">Workshop</a><a href="#open-explore" title="Exploring workshop">Exploring</a></nav><div class="topic-main"><section class="section markdown-section topic-panel" id="slides" aria-labelledby="slides-heading"><div class="section-heading compact"><p class="eyebrow">สไลด์</p><h2 id="slides-heading">สไลด์</h2></div><div class="markdown-body"><p>สไลด์ของหัวข้อนี้กำลังจัดทำ</p></div></section>
+<section class="section markdown-section topic-panel" id="workshop-core" aria-labelledby="workshop-core-heading"><div class="section-heading compact"><p class="eyebrow">Workshop</p><h2 id="workshop-core-heading">ระบุส่วนประกอบของการศึกษา เครื่องมือวัด และข้อกำกับ</h2></div><div class="markdown-body"><h3 id="แนวคิดที่ใช้">แนวคิดที่ใช้</h3>
+<h4 id="3-แยก-parameter-metric-และ-decision-rule">3. แยก parameter, metric และ decision rule</h4>
+<ul>
+<li><strong>Parameter:</strong> สิ่งที่ตั้ง/เปลี่ยน/ควบคุม เช่น dose, threshold, model setting, duration</li>
+<li><strong>Metric/indicator:</strong> สิ่งที่คำนวณหรือสังเกตเพื่อแทน outcome/construct</li>
+<li><strong>Decision rule:</strong> เกณฑ์ล่วงหน้าว่าผลระดับใดสนับสนุน ไม่สนับสนุน หรือยังตัดสินไม่ได้</li>
+</ul>
+<p>การมี metric ไม่ได้แปลว่ามีเกณฑ์ตัดสิน และ metric ที่ดีทางเทคนิคอาจไม่วัดปัญหาที่ตั้งไว้</p>
+<h4 id="4-comparator-ต้องตอบข้อโต้แย้ง">4. Comparator ต้องตอบข้อโต้แย้ง</h4>
+<p>คู่เทียบอาจเป็น current practice, no intervention, placebo/sham, previous version, established baseline, ablation, matched group, negative case หรือ counterfactual ที่ design รองรับ ต้องอธิบายว่า comparator ตัดคำอธิบายทางเลือกใดออก ไม่เลือก baseline ที่อ่อนเพียงเพื่อให้วิธีใหม่ดูดี</p>
+<h4 id="5-dataset-environment-และ-sample-เป็นส่วนของ-claim">5. Dataset, environment และ sample เป็นส่วนของ claim</h4>
+<p>ต้องบันทึกแหล่งที่มา inclusion/exclusion, sampling/allocation, missingness, contamination/leakage, version, license/permission และความต่างระหว่าง test condition กับ deployment/real-world condition ผลที่ได้จาก sample หรือ simulation หนึ่งชุดไม่ขยายไปยังประชากรและ environment อื่นโดยอัตโนมัติ</p>
+<h4 id="6-เครื่องมือต้องตรงกับ-construct">6. เครื่องมือต้องตรงกับ construct</h4>
+<table>
+<thead>
+<tr>
+<th>เครื่องมือ/วิธี</th>
+<th>ต้องถามก่อนใช้</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>แบบสอบถาม/scale</td>
+<td>วัด construct ใด ผ่าน validity/reliability ในภาษาและประชากรนี้หรือไม่</td>
+</tr>
+<tr>
+<td>Survey</td>
+<td>sampling frame, nonresponse และ wording bias ทำให้ใครหายไปจากข้อมูล</td>
+</tr>
+<tr>
+<td>Interview/focus group</td>
+<td>sampling, protocol, interviewer influence, saturation/adequacy และ interpretation audit เป็นอย่างไร</td>
+</tr>
+<tr>
+<td>Sensor/lab instrument</td>
+<td>calibration, detection limit, repeatability และ operator/environment effect คืออะไร</td>
+</tr>
+<tr>
+<td>Simulation</td>
+<td>assumption, boundary condition, parameter source และ validation กับ real observation คืออะไร</td>
+</tr>
+<tr>
+<td>Existing dataset/log</td>
+<td>provenance, consent/permission, label quality, leakage, missingness และ population shift คืออะไร</td>
+</tr>
+</tbody>
+</table>
+<p>AI ช่วยสร้างรายการคำถามหรือร่าง instrument ได้ แต่ instrument ที่ AI ร่างยังไม่ผ่าน validity, reliability, pilot test หรือ approval โดยอัตโนมัติ</p>
+<h4 id="7-ethics-law-and-institutional-gates">7. Ethics, law and institutional gates</h4>
+<p>ทำเพียง <strong>trigger screening</strong> ในคลาส:</p>
+<ul>
+<li>มี human participants, identifiable/private data, intervention, deception, vulnerable groups หรือ sensitive questions หรือไม่</li>
+<li>มี animal use, biological material, biosafety, environmental release หรือ hazardous procedure หรือไม่</li>
+<li>ต้องขอ data access, owner permission, license, site permission, device certification หรือ contractual approval หรือไม่</li>
+<li>ต้องใช้ consent/assent, information sheet, recruitment material, data-management/retention plan หรือ adverse-event process หรือไม่</li>
+</ul>
+<p>ผล screening ใช้ตั้งสถานะ <code>no trigger identified</code>, <code>official determination required</code>, <code>approval/permission pending</code> หรือ <code>blocked</code> เท่านั้น ห้ามให้ AI หรือ workshop รับรองว่า exempt, expedited, approved หรือถูกกฎหมาย ผู้วิจัย มก. ต้องตรวจระเบียบ/แบบฟอร์มปัจจุบันและขอคำวินิจฉัยจากหน่วยงานที่รับผิดชอบ; หน้า KUREC ระบุให้ใช้แบบฟอร์มปัจจุบันและอาจต้องมีเอกสารเพิ่มเติมตามโครงการ (<a href="https://fam.csc.ku.ac.th/?p=2757">ข้อมูลจริยธรรมการวิจัยในมนุษย์ มก.</a>, <a href="https://re.kps.ku.ac.th/v4/index.php/research-management/%E0%B8%88%E0%B8%A3%E0%B8%B4%E0%B8%A2%E0%B8%98%E0%B8%A3%E0%B8%A3%E0%B8%A1%E0%B8%81%E0%B8%B2%E0%B8%A3%E0%B8%A7%E0%B8%B4%E0%B8%88%E0%B8%B1%E0%B8%A2%E0%B9%83%E0%B8%99%E0%B8%A1%E0%B8%99%E0%B8%B8%E0%B8%A9%E0%B8%A2%E0%B9%8C-%E0%B8%A1%E0%B8%AB%E0%B8%B2%E0%B8%A7%E0%B8%B4%E0%B8%97%E0%B8%A2%E0%B8%B2%E0%B8%A5%E0%B8%B1%E0%B8%A2%E0%B9%80%E0%B8%81%E0%B8%A9%E0%B8%95%E0%B8%A3%E0%B8%A8%E0%B8%B2%E0%B8%AA%E0%B8%95%E0%B8%A3%E0%B9%8C">ระเบียบและแนวปฏิบัติ มก.</a>)</p>
+<h3 id="ลงมือทำ">ลงมือทำ</h3>
+<h4 id="ช่วง-3--ระบุส่วนประกอบของการศึกษา">ช่วง 3 — ระบุส่วนประกอบของการศึกษา</h4>
+<p>ทำทีละแถว ไม่ต้องจำรายการทั้งหมด ให้ AI ตรวจหน่วยที่ศึกษา ประชากร/ตัวอย่าง การเลือกตัวอย่าง สิ่งที่เปลี่ยนหรือสิ่งที่ได้รับ คู่เทียบ ค่าที่กำหนด ผลที่วัด ชุดข้อมูล สภาพแวดล้อม เครื่องมือ ขั้นตอน เวลา ปัจจัยกวน วิธีวิเคราะห์ และเกณฑ์ตัดสิน</p>
+<div class="command markdown-command"><code>เปิดส่วนระบุส่วนประกอบของการศึกษาในสมุดงาน แล้วถามฉันเติมทีละแถว เริ่มจากหน่วยที่ศึกษาและประชากร ก่อนถามเรื่องตัวอย่าง คู่เทียบ สิ่งที่วัด เครื่องมือ ขั้นตอน และเกณฑ์ตัดสิน ทุกครั้งให้เชื่อมแถวนั้นกับรหัสสมมติฐานจากช่วง 2 ถ้าข้อมูลไม่พอ ให้เสนอคำถามที่ฉันควรนำไปถามผู้เชี่ยวชาญ แต่ห้ามเลือกวิธี จำนวนตัวอย่าง ค่าพารามิเตอร์ หรือวิธีวิเคราะห์แทนฉัน</code><button type="button" data-copy="">คัดลอก</button></div><p><strong>คุณต้องตัดสิน:</strong> สิ่งที่จะเปรียบเทียบ วัด ควบคุม และเกณฑ์ที่ใช้บอกว่าผ่านหรือไม่ผ่าน</p>
+<p><strong>ก่อนผ่านช่วงนี้:</strong> ให้ AI หาว่าแถวใดไม่เชื่อมกับสมมติฐาน แถวใดขาดเจ้าของคำตอบ และคู่เทียบใดยังตัดคำอธิบายอื่นไม่ได้</p>
+<h4 id="ช่วง-4--ตรวจเครื่องมือและข้อกำกับ">ช่วง 4 — ตรวจเครื่องมือและข้อกำกับ</h4>
+<p>แยกเป็นสองรอบ: รอบแรกตรวจว่าเครื่องมือวัดสิ่งที่ต้องการจริงหรือไม่ รอบที่สองตรวจเฉพาะ “สัญญาณว่าต้องขอคำวินิจฉัย” ด้านจริยธรรม ความเป็นส่วนตัว การอนุญาต ความปลอดภัย สิทธิการใช้ และความเป็นไปได้</p>
+<div class="command markdown-command"><code>พาฉันตรวจช่วง 4 ทีละเครื่องมือ เริ่มจากถามว่าเครื่องมือนี้ตั้งใจวัดสิ่งใด แล้วถามหาหลักฐานความตรง ความสม่ำเสมอ การสอบเทียบ หรือการทดลองใช้ที่จำเป็น จากนั้นถามสัญญาณด้านจริยธรรม ข้อมูลส่วนบุคคล การอนุญาต ความปลอดภัย และสิทธิการใช้ทีละข้อ สรุปได้เพียงว่า “ยังไม่พบสัญญาณ / ต้องขอคำวินิจฉัย / รออนุญาต / ยังทำต่อไม่ได้” ห้ามบอกว่าโครงการผ่านหรือได้รับยกเว้น</code><button type="button" data-copy="">คัดลอก</button></div><p><strong>คุณต้องตัดสิน:</strong> เครื่องมือใดใช้ต่อได้แบบมีเงื่อนไข และเรื่องใดต้องส่งให้ผู้เชี่ยวชาญหรือหน่วยงานพิจารณา</p>
+<p><strong>ก่อนผ่านช่วงนี้:</strong> ให้ AI สร้างรายการสิ่งที่ต้องทำภายนอก พร้อมผู้รับผิดชอบ แหล่งตรวจ และวันที่ ไม่ให้ AI ปิดรายการเอง</p>
+</div></section>
+<section class="section markdown-section topic-panel" id="open-explore" aria-labelledby="open-explore-heading"><div class="section-heading compact"><p class="eyebrow">Exploring</p><h2 id="open-explore-heading">ระบุส่วนประกอบของการศึกษา เครื่องมือวัด และข้อกำกับ</h2></div><div class="markdown-body"><p>ในโจทย์นี้คุณจะนำสิ่งที่ทำในหัวข้อนี้ไปใช้กับงานของคุณเอง</p>
+<p>ไม่มี prompt สำเร็จรูปให้</p>
+<h3 id="ก่อนเริ่ม-ต้องมีอยู่แล้ว">ก่อนเริ่ม (ต้องมีอยู่แล้ว)</h3>
+<ul>
+<li>ทำ workshop ของหัวข้อนี้แล้ว</li>
+<li>หัวข้อ proposal หรือบทความของคุณที่นำเข้า AI ได้</li>
+</ul>
+<h3 id="โจทย์">โจทย์</h3>
+<ol type="1">
+<li>ระบุ comparator, metric, decision rule และเครื่องมือวัดของงานคุณเอง โดยเขียน prompt เอง</li>
+<li>ตอบ: comparator ที่เลือกช่วยตัดคำอธิบายคู่แข่งใด และเครื่องมือวัด construct จริงหรือเป็นเพียง proxy</li>
+<li>ระบุประเด็นที่ต้องส่งต่อให้นักสถิติ ผู้เชี่ยวชาญ หรือหน่วยงานจริยธรรมตัดสิน</li>
+</ol>
+<h3 id="เกณฑ์ผ่าน">เกณฑ์ผ่าน</h3>
+<ul class="task-list">
+<li><label><input type="checkbox">เครื่องมือทุกชิ้นผูกกับ construct</label></li>
+<li><label><input type="checkbox">ไม่มีเรื่องจริยธรรมหรือการอนุญาตที่ AI สรุปว่าอนุมัติแล้ว</label></li>
+<li><label><input type="checkbox">เก็บ prompt ทุกรอบไว้ใน <code>output/prompts.md</code> และแสดงการปรับอย่างน้อย 1 รอบ พร้อมเหตุผล</label></li>
+</ul>
+</div></section></div></div>
+<script>
+(() => {
+  const tabs = [...document.querySelectorAll('.topic-tabs a')];
+  const panels = tabs.map(t => document.getElementById(t.hash.slice(1)));
+  function show(id) {
+    const i = Math.max(0, panels.findIndex(p => p && p.id === id));
+    panels.forEach((p, k) => { if (p) p.hidden = k !== i; });
+    tabs.forEach((t, k) => t.setAttribute('aria-current', k === i ? 'page' : 'false'));
+    const layout = document.querySelector('.topic-layout'); if (layout && panels[i]) layout.dataset.active = panels[i].id;
+  }
+  tabs.forEach(t => t.addEventListener('click', e => { e.preventDefault(); history.replaceState(null, '', t.hash); show(t.hash.slice(1)); window.scrollTo({top: 0}); }));
+  document.querySelectorAll('[data-next-tab]').forEach(b => b.addEventListener('click', e => { e.preventDefault(); const h = b.getAttribute('href'); history.replaceState(null, '', h); show(h.slice(1)); window.scrollTo({top: 0}); }));
+  document.querySelectorAll('[data-fullscreen]').forEach(b => b.addEventListener('click', () => {
+    const frame = document.querySelector(b.dataset.fullscreen);
+    const go = frame && (frame.requestFullscreen || frame.webkitRequestFullscreen);
+    if (go) go.call(frame); else if (frame) window.open(frame.src, '_blank', 'noopener');
+  }));
+  const layout0 = document.querySelector('.topic-layout');
+  const toggle = document.querySelector('[data-aside-toggle]');
+  function setAside(hidden) {
+    if (!layout0 || !toggle) return;
+    layout0.classList.toggle('aside-hidden', hidden);
+    toggle.setAttribute('aria-pressed', String(hidden));
+    toggle.textContent = hidden ? 'แสดงสไลด์ข้าง' : 'ซ่อนสไลด์ข้าง';
+    try { localStorage.setItem('airr.slideAsideHidden', hidden ? '1' : '0'); } catch (e) {}
+  }
+  if (toggle) {
+    let saved = true; try { saved = localStorage.getItem('airr.slideAsideHidden') !== '0'; } catch (e) {}  // hidden by default
+    setAside(saved);
+    toggle.addEventListener('click', () => setAside(!layout0.classList.contains('aside-hidden')));
+  }
+  show(location.hash.slice(1));
+  if (location.hash) requestAnimationFrame(() => window.scrollTo({top: 0}));
+})();
+</script>
+  </main>
+  <site-footer></site-footer>
+</body>
+</html>

@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="ทำ result-response matrix อย่างน้อย 4 สถานะพร้อมข้อสรุปที่อนุญาต/ห้าม ก่อนเห็นผลจริง · ให้ AI red-team แบบวิจัย · ตัดสินความพร้อมและแก้แบบอย่างน้อยหนึ่งจุด">
+  <meta name="theme-color" content="#101817">
+  <title>เตรียมรับผลหลายแบบ แล้วให้ AI ท้าทายแบบวิจัย · AIRR</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/styles.css?v=20261113-2">
+  <link rel="stylesheet" href="assets/learn.css?v=20261116-2">
+  <script src="assets/site-shell.js?v=20261116-2"></script>
+  <script src="assets/app.js?v=20261116-2" defer></script>
+</head>
+<body class="learn" data-no-case>
+  <a class="skip-link" href="#main">ข้ามไปยังเนื้อหา</a>
+  <site-header current="topic" plan="class-2026-11-20-engineering-faculty.html" menu='{&quot;module&quot;: &quot;M06&quot;, &quot;title&quot;: &quot;ทดสอบความแข็งแรงของแบบการทดลอง&quot;, &quot;items&quot;: [{&quot;href&quot;: &quot;topic-claim-to-hypotheses-stress-test.html&quot;, &quot;label&quot;: &quot;ตรึงข้อกล่าวอ้าง แล้วแตกเป็นสมมติฐานที่ตรวจได้&quot;, &quot;current&quot;: false}, {&quot;href&quot;: &quot;topic-study-components-and-instruments.html&quot;, &quot;label&quot;: &quot;ระบุส่วนประกอบของการศึกษา เครื่องมือวัด และข้อกำกับ&quot;, &quot;current&quot;: false}, {&quot;href&quot;: &quot;topic-result-response-matrix-and-design-challenge.html&quot;, &quot;label&quot;: &quot;เตรียมรับผลหลายแบบ แล้วให้ AI ท้าทายแบบวิจัย&quot;, &quot;current&quot;: true}]}'></site-header>
+  <main id="main">
+<section class="prepare-hero module-hero"><p class="eyebrow">หัวข้อย่อย · M06</p><h1>เตรียมรับผลหลายแบบ แล้วให้ AI ท้าทายแบบวิจัย</h1><ul class="outcomes"><li>ทำ result-response matrix อย่างน้อย 4 สถานะพร้อมข้อสรุปที่อนุญาต/ห้าม ก่อนเห็นผลจริง</li><li>ให้ AI red-team แบบวิจัย</li><li>ตัดสินความพร้อมและแก้แบบอย่างน้อยหนึ่งจุด</li></ul></section>
+<div class="topic-layout"><nav class="topic-tabs" aria-label="ส่วนของหัวข้อ"><a href="#slides" title="สไลด์">สไลด์</a><a href="#workshop-core" title="Workshop หลัก">Workshop</a><a href="#open-explore" title="Exploring workshop">Exploring</a></nav><div class="topic-main"><section class="section markdown-section topic-panel" id="slides" aria-labelledby="slides-heading"><div class="section-heading compact"><p class="eyebrow">สไลด์</p><h2 id="slides-heading">สไลด์</h2></div><div class="markdown-body"><p>สไลด์ของหัวข้อนี้กำลังจัดทำ</p></div></section>
+<section class="section markdown-section topic-panel" id="workshop-core" aria-labelledby="workshop-core-heading"><div class="section-heading compact"><p class="eyebrow">Workshop</p><h2 id="workshop-core-heading">เตรียมรับผลหลายแบบ แล้วให้ AI ท้าทายแบบวิจัย</h2></div><div class="markdown-body"><h3 id="แนวคิดที่ใช้">แนวคิดที่ใช้</h3>
+<h4 id="8-result-response-matrix-ป้องกันการมโนย้อนหลัง">8. Result-response matrix ป้องกันการมโนย้อนหลัง</h4>
+<p>ก่อนเก็บข้อมูล ให้กำหนดอย่างน้อยสี่ outcome states:</p>
+<ul>
+<li>ผลสนับสนุน hypothesis ตาม decision rule</li>
+<li>ผลไม่ต่าง/ไม่ถึง threshold</li>
+<li>ผลตรงข้ามหรือเกิด harm/trade-off</li>
+<li>ผลสรุปไม่ได้เพราะ measurement, protocol, missing data, power/adequacy หรือ assumption ล้มเหลว</li>
+</ul>
+<p>สำหรับแต่ละ state ให้เขียน <code>permitted conclusion</code>, <code>forbidden conclusion</code>, <code>next action</code> และ <code>claim status</code> ไว้ล่วงหน้า เพื่อลดการเลือกเล่าเฉพาะผลที่เข้าทางและการสร้างคำอธิบายหลังเห็นผล</p>
+<h3 id="ลงมือทำ">ลงมือทำ</h3>
+<h4 id="ช่วง-5--เตรียมรับผลหลายแบบก่อนเห็นผลจริง">ช่วง 5 — เตรียมรับผลหลายแบบก่อนเห็นผลจริง</h4>
+<p>ใช้เพียงสถานการณ์สมมติสี่แบบ: สนับสนุน ไม่ต่าง ขัดแย้ง และสรุปไม่ได้ ทุกใบต้องระบุชัดว่า <code>สถานการณ์สมมติ — ไม่ใช่หลักฐานวิจัย</code></p>
+<div class="command markdown-command"><code>ใช้สมมติฐานและเกณฑ์ตัดสินที่ฉันยืนยัน ช่วยฉันทำบัตรสถานการณ์สมมติทีละใบ เริ่มจาก “ผลสนับสนุน” แล้วจึง “ผลไม่ต่าง” “ผลขัดแย้ง” และ “ผลสรุปไม่ได้” ในแต่ละใบให้ถามฉันว่า อนุญาตให้สรุปอะไร ห้ามสรุปอะไร ต้องทำอะไรต่อ และข้อกล่าวอ้างมีสถานะใด ถ้าฉันสรุปแรงเกินแบบวิจัย ให้ถามท้าทาย แต่ห้ามสร้างตัวเลขหรือผลการศึกษาจริง</code><button type="button" data-copy="">คัดลอก</button></div><p><strong>คุณต้องตัดสิน:</strong> ขอบเขตของข้อสรุปและสิ่งที่จะทำต่อในแต่ละสถานการณ์</p>
+<p><strong>ก่อนผ่านช่วงนี้:</strong> ให้ AI เปรียบเทียบทั้งสี่ใบและวงข้อความที่ใช้มาตรฐานไม่เท่ากันหรือเอื้อเฉพาะผลที่ต้องการ</p>
+<h4 id="ช่วง-6--ให้-ai-ท้าทายแบบวิจัย">ช่วง 6 — ให้ AI ท้าทายแบบวิจัย</h4>
+<p>คราวนี้ให้ AI เปลี่ยนบทบาทจากผู้ช่วยจัดข้อมูลเป็นผู้ตั้งข้อโต้แย้งทีละข้อ โดยตรวจสมมติฐานที่หายไป ตัวแทนการวัดที่ไม่ตรง คู่เทียบที่ไม่เป็นธรรม ความไม่ตรงกันของข้อมูล/ตัวอย่าง/สภาพแวดล้อม อุปสรรคด้านข้อกำกับ และข้อสรุปที่แรงเกินแบบวิจัย</p>
+<div class="command markdown-command"><code>ท้าทายแบบวิจัยของฉันทีละหนึ่งประเด็น โดยอ้างรหัสสมมติฐานหรือแถวในสมุดงานทุกครั้ง บอกว่าเหตุใดจึงเป็นความเสี่ยง และหลักฐานใดจะทำให้ข้อท้าทายนั้นเบาลง รอให้ฉันตอบก่อนจึงถามข้อต่อไป ห้ามแต่งปัญหาที่ไม่สัมพันธ์กับข้อมูลของฉัน เมื่อครบทุกมุม ให้จัดคำตอบของฉันเป็น “แก้ตอนนี้ / ถามผู้เชี่ยวชาญหรือหน่วยงาน / เก็บหลักฐานทดลองใช้ / อยู่นอกขอบเขตพร้อมเหตุผล / โต้แย้งด้วยหลักฐานที่ตรวจแล้ว”</code><button type="button" data-copy="">คัดลอก</button></div><p><strong>คุณต้องตัดสิน:</strong> ยอมรับ แก้ ส่งต่อ หรือโต้แย้งแต่ละประเด็น พร้อมเหตุผล</p>
+<p><strong>ก่อนผ่านช่วงนี้:</strong> ต้องแก้แบบวิจัยอย่างน้อยหนึ่งจุดจากข้อท้าทายที่มีเหตุผล แล้วให้ AI บันทึกฉบับก่อนแก้และหลังแก้</p>
+<h4 id="ช่วง-7--ตัดสินความพร้อมและวางงานถัดไป">ช่วง 7 — ตัดสินความพร้อมและวางงานถัดไป</h4>
+<p>ให้ AI สรุปจากหลักฐานในสมุดงานเท่านั้น แล้วให้คุณเลือกสถานะสุดท้ายหนึ่งสถานะ: รองรับข้อกล่าวอ้างได้ในหลักการ, รองรับได้เฉพาะข้อกล่าวอ้างที่แคบลง, ต้องแก้มาก, หรือยังทำต่อไม่ได้เพราะรอหลักฐาน/การอนุญาต/ทรัพยากร</p>
+<div class="command markdown-command"><code>ตรวจสมุดงานและบันทึกข้อท้าทายทั้งหมด แล้วแสดงหลักฐานสนับสนุนและจุดค้างของสถานะความพร้อมทั้งสี่ทาง ห้ามเลือกสถานะแทนฉัน ถามฉันให้เลือกหนึ่งสถานะและอธิบายเหตุผล จากนั้นช่วยจัดการแก้ไขสำคัญที่สุด 3 ข้อ พร้อมผู้รับผิดชอบ หลักฐานหรือคำวินิจฉัยที่ต้องหา และวันที่จะกลับมาตรวจ</code><button type="button" data-copy="">คัดลอก</button></div><p><strong>คุณต้องตัดสิน:</strong> สถานะสุดท้าย เหตุผล และงานแก้ไขสามอันดับแรก</p>
+<p><strong>ก่อนจบ:</strong> ให้ AI ตรวจว่าไม่มีผล ตัวเลข เอกสารอ้างอิง การอนุมัติ หรือค่าที่แต่งขึ้น แล้วสร้าง <code>design-red-team-findings.md</code> และ <code>design-decision-log.md</code> จากข้อมูลที่คุณยืนยัน</p>
+<h4 id="checkpoint--จบบทเรียน">Checkpoint — จบบทเรียน</h4>
+<p>ชิ้นงานที่ได้:</p>
+<ul>
+<li><code>experiment-design-workbook.md</code></li>
+<li><code>design-red-team-findings.md</code></li>
+<li><code>design-decision-log.md</code></li>
+</ul>
+<p>ถือว่าผ่านเมื่อ:</p>
+<ul>
+<li>candidate claim แตกเป็น hypothesis/necessary condition ที่ trace ได้ และมี completeness review จากอีกกลุ่ม</li>
+<li>hypothesis ทุกข้อชี้ไปยัง observation, metric/instrument และ pass/fail/inconclusive condition</li>
+<li>design ระบุ parameter, comparator, dataset, environment, sample และ procedure ที่จำเป็น หรือมี <code>TBD</code> พร้อม owner/source/date</li>
+<li>instrument ทุกชิ้นผูกกับ construct และระบุ validity/calibration/pilot requirement</li>
+<li>compliance trigger ไม่ถูก AI สรุปว่า approved/exempt และมี external action สำหรับเรื่องที่ต้องวินิจฉัย</li>
+<li>result-response matrix ครบอย่างน้อย 4 outcome states พร้อม permitted/forbidden conclusion</li>
+<li>ข้อสรุปสุดท้ายไม่กว้างกว่า design และไม่มี result, citation, approval หรือ parameter ที่แต่งขึ้น</li>
+<li>design ถูกแก้อย่างน้อยหนึ่งจุดจาก valid red-team finding</li>
+</ul>
+</div></section>
+<section class="section markdown-section topic-panel" id="open-explore" aria-labelledby="open-explore-heading"><div class="section-heading compact"><p class="eyebrow">Exploring</p><h2 id="open-explore-heading">เตรียมรับผลหลายแบบ แล้วให้ AI ท้าทายแบบวิจัย</h2></div><div class="markdown-body"><p>ในโจทย์นี้คุณจะนำสิ่งที่ทำในหัวข้อนี้ไปใช้กับงานของคุณเอง แล้วตอบคำถามทบทวนด้วยหลักฐานจากไฟล์ของคุณ</p>
+<h3 id="คำถามทบทวนท้ายบท">คำถามทบทวนท้ายบท</h3>
+<ol type="1">
+<li>candidate claim ของคุณต้องอาศัยสมมุติฐานหรือเงื่อนไขจำเป็นใดบ้าง</li>
+<li>comparator หรือ negative case ที่เลือกช่วยตัดคำอธิบายคู่แข่งใด</li>
+<li>instrument วัด construct ที่ต้องการจริงหรือวัดเพียง proxy และต้องตรวจ validity อย่างไร</li>
+<li>เมื่อผลไม่ต่างหรือสรุปไม่ได้ คุณได้รับอนุญาตให้กล่าวอะไรและห้ามกล่าวอะไร</li>
+<li>ประเด็นใด AI ช่วยตรวจโครงได้ แต่ต้องส่งต่อให้นักสถิติ ผู้เชี่ยวชาญ หรือหน่วยงานจริยธรรมตัดสิน</li>
+</ol>
+<h3 id="ทบทวนและพัฒนาต่อ">ทบทวนและพัฒนาต่อ</h3>
+<p><strong>ทบทวน:</strong> แก้ workbook ตาม red team แล้วนำจุด <code>expert review required</code> ไปถามอาจารย์ที่ปรึกษา นักสถิติ ผู้เชี่ยวชาญเครื่องมือ หรือหน่วยงานจริยธรรม/กำกับที่เกี่ยวข้อง บันทึกคำตอบและแหล่งอ้างอิง ห้ามให้ AI ปิด <code>TBD</code> เอง</p>
+<p><strong>พัฒนาต่อ:</strong> ใช้ hypothesis IDs, decision rules และ permitted-claim table เป็น analysis plan และ claim gate เมื่อมีข้อมูลจริงใน Module 7 หรือใช้ตรวจข้อความก่อนผลิตเอกสารใน Module 8 หากจบที่ Module 6 ให้ใช้ design verdict และ revision plan เป็นชิ้นงานปลายทาง</p>
+</div></section></div></div>
+<script>
+(() => {
+  const tabs = [...document.querySelectorAll('.topic-tabs a')];
+  const panels = tabs.map(t => document.getElementById(t.hash.slice(1)));
+  function show(id) {
+    const i = Math.max(0, panels.findIndex(p => p && p.id === id));
+    panels.forEach((p, k) => { if (p) p.hidden = k !== i; });
+    tabs.forEach((t, k) => t.setAttribute('aria-current', k === i ? 'page' : 'false'));
+    const layout = document.querySelector('.topic-layout'); if (layout && panels[i]) layout.dataset.active = panels[i].id;
+  }
+  tabs.forEach(t => t.addEventListener('click', e => { e.preventDefault(); history.replaceState(null, '', t.hash); show(t.hash.slice(1)); window.scrollTo({top: 0}); }));
+  document.querySelectorAll('[data-next-tab]').forEach(b => b.addEventListener('click', e => { e.preventDefault(); const h = b.getAttribute('href'); history.replaceState(null, '', h); show(h.slice(1)); window.scrollTo({top: 0}); }));
+  document.querySelectorAll('[data-fullscreen]').forEach(b => b.addEventListener('click', () => {
+    const frame = document.querySelector(b.dataset.fullscreen);
+    const go = frame && (frame.requestFullscreen || frame.webkitRequestFullscreen);
+    if (go) go.call(frame); else if (frame) window.open(frame.src, '_blank', 'noopener');
+  }));
+  const layout0 = document.querySelector('.topic-layout');
+  const toggle = document.querySelector('[data-aside-toggle]');
+  function setAside(hidden) {
+    if (!layout0 || !toggle) return;
+    layout0.classList.toggle('aside-hidden', hidden);
+    toggle.setAttribute('aria-pressed', String(hidden));
+    toggle.textContent = hidden ? 'แสดงสไลด์ข้าง' : 'ซ่อนสไลด์ข้าง';
+    try { localStorage.setItem('airr.slideAsideHidden', hidden ? '1' : '0'); } catch (e) {}
+  }
+  if (toggle) {
+    let saved = true; try { saved = localStorage.getItem('airr.slideAsideHidden') !== '0'; } catch (e) {}  // hidden by default
+    setAside(saved);
+    toggle.addEventListener('click', () => setAside(!layout0.classList.contains('aside-hidden')));
+  }
+  show(location.hash.slice(1));
+  if (location.hash) requestAnimationFrame(() => window.scrollTo({top: 0}));
+})();
+</script>
+  </main>
+  <site-footer></site-footer>
+</body>
+</html>

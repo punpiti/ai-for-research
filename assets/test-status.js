@@ -30,6 +30,13 @@
     if (!data || !(data.viewers || []).includes(await sha256(email.trim().toLowerCase()))) return;
     const topics = data.topics || {};
     document.querySelectorAll("li[data-tester-only]").forEach((li) => { li.hidden = false; });
+    // modules not yet open to learners: testers can still open the topic pages
+    document.querySelectorAll("span.locked[data-href]").forEach((span) => {
+      const a = document.createElement("a");
+      a.href = span.dataset.href;
+      a.textContent = span.textContent;
+      span.replaceWith(a);
+    });
     document.querySelectorAll("details.syllabus-module").forEach((mod) => {
       let passed = 0, total = 0;
       mod.querySelectorAll("li[data-topic]").forEach((li) => {

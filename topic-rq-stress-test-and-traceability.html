@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="ร่าง RQ สามแบบเอง ให้ AI stress-test และถามกลับโดยไม่ rewrite แล้วตรวจสาย RQ → Candidate Gap → Research Problem → Practical Problem → Evidence ว่าจุดใดมีหลักฐาน เป็นการตีความ หรือยังขาด">
+  <meta name="theme-color" content="#101817">
+  <title>ทดสอบ RQ โดยไม่ให้ AI เขียนแทน และตรวจสายเหตุผลย้อนกลับ · AIRR</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/styles.css?v=20261113-2">
+  <link rel="stylesheet" href="assets/learn.css?v=20261116-2">
+  <script src="assets/site-shell.js?v=20261116-2"></script>
+  <script src="assets/app.js?v=20261116-2" defer></script>
+</head>
+<body class="learn" data-no-case>
+  <a class="skip-link" href="#main">ข้ามไปยังเนื้อหา</a>
+  <site-header current="topic" plan="class-2026-11-20-engineering-faculty.html" menu='{&quot;module&quot;: &quot;M03&quot;, &quot;title&quot;: &quot;ตรวจและปรับ problem statement / บทนำ&quot;, &quot;items&quot;: [{&quot;href&quot;: &quot;module-overview-m03.html&quot;, &quot;label&quot;: &quot;ภาพรวมและ LO&quot;, &quot;current&quot;: false}, {&quot;href&quot;: &quot;topic-problem-statement-diagnosis-with-locations.html&quot;, &quot;label&quot;: &quot;บันทึกมุมมองเดิม แล้วให้ AI วินิจฉัย problem statement พร้อมตำแหน่ง&quot;, &quot;current&quot;: false}, {&quot;href&quot;: &quot;topic-verify-critique-and-revise.html&quot;, &quot;label&quot;: &quot;ตรวจคำวิจารณ์ของ AI แล้วแก้พร้อมเหตุผล&quot;, &quot;current&quot;: false}]}'></site-header>
+  <main id="main">
+<section class="prepare-hero module-hero"><p class="eyebrow">หัวข้อย่อย · M03</p><h1>ทดสอบ RQ โดยไม่ให้ AI เขียนแทน และตรวจสายเหตุผลย้อนกลับ</h1><ul class="outcomes"><li>ร่าง RQ สามแบบเอง ให้ AI stress-test และถามกลับโดยไม่ rewrite แล้วตรวจสาย RQ → Candidate Gap → Research Problem → Practical Problem → Evidence ว่าจุดใดมีหลักฐาน เป็นการตีความ หรือยังขาด</li></ul></section>
+<div class="topic-layout"><nav class="topic-tabs" aria-label="ส่วนของหัวข้อ"><a href="#slides" title="สไลด์">สไลด์</a><a href="#workshop-core" title="Workshop หลัก">Workshop</a><a href="#open-explore" title="Exploring workshop">Exploring</a></nav><div class="topic-main"><section class="section markdown-section topic-panel" id="slides" aria-labelledby="slides-heading"><div class="section-heading compact"><p class="eyebrow">สไลด์</p><h2 id="slides-heading">สไลด์</h2></div><div class="markdown-body"><p>สไลด์ของหัวข้อนี้กำลังจัดทำ</p></div></section>
+<section class="section markdown-section topic-panel" id="workshop-core" aria-labelledby="workshop-core-heading"><div class="section-heading compact"><p class="eyebrow">Workshop</p><h2 id="workshop-core-heading">ทดสอบ RQ โดยไม่ให้ AI เขียนแทน และตรวจสายเหตุผลย้อนกลับ</h2></div><div class="markdown-body"><p>ใน workshop นี้คุณจะร่าง RQ สามแบบเอง ให้ AI stress-test โดยไม่เขียนแทนแล้วแก้ RQ เอง และให้ AI สร้างตารางตรวจสายเหตุผลย้อนกลับจาก RQ ถึงหลักฐาน</p>
+<p>ต่อจากหัวข้อ <a href="topic-candidate-gap-ledger-and-prosecution.html">สร้าง Gap Ledger แล้วพยายามหักล้าง candidate gap</a> ใช้เคส “หิว → กิน → อิ่ม” และหลักฐานจำลองชุดเดียวกัน (ข้อมูลสมมติ ไม่มีข้อมูลจริงของใคร)</p>
+<p>เวลา: ประมาณ 25 นาที</p>
+<h3 id="ก่อนเริ่ม-ต้องมีอยู่แล้ว">ก่อนเริ่ม (ต้องมีอยู่แล้ว)</h3>
+<ul>
+<li><code>module-03-work/input/hunger-mock/</code> ที่มี <code>menus.md</code>, <code>reviews.md</code>, <code>evidence-inventory.md</code> (วางไว้ในหัวข้อ <a href="topic-candidate-gap-ledger-and-prosecution.html">สร้าง Gap Ledger แล้วพยายามหักล้าง candidate gap</a> ขั้นที่ 1)</li>
+<li><code>module-03-work/output/gap-ledger.md</code> ที่คุณตัดสิน คงไว้ / ลดความมั่นใจ / ปฏิเสธ แล้ว (จากหัวข้อเดียวกัน ขั้นที่ 5–7)</li>
+<li>practical problem และ research problem ที่คุณเขียนในหัวข้อเดียวกัน (ขั้นที่ 3)</li>
+<li>ถ้าข้ามหัวข้อก่อนมา ใช้สายเหตุผลตัวอย่างบนหน้า <code>hunger-research-methodology.html</code> ของเว็บคอร์ส (ส่วน “เปลี่ยนเรื่องความหิวเป็นสายเหตุผลที่ตรวจได้”) แทน</li>
+</ul>
+<h3 id="ขั้นตอน">ขั้นตอน</h3>
+<ol type="1">
+<li><p><strong>ร่าง RQ สามแบบ (คุณทำเอง)</strong> — เลือก descriptive, comparative, relational, explanatory หรือ design/evaluation ระบุประชากร/หน่วยวิเคราะห์ บริบท แนวคิด และขอบเขต โดยไม่ยัด method ที่ยังไม่ตัดสินใจลงในคำถาม</p>
+<p>ตัวอย่างจากเคส (ใช้เป็นแนว หรือใช้ตามนี้ถ้าเวลาไม่พอ):</p>
+<ul>
+<li>แบบบรรยาย: “นักศึกษารู้สึกหิวอีกครั้งหลังอาหารกลางวันนานเท่าไร?”</li>
+<li>แบบเปรียบเทียบ: “อาหารแต่ละประเภทให้อิ่มนานต่างกันหรือไม่?”</li>
+<li>แบบความสัมพันธ์: “ปริมาณโปรตีนสัมพันธ์กับระยะเวลาก่อนหิวอีกครั้งหรือไม่?”</li>
+</ul></li>
+<li><p><strong>ให้ AI stress-test โดยไม่ rewrite</strong> สั่ง AI (วาง RQ ที่คุณเพิ่งร่าง)</p>
+<div class="command ai-prompt"><code>งาน: ทดสอบ RQ 3 ข้อโดยไม่เขียนแทนฉัน RQ ของฉัน: [วาง RQ สามข้อ] ใช้ module-03-work/output/gap-ledger.md เป็น candidate gap ที่ต้องเชื่อมด้วย ประเมิน: ความชัดเจนและขอบเขต ความสามารถในการตอบ ความสอดคล้องกับ candidate gap ความเป็นกลาง ความเป็นไปได้ ระบุคำกำกวม สมมติฐานแฝง และข้อมูลที่ต้องใช้ จากนั้นถามกลับทีละข้อเพื่อให้ฉันแก้เอง</code><button type="button" data-copy="">คัดลอก</button></div><p>AI อาจชี้ว่า “อาหารแต่ละประเภท” กว้างเกินไป “อิ่มนาน” ยังไม่มีนิยาม และคำถามยังไม่ระบุกลุ่มนักศึกษา ผลที่ต้องได้คือรายการจุดอ่อนและคำถามกลับ</p></li>
+<li><p><strong>แก้ RQ เอง (คุณทำเอง)</strong> — ตอบคำถามกลับของ AI แล้วเขียน RQ ฉบับแก้ด้วยตนเอง เก็บฉบับก่อนและหลังแก้ไว้คู่กัน</p></li>
+<li><p><strong>ตรวจสายเหตุผลย้อนกลับ (Traceability Audit)</strong> สั่ง AI</p>
+<div class="command ai-prompt"><code>งาน: ตรวจสายเหตุผลย้อนกลับ ตรวจเส้นทาง: RQ → Candidate Gap → Research Problem → Practical Problem → Evidence สร้างตารางหนึ่งแถวต่อ RQ ระบุ: จุดที่มีหลักฐาน จุดที่เป็นการตีความ จุดที่ยังขาด สิ่งที่ต้องค้นหรือถามเพิ่ม หากสายใดขาด ห้ามเติมข้อความแทนหลักฐาน</code><button type="button" data-copy="">คัดลอก</button></div><p>AI จะแสดงตารางตรวจย้อนกลับ ตรวจเอง: RQ เรื่องประเภทอาหารควรเชื่อมกับ gap เรื่องข้อมูลความอิ่ม เชื่อมกับ research problem ที่ยังเปรียบเทียบไม่ได้ และย้อนถึง practical problem คือหิวช่วงบ่าย ในชุดหลักฐานจำลองไม่มีหลักฐานว่านักศึกษาหิวจริง จุดเชื่อมสุดท้ายจึงต้องระบุว่ายังขาด</p></li>
+<li><p><strong>รวมเป็นรายงาน (ไม่บังคับ — ถ้ามีเวลา)</strong> สั่ง AI</p>
+<div class="command ai-prompt"><code>งาน: สร้างรายงาน Problem → Gap → RQ ใช้เฉพาะงานที่ฉันอนุมัติ และรวม: ขอบเขตหลักฐาน ปัญหาเชิงปฏิบัติและปัญหาวิจัย Gap Ledger และผลหักล้าง RQ 3 ข้อพร้อมผลทดสอบ ตารางตรวจย้อนกลับ RQ ที่เลือกพร้อมเหตุผล รายการค้นต่อ ติดป้าย candidate gap และห้ามประกาศ novelty ส่งมอบ: module-03-work/output/problem-gap-rq.md และ PDF A4 ภาษาไทย</code><button type="button" data-copy="">คัดลอก</button></div><p>AI จะสร้าง <code>module-03-work/output/problem-gap-rq.md</code> และ PDF</p></li>
+</ol>
+<h3 id="ตรวจก่อนจบ">ตรวจก่อนจบ</h3>
+<ul class="task-list">
+<li><label><input type="checkbox">RQ สามข้อร่างและแก้โดยคุณหลังได้คำถามกลับจาก AI (AI ไม่ได้เขียน RQ ใหม่ให้) และเก็บฉบับก่อน/หลังแก้ไว้คู่กัน</label></li>
+<li><label><input type="checkbox">RQ ทุกข้อระบุประชากร/หน่วยวิเคราะห์ บริบท และขอบเขต และไม่ผูก method ที่ยังไม่ตัดสินใจ</label></li>
+<li><label><input type="checkbox">ตารางตรวจย้อนกลับมีหนึ่งแถวต่อ RQ แยกจุดมีหลักฐาน / ตีความ / ยังขาด และไม่เติมข้อความแทนหลักฐาน (จุดเชื่อมถึงหลักฐานว่านักศึกษาหิวจริงระบุว่ายังขาด)</label></li>
+<li><label><input type="checkbox"><code>module-03-work/input/hunger-mock/</code> และ <code>gap-ledger.md</code> ไม่ถูกแก้โดย AI ในหัวข้อนี้</label></li>
+<li><label><input type="checkbox">(ถ้าทำขั้นที่ 5) <code>module-03-work/output/problem-gap-rq.md</code> และ PDF ยังติดป้าย candidate ให้ข้อที่ยังไม่ยืนยัน พร้อมรายการค้นต่อ เช่น งานเรื่อง satiety และวิธีวัดความหิว</label></li>
+</ul>
+<h3 id="ส่งงาน">ส่งงาน</h3>
+<ul>
+<li>ให้ AI รันเครื่องมือ AIRR check → ยืนยัน → submit ตามหน้า Module 3</li>
+</ul>
+</div></section>
+<section class="section markdown-section topic-panel" id="open-explore" aria-labelledby="open-explore-heading"><div class="section-heading compact"><p class="eyebrow">Exploring</p><h2 id="open-explore-heading">ทดสอบ RQ โดยไม่ให้ AI เขียนแทน และตรวจสายเหตุผลย้อนกลับ</h2></div><div class="markdown-body"><p>ในโจทย์เปิดนี้คุณจะเขียน prompt เองให้ AI stress-test RQ ของงานคุณโดยไม่เขียนแทน แก้ RQ เอง และให้ AI ตรวจสายเหตุผลย้อนกลับจนเห็นจุดที่ยังขาด</p>
+<p>ไม่มี prompt สำเร็จรูปให้</p>
+<h3 id="ก่อนเริ่ม-ต้องมีอยู่แล้ว">ก่อนเริ่ม (ต้องมีอยู่แล้ว)</h3>
+<ul>
+<li>ทำ workshop <code>rq-stress-test-and-traceability</code> แล้ว</li>
+<li>RQ ของงานที่กำลังทำ (proposal, ทุนวิจัย หรือหัวข้อวิทยานิพนธ์ของนิสิตที่ได้รับอนุญาต) หรือ candidate gap ที่ผ่านการหักล้างแล้วจากโจทย์เปิดของ <code>candidate-gap-ledger-and-prosecution</code> (ใช้ร่าง RQ สามแบบในข้อ 1)</li>
+<li><code>module-03-work/output/prompts.md</code> จากโจทย์เปิดก่อนหน้า (ถ้ายังไม่มี ให้สร้างเองตอนเริ่ม)</li>
+</ul>
+<h3 id="โจทย์">โจทย์</h3>
+<ol type="1">
+<li>ถ้ายังไม่มี RQ ให้ร่าง RQ สามแบบจาก candidate gap ของคุณ</li>
+<li>เขียน prompt ให้ AI stress-test RQ โดยไม่เขียนแทน แล้วแก้ RQ เอง</li>
+<li>เขียน prompt ให้ AI ตรวจสาย RQ → Candidate Gap → Research Problem → Practical Problem → Evidence และชี้จุดที่ขาด</li>
+</ol>
+<h3 id="ข้อกำหนด">ข้อกำหนด</h3>
+<ul>
+<li>เก็บ prompt ที่ใช้ทุกรอบไว้ใน <code>module-03-work/output/prompts.md</code></li>
+<li>เก็บ RQ ก่อนและหลังแก้ไว้คู่กัน พร้อมเหตุผลของการแก้แต่ละจุด</li>
+<li>ระบุว่าตรวจผลของ AI อย่างไร (เช่น เปิดหลักฐานตามที่ตารางอ้าง) และแก้อะไรเอง</li>
+<li>จุดเชื่อมที่ยังไม่มีหลักฐานต้องระบุว่าขาด พร้อมสิ่งที่ต้องค้นหรือถามเพิ่ม</li>
+</ul>
+<h3 id="เกณฑ์ผ่าน">เกณฑ์ผ่าน</h3>
+<ul class="task-list">
+<li><label><input type="checkbox">RQ ทุกข้อระบุประชากร/หน่วยวิเคราะห์ บริบท และขอบเขต และไม่ผูก method ที่ยังไม่ตัดสินใจ</label></li>
+<li><label><input type="checkbox">ฉบับแก้ของ RQ เขียนโดยผู้เรียน ไม่ใช่ข้อความที่ AI เขียนให้</label></li>
+<li><label><input type="checkbox">ตารางตรวจย้อนกลับครบทุก RQ และแยกหลักฐาน / การตีความ / จุดที่ยังขาด</label></li>
+<li><label><input type="checkbox">มีรายการค้นต่อที่เจาะจงพอจะนำไปค้นใน Module 4 ได้</label></li>
+<li><label><input type="checkbox">prompt log แสดงการปรับ prompt อย่างน้อย 1 รอบ พร้อมเหตุผล</label></li>
+</ul>
+</div></section></div></div>
+<script>
+(() => {
+  const tabs = [...document.querySelectorAll('.topic-tabs a')];
+  const panels = tabs.map(t => document.getElementById(t.hash.slice(1)));
+  function show(id) {
+    const i = Math.max(0, panels.findIndex(p => p && p.id === id));
+    panels.forEach((p, k) => { if (p) p.hidden = k !== i; });
+    tabs.forEach((t, k) => t.setAttribute('aria-current', k === i ? 'page' : 'false'));
+    const layout = document.querySelector('.topic-layout'); if (layout && panels[i]) layout.dataset.active = panels[i].id;
+  }
+  tabs.forEach(t => t.addEventListener('click', e => { e.preventDefault(); history.replaceState(null, '', t.hash); show(t.hash.slice(1)); window.scrollTo({top: 0}); }));
+  document.querySelectorAll('[data-next-tab]').forEach(b => b.addEventListener('click', e => { e.preventDefault(); const h = b.getAttribute('href'); history.replaceState(null, '', h); show(h.slice(1)); window.scrollTo({top: 0}); }));
+  document.querySelectorAll('[data-fullscreen]').forEach(b => b.addEventListener('click', () => {
+    const frame = document.querySelector(b.dataset.fullscreen);
+    const go = frame && (frame.requestFullscreen || frame.webkitRequestFullscreen);
+    if (go) go.call(frame); else if (frame) window.open(frame.src, '_blank', 'noopener');
+  }));
+  const layout0 = document.querySelector('.topic-layout');
+  const toggle = document.querySelector('[data-aside-toggle]');
+  function setAside(hidden) {
+    if (!layout0 || !toggle) return;
+    layout0.classList.toggle('aside-hidden', hidden);
+    toggle.setAttribute('aria-pressed', String(hidden));
+    toggle.textContent = hidden ? 'แสดงสไลด์ข้าง' : 'ซ่อนสไลด์ข้าง';
+    try { localStorage.setItem('airr.slideAsideHidden', hidden ? '1' : '0'); } catch (e) {}
+  }
+  if (toggle) {
+    let saved = true; try { saved = localStorage.getItem('airr.slideAsideHidden') !== '0'; } catch (e) {}  // hidden by default
+    setAside(saved);
+    toggle.addEventListener('click', () => setAside(!layout0.classList.contains('aside-hidden')));
+  }
+  show(location.hash.slice(1));
+  if (location.hash) requestAnimationFrame(() => window.scrollTo({top: 0}));
+})();
+</script>
+  </main>
+  <site-footer></site-footer>
+</body>
+</html>

@@ -121,6 +121,30 @@
   "airr-commands-with-ai": {
    "status": "ready",
    "note": ""
+  },
+  "venue-landscape-and-readiness": {
+   "status": "not-ready",
+   "note": "เนื้อหาเดิมยกมาก่อน"
+  },
+  "research-logic-chain-and-gap-check": {
+   "status": "not-ready",
+   "note": "เนื้อหาเดิมยกมาก่อน"
+  },
+  "idea-selection-and-falsifiable-design": {
+   "status": "not-ready",
+   "note": "เนื้อหาเดิมยกมาก่อน"
+  },
+  "claim-to-hypotheses-stress-test": {
+   "status": "not-ready",
+   "note": "เนื้อหาเดิมยกมาก่อน"
+  },
+  "study-components-and-instruments": {
+   "status": "not-ready",
+   "note": "เนื้อหาเดิมยกมาก่อน"
+  },
+  "result-response-matrix-and-design-challenge": {
+   "status": "not-ready",
+   "note": "เนื้อหาเดิมยกมาก่อน"
   }
  }
 }

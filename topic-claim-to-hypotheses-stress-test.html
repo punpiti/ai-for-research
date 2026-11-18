@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="เลือกกรณี (งานของตนเอง / reverse-engineer งานตีพิมพ์ / กรณีตัวอย่าง) · ตรึง candidate claim หนึ่งข้อ · แตกเป็นสมมติฐานและเงื่อนไขจำเป็นที่ trace ได้">
+  <meta name="theme-color" content="#101817">
+  <title>ตรึงข้อกล่าวอ้าง แล้วแตกเป็นสมมติฐานที่ตรวจได้ · AIRR</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/styles.css?v=20261113-2">
+  <link rel="stylesheet" href="assets/learn.css?v=20261116-2">
+  <script src="assets/site-shell.js?v=20261116-2"></script>
+  <script src="assets/app.js?v=20261116-2" defer></script>
+</head>
+<body class="learn" data-no-case>
+  <a class="skip-link" href="#main">ข้ามไปยังเนื้อหา</a>
+  <site-header current="topic" plan="class-2026-11-20-engineering-faculty.html" menu='{&quot;module&quot;: &quot;M06&quot;, &quot;title&quot;: &quot;ทดสอบความแข็งแรงของแบบการทดลอง&quot;, &quot;items&quot;: [{&quot;href&quot;: &quot;topic-claim-to-hypotheses-stress-test.html&quot;, &quot;label&quot;: &quot;ตรึงข้อกล่าวอ้าง แล้วแตกเป็นสมมติฐานที่ตรวจได้&quot;, &quot;current&quot;: true}, {&quot;href&quot;: &quot;topic-study-components-and-instruments.html&quot;, &quot;label&quot;: &quot;ระบุส่วนประกอบของการศึกษา เครื่องมือวัด และข้อกำกับ&quot;, &quot;current&quot;: false}, {&quot;href&quot;: &quot;topic-result-response-matrix-and-design-challenge.html&quot;, &quot;label&quot;: &quot;เตรียมรับผลหลายแบบ แล้วให้ AI ท้าทายแบบวิจัย&quot;, &quot;current&quot;: false}]}'></site-header>
+  <main id="main">
+<section class="prepare-hero module-hero"><p class="eyebrow">หัวข้อย่อย · M06</p><h1>ตรึงข้อกล่าวอ้าง แล้วแตกเป็นสมมติฐานที่ตรวจได้</h1><ul class="outcomes"><li>เลือกกรณี (งานของตนเอง / reverse-engineer งานตีพิมพ์ / กรณีตัวอย่าง)</li><li>ตรึง candidate claim หนึ่งข้อ</li><li>แตกเป็นสมมติฐานและเงื่อนไขจำเป็นที่ trace ได้</li></ul></section>
+<div class="topic-layout"><nav class="topic-tabs" aria-label="ส่วนของหัวข้อ"><a href="#slides" title="สไลด์">สไลด์</a><a href="#workshop-core" title="Workshop หลัก">Workshop</a><a href="#open-explore" title="Exploring workshop">Exploring</a></nav><div class="topic-main"><section class="section markdown-section topic-panel" id="slides" aria-labelledby="slides-heading"><div class="section-heading compact"><p class="eyebrow">สไลด์</p><h2 id="slides-heading">สไลด์</h2></div><div class="markdown-body"><p>สไลด์ของหัวข้อนี้กำลังจัดทำ</p></div></section>
+<section class="section markdown-section topic-panel" id="workshop-core" aria-labelledby="workshop-core-heading"><div class="section-heading compact"><p class="eyebrow">Workshop</p><h2 id="workshop-core-heading">ตรึงข้อกล่าวอ้าง แล้วแตกเป็นสมมติฐานที่ตรวจได้</h2></div><div class="markdown-body"><h3 id="แนวคิดที่ใช้">แนวคิดที่ใช้</h3>
+<h4 id="สิ่งที่ต้องเตรียม">สิ่งที่ต้องเตรียม</h4>
+<ul>
+<li><code>module-06-experiment-design-workbook.md</code></li>
+<li>rough design ของตนเอง, open-access paper ที่มี Methods/Results และ verified DOI หรือ design dossier ตัวอย่างอย่างใดอย่างหนึ่ง</li>
+<li>ข้อมูลของ questionnaire, interview, sensor, simulation หรือ existing dataset ที่กำลังพิจารณาใช้</li>
+<li>hypothetical result cards 4 สถานะ โดยทำเครื่องหมายชัดเจนว่าไม่ใช่ผลจริง</li>
+<li>compliance-trigger checklist และลิงก์หน่วยงาน/แบบฟอร์มปัจจุบันของสถาบัน</li>
+<li>รูปแบบบันทึก <code>TBD — owner/source/date</code> สำหรับสิ่งที่ต้องถามผู้เชี่ยวชาญ</li>
+</ul>
+<h4 id="track-a--งานของตนเอง">Track A — งานของตนเอง</h4>
+<p>เหมาะกับผู้ที่มี objective/RQ, proposed idea และ rough design แล้ว แม้ยังไม่รู้ parameter หรือเครื่องมือครบ ให้นำ one-page design sketch ที่ระบุอย่างน้อย:</p>
+<ul>
+<li>problem/objective/RQ</li>
+<li>claim ที่อยากกล่าวเมื่อจบงาน</li>
+<li>แนวคิดหรือ mechanism</li>
+<li>สิ่งที่คิดว่าจะเปรียบเทียบและวัด</li>
+<li>จุดที่ยังไม่รู้หรือยังต้องถามผู้เชี่ยวชาญ</li>
+</ul>
+<h4 id="track-b--reverse-engineer-งานตีพิมพ์">Track B — Reverse-engineer งานตีพิมพ์</h4>
+<p>เหมาะกับผู้ที่ยังไม่มี design ของตนเอง เลือกบทความที่เข้าถึง Methods และ Results ได้จริงหนึ่งชิ้น แล้วทดลองแกะว่า claim ของบทความนั้นต้องอาศัยสมมุติฐาน การวัด คู่เทียบ และเงื่อนไขใดบ้าง เป้าหมายไม่ใช่ตัดสินว่าบทความผิด แต่เรียนรู้ anatomy ของ design จากงานจริง</p>
+<h4 id="track-c--กรณีออกแบบตัวอย่าง">Track C — กรณีออกแบบตัวอย่าง</h4>
+<p>ใช้ dossier ตัวอย่างที่มี problem, objective/RQ, proposed mechanism, candidate claim, literature extracts/DOI ที่ตรวจแล้ว, constraint, candidate dataset/instrument และ design sketch ที่จงใจเว้นช่องสำคัญ แต่ <strong>ไม่มีผลทดลองปลอม</strong> หน้าที่ของคุณคือเติมสิ่งที่ขาดและโจมตี design ส่วน scenario “ผลสนับสนุน/ไม่ต่าง/ขัดแย้ง” เป็นเพียง hypothetical result card สำหรับทดสอบตรรกะการตัดสินใจ ไม่ใช่หลักฐานวิจัย</p>
+<h4 id="1-เริ่มจาก-claim-แล้วถอยกลับ">1. เริ่มจาก claim แล้วถอยกลับ</h4>
+<p>ไม่เริ่มจากรายการเครื่องมือ เริ่มจากประโยคที่อยากสรุป แล้วถามย้อนกลับ:</p>
+<div class="command markdown-command"><code>Candidate claim
+  -&gt; ต้องมีข้อสรุปย่อยอะไรจึงกล่าวได้
+  -&gt; แต่ละข้อสรุปต้องเห็น observation/evidence อะไร
+  -&gt; observation ต้องวัด construct ใด
+  -&gt; ต้องใช้ comparator, sample, instrument และ environment แบบใด
+  -&gt; ผลแบบใดทำให้ claim ไม่ผ่านหรือยังสรุปไม่ได้</code><button type="button" data-copy="">คัดลอก</button></div><h4 id="2-สมมุติฐานไม่ได้มีเพียงประโยคเดียว">2. สมมุติฐานไม่ได้มีเพียงประโยคเดียว</h4>
+<p>แยก hypothesis/necessary condition อย่างน้อยห้ากลุ่ม:</p>
+<ul>
+<li><strong>Core effect/performance:</strong> ผลหลักที่ claim ต้องการ</li>
+<li><strong>Mechanism:</strong> เหตุผลหรือกระบวนการที่เชื่อว่าอธิบายผล</li>
+<li><strong>Measurement validity:</strong> เครื่องมือหรือ proxy วัดสิ่งที่อ้างจริง</li>
+<li><strong>Boundary/robustness:</strong> ผลยังอยู่ภายใต้ประชากร dataset environment หรือ parameter ใด</li>
+<li><strong>Safety/feasibility/compliance:</strong> วิธีไม่สร้างความเสี่ยงหรือเงื่อนไขที่ทำให้ใช้จริงไม่ได้</li>
+</ul>
+<p>คำว่า “list ให้หมด” ในทางปฏิบัติหมายถึงสร้าง claim tree แล้วตรวจ completeness จากหลายมุม พร้อมเปิดช่อง <code>unknown / expert review required</code> ไม่ใช่อ้างว่า AI รับรองว่ารายการครบสมบูรณ์แล้ว</p>
+<h3 id="ลงมือทำ">ลงมือทำ</h3>
+<h4 id="ลงมือ-stress-test-แบบวิจัยด้วย-ai">ลงมือ stress-test แบบวิจัยด้วย AI</h4>
+<p>เปิด <code>module-06-experiment-design-workbook.md</code> แล้วทำทีละช่วง ให้ AI ถามทีละคำถาม ช่วยจัดข้อมูลลงตาราง และชี้ช่องที่ยังไม่มีหลักฐาน แต่ห้ามให้ AI เติมค่าหรือเลือกวิธีแทนคุณ หากทำร่วมกับผู้อื่นสามารถแบ่งมุมตรวจเป็น:</p>
+<ul>
+<li><strong>Claim keeper:</strong> ตรวจว่า objective, hypothesis, evidence และ conclusion ใช้คำเดียวกัน</li>
+<li><strong>Design engineer:</strong> เติม specification, comparator, procedure และ measurement</li>
+<li><strong>Red-team/compliance recorder:</strong> พยายามหักล้าง design และบันทึก ethics/permission trigger</li>
+</ul>
+<p>หากเรียนคนเดียว ให้สั่ง AI สลับมุมตรวจทั้งสามบทบาท แต่คุณต้องเป็นผู้ตัดสินและเปิดหลักฐานตรวจทุกข้อ</p>
+<div class="command markdown-command"><code>ข้อมูลที่ฉันกำหนด:
+- TRACK: {{A งานของตนเอง / B reverse-engineer / C กรณีตัวอย่าง}}
+- CANDIDATE_CLAIM: {{พิมพ์ claim หนึ่งข้อที่ต้องการทดสอบ}}
+- TARGET_VENUE: {{พิมพ์ venue ที่สนใจ หรือเขียนว่า ยังไม่ทราบ}}
+
+พาฉันทำ Experiment Design Stress Test ทีละช่วง ถามครั้งละหนึ่งคำถามและรอคำตอบ ใช้เฉพาะไฟล์และข้อมูลที่ฉันให้ แยก learner decision, verified evidence, assumption และ TBD — owner/source/date ห้ามเลือก methodology, sample size, statistical test, instrument, parameter, ethics category หรือข้อสรุปแทนฉัน ทุกช่วงให้สรุปสิ่งที่ฉันยืนยัน จุดที่ยังขาด และไฟล์ที่อัปเดต ก่อนถามว่าจะไปช่วงถัดไปหรือแก้ของเดิม</code><button type="button" data-copy="">คัดลอก</button></div><h4 id="ช่วง-1--เลือกกรณีและตรึงข้อกล่าวอ้าง">ช่วง 1 — เลือกกรณีและตรึงข้อกล่าวอ้าง</h4>
+<p>เริ่มคุยกับ AI ทันที ไม่ต้องเขียนข้อกล่าวอ้างให้สมบูรณ์ก่อน เลือกทาง A/B/C แล้วให้ AI ถามเพื่อแยก “สิ่งที่อยากศึกษา” ออกจาก “สิ่งที่คาดว่าจะสรุปได้”</p>
+<div class="command markdown-command"><code>เริ่มช่วง 1 จากข้อมูลที่ฉันให้ไว้ ถ้ายังไม่รู้ว่าฉันเลือกทาง A, B หรือ C ให้ถามก่อน จากนั้นถามครั้งละหนึ่งคำถามเพื่อช่วยฉันเขียนข้อกล่าวอ้างเพียงหนึ่งข้อ ตรวจคำที่กว้าง คลุมเครือ หรือรวมหลายข้อไว้ด้วยกัน ถ้าฉันยังตอบไม่ได้ ให้บันทึกว่า “ต้องหาคำตอบ — ผู้รับผิดชอบ/แหล่งข้อมูล/วันที่” ห้ามแก้ข้อกล่าวอ้างแทนฉัน</code><button type="button" data-copy="">คัดลอก</button></div><p><strong>คุณต้องตัดสิน:</strong> ขอบเขต ประชากรหรือสถานการณ์ และคำสำคัญที่ยอมรับให้ใช้</p>
+<p><strong>ก่อนผ่านช่วงนี้:</strong> ให้ AI แสดงข้อกล่าวอ้างฉบับที่คุณยืนยัน คำที่นิยามแล้ว คำที่ยังไม่ชัด และเหตุผลที่ตัดส่วนเกินออก จากนั้นบันทึกลงสมุดงาน</p>
+<h4 id="ช่วง-2--แตกข้อกล่าวอ้างเป็นสมมติฐาน">ช่วง 2 — แตกข้อกล่าวอ้างเป็นสมมติฐาน</h4>
+<p>ให้ AI ช่วยถามย้อนจากข้อกล่าวอ้างว่า ต้องเห็นหลักฐานอะไร และผลแบบใดทำให้กล่าวเช่นนั้นไม่ได้ ใช้รหัส เช่น <code>H-C1</code>, <code>H-M1</code>, <code>H-V1</code>, <code>H-B1</code>, <code>H-S1</code> เพื่อเชื่อมรายการข้ามตาราง</p>
+<div class="command markdown-command"><code>ใช้ข้อกล่าวอ้างที่ฉันยืนยันในช่วง 1 พาฉันแตกเป็นสมมติฐานหรือเงื่อนไขจำเป็นทีละข้อ ครอบคลุมผลหลัก กลไก ความตรงของการวัด ขอบเขต และความปลอดภัยหรือความเป็นไปได้ สำหรับแต่ละข้อ ให้ถามฉันว่า (1) ต้องสังเกตอะไร (2) หลักฐานใดรองรับ และ (3) ผลแบบใดทำให้ไม่ผ่าน อย่าสร้างคำตอบเอง และอย่าไปข้อถัดไปจนกว่าฉันจะยืนยัน</code><button type="button" data-copy="">คัดลอก</button></div><p><strong>คุณต้องตัดสิน:</strong> สมมติฐานใดจำเป็นต่อข้อกล่าวอ้าง และข้อใดอยู่นอกขอบเขต</p>
+<p><strong>ก่อนผ่านช่วงนี้:</strong> ให้ AI ทำตาราง <code>รหัส → สิ่งที่ต้องเห็น → หลักฐาน → ไม่ผ่านเมื่อ</code> และชี้รายการที่ยังไม่มีหลักฐาน</p>
+</div></section>
+<section class="section markdown-section topic-panel" id="open-explore" aria-labelledby="open-explore-heading"><div class="section-heading compact"><p class="eyebrow">Exploring</p><h2 id="open-explore-heading">ตรึงข้อกล่าวอ้าง แล้วแตกเป็นสมมติฐานที่ตรวจได้</h2></div><div class="markdown-body"><p>ในโจทย์นี้คุณจะนำสิ่งที่ทำในหัวข้อนี้ไปใช้กับงานของคุณเอง</p>
+<p>ไม่มี prompt สำเร็จรูปให้</p>
+<h3 id="ก่อนเริ่ม-ต้องมีอยู่แล้ว">ก่อนเริ่ม (ต้องมีอยู่แล้ว)</h3>
+<ul>
+<li>ทำ workshop ของหัวข้อนี้แล้ว</li>
+<li>หัวข้อ proposal หรือบทความของคุณที่นำเข้า AI ได้</li>
+</ul>
+<h3 id="โจทย์">โจทย์</h3>
+<ol type="1">
+<li>เลือก claim หนึ่งข้อจากงานของคุณ (หรือจากงานตีพิมพ์ที่อ่าน) แล้วเขียน prompt เองให้ AI ช่วยแตกเป็นสมมติฐานและเงื่อนไขจำเป็น</li>
+<li>ตอบ: claim ของคุณต้องอาศัยสมมติฐานหรือเงื่อนไขจำเป็นใดบ้าง และข้อใดยังไม่มีหลักฐาน</li>
+</ol>
+<h3 id="เกณฑ์ผ่าน">เกณฑ์ผ่าน</h3>
+<ul class="task-list">
+<li><label><input type="checkbox">สมมติฐานทุกข้อ trace กลับถึง claim ได้</label></li>
+<li><label><input type="checkbox">AI ไม่ได้เลือกวิธีวิจัยหรือเติมค่าแทนคุณ</label></li>
+<li><label><input type="checkbox">เก็บ prompt ทุกรอบไว้ใน <code>output/prompts.md</code> และแสดงการปรับอย่างน้อย 1 รอบ พร้อมเหตุผล</label></li>
+</ul>
+</div></section></div></div>
+<script>
+(() => {
+  const tabs = [...document.querySelectorAll('.topic-tabs a')];
+  const panels = tabs.map(t => document.getElementById(t.hash.slice(1)));
+  function show(id) {
+    const i = Math.max(0, panels.findIndex(p => p && p.id === id));
+    panels.forEach((p, k) => { if (p) p.hidden = k !== i; });
+    tabs.forEach((t, k) => t.setAttribute('aria-current', k === i ? 'page' : 'false'));
+    const layout = document.querySelector('.topic-layout'); if (layout && panels[i]) layout.dataset.active = panels[i].id;
+  }
+  tabs.forEach(t => t.addEventListener('click', e => { e.preventDefault(); history.replaceState(null, '', t.hash); show(t.hash.slice(1)); window.scrollTo({top: 0}); }));
+  document.querySelectorAll('[data-next-tab]').forEach(b => b.addEventListener('click', e => { e.preventDefault(); const h = b.getAttribute('href'); history.replaceState(null, '', h); show(h.slice(1)); window.scrollTo({top: 0}); }));
+  document.querySelectorAll('[data-fullscreen]').forEach(b => b.addEventListener('click', () => {
+    const frame = document.querySelector(b.dataset.fullscreen);
+    const go = frame && (frame.requestFullscreen || frame.webkitRequestFullscreen);
+    if (go) go.call(frame); else if (frame) window.open(frame.src, '_blank', 'noopener');
+  }));
+  const layout0 = document.querySelector('.topic-layout');
+  const toggle = document.querySelector('[data-aside-toggle]');
+  function setAside(hidden) {
+    if (!layout0 || !toggle) return;
+    layout0.classList.toggle('aside-hidden', hidden);
+    toggle.setAttribute('aria-pressed', String(hidden));
+    toggle.textContent = hidden ? 'แสดงสไลด์ข้าง' : 'ซ่อนสไลด์ข้าง';
+    try { localStorage.setItem('airr.slideAsideHidden', hidden ? '1' : '0'); } catch (e) {}
+  }
+  if (toggle) {
+    let saved = true; try { saved = localStorage.getItem('airr.slideAsideHidden') !== '0'; } catch (e) {}  // hidden by default
+    setAside(saved);
+    toggle.addEventListener('click', () => setAside(!layout0.classList.contains('aside-hidden')));
+  }
+  show(location.hash.slice(1));
+  if (location.hash) requestAnimationFrame(() => window.scrollTo({top: 0}));
+})();
+</script>
+  </main>
+  <site-footer></site-footer>
+</body>
+</html>
