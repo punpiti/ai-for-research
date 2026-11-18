@@ -94,7 +94,7 @@ def problems(path):
 #      console (app/admin pages, + console.css) or landing (entry/marketing pages);
 #   3. no inline <style> blocks: page styles live in the shared CSS files.
 MODES = {"learn": "learn.css", "console": "console.css", "landing": None}
-SHELL_EXEMPT = {"404.html": "static error page served at any depth, no header"}
+SHELL_EXEMPT = {}  # 404.html uses <base href="/ai-for-research/"> so the shared shell works at any depth
 BODY = re.compile(r"<body\b[^>]*>", re.I)
 BODY_CLASS = re.compile(r"""class\s*=\s*["']([^"']*)["']""", re.I)
 
