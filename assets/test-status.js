@@ -1,4 +1,4 @@
-// Class page: topic test status, visible only to the listed testers (owner + 4 testers).
+// Class page: topic test status, visible only to the listed testers (owner + 5 testers).
 // Viewers are matched by sha256 of the signed-in email; learners see nothing.
 (() => {
   const LABELS = {
