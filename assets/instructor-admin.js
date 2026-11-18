@@ -765,31 +765,32 @@
     boxes.forEach((box) => {
       const topics = byModule[box.dataset.moduleTopics] || [];
       const used = topics.filter((topic) => topic.inPlan);
-      const unused = topics.filter((topic) => !topic.inPlan);
-      const upcoming = used.some((topic) => topic.upcoming);
-      const heading = node("p", "instructor-topic-heading", !used.length ? "ยังไม่มีหัวข้อในแผน"
-        : upcoming ? `หัวข้อในแผน (${used.length}) · โมดูลยังไม่เปิดให้ผู้เรียน` : `หัวข้อที่ผู้เรียนเห็น (${used.length})`);
+      const ordered = [...used, ...topics.filter((topic) => !topic.inPlan)];
+      const upcoming = topics.some((topic) => topic.upcoming);
+      const heading = node("p", "instructor-topic-heading", !topics.length ? "ยังไม่มีหัวข้อ"
+        : `หัวข้อ · ใช้ในคลาสนี้ ${used.length} จาก ${topics.length}${upcoming ? " · โมดูลยังไม่เปิดให้ผู้เรียน" : ""}`);
       box.replaceChildren(heading);
-      const list = (items, className) => {
-        const ol = node("ol", className);
-        items.forEach((topic) => {
-          const li = node("li");
-          const link = node("a", "", topic.title);
-          link.href = `../${topic.href}`;
-          link.target = "_blank";
-          link.rel = "noopener";
-          li.append(link);
-          if (topic.optional) li.append(node("span", "instructor-topic-tag", "เสริม"));
-          ol.append(li);
-        });
-        return ol;
-      };
-      if (used.length) box.append(list(used, "instructor-topic-list"));
-      if (unused.length) {
-        const more = node("details", "instructor-topic-unused");
-        more.append(node("summary", "", `ไม่ได้ใช้ในคลาสนี้ (${unused.length})`), list(unused, "instructor-topic-list is-unused"));
-        box.append(more);
-      }
+      if (!ordered.length) return;
+      // owner 2026-11-19: a checkbox per topic shows whether the class uses it (display only, not editable yet)
+      const ul = node("ul", "instructor-topic-list");
+      ordered.forEach((topic) => {
+        const li = node("li", topic.inPlan ? "is-used" : "is-unused");
+        const check = node("input");
+        check.type = "checkbox";
+        check.checked = topic.inPlan;
+        check.tabIndex = -1;  // status only: keeps the colour of a normal checkbox, ignores clicks
+        check.title = "แสดงสถานะเท่านั้น ยังแก้จากหน้านี้ไม่ได้";
+        check.addEventListener("click", (event) => event.preventDefault());
+        check.setAttribute("aria-label", `${topic.title}: ${topic.inPlan ? "ใช้ในคลาสนี้" : "ไม่ได้ใช้ในคลาสนี้"}`);
+        const link = node("a", "", topic.title);
+        link.href = `../${topic.href}`;
+        link.target = "_blank";
+        link.rel = "noopener";
+        li.append(check, link);
+        if (topic.optional) li.append(node("span", "instructor-topic-tag", "เสริม"));
+        ul.append(li);
+      });
+      box.append(ul);
     });
   }
 

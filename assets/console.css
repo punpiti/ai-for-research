@@ -304,11 +304,10 @@ body.console .submission-status.is-could_not_complete { color: var(--accent); }
 .instructor-module-topics:empty { display: none; }
 .instructor-topic-heading { margin: 0 0 .3rem; color: var(--ink-soft); font-size: .75rem; font-weight: 600; }
 .instructor-topic-note { color: var(--ink-soft); }
-.instructor-topic-list { margin: 0; padding-left: 1.2rem; display: grid; gap: .25rem; }
+.instructor-topic-list { margin: 0; padding: 0; list-style: none; display: grid; gap: .3rem; }
+.instructor-topic-list li { display: grid; grid-template-columns: auto 1fr; column-gap: .45rem; align-items: start; }
+.instructor-topic-list input[type="checkbox"] { margin: .2rem 0 0; accent-color: var(--mint); opacity: 1; cursor: default; }
 .instructor-topic-list a { color: var(--ink); text-decoration: none; line-height: 1.4; }
 .instructor-topic-list a:hover { color: var(--mint); text-decoration: underline; }
-.instructor-topic-tag { display: inline-block; margin-left: .35rem; padding: 0 .4rem; border: 1px solid var(--mint); border-radius: 99px; color: var(--mint); font-size: .68rem; vertical-align: middle; }
-.instructor-topic-unused { margin-top: .45rem; }
-.instructor-topic-unused summary { color: var(--ink-soft); font-size: .78rem; cursor: pointer; }
-.instructor-topic-list.is-unused { margin-top: .3rem; }
-.instructor-topic-list.is-unused a { color: var(--ink-soft); }
+.instructor-topic-list li.is-unused a { color: var(--ink-soft); }
+.instructor-topic-tag { grid-column: 2; justify-self: start; padding: 0 .4rem; border: 1px solid var(--mint); border-radius: 99px; color: var(--mint); font-size: .68rem; }
