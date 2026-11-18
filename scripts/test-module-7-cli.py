@@ -99,7 +99,7 @@ def run() -> None:
                 assert client.main(["--workspace", str(workspace), "check", "module-7"]) == 0
                 assert client.main(["--workspace", str(workspace), "submit", "module-7", "--yes"]) == 0
                 assert client.main(["--workspace", str(workspace), "status", "module-7"]) == 0
-                assert client.main(["--workspace", str(workspace), "init", "module-1"]) == 0
+                assert client.main(["--workspace", str(workspace), "init", "module-1", "--forms-only"]) == 0
                 module1_path = workspace / "module-01-work/output/module-1-progress.json"
                 module1 = json.loads(module1_path.read_text(encoding="utf-8"))
                 assert module1["completion_status"] == "could_not_complete"
@@ -120,7 +120,7 @@ def run() -> None:
                 assert 1 <= short_call[3]["progress"]["completion_minutes"] <= 600
                 assert not module1_path.exists(), "--short must not create a progress file"
                 # Module 2 short path: placeholder evaluation and missing files are refused locally.
-                assert client.main(["--workspace", str(workspace), "init", "module-2"]) == 0
+                assert client.main(["--workspace", str(workspace), "init", "module-2", "--forms-only"]) == 0
                 (workspace / "module-02-work/output/meal-card.md").write_text("# full\n# short\n", encoding="utf-8")
                 assert client.main(["--workspace", str(workspace), "check", "module-2", "--short"]) == 1
                 (workspace / "module-02-work/notes").mkdir(parents=True, exist_ok=True)
@@ -149,6 +149,7 @@ def run() -> None:
     else:
         raise AssertionError("invalid highlight count was accepted")
     materials_test()
+    init_test()
     ai_key_test()
     print("AIRR Module 7 VS Code client tests passed.")
 
@@ -181,6 +182,55 @@ def materials_test() -> None:
             assert (workspace / "module-04-work/thai-mock/input/original/mock-paper-th.pdf").is_file()
         finally:
             client.request_bytes = original
+
+
+def init_test() -> None:
+    """`airr init module-N` downloads the module's files once, never overwrites learner work,
+    puts a changed course file in .course-updates/, and needs AIRR only for login-protected files."""
+    import hashlib
+    with tempfile.TemporaryDirectory(prefix="airr-init-") as folder:
+        root = Path(folder); web = root / "web"; workspace = root / "ws"
+        (web / "course").mkdir(parents=True); workspace.mkdir()
+        course = web / "course" / "rules.md"; course.write_bytes(b"rules v1\n")
+        mock = web / "course" / "mock.md"; mock.write_bytes(b"mock\n")
+        entry = lambda path, url, data, kind: {"kind": kind, "url": url, "path": path, "sha256": hashlib.sha256(data).hexdigest(), "bytes": len(data)}
+        manifest = {"schema_version": "airr.module-materials.v1", "modules": {"module-9": {"files": [
+            entry("course-materials/module-09/rules.md", "course/rules.md", b"rules v1\n", "course"),
+            entry("module-09-work/input/mock.md", "course/mock.md", b"mock\n", "mock"),
+            {"kind": "api", "module": "module-9", "name": "paper.pdf", "path": "module-09-work/input/original/paper.pdf", "refresh": False},
+            {"kind": "copy", "from": "course-materials/module-09/rules.md", "path": "module-09-work/rules-copy.md"},
+        ]}}}
+        (web / "module-materials.json").write_text(json.dumps(manifest), encoding="utf-8")
+        url = (web / "module-materials.json").as_uri()
+        def call(*argv):
+            out = io.StringIO()
+            with contextlib.redirect_stdout(out):
+                assert client.main(["--workspace", str(workspace), "init", "module-9", "--manifest-url", url, *argv]) == 0
+            return out.getvalue()
+        text = call()
+        assert (workspace / "course-materials/module-09/rules.md").read_bytes() == b"rules v1\n"
+        assert (workspace / "module-09-work/rules-copy.md").read_bytes() == b"rules v1\n"
+        assert "ต้องเชื่อม AIRR ก่อน" in text and not (workspace / "module-09-work/input/original/paper.pdf").exists()
+        (workspace / "module-09-work/input/mock.md").write_bytes(b"learner edit\n")
+        course.write_bytes(b"rules v2\n"); manifest["modules"]["module-9"]["files"][0] = entry("course-materials/module-09/rules.md", "course/rules.md", b"rules v2\n", "course")
+        (web / "module-materials.json").write_text(json.dumps(manifest), encoding="utf-8")
+        text = call()
+        assert (workspace / "module-09-work/input/mock.md").read_bytes() == b"learner edit\n"
+        assert (workspace / "course-materials/module-09/rules.md").read_bytes() == b"rules v1\n"
+        assert (workspace / ".course-updates/course-materials/module-09/rules.md").read_bytes() == b"rules v2\n"
+        (workspace / ".airr").mkdir()
+        (workspace / ".airr/config.json").write_text(json.dumps({"schema_version": "airr.workspace.v1", "api_base": "https://example.test/api/airr/v1", "api_key": "airr_x", "classroom_id": "c"}), encoding="utf-8")
+        original = client.request_bytes
+        client.request_bytes = lambda u, key: b"pdf:" + u.encode()
+        try:
+            call()
+        finally:
+            client.request_bytes = original
+        assert (workspace / "module-09-work/input/original/paper.pdf").read_bytes() == b"pdf:https://example.test/api/airr/v1/modules/module-9/materials/paper.pdf"
+        manifest["modules"]["module-9"]["files"] = [{"kind": "copy", "from": "../outside.txt", "path": "module-09-work/x.txt"}]
+        (web / "module-materials.json").write_text(json.dumps(manifest), encoding="utf-8")
+        with contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(io.StringIO()):
+            assert client.main(["--workspace", str(workspace), "init", "module-9", "--manifest-url", url]) == 1
 
 
 def ai_key_test() -> None:

@@ -21,9 +21,12 @@ from uuid import uuid4
 
 
 DEFAULT_API_BASE = "https://urban.cpe.ku.ac.th/api/airr/v1"
-AIRR_VERSION = "2026.11.17.1"  # bump on every published change of this file
+AIRR_VERSION = "2026.11.19.1"  # bump on every published change of this file
 DOWNLOADS_PREFIX = "https://urban.cpe.ku.ac.th/ai-for-research/downloads/"
 MANIFEST_URL = DOWNLOADS_PREFIX + "course-materials.json"
+MODULE_MATERIALS_URL = DOWNLOADS_PREFIX + "module-materials.json"
+INIT_MODULES = ("module-1", "module-2", "module-3", "module-4", "module-5", "module-6", "module-7", "module-8", "module-9")
+MAX_MODULE_MANIFEST_BYTES = 1024 * 1024
 CLIENT_MANIFEST_SUFFIX = "tools/ai-for-research-course.py"
 EXPECTED_FILENAME = "module-07-highlights.md"
 MAX_MARKDOWN_BYTES = 64 * 1024
@@ -698,23 +701,135 @@ def command_whoami(args: argparse.Namespace) -> None:
             print(f"{module}{suffix}")
 
 
-def command_init(args: argparse.Namespace) -> None:
-    workspace = resolve_workspace(args.workspace)
-    if args.module == "module-1":
+def init_forms(workspace: Path, module: str, force: bool) -> None:
+    """Progress/evaluation forms (Module 1-3) for editing in VS Code. Local only."""
+    if module == "module-1":
         path = module_file(workspace, "module-1", "module-1-progress.json")
         value = form_template(INIT_MODULE_1_PROGRESS, workspace)
-    elif args.module == "module-2":
-        path = evaluation_path(workspace, "module-2", None)
-        value = form_template(INIT_EVALUATIONS["module-2"], workspace)
+    elif module in ("module-2", "module-3"):
+        path = evaluation_path(workspace, module, None)
+        value = form_template(INIT_EVALUATIONS[module], workspace)
     else:
-        path = evaluation_path(workspace, "module-3", None)
-        value = form_template(INIT_EVALUATIONS["module-3"], workspace)
-    if path.exists() and not args.force:
-        print(f"AIRR INIT SKIP · มีไฟล์อยู่แล้ว: {path}")
+        return
+    if path.exists() and not force:
+        print(f"AIRR INIT SKIP · มีไฟล์อยู่แล้ว: {path.relative_to(workspace)}")
         return
     write_private_json(path, value)
-    print(f"AIRR INIT PASS · {args.module}")
+    print(f"AIRR INIT FORM · {path.relative_to(workspace)}")
     print(f"edit={path}")
+
+
+def module_materials(manifest_url: str | None, module: str) -> list[dict[str, Any]]:
+    url = manifest_url or MODULE_MATERIALS_URL
+    try:
+        with urlopen(Request(url, headers={"User-Agent": "airr-init/1"}), timeout=30) as response:
+            manifest = json.loads(response.read(MAX_MODULE_MANIFEST_BYTES).decode("utf-8"))
+    except (HTTPError, URLError, TimeoutError, OSError, ValueError) as error:
+        raise AIRRError(f"อ่านรายการไฟล์ของโมดูลจากเว็บคลาสไม่ได้: {error}") from error
+    if not isinstance(manifest, dict) or manifest.get("schema_version") != "airr.module-materials.v1":
+        raise AIRRError("รายการไฟล์ของโมดูลมีรูปแบบไม่ถูกต้อง แจ้งผู้สอน")
+    files = (manifest.get("modules") or {}).get(module, {}).get("files", [])
+    return [item for item in files if isinstance(item, dict)]
+
+
+def workspace_target(workspace: Path, value: Any) -> Path:
+    text = str(value or "")
+    target = (workspace / text).resolve()
+    root = workspace.resolve()
+    if not text or text.startswith(("/", "\\")) or ".." in Path(text).parts or root not in target.parents:
+        raise AIRRError(f"ตำแหน่งไฟล์ในรายการไม่ปลอดภัย: {text}")
+    return target
+
+
+def download_public(url_path: str, expected_sha256: str, expected_bytes: int, base: str) -> bytes:
+    if not re.fullmatch(r"[A-Za-z0-9._/-]+", url_path or "") or ".." in url_path.split("/"):
+        raise AIRRError(f"ที่อยู่ไฟล์ในรายการไม่ถูกต้อง: {url_path}")
+    try:
+        with urlopen(Request(base + url_path, headers={"User-Agent": "airr-init/1"}), timeout=120) as response:
+            data = response.read(int(expected_bytes) + 1)
+    except (HTTPError, URLError, TimeoutError, OSError) as error:
+        raise AIRRError(f"ดาวน์โหลด {url_path} ไม่ได้: {error}") from error
+    if len(data) != int(expected_bytes) or hashlib.sha256(data).hexdigest() != expected_sha256:
+        raise AIRRError(f"checksum ของ {url_path} ไม่ตรงกับรายการ แจ้งผู้สอน")
+    return data
+
+
+def write_file(target: Path, data: bytes) -> None:
+    target.parent.mkdir(parents=True, exist_ok=True)
+    temporary = target.with_name(target.name + ".airr-tmp")
+    temporary.write_bytes(data)
+    os.replace(temporary, target)
+
+
+def command_init(args: argparse.Namespace) -> None:
+    """Prepare one module in the workspace: its form (Module 1-3) and every file its topics use.
+
+    Never overwrites a learner's file. A changed course file goes to .course-updates/ instead.
+    Files behind the class login (Module 2/4 practice files) need the AIRR Key.
+    """
+    workspace = resolve_workspace(args.workspace)
+    init_forms(workspace, args.module, args.force)
+    if args.forms_only:
+        print(f"AIRR INIT PASS · {args.module}")
+        return
+    files = module_materials(args.manifest_url, args.module)
+    base = (args.manifest_url.rsplit("/", 1)[0] + "/") if args.manifest_url else DOWNLOADS_PREFIX
+    config = None
+    counts = {"get": 0, "keep": 0, "update": 0, "skip": 0}
+    for item in files:
+        kind = item.get("kind")
+        target = workspace_target(workspace, item.get("path"))
+        shown = target.relative_to(workspace.resolve())
+        if kind in ("course", "mock"):
+            if target.is_file():
+                if hashlib.sha256(target.read_bytes()).hexdigest() == item.get("sha256"):
+                    counts["keep"] += 1
+                    continue
+                if kind == "mock":
+                    print(f"AIRR KEEP · แก้ไว้แล้ว ไม่เขียนทับ: {shown}")
+                    counts["keep"] += 1
+                    continue
+                update = workspace_target(workspace, ".course-updates/" + str(item.get("path")))
+                write_file(update, download_public(str(item.get("url")), str(item.get("sha256")), int(item.get("bytes", 0)), base))
+                print(f"AIRR UPDATE · ไฟล์ของคลาสรุ่นใหม่อยู่ที่ {update.relative_to(workspace.resolve())} (ไฟล์เดิมไม่ถูกแตะ)")
+                counts["update"] += 1
+                continue
+            write_file(target, download_public(str(item.get("url")), str(item.get("sha256")), int(item.get("bytes", 0)), base))
+            print(f"AIRR GET · {shown}")
+            counts["get"] += 1
+        elif kind == "api":
+            if target.exists() and not item.get("refresh"):
+                counts["keep"] += 1
+                continue
+            if config is None:
+                config = read_config(workspace, required=False) or {}
+            if not config.get("api_key"):
+                print(f"AIRR SKIP · ต้องเชื่อม AIRR ก่อน (AIRR login): {shown}")
+                counts["skip"] += 1
+                continue
+            module = str(item.get("module", ""))
+            name = str(item.get("name", ""))
+            if module not in INIT_MODULES or not re.fullmatch(r"[A-Za-z0-9._-]+", name):
+                raise AIRRError(f"รายการไฟล์ของ {args.module} ไม่ถูกต้อง: {name}")
+            write_file(target, request_bytes(f"{config['api_base']}/modules/{module}/materials/{name}", config["api_key"]))
+            print(f"AIRR GET · {shown}")
+            counts["get"] += 1
+        elif kind == "copy":
+            source = workspace_target(workspace, item.get("from"))
+            if target.exists():
+                counts["keep"] += 1
+            elif source.is_file():
+                write_file(target, source.read_bytes())
+                print(f"AIRR COPY · {shown}")
+                counts["get"] += 1
+            else:
+                print(f"AIRR SKIP · ยังไม่มีต้นฉบับ {source.relative_to(workspace.resolve())}")
+                counts["skip"] += 1
+    if args.module == "module-7":
+        (workspace / "module-07-work" / "figures").mkdir(parents=True, exist_ok=True)
+    print(f"AIRR INIT PASS · {args.module} · ใหม่ {counts['get']} · มีอยู่แล้ว {counts['keep']}"
+          + (f" · รุ่นใหม่ใน .course-updates {counts['update']}" if counts["update"] else "")
+          + (f" · ข้าม {counts['skip']}" if counts["skip"] else ""))
 
 
 def command_check(args: argparse.Namespace) -> None:
@@ -844,7 +959,7 @@ HELP_TOPICS = {
     "whoami": "whoami\n  ถาม server ว่า AIRR Key ของ workspace นี้ผูกกับบัญชีและคลาสใด และโมดูลไหนเปิดอยู่\n  ใช้ทดสอบหลังติดตั้ง ผู้สอนจะเห็นว่าคุณเชื่อมแล้ว\n  ไม่ส่งไฟล์ใด ๆ · ถ้าแจ้งว่าไม่มี key: สร้าง AIRR Key ในหน้าเว็บแล้วรันคำสั่งติดตั้งซ้ำ",
     "login": "login\n  เชื่อม workspace ด้วย AIRR Key (ระบบจะถามโดยไม่แสดงตัวอักษร)\n  ปกติไม่ต้องใช้ เพราะตัวติดตั้งเชื่อมให้แล้ว",
     "logout": "logout\n  ลบ AIRR Key ออกจาก workspace นี้ ใช้เมื่อเลิกใช้เครื่องหรือ key รั่ว\n  หลัง logout ต้องสร้าง key ใหม่และเชื่อมใหม่ก่อนส่งงาน",
-    "init": "init module-1|module-2|module-3 [--force]\n  สร้างไฟล์ progress หรือ evaluation ของโมดูลใน module-0N-work/output/ ให้แก้ใน VS Code\n  ไม่เขียนทับไฟล์เดิม ยกเว้นใส่ --force · ไม่ติดต่อ server\n  ตัวอย่าง: init module-1",
+    "init": "init module-N [--force] [--forms-only]\n  เตรียมโมดูลใน workspace: ดาวน์โหลดไฟล์ที่ทุกหัวข้อของโมดูลนั้นใช้ลง course-materials/ และ module-0N-work/\n  และสร้างไฟล์ progress/evaluation (Module 1–3) ให้แก้ใน VS Code\n  ไม่เขียนทับไฟล์ของผู้เรียน ไฟล์ของคลาสรุ่นใหม่จะไปอยู่ใน .course-updates/ · ไฟล์ฝึก Module 2/4 ต้องเชื่อม AIRR ก่อน\n  --force เขียนทับเฉพาะไฟล์ progress/evaluation · --forms-only ไม่ดาวน์โหลด\n  ตัวอย่าง: init module-4",
     "check": "check MODULE [--file ...] [--graph ...]\n  ตรวจไฟล์ของโมดูลในเครื่องว่าครบตามรูปแบบก่อนส่ง ไม่ส่งอะไรออกจากเครื่อง\n  ตัวอย่าง: check module-1 · check module-7 --graph module-07-work/figures/fig1.png",
     "submit": "submit MODULE [--yes] [--short]\n  ส่งงานหรือสถานะของโมดูลให้ผู้สอน แสดงสรุปและถามยืนยันก่อนส่ง (--yes = ไม่ถามซ้ำ)\n  Module 1 ส่งเฉพาะเช็กลิสต์และเวลา ไม่ส่งไฟล์งาน · Module 7 ส่ง highlights และกราฟ 1–5 ภาพ\n  --short Module 1: แจ้งผู้สอนว่าเสร็จ (ผู้เรียนติ๊กเช็กลิสต์บนเว็บเองแล้ว) · Module 2/3: แจ้งว่าเสร็จด้วยจำนวนบรรทัด ไม่ส่งเนื้อหา\n  ตัวอย่าง: submit module-1 --short --yes",
     "status": "status module-1|module-2|module-3|module-4|module-7\n  ดูว่าผู้สอนได้รับงานแล้วหรือยัง ผลตรวจ และ feedback\n  ตัวอย่าง: status module-7",
@@ -893,9 +1008,11 @@ def parser() -> argparse.ArgumentParser:
     update.set_defaults(handler=command_update)
     whoami = commands.add_parser("whoami", help="ดูคลาสที่เชื่อมกับ AIRR")
     whoami.set_defaults(handler=command_whoami)
-    init = commands.add_parser("init", help="สร้างไฟล์ progress/evaluation สำหรับแก้ใน VS Code")
-    init.add_argument("module", choices=("module-1", "module-2", "module-3"))
-    init.add_argument("--force", action="store_true", help="เขียนทับไฟล์เดิม")
+    init = commands.add_parser("init", help="เตรียมโมดูล: ดาวน์โหลดไฟล์ของโมดูลลง workspace และสร้างไฟล์ progress/evaluation")
+    init.add_argument("module", choices=INIT_MODULES)
+    init.add_argument("--force", action="store_true", help="เขียนทับไฟล์ progress/evaluation เดิม")
+    init.add_argument("--forms-only", action="store_true", help="สร้างเฉพาะไฟล์ progress/evaluation ไม่ดาวน์โหลด")
+    init.add_argument("--manifest-url", help=argparse.SUPPRESS)
     init.set_defaults(handler=command_init)
     check = commands.add_parser("check", help="ตรวจ highlights และกราฟในเครื่อง")
     add_module_files(check)

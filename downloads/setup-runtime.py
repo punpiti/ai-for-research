@@ -5,6 +5,7 @@ from datetime import datetime, timezone
 import hashlib
 import json
 import os
+import re
 from pathlib import Path
 import platform
 import shlex
@@ -279,41 +280,58 @@ def setup_airr(workspace, python):
         log(f'AIRR_LOGIN_SKIPPED {reason[:200]}; create a new key and run tools/airr login later.')
 
 
-# Practice files for later modules, fetched once with the AIRR Key during
-# Module 1 so learners do not need a separate download step.
-MODULE_PRACTICE_FILES = (
-    ('module-2', ('materials', 'module-2')),
-    ('module-4', ('materials', 'module-4')),
-    ('module-4 (Thai)', ('materials', 'module-4', '--thai')),
-)
+# owner 2026-11-19: Module 1 prepares every module of the class through the AIRR client,
+# one module at a time: `airr init module-N` downloads the files all topics of that module
+# use (course-materials/ and module-0N-work/) and creates its progress/evaluation form.
+def class_modules(workspace, python, client):
+    """module-1 plus every module in this class's syllabus (from `airr whoami`)."""
+    modules = ['module-1']
+    if not (workspace / '.airr' / 'config.json').exists():
+        return modules
+    try:
+        result = subprocess.run([str(python), str(client), '--workspace', str(workspace), 'whoami'],
+                                capture_output=True, text=True, timeout=60)
+    except (OSError, subprocess.TimeoutExpired):
+        return modules
+    for line in (result.stdout or '').splitlines():
+        name = line.split()[0] if line.startswith('module-') else ''
+        if re.fullmatch(r'module-[1-9]', name) and name not in modules:
+            modules.append(name)
+    return modules
 
 
-def fetch_module_practice_files(workspace, python):
-    """Download Module 2 and Module 4 practice files. Never fails Module 1.
+def init_class_modules(workspace, python):
+    """Run `airr init` for each module of the class. Never fails Module 1.
 
-    The AIRR client skips files that already exist, so reruns keep learner work.
+    The client never overwrites learner files, so reruns keep learner work.
+    Returns the modules after Module 1 whose files are ready.
     """
     client = workspace / AIRR_CLIENT
-    if not (workspace / '.airr' / 'config.json').exists() or not client.is_file():
-        log('PRACTICE_FILES_SKIPPED AIRR is not connected yet; after connecting, run tools/airr materials module-2 and module-4.')
+    if not client.is_file():
+        log('PRACTICE_FILES_SKIPPED AIRR client is missing; rerun this installer later.')
         return []
+    if not (workspace / '.airr' / 'config.json').exists():
+        log('PRACTICE_FILES_SKIPPED AIRR is not connected yet; after connecting, ask the AI to run tools/airr init module-N for each module.')
     ready = []
-    for label, arguments in MODULE_PRACTICE_FILES:
+    for module in class_modules(workspace, python, client):
         try:
-            result = subprocess.run([str(python), str(client), '--workspace', str(workspace), *arguments],
-                                    capture_output=True, text=True, timeout=180)
+            result = subprocess.run([str(python), str(client), '--workspace', str(workspace), 'init', module],
+                                    capture_output=True, text=True, timeout=900)
         except (OSError, subprocess.TimeoutExpired) as error:
-            log(f'PRACTICE_FILES_SKIPPED {label}: {type(error).__name__}; rerun this installer later.')
+            log(f'PRACTICE_FILES_SKIPPED {module}: {type(error).__name__}; rerun this installer later.')
             continue
         if result.returncode == 0:
-            ready.append(label)
+            ready.append(module)
+            summary = [line for line in (result.stdout or '').splitlines() if line.startswith('AIRR INIT PASS')]
+            log('MODULE_INIT ' + (summary[-1] if summary else module))
         else:
             reason = ((result.stderr or result.stdout or '').strip().splitlines() or ['unknown error'])[-1]
-            log(f'PRACTICE_FILES_SKIPPED {label}: {reason[:200]}')
-    if ready:
-        log('PRACTICE_FILES_READY ' + ', '.join(ready)
-            + ' (module-02-work/input/original/, module-04-work/input/original/, module-04-work/thai-mock/).')
-    return ready
+            log(f'PRACTICE_FILES_SKIPPED {module}: {reason[:200]}')
+    later = [module for module in ready if module != 'module-1']
+    if later:
+        log('PRACTICE_FILES_READY ' + ', '.join(later)
+            + ' (airr init per module: course-materials/ and module-0N-work/).')
+    return later
 
 
 def pdf_driver_diagnostics(tex_bin):
@@ -649,33 +667,6 @@ def configure(workspace, agent, root, env, python_receipt=None):
     log(f'RUNTIME_ROOT {root}')
 
 
-def prepare_module_forms(workspace, python):
-    """Create the progress/evaluation forms for the class syllabus (local only).
-
-    The syllabus already says which modules the learner takes, so the learner and
-    their AI never have to create these files. Existing files are kept. Never fails.
-    """
-    client = workspace / AIRR_CLIENT
-    if not client.is_file():
-        return
-    modules = ['module-1']
-    if (workspace / '.airr' / 'config.json').exists():
-        try:
-            result = subprocess.run([str(python), str(client), '--workspace', str(workspace), 'whoami'],
-                                    capture_output=True, text=True, timeout=60)
-            listed = [line.split()[0] for line in (result.stdout or '').splitlines() if line.startswith('module-')]
-            modules = [m for m in ('module-1', 'module-2', 'module-3') if m in listed] or modules
-        except (OSError, subprocess.TimeoutExpired):
-            pass
-    for module in modules:
-        try:
-            subprocess.run([str(python), str(client), '--workspace', str(workspace), 'init', module],
-                           capture_output=True, text=True, timeout=60)
-        except (OSError, subprocess.TimeoutExpired):
-            continue
-    log(f'MODULE_FORMS_READY {", ".join(modules)}')
-
-
 def fetch_ai_key(workspace, python):
     """OpenRouter learners: fetch the class-issued key into ~/.airr/ai-key.txt.
 
@@ -802,8 +793,7 @@ def main():
     configure(workspace, args.agent, root, env, python_receipt)
     step('Connecting AIRR to your class and preparing practice files')
     setup_airr(workspace, python_bin / ('python.exe' if os.name == 'nt' else 'python'))
-    practice_ready = fetch_module_practice_files(workspace, python_bin / ('python.exe' if os.name == 'nt' else 'python'))
-    prepare_module_forms(workspace, python_bin / ('python.exe' if os.name == 'nt' else 'python'))
+    practice_ready = init_class_modules(workspace, python_bin / ('python.exe' if os.name == 'nt' else 'python'))
     if args.agent == 'openrouter':
         fetch_ai_key(workspace, python_bin / ('python.exe' if os.name == 'nt' else 'python'))
     for path in tracked:

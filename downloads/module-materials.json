@@ -1,0 +1,339 @@
+{
+ "schema_version": "airr.module-materials.v1",
+ "modules": {
+  "module-2": {
+   "files": [
+    {
+     "kind": "api",
+     "module": "module-2",
+     "name": "module-02-food-evidence.zip",
+     "path": "module-02-work/input/original/module-02-food-evidence.zip",
+     "refresh": false
+    }
+   ]
+  },
+  "module-3": {
+   "files": [
+    {
+     "kind": "mock",
+     "url": "topics/candidate-gap-ledger-and-prosecution/mock/menus.md",
+     "path": "module-03-work/input/hunger-mock/menus.md",
+     "sha256": "c052429b24f1ca8d8f25c2b1af1a28951a7b7f1b70f0a2e498ecb91c0c3e784f",
+     "bytes": 472
+    },
+    {
+     "kind": "mock",
+     "url": "topics/candidate-gap-ledger-and-prosecution/mock/reviews.md",
+     "path": "module-03-work/input/hunger-mock/reviews.md",
+     "sha256": "e822a274233452efbcf24784f8d0067455f4938ecdb11e65d0f1f8c79b5bf5d0",
+     "bytes": 566
+    },
+    {
+     "kind": "mock",
+     "url": "topics/candidate-gap-ledger-and-prosecution/mock/evidence-inventory.md",
+     "path": "module-03-work/input/hunger-mock/evidence-inventory.md",
+     "sha256": "1ab0589d3b0f69c4eee11c57bc453b8e863a778785c6329280ae65e39bae4595",
+     "bytes": 1514
+    },
+    {
+     "kind": "api",
+     "module": "module-4",
+     "name": "mock-paper-th.pdf",
+     "path": "module-04-work/thai-mock/input/original/mock-paper-th.pdf",
+     "refresh": false
+    }
+   ]
+  },
+  "module-4": {
+   "files": [
+    {
+     "kind": "api",
+     "module": "module-4",
+     "name": "citation-audit-rules.md",
+     "path": "course-materials/module-04/citation-audit-rules.md",
+     "refresh": true
+    },
+    {
+     "kind": "api",
+     "module": "module-4",
+     "name": "citation-register-template.csv",
+     "path": "course-materials/module-04/citation-register-template.csv",
+     "refresh": true
+    },
+    {
+     "kind": "api",
+     "module": "module-4",
+     "name": "mock-paper.pdf",
+     "path": "module-04-work/input/original/mock-paper.pdf",
+     "refresh": false
+    },
+    {
+     "kind": "api",
+     "module": "module-4",
+     "name": "mock-paper-th.pdf",
+     "path": "module-04-work/thai-mock/input/original/mock-paper-th.pdf",
+     "refresh": false
+    }
+   ]
+  },
+  "module-7": {
+   "files": [
+    {
+     "kind": "course",
+     "url": "course-materials/visualization/notebooks/module-07-data-visualization.ipynb",
+     "path": "course-materials/module-07/notebooks/module-07-data-visualization.ipynb",
+     "sha256": "cd1ff0f2f4988f46520f49e78dc7fb65246069c1061afea8fa1c0cd064bfd812",
+     "bytes": 2604
+    },
+    {
+     "kind": "course",
+     "url": "course-materials/visualization/notebooks/module-07a-read-and-audit.ipynb",
+     "path": "course-materials/module-07/notebooks/module-07a-read-and-audit.ipynb",
+     "sha256": "0f89110adebf3fbc1de0325b16425cdf2fff59fdb71b234bc870ce117ee7ecbd",
+     "bytes": 946105
+    },
+    {
+     "kind": "course",
+     "url": "course-materials/visualization/notebooks/module-07b-revise-and-publish.ipynb",
+     "path": "course-materials/module-07/notebooks/module-07b-revise-and-publish.ipynb",
+     "sha256": "0396e33ca6d226037d45190e2adcebc6c765f34f70a094e89b65aab2d8b5efce",
+     "bytes": 5297695
+    },
+    {
+     "kind": "course",
+     "url": "course-materials/visualization/notebooks/module-07c-matplotlib-foundations.ipynb",
+     "path": "course-materials/module-07/notebooks/module-07c-matplotlib-foundations.ipynb",
+     "sha256": "8ef5f5520cf9ad15c0ca6a2581ed986bc70b64186afc2e53dcf2e18eec35929d",
+     "bytes": 88136
+    },
+    {
+     "kind": "course",
+     "url": "course-materials/visualization/notebooks/module-07-environment.yml",
+     "path": "course-materials/module-07/notebooks/module-07-environment.yml",
+     "sha256": "52afbe01618b77675586fa316963c192a10d67d505ba351e0203a9c66cb9aab5",
+     "bytes": 351
+    },
+    {
+     "kind": "course",
+     "url": "course-materials/visualization/notebooks/module-07-requirements.txt",
+     "path": "course-materials/module-07/notebooks/module-07-requirements.txt",
+     "sha256": "c749f4ff5de3e16fbcb786bfb8f1f8532a54c5fd0890e460101d13f0b89ee1bf",
+     "bytes": 118
+    },
+    {
+     "kind": "course",
+     "url": "course-materials/visualization/notebooks/module-07-standalone-setup.md",
+     "path": "course-materials/module-07/notebooks/module-07-standalone-setup.md",
+     "sha256": "f1885424d6110ee497e91209a32487bf0fa4001dc72b01e35e255001f3fa8b35",
+     "bytes": 5642
+    },
+    {
+     "kind": "course",
+     "url": "course-materials/visualization/fonts/Sarabun-Regular.ttf",
+     "path": "course-materials/module-07/fonts/Sarabun-Regular.ttf",
+     "sha256": "226d4f368fbc0457990ddef2692679badfd2c1a4e89e5ac4d43c10ba7743b2f1",
+     "bytes": 90220
+    },
+    {
+     "kind": "course",
+     "url": "course-materials/visualization/fonts/Sarabun-Bold.ttf",
+     "path": "course-materials/module-07/fonts/Sarabun-Bold.ttf",
+     "sha256": "d38308ca27d067b9a1b79006337c1f9a66c29aa016d96a9d88d3801da7fa83b9",
+     "bytes": 89804
+    },
+    {
+     "kind": "course",
+     "url": "course-materials/visualization/fonts/OFL.txt",
+     "path": "course-materials/module-07/fonts/OFL.txt",
+     "sha256": "b26cae1321380296ba8311b632a397d5eac11b47197f9d0aa0b9310f1531ad60",
+     "bytes": 4387
+    },
+    {
+     "kind": "course",
+     "url": "course-materials/visualization/templates/module-07-data-analysis-visualization-workbook.md",
+     "path": "course-materials/module-07/templates/module-07-data-analysis-visualization-workbook.md",
+     "sha256": "0d0aa168bb6ea8ea0e73517b5095ddd20056c257fc96a3fc933fdd5db80eeefd",
+     "bytes": 14249
+    },
+    {
+     "kind": "course",
+     "url": "course-materials/visualization/templates/module-07-visualization-workflow-and-prompts.md",
+     "path": "course-materials/module-07/templates/module-07-visualization-workflow-and-prompts.md",
+     "sha256": "34df907f77d397fc912d05a54bf8d3731648881c32c53c01687ccfdac3b27e1f",
+     "bytes": 5375
+    },
+    {
+     "kind": "course",
+     "url": "course-materials/visualization/examples/figure-consistency/README.md",
+     "path": "course-materials/module-07/examples/figure-consistency/README.md",
+     "sha256": "4d26533bec20a723f55d427b187d302d5014abff1e27d4071503a4ce3998addd",
+     "bytes": 3009
+    },
+    {
+     "kind": "course",
+     "url": "course-materials/visualization/examples/figure-consistency/mock-article-figure-consistency.pdf",
+     "path": "course-materials/module-07/examples/figure-consistency/mock-article-figure-consistency.pdf",
+     "sha256": "9f629482c6f5f92e67e497d03ac0cf5c3edf4b3db24398a2f8b1caeb441b2dbb",
+     "bytes": 366002
+    },
+    {
+     "kind": "course",
+     "url": "course-materials/visualization/examples/figure-consistency/mock-study-data.csv",
+     "path": "course-materials/module-07/examples/figure-consistency/mock-study-data.csv",
+     "sha256": "23d88b118b5afd0626f445f61227646c76c8539a13d4a0575645cfea04609956",
+     "bytes": 42270
+    },
+    {
+     "kind": "course",
+     "url": "course-materials/visualization/examples/figure-consistency/figure-consistency-audit-template.md",
+     "path": "course-materials/module-07/examples/figure-consistency/figure-consistency-audit-template.md",
+     "sha256": "6cc74aef8e4605c79c86d7553ab15ae622290fb3107aec4921d4c46b090015a0",
+     "bytes": 4255
+    },
+    {
+     "kind": "course",
+     "url": "course-materials/visualization/tools/ai-for-research-course.py",
+     "path": "course-materials/module-07/tools/ai-for-research-course.py",
+     "sha256": "81a9b3771f872dfde421067bd71576a73434c0781642ab1b0d8bbb9631919c35",
+     "bytes": 68558
+    },
+    {
+     "kind": "copy",
+     "from": "course-materials/module-07/examples/figure-consistency/figure-consistency-audit-template.md",
+     "path": "module-07-work/module-07-figure-audit.md"
+    }
+   ]
+  },
+  "module-8": {
+   "files": [
+    {
+     "kind": "course",
+     "url": "course-materials/document-production/README.md",
+     "path": "course-materials/module-08/README.md",
+     "sha256": "13cc7351faa7c4adc2fbe7c6f692b7736d92e365c4138bc79596f3b38ffe26d7",
+     "bytes": 2919
+    },
+    {
+     "kind": "course",
+     "url": "course-materials/document-production/data/mock-study-data.csv",
+     "path": "course-materials/module-08/data/mock-study-data.csv",
+     "sha256": "23d88b118b5afd0626f445f61227646c76c8539a13d4a0575645cfea04609956",
+     "bytes": 42270
+    },
+    {
+     "kind": "course",
+     "url": "course-materials/document-production/evidence/analysis-summary.csv",
+     "path": "course-materials/module-08/evidence/analysis-summary.csv",
+     "sha256": "98493cd3d794f6a97e12b5ed19b1d7c71a3fa7196403f931bfd8e8e3c6a5fd45",
+     "bytes": 688
+    },
+    {
+     "kind": "course",
+     "url": "course-materials/document-production/evidence/module-07-highlights-example.md",
+     "path": "course-materials/module-08/evidence/module-07-highlights-example.md",
+     "sha256": "c4c827b2da6a12460b9b76b14a6d22f198050fef8f3fc166c8e0d07a9236a786",
+     "bytes": 2197
+    },
+    {
+     "kind": "course",
+     "url": "course-materials/document-production/figures/pm25-before-after.png",
+     "path": "course-materials/module-08/figures/pm25-before-after.png",
+     "sha256": "b6309883a7ff1b4b3a4c5b32b21452b7ec214c5be0e81b4bba79729aadc917de",
+     "bytes": 86841
+    },
+    {
+     "kind": "course",
+     "url": "course-materials/document-production/journal-dossiers/journal-a-profile.md",
+     "path": "course-materials/module-08/journal-dossiers/journal-a-profile.md",
+     "sha256": "6fe10f94118eacb896d62837a9a498bb35ccb01f0adf6780a5f4fb1cd35170b2",
+     "bytes": 1980
+    },
+    {
+     "kind": "course",
+     "url": "course-materials/document-production/journal-dossiers/journal-b-profile.md",
+     "path": "course-materials/module-08/journal-dossiers/journal-b-profile.md",
+     "sha256": "376e3e39216246da3e803df8369d67bcbc843daeba71a9a255f85c30b6ea9026",
+     "bytes": 1827
+    },
+    {
+     "kind": "course",
+     "url": "course-materials/document-production/literature/references.bib",
+     "path": "course-materials/module-08/literature/references.bib",
+     "sha256": "c7bddb180016c936b9581049ec0f9ceac7145c8ccfd42092f01e663fbcbf0202",
+     "bytes": 2241
+    },
+    {
+     "kind": "course",
+     "url": "course-materials/document-production/templates/manuscript-starter.md",
+     "path": "course-materials/module-08/templates/manuscript-starter.md",
+     "sha256": "42d98cb95063c73ea890b3a8682bff8ba06bf50b1fc72b55a91c9809a25479b1",
+     "bytes": 2169
+    },
+    {
+     "kind": "course",
+     "url": "course-materials/document-production/templates/submission-readiness-template.md",
+     "path": "course-materials/module-08/templates/submission-readiness-template.md",
+     "sha256": "521d6bfc409d9567529a4244586b7dec84bef86eb4e4389a80c70ccd3537e027",
+     "bytes": 629
+    },
+    {
+     "kind": "course",
+     "url": "course-materials/document-production/templates/venue-change-impact-template.md",
+     "path": "course-materials/module-08/templates/venue-change-impact-template.md",
+     "sha256": "e26ae6476bfd28e2e678bc9b3b52b82edb7d86cecd9fc54a052c170edcd4bbcc",
+     "bytes": 723
+    },
+    {
+     "kind": "copy",
+     "from": "course-materials/module-08/literature/references.bib",
+     "path": "module-08-work/literature/references.bib"
+    },
+    {
+     "kind": "copy",
+     "from": "course-materials/module-08/journal-dossiers/journal-a-profile.md",
+     "path": "module-08-work/journal-dossiers/journal-a/original/profile.md"
+    },
+    {
+     "kind": "copy",
+     "from": "course-materials/module-08/journal-dossiers/journal-b-profile.md",
+     "path": "module-08-work/journal-dossiers/journal-b/original/profile.md"
+    },
+    {
+     "kind": "copy",
+     "from": "course-materials/module-08/templates/venue-change-impact-template.md",
+     "path": "module-08-work/submission/venue-change-impact.md"
+    },
+    {
+     "kind": "copy",
+     "from": "course-materials/module-08/templates/manuscript-starter.md",
+     "path": "module-08-work/source/manuscript.md"
+    },
+    {
+     "kind": "copy",
+     "from": "course-materials/module-08/data/mock-study-data.csv",
+     "path": "module-08-work/input/mock-study-data.csv"
+    },
+    {
+     "kind": "copy",
+     "from": "course-materials/module-08/evidence/analysis-summary.csv",
+     "path": "module-08-work/input/analysis-summary.csv"
+    },
+    {
+     "kind": "copy",
+     "from": "course-materials/module-08/evidence/module-07-highlights-example.md",
+     "path": "module-08-work/input/module-07-highlights.md"
+    },
+    {
+     "kind": "copy",
+     "from": "course-materials/module-08/figures/pm25-before-after.png",
+     "path": "module-08-work/figures/pm25-before-after.png"
+    },
+    {
+     "kind": "copy",
+     "from": "course-materials/module-08/templates/submission-readiness-template.md",
+     "path": "module-08-work/submission/submission-readiness.md"
+    }
+   ]
+  }
+ }
+}

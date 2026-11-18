@@ -101,8 +101,8 @@ class AirrSetupTests(unittest.TestCase):
             self.assertFalse((ws / 'client-args.json').exists())
 
 
-class PracticeFilesInModule1Tests(unittest.TestCase):
-    """Module 1 fetches Module 2/4 practice files with AIRR; failures never stop it."""
+class ModuleInitInModule1Tests(unittest.TestCase):
+    """Module 1 runs `airr init` once per module of the class; failures never stop it."""
 
     FAKE_CLIENT = (
         "import json, pathlib, sys\n"
@@ -110,8 +110,12 @@ class PracticeFilesInModule1Tests(unittest.TestCase):
         "ws = pathlib.Path(args[args.index('--workspace') + 1])\n"
         "log = ws / 'calls.jsonl'\n"
         "with log.open('a') as f: f.write(json.dumps(args[2:]) + '\\n')\n"
-        "if args[2:] == ['materials', 'module-2'] and (ws / 'deny-m2').exists():\n"
-        "    print('AIRR ERROR · module-2 is not included in this AIRR classroom.', file=sys.stderr); sys.exit(1)\n"
+        "if args[2:] == ['whoami']:\n"
+        "    print('AIRR · Test class (faculty-pilot-2569)'); print('module-1'); print('module-2 open=true'); print('module-4 open=false'); print('module-7 open=false')\n"
+        "    sys.exit(0)\n"
+        "if args[2] == 'init' and (ws / ('deny-' + args[3])).exists():\n"
+        "    print('AIRR ERROR: ' + args[3] + ' failed', file=sys.stderr); sys.exit(1)\n"
+        "print('AIRR INIT PASS · ' + args[3] + ' · ใหม่ 1 · มีอยู่แล้ว 0')\n"
     )
 
     def workspace(self, folder, connected=True):
@@ -124,40 +128,41 @@ class PracticeFilesInModule1Tests(unittest.TestCase):
             (ws / '.airr' / 'config.json').write_text('{}', encoding='utf-8')
         return ws
 
-    def run_fetch(self, ws):
+    def run_init(self, ws):
         out = io.StringIO()
         env = {k: v for k, v in os.environ.items() if k != 'AI_RESEARCH_TRACE_FILE'}
         with patch.dict(os.environ, env, clear=True), contextlib.redirect_stdout(out):
-            ready = runtime.fetch_module_practice_files(ws, Path(sys.executable))
+            ready = runtime.init_class_modules(ws, Path(sys.executable))
         return ready, out.getvalue()
 
     def calls(self, ws):
         path = ws / 'calls.jsonl'
         return [json.loads(line) for line in path.read_text().splitlines()] if path.exists() else []
 
-    def test_fetches_module2_and_both_module4_sets(self):
+    def test_inits_every_module_of_the_class_one_at_a_time(self):
         with tempfile.TemporaryDirectory() as folder:
             ws = self.workspace(folder)
-            ready, out = self.run_fetch(ws)
-            self.assertEqual(ready, ['module-2', 'module-4', 'module-4 (Thai)'])
-            self.assertEqual(self.calls(ws), [['materials', 'module-2'], ['materials', 'module-4'], ['materials', 'module-4', '--thai']])
-            self.assertIn('PRACTICE_FILES_READY', out)
+            ready, out = self.run_init(ws)
+            self.assertEqual(ready, ['module-2', 'module-4', 'module-7'])
+            self.assertEqual(self.calls(ws), [['whoami'], ['init', 'module-1'], ['init', 'module-2'], ['init', 'module-4'], ['init', 'module-7']])
+            self.assertIn('MODULE_INIT AIRR INIT PASS · module-4', out)
+            self.assertIn('PRACTICE_FILES_READY module-2, module-4, module-7', out)
 
-    def test_not_connected_skips_without_running_client(self):
+    def test_not_connected_inits_module1_only(self):
         with tempfile.TemporaryDirectory() as folder:
             ws = self.workspace(folder, connected=False)
-            ready, out = self.run_fetch(ws)
+            ready, out = self.run_init(ws)
             self.assertEqual(ready, [])
-            self.assertEqual(self.calls(ws), [])
-            self.assertIn('PRACTICE_FILES_SKIPPED', out)
+            self.assertEqual(self.calls(ws), [['init', 'module-1']])
+            self.assertIn('PRACTICE_FILES_SKIPPED AIRR is not connected yet', out)
 
-    def test_one_module_refused_still_fetches_the_rest(self):
+    def test_one_module_failing_still_inits_the_rest(self):
         with tempfile.TemporaryDirectory() as folder:
             ws = self.workspace(folder)
-            (ws / 'deny-m2').write_text('x')
-            ready, out = self.run_fetch(ws)
-            self.assertEqual(ready, ['module-4', 'module-4 (Thai)'])
-            self.assertIn('PRACTICE_FILES_SKIPPED module-2: AIRR ERROR', out)
+            (ws / 'deny-module-2').write_text('x')
+            ready, out = self.run_init(ws)
+            self.assertEqual(ready, ['module-4', 'module-7'])
+            self.assertIn('PRACTICE_FILES_SKIPPED module-2: AIRR ERROR: module-2 failed', out)
 
 
 class Module7InModule1Tests(unittest.TestCase):

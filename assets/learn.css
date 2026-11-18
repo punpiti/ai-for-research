@@ -309,3 +309,6 @@ body.learn details.step-fold > summary > h3 { flex: 1 1 auto; }
 body.learn details.step-fold:not([open]) > summary > h3 { color: var(--ink-soft); }
 body.learn details.step-fold > summary:hover > h3, body.learn details.step-fold > summary:focus-visible > h3 { text-decoration: underline; text-underline-offset: .2em; }
 @media (prefers-reduced-motion: reduce) { body.learn details.step-fold > summary::before { transition: none; } }
+/* Menu jumps land on the step heading, not under the sticky header (+ the sticky tab row on narrow screens) */
+body.learn .topic-panel h3[id], body.learn details.step-fold { scroll-margin-top: 6rem; }
+@media (max-width: 1399px) { body.learn .topic-panel h3[id], body.learn details.step-fold { scroll-margin-top: 9rem; } }
