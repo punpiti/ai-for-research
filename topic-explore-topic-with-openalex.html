@@ -27,7 +27,7 @@
 <h3 id="workshop-core--ก่อนเริ่ม-ต้องมีอยู่แล้ว">ก่อนเริ่ม (ต้องมีอยู่แล้ว)</h3>
 <ul>
 <li>เรื่องที่คุณสนใจหนึ่งเรื่อง และคำถามหนึ่งข้อ (ไม่ต้องเป็นหัวข้อวิจัยใหม่)</li>
-<li>OpenAlex API key ฟรี ในตัวแปร <code>OPENALEX_KEY</code> — ถ้าทำขั้นที่ 7 ของหัวข้อ "บัตรสรุป" แล้ว ข้ามข้อนี้ได้ ถ้ายังไม่ได้ทำ: สมัครที่ <a href="https://openalex.org/settings/api">openalex.org/settings/api</a> แล้วเก็บ key เอง (ห้ามวางในแชต AI)
+<li><strong>ต้องมี</strong> OpenAlex API key ของตัวเองในตัวแปร <code>OPENALEX_KEY</code> (ขั้นที่ 7 ของหัวข้อ "บัตรสรุป" — ถ้ายังไม่ได้ทำ กลับไปทำขั้นนั้นก่อน)
 <ul>
 <li>Windows: เปิด PowerShell พิมพ์ <code>setx OPENALEX_KEY "key ของคุณ"</code> แล้วปิด–เปิด VS Code ใหม่</li>
 <li>macOS / Linux: เพิ่มบรรทัด <code>export OPENALEX_KEY="key ของคุณ"</code> ใน <code>~/.zshrc</code> หรือ <code>~/.bashrc</code> แล้วเปิด terminal ใหม่</li>
@@ -46,7 +46,7 @@
 <hr>
 <h3 id="workshop-core--เริ่มหัวข้อ--ให้-ai-รู้ว่ากำลังทำโมดูลไหน">เริ่มหัวข้อ — ให้ AI รู้ว่ากำลังทำโมดูลไหน</h3>
 <p>ถ้าแชต AI เดิมทำโมดูลอื่นอยู่ ให้เปิดแชตใหม่ก่อน แล้ววาง prompt นี้</p>
-<div class="command ai-prompt"><code>เริ่ม Module 2 หัวข้อ "หาข้อมูลเรื่องที่สนใจเพิ่มด้วย OpenAlex": ทำงานในหัวข้อนี้เฉพาะใน module-02-work/openalex/ เท่านั้น อ่าน module-02-work/openalex/README.md ก่อน แล้วตรวจว่ามีตัวแปร OPENALEX_KEY หรือไม่ (ตอบแค่ว่ามีหรือไม่มี ห้ามแสดงค่า)</code><button type="button" data-copy="">คัดลอก</button></div><p><strong>ตรวจ:</strong> มี <code>module-02-work/openalex/README.md</code> และ <code>topic-card.json</code> และ AI ตอบว่ามี <code>OPENALEX_KEY</code> (ถ้าไม่มี ให้ตั้งค่าตาม "ก่อนเริ่ม" แล้วเปิด VS Code ใหม่) · ถ้าไม่พบไฟล์ของหัวข้อนี้ ให้สั่ง AI รัน <code>AIRR init module-2</code> ครั้งเดียว</p>
+<div class="command ai-prompt"><code>เริ่ม Module 2 หัวข้อ "หาข้อมูลเรื่องที่สนใจเพิ่มด้วย OpenAlex": ทำงานในหัวข้อนี้เฉพาะใน module-02-work/openalex/ เท่านั้น อ่าน module-02-work/openalex/README.md ก่อน แล้วตรวจว่ามีตัวแปร OPENALEX_KEY หรือไม่ (ตอบแค่ว่ามีหรือไม่มี ห้ามแสดงค่า) ถ้าไม่มี ให้หยุดและบอกฉันให้กลับไปทำขั้นที่ 7 ของหัวข้อบัตรสรุปก่อน ห้ามเรียก OpenAlex โดยไม่มี key</code><button type="button" data-copy="">คัดลอก</button></div><p><strong>ตรวจ:</strong> มี <code>module-02-work/openalex/README.md</code> และ <code>topic-card.json</code> และ AI ตอบว่ามี <code>OPENALEX_KEY</code> (ถ้าไม่มี ให้ตั้งค่าตาม "ก่อนเริ่ม" แล้วเปิด VS Code ใหม่) · ถ้าไม่พบไฟล์ของหัวข้อนี้ ให้สั่ง AI รัน <code>AIRR init module-2</code> ครั้งเดียว</p>
 <hr>
 <h3 id="workshop-core--ขั้นที่-1--รู้จัก-openalex-ค้นเองบนเว็บก่อน">ขั้นที่ 1 — รู้จัก OpenAlex: ค้นเองบนเว็บก่อน</h3>
 <ol type="1">
