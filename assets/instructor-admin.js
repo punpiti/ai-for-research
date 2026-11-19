@@ -388,9 +388,9 @@
     if (copyEmailsButton) copyEmailsButton.textContent = `คัดลอกอีเมล (${visibleEnrollmentEmails().length})`;
   }
 
-  // emails of the rows the current filter shows, "a@x, b@y" for Gmail's To: field
+  // emails of the rows the current filter shows, "a@x, b@y" for Gmail's To: field; rejected (ไม่อนุมัติ) never copied
   function visibleEnrollmentEmails() {
-    return [...new Set(enrollmentItems.filter((item) => matchesEnrollmentFilter(item, enrollmentFilter))
+    return [...new Set(enrollmentItems.filter((item) => item.status !== "rejected" && matchesEnrollmentFilter(item, enrollmentFilter))
       .map((item) => String(item.email || "").trim().toLowerCase()).filter((email) => email.includes("@")))];
   }
 
