@@ -388,10 +388,17 @@
     if (copyEmailsButton) copyEmailsButton.textContent = `คัดลอกอีเมล (${visibleEnrollmentEmails().length})`;
   }
 
-  // emails of the rows the current filter shows, "a@x, b@y" for Gmail's To: field; rejected (ไม่อนุมัติ) never copied
+  // recipients of the rows the current filter shows, '"Name" <a@x>, …' for Gmail's To: field; rejected (ไม่อนุมัติ) never copied
   function visibleEnrollmentEmails() {
-    return [...new Set(enrollmentItems.filter((item) => item.status !== "rejected" && matchesEnrollmentFilter(item, enrollmentFilter))
-      .map((item) => String(item.email || "").trim().toLowerCase()).filter((email) => email.includes("@")))];
+    const seen = new Set();
+    return enrollmentItems.filter((item) => item.status !== "rejected" && matchesEnrollmentFilter(item, enrollmentFilter))
+      .map((item) => {
+        const email = String(item.email || "").trim().toLowerCase();
+        if (!email.includes("@") || seen.has(email)) return "";
+        seen.add(email);
+        const name = String(enrollmentName(item) || "").replace(/["<>\\]/g, "").replace(/\s+/g, " ").trim();
+        return name && name.toLowerCase() !== email && name !== "—" ? `"${name}" <${email}>` : email;
+      }).filter(Boolean);
   }
 
   const copyEmailsButton = document.querySelector("[data-enrollment-copy-emails]");
