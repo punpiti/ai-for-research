@@ -10,9 +10,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/styles.css?v=20261113-2">
-  <link rel="stylesheet" href="assets/learn.css?v=20261119-1">
-  <script src="assets/site-shell.js?v=20261119-1"></script>
-  <script src="assets/app.js?v=20261119-1" defer></script>
+  <link rel="stylesheet" href="assets/learn.css?v=20261119-2">
+  <script src="assets/site-shell.js?v=20261119-2"></script>
+  <script src="assets/app.js?v=20261119-2" defer></script>
   <link rel="icon" href="assets/images/airr-mark-dark.svg" type="image/svg+xml">
   <link rel="icon" href="assets/images/favicon-32.png" sizes="32x32" type="image/png">
   <link rel="apple-touch-icon" href="assets/images/favicon-180.png">
@@ -32,45 +32,45 @@
 </ul>
 <table>
 <thead>
-<tr>
+<tr class="header">
 <th>ไฟล์</th>
 <th>คืออะไร</th>
 </tr>
 </thead>
 <tbody>
-<tr>
+<tr class="odd">
 <td><code>01-lunch-brief-th.pdf</code></td>
 <td>ประกาศของร้าน</td>
 </tr>
-<tr>
+<tr class="even">
 <td><code>02-menu-observations.xlsx</code></td>
 <td>ตารางที่มีคนจดราคา เวลารอ และความหิว–อิ่ม</td>
 </tr>
-<tr>
+<tr class="odd">
 <td><code>03-omelette-recipe-bilingual.docx</code></td>
 <td>สูตรข้าวไข่เจียว สองภาษา</td>
 </tr>
-<tr>
+<tr class="even">
 <td><code>04-lunch-tray.png</code></td>
 <td>ภาพถาดอาหาร</td>
 </tr>
-<tr>
+<tr class="odd">
 <td><code>05-canteen-reviews.html</code></td>
 <td>หน้ารีวิวโรงอาหาร (สำเนาหน้าเว็บ)</td>
 </tr>
-<tr>
+<tr class="even">
 <td><code>06-web-source.txt</code></td>
 <td>ที่อยู่เว็บจริงของหน้ารีวิว</td>
 </tr>
-<tr>
+<tr class="odd">
 <td><code>07-mock-nutrition.csv</code></td>
 <td>ตารางโภชนาการ (ตัวเลขแต่งขึ้น)</td>
 </tr>
-<tr>
+<tr class="even">
 <td><code>08-example-meal-card.md</code></td>
 <td>ตัวอย่างบัตรสรุปมื้ออาหาร</td>
 </tr>
-<tr>
+<tr class="odd">
 <td><code>README.md</code></td>
 <td>คำอธิบายชุดไฟล์</td>
 </tr>
@@ -94,39 +94,39 @@
 <p>เปิดโฟลเดอร์ <code>module-02-work/input/original/module-02-food-evidence/</code> ใน VS Code ตรวจว่ามีครบ 9 ไฟล์ตามตารางด้านบน แล้วอ่านตารางนี้ว่าไฟล์แต่ละชนิดบอกอะไรได้และไม่ได้</p>
 <table>
 <thead>
-<tr>
+<tr class="header">
 <th>ไฟล์</th>
 <th>บอกได้</th>
 <th>บอกไม่ได้</th>
 </tr>
 </thead>
 <tbody>
-<tr>
+<tr class="odd">
 <td>PDF ประกาศร้าน</td>
 <td>รายการอาหาร ราคาเริ่มต้น เวลาเปิด คำว่า “อิ่มนาน”</td>
 <td>“อิ่มนาน” ไม่มีนิยามหรือผลวัด</td>
 </tr>
-<tr>
+<tr class="even">
 <td>Excel ที่จดไว้</td>
 <td>ราคา เวลารอ คะแนนความหิว–อิ่ม</td>
 <td>มีช่องที่ขาดหนึ่งช่อง</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>Word สูตร</td>
 <td>ส่วนประกอบ</td>
 <td>น้ำหนักข้าว และน้ำมันที่เหลือหลังทอด</td>
 </tr>
-<tr>
+<tr class="even">
 <td>ภาพถาดอาหาร</td>
 <td>สิ่งที่มองเห็นบนถาด</td>
 <td>ราคา คุณค่าทางอาหาร รสชาติ ความอิ่ม</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>หน้ารีวิว</td>
 <td>คำบอกเล่าของผู้รีวิวสองวัน</td>
 <td>หน้าเว็บจริงอาจเปลี่ยนไปแล้ว</td>
 </tr>
-<tr>
+<tr class="even">
 <td>CSV โภชนาการ</td>
 <td>ตัวเลขไว้ฝึกอ่านตาราง</td>
 <td>ไม่ใช่ค่าที่วัดจากอาหารจริง</td>
@@ -161,7 +161,7 @@
 <p>AI อ่าน PDF ได้สามทาง ผลและค่าใช้จ่ายไม่เท่ากัน ผู้วิจัยควรเลือกเองว่าใช้ทางไหนกับไฟล์ไหน</p>
 <table>
 <thead>
-<tr>
+<tr class="header">
 <th>วิธี</th>
 <th>ทำงานอย่างไร</th>
 <th>ค่าใช้จ่าย</th>
@@ -170,21 +170,21 @@
 </tr>
 </thead>
 <tbody>
-<tr>
+<tr class="odd">
 <td>ก. <code>pdftotext</code></td>
 <td>ดึงชั้นข้อความที่ฝังใน PDF ด้วยโปรแกรมในเครื่อง</td>
 <td>ฟรี เร็ว ไม่ใช้ token ของ AI (AI ใช้แค่สั่งคำสั่ง)</td>
 <td>PDF ที่ลากเลือกข้อความได้</td>
 <td>PDF สแกนได้ไฟล์ว่าง · ตาราง/สองคอลัมน์อาจสลับลำดับ</td>
 </tr>
-<tr>
+<tr class="even">
 <td>ข. OCR (<code>tesseract</code>)</td>
 <td>แปลงหน้าเป็นภาพ แล้วอ่านตัวอักษรจากภาพ ไทย+อังกฤษ</td>
 <td>ฟรี แต่ช้ากว่า ใช้ CPU เครื่องตัวเอง ไม่ใช้ token</td>
 <td>PDF สแกนหรือเป็นภาพ</td>
 <td>สระ/วรรณยุกต์ไทย ตัวเลข หน่วยเพี้ยนได้ ต้องเทียบกับหน้าเอกสาร</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>ค. AI อ่านเอง</td>
 <td>ส่งเนื้อหา PDF ให้ AI อ่านและเขียน Markdown</td>
 <td><strong>ใช้ token มากที่สุด</strong> (ทุกหน้าคิดเป็นค่าใช้งาน/โควตา)</td>
@@ -295,24 +295,24 @@
 <p>เทียบรอบ A กับรอบ B เอง แล้วเขียนลง <code>my-topic-notes.md</code>:</p>
 <table>
 <thead>
-<tr>
+<tr class="header">
 <th>เรื่องที่เทียบ</th>
 <th>รอบ A</th>
 <th>รอบ B</th>
 </tr>
 </thead>
 <tbody>
-<tr>
+<tr class="odd">
 <td>จำนวนข้อสรุปที่มีไฟล์และตำแหน่ง</td>
 <td></td>
 <td></td>
 </tr>
-<tr>
+<tr class="even">
 <td>จำนวนข้อที่เป็นคาดการณ์แต่เขียนเหมือนข้อเท็จจริง</td>
 <td></td>
 <td></td>
 </tr>
-<tr>
+<tr class="odd">
 <td>ไฟล์ที่ AI อ่านไม่ได้แต่ไม่บอก</td>
 <td></td>
 <td></td>

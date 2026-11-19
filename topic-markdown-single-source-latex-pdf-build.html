@@ -10,9 +10,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/styles.css?v=20261113-2">
-  <link rel="stylesheet" href="assets/learn.css?v=20261119-1">
-  <script src="assets/site-shell.js?v=20261119-1"></script>
-  <script src="assets/app.js?v=20261119-1" defer></script>
+  <link rel="stylesheet" href="assets/learn.css?v=20261119-2">
+  <script src="assets/site-shell.js?v=20261119-2"></script>
+  <script src="assets/app.js?v=20261119-2" defer></script>
   <link rel="icon" href="assets/images/airr-mark-dark.svg" type="image/svg+xml">
   <link rel="icon" href="assets/images/favicon-32.png" sizes="32x32" type="image/png">
   <link rel="apple-touch-icon" href="assets/images/favicon-180.png">
@@ -27,7 +27,7 @@
 <h3 id="workshop-core--ก่อนเริ่ม-ต้องมีอยู่แล้ว">ก่อนเริ่ม (ต้องมีอยู่แล้ว)</h3>
 <ul>
 <li>ผ่าน Module 1: เปิด <code>ai-for-research-workspace</code> ใน VS Code และ AI panel เชื่อมแล้ว (ตัวติดตั้ง Module 1 ติดตั้ง <code>latexmk</code> และ <code>xelatex</code> ให้)</li>
-<li>ติดตั้ง Module 8 แล้ว ตัวติดตั้งสร้างไฟล์เหล่านี้ให้ (คัดลอกมาจาก <code>course-materials/module-08/</code>):
+<li>ไฟล์เหล่านี้ (ตัวติดตั้ง Module 1 สร้างไว้ให้ ถ้าไม่พบ ให้สั่ง AI รัน <code>AIRR init module-8</code> ครั้งเดียว) (คัดลอกมาจาก <code>course-materials/module-08/</code>):
 <ul>
 <li><code>module-08-work/source/manuscript.md</code> — ต้นฉบับ ถ้าทำหัวข้อ “จาก highlights สู่ย่อหน้า: ข้อตกลงของย่อหน้าและการตรวจย้อนทุกประโยค” แล้ว จะมีย่อหน้า Results/Limitations ของคุณอยู่ ถ้ายังไม่ทำ ไฟล์นี้ยังเป็น starter ที่มีแต่หัวข้อกับคำแนะนำ ใช้ฝึกได้เหมือนกัน</li>
 <li><code>module-08-work/literature/references.bib</code> และ <code>module-08-work/figures/pm25-before-after.png</code></li>
@@ -56,13 +56,13 @@
 <li><p><strong>build PDF</strong> เปิด Terminal ที่โฟลเดอร์ workspace แล้วรัน คำสั่งนี้จะสร้าง <code>module-08-work/build/manuscript.pdf</code> และ log ใน <code>build/</code></p>
 <table>
 <thead>
-<tr>
+<tr class="header">
 <th>Windows (PowerShell)</th>
 <th>macOS / Linux</th>
 </tr>
 </thead>
 <tbody>
-<tr>
+<tr class="odd">
 <td><code>&amp; .\tools\build-module-08.ps1</code></td>
 <td><code>bash tools/build-module-08.sh</code></td>
 </tr>
@@ -73,29 +73,29 @@
 <li><p><strong>ถ้า build พัง ให้แก้ตามชั้น</strong> ให้ AI อ่าน log แล้วชี้ชั้นที่เป็นปัญหาก่อนแก้</p>
 <div class="command ai-prompt"><code>อ่าน log ใน module-08-work/build/ บอกว่าปัญหาอยู่ชั้นใด: เนื้อหาใน Markdown, citation key กับ references.bib, ชื่อ/ตำแหน่งรูปใน figures/, หรือ environment/package เสนอการแก้ที่ไฟล์ต้นทาง ห้ามแก้ PDF ห้ามแก้ generated/main.tex แทนต้นฉบับ ห้ามดาวน์โหลด package จากแหล่งไม่ทราบที่มา แล้วหยุดรอให้ฉันอนุมัติ</code><button type="button" data-copy="">คัดลอก</button></div><table>
 <thead>
-<tr>
+<tr class="header">
 <th>อาการ</th>
 <th>ตรวจชั้นใดก่อน</th>
 <th>ห้ามทำ</th>
 </tr>
 </thead>
 <tbody>
-<tr>
+<tr class="odd">
 <td><code>Missing generated/main.tex</code></td>
 <td>ยังไม่ได้ให้ AI สร้างจาก Markdown (ขั้น 3)</td>
 <td>เขียน .tex เอง</td>
 </tr>
-<tr>
+<tr class="even">
 <td>citation หรือ reference ขึ้นเป็น ?</td>
 <td>citation key ใน Markdown กับ <code>references.bib</code></td>
 <td>แก้เลขใน PDF ด้วยมือ</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>หารูปไม่พบ</td>
 <td>ชื่อและตำแหน่งไฟล์ใน <code>figures/</code></td>
 <td>แก้ <code>generated/main.tex</code> แทนต้นฉบับ</td>
 </tr>
-<tr>
+<tr class="even">
 <td><code>latexmk</code> หรือ <code>xelatex</code> หายไป</td>
 <td>รันตัวติดตั้ง Module 1 ซ้ำ แล้วรันตัวติดตั้ง Module 8 ซ้ำ</td>
 <td>ดาวน์โหลด package จากแหล่งสุ่ม</td>

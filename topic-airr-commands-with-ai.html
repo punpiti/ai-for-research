@@ -10,9 +10,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/styles.css?v=20261113-2">
-  <link rel="stylesheet" href="assets/learn.css?v=20261119-1">
-  <script src="assets/site-shell.js?v=20261119-1"></script>
-  <script src="assets/app.js?v=20261119-1" defer></script>
+  <link rel="stylesheet" href="assets/learn.css?v=20261119-2">
+  <script src="assets/site-shell.js?v=20261119-2"></script>
+  <script src="assets/app.js?v=20261119-2" defer></script>
   <link rel="icon" href="assets/images/airr-mark-dark.svg" type="image/svg+xml">
   <link rel="icon" href="assets/images/favicon-32.png" sizes="32x32" type="image/png">
   <link rel="apple-touch-icon" href="assets/images/favicon-180.png">
@@ -38,39 +38,39 @@
 </ul>
 <table>
 <thead>
-<tr>
+<tr class="header">
 <th>คำสั่ง</th>
 <th>ทำอะไร</th>
 <th>ส่งงานออกจากเครื่อง</th>
 </tr>
 </thead>
 <tbody>
-<tr>
+<tr class="odd">
 <td><code>help</code> · <code>version</code> · <code>whoami</code></td>
 <td>อธิบายคำสั่ง · ดูรุ่นเครื่องมือ · ดูคลาสที่เชื่อม</td>
 <td>ไม่</td>
 </tr>
-<tr>
+<tr class="even">
 <td><code>status module-N</code></td>
 <td>ดูผลที่ server ได้รับและ feedback</td>
 <td>ไม่</td>
 </tr>
-<tr>
+<tr class="odd">
 <td><code>init module-N</code> · <code>check module-N</code></td>
 <td>สร้างไฟล์เริ่มต้น · ตรวจไฟล์ในเครื่อง</td>
 <td>ไม่ (แต่อาจสร้างไฟล์ในเครื่อง)</td>
 </tr>
-<tr>
+<tr class="even">
 <td><code>materials</code> · <code>update</code> · <code>ai-key</code></td>
 <td>ดาวน์โหลดไฟล์ฝึก · อัปเดตเครื่องมือ · รับ OpenRouter key ลงไฟล์ส่วนตัว</td>
 <td>ไม่ (ดาวน์โหลดลงเครื่อง)</td>
 </tr>
-<tr>
+<tr class="odd">
 <td><code>submit module-N</code></td>
 <td>ส่งงานหรือสถานะให้ผู้สอน</td>
 <td><strong>ส่ง</strong> — ต้องยืนยันก่อน</td>
 </tr>
-<tr>
+<tr class="even">
 <td><code>login</code> · <code>logout</code></td>
 <td>เชื่อม / ยกเลิกการเชื่อม (ตัวติดตั้งทำให้แล้ว)</td>
 <td>เปลี่ยนการเชื่อม ไม่ต้องใช้ในคลาส</td>

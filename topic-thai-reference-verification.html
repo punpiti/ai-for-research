@@ -10,9 +10,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/styles.css?v=20261113-2">
-  <link rel="stylesheet" href="assets/learn.css?v=20261119-1">
-  <script src="assets/site-shell.js?v=20261119-1"></script>
-  <script src="assets/app.js?v=20261119-1" defer></script>
+  <link rel="stylesheet" href="assets/learn.css?v=20261119-2">
+  <script src="assets/site-shell.js?v=20261119-2"></script>
+  <script src="assets/app.js?v=20261119-2" defer></script>
   <link rel="icon" href="assets/images/airr-mark-dark.svg" type="image/svg+xml">
   <link rel="icon" href="assets/images/favicon-32.png" sizes="32x32" type="image/png">
   <link rel="apple-touch-icon" href="assets/images/favicon-180.png">
@@ -22,7 +22,7 @@
   <site-header current="topic" plan="class-2026-11-20-engineering-faculty.html" menu='{&quot;module&quot;: &quot;M04&quot;, &quot;title&quot;: &quot;ตรวจ reference และ citation&quot;, &quot;items&quot;: [{&quot;href&quot;: &quot;module-overview-m04.html&quot;, &quot;label&quot;: &quot;ภาพรวมและ LO&quot;, &quot;current&quot;: false}, {&quot;href&quot;: &quot;topic-reference-existence-vs-citation-support.html&quot;, &quot;label&quot;: &quot;ตรวจสองชั้น: ref มีจริง กับ cite ถูกต้อง (สี่ชั้นของแหล่ง หกสถานะ ref ทิพย์)&quot;, &quot;current&quot;: false}, {&quot;href&quot;: &quot;topic-citation-register-with-openalex.html&quot;, &quot;label&quot;: &quot;ทะเบียนตรวจ citation: OpenAlex → full text → register&quot;, &quot;current&quot;: false}, {&quot;href&quot;: &quot;topic-thai-reference-verification.html&quot;, &quot;label&quot;: &quot;ตรวจรายการอ้างอิงภาษาไทย: ไม่พบใน OpenAlex ไม่ได้แปลว่าปลอม&quot;, &quot;current&quot;: true}]}'></site-header>
   <main id="main">
 <section class="prepare-hero module-hero"><p class="eyebrow">หัวข้อย่อย · M04</p><h1>ตรวจรายการอ้างอิงภาษาไทย: ไม่พบใน OpenAlex ไม่ได้แปลว่าปลอม</h1><p class="time-note" data-instructor-only hidden>เวลาโดยประมาณ (ผู้สอนเห็นเท่านั้น): <strong>≈ 50 นาที</strong> (สไลด์ 5 · workshop 20 · exploring 25)</p><ul class="outcomes"><li>ตรวจรายการอ้างอิงภาษาไทยโดยค้นต่อใน ThaiJO, TCI และ ThaiLIS เมื่อไม่พบใน OpenAlex แปลงปี พ.ศ./ค.ศ. เทียบชื่อผู้แต่งและชื่อเรื่องทั้งสองภาษา และบันทึกแหล่งที่ค้นแล้วทุกครั้ง แทนการตัดสินว่าปลอมจากฐานข้อมูลแหล่งเดียว และเขียน Prompt ของตนเองที่มีองค์ประกอบครบสำหรับงานจริง</li></ul></section>
-<div class="topic-layout"><nav class="topic-tabs topic-menu" aria-label="ในหัวข้อนี้"><p class="topic-menu-title">ในหัวข้อนี้</p><ul><li><a href="#slides" title="สไลด์">สไลด์</a></li><li><a href="#workshop-core" title="Workshop หลัก">Workshop</a><ul class="topic-submenu"><li><a href="#workshop-core--ก่อนเริ่ม-ต้องมีอยู่แล้ว" data-sub>ก่อนเริ่ม (ต้องมีอยู่แล้ว)</a></li><li><a href="#workshop-core--คำที่ใช้ใน-workshop-นี้" data-sub>คำที่ใช้ใน workshop นี้</a></li><li><a href="#workshop-core--openalex-api-key--ทำครั้งเดียว-ถ้ามีแล้ว-ข้ามได้" data-sub>OpenAlex API key — ทำครั้งเดียว (ถ้ามีแล้ว ข้ามได้)</a></li><li><a href="#workshop-core--ขั้นที่-1--ให้-ai-สร้าง-refsbib-ของรายการภาษาไทย" data-sub>ขั้นที่ 1 — ให้ AI สร้าง refs.bib ของรายการภาษาไทย</a></li><li><a href="#workshop-core--ขั้นที่-2--ตรวจเองกับแหล่งไทย" data-sub>ขั้นที่ 2 — ตรวจเองกับแหล่งไทย</a></li><li><a href="#workshop-core--ขั้นที่-3--ให้-ai-สร้างทะเบียนการอ้างอิง" data-sub>ขั้นที่ 3 — ให้ AI สร้างทะเบียนการอ้างอิง</a></li><li><a href="#workshop-core--ขั้นที่-4--ตรวจหนึ่งรายการกับฉบับเต็ม" data-sub>ขั้นที่ 4 — ตรวจหนึ่งรายการกับฉบับเต็ม</a></li><li><a href="#workshop-core--ขั้นที่-5--จดสิ่งที่-ai-จัดการได้" data-sub>ขั้นที่ 5 — จดสิ่งที่ AI จัดการได้</a></li><li><a href="#workshop-core--ขั้นที่-6--บันทึกรายการที่ต้องเปิดฉบับเต็มเอง" data-sub>ขั้นที่ 6 — บันทึกรายการที่ต้องเปิดฉบับเต็มเอง</a></li><li><a href="#workshop-core--ขั้นที่-7--ส่งงาน" data-sub>ขั้นที่ 7 — ส่งงาน</a></li><li><a href="#workshop-core--ตรวจก่อนจบ-workshop" data-sub>ตรวจก่อนจบ workshop</a></li></ul></li><li><a href="#open-explore" title="Exploring workshop">Exploring</a><ul class="topic-submenu"><li><a href="#open-explore--ก่อนเริ่ม-ต้องมีอยู่แล้ว" data-sub>ก่อนเริ่ม (ต้องมีอยู่แล้ว)</a></li><li><a href="#open-explore--โจทย์" data-sub>โจทย์</a></li><li><a href="#open-explore--ข้อกำหนด" data-sub>ข้อกำหนด</a></li><li><a href="#open-explore--เกณฑ์ผ่าน" data-sub>เกณฑ์ผ่าน</a></li></ul></li></ul></nav><div class="topic-main"><section class="section markdown-section topic-panel" id="slides" aria-labelledby="slides-heading"><div class="section-heading compact"><p class="eyebrow">สไลด์</p><h2 id="slides-heading">สไลด์</h2></div><div class="markdown-body"><p>สไลด์ของหัวข้อนี้ยังไม่เสร็จ</p></div></section>
+<div class="topic-layout"><nav class="topic-tabs topic-menu" aria-label="ในหัวข้อนี้"><p class="topic-menu-title">ในหัวข้อนี้</p><ul><li><a href="#slides" title="สไลด์">สไลด์</a></li><li><a href="#workshop-core" title="Workshop หลัก">Workshop</a><ul class="topic-submenu"><li><a href="#workshop-core--ก่อนเริ่ม-ต้องมีอยู่แล้ว" data-sub>ก่อนเริ่ม (ต้องมีอยู่แล้ว)</a></li><li><a href="#workshop-core--คำที่ใช้ใน-workshop-นี้" data-sub>คำที่ใช้ใน workshop นี้</a></li><li><a href="#workshop-core--openalex-api-key--ทำครั้งเดียว-ถ้ามีแล้ว-ข้ามได้" data-sub>OpenAlex API key — ทำครั้งเดียว (ถ้ามีแล้ว ข้ามได้)</a></li><li><a href="#workshop-core--ขั้นที่-1--ให้-ai-สร้าง-refsbib-ของรายการภาษาไทย" data-sub>ขั้นที่ 1 — ให้ AI สร้าง refs.bib ของรายการภาษาไทย</a></li><li><a href="#workshop-core--ขั้นที่-2--ตรวจเองกับแหล่งไทย" data-sub>ขั้นที่ 2 — ตรวจเองกับแหล่งไทย</a></li><li><a href="#workshop-core--ขั้นที่-3--ให้-ai-สร้างทะเบียนการอ้างอิง" data-sub>ขั้นที่ 3 — ให้ AI สร้างทะเบียนการอ้างอิง</a></li><li><a href="#workshop-core--ขั้นที่-4--ตรวจหนึ่งรายการกับฉบับเต็ม" data-sub>ขั้นที่ 4 — ตรวจหนึ่งรายการกับฉบับเต็ม</a></li><li><a href="#workshop-core--ขั้นที่-5--จดสิ่งที่-ai-จัดการได้" data-sub>ขั้นที่ 5 — จดสิ่งที่ AI จัดการได้</a></li><li><a href="#workshop-core--ขั้นที่-6--บันทึกรายการที่ต้องเปิดฉบับเต็มเอง" data-sub>ขั้นที่ 6 — บันทึกรายการที่ต้องเปิดฉบับเต็มเอง</a></li><li><a href="#workshop-core--ขั้นที่-7--ส่งงาน" data-sub>ขั้นที่ 7 — ส่งงาน</a></li><li><a href="#workshop-core--ตรวจก่อนจบ-workshop" data-sub>ตรวจก่อนจบ workshop</a></li></ul></li><li><a href="#open-explore" title="Exploring workshop">Exploring</a><ul class="topic-submenu"><li><a href="#open-explore--ก่อนเริ่ม-ต้องมีอยู่แล้ว" data-sub>ก่อนเริ่ม (ต้องมีอยู่แล้ว)</a></li><li><a href="#open-explore--โจทย์" data-sub>โจทย์</a></li><li><a href="#open-explore--ข้อกำหนด" data-sub>ข้อกำหนด</a></li><li><a href="#open-explore--เกณฑ์ผ่าน" data-sub>เกณฑ์ผ่าน</a></li></ul></li></ul><button type="button" class="aside-toggle" data-aside-toggle aria-pressed="false">ซ่อนสไลด์ข้าง</button></nav><div class="topic-main"><section class="section markdown-section topic-panel" id="slides" aria-labelledby="slides-heading"><div class="section-heading compact"><p class="eyebrow">สไลด์</p><h2 id="slides-heading">สไลด์</h2></div><div class="markdown-body"><div class="slide-tools"><button type="button" class="slide-tool" data-fullscreen="#slide-frame-main">⛶ เต็มจอ</button><a class="slide-tool" href="downloads/topics/thai-reference-verification.pdf" target="_blank" rel="noopener">เปิดแท็บใหม่ ↗</a><a class="slide-tool" href="downloads/instructor-slides-f1464f310a04ae61/thai-reference-verification.pptx" download data-instructor-only hidden title="สำหรับผู้สอน: ไฟล์ PowerPoint พร้อม speaker notes">ดาวน์โหลด .pptx (ผู้สอน)</a></div><iframe id="slide-frame-main" class="slide-frame" src="downloads/topics/thai-reference-verification.pdf#view=FitH" title="สไลด์ ตรวจรายการอ้างอิงภาษาไทย: ไม่พบใน OpenAlex ไม่ได้แปลว่าปลอม" allowfullscreen></iframe></div></section>
 <section class="section markdown-section topic-panel" id="workshop-core" aria-labelledby="workshop-core-heading"><div class="section-heading compact"><p class="eyebrow">Workshop</p><h2 id="workshop-core-heading">ตรวจรายการอ้างอิงภาษาไทย: ไม่พบใน OpenAlex ไม่ได้แปลว่าปลอม</h2></div><div class="markdown-body"><p>ใน workshop นี้คุณจะให้ AI สร้าง <code>refs.bib</code> และทะเบียนการอ้างอิงของบทความจำลองภาษาไทย ตรวจรายการที่ OpenAlex ไม่พบกับแหล่งไทยด้วยตนเอง และตรวจหนึ่งรายการกับฉบับเต็ม</p>
 <p>ใช้เมื่อ: ยังไม่มีงานของนิสิตที่ใช้ทดลองได้ หรือต้องการฝึกกับรายการอ้างอิงภาษาไทยโดยเฉพาะ</p>
 <p>บทความจำลอง <code>mock-paper-th.pdf</code> มี 2 หน้า 7 รายการอ้างอิง (เอกสารจำลองเพื่อฝึก ไม่ใช่ผลงานตีพิมพ์จริง ห้ามนำไปอ้างอิง) ใช้งานภาษาไทยที่มีอยู่จริงใน ThaiJO ปนกับปัญหาที่ใส่ไว้ เช่น รายการที่ไม่พบใน OpenAlex แต่มีอยู่จริง ปี พ.ศ. กับ ค.ศ. ชื่อผู้แต่งที่ OpenAlex เก็บเป็นอักษรโรมัน และชื่อเรื่องสองภาษา</p>
@@ -33,6 +33,7 @@
 <li><code>course-materials/module-04/citation-audit-rules.md</code> และ <code>course-materials/module-04/citation-register-template.csv</code> (ชุดเดิมที่ใช้กับบทความภาษาอังกฤษ อ่านอย่างเดียว)</li>
 <li>OpenAlex API key ในตัวแปร <code>OPENALEX_KEY</code> ของเครื่อง (ถ้ายังไม่มี ทำขั้น "OpenAlex API key" ด้านล่างก่อน)</li>
 <li>คลัง <code>literature/</code> เดิม (ใช้ร่วมกับบทความภาษาอังกฤษ)</li>
+<li>ถ้าไม่พบไฟล์ของหัวข้อนี้ใน <code>module-04-work/</code> ให้สั่ง AI รัน <code>AIRR init module-4</code> ครั้งเดียว (ไฟล์ที่คุณแก้แล้วจะไม่ถูกเขียนทับ)</li>
 </ul>
 <p>ทุกขั้นด้านล่างใช้โฟลเดอร์ <code>module-04-work/thai-mock/</code> แทน <code>module-04-work/</code> แต่ใช้คลัง <code>literature/</code> เดิม</p>
 <h3 id="workshop-core--คำที่ใช้ใน-workshop-นี้">คำที่ใช้ใน workshop นี้</h3>
@@ -119,37 +120,37 @@
 <li><p>prompt ต้องมีครบเจ็ดองค์ประกอบ:</p>
 <table>
 <thead>
-<tr>
+<tr class="header">
 <th>องค์ประกอบ</th>
 <th>สิ่งที่ต้องระบุ</th>
 </tr>
 </thead>
 <tbody>
-<tr>
+<tr class="odd">
 <td>งาน</td>
 <td>สร้าง refs.bib คลังเอกสาร และทะเบียนการอ้างอิงของไฟล์ใด</td>
 </tr>
-<tr>
+<tr class="even">
 <td>แหล่งที่อนุญาต</td>
 <td>แหล่งใดก่อนหลัง สำหรับรายการภาษาอังกฤษและภาษาไทย</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>วิธีจับคู่</td>
 <td>ลำดับการจับคู่ ทั้งภาษาไทยและภาษาอังกฤษ</td>
 </tr>
-<tr>
+<tr class="even">
 <td>การดาวน์โหลด</td>
 <td>ใช้ policy และคลังเดิมอย่างไร รายการที่ต้องดาวน์โหลดเองไปอยู่ที่ใด</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>สิ่งที่ส่งมอบ</td>
 <td>ชื่อไฟล์ และแม่แบบ/กติกาที่ต้องใช้</td>
 </tr>
-<tr>
+<tr class="even">
 <td>กติกาเมื่อไม่พบ</td>
 <td>ต้องบันทึกอะไร และห้ามทำอะไร</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>จุดหยุดรอ</td>
 <td>หยุดตรงไหนเพื่อให้คุณตรวจ</td>
 </tr>
@@ -165,7 +166,7 @@
 <li><label><input type="checkbox">มีทะเบียนฉบับเริ่มต้น พร้อมรายการที่ต้องตรวจต่อหลังเรียน (เริ่มจากรายการที่สนับสนุนข้อความสำคัญ)</label></li>
 <li><label><input type="checkbox"><code>prompts.md</code> แสดงการปรับ prompt อย่างน้อย 1 รอบ พร้อมเหตุผล</label></li>
 </ul>
-</div></section></div></div>
+</div></section></div><aside class="slide-aside" aria-label="สไลด์ประกอบ"><div class="slide-tools"><button type="button" class="slide-tool" data-fullscreen="#slide-frame-aside">⛶ เต็มจอ</button><a class="slide-tool" href="downloads/topics/thai-reference-verification.pdf" target="_blank" rel="noopener">เปิดแท็บใหม่ ↗</a><a class="slide-tool" href="downloads/instructor-slides-f1464f310a04ae61/thai-reference-verification.pptx" download data-instructor-only hidden title="สำหรับผู้สอน: ไฟล์ PowerPoint พร้อม speaker notes">ดาวน์โหลด .pptx (ผู้สอน)</a></div><iframe id="slide-frame-aside" src="downloads/topics/thai-reference-verification.pdf#view=FitH" title="สไลด์ ตรวจรายการอ้างอิงภาษาไทย: ไม่พบใน OpenAlex ไม่ได้แปลว่าปลอม" loading="lazy" allowfullscreen></iframe></aside></div>
 <script>
 (() => {
   const tabs = [...document.querySelectorAll('.topic-tabs > ul > li > a')];

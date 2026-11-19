@@ -10,9 +10,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/styles.css?v=20261113-2">
-  <link rel="stylesheet" href="assets/learn.css?v=20261119-1">
-  <script src="assets/site-shell.js?v=20261119-1"></script>
-  <script src="assets/app.js?v=20261119-1" defer></script>
+  <link rel="stylesheet" href="assets/learn.css?v=20261119-2">
+  <script src="assets/site-shell.js?v=20261119-2"></script>
+  <script src="assets/app.js?v=20261119-2" defer></script>
   <link rel="icon" href="assets/images/airr-mark-dark.svg" type="image/svg+xml">
   <link rel="icon" href="assets/images/favicon-32.png" sizes="32x32" type="image/png">
   <link rel="apple-touch-icon" href="assets/images/favicon-180.png">
@@ -52,29 +52,29 @@
 <p>เขียน highlights 3–5 ข้อ แต่ละข้อมีตัวเลข หน่วย ฐานเปรียบเทียบ <code>n</code> ช่วงความไม่แน่นอน ข้อจำกัด และตำแหน่งใน CSV/โค้ดที่ตรวจย้อนกลับได้ คงหัวข้อทั้งห้าในไฟล์ไว้ เพราะ AIRR ตรวจหัวข้อเหล่านี้</p>
 <table>
 <thead>
-<tr>
+<tr class="header">
 <th>หัวข้อในไฟล์</th>
 <th>สิ่งที่ต้องมี</th>
 </tr>
 </thead>
 <tbody>
-<tr>
+<tr class="odd">
 <td><code>## คำถามที่สำรวจ</code></td>
 <td>คำถาม หน่วยวิเคราะห์ และระดับการรวมค่าที่เลือก</td>
 </tr>
-<tr>
+<tr class="even">
 <td><code>## Highlights</code></td>
 <td>3–5 ข้อ เขียนเป็นรายการ <code>-</code> หรือ <code>1.</code></td>
 </tr>
-<tr>
+<tr class="odd">
 <td><code>## กราฟที่เลือก</code></td>
 <td>กราฟที่ใช้และเหตุผล</td>
 </tr>
-<tr>
+<tr class="even">
 <td><code>## ข้อสรุป</code></td>
 <td>อย่างน้อย 40 ตัวอักษร</td>
 </tr>
-<tr>
+<tr class="odd">
 <td><code>## ข้อจำกัดและสิ่งที่ยังสรุปไม่ได้</code></td>
 <td>สิ่งที่ข้อมูลยังตอบไม่ได้</td>
 </tr>
@@ -87,44 +87,44 @@
 <p>ตรวจเจ็ดข้อด้านล่าง ให้ AI ช่วยค้นจุดเสี่ยงได้ แต่ผู้เรียนต้องเปิดไฟล์และตัดสินเอง ข้อ 7 ห้ามถาม AI ตัวเดียวกับที่ทำงานนั้นว่า “ถูกไหม” บันทึกผลใน <code>module-07-work/red-team.md</code></p>
 <table>
 <thead>
-<tr>
+<tr class="header">
 <th>ข้อ</th>
 <th>ตรวจอะไร</th>
 <th>ผ่านเมื่อ</th>
 </tr>
 </thead>
 <tbody>
-<tr>
+<tr class="odd">
 <td>1</td>
 <td>แกนและ baseline</td>
 <td>bar เริ่มที่ศูนย์ แกนสองข้างมีเหตุผลรองรับ</td>
 </tr>
-<tr>
+<tr class="even">
 <td>2</td>
 <td>ตัวหารและหน่วย</td>
 <td>ทุก panel ใช้ฐานเดียวกัน หน่วยครบ</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>3</td>
 <td>n และข้อมูลดิบ</td>
 <td>ระบุ n และเห็นข้อมูลจริงเมื่อ n น้อย</td>
 </tr>
-<tr>
+<tr class="even">
 <td>4</td>
 <td>ชนิด interval</td>
 <td>SD, SE, CI หรือ IQR เขียนไว้ในคำบรรยายภาพ</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>5</td>
 <td>สีมีหน้าที่</td>
 <td>ยังอ่านได้เมื่อพิมพ์ขาวดำ</td>
 </tr>
-<tr>
+<tr class="even">
 <td>6</td>
 <td>ชื่อภาพคือ claim</td>
 <td>ไม่อ้างเกินกว่าที่ภาพแสดง</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>7</td>
 <td>ตรวจย้อนกับ CSV</td>
 <td>สุ่มอย่างน้อย 3 ค่าใน highlights แล้วหาเองจากข้อมูลต้นทาง</td>

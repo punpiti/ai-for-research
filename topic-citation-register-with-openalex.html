@@ -10,9 +10,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/styles.css?v=20261113-2">
-  <link rel="stylesheet" href="assets/learn.css?v=20261119-1">
-  <script src="assets/site-shell.js?v=20261119-1"></script>
-  <script src="assets/app.js?v=20261119-1" defer></script>
+  <link rel="stylesheet" href="assets/learn.css?v=20261119-2">
+  <script src="assets/site-shell.js?v=20261119-2"></script>
+  <script src="assets/app.js?v=20261119-2" defer></script>
   <link rel="icon" href="assets/images/airr-mark-dark.svg" type="image/svg+xml">
   <link rel="icon" href="assets/images/favicon-32.png" sizes="32x32" type="image/png">
   <link rel="apple-touch-icon" href="assets/images/favicon-180.png">
@@ -34,7 +34,7 @@
 <li><code>course-materials/module-04/citation-audit-rules.md</code> — กติกาการตรวจ (อ่านอย่างเดียว)</li>
 <li><code>course-materials/module-04/citation-register-template.csv</code> — แม่แบบทะเบียน (อ่านอย่างเดียว)</li>
 </ul></li>
-<li>ถ้ายังไม่มีไฟล์เหล่านี้: ใช้ Prompt "เตรียมไฟล์" บนหน้า Module 4 (AI จะรันเครื่องมือ AIRR <code>materials module-4</code> ให้) หรือดาวน์โหลดจากหน้า Module 4 แล้ววางตามตำแหน่งข้างต้นเอง</li>
+<li>ถ้ายังไม่มีไฟล์เหล่านี้: ให้สั่ง AI รัน <code>AIRR init module-4</code> ครั้งเดียว หรือดาวน์โหลดจากหน้า Module 4 แล้ววางตามตำแหน่งข้างต้นเอง</li>
 <li>OpenAlex API key ของคุณเก็บในตัวแปร <code>OPENALEX_KEY</code> ของเครื่องแล้ว (ถ้ายังไม่มี ทำขั้น "OpenAlex API key" ด้านล่างก่อน) ห้ามวาง key ลงใน Prompt ไฟล์งาน หรือภาพหน้าจอ</li>
 </ul>
 <h3 id="workshop-bibtex-with-openalex-abstracts--คำที่ใช้ใน-workshop-นี้">คำที่ใช้ใน workshop นี้</h3>
@@ -122,6 +122,7 @@
 <li><code>module-04-work/output/refs.bib</code> — สร้างในกิจกรรม <code>bibtex-with-openalex-abstracts</code> จากบทความจำลอง <code>module-04-work/input/original/mock-paper.pdf</code></li>
 <li>โฟลเดอร์ <code>literature/pdf/</code> และ <code>literature/markdown/</code> (ตัวติดตั้ง Module 1 สร้างไว้ให้) — คลังนี้อยู่ที่เดียวใน workspace ใช้ร่วมทุกงานและทุกโมดูล ไม่ต้องสร้างแยกต่อชิ้นงาน</li>
 <li>ทบทวนกติกาจากสไลด์ 10 ของ Module 4: AI โหลดเฉพาะ open access; ฉบับที่ต้องใช้สิทธิ์มหาวิทยาลัยคุณโหลดเองผ่าน VPN</li>
+<li>ถ้าไม่พบไฟล์ของหัวข้อนี้ใน <code>module-04-work/</code> ให้สั่ง AI รัน <code>AIRR init module-4</code> ครั้งเดียว (ไฟล์ที่คุณแก้แล้วจะไม่ถูกเขียนทับ)</li>
 </ul>
 <h3 id="workshop-open-access-fulltext-library--คำที่ใช้ใน-workshop-นี้">คำที่ใช้ใน workshop นี้</h3>
 <ul>
@@ -203,7 +204,7 @@
 <ul>
 <li><code>module-04-work/input/markdown/paper.md</code> และ <code>module-04-work/output/refs.bib</code> — สร้างในกิจกรรม <code>bibtex-with-openalex-abstracts</code></li>
 <li><code>literature/markdown/</code> ที่มีฉบับเต็มบางรายการ และ <code>module-04-work/output/manual-download.md</code> — สร้างในกิจกรรม <code>open-access-fulltext-library</code></li>
-<li><code>course-materials/module-04/citation-register-template.csv</code> และ <code>course-materials/module-04/citation-audit-rules.md</code> (ตัวติดตั้ง Module 1 วางไว้ให้ อ่านอย่างเดียว ถ้ายังไม่มี ให้ AI รันเครื่องมือ AIRR <code>materials module-4</code>)</li>
+<li><code>course-materials/module-04/citation-register-template.csv</code> และ <code>course-materials/module-04/citation-audit-rules.md</code> (ตัวติดตั้ง Module 1 วางไว้ให้ อ่านอย่างเดียว ถ้ายังไม่มี ให้สั่ง AI รัน <code>AIRR init module-4</code> ครั้งเดียว)</li>
 <li>(ถ้าทำแล้ว) <code>module-04-work/output/two-layer-precheck.md</code> จากหัวข้อ "ตรวจสองชั้น: ref มีจริง กับ cite ถูกต้อง (สี่ชั้นของแหล่ง หกสถานะ ref ทิพย์)" ใช้เป็นรายการเสี่ยงตั้งต้น</li>
 <li>ทบทวนจากสไลด์ Module 4: อ่านฉบับเต็มอย่างไรให้ตัดสินได้ (สไลด์ 14) และคุณภาพของชุดอ้างอิง (สไลด์ 16)</li>
 </ul>
@@ -233,34 +234,34 @@
 <p>เลือกรายการที่ไม่มี abstract อย่างน้อยหนึ่งรายการ (ถ้ามีเวลา 3 รายการ) ดูว่าข้อความที่ถูกอ้างเป็นชนิดใด แล้วเปิดส่วนที่ตอบได้ตรงที่สุดใน <code>literature/markdown/</code></p>
 <table>
 <thead>
-<tr>
+<tr class="header">
 <th>ชนิดข้อความที่ถูกอ้าง</th>
 <th>อ่านส่วนใดของต้นฉบับ</th>
 <th>ตรวจอะไร</th>
 </tr>
 </thead>
 <tbody>
-<tr>
+<tr class="odd">
 <td>ข้อเท็จจริงหรือนิยาม</td>
 <td>Introduction หรือส่วนที่นิยาม</td>
 <td>ความหมายตรงกันหรือไม่</td>
 </tr>
-<tr>
+<tr class="even">
 <td>ตัวเลขหรือขนาดผล</td>
 <td>Results, ตาราง, รูป</td>
 <td>ค่า หน่วย กลุ่ม และช่วงความเชื่อมั่นตรงหรือไม่</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>ความสัมพันธ์หรือเหตุและผล</td>
 <td>Methods และ Discussion</td>
 <td>รูปแบบการศึกษารองรับการอ้างเหตุและผลหรือไม่</td>
 </tr>
-<tr>
+<tr class="even">
 <td>การขยายผลไปกลุ่มอื่น</td>
 <td>Methods (ประชากร) และ Limitations</td>
 <td>กลุ่มที่ศึกษาตรงกับกลุ่มที่อ้างหรือไม่</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>ข้อเสนอแนะหรือมาตรฐาน</td>
 <td>Conclusion หรือประกาศทางการ</td>
 <td>เป็นข้อเสนอของผู้เขียน หรือข้อบังคับจริง</td>
@@ -275,25 +276,25 @@
 <p>ในแถวที่คุณตรวจ: แก้ <code>checked_against</code> เป็น <code>full_text</code> ใส่หน้าหรือส่วนของต้นฉบับใน <code>support</code> กำหนดสถานะใหม่ ใส่ <code>decision</code> ตามตาราง และใส่ชื่อของคุณในช่อง <code>reviewer</code></p>
 <table>
 <thead>
-<tr>
+<tr class="header">
 <th>การตัดสินใจ</th>
 <th>ใช้เมื่อ</th>
 </tr>
 </thead>
 <tbody>
-<tr>
+<tr class="odd">
 <td>เก็บ</td>
 <td>verified</td>
 </tr>
-<tr>
+<tr class="even">
 <td>ลดขอบเขตข้อความ</td>
 <td>partially supported: แก้ข้อความให้แคบเท่าที่ต้นฉบับรองรับ</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>ตัดออก</td>
 <td>not supported, retracted หรือ fabricated</td>
 </tr>
-<tr>
+<tr class="even">
 <td>หาแหล่งแทน</td>
 <td>not found, outdated หรือข้อความยังต้องการหลักฐาน</td>
 </tr>

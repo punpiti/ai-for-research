@@ -10,9 +10,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/styles.css?v=20261113-2">
-  <link rel="stylesheet" href="assets/learn.css?v=20261119-1">
-  <script src="assets/site-shell.js?v=20261119-1"></script>
-  <script src="assets/app.js?v=20261119-1" defer></script>
+  <link rel="stylesheet" href="assets/learn.css?v=20261119-2">
+  <script src="assets/site-shell.js?v=20261119-2"></script>
+  <script src="assets/app.js?v=20261119-2" defer></script>
   <link rel="icon" href="assets/images/airr-mark-dark.svg" type="image/svg+xml">
   <link rel="icon" href="assets/images/favicon-32.png" sizes="32x32" type="image/png">
   <link rel="apple-touch-icon" href="assets/images/favicon-180.png">
@@ -28,7 +28,7 @@
 <h3 id="workshop-core--ก่อนเริ่ม-ต้องมีอยู่แล้ว">ก่อนเริ่ม (ต้องมีอยู่แล้ว)</h3>
 <ul>
 <li>ผ่าน Module 1: เปิด <code>ai-for-research-workspace</code> ใน VS Code และ AI panel เชื่อมแล้ว</li>
-<li>ติดตั้ง Module 8 แล้ว ตัวติดตั้งวางไฟล์เหล่านี้ไว้ให้:
+<li>ไฟล์เหล่านี้ (ตัวติดตั้ง Module 1 วางไว้ให้ ถ้าไม่พบ ให้สั่ง AI รัน <code>AIRR init module-8</code> ครั้งเดียว):
 <ul>
 <li><code>module-08-work/input/module-07-highlights.md</code> — highlights จาก Module 7 ของคุณ (หรือฉบับตัวอย่าง ถ้าเริ่มที่ Module 8)</li>
 <li><code>module-08-work/input/analysis-summary.csv</code> — ค่าเฉลี่ยรายพื้นที่/กลุ่ม/ช่วง สำหรับตรวจตัวเลข</li>
@@ -60,33 +60,33 @@ Target length and tone:</code><button type="button" data-copy="">คัดลอ
 <li><p><strong>สร้างไฟล์ข้อตกลงและกรอกชุดที่ 1 (Results)</strong> สร้าง <code>module-08-work/source/paragraph-contracts.md</code> (ไฟล์ทำงานของคุณ) คัดลอกสิบช่องด้านบนลงไป แล้วกรอกเอง</p>
 <table>
 <thead>
-<tr>
+<tr class="header">
 <th>ช่อง</th>
 <th>ตัวอย่าง</th>
 </tr>
 </thead>
 <tbody>
-<tr>
+<tr class="odd">
 <td>Section/purpose</td>
 <td>Results — รายงานผลรวมและผลแยกพื้นที่</td>
 </tr>
-<tr>
+<tr class="even">
 <td>Statement</td>
 <td>ค่าเฉลี่ยรวมของกลุ่ม Intervention ลดลง แต่ไม่ลดทุกพื้นที่</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>Evidence</td>
 <td>รวม 37.02 → 34.36 µg/m³; South 29.22 → 34.56 µg/m³</td>
 </tr>
-<tr>
+<tr class="even">
 <td>Figure reference</td>
 <td><code>figures/pm25-before-after.png</code></td>
 </tr>
-<tr>
+<tr class="odd">
 <td>Limitation</td>
 <td>ข้อมูลเชิงสังเกต ไม่มีการมอบหมายมาตรการ</td>
 </tr>
-<tr>
+<tr class="even">
 <td>Claims that must not be added</td>
 <td>ถ้อยคำเชิงเหตุและผล เช่น “มาตรการทำให้ลดลง”</td>
 </tr>
@@ -107,34 +107,34 @@ Target length and tone:</code><button type="button" data-copy="">คัดลอ
 <h3 id="workshop-core--ลำดับย่อหน้าตามส่วนของบทความ-อ้างอิง">ลำดับย่อหน้าตามส่วนของบทความ (อ้างอิง)</h3>
 <table>
 <thead>
-<tr>
+<tr class="header">
 <th>ส่วน</th>
 <th>ลำดับที่เหมาะสม</th>
 <th>สิ่งที่ต้องระวัง</th>
 </tr>
 </thead>
 <tbody>
-<tr>
+<tr class="odd">
 <td>Results</td>
 <td>ผล → ตัวเลข/รูป/ตาราง → การเปรียบเทียบ → ความไม่แน่นอน</td>
 <td>ไม่อธิบายกลไกเกินที่ผลแสดง</td>
 </tr>
-<tr>
+<tr class="even">
 <td>Discussion</td>
 <td>ความหมาย → เชื่อมผล → คำอธิบาย/citation → ข้อจำกัด → การนำไปใช้</td>
 <td>ไม่เปลี่ยนความสัมพันธ์เป็นเหตุและผล</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>Introduction</td>
 <td>ปัญหา → ผลกระทบ → หลักฐานจากวรรณกรรม → gap → วัตถุประสงค์</td>
 <td>ไม่แต่ง gap หรือ citation</td>
 </tr>
-<tr>
+<tr class="even">
 <td>Methods</td>
 <td>วัตถุประสงค์ → ขั้นตอน/พารามิเตอร์ → เหตุผล → รายละเอียดที่ทำซ้ำได้</td>
 <td>ไม่เติมขั้นตอนที่ไม่ได้ทำจริง</td>
 </tr>
-<tr>
+<tr class="odd">
 <td>Conclusion</td>
 <td>ข้อสรุปที่มีหลักฐาน → ประโยชน์ → ขอบเขต/ขั้นต่อไป</td>
 <td>ไม่เพิ่มผลใหม่หรือขยายประชากร</td>
