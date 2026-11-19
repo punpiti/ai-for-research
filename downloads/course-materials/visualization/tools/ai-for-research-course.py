@@ -22,7 +22,7 @@ import zipfile
 
 
 DEFAULT_API_BASE = "https://urban.cpe.ku.ac.th/api/airr/v1"
-AIRR_VERSION = "2026.11.19.6"  # bump on every published change of this file
+AIRR_VERSION = "2026.11.19.7"  # bump on every published change of this file
 DOWNLOADS_PREFIX = "https://urban.cpe.ku.ac.th/ai-for-research/downloads/"
 MANIFEST_URL = DOWNLOADS_PREFIX + "course-materials.json"
 MODULE_MATERIALS_URL = DOWNLOADS_PREFIX + "module-materials.json"
@@ -309,7 +309,8 @@ SHORT_PATH_FILES = {
     # owner 2026-11-19: Friday class also drops faithful-summary (meal-card.md); refs.bib from the OpenAlex topic fills that slot.
     # A tuple = alternatives: the first non-empty file counts.
     "module-2": {"meal_card": ("module-02-work/output/meal-card.md", "module-02-work/openalex/refs.bib"),
-                 "learner_additions": "module-02-work/output/evidence-table.md"},
+                 # owner 2026-11-19: Workshop 2 may be skipped on Friday; refs.bib may stand in for the evidence table too.
+                 "learner_additions": ("module-02-work/output/evidence-table.md", "module-02-work/openalex/refs.bib")},
     "module-3": {"author_prior": "module-03-work/output/author-prior.md", "diagnosis": "module-03-work/output/problem-statement-diagnosis.md",
                  "revision_table": "module-03-work/output/revision-table.md", "citation_for_m4": "module-03-work/output/citation-for-m4.md"},
 }

@@ -138,6 +138,9 @@ def run() -> None:
                 (workspace / "module-02-work/openalex").mkdir(parents=True, exist_ok=True)
                 (workspace / "module-02-work/openalex/refs.bib").write_text("@article{a,\n title={T}\n}\n", encoding="utf-8")
                 assert client.main(["--workspace", str(workspace), "check", "module-2", "--short"]) == 0
+                # Without Workshop 2: refs.bib alone fills both slots.
+                (workspace / "module-02-work/output/evidence-table.md").unlink()
+                assert client.main(["--workspace", str(workspace), "check", "module-2", "--short"]) == 0
             text = output.getvalue()
             assert "AIRR CONNECTED" in text and "AIRR CHECK PASS" in text and "AIRR SUBMIT PASS" in text
             assert "revision_requested" in text and "feedback: เพิ่มหลักฐานตัวเลข" in text

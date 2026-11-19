@@ -91,7 +91,7 @@ systemDark?.addEventListener?.("change", () => { if (themePreference() === "syst
 if (!document.querySelector('link[data-airr-theme]')) {
   const themeLink = document.createElement("link");
   themeLink.rel = "stylesheet";
-  themeLink.href = new URL("theme.css?v=20261119-2", SHELL_SCRIPT_URL).href;
+  themeLink.href = new URL("theme.css?v=20261119-3", SHELL_SCRIPT_URL).href;
   themeLink.dataset.airrTheme = "";
   document.head.append(themeLink);
 }

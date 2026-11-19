@@ -130,3 +130,6 @@
 .footer-institution a:hover, .footer-institution a:focus-visible { color: var(--ink); }
 /* Instructor-only links stay hidden even when a class sets display */
 [data-instructor-only][hidden] { display: none !important; }
+/* Estimated minutes, instructors only (revealed by site-shell.js) */
+.time-note { margin: .4rem 0 0; font-size: .88rem; color: var(--ink-soft); }
+small.time-note { display: block; margin-top: .15rem; }
