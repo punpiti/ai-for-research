@@ -385,7 +385,29 @@
       if (visible) shown += 1;
     });
     enrollmentCount.textContent = `แสดง ${shown} จาก ${enrollmentItems.length} คน`;
+    if (copyEmailsButton) copyEmailsButton.textContent = `คัดลอกอีเมล (${visibleEnrollmentEmails().length})`;
   }
+
+  // emails of the rows the current filter shows, "a@x, b@y" for Gmail's To: field
+  function visibleEnrollmentEmails() {
+    return [...new Set(enrollmentItems.filter((item) => matchesEnrollmentFilter(item, enrollmentFilter))
+      .map((item) => String(item.email || "").trim().toLowerCase()).filter((email) => email.includes("@")))];
+  }
+
+  const copyEmailsButton = document.querySelector("[data-enrollment-copy-emails]");
+  copyEmailsButton?.addEventListener("click", async () => {
+    const emails = visibleEnrollmentEmails();
+    if (!emails.length) return;
+    const text = emails.join(", ");
+    let copied = false;
+    try { await navigator.clipboard.writeText(text); copied = true; } catch (error) { copied = false; }
+    if (copied) {
+      copyEmailsButton.textContent = `คัดลอกแล้ว ${emails.length} อีเมล ✓`;
+      setTimeout(() => { copyEmailsButton.textContent = `คัดลอกอีเมล (${visibleEnrollmentEmails().length})`; }, 2500);
+    } else {
+      window.prompt("คัดลอกข้อความนี้ (Ctrl+C) แล้ววางในช่อง To: ของ Gmail", text);
+    }
+  });
 
   function enrollmentDetail(item) {
     const key = item.ai_key || null;
