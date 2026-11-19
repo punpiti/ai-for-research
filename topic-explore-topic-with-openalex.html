@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="ใช้ OpenAlex หาผลงานในเรื่องที่สนใจ ทั้งบนเว็บและให้ AI เรียก API · คัดแหล่งที่ไม่ต้องการออกพร้อมเหตุผล · สร้าง refs.bib ที่มี abstract จาก OpenAlex เท่านั้น · สรุปด้วย prompt หลายแบบที่อ้างกลับไปหา entry ได้ · ส่งหัวข้อ คำถาม และจำนวนผลงานให้ผู้สอน">
+  <meta name="theme-color" content="#101817">
+  <title>หาข้อมูลเรื่องที่สนใจเพิ่มด้วย OpenAlex — ค้น คัด ทำ BibTeX พร้อม abstract แล้วสรุป · AIRR</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/styles.css?v=20261113-2">
+  <link rel="stylesheet" href="assets/learn.css?v=20261119-1">
+  <script src="assets/site-shell.js?v=20261119-1"></script>
+  <script src="assets/app.js?v=20261119-1" defer></script>
+  <link rel="icon" href="assets/images/airr-mark-dark.svg" type="image/svg+xml">
+  <link rel="icon" href="assets/images/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="assets/images/favicon-180.png">
+</head>
+<body class="learn" data-no-case>
+  <a class="skip-link" href="#main">ข้ามไปยังเนื้อหา</a>
+  <site-header current="topic" plan="class-2026-11-20-engineering-faculty.html" menu='{&quot;module&quot;: &quot;M02&quot;, &quot;title&quot;: &quot;ทำงานกับหลักฐานหลายรูปแบบ&quot;, &quot;items&quot;: [{&quot;href&quot;: &quot;module-overview-m02.html&quot;, &quot;label&quot;: &quot;ภาพรวมและ LO&quot;, &quot;current&quot;: false}, {&quot;href&quot;: &quot;topic-multiformat-evidence-and-source-levels.html&quot;, &quot;label&quot;: &quot;อ่านหลักฐานหลายรูปแบบและชี้ระดับต้นทาง&quot;, &quot;current&quot;: false}, {&quot;href&quot;: &quot;topic-explore-topic-with-openalex.html&quot;, &quot;label&quot;: &quot;หาข้อมูลเรื่องที่สนใจเพิ่มด้วย OpenAlex — ค้น คัด ทำ BibTeX พร้อม abstract แล้วสรุป&quot;, &quot;current&quot;: true}]}'></site-header>
+  <main id="main">
+<section class="prepare-hero module-hero"><p class="eyebrow">หัวข้อย่อย · M02</p><h1>หาข้อมูลเรื่องที่สนใจเพิ่มด้วย OpenAlex — ค้น คัด ทำ BibTeX พร้อม abstract แล้วสรุป</h1><ul class="outcomes"><li>ใช้ OpenAlex หาผลงานในเรื่องที่สนใจ ทั้งบนเว็บและให้ AI เรียก API</li><li>คัดแหล่งที่ไม่ต้องการออกพร้อมเหตุผล</li><li>สร้าง refs.bib ที่มี abstract จาก OpenAlex เท่านั้น</li><li>สรุปด้วย prompt หลายแบบที่อ้างกลับไปหา entry ได้</li><li>ส่งหัวข้อ คำถาม และจำนวนผลงานให้ผู้สอน</li></ul></section>
+<div class="topic-layout"><nav class="topic-tabs topic-menu" aria-label="ในหัวข้อนี้"><p class="topic-menu-title">ในหัวข้อนี้</p><ul><li><a href="#slides" title="สไลด์">สไลด์</a></li><li><a href="#workshop-core" title="Workshop หลัก">Workshop</a><ul class="topic-submenu"><li><a href="#workshop-core--ก่อนเริ่ม-ต้องมีอยู่แล้ว" data-sub>ก่อนเริ่ม (ต้องมีอยู่แล้ว)</a></li><li><a href="#workshop-core--คำที่ใช้ใน-workshop-นี้" data-sub>คำที่ใช้ใน workshop นี้</a></li><li><a href="#workshop-core--เริ่มหัวข้อ--ให้-ai-รู้ว่ากำลังทำโมดูลไหน" data-sub>เริ่มหัวข้อ — ให้ AI รู้ว่ากำลังทำโมดูลไหน</a></li><li><a href="#workshop-core--ขั้นที่-1--รู้จัก-openalex-ค้นเองบนเว็บก่อน" data-sub>ขั้นที่ 1 — รู้จัก OpenAlex: ค้นเองบนเว็บก่อน</a></li><li><a href="#workshop-core--ขั้นที่-2--ให้-ai-ค้น-openalex-api-เอง" data-sub>ขั้นที่ 2 — ให้ AI ค้น OpenAlex API เอง</a></li><li><a href="#workshop-core--ขั้นที่-3--คัดสิ่งที่ไม่อยากเอามาออก-คุณเป็นคนตัดสิน" data-sub>ขั้นที่ 3 — คัดสิ่งที่ไม่อยากเอามาออก (คุณเป็นคนตัดสิน)</a></li><li><a href="#workshop-core--ขั้นที่-4--สร้าง-bibtex-พร้อม-abstract" data-sub>ขั้นที่ 4 — สร้าง BibTeX พร้อม abstract</a></li><li><a href="#workshop-core--ขั้นที่-5--สรุปด้วย-prompt-หลายแบบ" data-sub>ขั้นที่ 5 — สรุปด้วย prompt หลายแบบ</a></li><li><a href="#workshop-core--ขั้นที่-6-ไม่บังคับ--เรียก-openalex-api-แบบอื่น" data-sub>ขั้นที่ 6 (ไม่บังคับ) — เรียก OpenAlex API แบบอื่น</a></li><li><a href="#workshop-core--ขั้นที่-7--ส่งให้ผู้สอนรู้ว่าคุณสำรวจเรื่องอะไร" data-sub>ขั้นที่ 7 — ส่งให้ผู้สอนรู้ว่าคุณสำรวจเรื่องอะไร</a></li><li><a href="#workshop-core--ตรวจก่อนจบ-workshop" data-sub>ตรวจก่อนจบ workshop</a></li></ul></li><li><a href="#open-explore" title="Exploring workshop">Exploring</a><ul class="topic-submenu"><li><a href="#open-explore--ก่อนเริ่ม-ต้องมีอยู่แล้ว" data-sub>ก่อนเริ่ม (ต้องมีอยู่แล้ว)</a></li><li><a href="#open-explore--โจทย์" data-sub>โจทย์</a></li><li><a href="#open-explore--ข้อกำหนด" data-sub>ข้อกำหนด</a></li><li><a href="#open-explore--เกณฑ์ผ่าน" data-sub>เกณฑ์ผ่าน</a></li></ul></li></ul><button type="button" class="aside-toggle" data-aside-toggle aria-pressed="false">ซ่อนสไลด์ข้าง</button></nav><div class="topic-main"><section class="section markdown-section topic-panel" id="slides" aria-labelledby="slides-heading"><div class="section-heading compact"><p class="eyebrow">สไลด์</p><h2 id="slides-heading">สไลด์</h2></div><div class="markdown-body"><div class="slide-tools"><button type="button" class="slide-tool" data-fullscreen="#slide-frame-main">⛶ เต็มจอ</button><a class="slide-tool" href="downloads/topics/explore-topic-with-openalex.pdf" target="_blank" rel="noopener">เปิดแท็บใหม่ ↗</a><a class="slide-tool" href="downloads/instructor-slides-f1464f310a04ae61/explore-topic-with-openalex.pptx" download data-instructor-only hidden title="สำหรับผู้สอน: ไฟล์ PowerPoint พร้อม speaker notes">ดาวน์โหลด .pptx (ผู้สอน)</a></div><iframe id="slide-frame-main" class="slide-frame" src="downloads/topics/explore-topic-with-openalex.pdf#view=FitH" title="สไลด์ หาข้อมูลเรื่องที่สนใจเพิ่มด้วย OpenAlex — ค้น คัด ทำ BibTeX พร้อม abstract แล้วสรุป" allowfullscreen></iframe></div></section>
+<section class="section markdown-section topic-panel" id="workshop-core" aria-labelledby="workshop-core-heading"><div class="section-heading compact"><p class="eyebrow">Workshop</p><h2 id="workshop-core-heading">หาข้อมูลเรื่องที่สนใจเพิ่มด้วย OpenAlex — ค้น คัด ทำ BibTeX พร้อม abstract แล้วสรุป</h2></div><div class="markdown-body"><p>ใน workshop นี้คุณจะหาผลงานวิชาการในเรื่องที่คุณสนใจจาก OpenAlex สองทาง คือค้นเองบนเว็บ และให้ AI เรียก API แล้วคัดแหล่งที่ไม่ต้องการออก สร้าง <code>refs.bib</code> ที่มี abstract แล้วสรุปด้วย prompt หลายแบบ <strong>นี่ไม่ใช่การทำรีวิว</strong> แต่เป็นการหาข้อมูลเพิ่มแบบที่ทุกข้อสรุปชี้กลับไปหาผลงานได้</p>
+<h3 id="workshop-core--ก่อนเริ่ม-ต้องมีอยู่แล้ว">ก่อนเริ่ม (ต้องมีอยู่แล้ว)</h3>
+<ul>
+<li>เรื่องที่คุณสนใจหนึ่งเรื่อง และคำถามหนึ่งข้อ (ไม่ต้องเป็นหัวข้อวิจัยใหม่)</li>
+<li>OpenAlex API key ฟรี: สมัครที่ <a href="https://openalex.org/settings/api">openalex.org/settings/api</a> แล้วเก็บในตัวแปร <code>OPENALEX_KEY</code>
+<ul>
+<li>Windows: เปิด PowerShell พิมพ์ <code>setx OPENALEX_KEY "key ของคุณ"</code> แล้วปิด–เปิด VS Code ใหม่</li>
+<li>macOS / Linux: เพิ่มบรรทัด <code>export OPENALEX_KEY="key ของคุณ"</code> ใน <code>~/.zshrc</code> หรือ <code>~/.bashrc</code> แล้วเปิด terminal ใหม่</li>
+<li><strong>ห้ามวาง key ใน prompt ไฟล์งาน หรือภาพหน้าจอ</strong> (ไม่มี key AI จะเรียก API ไม่ได้ — OpenAlex ตอบ 429)</li>
+</ul></li>
+<li>ไฟล์ทั้งหมดของหัวข้อนี้อยู่ใน <code>module-02-work/openalex/</code> (ดูแผนที่ไฟล์ใน <code>module-02-work/openalex/README.md</code>)</li>
+</ul>
+<h3 id="workshop-core--คำที่ใช้ใน-workshop-นี้">คำที่ใช้ใน workshop นี้</h3>
+<ul>
+<li><strong>OpenAlex</strong> — ฐานข้อมูลเปิดของผลงานวิชาการ (บทความ หนังสือ รายงาน) ราว 250 ล้านรายการ พร้อมผู้แต่ง สถาบัน วารสาร การอ้างอิง และ abstract</li>
+<li><strong>work</strong> — หนึ่งผลงานใน OpenAlex มีรหัสแบบ <code>W1234567890</code></li>
+<li><strong>source</strong> — แหล่งตีพิมพ์ เช่น วารสาร หรือ repository</li>
+<li><strong>abstract จาก OpenAlex</strong> — OpenAlex เก็บ abstract เป็นดัชนีคำ (<code>abstract_inverted_index</code>) ต้องประกอบกลับเป็นข้อความ บางผลงานไม่มี abstract</li>
+<li><strong>topic card</strong> — <code>module-02-work/openalex/topic-card.json</code> หัวข้อ คำถาม และจำนวนผลงาน ที่ส่งให้ผู้สอนรู้ว่าคุณสำรวจเรื่องอะไร</li>
+</ul>
+<hr>
+<h3 id="workshop-core--เริ่มหัวข้อ--ให้-ai-รู้ว่ากำลังทำโมดูลไหน">เริ่มหัวข้อ — ให้ AI รู้ว่ากำลังทำโมดูลไหน</h3>
+<p>ถ้าแชต AI เดิมทำโมดูลอื่นอยู่ ให้เปิดแชตใหม่ก่อน แล้ววาง prompt นี้</p>
+<div class="command ai-prompt"><code>เริ่ม Module 2 หัวข้อ "หาข้อมูลเรื่องที่สนใจเพิ่มด้วย OpenAlex": รัน AIRR update แล้วรัน AIRR init module-2 (ต้องทำทุกครั้งที่เริ่มหัวข้อ ไฟล์ที่ฉันแก้แล้วจะไม่ถูกเขียนทับ) แล้วอ่านส่วน AIRR CONTEXT ที่ได้ ทำงานในหัวข้อนี้เฉพาะใน module-02-work/openalex/ เท่านั้น อ่าน module-02-work/openalex/README.md ก่อน แล้วตรวจว่ามีตัวแปร OPENALEX_KEY หรือไม่ (ตอบแค่ว่ามีหรือไม่มี ห้ามแสดงค่า)</code><button type="button" data-copy="">คัดลอก</button></div><p><strong>ตรวจ:</strong> AI แสดง <code>AIRR INIT PASS · module-2</code> มี <code>module-02-work/openalex/README.md</code> และ <code>topic-card.json</code> และ AI ตอบว่ามี <code>OPENALEX_KEY</code> (ถ้าไม่มี ให้ตั้งค่าตาม "ก่อนเริ่ม" แล้วเปิด VS Code ใหม่)</p>
+<hr>
+<h3 id="workshop-core--ขั้นที่-1--รู้จัก-openalex-ค้นเองบนเว็บก่อน">ขั้นที่ 1 — รู้จัก OpenAlex: ค้นเองบนเว็บก่อน</h3>
+<ol type="1">
+<li>เปิด <a href="https://openalex.org">openalex.org</a> พิมพ์คำค้นเรื่องของคุณ (ภาษาอังกฤษได้ผลดีกว่า)</li>
+<li>ลองตัวกรองด้านซ้าย: ปีที่ตีพิมพ์ ประเภทผลงาน และ Open Access</li>
+<li>เปิดผลงานหนึ่งรายการ ดูว่ามี abstract ผู้แต่ง วารสาร จำนวนครั้งที่ถูกอ้าง และรหัส <code>W…</code> อะไรบ้าง</li>
+<li>เปิด <code>module-02-work/openalex/topic-card.json</code> ใน VS Code แก้ <code>topic</code> (เรื่องสั้น ๆ หนึ่งบรรทัด) และ <code>question</code> (คำถามหนึ่งข้อ) เอง ตัวเลขยังปล่อยเป็น 0</li>
+</ol>
+<p><strong>ตรวจ:</strong> <code>topic-card.json</code> มี <code>topic</code> และ <code>question</code> ของคุณ และคุณจดได้ว่าค้นบนเว็บแล้วพบประมาณกี่รายการด้วยคำค้นใด</p>
+<hr>
+<h3 id="workshop-core--ขั้นที่-2--ให้-ai-ค้น-openalex-api-เอง">ขั้นที่ 2 — ให้ AI ค้น OpenAlex API เอง</h3>
+<p>วาง prompt นี้ แล้วแก้คำค้นและปีให้เป็นของคุณ</p>
+<div class="command ai-prompt"><code>อ่าน topic และ question จาก module-02-work/openalex/topic-card.json แล้วค้น OpenAlex API ที่ https://api.openalex.org/works ด้วย search="&lt;คำค้นของฉัน&gt;" กรองปี from_publication_date:2018-01-01 และ type:article|review ใช้ API key จากตัวแปร OPENALEX_KEY เท่านั้น ห้ามพิมพ์ key ลงไฟล์ log หรือผลลัพธ์ใด ขอ per-page=50 เรียงตาม relevance_score เก็บผลลัพธ์ทั้งก้อนลง module-02-work/openalex/works.json บันทึก search-log.md: วันเวลา คำค้น ตัวกรอง URL ที่เรียก (ตัด api_key ออก) จำนวนที่พบทั้งหมด (meta.count) และจำนวนที่เก็บไว้ แสดงตารางสิบรายการแรก: ลำดับ | ปี | ชื่อเรื่อง | source | cited_by_count | มี abstract ไหม แล้วหยุดรอ</code><button type="button" data-copy="">คัดลอก</button></div><p><strong>ตรวจ:</strong> มี <code>works.json</code> และ <code>search-log.md</code> ใน <code>module-02-work/openalex/</code> · URL ใน log ไม่มี key · จำนวนที่พบใกล้เคียงกับที่คุณค้นบนเว็บด้วยคำค้นเดียวกัน (ถ้าต่างมาก ให้ถาม AI ว่าตัวกรองต่างกันตรงไหน)</p>
+<hr>
+<h3 id="workshop-core--ขั้นที่-3--คัดสิ่งที่ไม่อยากเอามาออก-คุณเป็นคนตัดสิน">ขั้นที่ 3 — คัดสิ่งที่ไม่อยากเอามาออก (คุณเป็นคนตัดสิน)</h3>
+<div class="command ai-prompt"><code>จาก module-02-work/openalex/works.json สรุปตาราง source ที่พบ: source | ประเภท | จำนวนผลงาน และนับผลงานที่ไม่มี abstract ผลงานที่ is_retracted เป็น true และผลงานที่ไม่ใช่ภาษาอังกฤษหรือไทย ยังไม่ต้องตัดอะไร แล้วหยุดรอ</code><button type="button" data-copy="">คัดลอก</button></div><p>ดูตารางแล้วตัดสินเองว่าจะไม่เอาอะไร เช่น วารสารที่คุณไม่เชื่อถือ ผลงานที่ถูกถอน (retracted) หรือผลงานที่ไม่มี abstract แล้วสั่ง</p>
+<div class="command ai-prompt"><code>คัดออก: &lt;รายการที่คุณเลือก พร้อมเหตุผลสั้น ๆ&gt; บันทึก module-02-work/openalex/excluded.md: สิ่งที่คัดออก | เหตุผลของฉัน | จำนวนผลงานที่หายไป ห้ามแก้ works.json ให้ถือรายการที่เหลือเป็นชุดที่เก็บไว้ แล้วบอกจำนวนที่เหลือ</code><button type="button" data-copy="">คัดลอก</button></div><p><strong>ตรวจ:</strong> <code>excluded.md</code> มีเหตุผลที่เป็นของคุณทุกแถว และ <code>works.json</code> ไม่ถูกแก้</p>
+<hr>
+<h3 id="workshop-core--ขั้นที่-4--สร้าง-bibtex-พร้อม-abstract">ขั้นที่ 4 — สร้าง BibTeX พร้อม abstract</h3>
+<div class="command ai-prompt"><code>สร้าง module-02-work/openalex/refs.bib จากผลงานที่เก็บไว้ (works.json ลบด้วยรายการใน excluded.md) หนึ่ง entry ต่อหนึ่งผลงาน key แบบ ผู้แต่งคนแรกปีคำแรกของชื่อเรื่อง เช่น smith2021school ใส่ author, title, year, journal, doi และ field openalex_id ทุก entry ประกอบ abstract จาก abstract_inverted_index ของ OpenAlex เท่านั้น ห้ามแต่งหรือเรียบเรียงใหม่ ถ้าไม่มี abstract ให้ใส่ abstract_source = {none} และเว้น abstract ว่าง ถ้ามีให้ใส่ abstract_source = {openalex} แล้วแก้ตัวเลขใน module-02-work/openalex/topic-card.json: works_found = meta.count จาก search-log.md, works_kept = จำนวน entry, sources_excluded = จำนวนแถวใน excluded.md, bib_entries = จำนวน entry ห้ามแก้ topic และ question</code><button type="button" data-copy="">คัดลอก</button></div><p><strong>ตรวจ:</strong> สุ่มสอง entry ใน <code>refs.bib</code> เปิดรหัส <code>W…</code> บน openalex.org เทียบชื่อเรื่อง ปี และประโยคแรกของ abstract ด้วยตัวเอง · ตัวเลขใน <code>topic-card.json</code> ตรงกับไฟล์จริง</p>
+<hr>
+<h3 id="workshop-core--ขั้นที่-5--สรุปด้วย-prompt-หลายแบบ">ขั้นที่ 5 — สรุปด้วย prompt หลายแบบ</h3>
+<p>เลือกอย่างน้อยสองแบบ แต่ละแบบเขียนผลลงไฟล์แยกใน <code>module-02-work/openalex/summaries/</code> ทุกแบบมีกติกาเดียวกัน: <strong>ใช้เฉพาะ abstract ใน refs.bib · ทุกข้อสรุปต้องอ้าง key · ถ้า abstract ไม่พอให้บอกว่าไม่พอ</strong></p>
+<ul>
+<li><strong>แผนที่ประเด็น</strong> → <code>summaries/map.md</code>
+<div class="command ai-prompt"><code>จาก abstract ใน module-02-work/openalex/refs.bib จัดกลุ่มผลงานเป็น 3–6 ประเด็น ตาราง: ประเด็น | key ที่อยู่ในกลุ่ม | ประโยคเดียวว่ากลุ่มนี้ศึกษาอะไร อ้าง key ทุกแถว ห้ามใช้ความรู้นอก abstract บันทึกลง module-02-work/openalex/summaries/map.md</code><button type="button" data-copy="">คัดลอก</button></div></li>
+<li><strong>ตารางเปรียบเทียบ</strong> → <code>summaries/compare.md</code>
+<div class="command ai-prompt"><code>ทำตารางจาก abstract: key | บริบท/กลุ่มตัวอย่าง | วิธี | ผลหลัก (ตัวเลขถ้ามีพร้อมหน่วย) | ข้อจำกัดที่ผู้เขียนบอก ช่องที่ abstract ไม่บอกให้เขียน "ไม่ระบุ" ห้ามเดา บันทึกลง module-02-work/openalex/summaries/compare.md</code><button type="button" data-copy="">คัดลอก</button></div></li>
+<li><strong>ตอบคำถามของฉัน</strong> → <code>summaries/answer.md</code>
+<div class="command ai-prompt"><code>ตอบ question ใน topic-card.json จาก abstract เท่านั้น แยกเป็น: สิ่งที่หลายผลงานพบตรงกัน (อ้างทุก key) · สิ่งที่ผลงานขัดกัน · สิ่งที่ abstract ชุดนี้ตอบไม่ได้ จบด้วยประโยคว่าข้อสรุปนี้จำกัดอยู่ที่ abstract ไม่ได้อ่านฉบับเต็ม บันทึกลง module-02-work/openalex/summaries/answer.md</code><button type="button" data-copy="">คัดลอก</button></div></li>
+<li><strong>อ่านอะไรต่อ</strong> → <code>summaries/next.md</code>
+<div class="command ai-prompt"><code>เลือก 3 ผลงานจาก refs.bib ที่ควรอ่านฉบับเต็มก่อนเพื่อตอบคำถามของฉัน บอกเหตุผลจาก abstract และสิ่งที่ต้องไปตรวจในฉบับเต็ม บันทึกลง module-02-work/openalex/summaries/next.md</code><button type="button" data-copy="">คัดลอก</button></div></li>
+</ul>
+<p><strong>ตรวจ:</strong> ในแต่ละไฟล์ สุ่มหนึ่งประโยค หา key ที่อ้าง แล้วเปิด abstract ใน <code>refs.bib</code> ดูว่าพูดเรื่องนั้นจริง</p>
+<hr>
+<h3 id="workshop-core--ขั้นที่-6-ไม่บังคับ--เรียก-openalex-api-แบบอื่น">ขั้นที่ 6 (ไม่บังคับ) — เรียก OpenAlex API แบบอื่น</h3>
+<p>ลองทีละข้อ ทุกคำสั่งบันทึกต่อท้าย <code>search-log.md</code></p>
+<ul>
+<li><strong>แนวโน้มตามปี:</strong> &gt; เรียก OpenAlex works ด้วยคำค้นเดิม group_by=publication_year แล้วแสดงจำนวนผลงานต่อปี</li>
+<li><strong>งานที่ถูกอ้างมาก:</strong> &gt; ค้นคำเดิม sort=cited_by_count:desc per-page=10 แสดงปี ชื่อเรื่อง จำนวนครั้งที่ถูกอ้าง</li>
+<li><strong>เฉพาะที่อ่านฉบับเต็มได้ฟรี:</strong> &gt; ค้นคำเดิม filter is_oa:true แสดงลิงก์ best_oa_location</li>
+<li><strong>งานที่อ้างผลงานหนึ่ง:</strong> &gt; เรียก works ด้วย filter=cites:&lt;รหัส W ของผลงานที่สนใจ&gt; แสดง 10 รายการล่าสุด</li>
+</ul>
+<p><strong>ตรวจ:</strong> ทุกคำสั่งที่ลองมีบรรทัดใน <code>search-log.md</code> พร้อม URL (ไม่มี key) และจำนวนที่ได้</p>
+<hr>
+<h3 id="workshop-core--ขั้นที่-7--ส่งให้ผู้สอนรู้ว่าคุณสำรวจเรื่องอะไร">ขั้นที่ 7 — ส่งให้ผู้สอนรู้ว่าคุณสำรวจเรื่องอะไร</h3>
+<p>เปิด <code>topic-card.json</code> ตรวจว่า topic, question และตัวเลขทั้งสี่ตรงกับงานจริง แล้วสั่ง</p>
+<div class="command ai-prompt"><code>รันเครื่องมือ AIRR ด้วยคำสั่ง check module-2 --short แล้วแสดงผลให้ฉันดู หยุดรอให้ฉันยืนยันก่อน เมื่อฉันยืนยันแล้ว จึงรัน submit module-2 --short --yes</code><button type="button" data-copy="">คัดลอก</button></div><p>topic card จะถูกส่งไปพร้อมงานแบบทางสั้นของ Module 2 (ส่งเฉพาะหัวข้อ คำถาม และตัวเลขสี่ตัว ไม่ส่ง abstract หรือรายการอ้างอิง) ทางสั้นต้องมี <code>module-02-work/output/evidence-table.md</code> จากหัวข้อก่อนหน้า และ <code>module-02-work/openalex/refs.bib</code> จากหัวข้อนี้ (ถ้าทำ <code>meal-card.md</code> ไว้แล้วก็ใช้แทน refs.bib ได้)</p>
+<p><strong>ตรวจ:</strong> ผลของ <code>check</code> มีบรรทัด <code>topic card: …</code> แสดงหัวข้อของคุณ และ <code>submit</code> ตอบ accepted</p>
+<hr>
+<h3 id="workshop-core--ตรวจก่อนจบ-workshop">ตรวจก่อนจบ workshop</h3>
+<ul class="task-list">
+<li><label><input type="checkbox"><code>module-02-work/openalex/</code> มี <code>search-log.md</code> <code>works.json</code> <code>excluded.md</code> <code>refs.bib</code> และอย่างน้อยสองไฟล์ใน <code>summaries/</code> · ไม่มี API key ในไฟล์ใด</label></li>
+<li><label><input type="checkbox">สุ่มตรวจ <code>refs.bib</code> กับ openalex.org แล้วสอง entry และสุ่มตรวจหนึ่งประโยคในแต่ละสรุป</label></li>
+<li><label><input type="checkbox"><code>topic-card.json</code> ตรงกับงานจริง และส่ง <code>submit module-2 --short</code> แล้ว</label></li>
+</ul>
+</div></section>
+<section class="section markdown-section topic-panel" id="open-explore" aria-labelledby="open-explore-heading"><div class="section-heading compact"><p class="eyebrow">Exploring</p><h2 id="open-explore-heading">หาข้อมูลเรื่องที่สนใจเพิ่มด้วย OpenAlex — ค้น คัด ทำ BibTeX พร้อม abstract แล้วสรุป</h2></div><div class="markdown-body"><p>ในโจทย์เปิดนี้คุณเขียน prompt เองทั้งหมด เพื่อหาว่าการค้นแบบไหนทำให้ได้ชุดผลงานที่ตอบคำถามของคุณได้ดีที่สุด และสรุปเป็นสูตร prompt ของตัวเองที่ใช้ซ้ำได้</p>
+<h3 id="open-explore--ก่อนเริ่ม-ต้องมีอยู่แล้ว">ก่อนเริ่ม (ต้องมีอยู่แล้ว)</h3>
+<ul>
+<li>ทำ Workshop ของหัวข้อนี้แล้ว: มี <code>module-02-work/openalex/</code> พร้อม <code>search-log.md</code> <code>refs.bib</code> และ <code>topic-card.json</code></li>
+<li>ทุกไฟล์ใหม่ของโจทย์นี้เก็บใน <code>module-02-work/openalex/explore/</code> (สร้างโฟลเดอร์ถ้ายังไม่มี) อย่าเขียนทับไฟล์ของ workshop</li>
+</ul>
+<h3 id="open-explore--โจทย์">โจทย์</h3>
+<ol type="1">
+<li><strong>ค้นสองแบบแล้วเทียบ</strong> — เขียน prompt เองให้ AI ค้นคำถามเดิมด้วยวิธีที่ต่างจาก workshop อย่างน้อยหนึ่งอย่าง เช่น ค้นเฉพาะชื่อเรื่องและ abstract (<code>title_and_abstract.search</code>) · เปลี่ยนคำค้นเป็นคำพ้อง · จำกัดปีหรือประเทศของสถาบัน · กรองเฉพาะ Open Access เก็บผลเป็น <code>explore/works-b.json</code> และต่อท้าย <code>search-log.md</code></li>
+<li><strong>เทียบชุดผล</strong> — ให้ AI นับว่าผลงานซ้ำกับชุด workshop กี่รายการ ใหม่กี่รายการ แล้วเปิดดูเองว่ารายการใหม่ 3 รายการแรกเกี่ยวกับคำถามของคุณจริงไหม</li>
+<li><strong>สรุปด้วย prompt ที่คุณออกแบบเอง</strong> — เขียน prompt สรุปแบบใหม่หนึ่งแบบที่ workshop ไม่มี (เช่น สรุปวิธีวัดที่ใช้ · หาตัวเลขที่ขัดกัน · อธิบายให้คนนอกสาขาฟัง) บันทึกใน <code>explore/</code> และต้องอ้าง key ทุกข้อ</li>
+<li><strong>สูตร prompt ของคุณ</strong> — เขียนลง <code>module-02-work/openalex/prompts.md</code> 3–5 ข้อว่าต้องบอก AI อะไรบ้างถึงจะได้ชุดผลงานและสรุปที่ตรวจย้อนได้ (เช่น ระบุตัวกรอง · ห้ามใช้ความรู้นอก abstract · บังคับอ้าง key)</li>
+</ol>
+<h3 id="open-explore--ข้อกำหนด">ข้อกำหนด</h3>
+<ul>
+<li>ห้ามวาง OpenAlex API key ใน prompt หรือไฟล์ใด ใช้ <code>OPENALEX_KEY</code> เท่านั้น</li>
+<li>ไม่แก้ <code>works.json</code> และ <code>refs.bib</code> ของ workshop</li>
+<li>ทุกข้อสรุปอ้าง key และบอกเมื่อ abstract ไม่พอ</li>
+<li>ถ้าผลรอบใหม่ไม่ดีกว่า ให้บันทึกตามจริง</li>
+</ul>
+<h3 id="open-explore--เกณฑ์ผ่าน">เกณฑ์ผ่าน</h3>
+<ul class="task-list">
+<li><label><input type="checkbox">มีผลการค้นแบบที่สองใน <code>explore/</code> และบันทึกใน <code>search-log.md</code></label></li>
+<li><label><input type="checkbox">มีตัวเลขเทียบสองชุด (ซ้ำ / ใหม่) และผลที่คุณเปิดตรวจเอง 3 รายการ</label></li>
+<li><label><input type="checkbox">มีสรุปแบบใหม่หนึ่งแบบที่อ้าง key ทุกข้อ</label></li>
+<li><label><input type="checkbox"><code>prompts.md</code> มีสูตร prompt 3–5 ข้อที่มาจากสิ่งที่เห็นจริง</label></li>
+</ul>
+</div></section></div><aside class="slide-aside" aria-label="สไลด์ประกอบ"><div class="slide-tools"><button type="button" class="slide-tool" data-fullscreen="#slide-frame-aside">⛶ เต็มจอ</button><a class="slide-tool" href="downloads/topics/explore-topic-with-openalex.pdf" target="_blank" rel="noopener">เปิดแท็บใหม่ ↗</a><a class="slide-tool" href="downloads/instructor-slides-f1464f310a04ae61/explore-topic-with-openalex.pptx" download data-instructor-only hidden title="สำหรับผู้สอน: ไฟล์ PowerPoint พร้อม speaker notes">ดาวน์โหลด .pptx (ผู้สอน)</a></div><iframe id="slide-frame-aside" src="downloads/topics/explore-topic-with-openalex.pdf#view=FitH" title="สไลด์ หาข้อมูลเรื่องที่สนใจเพิ่มด้วย OpenAlex — ค้น คัด ทำ BibTeX พร้อม abstract แล้วสรุป" loading="lazy" allowfullscreen></iframe></aside></div>
+<script>
+(() => {
+  const tabs = [...document.querySelectorAll('.topic-tabs > ul > li > a')];
+  const panels = tabs.map(t => document.getElementById(t.hash.slice(1)));
+  const subs = [...document.querySelectorAll('.topic-tabs a[data-sub]')];
+  const idOf = a => decodeURIComponent(a.getAttribute('href').slice(1));  // .hash is percent-encoded for Thai ids
+  // owner 2026-11-19: each menu step folds (<details>, open by default). Picking step n opens n..end
+  // and folds 1..n-1 in that panel, so the page stays short.
+  const folds = new Map();  // step id -> <details>
+  subs.forEach(s => {
+    const h = document.getElementById(idOf(s));
+    if (!h || h.tagName !== 'H3' || h.closest('details.step-fold')) return;
+    const box = document.createElement('details'); box.className = 'step-fold'; box.open = true;
+    const sum = document.createElement('summary'); box.append(sum);
+    h.before(box); sum.append(h);
+    let n = box.nextSibling;
+    while (n && !(n.nodeType === 1 && n.tagName === 'H3' && subs.some(x => idOf(x) === n.id))) { const nx = n.nextSibling; box.append(n); n = nx; }
+    folds.set(h.id, box);
+  });
+  function foldFrom(id) {
+    const box = folds.get(id); if (!box) return;
+    const same = [...folds.values()].filter(b => b.parentElement === box.parentElement);
+    const at = same.indexOf(box);
+    same.forEach((b, k) => { b.open = k >= at; });
+  }
+  function show(id) {
+    const target = id && document.getElementById(id);
+    const owner = target && target.closest('.topic-panel');
+    const i = Math.max(0, panels.findIndex(p => p && p.id === (owner ? owner.id : id)));
+    panels.forEach((p, k) => { if (p) p.hidden = k !== i; });
+    tabs.forEach((t, k) => { t.setAttribute('aria-current', k === i ? 'page' : 'false'); t.parentElement.classList.toggle('is-open', k === i); });
+    const layout = document.querySelector('.topic-layout'); if (layout && panels[i]) layout.dataset.active = panels[i].id;
+    return target && owner && target !== owner ? target : null;
+  }
+  tabs.forEach(t => t.addEventListener('click', e => { e.preventDefault(); history.replaceState(null, '', t.hash); show(t.hash.slice(1)); window.scrollTo({top: 0}); }));
+  subs.forEach(s => s.addEventListener('click', e => { e.preventDefault(); history.replaceState(null, '', s.hash); const h = show(idOf(s)); foldFrom(idOf(s)); if (h) h.scrollIntoView({block: 'start'}); }));
+  if ('IntersectionObserver' in window && subs.length) {  // highlight the step being read
+    const byId = new Map(subs.map(s => [idOf(s), s]));
+    const seen = new Set();
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(en => { if (en.isIntersecting) seen.add(en.target.id); else seen.delete(en.target.id); });
+      const visible = [...byId.keys()].find(k => seen.has(k));
+      if (visible) subs.forEach(s => s.classList.toggle('is-here', s === byId.get(visible)));
+    }, {rootMargin: '-15% 0px -70% 0px'});
+    byId.forEach((_, k) => { const h = document.getElementById(k); if (h) io.observe(h); });
+  }
+  document.querySelectorAll('[data-next-tab]').forEach(b => b.addEventListener('click', e => { e.preventDefault(); const h = b.getAttribute('href'); history.replaceState(null, '', h); show(h.slice(1)); window.scrollTo({top: 0}); }));
+  document.querySelectorAll('[data-fullscreen]').forEach(b => b.addEventListener('click', () => {
+    const frame = document.querySelector(b.dataset.fullscreen);
+    const go = frame && (frame.requestFullscreen || frame.webkitRequestFullscreen);
+    if (go) go.call(frame); else if (frame) window.open(frame.src, '_blank', 'noopener');
+  }));
+  const layout0 = document.querySelector('.topic-layout');
+  const toggle = document.querySelector('[data-aside-toggle]');
+  function setAside(hidden) {
+    if (!layout0 || !toggle) return;
+    layout0.classList.toggle('aside-hidden', hidden);
+    toggle.setAttribute('aria-pressed', String(hidden));
+    toggle.textContent = hidden ? 'แสดงสไลด์ข้าง' : 'ซ่อนสไลด์ข้าง';
+    try { localStorage.setItem('airr.slideAsideHidden', hidden ? '1' : '0'); } catch (e) {}
+  }
+  if (toggle) {
+    let saved = true; try { saved = localStorage.getItem('airr.slideAsideHidden') !== '0'; } catch (e) {}  // hidden by default
+    setAside(saved);
+    toggle.addEventListener('click', () => setAside(!layout0.classList.contains('aside-hidden')));
+  }
+  let hashId = location.hash.slice(1); try { hashId = decodeURIComponent(hashId); } catch (e) {}
+  const deep = show(hashId);
+  foldFrom(hashId);
+  if (location.hash) requestAnimationFrame(() => deep ? deep.scrollIntoView({block: 'start'}) : window.scrollTo({top: 0}));
+})();
+</script>
+  </main>
+  <site-footer></site-footer>
+</body>
+</html>

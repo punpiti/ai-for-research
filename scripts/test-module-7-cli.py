@@ -132,6 +132,12 @@ def run() -> None:
                 evaluation_path.write_text(json.dumps(evaluation), encoding="utf-8")
                 assert client.main(["--workspace", str(workspace), "check", "module-2", "--short"]) == 0
                 assert client.main(["--workspace", str(workspace), "submit", "module-2", "--short", "--yes"]) == 0
+                # Friday class without faithful-summary: refs.bib from the OpenAlex topic fills the meal_card slot.
+                (workspace / "module-02-work/output/meal-card.md").unlink()
+                assert client.main(["--workspace", str(workspace), "check", "module-2", "--short"]) == 1
+                (workspace / "module-02-work/openalex").mkdir(parents=True, exist_ok=True)
+                (workspace / "module-02-work/openalex/refs.bib").write_text("@article{a,\n title={T}\n}\n", encoding="utf-8")
+                assert client.main(["--workspace", str(workspace), "check", "module-2", "--short"]) == 0
             text = output.getvalue()
             assert "AIRR CONNECTED" in text and "AIRR CHECK PASS" in text and "AIRR SUBMIT PASS" in text
             assert "revision_requested" in text and "feedback: เพิ่มหลักฐานตัวเลข" in text
@@ -150,6 +156,7 @@ def run() -> None:
         raise AssertionError("invalid highlight count was accepted")
     materials_test()
     init_test()
+    topic_card_test()
     ai_key_test()
     print("AIRR Module 7 VS Code client tests passed.")
 
@@ -272,6 +279,27 @@ def init_test() -> None:
         (web / "module-materials.json").write_text(json.dumps(manifest), encoding="utf-8")
         with contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(io.StringIO()):
             assert client.main(["--workspace", str(workspace), "init", "module-9", "--manifest-url", url]) == 1
+
+
+def topic_card_test() -> None:
+    """The M2 OpenAlex topic card is sent only once filled in, with the server's limits."""
+    with tempfile.TemporaryDirectory(prefix="airr-card-") as folder:
+        workspace = Path(folder); card_path = workspace / "module-02-work/openalex/topic-card.json"
+        assert client.module2_topic_card(workspace) is None
+        card_path.parent.mkdir(parents=True)
+        empty = {"topic": "", "question": "", "works_found": 0, "works_kept": 0, "sources_excluded": 0, "bib_entries": 0}
+        card_path.write_text(json.dumps(empty), encoding="utf-8")
+        assert client.module2_topic_card(workspace) is None
+        filled = {**empty, "topic": "  PM2.5 ในโรงเรียน ", "question": "มาตรการไหนลดฝุ่นในห้องเรียนได้", "works_found": 140, "works_kept": 12, "sources_excluded": 2, "bib_entries": 12}
+        card_path.write_text(json.dumps(filled, ensure_ascii=False), encoding="utf-8")
+        assert client.module2_topic_card(workspace) == {**filled, "topic": "PM2.5 ในโรงเรียน"}
+        for bad in ({**filled, "abstract": "x"}, {**filled, "topic": "a\nb"}, {**filled, "works_kept": -1}, {**filled, "question": "x" * 301}):
+            card_path.write_text(json.dumps(bad, ensure_ascii=False), encoding="utf-8")
+            try:
+                client.module2_topic_card(workspace)
+                raise AssertionError(f"bad topic card accepted: {bad}")
+            except client.AIRRError:
+                pass
 
 
 def ai_key_test() -> None:

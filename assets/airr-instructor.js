@@ -104,7 +104,7 @@
   }
 
   const doneLabels = {
-    meal_card: "meal-card", learner_additions: "evidence-table", author_prior: "author-prior",
+    meal_card: "meal-card / refs.bib", learner_additions: "evidence-table", author_prior: "author-prior",
     diagnosis: "diagnosis", revision_table: "revision-table", citation_for_m4: "citation-for-m4",
   };
 

@@ -44,6 +44,20 @@
    "files": [
     {
      "kind": "mock",
+     "url": "topics/explore-topic-with-openalex/mock/README.md",
+     "path": "module-02-work/openalex/README.md",
+     "sha256": "ff01d95b3d0fa0db3ef4932cf5b17e42ca9a81b8c5ea47386d5171248e23f822",
+     "bytes": 1708
+    },
+    {
+     "kind": "mock",
+     "url": "topics/explore-topic-with-openalex/mock/topic-card.json",
+     "path": "module-02-work/openalex/topic-card.json",
+     "sha256": "2fef78f62c42fcec53a76d363df99cfe3b34624b6667fac8541565b73ea97a14",
+     "bytes": 120
+    },
+    {
+     "kind": "mock",
      "url": "validate-module-2.py",
      "path": "course-materials/module-02/validate-module-2.py",
      "sha256": "f1a36af38cfdec96c9123745ae019a618cb49b4657261c008d7adcc7b45ebbfd",
@@ -255,8 +269,8 @@
      "kind": "course",
      "url": "course-materials/visualization/tools/ai-for-research-course.py",
      "path": "course-materials/module-07/tools/ai-for-research-course.py",
-     "sha256": "b091369e307bdf7324f2b0040807b2c14ef3ce9ede09e97a6147c0eb3ea31766",
-     "bytes": 74598
+     "sha256": "02348995e5dc519fda1ba2fdd33c55bf6a14265ef93112cd8ccc3f305f9dae82",
+     "bytes": 77201
     },
     {
      "kind": "mock",

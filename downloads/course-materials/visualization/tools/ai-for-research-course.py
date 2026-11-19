@@ -22,7 +22,7 @@ import zipfile
 
 
 DEFAULT_API_BASE = "https://urban.cpe.ku.ac.th/api/airr/v1"
-AIRR_VERSION = "2026.11.19.5"  # bump on every published change of this file
+AIRR_VERSION = "2026.11.19.6"  # bump on every published change of this file
 DOWNLOADS_PREFIX = "https://urban.cpe.ku.ac.th/ai-for-research/downloads/"
 MANIFEST_URL = DOWNLOADS_PREFIX + "course-materials.json"
 MODULE_MATERIALS_URL = DOWNLOADS_PREFIX + "module-materials.json"
@@ -270,6 +270,9 @@ def module_payload(workspace: Path, args: argparse.Namespace) -> tuple[dict[str,
         counts, paths = short_path_counts(workspace, args.module)
         evaluation = validate_evaluation(load_json(evaluation_path(workspace, args.module, args.evaluation), f"{args.module}-evaluation.json"), args.module)
         progress = {"schema_version": "ai-for-research.short-path-done.v1", "module_id": args.module, "path": "short", "line_counts": counts}
+        card = module2_topic_card(workspace) if args.module == "module-2" else None
+        if card:
+            progress["topic_card"] = card
         return {"event_type": "ai_for_research_short_path_done", "submission_id": str(uuid4()), "client_submitted_at": now, "module_evaluation": evaluation, "progress": progress}, ", ".join(paths)
     if args.module == "module-2":
         artifact_path = Path(args.file).expanduser().resolve() if args.file else module_file(workspace, "module-2", "module-2-submission.json")
@@ -303,19 +306,55 @@ def module_payload(workspace: Path, args: argparse.Namespace) -> tuple[dict[str,
 SHORT_PATH_FILES = {
     # owner 2026-11-19: Friday class drops the learner-additions topic; the second file is now the Workshop 2 evidence table.
     # The server only accepts the keys meal_card + learner_additions, so the evidence table is counted under the old key.
-    "module-2": {"meal_card": "module-02-work/output/meal-card.md", "learner_additions": "module-02-work/output/evidence-table.md"},
+    # owner 2026-11-19: Friday class also drops faithful-summary (meal-card.md); refs.bib from the OpenAlex topic fills that slot.
+    # A tuple = alternatives: the first non-empty file counts.
+    "module-2": {"meal_card": ("module-02-work/output/meal-card.md", "module-02-work/openalex/refs.bib"),
+                 "learner_additions": "module-02-work/output/evidence-table.md"},
     "module-3": {"author_prior": "module-03-work/output/author-prior.md", "diagnosis": "module-03-work/output/problem-statement-diagnosis.md",
                  "revision_table": "module-03-work/output/revision-table.md", "citation_for_m4": "module-03-work/output/citation-for-m4.md"},
 }
 
 
+TOPIC_CARD_TEXT = {"topic": (3, 200), "question": (3, 300)}
+TOPIC_CARD_COUNTS = {"works_found": 100000, "works_kept": 1000, "sources_excluded": 1000, "bib_entries": 1000}
+
+
+def module2_topic_card(workspace: Path) -> dict[str, Any] | None:
+    """OpenAlex topic card (module-02-work/openalex/topic-card.json): sent with the M2 short path once filled in.
+
+    Only the one-line topic, the question and four counts leave the machine (same limits as the server)."""
+    path = workspace / "module-02-work" / "openalex" / "topic-card.json"
+    if not path.is_file():
+        return None
+    value = load_json(path, "topic-card.json")
+    if not str(value.get("topic", "")).strip() and not str(value.get("question", "")).strip():
+        return None
+    if set(value) != set(TOPIC_CARD_TEXT) | set(TOPIC_CARD_COUNTS):
+        raise AIRRError("topic-card.json ต้องมีเฉพาะ topic, question, works_found, works_kept, sources_excluded, bib_entries")
+    card: dict[str, Any] = {}
+    for key, (low, high) in TOPIC_CARD_TEXT.items():
+        text = value[key]
+        if not isinstance(text, str) or "\n" in text or not low <= len(text.strip()) <= high:
+            raise AIRRError(f"topic-card.json: {key} ต้องเป็นข้อความบรรทัดเดียว {low}–{high} ตัวอักษร")
+        card[key] = text.strip()
+    for key, high in TOPIC_CARD_COUNTS.items():
+        if type(value[key]) is not int or not 0 <= value[key] <= high:
+            raise AIRRError(f"topic-card.json: {key} ต้องเป็นจำนวนเต็ม 0–{high}")
+        card[key] = value[key]
+    return card
+
+
 def short_path_counts(workspace: Path, module: str) -> tuple[dict[str, int], list[str]]:
     counts, missing, paths = {}, [], []
-    for key, relative in SHORT_PATH_FILES[module].items():
-        path = workspace / relative
-        lines = [line for line in path.read_text(encoding="utf-8").splitlines() if line.strip()] if path.is_file() else []
+    for key, choices in SHORT_PATH_FILES[module].items():
+        lines: list[str] = []
+        for relative in (choices if isinstance(choices, tuple) else (choices,)):
+            path = workspace / relative
+            lines = [line for line in path.read_text(encoding="utf-8").splitlines() if line.strip()] if path.is_file() else []
+            if lines:
+                break
         if not lines:
-            missing.append(relative)
+            missing.append(" หรือ ".join(choices) if isinstance(choices, tuple) else choices)
         counts[key] = len(lines)
         paths.append(str(path))
     if missing:
@@ -925,8 +964,11 @@ def command_init(args: argparse.Namespace) -> None:
 def command_check(args: argparse.Namespace) -> None:
     workspace = resolve_workspace(args.workspace)
     if args.module != "module-7":
-        _, source = module_payload(workspace, args)
+        payload, source = module_payload(workspace, args)
         print(f"AIRR CHECK PASS · {args.module}")
+        card = (payload.get("progress") or {}).get("topic_card")
+        if card:
+            print(f"topic card: {card['topic']} · คำถาม: {card['question']} · พบ {card['works_found']} · เก็บ {card['works_kept']} · คัดออก {card['sources_excluded']} · BibTeX {card['bib_entries']}")
         print(f"source={source}")
         print("ไม่มีเนื้อหางานถูกส่งออกจากเครื่อง")
         return
