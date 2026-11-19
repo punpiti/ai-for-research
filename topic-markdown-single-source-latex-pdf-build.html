@@ -53,22 +53,8 @@
 <li><p><strong>ให้ AI สร้าง LaTeX</strong> ส่ง prompt นี้ AI จะสร้าง <code>module-08-work/generated/main.tex</code></p>
 <div class="command ai-prompt"><code>ใช้ module-08-work/source/manuscript.md เป็น source of truth สร้าง module-08-work/generated/main.tex ตามข้อกำหนดใน module-08-work/journal-dossiers/journal-a/original/profile.md (หัวข้อ, author–year citations และ BibTeX, ฉบับ review ไม่มีชื่อผู้แต่ง) เชื่อม module-08-work/literature/references.bib และรูปใน module-08-work/figures/ ใช้เฉพาะเนื้อหาที่อยู่ใน Markdown ห้ามเพิ่มผล ตัวเลข citation หรือขั้นตอนวิธีที่ไม่มีในต้นฉบับ ห้ามแก้ generated LaTeX เป็นเนื้อหาหลัก รายงานว่าหัวข้อใดใน Markdown ไปอยู่ส่วนใดของ .tex แล้วหยุดรอ</code><button type="button" data-copy="">คัดลอก</button></div><p>อ่านรายงานของ AI แล้วดูว่าทุกหัวข้อใน <code>manuscript.md</code> มีที่อยู่ใน <code>main.tex</code></p>
 <p><strong>ตรวจ:</strong> <code>generated/main.tex</code> มีเนื้อหาเฉพาะที่อยู่ใน Markdown และเชื่อม BibTeX กับรูปถูกตำแหน่ง</p></li>
-<li><p><strong>build PDF</strong> เปิด Terminal ที่โฟลเดอร์ workspace แล้วรัน คำสั่งนี้จะสร้าง <code>module-08-work/build/manuscript.pdf</code> และ log ใน <code>build/</code></p>
-<table>
-<thead>
-<tr class="header">
-<th>Windows (PowerShell)</th>
-<th>macOS / Linux</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><code>&amp; .\tools\build-module-08.ps1</code></td>
-<td><code>bash tools/build-module-08.sh</code></td>
-</tr>
-</tbody>
-</table>
-<p>หรือสั่ง AI ให้รันคำสั่งนี้และรายงาน error/warning จาก log ใน <code>build/</code> จากนั้นเปิด <code>module-08-work/build/manuscript.pdf</code></p>
+<li><p><strong>build PDF</strong> วาง prompt นี้ในแชต AI แล้วรอ AI รายงาน (AI เลือกคำสั่งตามเครื่องเอง ไม่ต้องเปิด Terminal)</p>
+<div class="command ai-prompt"><code>build PDF ของ Module 8: รัน tools/build-module-08.ps1 ถ้าเครื่องนี้เป็น Windows หรือ bash tools/build-module-08.sh ถ้าเป็น macOS/Linux ที่โฟลเดอร์ workspace คำสั่งนี้สร้าง module-08-work/build/manuscript.pdf และ log ใน module-08-work/build/ รายงานว่า build สำเร็จไหม และสรุป error/warning จาก log (โดยเฉพาะ undefined citation และรูปที่หาไม่พบ) ห้ามแก้ไฟล์ใด แล้วหยุดรอ</code><button type="button" data-copy="">คัดลอก</button></div><p>จากนั้นเปิด <code>module-08-work/build/manuscript.pdf</code> ใน VS Code (คลิกในแถบไฟล์ด้านซ้าย)</p>
 <p><strong>ตรวจ:</strong> PDF เปิดได้ และ log ไม่มี undefined citation</p></li>
 <li><p><strong>ถ้า build พัง ให้แก้ตามชั้น</strong> ให้ AI อ่าน log แล้วชี้ชั้นที่เป็นปัญหาก่อนแก้</p>
 <div class="command ai-prompt"><code>อ่าน log ใน module-08-work/build/ บอกว่าปัญหาอยู่ชั้นใด: เนื้อหาใน Markdown, citation key กับ references.bib, ชื่อ/ตำแหน่งรูปใน figures/, หรือ environment/package เสนอการแก้ที่ไฟล์ต้นทาง ห้ามแก้ PDF ห้ามแก้ generated/main.tex แทนต้นฉบับ ห้ามดาวน์โหลด package จากแหล่งไม่ทราบที่มา แล้วหยุดรอให้ฉันอนุมัติ</code><button type="button" data-copy="">คัดลอก</button></div><table>
@@ -97,7 +83,7 @@
 </tr>
 <tr class="even">
 <td><code>latexmk</code> หรือ <code>xelatex</code> หายไป</td>
-<td>รันตัวติดตั้ง Module 1 ซ้ำ แล้วรันตัวติดตั้ง Module 8 ซ้ำ</td>
+<td>รันตัวติดตั้ง Module 1 ซ้ำ แล้วสั่ง AI รัน <code>AIRR init module-8</code></td>
 <td>ดาวน์โหลด package จากแหล่งสุ่ม</td>
 </tr>
 </tbody>
