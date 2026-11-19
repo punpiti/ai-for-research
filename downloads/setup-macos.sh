@@ -247,7 +247,7 @@ configure_vscode() {
     [[ -x "$vscode_cli" ]] || { log 'PREREQUISITE_MISSING VS Code CLI not found. Open VS Code or reopen Terminal, then rerun --setup-user.'; exit 2; }
   fi
   profile="AI for Research - $agent"
-  extensions=(mathematic.vscode-pdf mechatroner.rainbow-csv AykutSarac.jsoncrack-vscode)
+  extensions=(mathematic.vscode-pdf mechatroner.rainbow-csv AykutSarac.jsoncrack-vscode imfing.office-viewer-vscode)
   case "$agent" in
     codex) extensions=(openai.chatgpt ganymede404.vscode-codex-usage "${extensions[@]}") ;;
     claude) extensions=(anthropic.claude-code growthjack.claude-code-usage "${extensions[@]}") ;;

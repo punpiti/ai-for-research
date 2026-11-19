@@ -22,40 +22,47 @@
   <site-header current="topic" plan="class-2026-11-20-engineering-faculty.html" menu='{&quot;module&quot;: &quot;M07&quot;, &quot;title&quot;: &quot;วิเคราะห์ข้อมูลและสร้างกราฟ&quot;, &quot;items&quot;: [{&quot;href&quot;: &quot;module-overview-m07.html&quot;, &quot;label&quot;: &quot;ภาพรวมและ LO&quot;, &quot;current&quot;: false}, {&quot;href&quot;: &quot;topic-reading-data-and-choosing-charts.html&quot;, &quot;label&quot;: &quot;อ่านข้อมูลและเลือกกราฟให้ตรงงานของผู้อ่าน&quot;, &quot;current&quot;: true}, {&quot;href&quot;: &quot;topic-chart-pitfalls-and-makeover.html&quot;, &quot;label&quot;: &quot;กับดักกราฟ และการปรับกราฟให้พร้อมใช้&quot;, &quot;current&quot;: false}, {&quot;href&quot;: &quot;topic-data-highlights-with-evidence.html&quot;, &quot;label&quot;: &quot;จากข้อมูลสู่ highlights ที่ตรวจย้อนได้&quot;, &quot;current&quot;: false}]}'></site-header>
   <main id="main">
 <section class="prepare-hero module-hero"><p class="eyebrow">หัวข้อย่อย · M07</p><h1>อ่านข้อมูลและเลือกกราฟให้ตรงงานของผู้อ่าน</h1><ul class="outcomes"><li>ขอให้ AI แสดงข้อมูลดิบ/การแจกแจงก่อนตารางสรุป อธิบายได้ว่าสถิติสรุปเท่ากันซ่อนรูปร่างข้อมูลที่ต่างกันอย่างไร และถาม AI ได้ว่ากรอง ตัด หรือรวมแถวใด และตัวหารของภาพคืออะไร</li><li>ระบุงานอ่านค่าของผู้อ่านก่อนให้ AI วาด เลือกจุดเริ่มต้นของกราฟจากตารางงานอ่านค่า และตรวจข้อเสนอกราฟของ AI ด้วยคอลัมน์ &#x27;สิ่งที่ต้องตรวจ&#x27;</li><li>เลือกการเข้ารหัสให้ตรงงานเปรียบเทียบ (ตำแหน่ง/ความยาวก่อนมุม/พื้นที่/สี) ใช้สีเน้นทีละเรื่อง เลือก colormap ที่ความสว่างเรียงลำดับ และตรวจว่าภาพยังอ่านได้เมื่อเป็นขาวดำและสำหรับผู้ที่มองบางสีไม่เห็น</li><li>แยกความหมายของ SD, SE, CI และ IQR เลือก interval ให้ตรงคำถาม และเขียนชนิด interval พร้อม n ในคำบรรยายภาพทุกครั้ง</li></ul></section>
-<div class="topic-layout"><nav class="topic-tabs topic-menu" aria-label="ในหัวข้อนี้"><p class="topic-menu-title">ในหัวข้อนี้</p><ul><li><a href="#slides" title="สไลด์">สไลด์</a></li><li><a href="#workshop-core" title="Workshop หลัก">Workshop</a><ul class="topic-submenu"><li><a href="#workshop-core--ก่อนเริ่ม-ต้องมีอยู่แล้ว" data-sub>ก่อนเริ่ม (ต้องมีอยู่แล้ว)</a></li><li><a href="#workshop-core--คำที่ใช้ใน-workshop-นี้" data-sub>คำที่ใช้ใน workshop นี้</a></li><li><a href="#workshop-core--ขั้นที่-1--ดูแถวจริงและสิ่งที่ถูกกรอง" data-sub>ขั้นที่ 1 — ดูแถวจริงและสิ่งที่ถูกกรอง</a></li><li><a href="#workshop-core--ขั้นที่-2--ระบุงานอ่านค่าก่อนเลือกกราฟ" data-sub>ขั้นที่ 2 — ระบุงานอ่านค่าก่อนเลือกกราฟ</a></li><li><a href="#workshop-core--ขั้นที่-3--ให้สีมีหน้าที่และมีทางสำรองที่ไม่ใช้สี" data-sub>ขั้นที่ 3 — ให้สีมีหน้าที่และมีทางสำรองที่ไม่ใช้สี</a></li><li><a href="#workshop-core--ขั้นที่-4--เรียก-interval-ให้ตรงความหมาย" data-sub>ขั้นที่ 4 — เรียก interval ให้ตรงความหมาย</a></li><li><a href="#workshop-core--ตรวจก่อนจบ-workshop" data-sub>ตรวจก่อนจบ workshop</a></li></ul></li><li><a href="#open-explore" title="Exploring workshop">Exploring</a><ul class="topic-submenu"><li><a href="#open-explore--โจทย์" data-sub>โจทย์</a></li><li><a href="#open-explore--ข้อกำหนด" data-sub>ข้อกำหนด</a></li><li><a href="#open-explore--เกณฑ์ผ่าน" data-sub>เกณฑ์ผ่าน</a></li></ul></li></ul><button type="button" class="aside-toggle" data-aside-toggle aria-pressed="false">ซ่อนสไลด์ข้าง</button></nav><div class="topic-main"><section class="section markdown-section topic-panel" id="slides" aria-labelledby="slides-heading"><div class="section-heading compact"><p class="eyebrow">สไลด์</p><h2 id="slides-heading">สไลด์</h2></div><div class="markdown-body"><div class="slide-tools"><button type="button" class="slide-tool" data-fullscreen="#slide-frame-main">⛶ เต็มจอ</button><a class="slide-tool" href="downloads/topics/reading-data-and-choosing-charts.pdf" target="_blank" rel="noopener">เปิดแท็บใหม่ ↗</a><a class="slide-tool" href="downloads/instructor-slides-f1464f310a04ae61/reading-data-and-choosing-charts.pptx" download data-instructor-only hidden title="สำหรับผู้สอน: ไฟล์ PowerPoint พร้อม speaker notes">ดาวน์โหลด .pptx (ผู้สอน)</a></div><iframe id="slide-frame-main" class="slide-frame" src="downloads/topics/reading-data-and-choosing-charts.pdf#view=FitH" title="สไลด์ อ่านข้อมูลและเลือกกราฟให้ตรงงานของผู้อ่าน" allowfullscreen></iframe></div></section>
+<div class="topic-layout"><nav class="topic-tabs topic-menu" aria-label="ในหัวข้อนี้"><p class="topic-menu-title">ในหัวข้อนี้</p><ul><li><a href="#slides" title="สไลด์">สไลด์</a></li><li><a href="#workshop-core" title="Workshop หลัก">Workshop</a><ul class="topic-submenu"><li><a href="#workshop-core--ก่อนเริ่ม-ต้องมีอยู่แล้ว" data-sub>ก่อนเริ่ม (ต้องมีอยู่แล้ว)</a></li><li><a href="#workshop-core--คำที่ใช้ใน-workshop-นี้" data-sub>คำที่ใช้ใน workshop นี้</a></li><li><a href="#workshop-core--เริ่มหัวข้อ--ให้-ai-รู้ว่ากำลังทำโมดูลไหน" data-sub>เริ่มหัวข้อ — ให้ AI รู้ว่ากำลังทำโมดูลไหน</a></li><li><a href="#workshop-core--ขั้นที่-1--ดูแถวจริงและสิ่งที่ถูกกรอง" data-sub>ขั้นที่ 1 — ดูแถวจริงและสิ่งที่ถูกกรอง</a></li><li><a href="#workshop-core--ขั้นที่-2--ระบุงานอ่านค่าก่อนเลือกกราฟ" data-sub>ขั้นที่ 2 — ระบุงานอ่านค่าก่อนเลือกกราฟ</a></li><li><a href="#workshop-core--ขั้นที่-3--ให้สีมีหน้าที่และมีทางสำรองที่ไม่ใช้สี" data-sub>ขั้นที่ 3 — ให้สีมีหน้าที่และมีทางสำรองที่ไม่ใช้สี</a></li><li><a href="#workshop-core--ขั้นที่-4--เรียก-interval-ให้ตรงความหมาย" data-sub>ขั้นที่ 4 — เรียก interval ให้ตรงความหมาย</a></li><li><a href="#workshop-core--ตรวจก่อนจบ-workshop" data-sub>ตรวจก่อนจบ workshop</a></li></ul></li><li><a href="#open-explore" title="Exploring workshop">Exploring</a><ul class="topic-submenu"><li><a href="#open-explore--โจทย์" data-sub>โจทย์</a></li><li><a href="#open-explore--ข้อกำหนด" data-sub>ข้อกำหนด</a></li><li><a href="#open-explore--เกณฑ์ผ่าน" data-sub>เกณฑ์ผ่าน</a></li></ul></li></ul><button type="button" class="aside-toggle" data-aside-toggle aria-pressed="false">ซ่อนสไลด์ข้าง</button></nav><div class="topic-main"><section class="section markdown-section topic-panel" id="slides" aria-labelledby="slides-heading"><div class="section-heading compact"><p class="eyebrow">สไลด์</p><h2 id="slides-heading">สไลด์</h2></div><div class="markdown-body"><div class="slide-tools"><button type="button" class="slide-tool" data-fullscreen="#slide-frame-main">⛶ เต็มจอ</button><a class="slide-tool" href="downloads/topics/reading-data-and-choosing-charts.pdf" target="_blank" rel="noopener">เปิดแท็บใหม่ ↗</a><a class="slide-tool" href="downloads/instructor-slides-f1464f310a04ae61/reading-data-and-choosing-charts.pptx" download data-instructor-only hidden title="สำหรับผู้สอน: ไฟล์ PowerPoint พร้อม speaker notes">ดาวน์โหลด .pptx (ผู้สอน)</a></div><iframe id="slide-frame-main" class="slide-frame" src="downloads/topics/reading-data-and-choosing-charts.pdf#view=FitH" title="สไลด์ อ่านข้อมูลและเลือกกราฟให้ตรงงานของผู้อ่าน" allowfullscreen></iframe></div></section>
 <section class="section markdown-section topic-panel" id="workshop-core" aria-labelledby="workshop-core-heading"><div class="section-heading compact"><p class="eyebrow">Workshop</p><h2 id="workshop-core-heading">อ่านข้อมูลและเลือกกราฟให้ตรงงานของผู้อ่าน</h2></div><div class="markdown-body"><p>ใน workshop นี้คุณจะใช้ AI ใน VS Code อ่านข้อมูล PM2.5 จำลอง ตรวจสิ่งที่ AI ตอบกับไฟล์จริง แล้วบันทึกเหตุผลที่เลือกกราฟไว้ใน <code>module-07-work/</code> ไม่มีขั้นใดใช้ Colab</p>
 <h3 id="workshop-core--ก่อนเริ่ม-ต้องมีอยู่แล้ว">ก่อนเริ่ม (ต้องมีอยู่แล้ว)</h3>
 <ul>
 <li>ผ่าน M1: เปิด <code>ai-for-research-workspace</code> ใน VS Code และเชื่อม AI panel แล้ว</li>
-<li>เห็น <code>course-materials/module-07/</code>, <code>module-07-work/</code> และ <code>.venv-module07</code></li>
-<li>ไฟล์ใน <code>course-materials/</code> เป็นไฟล์อ่านอย่างเดียว งานใหม่ต้องอยู่ใน <code>module-07-work/</code></li>
+<li>เห็น <code>course-materials/module-07/</code>, <code>module-07-work/</code> และ <code>.venv-module07</code> · ถ้ายังไม่มี ให้สั่ง AI รัน <code>AIRR init module-7</code></li>
+<li>ไฟล์ใน <code>course-materials/module-07/</code> ติดตั้งโดย <code>AIRR init module-7</code> · อ่านอย่างเดียว · งานใหม่อยู่ใน <code>module-07-work/</code></li>
+<li>รายการตรวจทั้งหมดของ Module 7 อยู่ใน <code>course-materials/module-07/templates/module-07-checklists.md</code></li>
 </ul>
 <h3 id="workshop-core--คำที่ใช้ใน-workshop-นี้">คำที่ใช้ใน workshop นี้</h3>
 <ul>
-<li><strong>หน่วยวิเคราะห์</strong> — สิ่งที่หนึ่งแถวแทน เช่น หนึ่ง site ในหนึ่งสัปดาห์และหนึ่งกลุ่ม</li>
+<li><strong>หน่วยวิเคราะห์</strong> — สิ่งที่หนึ่งแถวแทน เช่น เครื่องวัดหนึ่งเครื่องในหนึ่งสัปดาห์</li>
 <li><strong>ตัวหาร</strong> — จำนวนหน่วยทั้งหมดที่ใช้คำนวณสัดส่วนหรืออัตรา</li>
 <li><strong>งานอ่านค่า</strong> — สิ่งที่ผู้อ่านต้องทำกับกราฟ เช่น เปรียบเทียบ จัดอันดับ หรือดูการเปลี่ยนแปลง</li>
 <li><strong>การเข้ารหัสด้วยภาพ</strong> — การผูกค่ากับตำแหน่ง ความยาว สี รูปร่าง หรือขนาด</li>
 <li><strong>interval</strong> — ช่วงที่แสดงการกระจายหรือความไม่แน่นอน ต้องระบุว่าเป็น SD, SE, CI หรือ IQR</li>
 </ul>
 <hr>
+<h3 id="workshop-core--เริ่มหัวข้อ--ให้-ai-รู้ว่ากำลังทำโมดูลไหน">เริ่มหัวข้อ — ให้ AI รู้ว่ากำลังทำโมดูลไหน</h3>
+<p>ถ้าแชต AI เดิมทำโมดูลอื่นอยู่ ให้เปิดแชตใหม่ก่อน แล้ววาง prompt นี้</p>
+<div class="command ai-prompt"><code>เริ่ม Module 7 หัวข้อ "อ่านข้อมูลและเลือกกราฟให้ตรงงานของผู้อ่าน": รัน AIRR update แล้วรัน AIRR init module-7 (ต้องทำทุกครั้งที่เริ่มหัวข้อ ไฟล์ที่ฉันแก้แล้วจะไม่ถูกเขียนทับ) แล้วอ่านส่วน AIRR CONTEXT ที่ได้ ทำงานตามแผนที่ไฟล์ใน module-07-work/ เท่านั้น อ่าน input/ และ course-materials/ โดยห้ามแก้ และเขียนผลลงตำแหน่งที่หัวข้อนี้กำหนด</code><button type="button" data-copy="">คัดลอก</button></div><p><strong>ตรวจ:</strong> AI แสดง <code>AIRR INIT PASS · module-7</code> และบอกได้ว่าไฟล์ที่หัวข้อนี้ใช้อยู่ที่ไหน</p>
+<hr>
 <h3 id="workshop-core--ขั้นที่-1--ดูแถวจริงและสิ่งที่ถูกกรอง">ขั้นที่ 1 — ดูแถวจริงและสิ่งที่ถูกกรอง</h3>
-<p>ให้ AI อ่าน <code>course-materials/module-07/notebooks/module-07a-read-and-audit.ipynb</code> เฉพาะหัวข้อ “สิ่งที่ถูกตัดออกอาจเปลี่ยนการตัดสินใจ” แล้วบอกว่าแต่ละภาพกรองแถวใด ตัวหารคืออะไร และยกบรรทัดโค้ดที่ใช้กรองมาให้ดู โดยห้ามแก้ไฟล์ จากนั้นเปิด notebook ค้นบรรทัดนั้นและตรวจเงื่อนไขด้วยตนเอง</p>
+<p>ให้ AI อ่าน <code>course-materials/module-07/notebooks/module-07a-read-and-audit.ipynb</code> เฉพาะหัวข้อ 3 › “สิ่งที่ถูกตัดออกอาจเปลี่ยนการตัดสินใจ” แล้วบอกว่าแต่ละภาพกรองแถวใด ตัวหารคืออะไร และยกบรรทัดโค้ดที่ใช้กรองมาให้ดู โดยห้ามแก้ไฟล์ จากนั้นเปิด notebook ค้นบรรทัดนั้นและตรวจเงื่อนไขด้วยตนเอง</p>
 <p>สร้าง <code>module-07-work/raw-vs-summary-notes.md</code> บันทึกหน่วยวิเคราะห์ ตัวหาร และจุดที่ AI ตอบผิดหรือไม่ครบ</p>
 <p><strong>ตรวจ:</strong> หาโค้ดที่ AI อ้างเจอในไฟล์จริง และ <code>raw-vs-summary-notes.md</code> ระบุแถวที่ถูกกรองกับตัวหารโดยไม่มีไฟล์ใน <code>course-materials/</code> ถูกแก้</p>
 <hr>
 <h3 id="workshop-core--ขั้นที่-2--ระบุงานอ่านค่าก่อนเลือกกราฟ">ขั้นที่ 2 — ระบุงานอ่านค่าก่อนเลือกกราฟ</h3>
-<p>เขียนคำถามหนึ่งข้อและงานอ่านค่าที่ผู้อ่านต้องทำ แล้วให้ AI อ่าน <code>course-materials/module-07/examples/figure-consistency/mock-study-data.csv</code> เสนอกราฟ พร้อมบอกว่ากราฟซ่อนข้อมูลส่วนใดและจะแสดง <code>n</code> กับข้อมูลดิบอย่างไร ถ้า AI เสนอกราฟพิเศษ ให้ถามว่ากราฟนั้นช่วยงานอ่านค่าใด</p>
+<p>ข้อมูลที่ใช้: <code>course-materials/module-07/examples/figure-consistency/mock-study-data.csv</code> — หนึ่งแถว = ค่า PM2.5 (<code>pm25_ug_m3</code>, µg/m³) ของเครื่องวัดหนึ่งเครื่องในหนึ่งสัปดาห์ · <code>site</code> North/Central/South · <code>arm</code> Intervention/Comparison · <code>period</code> Before/After · <code>week</code> สัปดาห์เทียบวันเริ่มมาตรการ · 480 แถว (คำอธิบายเต็ม: <code>mock-study-data-columns.md</code> ในโฟลเดอร์เดียวกัน)</p>
+<p>งานอ่านค่าหลัก: เปรียบเทียบค่าระหว่างกลุ่ม · ดูแนวโน้มตามเวลา · ดูการแจกแจง · ดูความสัมพันธ์ · ดูองค์ประกอบของส่วนรวม (ตารางเต็มอยู่ในหัวข้อ 2 ของ module-07a และส่วน ก ของ <code>module-07-checklists.md</code>)</p>
+<p>เขียนคำถามหนึ่งข้อและงานอ่านค่าที่ผู้อ่านต้องทำ แล้วให้ AI อ่าน CSV เสนอกราฟ พร้อมบอกว่ากราฟซ่อนข้อมูลส่วนใดและจะแสดง <code>n</code> กับข้อมูลดิบอย่างไร ถ้า AI เสนอกราฟพิเศษ (เช่น dumbbell, forest plot, heatmap) ให้ถามว่ากราฟนั้นช่วยงานอ่านค่าใด</p>
 <p>สร้าง <code>module-07-work/chart-choice-notes.md</code> บันทึกคำถาม งานอ่านค่า กราฟที่เลือก เหตุผล และสิ่งที่ AI ไม่ได้พูดถึง</p>
 <p><strong>ตรวจ:</strong> เหตุผลที่เลือกกราฟอ้างงานอ่านค่าและโครงสร้างข้อมูล ไม่ใช่ความสวยหรือคำว่า “นิยมใช้”</p>
 <hr>
 <h3 id="workshop-core--ขั้นที่-3--ให้สีมีหน้าที่และมีทางสำรองที่ไม่ใช้สี">ขั้นที่ 3 — ให้สีมีหน้าที่และมีทางสำรองที่ไม่ใช้สี</h3>
-<p>ให้ AI อ่านกราฟ “สีควรมีหน้าที่” ใน notebook เดิม สร้างสคริปต์ใหม่ใน <code>module-07-work/</code> และบันทึกภาพก่อน–หลังใน <code>module-07-work/figures/</code> ภาพหลังให้เน้นเส้นเดียวด้วยสี ส่วนเส้นอื่นแยกด้วย line style, marker และ label ปลายเส้น ห้ามเปลี่ยนข้อมูล</p>
+<p>ให้ AI อ่านกราฟใต้หัวข้อ 2 › “สีควรมีหน้าที่” ใน <code>course-materials/module-07/notebooks/module-07a-read-and-audit.ipynb</code> สร้างสคริปต์ใหม่ใน <code>module-07-work/</code> แล้วบันทึกภาพก่อน–หลังใน <code>module-07-work/figures/practice/</code> ภาพหลังให้เน้นเส้น <strong>Robust fit</strong> (แทน Proposed) ด้วยสีเดียว เส้นอื่นใช้สีเทา และแยกด้วย line style, marker และ label ปลายเส้น ห้ามเปลี่ยนข้อมูล</p>
 <p>เปิดภาพทั้งสอง ตรวจทีละองค์ประกอบทั้งแบบสีและขาวดำ แล้วบันทึกหน้าที่ของสีและสิ่งที่ AI เปลี่ยนเกินคำสั่งใน <code>module-07-work/color-notes.md</code></p>
-<p><strong>ตรวจ:</strong> ภาพขาวดำยังแยกทุกเส้นได้ ข้อมูลเดิมไม่เปลี่ยน และมีสีเด่นเพียงเส้นเดียว</p>
+<p><strong>ตรวจ:</strong> ภาพขาวดำยังแยกทุกเส้นได้ ข้อมูลเดิมไม่เปลี่ยน และมีสีเด่นเพียงเส้นเดียวคือ Robust fit</p>
 <hr>
 <h3 id="workshop-core--ขั้นที่-4--เรียก-interval-ให้ตรงความหมาย">ขั้นที่ 4 — เรียก interval ให้ตรงความหมาย</h3>
-<p>ให้ AI อ่านโค้ดกราฟ “เส้นกลางและแถบเงาตอบคนละคำถาม” แล้วระบุเส้นกลาง ชนิด interval และ <code>n</code> จากนั้นเปิดโค้ดดูการคำนวณเอง ชุดฝึกนี้ใช้ IQR หรือช่วง 25–75% ของ runs ไม่ใช่ CI</p>
+<p>ให้ AI อ่านโค้ดกราฟใต้หัวข้อ 3 › “เส้นกลางและแถบเงาตอบคนละคำถาม” ใน <code>course-materials/module-07/notebooks/module-07a-read-and-audit.ipynb</code> แล้วระบุเส้นกลาง ชนิด interval และ <code>n</code> จากนั้นเปิดโค้ดดูการคำนวณเอง ชุดฝึกนี้ใช้ IQR หรือช่วง 25–75% ของ runs ไม่ใช่ CI</p>
 <p>สร้าง <code>module-07-work/interval-notes.md</code> พร้อมคำบรรยายภาพหนึ่งประโยคที่ระบุ IQR และ <code>n</code> ถูกต้อง รวมทั้งบันทึกว่า AI เรียก interval ถูกหรือผิด</p>
 <p><strong>ตรวจ:</strong> คำบรรยายภาพตรงกับโค้ดและไม่ตีความ IQR เป็น “ความน่าจะเป็นที่ค่าจริงอยู่ในช่วง”</p>
 <hr>
@@ -63,25 +70,25 @@
 <ul class="task-list">
 <li><label><input type="checkbox">ขั้น 1: ระบุหน่วยวิเคราะห์ แถวที่ถูกกรอง และตัวหารจากโค้ดจริงได้</label></li>
 <li><label><input type="checkbox">ขั้น 2: <code>chart-choice-notes.md</code> ผูกคำถามกับงานอ่านค่าและเหตุผลเลือกกราฟ</label></li>
-<li><label><input type="checkbox">ขั้น 3: ภาพก่อน–หลังอยู่ใน <code>module-07-work/figures/</code> และภาพขาวดำยังอ่านได้</label></li>
+<li><label><input type="checkbox">ขั้น 3: ภาพก่อน–หลังอยู่ใน <code>module-07-work/figures/practice/</code> และภาพขาวดำยังอ่านได้</label></li>
 <li><label><input type="checkbox">ขั้น 4: <code>interval-notes.md</code> เรียก IQR และระบุ <code>n</code> ตรงกับโค้ด</label></li>
 <li><label><input type="checkbox">ไม่มีไฟล์ใน <code>course-materials/</code> ถูกแก้</label></li>
 </ul>
-<p>ผลจากหัวข้อนี้ยังไม่ส่งแยก ให้นำไปใช้ในหัวข้อ “จากข้อมูลสู่ highlights ที่ตรวจย้อนได้”</p>
+<p>ผลจากหัวข้อนี้ยังไม่ส่งแยก ภาพฝึกเก็บไว้ใน <code>figures/practice/</code> เพื่อไม่ปนกับภาพที่จะส่งในหัวข้อ “จากข้อมูลสู่ highlights ที่ตรวจย้อนได้”</p>
 </div></section>
-<section class="section markdown-section topic-panel" id="open-explore" aria-labelledby="open-explore-heading"><div class="section-heading compact"><p class="eyebrow">Exploring</p><h2 id="open-explore-heading">อ่านข้อมูลและเลือกกราฟให้ตรงงานของผู้อ่าน</h2></div><div class="markdown-body"><p>เขียน prompt เองทั้งหมดเพื่อสำรวจข้อมูลของคุณหรือข้อมูลจำลองชุดสำรอง ห้ามใช้ prompt สำเร็จรูปจาก workshop หลัก</p>
+<section class="section markdown-section topic-panel" id="open-explore" aria-labelledby="open-explore-heading"><div class="section-heading compact"><p class="eyebrow">Exploring</p><h2 id="open-explore-heading">อ่านข้อมูลและเลือกกราฟให้ตรงงานของผู้อ่าน</h2></div><div class="markdown-body"><p>เขียน prompt เองทั้งหมดเพื่อสำรวจข้อมูลของคุณ ห้ามใช้ prompt สำเร็จรูปจาก workshop หลัก ถ้าไม่มีข้อมูลของตัวเอง ใช้ <code>course-materials/module-07/examples/figure-consistency/mock-study-data.csv</code> (คำอธิบายคอลัมน์: <code>mock-study-data-columns.md</code> ในโฟลเดอร์เดียวกัน)</p>
 <h3 id="open-explore--โจทย์">โจทย์</h3>
 <ol type="1">
-<li>เลือกคำถามหนึ่งข้อ ระบุหน่วยวิเคราะห์และงานอ่านค่าก่อนให้ AI เสนอกราฟ</li>
+<li>เลือกคำถามหนึ่งข้อ ระบุหน่วยวิเคราะห์และงานอ่านค่าก่อนให้ AI เสนอกราฟ (ตารางงานอ่านค่า: ส่วน ก ของ <code>course-materials/module-07/templates/module-07-checklists.md</code>)</li>
 <li>ตรวจการกรอง การรวมค่า ตัวหาร และข้อมูลที่หายกับไฟล์จริง</li>
 <li>ทำภาพหนึ่งภาพที่ใช้สีอย่างมีหน้าที่และมีทางสำรองที่ไม่ใช้สี</li>
 <li>ระบุชนิด interval และ <code>n</code> ในคำบรรยายภาพ</li>
 </ol>
 <h3 id="open-explore--ข้อกำหนด">ข้อกำหนด</h3>
 <ul>
-<li>เก็บ prompt ทุกรอบใน <code>module-07-work/output/prompts.md</code></li>
-<li>เก็บไฟล์ต้นฉบับไว้ใน <code>input/original/</code> และเขียนงานใหม่ใน <code>output/</code> หรือ <code>figures/</code></li>
-<li>บันทึกอย่างน้อยหนึ่งจุดที่ AI ตอบผิด ไม่ครบ หรือเลือกแทนคุณ แล้วเขียนว่าตรวจอย่างไร</li>
+<li>จด prompt ทุกรอบใน <code>module-07-work/output/prompts.md</code> (มีตารางว่างให้แล้ว)</li>
+<li>คัดลอกข้อมูลต้นฉบับไว้ที่ <code>module-07-work/input/original/</code> และห้ามแก้ · งานใหม่ไว้ที่ <code>module-07-work/output/</code></li>
+<li>ใช้เฉพาะข้อมูลที่มีสิทธิ์นำเข้า AI · บันทึกอย่างน้อยหนึ่งจุดที่ AI ตอบผิด ไม่ครบ หรือเลือกแทนคุณ พร้อมวิธีตรวจ</li>
 </ul>
 <h3 id="open-explore--เกณฑ์ผ่าน">เกณฑ์ผ่าน</h3>
 <ul class="task-list">

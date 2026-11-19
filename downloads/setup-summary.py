@@ -16,6 +16,7 @@ NAMES = {
     'saoudrizwan.claude-dev': 'Cline', 'openai.chatgpt': 'Codex extension',
     'anthropic.claude-code': 'Claude Code extension', 'mathematic.vscode-pdf': 'PDF viewer',
     'mechatroner.rainbow-csv': 'CSV viewer', 'aykutsarac.jsoncrack-vscode': 'JSON viewer',
+    'imfing.office-viewer-vscode': 'Office viewer (Word, Excel, PowerPoint)',
     'ganymede404.vscode-codex-usage': 'Codex usage status bar',
     'growthjack.claude-code-usage': 'Claude usage status bar',
     'thiagosantosdevbr.openrouter-ai-monitor': 'OpenRouter usage status bar',

@@ -522,7 +522,7 @@ function Configure-VSCode {
     'openrouter' { 'ThiagoSantosDevBR.openrouter-ai-monitor' }
     'antigravity' { $null }
   }
-  $extensions = @('mathematic.vscode-pdf', 'mechatroner.rainbow-csv', 'AykutSarac.jsoncrack-vscode')
+  $extensions = @('mathematic.vscode-pdf', 'mechatroner.rainbow-csv', 'AykutSarac.jsoncrack-vscode', 'imfing.office-viewer-vscode')
   if ($usageExtension) { $extensions = @($usageExtension) + $extensions }
   if ($aiExtension) { $extensions = @($aiExtension) + $extensions }
   $existingExtensions = @()

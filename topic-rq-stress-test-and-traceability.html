@@ -22,75 +22,92 @@
   <site-header current="topic" plan="class-2026-11-20-engineering-faculty.html" menu='{&quot;module&quot;: &quot;M03&quot;, &quot;title&quot;: &quot;ตรวจและปรับ problem statement / บทนำ&quot;, &quot;items&quot;: [{&quot;href&quot;: &quot;module-overview-m03.html&quot;, &quot;label&quot;: &quot;ภาพรวมและ LO&quot;, &quot;current&quot;: false}, {&quot;href&quot;: &quot;topic-problem-statement-diagnosis-with-locations.html&quot;, &quot;label&quot;: &quot;บันทึกมุมมองเดิม แล้วให้ AI วินิจฉัย problem statement พร้อมตำแหน่ง&quot;, &quot;current&quot;: false}, {&quot;href&quot;: &quot;topic-verify-critique-and-revise.html&quot;, &quot;label&quot;: &quot;ตรวจคำวิจารณ์ของ AI แล้วแก้พร้อมเหตุผล&quot;, &quot;current&quot;: false}]}'></site-header>
   <main id="main">
 <section class="prepare-hero module-hero"><p class="eyebrow">หัวข้อย่อย · M03</p><h1>ทดสอบ RQ โดยไม่ให้ AI เขียนแทน และตรวจสายเหตุผลย้อนกลับ</h1><ul class="outcomes"><li>ร่าง RQ สามแบบเอง ให้ AI stress-test และถามกลับโดยไม่ rewrite แล้วตรวจสาย RQ → Candidate Gap → Research Problem → Practical Problem → Evidence ว่าจุดใดมีหลักฐาน เป็นการตีความ หรือยังขาด</li></ul></section>
-<div class="topic-layout"><nav class="topic-tabs topic-menu" aria-label="ในหัวข้อนี้"><p class="topic-menu-title">ในหัวข้อนี้</p><ul><li><a href="#slides" title="สไลด์">สไลด์</a></li><li><a href="#workshop-core" title="Workshop หลัก">Workshop</a><ul class="topic-submenu"><li><a href="#workshop-core--ก่อนเริ่ม-ต้องมีอยู่แล้ว" data-sub>ก่อนเริ่ม (ต้องมีอยู่แล้ว)</a></li><li><a href="#workshop-core--ขั้นตอน" data-sub>ขั้นตอน</a></li><li><a href="#workshop-core--ตรวจก่อนจบ" data-sub>ตรวจก่อนจบ</a></li><li><a href="#workshop-core--ส่งงาน" data-sub>ส่งงาน</a></li></ul></li><li><a href="#open-explore" title="Exploring workshop">Exploring</a><ul class="topic-submenu"><li><a href="#open-explore--ก่อนเริ่ม-ต้องมีอยู่แล้ว" data-sub>ก่อนเริ่ม (ต้องมีอยู่แล้ว)</a></li><li><a href="#open-explore--โจทย์" data-sub>โจทย์</a></li><li><a href="#open-explore--ข้อกำหนด" data-sub>ข้อกำหนด</a></li><li><a href="#open-explore--เกณฑ์ผ่าน" data-sub>เกณฑ์ผ่าน</a></li></ul></li></ul></nav><div class="topic-main"><section class="section markdown-section topic-panel" id="slides" aria-labelledby="slides-heading"><div class="section-heading compact"><p class="eyebrow">สไลด์</p><h2 id="slides-heading">สไลด์</h2></div><div class="markdown-body"><p>สไลด์ของหัวข้อนี้ยังไม่เสร็จ</p></div></section>
-<section class="section markdown-section topic-panel" id="workshop-core" aria-labelledby="workshop-core-heading"><div class="section-heading compact"><p class="eyebrow">Workshop</p><h2 id="workshop-core-heading">ทดสอบ RQ โดยไม่ให้ AI เขียนแทน และตรวจสายเหตุผลย้อนกลับ</h2></div><div class="markdown-body"><p>ใน workshop นี้คุณจะร่าง RQ สามแบบเอง ให้ AI stress-test โดยไม่เขียนแทนแล้วแก้ RQ เอง และให้ AI สร้างตารางตรวจสายเหตุผลย้อนกลับจาก RQ ถึงหลักฐาน</p>
-<p>ต่อจากหัวข้อ <a href="topic-candidate-gap-ledger-and-prosecution.html">สร้าง Gap Ledger แล้วพยายามหักล้าง candidate gap</a> ใช้เคส “หิว → กิน → อิ่ม” และหลักฐานจำลองชุดเดียวกัน (ข้อมูลสมมติ ไม่มีข้อมูลจริงของใคร)</p>
+<div class="topic-layout"><nav class="topic-tabs topic-menu" aria-label="ในหัวข้อนี้"><p class="topic-menu-title">ในหัวข้อนี้</p><ul><li><a href="#slides" title="สไลด์">สไลด์</a></li><li><a href="#workshop-core" title="Workshop หลัก">Workshop</a><ul class="topic-submenu"><li><a href="#workshop-core--ก่อนเริ่ม" data-sub>ก่อนเริ่ม</a></li><li><a href="#workshop-core--คำที่ใช้" data-sub>คำที่ใช้</a></li><li><a href="#workshop-core--เริ่มหัวข้อ--ให้-ai-รู้ว่ากำลังทำโมดูลไหน" data-sub>เริ่มหัวข้อ — ให้ AI รู้ว่ากำลังทำโมดูลไหน</a></li><li><a href="#workshop-core--ขั้นที่-1--ร่าง-rq-สามแบบ-คุณทำเอง" data-sub>ขั้นที่ 1 — ร่าง RQ สามแบบ (คุณทำเอง)</a></li><li><a href="#workshop-core--ขั้นที่-2--ให้-ai-stress-test-โดยไม่เขียนแทน" data-sub>ขั้นที่ 2 — ให้ AI stress-test โดยไม่เขียนแทน</a></li><li><a href="#workshop-core--ขั้นที่-3--แก้-rq-เอง-คุณทำเอง" data-sub>ขั้นที่ 3 — แก้ RQ เอง (คุณทำเอง)</a></li><li><a href="#workshop-core--ขั้นที่-4--ตรวจสายเหตุผลย้อนกลับ" data-sub>ขั้นที่ 4 — ตรวจสายเหตุผลย้อนกลับ</a></li><li><a href="#workshop-core--ขั้นที่-5--รวมเป็นรายงาน-ไม่บังคับ" data-sub>ขั้นที่ 5 — รวมเป็นรายงาน (ไม่บังคับ)</a></li><li><a href="#workshop-core--ตรวจก่อนจบ-workshop" data-sub>ตรวจก่อนจบ workshop</a></li><li><a href="#workshop-core--ส่งงาน" data-sub>ส่งงาน</a></li></ul></li><li><a href="#open-explore" title="Exploring workshop">Exploring</a><ul class="topic-submenu"><li><a href="#open-explore--ก่อนเริ่ม" data-sub>ก่อนเริ่ม</a></li><li><a href="#open-explore--โจทย์" data-sub>โจทย์</a></li><li><a href="#open-explore--เกณฑ์ผ่าน" data-sub>เกณฑ์ผ่าน</a></li></ul></li></ul></nav><div class="topic-main"><section class="section markdown-section topic-panel" id="slides" aria-labelledby="slides-heading"><div class="section-heading compact"><p class="eyebrow">สไลด์</p><h2 id="slides-heading">สไลด์</h2></div><div class="markdown-body"><p>สไลด์ของหัวข้อนี้ยังไม่เสร็จ</p></div></section>
+<section class="section markdown-section topic-panel" id="workshop-core" aria-labelledby="workshop-core-heading"><div class="section-heading compact"><p class="eyebrow">Workshop</p><h2 id="workshop-core-heading">ทดสอบ RQ โดยไม่ให้ AI เขียนแทน และตรวจสายเหตุผลย้อนกลับ</h2></div><div class="markdown-body"><p>คุณร่าง RQ สามแบบเอง ให้ AI stress-test โดยไม่เขียนแทน แก้ RQ เอง แล้วให้ AI ตรวจสายเหตุผลย้อนกลับจาก RQ ถึงหลักฐาน</p>
+<p>ใช้เคส "หิว → กิน → อิ่ม" (ข้อมูลสมมติ): นักศึกษาต้องการอาหารกลางวันภายใน 30 นาที งบไม่เกิน 100 บาท และอยากอิ่มถึงช่วงบ่าย</p>
 <p>เวลา: ประมาณ 25 นาที</p>
-<h3 id="workshop-core--ก่อนเริ่ม-ต้องมีอยู่แล้ว">ก่อนเริ่ม (ต้องมีอยู่แล้ว)</h3>
+<h3 id="workshop-core--ก่อนเริ่ม">ก่อนเริ่ม</h3>
+<p>ต้องมี</p>
 <ul>
-<li><code>module-03-work/input/hunger-mock/</code> ที่มี <code>menus.md</code>, <code>reviews.md</code>, <code>evidence-inventory.md</code> (วางไว้ในหัวข้อ <a href="topic-candidate-gap-ledger-and-prosecution.html">สร้าง Gap Ledger แล้วพยายามหักล้าง candidate gap</a> ขั้นที่ 1)</li>
-<li><code>module-03-work/output/gap-ledger.md</code> ที่คุณตัดสิน คงไว้ / ลดความมั่นใจ / ปฏิเสธ แล้ว (จากหัวข้อเดียวกัน ขั้นที่ 5–7)</li>
-<li>practical problem และ research problem ที่คุณเขียนในหัวข้อเดียวกัน (ขั้นที่ 3)</li>
-<li>ถ้าข้ามหัวข้อก่อนมา ใช้สายเหตุผลตัวอย่างบนหน้า <code>hunger-research-methodology.html</code> ของเว็บคอร์ส (ส่วน “เปลี่ยนเรื่องความหิวเป็นสายเหตุผลที่ตรวจได้”) แทน</li>
+<li><code>module-03-work/input/hunger-mock/</code> (เมนู รีวิว และตารางหลักฐานจำลอง) — ถ้าไม่พบ ให้สั่ง AI รัน <code>AIRR init module-3</code></li>
+<li><code>module-03-work/output/problems.md</code> (practical problem และ research problem ของคุณ)</li>
+<li><code>module-03-work/output/gap-ledger.md</code> (candidate gap ที่ตัดสินสถานะแล้ว)</li>
 </ul>
-<h3 id="workshop-core--ขั้นตอน">ขั้นตอน</h3>
-<ol type="1">
-<li><p><strong>ร่าง RQ สามแบบ (คุณทำเอง)</strong> — เลือก descriptive, comparative, relational, explanatory หรือ design/evaluation ระบุประชากร/หน่วยวิเคราะห์ บริบท แนวคิด และขอบเขต โดยไม่ยัด method ที่ยังไม่ตัดสินใจลงในคำถาม</p>
-<p>ตัวอย่างจากเคส (ใช้เป็นแนว หรือใช้ตามนี้ถ้าเวลาไม่พอ):</p>
+<p>ถ้ายังไม่มีสองไฟล์หลัง ให้คัดลอกตัวอย่างไปใช้แทน</p>
+<div class="command ai-prompt"><code>คัดลอก module-03-work/input/hunger-mock/sample-problems.md ไปเป็น module-03-work/output/problems.md และ module-03-work/input/hunger-mock/sample-gap-ledger.md ไปเป็น module-03-work/output/gap-ledger.md ห้ามเขียนทับไฟล์ที่มีอยู่แล้ว แล้วหยุด</code><button type="button" data-copy="">คัดลอก</button></div><h3 id="workshop-core--คำที่ใช้">คำที่ใช้</h3>
 <ul>
-<li>แบบบรรยาย: “นักศึกษารู้สึกหิวอีกครั้งหลังอาหารกลางวันนานเท่าไร?”</li>
-<li>แบบเปรียบเทียบ: “อาหารแต่ละประเภทให้อิ่มนานต่างกันหรือไม่?”</li>
-<li>แบบความสัมพันธ์: “ปริมาณโปรตีนสัมพันธ์กับระยะเวลาก่อนหิวอีกครั้งหรือไม่?”</li>
-</ul></li>
-<li><p><strong>ให้ AI stress-test โดยไม่ rewrite</strong> สั่ง AI (วาง RQ ที่คุณเพิ่งร่าง)</p>
-<div class="command ai-prompt"><code>งาน: ทดสอบ RQ 3 ข้อโดยไม่เขียนแทนฉัน RQ ของฉัน: [วาง RQ สามข้อ] ใช้ module-03-work/output/gap-ledger.md เป็น candidate gap ที่ต้องเชื่อมด้วย ประเมิน: ความชัดเจนและขอบเขต ความสามารถในการตอบ ความสอดคล้องกับ candidate gap ความเป็นกลาง ความเป็นไปได้ ระบุคำกำกวม สมมติฐานแฝง และข้อมูลที่ต้องใช้ จากนั้นถามกลับทีละข้อเพื่อให้ฉันแก้เอง</code><button type="button" data-copy="">คัดลอก</button></div><p>AI อาจชี้ว่า “อาหารแต่ละประเภท” กว้างเกินไป “อิ่มนาน” ยังไม่มีนิยาม และคำถามยังไม่ระบุกลุ่มนักศึกษา ผลที่ต้องได้คือรายการจุดอ่อนและคำถามกลับ</p></li>
-<li><p><strong>แก้ RQ เอง (คุณทำเอง)</strong> — ตอบคำถามกลับของ AI แล้วเขียน RQ ฉบับแก้ด้วยตนเอง เก็บฉบับก่อนและหลังแก้ไว้คู่กัน</p></li>
-<li><p><strong>ตรวจสายเหตุผลย้อนกลับ (Traceability Audit)</strong> สั่ง AI</p>
-<div class="command ai-prompt"><code>งาน: ตรวจสายเหตุผลย้อนกลับ ตรวจเส้นทาง: RQ → Candidate Gap → Research Problem → Practical Problem → Evidence สร้างตารางหนึ่งแถวต่อ RQ ระบุ: จุดที่มีหลักฐาน จุดที่เป็นการตีความ จุดที่ยังขาด สิ่งที่ต้องค้นหรือถามเพิ่ม หากสายใดขาด ห้ามเติมข้อความแทนหลักฐาน</code><button type="button" data-copy="">คัดลอก</button></div><p>AI จะแสดงตารางตรวจย้อนกลับ ตรวจเอง: RQ เรื่องประเภทอาหารควรเชื่อมกับ gap เรื่องข้อมูลความอิ่ม เชื่อมกับ research problem ที่ยังเปรียบเทียบไม่ได้ และย้อนถึง practical problem คือหิวช่วงบ่าย ในชุดหลักฐานจำลองไม่มีหลักฐานว่านักศึกษาหิวจริง จุดเชื่อมสุดท้ายจึงต้องระบุว่ายังขาด</p></li>
-<li><p><strong>รวมเป็นรายงาน (ไม่บังคับ — ถ้ามีเวลา)</strong> สั่ง AI</p>
-<div class="command ai-prompt"><code>งาน: สร้างรายงาน Problem → Gap → RQ ใช้เฉพาะงานที่ฉันอนุมัติ และรวม: ขอบเขตหลักฐาน ปัญหาเชิงปฏิบัติและปัญหาวิจัย Gap Ledger และผลหักล้าง RQ 3 ข้อพร้อมผลทดสอบ ตารางตรวจย้อนกลับ RQ ที่เลือกพร้อมเหตุผล รายการค้นต่อ ติดป้าย candidate gap และห้ามประกาศ novelty ส่งมอบ: module-03-work/output/problem-gap-rq.md และ PDF A4 ภาษาไทย</code><button type="button" data-copy="">คัดลอก</button></div><p>AI จะสร้าง <code>module-03-work/output/problem-gap-rq.md</code> และ PDF</p></li>
-</ol>
-<h3 id="workshop-core--ตรวจก่อนจบ">ตรวจก่อนจบ</h3>
+<li><strong>ประเภท RQ:</strong> บรรยาย (descriptive) · เปรียบเทียบ (comparative) · ความสัมพันธ์ (relational) · อธิบายสาเหตุ (explanatory) · ออกแบบ/ประเมิน (design/evaluation)</li>
+<li><strong>สายเหตุผลย้อนกลับ:</strong> RQ → candidate gap → research problem → practical problem → หลักฐาน</li>
+</ul>
+<hr>
+<h3 id="workshop-core--เริ่มหัวข้อ--ให้-ai-รู้ว่ากำลังทำโมดูลไหน">เริ่มหัวข้อ — ให้ AI รู้ว่ากำลังทำโมดูลไหน</h3>
+<p>ถ้าแชต AI เดิมทำโมดูลอื่นอยู่ ให้เปิดแชตใหม่ก่อน แล้ววาง prompt นี้</p>
+<div class="command ai-prompt"><code>เริ่ม Module 3 หัวข้อ "ทดสอบ RQ โดยไม่ให้ AI เขียนแทน และตรวจสายเหตุผลย้อนกลับ": รัน AIRR update แล้วรัน AIRR init module-3 (ต้องทำทุกครั้งที่เริ่มหัวข้อ ไฟล์ที่ฉันแก้แล้วจะไม่ถูกเขียนทับ) แล้วอ่านส่วน AIRR CONTEXT ที่ได้ ทำงานตามแผนที่ไฟล์ใน module-03-work/ เท่านั้น อ่าน input/ และ course-materials/ โดยห้ามแก้ และเขียนผลลงตำแหน่งที่หัวข้อนี้กำหนด</code><button type="button" data-copy="">คัดลอก</button></div><p><strong>ตรวจ:</strong> AI แสดง <code>AIRR INIT PASS · module-3</code> และบอกได้ว่าไฟล์ที่หัวข้อนี้ใช้อยู่ที่ไหน</p>
+<hr>
+<h3 id="workshop-core--ขั้นที่-1--ร่าง-rq-สามแบบ-คุณทำเอง">ขั้นที่ 1 — ร่าง RQ สามแบบ (คุณทำเอง)</h3>
+<p>สร้าง <code>module-03-work/output/rq-versions.md</code> แล้วร่าง RQ สามข้อต่างประเภทกัน แต่ละข้อระบุกลุ่มหรือหน่วยที่ศึกษา บริบท แนวคิด และขอบเขต ยังไม่ต้องใส่ method</p>
+<p>ตัวอย่าง (ใช้เป็นแนว หรือใช้ตามนี้ถ้าเวลาไม่พอ):</p>
+<ul>
+<li>บรรยาย: "นักศึกษารู้สึกหิวอีกครั้งหลังอาหารกลางวันนานเท่าไร?"</li>
+<li>เปรียบเทียบ: "อาหารแต่ละประเภทให้อิ่มนานต่างกันหรือไม่?"</li>
+<li>ความสัมพันธ์: "ปริมาณโปรตีนสัมพันธ์กับระยะเวลาก่อนหิวอีกครั้งหรือไม่?"</li>
+</ul>
+<p><strong>ตรวจ:</strong> <code>rq-versions.md</code> มี RQ สามข้อภายใต้หัวข้อ "ฉบับร่าง"</p>
+<hr>
+<h3 id="workshop-core--ขั้นที่-2--ให้-ai-stress-test-โดยไม่เขียนแทน">ขั้นที่ 2 — ให้ AI stress-test โดยไม่เขียนแทน</h3>
+<p>สั่ง AI</p>
+<div class="command ai-prompt"><code>อ่าน RQ สามข้อใน module-03-work/output/rq-versions.md และ candidate gap ใน module-03-work/output/gap-ledger.md ประเมินแต่ละข้อ: ความชัดเจนและขอบเขต ตอบได้จริงหรือไม่ เชื่อมกับ candidate gap หรือไม่ เป็นกลางหรือไม่ เป็นไปได้หรือไม่ ระบุคำกำกวม สมมติฐานแฝง และข้อมูลที่ต้องใช้ แล้วถามกลับทีละข้อให้ฉันแก้เอง ห้ามเขียน RQ ใหม่แทนฉัน และห้ามแก้ไฟล์</code><button type="button" data-copy="">คัดลอก</button></div><p>AI อาจชี้ว่า "อาหารแต่ละประเภท" กว้างไป "อิ่มนาน" ยังไม่มีนิยาม และยังไม่ระบุกลุ่มนักศึกษา</p>
+<p><strong>ตรวจ:</strong> AI ให้รายการจุดอ่อนและคำถามกลับ ไม่มี RQ ฉบับที่ AI เขียนใหม่</p>
+<hr>
+<h3 id="workshop-core--ขั้นที่-3--แก้-rq-เอง-คุณทำเอง">ขั้นที่ 3 — แก้ RQ เอง (คุณทำเอง)</h3>
+<p>ตอบคำถามกลับของ AI แล้วเขียน RQ ฉบับแก้ใน <code>rq-versions.md</code> ใต้หัวข้อ "ฉบับแก้" คู่กับฉบับร่าง พร้อมเหตุผลสั้น ๆ ของแต่ละจุดที่แก้</p>
+<p><strong>ตรวจ:</strong> <code>rq-versions.md</code> มีทั้งฉบับร่างและฉบับแก้ครบสามข้อ และฉบับแก้เป็นคำของคุณเอง</p>
+<hr>
+<h3 id="workshop-core--ขั้นที่-4--ตรวจสายเหตุผลย้อนกลับ">ขั้นที่ 4 — ตรวจสายเหตุผลย้อนกลับ</h3>
+<p>สั่ง AI</p>
+<div class="command ai-prompt"><code>ตรวจสายเหตุผลย้อนกลับของ RQ ฉบับแก้ใน module-03-work/output/rq-versions.md ตามเส้นทาง RQ → candidate gap (gap-ledger.md) → research problem → practical problem (problems.md) → หลักฐาน (module-03-work/input/hunger-mock/) สร้างตารางหนึ่งแถวต่อ RQ: จุดที่มีหลักฐาน | จุดที่เป็นการตีความ | จุดที่ยังขาด | สิ่งที่ต้องค้นหรือถามเพิ่ม ถ้าสายใดขาด ให้เขียนว่าขาด ห้ามเติมข้อความแทนหลักฐาน แสดงในแชตแล้วหยุด</code><button type="button" data-copy="">คัดลอก</button></div><p><strong>ตรวจ:</strong> มีหนึ่งแถวต่อ RQ และจุดเชื่อม "นักศึกษาหิวช่วงบ่ายจริง" ถูกระบุว่ายังขาด (ชุดจำลองไม่มีหลักฐานนี้)</p>
+<hr>
+<h3 id="workshop-core--ขั้นที่-5--รวมเป็นรายงาน-ไม่บังคับ">ขั้นที่ 5 — รวมเป็นรายงาน (ไม่บังคับ)</h3>
+<p>ถ้ามีเวลา สั่ง AI</p>
+<div class="command ai-prompt"><code>สร้าง module-03-work/output/problem-gap-rq.md จากไฟล์ที่ฉันอนุมัติเท่านั้น (problems.md, gap-ledger.md, rq-versions.md และตารางตรวจย้อนกลับ) รวม: ขอบเขตหลักฐาน ปัญหา Gap Ledger พร้อมสถานะ RQ ก่อน/หลังแก้ ตารางตรวจย้อนกลับ RQ ที่เลือกพร้อมเหตุผล และรายการค้นต่อ ติดป้าย candidate gap ห้ามประกาศ novelty แล้วหยุด</code><button type="button" data-copy="">คัดลอก</button></div><p>ถ้าต้องการ PDF ให้สั่งเพิ่มภายหลัง (ไม่บังคับ)</p>
+<p><strong>ตรวจ:</strong> <code>problem-gap-rq.md</code> ไม่มีข้อความที่ไม่อยู่ในไฟล์ต้นทาง และมีรายการค้นต่อ เช่น งานด้าน satiety และวิธีวัดความหิว</p>
+<hr>
+<h3 id="workshop-core--ตรวจก่อนจบ-workshop">ตรวจก่อนจบ workshop</h3>
 <ul class="task-list">
-<li><label><input type="checkbox">RQ สามข้อร่างและแก้โดยคุณหลังได้คำถามกลับจาก AI (AI ไม่ได้เขียน RQ ใหม่ให้) และเก็บฉบับก่อน/หลังแก้ไว้คู่กัน</label></li>
-<li><label><input type="checkbox">RQ ทุกข้อระบุประชากร/หน่วยวิเคราะห์ บริบท และขอบเขต และไม่ผูก method ที่ยังไม่ตัดสินใจ</label></li>
-<li><label><input type="checkbox">ตารางตรวจย้อนกลับมีหนึ่งแถวต่อ RQ แยกจุดมีหลักฐาน / ตีความ / ยังขาด และไม่เติมข้อความแทนหลักฐาน (จุดเชื่อมถึงหลักฐานว่านักศึกษาหิวจริงระบุว่ายังขาด)</label></li>
-<li><label><input type="checkbox"><code>module-03-work/input/hunger-mock/</code> และ <code>gap-ledger.md</code> ไม่ถูกแก้โดย AI ในหัวข้อนี้</label></li>
-<li><label><input type="checkbox">(ถ้าทำขั้นที่ 5) <code>module-03-work/output/problem-gap-rq.md</code> และ PDF ยังติดป้าย candidate ให้ข้อที่ยังไม่ยืนยัน พร้อมรายการค้นต่อ เช่น งานเรื่อง satiety และวิธีวัดความหิว</label></li>
+<li><label><input type="checkbox"><code>rq-versions.md</code> มี RQ ฉบับร่างและฉบับแก้ที่คุณเขียนเอง แต่ละข้อระบุกลุ่ม บริบท และขอบเขต ไม่ผูก method</label></li>
+<li><label><input type="checkbox">ตารางตรวจย้อนกลับแยกจุดมีหลักฐาน / ตีความ / ยังขาด และไม่เติมข้อความแทนหลักฐาน</label></li>
+<li><label><input type="checkbox"><code>hunger-mock/</code>, <code>problems.md</code> และ <code>gap-ledger.md</code> ไม่ถูก AI แก้ในหัวข้อนี้</label></li>
 </ul>
 <h3 id="workshop-core--ส่งงาน">ส่งงาน</h3>
-<ul>
-<li>ให้ AI รันเครื่องมือ AIRR check → ยืนยัน → submit ตามหน้า Module 3</li>
-</ul>
+<p>ให้ AI รันตามลำดับ</p>
+<ol type="1">
+<li><code>AIRR init module-3</code> แล้วแก้ <code>module-03-work/output/module-3-evaluation.json</code> ตามจริง</li>
+<li><code>AIRR check module-3 --short</code> (ตรวจในเครื่อง ไม่ส่งอะไรออก)</li>
+<li>ให้ AI สรุปสิ่งที่จะส่งและรอคุณยืนยัน แล้วจึงรัน <code>AIRR submit module-3 --short</code></li>
+</ol>
+<p>หมายเหตุ: แบบสั้นนับสี่ไฟล์ <code>author-prior.md</code>, <code>problem-statement-diagnosis.md</code>, <code>revision-table.md</code>, <code>citation-for-m4.md</code> ถ้ายังไม่มี check จะบอกชื่อไฟล์ที่ขาด</p>
 </div></section>
-<section class="section markdown-section topic-panel" id="open-explore" aria-labelledby="open-explore-heading"><div class="section-heading compact"><p class="eyebrow">Exploring</p><h2 id="open-explore-heading">ทดสอบ RQ โดยไม่ให้ AI เขียนแทน และตรวจสายเหตุผลย้อนกลับ</h2></div><div class="markdown-body"><p>ในโจทย์เปิดนี้คุณจะเขียน prompt เองให้ AI stress-test RQ ของงานคุณโดยไม่เขียนแทน แก้ RQ เอง และให้ AI ตรวจสายเหตุผลย้อนกลับจนเห็นจุดที่ยังขาด</p>
+<section class="section markdown-section topic-panel" id="open-explore" aria-labelledby="open-explore-heading"><div class="section-heading compact"><p class="eyebrow">Exploring</p><h2 id="open-explore-heading">ทดสอบ RQ โดยไม่ให้ AI เขียนแทน และตรวจสายเหตุผลย้อนกลับ</h2></div><div class="markdown-body"><p>เขียน prompt เองให้ AI stress-test RQ ของงานคุณโดยไม่เขียนแทน แก้ RQ เอง และให้ AI ตรวจสายเหตุผลย้อนกลับจนเห็นจุดที่ยังขาด</p>
 <p>ไม่มี prompt สำเร็จรูปให้</p>
-<h3 id="open-explore--ก่อนเริ่ม-ต้องมีอยู่แล้ว">ก่อนเริ่ม (ต้องมีอยู่แล้ว)</h3>
+<p><strong>สายเหตุผลย้อนกลับ:</strong> RQ → candidate gap → research problem → practical problem → หลักฐาน</p>
+<h3 id="open-explore--ก่อนเริ่ม">ก่อนเริ่ม</h3>
 <ul>
-<li>ทำ workshop <code>rq-stress-test-and-traceability</code> แล้ว</li>
-<li>RQ ของงานที่กำลังทำ (proposal, ทุนวิจัย หรือหัวข้อวิทยานิพนธ์ของนิสิตที่ได้รับอนุญาต) หรือ candidate gap ที่ผ่านการหักล้างแล้วจากโจทย์เปิดของ <code>candidate-gap-ledger-and-prosecution</code> (ใช้ร่าง RQ สามแบบในข้อ 1)</li>
-<li><code>module-03-work/output/prompts.md</code> จากโจทย์เปิดก่อนหน้า (ถ้ายังไม่มี ให้สร้างเองตอนเริ่ม)</li>
+<li>ทำ workshop "ทดสอบ RQ โดยไม่ให้ AI เขียนแทน และตรวจสายเหตุผลย้อนกลับ" แล้ว</li>
+<li>RQ ของงานที่กำลังทำ (proposal ทุนวิจัย หรือวิทยานิพนธ์ของนิสิตที่ได้รับอนุญาต) หรือ candidate gap ที่ผ่านการหักล้างแล้วของคุณ</li>
 </ul>
 <h3 id="open-explore--โจทย์">โจทย์</h3>
 <ol type="1">
-<li>ถ้ายังไม่มี RQ ให้ร่าง RQ สามแบบจาก candidate gap ของคุณ</li>
-<li>เขียน prompt ให้ AI stress-test RQ โดยไม่เขียนแทน แล้วแก้ RQ เอง</li>
-<li>เขียน prompt ให้ AI ตรวจสาย RQ → Candidate Gap → Research Problem → Practical Problem → Evidence และชี้จุดที่ขาด</li>
+<li>บันทึก prompt ทุกรอบใน <code>module-03-work/output/prompts.md</code> (ถ้ายังไม่มี ให้สร้าง)</li>
+<li>ถ้ายังไม่มี RQ ให้ร่างสามแบบจาก candidate gap ของคุณ</li>
+<li>เขียน prompt ให้ AI stress-test RQ โดยไม่เขียนแทน แล้วแก้ RQ เอง เก็บฉบับก่อนและหลังแก้คู่กันพร้อมเหตุผล</li>
+<li>เขียน prompt ให้ AI ตรวจสายเหตุผลย้อนกลับ และระบุจุดที่ขาดพร้อมสิ่งที่ต้องค้นหรือถามเพิ่ม</li>
 </ol>
-<h3 id="open-explore--ข้อกำหนด">ข้อกำหนด</h3>
-<ul>
-<li>เก็บ prompt ที่ใช้ทุกรอบไว้ใน <code>module-03-work/output/prompts.md</code></li>
-<li>เก็บ RQ ก่อนและหลังแก้ไว้คู่กัน พร้อมเหตุผลของการแก้แต่ละจุด</li>
-<li>ระบุว่าตรวจผลของ AI อย่างไร (เช่น เปิดหลักฐานตามที่ตารางอ้าง) และแก้อะไรเอง</li>
-<li>จุดเชื่อมที่ยังไม่มีหลักฐานต้องระบุว่าขาด พร้อมสิ่งที่ต้องค้นหรือถามเพิ่ม</li>
-</ul>
 <h3 id="open-explore--เกณฑ์ผ่าน">เกณฑ์ผ่าน</h3>
 <ul class="task-list">
-<li><label><input type="checkbox">RQ ทุกข้อระบุประชากร/หน่วยวิเคราะห์ บริบท และขอบเขต และไม่ผูก method ที่ยังไม่ตัดสินใจ</label></li>
-<li><label><input type="checkbox">ฉบับแก้ของ RQ เขียนโดยผู้เรียน ไม่ใช่ข้อความที่ AI เขียนให้</label></li>
-<li><label><input type="checkbox">ตารางตรวจย้อนกลับครบทุก RQ และแยกหลักฐาน / การตีความ / จุดที่ยังขาด</label></li>
-<li><label><input type="checkbox">มีรายการค้นต่อที่เจาะจงพอจะนำไปค้นใน Module 4 ได้</label></li>
-<li><label><input type="checkbox">prompt log แสดงการปรับ prompt อย่างน้อย 1 รอบ พร้อมเหตุผล</label></li>
+<li><label><input type="checkbox">RQ ทุกข้อระบุกลุ่มหรือหน่วยที่ศึกษา บริบท และขอบเขต ไม่ผูก method และฉบับแก้เป็นคำของคุณเอง</label></li>
+<li><label><input type="checkbox">ตารางตรวจย้อนกลับครบทุก RQ แยกหลักฐาน / การตีความ / จุดที่ยังขาด</label></li>
+<li><label><input type="checkbox">มีรายการค้นต่อที่เจาะจงพอจะค้นใน Module 4 ได้</label></li>
+<li><label><input type="checkbox"><code>prompts.md</code> แสดงการปรับ prompt อย่างน้อย 1 รอบ พร้อมเหตุผล</label></li>
 </ul>
 </div></section></div></div>
 <script>

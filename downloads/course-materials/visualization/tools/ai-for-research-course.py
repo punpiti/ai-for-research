@@ -22,7 +22,7 @@ import zipfile
 
 
 DEFAULT_API_BASE = "https://urban.cpe.ku.ac.th/api/airr/v1"
-AIRR_VERSION = "2026.11.19.2"  # bump on every published change of this file
+AIRR_VERSION = "2026.11.19.3"  # bump on every published change of this file
 DOWNLOADS_PREFIX = "https://urban.cpe.ku.ac.th/ai-for-research/downloads/"
 MANIFEST_URL = DOWNLOADS_PREFIX + "course-materials.json"
 MODULE_MATERIALS_URL = DOWNLOADS_PREFIX + "module-materials.json"
@@ -799,6 +799,33 @@ def extract_zip_once(archive: Path, destination: Path, workspace: Path) -> tuple
         raise AIRRError(f"เปิด ZIP {archive.name} ไม่ได้: {error}") from error
 
 
+def print_module_context(workspace: Path, module: str, files: list[dict[str, Any]]) -> None:
+    """Tell the AI which module this is, where to work, and what it may read (read by the AI after init)."""
+    number = module.split("-")[1]
+    work = f"module-0{number}-work/"
+    have = []
+    for item in files:
+        try:
+            path = workspace_target(workspace, item.get("path"))
+        except AIRRError:
+            continue
+        shown = str(path.relative_to(workspace.resolve())).replace(os.sep, "/")
+        if path.is_file() and "/tools/" not in shown:
+            have.append(shown)
+        if item.get("extract") and path.with_suffix("").is_dir():
+            have.append(shown[:-4] + "/  (แตกจาก zip แล้ว)")
+    print(f"AIRR CONTEXT · ตอนนี้ทำ {module} · ทำงานใน {work} เท่านั้น")
+    print(f"  อ่านอย่างเดียว ห้ามแก้: {work}input/ และ course-materials/ · เขียนผลลงตำแหน่งที่หน้าหัวข้อกำหนด (ปกติ {work}output/) · ห้ามแตะ tools/ และ .airr/")
+    if have:
+        print("  ไฟล์ของโมดูลนี้ที่มีในเครื่อง:")
+        for name in have[:25]:
+            print(f"   - {name}")
+        if len(have) > 25:
+            print(f"   - … และอีก {len(have) - 25} ไฟล์")
+    else:
+        print("  โมดูลนี้ไม่มีไฟล์แจก ใช้ไฟล์ของผู้เรียนเองตามหน้าหัวข้อ")
+
+
 def command_init(args: argparse.Namespace) -> None:
     """Prepare one module in the workspace: its form (Module 1-3) and every file its topics use.
 
@@ -849,9 +876,19 @@ def command_init(args: argparse.Namespace) -> None:
                 name = str(item.get("name", ""))
                 if module not in INIT_MODULES or not re.fullmatch(r"[A-Za-z0-9._-]+", name):
                     raise AIRRError(f"รายการไฟล์ของ {args.module} ไม่ถูกต้อง: {name}")
-                write_file(target, request_bytes(f"{config['api_base']}/modules/{module}/materials/{name}", config["api_key"]))
-                print(f"AIRR GET · {shown}")
-                counts["get"] += 1
+                data = request_bytes(f"{config['api_base']}/modules/{module}/materials/{name}", config["api_key"])
+                if target.is_file():  # refresh: never overwrite what the learner has (owner 2026-11-19)
+                    if target.read_bytes() == data:
+                        counts["keep"] += 1
+                    else:
+                        update = workspace_target(workspace, ".course-updates/" + str(item.get("path")))
+                        write_file(update, data)
+                        print(f"AIRR UPDATE · ไฟล์ของคลาสรุ่นใหม่อยู่ที่ {update.relative_to(workspace.resolve())} (ไฟล์เดิมไม่ถูกแตะ)")
+                        counts["update"] += 1
+                else:
+                    write_file(target, data)
+                    print(f"AIRR GET · {shown}")
+                    counts["get"] += 1
         elif kind == "copy":
             source = workspace_target(workspace, item.get("from"))
             if target.exists():
@@ -871,6 +908,7 @@ def command_init(args: argparse.Namespace) -> None:
             print(f"AIRR EXTRACT · {destination.relative_to(workspace.resolve())} · ใหม่ {created} · มีอยู่แล้ว {kept}")
     if args.module == "module-7":
         (workspace / "module-07-work" / "figures").mkdir(parents=True, exist_ok=True)
+    print_module_context(workspace, args.module, files)
     print(f"AIRR INIT PASS · {args.module} · ใหม่ {counts['get']} · มีอยู่แล้ว {counts['keep']}"
           + (f" · รุ่นใหม่ใน .course-updates {counts['update']}" if counts["update"] else "")
           + (f" · ข้าม {counts['skip']}" if counts["skip"] else ""))
@@ -1003,7 +1041,7 @@ HELP_TOPICS = {
     "whoami": "whoami\n  ถาม server ว่า AIRR Key ของ workspace นี้ผูกกับบัญชีและคลาสใด และโมดูลไหนเปิดอยู่\n  ใช้ทดสอบหลังติดตั้ง ผู้สอนจะเห็นว่าคุณเชื่อมแล้ว\n  ไม่ส่งไฟล์ใด ๆ · ถ้าแจ้งว่าไม่มี key: สร้าง AIRR Key ในหน้าเว็บแล้วรันคำสั่งติดตั้งซ้ำ",
     "login": "login\n  เชื่อม workspace ด้วย AIRR Key (ระบบจะถามโดยไม่แสดงตัวอักษร)\n  ปกติไม่ต้องใช้ เพราะตัวติดตั้งเชื่อมให้แล้ว",
     "logout": "logout\n  ลบ AIRR Key ออกจาก workspace นี้ ใช้เมื่อเลิกใช้เครื่องหรือ key รั่ว\n  หลัง logout ต้องสร้าง key ใหม่และเชื่อมใหม่ก่อนส่งงาน",
-    "init": "init module-N [--force] [--forms-only]\n  เตรียมโมดูลใน workspace: ดาวน์โหลดไฟล์ที่ทุกหัวข้อของโมดูลนั้นใช้ลง course-materials/ และ module-0N-work/\n  และสร้างไฟล์ progress/evaluation (Module 1–3) ให้แก้ใน VS Code\n  ไม่เขียนทับไฟล์ของผู้เรียน ไฟล์ของคลาสรุ่นใหม่จะไปอยู่ใน .course-updates/ · ไฟล์ฝึก Module 2/4 ต้องเชื่อม AIRR ก่อน\n  --force เขียนทับเฉพาะไฟล์ progress/evaluation · --forms-only ไม่ดาวน์โหลด\n  ตัวอย่าง: init module-4",
+    "init": "init module-N [--force] [--forms-only]\n  เตรียมโมดูลใน workspace: ดาวน์โหลดไฟล์ที่ทุกหัวข้อของโมดูลนั้นใช้ลง course-materials/ และ module-0N-work/\n  และสร้างไฟล์ progress/evaluation (Module 1–3) ให้แก้ใน VS Code\n  ไม่เขียนทับไฟล์ของผู้เรียน ไฟล์ของคลาสรุ่นใหม่จะไปอยู่ใน .course-updates/ · ท้ายผลมี AIRR CONTEXT บอกโมดูล โฟลเดอร์งาน และไฟล์ที่ใช้ · ไฟล์ฝึก Module 2/4 ต้องเชื่อม AIRR ก่อน\n  --force เขียนทับเฉพาะไฟล์ progress/evaluation · --forms-only ไม่ดาวน์โหลด\n  ตัวอย่าง: init module-4",
     "check": "check MODULE [--file ...] [--graph ...]\n  ตรวจไฟล์ของโมดูลในเครื่องว่าครบตามรูปแบบก่อนส่ง ไม่ส่งอะไรออกจากเครื่อง\n  ตัวอย่าง: check module-1 · check module-7 --graph module-07-work/figures/fig1.png",
     "submit": "submit MODULE [--yes] [--short]\n  ส่งงานหรือสถานะของโมดูลให้ผู้สอน แสดงสรุปและถามยืนยันก่อนส่ง (--yes = ไม่ถามซ้ำ)\n  Module 1 ส่งเฉพาะเช็กลิสต์และเวลา ไม่ส่งไฟล์งาน · Module 7 ส่ง highlights และกราฟ 1–5 ภาพ\n  --short Module 1: แจ้งผู้สอนว่าเสร็จ (ผู้เรียนติ๊กเช็กลิสต์บนเว็บเองแล้ว) · Module 2/3: แจ้งว่าเสร็จด้วยจำนวนบรรทัด ไม่ส่งเนื้อหา\n  ตัวอย่าง: submit module-1 --short --yes",
     "status": "status module-1|module-2|module-3|module-4|module-7\n  ดูว่าผู้สอนได้รับงานแล้วหรือยัง ผลตรวจ และ feedback\n  ตัวอย่าง: status module-7",

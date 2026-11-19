@@ -22,13 +22,13 @@
   <site-header current="topic" plan="class-2026-11-20-engineering-faculty.html" menu='{&quot;module&quot;: &quot;M07&quot;, &quot;title&quot;: &quot;วิเคราะห์ข้อมูลและสร้างกราฟ&quot;, &quot;items&quot;: [{&quot;href&quot;: &quot;module-overview-m07.html&quot;, &quot;label&quot;: &quot;ภาพรวมและ LO&quot;, &quot;current&quot;: false}, {&quot;href&quot;: &quot;topic-reading-data-and-choosing-charts.html&quot;, &quot;label&quot;: &quot;อ่านข้อมูลและเลือกกราฟให้ตรงงานของผู้อ่าน&quot;, &quot;current&quot;: false}, {&quot;href&quot;: &quot;topic-chart-pitfalls-and-makeover.html&quot;, &quot;label&quot;: &quot;กับดักกราฟ และการปรับกราฟให้พร้อมใช้&quot;, &quot;current&quot;: false}, {&quot;href&quot;: &quot;topic-data-highlights-with-evidence.html&quot;, &quot;label&quot;: &quot;จากข้อมูลสู่ highlights ที่ตรวจย้อนได้&quot;, &quot;current&quot;: true}]}'></site-header>
   <main id="main">
 <section class="prepare-hero module-hero"><p class="eyebrow">หัวข้อย่อย · M07</p><h1>จากข้อมูลสู่ highlights ที่ตรวจย้อนได้</h1><ul class="outcomes"><li>ใช้ AI ทำใบรับการนำเข้า ระบุหน่วยวิเคราะห์และระดับการรวมค่า สำรวจการแจกแจงก่อนเลือกกราฟสื่อสาร แล้วเขียน highlights 3–5 ข้อที่มีตัวเลข หน่วย ฐานเปรียบเทียบ จำนวนค่าวัด และขอบเขตของข้อสรุป พร้อมข้อจำกัด</li><li>ตรวจกราฟและ highlights ด้วยรายการ 7 ข้อ (แกน ตัวหาร n ชนิด interval สี ชื่อภาพ และตรวจย้อน CSV) โดยตรวจตัวเลขอย่างน้อย 3 ค่ากับข้อมูลต้นทางด้วยตนเอง ไม่ให้ AI ตรวจงานที่ AI ทำเอง</li></ul></section>
-<div class="topic-layout"><nav class="topic-tabs topic-menu" aria-label="ในหัวข้อนี้"><p class="topic-menu-title">ในหัวข้อนี้</p><ul><li><a href="#slides" title="สไลด์">สไลด์</a></li><li><a href="#workshop-core" title="Workshop หลัก">Workshop</a><ul class="topic-submenu"><li><a href="#workshop-core--ก่อนเริ่ม-ต้องมีอยู่แล้ว" data-sub>ก่อนเริ่ม (ต้องมีอยู่แล้ว)</a></li><li><a href="#workshop-core--คำที่ใช้ใน-workshop-นี้" data-sub>คำที่ใช้ใน workshop นี้</a></li><li><a href="#workshop-core--ขั้นที่-1--ตรวจ-intake-ก่อนวิเคราะห์" data-sub>ขั้นที่ 1 — ตรวจ intake ก่อนวิเคราะห์</a></li><li><a href="#workshop-core--ขั้นที่-2--สร้างกราฟและ-highlights" data-sub>ขั้นที่ 2 — สร้างกราฟและ highlights</a></li><li><a href="#workshop-core--ขั้นที่-3--red-team-กราฟกับข้อความ" data-sub>ขั้นที่ 3 — Red team กราฟกับข้อความ</a></li><li><a href="#workshop-core--ขั้นที่-4--ส่งงานผ่าน-airr" data-sub>ขั้นที่ 4 — ส่งงานผ่าน AIRR</a></li><li><a href="#workshop-core--ตรวจก่อนจบ-workshop" data-sub>ตรวจก่อนจบ workshop</a></li></ul></li><li><a href="#open-explore" title="Exploring workshop">Exploring</a><ul class="topic-submenu"><li><a href="#open-explore--โจทย์" data-sub>โจทย์</a></li><li><a href="#open-explore--ข้อกำหนด" data-sub>ข้อกำหนด</a></li><li><a href="#open-explore--เกณฑ์ผ่าน" data-sub>เกณฑ์ผ่าน</a></li></ul></li><li><a href="#workshop-figure-text-consistency-audit" title="ตรวจความสอดคล้องของภาพ ตาราง และข้อความทั้งเอกสาร">เสริม · Workshop</a><ul class="topic-submenu"><li><a href="#workshop-figure-text-consistency-audit--ก่อนเริ่ม-ต้องมีอยู่แล้ว" data-sub>ก่อนเริ่ม (ต้องมีอยู่แล้ว)</a></li><li><a href="#workshop-figure-text-consistency-audit--ขั้นตอน" data-sub>ขั้นตอน</a></li><li><a href="#workshop-figure-text-consistency-audit--ตรวจก่อนจบ" data-sub>ตรวจก่อนจบ</a></li><li><a href="#workshop-figure-text-consistency-audit--ส่งงาน" data-sub>ส่งงาน</a></li></ul></li><li><a href="#open-figure-text-consistency-audit-explore" title="ตรวจความสอดคล้องของภาพ ตาราง และข้อความทั้งเอกสาร">เสริม · Exploring</a><ul class="topic-submenu"><li><a href="#open-figure-text-consistency-audit-explore--ก่อนเริ่ม-ต้องมีอยู่แล้ว" data-sub>ก่อนเริ่ม (ต้องมีอยู่แล้ว)</a></li><li><a href="#open-figure-text-consistency-audit-explore--ขั้นตอน" data-sub>ขั้นตอน</a></li><li><a href="#open-figure-text-consistency-audit-explore--ข้อกำหนด" data-sub>ข้อกำหนด</a></li><li><a href="#open-figure-text-consistency-audit-explore--เกณฑ์ผ่าน" data-sub>เกณฑ์ผ่าน</a></li></ul></li></ul><button type="button" class="aside-toggle" data-aside-toggle aria-pressed="false">ซ่อนสไลด์ข้าง</button></nav><div class="topic-main"><section class="section markdown-section topic-panel" id="slides" aria-labelledby="slides-heading"><div class="section-heading compact"><p class="eyebrow">สไลด์</p><h2 id="slides-heading">สไลด์</h2></div><div class="markdown-body"><div class="slide-tools"><button type="button" class="slide-tool" data-fullscreen="#slide-frame-main">⛶ เต็มจอ</button><a class="slide-tool" href="downloads/topics/data-highlights-with-evidence.pdf" target="_blank" rel="noopener">เปิดแท็บใหม่ ↗</a><a class="slide-tool" href="downloads/instructor-slides-f1464f310a04ae61/data-highlights-with-evidence.pptx" download data-instructor-only hidden title="สำหรับผู้สอน: ไฟล์ PowerPoint พร้อม speaker notes">ดาวน์โหลด .pptx (ผู้สอน)</a></div><iframe id="slide-frame-main" class="slide-frame" src="downloads/topics/data-highlights-with-evidence.pdf#view=FitH" title="สไลด์ จากข้อมูลสู่ highlights ที่ตรวจย้อนได้" allowfullscreen></iframe></div></section>
+<div class="topic-layout"><nav class="topic-tabs topic-menu" aria-label="ในหัวข้อนี้"><p class="topic-menu-title">ในหัวข้อนี้</p><ul><li><a href="#slides" title="สไลด์">สไลด์</a></li><li><a href="#workshop-core" title="Workshop หลัก">Workshop</a><ul class="topic-submenu"><li><a href="#workshop-core--ก่อนเริ่ม-ต้องมีอยู่แล้ว" data-sub>ก่อนเริ่ม (ต้องมีอยู่แล้ว)</a></li><li><a href="#workshop-core--คำที่ใช้ใน-workshop-นี้" data-sub>คำที่ใช้ใน workshop นี้</a></li><li><a href="#workshop-core--เริ่มหัวข้อ--ให้-ai-รู้ว่ากำลังทำโมดูลไหน" data-sub>เริ่มหัวข้อ — ให้ AI รู้ว่ากำลังทำโมดูลไหน</a></li><li><a href="#workshop-core--ขั้นที่-1--ตรวจใบรับข้อมูลก่อนวิเคราะห์" data-sub>ขั้นที่ 1 — ตรวจใบรับข้อมูลก่อนวิเคราะห์</a></li><li><a href="#workshop-core--ขั้นที่-2--สร้างกราฟและ-highlights" data-sub>ขั้นที่ 2 — สร้างกราฟและ highlights</a></li><li><a href="#workshop-core--ขั้นที่-3--red-team-กราฟกับข้อความ" data-sub>ขั้นที่ 3 — Red team กราฟกับข้อความ</a></li><li><a href="#workshop-core--ขั้นที่-4--ส่งงานผ่าน-airr" data-sub>ขั้นที่ 4 — ส่งงานผ่าน AIRR</a></li><li><a href="#workshop-core--ตรวจก่อนจบ-workshop" data-sub>ตรวจก่อนจบ workshop</a></li></ul></li><li><a href="#open-explore" title="Exploring workshop">Exploring</a><ul class="topic-submenu"><li><a href="#open-explore--โจทย์" data-sub>โจทย์</a></li><li><a href="#open-explore--ข้อกำหนด" data-sub>ข้อกำหนด</a></li><li><a href="#open-explore--เกณฑ์ผ่าน" data-sub>เกณฑ์ผ่าน</a></li></ul></li><li><a href="#workshop-figure-text-consistency-audit" title="ตรวจความสอดคล้องของภาพ ตาราง และข้อความทั้งเอกสาร">เสริม · Workshop</a><ul class="topic-submenu"><li><a href="#workshop-figure-text-consistency-audit--ก่อนเริ่ม-ต้องมีอยู่แล้ว" data-sub>ก่อนเริ่ม (ต้องมีอยู่แล้ว)</a></li><li><a href="#workshop-figure-text-consistency-audit--ขั้นตอน" data-sub>ขั้นตอน</a></li><li><a href="#workshop-figure-text-consistency-audit--ตรวจก่อนจบ" data-sub>ตรวจก่อนจบ</a></li><li><a href="#workshop-figure-text-consistency-audit--ส่งงาน" data-sub>ส่งงาน</a></li></ul></li><li><a href="#open-figure-text-consistency-audit-explore" title="ตรวจความสอดคล้องของภาพ ตาราง และข้อความทั้งเอกสาร">เสริม · Exploring</a><ul class="topic-submenu"><li><a href="#open-figure-text-consistency-audit-explore--ก่อนเริ่ม-ต้องมีอยู่แล้ว" data-sub>ก่อนเริ่ม (ต้องมีอยู่แล้ว)</a></li><li><a href="#open-figure-text-consistency-audit-explore--ขั้นตอน" data-sub>ขั้นตอน</a></li><li><a href="#open-figure-text-consistency-audit-explore--ข้อกำหนด" data-sub>ข้อกำหนด</a></li><li><a href="#open-figure-text-consistency-audit-explore--เกณฑ์ผ่าน" data-sub>เกณฑ์ผ่าน</a></li></ul></li></ul><button type="button" class="aside-toggle" data-aside-toggle aria-pressed="false">ซ่อนสไลด์ข้าง</button></nav><div class="topic-main"><section class="section markdown-section topic-panel" id="slides" aria-labelledby="slides-heading"><div class="section-heading compact"><p class="eyebrow">สไลด์</p><h2 id="slides-heading">สไลด์</h2></div><div class="markdown-body"><div class="slide-tools"><button type="button" class="slide-tool" data-fullscreen="#slide-frame-main">⛶ เต็มจอ</button><a class="slide-tool" href="downloads/topics/data-highlights-with-evidence.pdf" target="_blank" rel="noopener">เปิดแท็บใหม่ ↗</a><a class="slide-tool" href="downloads/instructor-slides-f1464f310a04ae61/data-highlights-with-evidence.pptx" download data-instructor-only hidden title="สำหรับผู้สอน: ไฟล์ PowerPoint พร้อม speaker notes">ดาวน์โหลด .pptx (ผู้สอน)</a></div><iframe id="slide-frame-main" class="slide-frame" src="downloads/topics/data-highlights-with-evidence.pdf#view=FitH" title="สไลด์ จากข้อมูลสู่ highlights ที่ตรวจย้อนได้" allowfullscreen></iframe></div></section>
 <section class="section markdown-section topic-panel" id="workshop-core" aria-labelledby="workshop-core-heading"><div class="section-heading compact"><p class="eyebrow">Workshop</p><h2 id="workshop-core-heading">จากข้อมูลสู่ highlights ที่ตรวจย้อนได้</h2></div><div class="markdown-body"><p>ใน workshop นี้คุณจะสร้างกราฟและ highlights 3–5 ข้อจากข้อมูล PM2.5 จำลอง ตรวจตัวเลขกับ CSV ด้วยตนเอง แล้วส่งงานผ่าน AIRR ให้ผู้สอนตรวจ</p>
 <h3 id="workshop-core--ก่อนเริ่ม-ต้องมีอยู่แล้ว">ก่อนเริ่ม (ต้องมีอยู่แล้ว)</h3>
 <ul>
-<li>ผ่านสองหัวข้อก่อนหน้า และมีภาพอย่างน้อยหนึ่งภาพใน <code>module-07-work/figures/</code></li>
-<li>มี <code>course-materials/module-07/examples/figure-consistency/mock-study-data.csv</code> และ <code>.venv-module07</code></li>
-<li>เปิด AI panel ใน VS Code และเชื่อม AIRR แล้ว</li>
+<li>เปิด AI panel ใน VS Code และเชื่อม AIRR แล้ว · มี <code>.venv-module07</code></li>
+<li>มี <code>course-materials/module-07/examples/figure-consistency/mock-study-data.csv</code> และ <code>module-07-work/module-07-highlights.md</code> · ถ้ายังไม่มี ให้สั่ง AI รัน <code>AIRR init module-7</code></li>
+<li>ไฟล์ใน <code>course-materials/module-07/</code> ติดตั้งโดย <code>AIRR init module-7</code> · อ่านอย่างเดียว</li>
 </ul>
 <h3 id="workshop-core--คำที่ใช้ใน-workshop-นี้">คำที่ใช้ใน workshop นี้</h3>
 <ul>
@@ -38,42 +38,126 @@
 <li><strong>submission</strong> — ชุดไฟล์ที่ AIRR ส่งให้ผู้สอนตรวจ ไม่รวมข้อมูลวิจัยต้นฉบับ</li>
 </ul>
 <hr>
-<h3 id="workshop-core--ขั้นที่-1--ตรวจ-intake-ก่อนวิเคราะห์">ขั้นที่ 1 — ตรวจ intake ก่อนวิเคราะห์</h3>
-<p>ให้ AI อ่าน CSV แบบอ่านอย่างเดียว แล้วสร้าง <code>module-07-work/import-report.md</code> ระบุจำนวนแถว/คอลัมน์ ชื่อคอลัมน์ ชนิดข้อมูล missing/duplicate หน่วยวิเคราะห์ ระดับการรวมค่า และคำเตือน จากนั้นเปิด CSV ตรวจชื่อคอลัมน์และสุ่มเทียบอย่างน้อยสามแถว</p>
-<p><strong>ตรวจ:</strong> รายงานแยกสิ่งที่อ่านจากไฟล์ สิ่งที่อนุมาน และสิ่งที่ยังไม่รู้; จำนวนแถว/คอลัมน์ตรงกับไฟล์จริง</p>
+<h3 id="workshop-core--เริ่มหัวข้อ--ให้-ai-รู้ว่ากำลังทำโมดูลไหน">เริ่มหัวข้อ — ให้ AI รู้ว่ากำลังทำโมดูลไหน</h3>
+<p>ถ้าแชต AI เดิมทำโมดูลอื่นอยู่ ให้เปิดแชตใหม่ก่อน แล้ววาง prompt นี้</p>
+<div class="command ai-prompt"><code>เริ่ม Module 7 หัวข้อ "จากข้อมูลสู่ highlights ที่ตรวจย้อนได้": รัน AIRR update แล้วรัน AIRR init module-7 (ต้องทำทุกครั้งที่เริ่มหัวข้อ ไฟล์ที่ฉันแก้แล้วจะไม่ถูกเขียนทับ) แล้วอ่านส่วน AIRR CONTEXT ที่ได้ ทำงานตามแผนที่ไฟล์ใน module-07-work/ เท่านั้น อ่าน input/ และ course-materials/ โดยห้ามแก้ และเขียนผลลงตำแหน่งที่หัวข้อนี้กำหนด</code><button type="button" data-copy="">คัดลอก</button></div><p><strong>ตรวจ:</strong> AI แสดง <code>AIRR INIT PASS · module-7</code> และบอกได้ว่าไฟล์ที่หัวข้อนี้ใช้อยู่ที่ไหน</p>
+<hr>
+<h3 id="workshop-core--ขั้นที่-1--ตรวจใบรับข้อมูลก่อนวิเคราะห์">ขั้นที่ 1 — ตรวจใบรับข้อมูลก่อนวิเคราะห์</h3>
+<p>ข้อมูล: หนึ่งแถว = ค่า PM2.5 (<code>pm25_ug_m3</code>, µg/m³) ของเครื่องวัดหนึ่งเครื่อง (<code>sensor_id</code>) ในหนึ่งสัปดาห์ · <code>site</code> North/Central/South · <code>arm</code> Intervention/Comparison · <code>period</code> Before/After · <code>week</code> −8 ถึง 8 เทียบวันเริ่มมาตรการ · <code>aqi_proxy</code>, <code>air_quality_score</code> คำนวณจาก PM2.5 ใช้ฝึกเท่านั้น · คำอธิบายเต็ม: <code>mock-study-data-columns.md</code> ในโฟลเดอร์เดียวกับ CSV</p>
+<p>ให้ AI อ่าน CSV แบบอ่านอย่างเดียว แล้วสร้างใบรับข้อมูล (import report) <code>module-07-work/import-report.md</code> ระบุจำนวนแถว/คอลัมน์ ชื่อคอลัมน์ ชนิดข้อมูล missing/duplicate หน่วยวิเคราะห์ ระดับการรวมค่า และคำเตือน จากนั้นเปิด CSV ตรวจชื่อคอลัมน์และสุ่มเทียบอย่างน้อยสามแถว</p>
+<p><strong>ตรวจ:</strong> ต้องได้ 480 แถว × 8 คอลัมน์ ค่าที่ไม่ซ้ำของ <code>site</code>, <code>arm</code>, <code>period</code> ตรงกับคำอธิบายด้านบน และรายงานแยกสิ่งที่อ่านจากไฟล์ สิ่งที่อนุมาน และสิ่งที่ยังไม่รู้</p>
 <hr>
 <h3 id="workshop-core--ขั้นที่-2--สร้างกราฟและ-highlights">ขั้นที่ 2 — สร้างกราฟและ highlights</h3>
-<p>ให้ AI ใช้คำถามกับกราฟที่คุณเลือก สร้างสคริปต์ใน <code>module-07-work/</code> รันด้วย Python ของโมดูล และบันทึกภาพใน <code>module-07-work/figures/</code> จากนั้นเขียน <code>module-07-work/module-07-highlights.md</code> จำนวน 3–5 ข้อ แต่ละข้อมีข้อความหลัก ตัวเลข หน่วย ฐานเปรียบเทียบ <code>n</code> ช่วงความไม่แน่นอน ข้อจำกัด และตำแหน่งใน CSV/โค้ดที่ตรวจย้อนกลับได้</p>
-<p><strong>ตรวจ:</strong> เปิด CSV หรือใช้สคริปต์คำนวณแยก ตรวจตัวเลขใน highlights อย่างน้อยสามค่าด้วยตนเอง</p>
+<p>เขียนคำถามหนึ่งข้อใต้ <code>## คำถามที่สำรวจ</code> ใน <code>module-07-work/module-07-highlights.md</code> (ใช้คำถามจากหัวข้อก่อนได้ถ้ามี) แล้วให้ AI เสนอกราฟการแจกแจงก่อน จากนั้นจึงเลือกกราฟสื่อสาร ให้ AI สร้างสคริปต์ใน <code>module-07-work/</code> รันด้วย Python ของโมดูล และบันทึกภาพใน <code>module-07-work/figures/</code></p>
+<p>เขียน highlights 3–5 ข้อ แต่ละข้อมีตัวเลข หน่วย ฐานเปรียบเทียบ <code>n</code> ช่วงความไม่แน่นอน ข้อจำกัด และตำแหน่งใน CSV/โค้ดที่ตรวจย้อนกลับได้ คงหัวข้อทั้งห้าในไฟล์ไว้ เพราะ AIRR ตรวจหัวข้อเหล่านี้</p>
+<table>
+<thead>
+<tr>
+<th>หัวข้อในไฟล์</th>
+<th>สิ่งที่ต้องมี</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>## คำถามที่สำรวจ</code></td>
+<td>คำถาม หน่วยวิเคราะห์ และระดับการรวมค่าที่เลือก</td>
+</tr>
+<tr>
+<td><code>## Highlights</code></td>
+<td>3–5 ข้อ เขียนเป็นรายการ <code>-</code> หรือ <code>1.</code></td>
+</tr>
+<tr>
+<td><code>## กราฟที่เลือก</code></td>
+<td>กราฟที่ใช้และเหตุผล</td>
+</tr>
+<tr>
+<td><code>## ข้อสรุป</code></td>
+<td>อย่างน้อย 40 ตัวอักษร</td>
+</tr>
+<tr>
+<td><code>## ข้อจำกัดและสิ่งที่ยังสรุปไม่ได้</code></td>
+<td>สิ่งที่ข้อมูลยังตอบไม่ได้</td>
+</tr>
+</tbody>
+</table>
+<p>ตัวอย่างรูปแบบ highlight หนึ่งข้อ (อย่าคัดลอกเป็นของคุณ)</p>
+<div class="command ai-prompt"><code>ในภาพรวมทุกพื้นที่ ค่าเฉลี่ย PM2.5 ของกลุ่ม Intervention ลดจาก 37.0 เป็น 34.4 µg/m³ หลังเริ่มมาตรการ (120 ค่าวัดต่อช่วง) ขณะที่กลุ่ม Comparison เพิ่มเล็กน้อยจาก 37.6 เป็น 38.3 µg/m³ ข้อมูลนี้เป็นการสังเกต จึงยังสรุปไม่ได้ว่ามาตรการเป็นสาเหตุ</code><button type="button" data-copy="">คัดลอก</button></div><p><strong>ตรวจ:</strong> เปิด CSV หรือใช้สคริปต์คำนวณแยก ตรวจตัวเลขใน highlights อย่างน้อยสามค่าด้วยตนเอง และไฟล์ยังมีห้าหัวข้อครบ</p>
 <hr>
 <h3 id="workshop-core--ขั้นที่-3--red-team-กราฟกับข้อความ">ขั้นที่ 3 — Red team กราฟกับข้อความ</h3>
-<p>ตรวจเจ็ดเรื่อง: แกนและหน่วย, ตัวหาร, <code>n</code>, ชนิด interval, สี, claim title และตัวเลขย้อนกลับไป CSV ให้ AI ช่วยค้นจุดเสี่ยงได้ แต่ผู้เรียนต้องเปิดไฟล์และตัดสินเอง บันทึกผลใน <code>module-07-work/figure-audit.md</code></p>
-<p><strong>ตรวจ:</strong> audit มีตำแหน่ง หลักฐาน สถานะ และการแก้ของทุกข้อ; จุดที่ยังตรวจไม่ได้ระบุว่า BLOCKED</p>
+<p>ตรวจเจ็ดข้อด้านล่าง ให้ AI ช่วยค้นจุดเสี่ยงได้ แต่ผู้เรียนต้องเปิดไฟล์และตัดสินเอง ข้อ 7 ห้ามถาม AI ตัวเดียวกับที่ทำงานนั้นว่า “ถูกไหม” บันทึกผลใน <code>module-07-work/red-team.md</code></p>
+<table>
+<thead>
+<tr>
+<th>ข้อ</th>
+<th>ตรวจอะไร</th>
+<th>ผ่านเมื่อ</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>แกนและ baseline</td>
+<td>bar เริ่มที่ศูนย์ แกนสองข้างมีเหตุผลรองรับ</td>
+</tr>
+<tr>
+<td>2</td>
+<td>ตัวหารและหน่วย</td>
+<td>ทุก panel ใช้ฐานเดียวกัน หน่วยครบ</td>
+</tr>
+<tr>
+<td>3</td>
+<td>n และข้อมูลดิบ</td>
+<td>ระบุ n และเห็นข้อมูลจริงเมื่อ n น้อย</td>
+</tr>
+<tr>
+<td>4</td>
+<td>ชนิด interval</td>
+<td>SD, SE, CI หรือ IQR เขียนไว้ในคำบรรยายภาพ</td>
+</tr>
+<tr>
+<td>5</td>
+<td>สีมีหน้าที่</td>
+<td>ยังอ่านได้เมื่อพิมพ์ขาวดำ</td>
+</tr>
+<tr>
+<td>6</td>
+<td>ชื่อภาพคือ claim</td>
+<td>ไม่อ้างเกินกว่าที่ภาพแสดง</td>
+</tr>
+<tr>
+<td>7</td>
+<td>ตรวจย้อนกับ CSV</td>
+<td>สุ่มอย่างน้อย 3 ค่าใน highlights แล้วหาเองจากข้อมูลต้นทาง</td>
+</tr>
+</tbody>
+</table>
+<p><strong>ตรวจ:</strong> <code>red-team.md</code> มีตำแหน่ง หลักฐาน สถานะ และการแก้ของทุกข้อ; จุดที่ยังตรวจไม่ได้ระบุว่า BLOCKED</p>
 <hr>
 <h3 id="workshop-core--ขั้นที่-4--ส่งงานผ่าน-airr">ขั้นที่ 4 — ส่งงานผ่าน AIRR</h3>
+<p>ก่อนส่ง ให้เหลือใน <code>module-07-work/figures/</code> เฉพาะภาพที่จะส่ง 1–5 ภาพ (PNG, JPEG หรือ WebP ไม่เกิน 2 MB ต่อภาพ ชื่อไฟล์ภาษาอังกฤษ) ภาพฝึกอื่นอยู่ใน <code>module-07-work/figures/practice/</code></p>
 <p>สั่ง AI ว่า “ส่งงาน Module 7 ให้ฉัน” AI ต้องตรวจไฟล์ก่อน แสดงรายการไฟล์ที่จะส่ง ขอคำยืนยันหนึ่งครั้ง แล้วจึงส่ง <code>module-07-highlights.md</code> กับภาพใน <code>module-07-work/figures/</code> ห้ามส่ง CSV ต้นฉบับหรือ AIRR Key</p>
 <p><strong>ตรวจ:</strong> AI รายงาน submission ID และสถานะปัจจุบันโดยไม่แสดง AIRR Key</p>
 <hr>
 <h3 id="workshop-core--ตรวจก่อนจบ-workshop">ตรวจก่อนจบ workshop</h3>
 <ul class="task-list">
-<li><label><input type="checkbox">ขั้น 1: <code>import-report.md</code> ระบุ grain, missing, duplicate และระดับการรวมค่า</label></li>
-<li><label><input type="checkbox">ขั้น 2: <code>module-07-highlights.md</code> มี 3–5 ข้อ และตรวจเลขกับ CSV เองอย่างน้อยสามค่า</label></li>
-<li><label><input type="checkbox">ขั้น 3: <code>figure-audit.md</code> ตรวจครบเจ็ดเรื่องและไม่ปิด BLOCKED เอง</label></li>
+<li><label><input type="checkbox">ขั้น 1: <code>import-report.md</code> ได้ 480 แถว และระบุหน่วยวิเคราะห์ missing duplicate และระดับการรวมค่า</label></li>
+<li><label><input type="checkbox">ขั้น 2: <code>module-07-highlights.md</code> มีห้าหัวข้อครบ highlights 3–5 ข้อ และตรวจเลขกับ CSV เองอย่างน้อยสามค่า</label></li>
+<li><label><input type="checkbox">ขั้น 3: <code>red-team.md</code> ตรวจครบเจ็ดข้อและไม่ปิด BLOCKED เอง</label></li>
 <li><label><input type="checkbox">ขั้น 4: AIRR แสดง submission ID และสถานะ โดยไม่ส่งข้อมูลต้นฉบับหรือ key</label></li>
 </ul>
 </div></section>
-<section class="section markdown-section topic-panel" id="open-explore" aria-labelledby="open-explore-heading"><div class="section-heading compact"><p class="eyebrow">Exploring</p><h2 id="open-explore-heading">จากข้อมูลสู่ highlights ที่ตรวจย้อนได้</h2></div><div class="markdown-body"><p>ใช้ข้อมูลของคุณที่นำเข้า AI ได้ตามสิทธิ์ หรือใช้ข้อมูลจำลองชุดสำรอง เขียน prompt เองทั้งหมด</p>
+<section class="section markdown-section topic-panel" id="open-explore" aria-labelledby="open-explore-heading"><div class="section-heading compact"><p class="eyebrow">Exploring</p><h2 id="open-explore-heading">จากข้อมูลสู่ highlights ที่ตรวจย้อนได้</h2></div><div class="markdown-body"><p>ใช้ข้อมูลของคุณที่นำเข้า AI ได้ตามสิทธิ์ แล้วเขียน prompt เองทั้งหมด ถ้าไม่มีข้อมูลของตัวเอง ใช้ <code>course-materials/module-07/examples/figure-consistency/mock-study-data.csv</code> (คำอธิบายคอลัมน์: <code>mock-study-data-columns.md</code> ในโฟลเดอร์เดียวกัน)</p>
 <h3 id="open-explore--โจทย์">โจทย์</h3>
 <ol type="1">
-<li>ทำ intake report และ data dictionary ก่อนวิเคราะห์</li>
-<li>สร้างกราฟอย่างน้อยหนึ่งภาพและ highlights 3–5 ข้อ</li>
-<li>ตรวจเลขกับข้อมูลต้นทางอย่างน้อยสามค่า แล้ว red team กราฟกับข้อความ</li>
+<li>ทำใบรับข้อมูล (import report) และ data dictionary (ตารางชื่อคอลัมน์ ความหมาย หน่วย) ก่อนวิเคราะห์</li>
+<li>สร้างกราฟอย่างน้อยหนึ่งภาพและ highlights 3–5 ข้อ (ส่วนประกอบของ highlight: ส่วน จ ของ <code>course-materials/module-07/templates/module-07-checklists.md</code>)</li>
+<li>ตรวจเลขกับข้อมูลต้นทางอย่างน้อยสามค่า แล้ว red team กราฟกับข้อความด้วย 7 ข้อ (ส่วน ง ของไฟล์เดียวกัน)</li>
 </ol>
 <h3 id="open-explore--ข้อกำหนด">ข้อกำหนด</h3>
 <ul>
-<li>เก็บข้อมูลต้นฉบับใน <code>input/original/</code> และห้ามแก้</li>
-<li>เก็บ prompt ทุกรอบใน <code>module-07-work/output/prompts.md</code></li>
-<li>ไม่อัปโหลดข้อมูลลับ ข้อมูลส่วนบุคคล หรือข้อมูลที่ไม่มีสิทธิ์ให้บริการภายนอก</li>
+<li>จด prompt ทุกรอบใน <code>module-07-work/output/prompts.md</code> (มีตารางว่างให้แล้ว)</li>
+<li>คัดลอกข้อมูลต้นฉบับไว้ที่ <code>module-07-work/input/original/</code> และห้ามแก้ · งานใหม่ไว้ที่ <code>module-07-work/output/</code></li>
+<li>ใช้เฉพาะข้อมูลที่มีสิทธิ์นำเข้า AI · ไม่อัปโหลดข้อมูลลับหรือข้อมูลส่วนบุคคลให้บริการภายนอก</li>
 </ul>
 <h3 id="open-explore--เกณฑ์ผ่าน">เกณฑ์ผ่าน</h3>
 <ul class="task-list">
@@ -87,13 +171,9 @@
 <p>ทำตามได้ครบด้วยบทความจำลองที่ฝังข้อผิดพลาดไว้เพื่อการเรียน (ข้อมูล PM2.5 จำลองชุดเดียวกัน) ไม่ต้องสร้าง mock เพิ่ม</p>
 <h3 id="workshop-figure-text-consistency-audit--ก่อนเริ่ม-ต้องมีอยู่แล้ว">ก่อนเริ่ม (ต้องมีอยู่แล้ว)</h3>
 <ul>
-<li>ผ่าน Module 1: เปิด <code>ai-for-research-workspace</code> ใน VS Code และ AI panel เชื่อมแล้ว</li>
-<li>ไฟล์ที่ติดตั้งมากับ Module 1 (อ่านอย่างเดียว):
-<ul>
-<li><code>course-materials/module-07/examples/figure-consistency/mock-article-figure-consistency.pdf</code></li>
-<li><code>course-materials/module-07/examples/figure-consistency/mock-study-data.csv</code></li>
-</ul></li>
-<li><code>module-07-work/module-07-figure-audit.md</code> (ตัวติดตั้ง Module 1 คัดลอกจาก <code>figure-consistency-audit-template.md</code> ไว้ให้ เป็นแม่แบบที่ยังไม่กรอก)</li>
+<li>เปิด <code>ai-for-research-workspace</code> ใน VS Code และ AI panel เชื่อมแล้ว</li>
+<li>ไฟล์ใน <code>course-materials/module-07/</code> ติดตั้งโดย <code>AIRR init module-7</code> · อ่านอย่างเดียว · ใช้ <code>mock-article-figure-consistency.pdf</code> และ <code>mock-study-data.csv</code> ใน <code>course-materials/module-07/examples/figure-consistency/</code></li>
+<li><code>module-07-work/module-07-figure-audit.md</code> (แม่แบบว่างที่ <code>AIRR init module-7</code> คัดลอกไว้ให้) · ไฟล์นี้แยกจาก <code>red-team.md</code> ของ workshop หลัก</li>
 <li>ห้ามเปิดสคริปต์สร้างกรณีศึกษาหรือเฉลยผู้สอนก่อนส่งงาน</li>
 </ul>
 <h3 id="workshop-figure-text-consistency-audit--ขั้นตอน">ขั้นตอน</h3>
@@ -127,19 +207,16 @@
 </ul>
 </div></section>
 <section class="section markdown-section topic-panel" id="open-figure-text-consistency-audit-explore" aria-labelledby="open-figure-text-consistency-audit-explore-heading"><div class="section-heading compact"><p class="eyebrow">เสริม · Exploring</p><h2 id="open-figure-text-consistency-audit-explore-heading">ตรวจความสอดคล้องของภาพ ตาราง และข้อความทั้งเอกสาร</h2></div><div class="markdown-body"><p>ใน Exploring workshop นี้คุณจะตรวจเอกสารหนึ่งชิ้นที่มีหลายรูปและตารางหาความไม่สอดคล้องด้วยตัวเองก่อน แล้วเขียน prompt เองให้ AI เป็นผู้ตรวจคนที่สอง ได้ ledger ใน <code>module-07-work/output/figure-consistency-audit.md</code></p>
-<p>ผู้เรียนเขียน prompt เอง ไม่มี prompt สำเร็จรูปให้</p>
 <h3 id="open-figure-text-consistency-audit-explore--ก่อนเริ่ม-ต้องมีอยู่แล้ว">ก่อนเริ่ม (ต้องมีอยู่แล้ว)</h3>
 <ul>
-<li>ผ่าน Module 1: เปิด <code>ai-for-research-workspace</code> ใน VS Code และ AI panel เชื่อมแล้ว · โฟลเดอร์ <code>module-07-work/</code> (ตัวติดตั้ง Module 1 สร้างไว้)</li>
-<li>แม่แบบ <code>course-materials/module-07/examples/figure-consistency/figure-consistency-audit-template.md</code> (ติดตั้งมากับ Module 1 · อ่านอย่างเดียว)</li>
+<li>แม่แบบ ledger: <code>course-materials/module-07/examples/figure-consistency/figure-consistency-audit-template.md</code> (อ่านอย่างเดียว)</li>
 <li>เอกสารหนึ่งชิ้นที่มีหลายรูปและตาราง (ร่างบทความของคุณ วิทยานิพนธ์ของนิสิต หรือบทความที่เผยแพร่และเปิดข้อมูล) ที่มีสิทธิ์นำเข้า AI — ตรวจสิทธิ์ก่อนนำ manuscript ที่ยังไม่เผยแพร่เข้า AI
 <ul>
-<li>ถ้ายังไม่มี: ใช้บทความจำลอง <code>course-materials/module-07/examples/figure-consistency/mock-article-figure-consistency.pdf</code> คู่กับ <code>mock-study-data.csv</code> ในโฟลเดอร์เดียวกัน (ติดตั้งมากับ Module 1)</li>
+<li>ถ้ายังไม่มี: ใช้บทความจำลอง <code>mock-article-figure-consistency.pdf</code> คู่กับ <code>mock-study-data.csv</code> ในโฟลเดอร์เดียวกับแม่แบบ</li>
 </ul></li>
 </ul>
 <h3 id="open-figure-text-consistency-audit-explore--ขั้นตอน">ขั้นตอน</h3>
 <ol type="1">
-<li>สร้างโฟลเดอร์ <code>module-07-work/output/</code> และไฟล์ <code>module-07-work/output/prompts.md</code> (ถ้ามีจาก Exploring workshop ข้ออื่นแล้ว ให้เพิ่มหัวข้อใหม่ต่อท้าย) ไว้จดทุกรอบเป็น prompt → สรุปคำตอบของ AI → สิ่งที่คุณตัดสินใจ</li>
 <li>คัดลอกแม่แบบไปเป็น <code>module-07-work/output/figure-consistency-audit.md</code> (ใช้โครงนี้ได้ ไม่บังคับ)</li>
 <li>ทำรอบแรกเองโดยไม่ใช้ AI: หาความไม่สอดคล้องระหว่าง Methods ตาราง รูป caption และข้อสรุป ที่เปลี่ยนข้อสรุป แล้วบันทึกลง ledger</li>
 <li>ถ้ามีข้อมูลต้นทาง ตรวจค่าอย่างน้อย 3 ค่า</li>
@@ -148,10 +225,9 @@
 </ol>
 <h3 id="open-figure-text-consistency-audit-explore--ข้อกำหนด">ข้อกำหนด</h3>
 <ul>
-<li>เขียน prompt เองทุกข้อ ไม่ใช้ prompt สำเร็จรูปจาก workshop และจดทุกรอบใน <code>module-07-work/output/prompts.md</code></li>
-<li>ระบุว่าตรวจผลของ AI อย่างไร (เปิดภาพดูเอง คำนวณเอง หรือเปิดข้อมูลต้นทาง) และแก้อะไรเอง</li>
-<li>ข้อมูลที่ไม่มีสิทธิ์นำเข้า AI (ข้อมูลส่วนบุคคล ข้อมูลลับ manuscript ที่ยังไม่เผยแพร่) ให้ใช้ข้อมูลจำลอง/ข้อมูลเปิดแทน</li>
-<li>ถ้า AI เสนอวิธีทางสถิติที่คุณอธิบายเหตุผลไม่ได้ ให้หยุดและปรึกษาผู้เชี่ยวชาญก่อนใช้ผล</li>
+<li>จด prompt ทุกรอบใน <code>module-07-work/output/prompts.md</code> (มีตารางว่างให้แล้ว)</li>
+<li>คัดลอกเอกสารและข้อมูลต้นฉบับไว้ที่ <code>module-07-work/input/original/</code> และห้ามแก้ · งานใหม่ไว้ที่ <code>module-07-work/output/</code></li>
+<li>ใช้เฉพาะข้อมูลที่มีสิทธิ์นำเข้า AI · ถ้า AI เสนอวิธีทางสถิติที่คุณอธิบายเหตุผลไม่ได้ ให้หยุดและปรึกษาผู้เชี่ยวชาญก่อนใช้ผล</li>
 </ul>
 <h3 id="open-figure-text-consistency-audit-explore--เกณฑ์ผ่าน">เกณฑ์ผ่าน</h3>
 <ul class="task-list">

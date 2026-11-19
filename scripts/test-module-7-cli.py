@@ -253,6 +253,21 @@ def init_test() -> None:
         except client.AIRRError:
             pass
         assert not (root / "outside.txt").exists()
+        # refresh=True (e.g. M4 rule files): a learner-edited copy is kept, the new version goes to .course-updates/
+        manifest["modules"]["module-9"]["files"] = [{"kind": "api", "module": "module-9", "name": "rules.md", "path": "course-materials/module-09/api-rules.md", "refresh": True}]
+        (web / "module-materials.json").write_text(json.dumps(manifest), encoding="utf-8")
+        original = client.request_bytes
+        client.request_bytes = lambda u, key: b"server rules\n"
+        try:
+            call()
+            assert (workspace / "course-materials/module-09/api-rules.md").read_bytes() == b"server rules\n"
+            (workspace / "course-materials/module-09/api-rules.md").write_bytes(b"learner edit\n")
+            text = call()
+        finally:
+            client.request_bytes = original
+        assert (workspace / "course-materials/module-09/api-rules.md").read_bytes() == b"learner edit\n"
+        assert (workspace / ".course-updates/course-materials/module-09/api-rules.md").read_bytes() == b"server rules\n"
+        assert "AIRR CONTEXT · ตอนนี้ทำ module-9 · ทำงานใน module-09-work/" in text and "course-materials/module-09/api-rules.md" in text
         manifest["modules"]["module-9"]["files"] = [{"kind": "copy", "from": "../outside.txt", "path": "module-09-work/x.txt"}]
         (web / "module-materials.json").write_text(json.dumps(manifest), encoding="utf-8")
         with contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(io.StringIO()):

@@ -76,6 +76,20 @@
      "bytes": 1514
     },
     {
+     "kind": "mock",
+     "url": "topics/candidate-gap-ledger-and-prosecution/mock/sample-problems.md",
+     "path": "module-03-work/input/hunger-mock/sample-problems.md",
+     "sha256": "7d86409e3fd5796fd9775a8aac841a6664854c7bc526c217db1a4bb1c85200c1",
+     "bytes": 1414
+    },
+    {
+     "kind": "mock",
+     "url": "topics/candidate-gap-ledger-and-prosecution/mock/sample-gap-ledger.md",
+     "path": "module-03-work/input/hunger-mock/sample-gap-ledger.md",
+     "sha256": "fbc67d4b503e1ec657030e67fea710ab06093ddaa1ea78faf9fb0886c62d5689",
+     "bytes": 3467
+    },
+    {
      "kind": "api",
      "module": "module-4",
      "name": "mock-paper-th.pdf",
@@ -234,8 +248,8 @@
      "kind": "course",
      "url": "course-materials/visualization/tools/ai-for-research-course.py",
      "path": "course-materials/module-07/tools/ai-for-research-course.py",
-     "sha256": "74bc2e1321aa06bddabc48bed1901054bdc2563dfe41730e398ef51c049e7952",
-     "bytes": 71210
+     "sha256": "459e4863fb789fda2391d00258d33c14dca628fd28222a2ba15d255f5b246224",
+     "bytes": 73782
     },
     {
      "kind": "mock",
@@ -243,6 +257,27 @@
      "path": "module-07-work/module-07-highlights.md",
      "sha256": "7089b1039dc51c0ad8412ede3edadbb3ded0d53c9277c1bedd2636d475a5d230",
      "bytes": 277
+    },
+    {
+     "kind": "mock",
+     "url": "topics/reading-data-and-choosing-charts/mock/mock-study-data-columns.md",
+     "path": "course-materials/module-07/examples/figure-consistency/mock-study-data-columns.md",
+     "sha256": "ae60205898e429e26e8b2c4a5d9f614a5e1c31056ecd57a3cdda21afafbaba08",
+     "bytes": 2538
+    },
+    {
+     "kind": "mock",
+     "url": "topics/reading-data-and-choosing-charts/mock/module-07-checklists.md",
+     "path": "course-materials/module-07/templates/module-07-checklists.md",
+     "sha256": "d08664e7f97128139b2178ea5997e0f1239ab88020bb6ead80c2f281e8613d5c",
+     "bytes": 7427
+    },
+    {
+     "kind": "mock",
+     "url": "topics/reading-data-and-choosing-charts/mock/prompts.md",
+     "path": "module-07-work/output/prompts.md",
+     "sha256": "94105f702495b25944e7618843ea245d7a2a7f2c2851ce3c4cdaf0650bab2ac1",
+     "bytes": 161
     },
     {
      "kind": "copy",

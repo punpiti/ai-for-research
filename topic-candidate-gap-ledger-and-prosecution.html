@@ -22,72 +22,103 @@
   <site-header current="topic" plan="class-2026-11-20-engineering-faculty.html" menu='{&quot;module&quot;: &quot;M03&quot;, &quot;title&quot;: &quot;ตรวจและปรับ problem statement / บทนำ&quot;, &quot;items&quot;: [{&quot;href&quot;: &quot;module-overview-m03.html&quot;, &quot;label&quot;: &quot;ภาพรวมและ LO&quot;, &quot;current&quot;: false}, {&quot;href&quot;: &quot;topic-problem-statement-diagnosis-with-locations.html&quot;, &quot;label&quot;: &quot;บันทึกมุมมองเดิม แล้วให้ AI วินิจฉัย problem statement พร้อมตำแหน่ง&quot;, &quot;current&quot;: false}, {&quot;href&quot;: &quot;topic-verify-critique-and-revise.html&quot;, &quot;label&quot;: &quot;ตรวจคำวิจารณ์ของ AI แล้วแก้พร้อมเหตุผล&quot;, &quot;current&quot;: false}]}'></site-header>
   <main id="main">
 <section class="prepare-hero module-hero"><p class="eyebrow">หัวข้อย่อย · M03</p><h1>สร้าง Gap Ledger แล้วพยายามหักล้าง candidate gap</h1><ul class="outcomes"><li>เขียน practical problem และ research problem เอง ให้ AI ถามหาคำกำกวมโดยไม่เขียนแทน สร้าง Gap Ledger ไม่เกิน 4 ข้อพร้อมหลักฐานคัดค้าน และใช้ Gap Prosecutor ตัดสินคงไว้ / ลดความมั่นใจ / ปฏิเสธ</li></ul></section>
-<div class="topic-layout"><nav class="topic-tabs topic-menu" aria-label="ในหัวข้อนี้"><p class="topic-menu-title">ในหัวข้อนี้</p><ul><li><a href="#slides" title="สไลด์">สไลด์</a></li><li><a href="#workshop-core" title="Workshop หลัก">Workshop</a><ul class="topic-submenu"><li><a href="#workshop-core--ก่อนเริ่ม-ต้องมีอยู่แล้ว" data-sub>ก่อนเริ่ม (ต้องมีอยู่แล้ว)</a></li><li><a href="#workshop-core--ขั้นตอน" data-sub>ขั้นตอน</a></li><li><a href="#workshop-core--ตรวจก่อนจบ" data-sub>ตรวจก่อนจบ</a></li><li><a href="#workshop-core--ส่งงาน" data-sub>ส่งงาน</a></li></ul></li><li><a href="#open-explore" title="Exploring workshop">Exploring</a><ul class="topic-submenu"><li><a href="#open-explore--ก่อนเริ่ม-ต้องมีอยู่แล้ว" data-sub>ก่อนเริ่ม (ต้องมีอยู่แล้ว)</a></li><li><a href="#open-explore--โจทย์" data-sub>โจทย์</a></li><li><a href="#open-explore--ข้อกำหนด" data-sub>ข้อกำหนด</a></li><li><a href="#open-explore--เกณฑ์ผ่าน" data-sub>เกณฑ์ผ่าน</a></li></ul></li></ul></nav><div class="topic-main"><section class="section markdown-section topic-panel" id="slides" aria-labelledby="slides-heading"><div class="section-heading compact"><p class="eyebrow">สไลด์</p><h2 id="slides-heading">สไลด์</h2></div><div class="markdown-body"><p>สไลด์ของหัวข้อนี้ยังไม่เสร็จ</p></div></section>
-<section class="section markdown-section topic-panel" id="workshop-core" aria-labelledby="workshop-core-heading"><div class="section-heading compact"><p class="eyebrow">Workshop</p><h2 id="workshop-core-heading">สร้าง Gap Ledger แล้วพยายามหักล้าง candidate gap</h2></div><div class="markdown-body"><p>ใน workshop นี้คุณจะตรวจตารางหลักฐานจำลอง เขียนปัญหาเอง แล้วให้ AI ช่วยสร้าง <code>gap-ledger.md</code> และพยายามหักล้าง candidate gap แต่ละข้อ โดยคุณเป็นผู้ตัดสินคงไว้ / ลดความมั่นใจ / ปฏิเสธ</p>
-<p>ใช้เคส “หิว → กิน → อิ่ม” กับหลักฐานจำลอง (ข้อมูลสมมติ ไม่มีข้อมูลจริงของใคร) เคสนี้ลดความซับซ้อนเพื่อฝึกเห็นโครงเหตุผลก่อนนำไปใช้กับหัวข้อของตนเอง</p>
+<div class="topic-layout"><nav class="topic-tabs topic-menu" aria-label="ในหัวข้อนี้"><p class="topic-menu-title">ในหัวข้อนี้</p><ul><li><a href="#slides" title="สไลด์">สไลด์</a></li><li><a href="#workshop-core" title="Workshop หลัก">Workshop</a><ul class="topic-submenu"><li><a href="#workshop-core--ก่อนเริ่ม" data-sub>ก่อนเริ่ม</a></li><li><a href="#workshop-core--คำที่ใช้" data-sub>คำที่ใช้</a></li><li><a href="#workshop-core--เริ่มหัวข้อ--ให้-ai-รู้ว่ากำลังทำโมดูลไหน" data-sub>เริ่มหัวข้อ — ให้ AI รู้ว่ากำลังทำโมดูลไหน</a></li><li><a href="#workshop-core--ขั้นที่-1--เปิดหลักฐานจำลอง" data-sub>ขั้นที่ 1 — เปิดหลักฐานจำลอง</a></li><li><a href="#workshop-core--ขั้นที่-2--สุ่มตรวจหลักฐานก่อนหา-gap" data-sub>ขั้นที่ 2 — สุ่มตรวจหลักฐานก่อนหา gap</a></li><li><a href="#workshop-core--ขั้นที่-3--เขียนปัญหาเอง-คุณทำเอง" data-sub>ขั้นที่ 3 — เขียนปัญหาเอง (คุณทำเอง)</a></li><li><a href="#workshop-core--ขั้นที่-4--ให้-ai-ถาม-ไม่ให้เขียนแทน" data-sub>ขั้นที่ 4 — ให้ AI ถาม ไม่ให้เขียนแทน</a></li><li><a href="#workshop-core--ขั้นที่-5--สร้าง-gap-ledger" data-sub>ขั้นที่ 5 — สร้าง Gap Ledger</a></li><li><a href="#workshop-core--ขั้นที่-6--ให้-ai-พยายามหักล้าง-gap-prosecutor" data-sub>ขั้นที่ 6 — ให้ AI พยายามหักล้าง (Gap Prosecutor)</a></li><li><a href="#workshop-core--ขั้นที่-7--ตัดสินเองทีละข้อ-คุณตัดสิน" data-sub>ขั้นที่ 7 — ตัดสินเองทีละข้อ (คุณตัดสิน)</a></li><li><a href="#workshop-core--ตรวจก่อนจบ-workshop" data-sub>ตรวจก่อนจบ workshop</a></li><li><a href="#workshop-core--ส่งงาน" data-sub>ส่งงาน</a></li></ul></li><li><a href="#open-explore" title="Exploring workshop">Exploring</a><ul class="topic-submenu"><li><a href="#open-explore--ก่อนเริ่ม" data-sub>ก่อนเริ่ม</a></li><li><a href="#open-explore--โจทย์" data-sub>โจทย์</a></li><li><a href="#open-explore--เกณฑ์ผ่าน" data-sub>เกณฑ์ผ่าน</a></li></ul></li></ul></nav><div class="topic-main"><section class="section markdown-section topic-panel" id="slides" aria-labelledby="slides-heading"><div class="section-heading compact"><p class="eyebrow">สไลด์</p><h2 id="slides-heading">สไลด์</h2></div><div class="markdown-body"><p>สไลด์ของหัวข้อนี้ยังไม่เสร็จ</p></div></section>
+<section class="section markdown-section topic-panel" id="workshop-core" aria-labelledby="workshop-core-heading"><div class="section-heading compact"><p class="eyebrow">Workshop</p><h2 id="workshop-core-heading">สร้าง Gap Ledger แล้วพยายามหักล้าง candidate gap</h2></div><div class="markdown-body"><p>คุณตรวจตารางหลักฐานจำลอง เขียนปัญหาเอง แล้วให้ AI ช่วยสร้าง <code>gap-ledger.md</code> และพยายามหักล้าง candidate gap แต่ละข้อ คุณเป็นผู้ตัดสินสถานะสุดท้าย</p>
 <p>เวลา: ประมาณ 30 นาที</p>
-<h3 id="workshop-core--ก่อนเริ่ม-ต้องมีอยู่แล้ว">ก่อนเริ่ม (ต้องมีอยู่แล้ว)</h3>
+<p><strong>สถานการณ์ (ข้อมูลสมมติ):</strong> นักศึกษาต้องการอาหารกลางวันภายใน 30 นาที งบไม่เกิน 100 บาท และอยากอิ่มถึงช่วงบ่าย เคส "หิว → กิน → อิ่ม" นี้ง่ายโดยตั้งใจ เพื่อฝึกโครงเหตุผลก่อนใช้กับหัวข้อของตนเอง</p>
+<h3 id="workshop-core--ก่อนเริ่ม">ก่อนเริ่ม</h3>
 <ul>
-<li>ผ่าน Module 1: เปิด <code>ai-for-research-workspace</code> ใน VS Code และ AI panel เชื่อมแล้ว (มีโฟลเดอร์ <code>module-03-work/</code> ที่ตัวติดตั้งสร้างไว้)</li>
-<li>อ่านเคสบนหน้า <code>hunger-research-methodology.html</code> ของเว็บคอร์สแล้ว</li>
-<li>ไฟล์หลักฐานจำลองสามไฟล์ที่ผู้สอนแจกสำหรับหัวข้อนี้: <code>menus.md</code> (เมนูจำลอง 3 รายการ), <code>reviews.md</code> (รีวิวจำลอง 4 รายการ), <code>evidence-inventory.md</code> (ตารางหลักฐานตั้งต้น 6 แถว)</li>
+<li>เปิด <code>ai-for-research-workspace</code> ใน VS Code และ AI panel เชื่อมแล้ว (จาก Module 1)</li>
 </ul>
-<p>สถานการณ์: นักศึกษาต้องการอาหารกลางวันภายใน 30 นาที งบไม่เกิน 100 บาท และต้องการอิ่มต่อเนื่องถึงช่วงบ่าย</p>
-<h3 id="workshop-core--ขั้นตอน">ขั้นตอน</h3>
-<ol type="1">
-<li><p><strong>วางหลักฐานจำลอง</strong> — สร้างโฟลเดอร์ <code>module-03-work/input/hunger-mock/</code> แล้วคัดลอก <code>menus.md</code>, <code>reviews.md</code>, <code>evidence-inventory.md</code> ไปไว้ในนั้น</p></li>
-<li><p><strong>ยืนยันว่าหลักฐานพร้อมใช้</strong> สั่ง AI</p>
-<div class="command ai-prompt"><code>งาน: สุ่มตรวจข้ออ้างกับต้นฉบับ ใช้ module-03-work/input/hunger-mock/evidence-inventory.md และไฟล์ต้นฉบับในโฟลเดอร์เดียวกัน อ่านตารางหลักฐาน เปิดต้นฉบับตามตำแหน่งที่อ้าง สุ่มตรวจอย่างน้อย 5 ข้ออ้าง รายงาน ผ่าน / ไม่ผ่าน / ยังตรวจไม่ได้ พร้อมเหตุผล ห้ามเริ่มหา gap หยุดและรอฉันอนุมัติตารางหลักฐาน</code><button type="button" data-copy="">คัดลอก</button></div><p>ตรวจเอง: “เมนู A ราคา 80 บาท” ชี้กลับไปยังเมนูได้ ส่วน “อิ่มนาน” ที่ไม่มีข้อมูลรองรับต้องถูกระบุว่ายังตรวจไม่ได้</p></li>
-<li><p><strong>เขียนปัญหาเอง (คุณทำเอง)</strong> — เขียน practical problem 2–3 ประโยค และ research problem 1 ประโยค ระบุผู้ได้รับผล บริบท ผลที่เกิด และสิ่งที่ยังไม่เข้าใจ ห้ามเริ่มด้วย “ยังไม่มีใครศึกษา” ผลที่ต้องได้คือข้อความสองส่วนนี้ ไม่ใช่คำถามว่า “กินอะไรดี?” เก็บไว้ใช้ในขั้นต่อไปและในหัวข้อ <a href="topic-rq-stress-test-and-traceability.html">ทดสอบ RQ โดยไม่ให้ AI เขียนแทน และตรวจสายเหตุผลย้อนกลับ</a></p></li>
-<li><p><strong>ให้ AI ถาม ไม่ให้เขียนแทน</strong> สั่ง AI (วางปัญหาที่คุณเพิ่งเขียน)</p>
-<div class="command ai-prompt"><code>งาน: ช่วยฉันหาจุดอ่อนของปัญหา ปัญหาที่ฉันเขียน: [วาง practical problem และ research problem ของคุณ] ถามทีละหนึ่งข้อเกี่ยวกับ: ใครได้รับผล บริบทคืออะไร ผลกระทบคืออะไร ยังไม่รู้อะไร หลักฐานอยู่ที่ไหน ห้ามเขียนปัญหาใหม่หรือเสนอ gap แทนฉัน เมื่อฉันตอบครบ ให้สรุปจุดที่ยังขาดแล้วหยุด</code><button type="button" data-copy="">คัดลอก</button></div><p>AI ควรถามแบบ “นักศึกษากลุ่มใด?” “อิ่มนานหมายถึงกี่ชั่วโมง?” “มีหลักฐานว่าปัญหานี้เกิดบ่อยเพียงใด?” — ถ้า AI เขียนปัญหาฉบับสวยให้ทันที ให้สั่งใหม่</p></li>
-<li><p><strong>สร้าง Gap Ledger</strong> สั่ง AI</p>
-<div class="command ai-prompt"><code>งาน: สร้างบัญชี candidate gap ใช้ตารางหลักฐานและคำตอบของฉัน เสนอไม่เกิน 4 ข้อ ตารางต้องมี: gap และประเภท หลักฐานสนับสนุนพร้อมไฟล์/ตำแหน่ง หลักฐานคัดค้าน ขอบเขตการค้น สิ่งที่ต้องค้นเพิ่ม สถานะ supported within this set / candidate / rejected ห้ามอ้างว่าใหม่ในวงการ บันทึกลง module-03-work/output/gap-ledger.md รอฉันตรวจทีละข้อ</code><button type="button" data-copy="">คัดลอก</button></div><p>AI จะสร้าง <code>module-03-work/output/gap-ledger.md</code> ตรวจทีละแถว: แถวที่อาจเสนอ “รีวิวบอกราคาและรสชาติ แต่ไม่วัดระยะเวลาก่อนหิวอีกครั้ง” ต้องระบุว่าอ่านรีวิวชุดใด และมีรายการงานด้าน satiety ที่ยังต้องค้นเพิ่ม</p></li>
-<li><p><strong>ใช้ Gap Prosecutor</strong> สั่ง AI</p>
-<div class="command ai-prompt"><code>งาน: พยายามหักล้าง candidate gap ทีละข้อ ใน module-03-work/output/gap-ledger.md ตรวจว่า: เป็นเพียงเรื่องที่ฉันยังค้นไม่เจอหรือไม่ มีงานตอบแล้วหรือไม่ สำคัญเชิงปฏิบัติแต่ยังไม่ใช่ research gap หรือไม่ ถ้อยคำใดเกินหลักฐาน สรุปเป็น คงไว้ / ลดความมั่นใจ / ปฏิเสธ พร้อมเหตุผล ห้ามสร้างหลักฐานเพิ่มเอง</code><button type="button" data-copy="">คัดลอก</button></div></li>
-<li><p><strong>ตัดสินเองทีละข้อ</strong> — การหักล้างอาจพบว่ามีงานเรื่อง satiety อยู่แล้ว หรือคำว่า “อิ่ม” ต่างกันระหว่างคน ผลจึงอาจเป็น “ลดความมั่นใจ” หรือ “ปฏิเสธ gap” ไม่จำเป็นต้องรักษา gap เดิมไว้ บันทึกคำตัดสินของคุณลงใน <code>gap-ledger.md</code></p></li>
-</ol>
-<h3 id="workshop-core--ตรวจก่อนจบ">ตรวจก่อนจบ</h3>
+<h3 id="workshop-core--คำที่ใช้">คำที่ใช้</h3>
+<ul>
+<li><strong>candidate gap</strong> — ช่องว่างที่ยังเป็นข้อสันนิษฐาน ภายในหลักฐานชุดที่คุณดูเท่านั้น</li>
+<li><strong>ประเภท gap:</strong> ช่องว่างความรู้ (knowledge) · ผลขัดกัน (contradiction) · บริบทหรือกลุ่มที่ยังไม่ได้ศึกษา (context-population) · วิธีวัด (method-measurement)</li>
+<li><strong>สถานะ gap</strong> (ใช้ชุดเดียวทั้ง workshop):
+<ul>
+<li><strong>คงไว้</strong> — หลักฐานในชุดนี้รองรับ และยังไม่พบข้อคัดค้าน</li>
+<li><strong>ลดความมั่นใจ</strong> — มีหลักฐานบางส่วน แต่มีข้อคัดค้านหรือยังค้นไม่พอ</li>
+<li><strong>ปฏิเสธ</strong> — มีงานตอบแล้ว หลักฐานไม่รองรับ หรือเป็นแค่ปัญหาเชิงปฏิบัติ ไม่ใช่ research gap</li>
+</ul></li>
+</ul>
+<hr>
+<h3 id="workshop-core--เริ่มหัวข้อ--ให้-ai-รู้ว่ากำลังทำโมดูลไหน">เริ่มหัวข้อ — ให้ AI รู้ว่ากำลังทำโมดูลไหน</h3>
+<p>ถ้าแชต AI เดิมทำโมดูลอื่นอยู่ ให้เปิดแชตใหม่ก่อน แล้ววาง prompt นี้</p>
+<div class="command ai-prompt"><code>เริ่ม Module 3 หัวข้อ "สร้าง Gap Ledger แล้วพยายามหักล้าง candidate gap": รัน AIRR update แล้วรัน AIRR init module-3 (ต้องทำทุกครั้งที่เริ่มหัวข้อ ไฟล์ที่ฉันแก้แล้วจะไม่ถูกเขียนทับ) แล้วอ่านส่วน AIRR CONTEXT ที่ได้ ทำงานตามแผนที่ไฟล์ใน module-03-work/ เท่านั้น อ่าน input/ และ course-materials/ โดยห้ามแก้ และเขียนผลลงตำแหน่งที่หัวข้อนี้กำหนด</code><button type="button" data-copy="">คัดลอก</button></div><p><strong>ตรวจ:</strong> AI แสดง <code>AIRR INIT PASS · module-3</code> และบอกได้ว่าไฟล์ที่หัวข้อนี้ใช้อยู่ที่ไหน</p>
+<hr>
+<h3 id="workshop-core--ขั้นที่-1--เปิดหลักฐานจำลอง">ขั้นที่ 1 — เปิดหลักฐานจำลอง</h3>
+<p>เปิดโฟลเดอร์ <code>module-03-work/input/hunger-mock/</code> ใน Explorer จะเห็น <code>menus.md</code> (เมนู 3 รายการ), <code>reviews.md</code> (รีวิว 4 รายการ), <code>evidence-inventory.md</code> (ตารางหลักฐาน 6 แถว) ทั้งหมดเป็นข้อมูลสมมติ ห้ามแก้</p>
+<p>ถ้าไม่พบโฟลเดอร์ ให้สั่ง AI รัน <code>AIRR init module-3</code> แล้วดูอีกครั้ง</p>
+<p><strong>ตรวจ:</strong> เปิดทั้งสามไฟล์ได้</p>
+<hr>
+<h3 id="workshop-core--ขั้นที่-2--สุ่มตรวจหลักฐานก่อนหา-gap">ขั้นที่ 2 — สุ่มตรวจหลักฐานก่อนหา gap</h3>
+<p>สั่ง AI</p>
+<div class="command ai-prompt"><code>อ่าน module-03-work/input/hunger-mock/evidence-inventory.md แล้วเปิด menus.md และ reviews.md ในโฟลเดอร์เดียวกันตามตำแหน่งที่อ้าง สุ่มตรวจอย่างน้อย 5 ข้ออ้าง รายงาน ผ่าน / ไม่ผ่าน / ยังตรวจไม่ได้ พร้อมเหตุผล ห้ามเริ่มหา gap แล้วหยุดรอฉัน</code><button type="button" data-copy="">คัดลอก</button></div><p><strong>ตรวจ:</strong> "เมนู A ราคา 80 บาท" ผ่าน (ชี้ไปที่ <code>menus.md</code> แถว A) ส่วน "เมนู A อิ่มนาน" (ความเห็นคนเดียว) และ "เมนู B ทำให้อิ่มถึงบ่าย" (ไม่มีไฟล์) ต้องไม่ผ่านหรือยังตรวจไม่ได้</p>
+<hr>
+<h3 id="workshop-core--ขั้นที่-3--เขียนปัญหาเอง-คุณทำเอง">ขั้นที่ 3 — เขียนปัญหาเอง (คุณทำเอง)</h3>
+<p>สร้าง <code>module-03-work/output/problems.md</code> แล้วเขียน</p>
+<ul>
+<li><strong>practical problem</strong> 2–3 ประโยค: ใครได้รับผล ในบริบทใด เกิดผลอะไร</li>
+<li><strong>research problem</strong> 1 ประโยค: สิ่งที่ยังไม่เข้าใจ</li>
+</ul>
+<p>ห้ามเริ่มด้วย "ยังไม่มีใครศึกษา" และไม่ใช่คำถามว่า "กินอะไรดี?"</p>
+<p><strong>ตรวจ:</strong> <code>problems.md</code> มีสองส่วน เขียนด้วยคำของคุณเอง</p>
+<hr>
+<h3 id="workshop-core--ขั้นที่-4--ให้-ai-ถาม-ไม่ให้เขียนแทน">ขั้นที่ 4 — ให้ AI ถาม ไม่ให้เขียนแทน</h3>
+<p>สั่ง AI</p>
+<div class="command ai-prompt"><code>อ่าน module-03-work/output/problems.md ถามฉันทีละหนึ่งข้อเพื่อหาจุดอ่อน: ใครได้รับผล บริบทคืออะไร ผลกระทบคืออะไร ยังไม่รู้อะไร หลักฐานอยู่ที่ไหน ห้ามเขียนปัญหาใหม่หรือเสนอ gap แทนฉัน เมื่อฉันตอบครบ ให้สรุปจุดที่ยังขาดแล้วหยุด</code><button type="button" data-copy="">คัดลอก</button></div><p>AI ควรถามแบบ "นักศึกษากลุ่มใด?" "อิ่มนานหมายถึงกี่ชั่วโมง?" ถ้า AI เขียนปัญหาฉบับใหม่ให้ ให้สั่งใหม่</p>
+<p><strong>ตรวจ:</strong> AI ถามทีละข้อ และจบด้วยรายการจุดที่ยังขาด ไม่ใช่ปัญหาฉบับใหม่</p>
+<hr>
+<h3 id="workshop-core--ขั้นที่-5--สร้าง-gap-ledger">ขั้นที่ 5 — สร้าง Gap Ledger</h3>
+<p>สั่ง AI</p>
+<div class="command ai-prompt"><code>ใช้ module-03-work/input/hunger-mock/ และ module-03-work/output/problems.md เสนอ candidate gap ไม่เกิน 4 ข้อ ตารางมีคอลัมน์: gap | ประเภท (ช่องว่างความรู้ / ผลขัดกัน / บริบทหรือกลุ่ม / วิธีวัด) | หลักฐานพร้อมไฟล์และตำแหน่ง | หลักฐานคัดค้าน | ขอบเขตการค้น | สิ่งที่ต้องค้นเพิ่ม | สถานะ (คงไว้ / ลดความมั่นใจ / ปฏิเสธ) ห้ามอ้างว่าใหม่ในวงการ บันทึกลง module-03-work/output/gap-ledger.md แล้วรอฉันตรวจ</code><button type="button" data-copy="">คัดลอก</button></div><p><strong>ตรวจ:</strong> ทุกแถวชี้ไฟล์และตำแหน่งใน <code>hunger-mock/</code> ได้ เช่น gap "รีวิวบอกราคาและรสชาติ แต่ไม่วัดเวลาก่อนหิวอีกครั้ง" ต้องระบุว่าอ่านรีวิวข้อใด และมีงานด้าน satiety เป็นสิ่งที่ต้องค้นเพิ่ม</p>
+<hr>
+<h3 id="workshop-core--ขั้นที่-6--ให้-ai-พยายามหักล้าง-gap-prosecutor">ขั้นที่ 6 — ให้ AI พยายามหักล้าง (Gap Prosecutor)</h3>
+<p>สั่ง AI</p>
+<div class="command ai-prompt"><code>พยายามหักล้าง candidate gap ทีละข้อใน module-03-work/output/gap-ledger.md ตรวจว่า เป็นแค่เรื่องที่ฉันยังค้นไม่เจอหรือไม่ มีงานตอบแล้วหรือไม่ สำคัญเชิงปฏิบัติแต่ยังไม่ใช่ research gap หรือไม่ และถ้อยคำใดเกินหลักฐาน เสนอสถานะ คงไว้ / ลดความมั่นใจ / ปฏิเสธ พร้อมเหตุผล ห้ามสร้างหลักฐานเพิ่ม ยังไม่ต้องแก้ไฟล์</code><button type="button" data-copy="">คัดลอก</button></div><p><strong>ตรวจ:</strong> ทุกข้อมีสถานะที่ AI เสนอพร้อมเหตุผล และ AI ไม่ได้แก้ <code>gap-ledger.md</code></p>
+<hr>
+<h3 id="workshop-core--ขั้นที่-7--ตัดสินเองทีละข้อ-คุณตัดสิน">ขั้นที่ 7 — ตัดสินเองทีละข้อ (คุณตัดสิน)</h3>
+<p>อ่านเหตุผลของ AI แล้วตัดสินสถานะเองในคอลัมน์ สถานะ ของ <code>gap-ledger.md</code> เช่น อาจพบว่ามีงานเรื่อง satiety อยู่แล้ว หรือ "อิ่ม" ต่างกันระหว่างคน ผลจึงอาจเป็นลดความมั่นใจหรือปฏิเสธ ไม่ต้องรักษา gap เดิมไว้</p>
+<p><strong>ตรวจ:</strong> ทุกข้อมีสถานะที่คุณเลือก และไม่มีข้อใดอ้างว่าใหม่ในวงการ</p>
+<hr>
+<h3 id="workshop-core--ตรวจก่อนจบ-workshop">ตรวจก่อนจบ workshop</h3>
 <ul class="task-list">
-<li><label><input type="checkbox"><code>module-03-work/input/hunger-mock/</code> มี <code>menus.md</code>, <code>reviews.md</code>, <code>evidence-inventory.md</code> และไม่ถูกแก้</label></li>
-<li><label><input type="checkbox">ผลสุ่มตรวจหลักฐานแยก ผ่าน / ไม่ผ่าน / ยังตรวจไม่ได้ และแถว “อิ่มนาน” กับแถวที่ไม่มีไฟล์ต้องไม่ผ่านหรือยังตรวจไม่ได้</label></li>
-<li><label><input type="checkbox">practical problem และ research problem เขียนโดยคุณ ไม่เริ่มด้วย “ยังไม่มีใครศึกษา” และมีรายการจุดที่ยังขาดจาก AI</label></li>
-<li><label><input type="checkbox"><code>module-03-work/output/gap-ledger.md</code> มีไม่เกิน 4 ข้อ ทุกข้อมีหลักฐานคัดค้าน ขอบเขตการค้น และคำตัดสิน คงไว้ / ลดความมั่นใจ / ปฏิเสธ ของคุณ</label></li>
-<li><label><input type="checkbox">ไม่มีข้อใดอ้างว่าใหม่ในวงการ — อย่างดีที่สุดเป็น candidate gap ภายในข้อมูลชุดนี้</label></li>
+<li><label><input type="checkbox"><code>problems.md</code> เขียนเอง ไม่เริ่มด้วย "ยังไม่มีใครศึกษา"</label></li>
+<li><label><input type="checkbox"><code>gap-ledger.md</code> ไม่เกิน 4 ข้อ ทุกข้อมีหลักฐานพร้อมตำแหน่ง หลักฐานคัดค้าน ขอบเขตการค้น และสถานะที่คุณตัดสิน</label></li>
+<li><label><input type="checkbox">ไฟล์ใน <code>hunger-mock/</code> ไม่ถูกแก้</label></li>
 </ul>
 <h3 id="workshop-core--ส่งงาน">ส่งงาน</h3>
-<ul>
-<li>หัวข้อนี้เป็นส่วนของเส้นทางนักเรียน Module 3 ทำต่อที่ <code>rq-stress-test-and-traceability</code> แล้วให้ AI รันเครื่องมือ AIRR check → ยืนยัน → submit ตามหน้า Module 3</li>
-</ul>
+<p>ทำต่อหัวข้อ "ทดสอบ RQ โดยไม่ให้ AI เขียนแทน และตรวจสายเหตุผลย้อนกลับ" ได้ทันที หรือส่งงานตอนนี้ โดยให้ AI รันตามลำดับ</p>
+<ol type="1">
+<li><code>AIRR init module-3</code> แล้วแก้ <code>module-03-work/output/module-3-evaluation.json</code> ตามจริง</li>
+<li><code>AIRR check module-3 --short</code> (ตรวจในเครื่อง ไม่ส่งอะไรออก)</li>
+<li>ให้ AI สรุปสิ่งที่จะส่งและรอคุณยืนยัน แล้วจึงรัน <code>AIRR submit module-3 --short</code></li>
+</ol>
+<p>หมายเหตุ: แบบสั้นนับสี่ไฟล์ <code>author-prior.md</code>, <code>problem-statement-diagnosis.md</code>, <code>revision-table.md</code>, <code>citation-for-m4.md</code> ถ้ายังไม่มี check จะบอกชื่อไฟล์ที่ขาด</p>
 </div></section>
-<section class="section markdown-section topic-panel" id="open-explore" aria-labelledby="open-explore-heading"><div class="section-heading compact"><p class="eyebrow">Exploring</p><h2 id="open-explore-heading">สร้าง Gap Ledger แล้วพยายามหักล้าง candidate gap</h2></div><div class="markdown-body"><p>ในโจทย์เปิดนี้คุณจะสร้างตารางหลักฐานจากเอกสารในหัวข้อของคุณ เขียนปัญหาเอง แล้วเขียน prompt เองให้ AI สร้าง Gap Ledger ไม่เกิน 4 ข้อและพยายามหักล้างแต่ละข้อ โดยคุณเป็นผู้ตัดสิน</p>
+<section class="section markdown-section topic-panel" id="open-explore" aria-labelledby="open-explore-heading"><div class="section-heading compact"><p class="eyebrow">Exploring</p><h2 id="open-explore-heading">สร้าง Gap Ledger แล้วพยายามหักล้าง candidate gap</h2></div><div class="markdown-body"><p>สร้างตารางหลักฐานจากเอกสารในหัวข้อของคุณ เขียนปัญหาเอง แล้วเขียน prompt เองให้ AI สร้าง Gap Ledger ไม่เกิน 4 ข้อและพยายามหักล้างแต่ละข้อ คุณเป็นผู้ตัดสิน</p>
 <p>ไม่มี prompt สำเร็จรูปให้</p>
-<h3 id="open-explore--ก่อนเริ่ม-ต้องมีอยู่แล้ว">ก่อนเริ่ม (ต้องมีอยู่แล้ว)</h3>
+<p><strong>ประเภท gap:</strong> ช่องว่างความรู้ (knowledge) · ผลขัดกัน (contradiction) · บริบทหรือกลุ่มที่ยังไม่ได้ศึกษา (context-population) · วิธีวัด (method-measurement)</p>
+<p><strong>สถานะ:</strong> คงไว้ (หลักฐานรองรับ ไม่พบข้อคัดค้าน) · ลดความมั่นใจ (มีข้อคัดค้านหรือค้นไม่พอ) · ปฏิเสธ (มีงานตอบแล้ว หรือไม่ใช่ research gap)</p>
+<h3 id="open-explore--ก่อนเริ่ม">ก่อนเริ่ม</h3>
 <ul>
-<li>ทำ workshop <code>candidate-gap-ledger-and-prosecution</code> แล้ว</li>
-<li>เอกสารที่เปิดเผยได้ 4–8 ชิ้นในหัวข้อของคุณ (หรือผลงานของคุณจาก Module 2)</li>
+<li>ทำ workshop "สร้าง Gap Ledger แล้วพยายามหักล้าง candidate gap" แล้ว</li>
+<li>เอกสารที่เปิดเผยได้ 4–8 ชิ้นในหัวข้อของคุณ (หรือผลงานจาก Module 2)</li>
 </ul>
 <h3 id="open-explore--โจทย์">โจทย์</h3>
 <ol type="1">
-<li>สร้าง <code>module-03-work/output/prompts.md</code> (ถ้ายังไม่มี) แล้วบันทึก prompt ที่ใช้ทุกรอบลงไฟล์นี้</li>
-<li>สร้างตารางหลักฐานที่ตรวจย้อนถึงต้นฉบับได้ แล้วสุ่มตรวจกับต้นฉบับก่อนเริ่มหา gap</li>
-<li>เขียน practical problem และ research problem ของคุณเองก่อนให้ AI เห็น แล้วเขียน prompt ให้ AI ถามหาคำกำกวมและข้อมูลที่ขาด</li>
-<li>เขียน prompt สร้าง Gap Ledger ไม่เกิน 4 ข้อ และ prompt ที่ให้ AI พยายามหักล้างแต่ละข้อ</li>
-<li>ตัดสินเองว่าแต่ละ gap คงไว้ ลดความมั่นใจ หรือปฏิเสธ</li>
+<li>บันทึก prompt ทุกรอบใน <code>module-03-work/output/prompts.md</code> (ถ้ายังไม่มี ให้สร้าง)</li>
+<li>สร้างตารางหลักฐานที่ชี้กลับถึงต้นฉบับได้ แล้วสุ่มตรวจอย่างน้อย 5 ข้ออ้างก่อนหา gap</li>
+<li>เขียน practical problem และ research problem เองก่อนให้ AI เห็น แล้วให้ AI ถามหาคำกำกวมและข้อมูลที่ขาด</li>
+<li>เขียน prompt สร้าง Gap Ledger ไม่เกิน 4 ข้อ และ prompt ให้ AI พยายามหักล้างแต่ละข้อ</li>
+<li>ตัดสินสถานะเองทุกข้อ</li>
 </ol>
-<h3 id="open-explore--ข้อกำหนด">ข้อกำหนด</h3>
-<ul>
-<li>practical problem และ research problem ไม่เริ่มด้วย “ยังไม่มีใครศึกษา”</li>
-<li>ทุก gap ระบุประเภท (knowledge / contradiction / context-population / method-measurement) หลักฐานพร้อมตำแหน่ง หลักฐานคัดค้าน และขอบเขตการค้น</li>
-<li>ระบุว่าตรวจผลของ AI อย่างไร (เช่น เปิดต้นฉบับตามตำแหน่งที่ AI อ้าง) และแก้อะไรเอง</li>
-</ul>
 <h3 id="open-explore--เกณฑ์ผ่าน">เกณฑ์ผ่าน</h3>
 <ul class="task-list">
-<li><label><input type="checkbox">สุ่มตรวจข้ออ้างในตารางหลักฐานกับต้นฉบับอย่างน้อย 5 รายการ ก่อนเริ่มหา gap</label></li>
-<li><label><input type="checkbox">Gap Ledger ไม่เกิน 4 ข้อ ทุกข้อมีหลักฐานคัดค้านหรือระบุว่าค้นแล้วไม่พบพร้อมขอบเขตการค้น</label></li>
-<li><label><input type="checkbox">อย่างน้อยหนึ่งข้อถูกลดความมั่นใจหรือปฏิเสธพร้อมเหตุผล หรืออธิบายได้ว่าทำไมทุกข้อจึงคงไว้</label></li>
-<li><label><input type="checkbox">ไม่มีการอ้าง novelty ต่อวงการจากเอกสารชุดเล็ก</label></li>
-<li><label><input type="checkbox">prompt log แสดงการปรับ prompt อย่างน้อย 1 รอบ พร้อมเหตุผล</label></li>
+<li><label><input type="checkbox">ปัญหาไม่เริ่มด้วย "ยังไม่มีใครศึกษา"</label></li>
+<li><label><input type="checkbox">ทุก gap มีประเภท หลักฐานพร้อมตำแหน่ง หลักฐานคัดค้าน (หรือ "ค้นแล้วไม่พบ" พร้อมขอบเขตการค้น)</label></li>
+<li><label><input type="checkbox">อย่างน้อยหนึ่งข้อถูกลดความมั่นใจหรือปฏิเสธ หรืออธิบายได้ว่าทำไมทุกข้อคงไว้ และไม่อ้าง novelty ต่อวงการ</label></li>
+<li><label><input type="checkbox"><code>prompts.md</code> แสดงการปรับ prompt อย่างน้อย 1 รอบ พร้อมเหตุผล</label></li>
 </ul>
 </div></section></div></div>
 <script>

@@ -22,75 +22,75 @@
   <site-header current="topic" plan="class-2026-11-20-engineering-faculty.html" menu='{&quot;module&quot;: &quot;M07&quot;, &quot;title&quot;: &quot;วิเคราะห์ข้อมูลและสร้างกราฟ&quot;, &quot;items&quot;: [{&quot;href&quot;: &quot;module-overview-m07.html&quot;, &quot;label&quot;: &quot;ภาพรวมและ LO&quot;, &quot;current&quot;: false}, {&quot;href&quot;: &quot;topic-reading-data-and-choosing-charts.html&quot;, &quot;label&quot;: &quot;อ่านข้อมูลและเลือกกราฟให้ตรงงานของผู้อ่าน&quot;, &quot;current&quot;: false}, {&quot;href&quot;: &quot;topic-chart-pitfalls-and-makeover.html&quot;, &quot;label&quot;: &quot;กับดักกราฟ และการปรับกราฟให้พร้อมใช้&quot;, &quot;current&quot;: true}, {&quot;href&quot;: &quot;topic-data-highlights-with-evidence.html&quot;, &quot;label&quot;: &quot;จากข้อมูลสู่ highlights ที่ตรวจย้อนได้&quot;, &quot;current&quot;: false}]}'></site-header>
   <main id="main">
 <section class="prepare-hero module-hero"><p class="eyebrow">หัวข้อย่อย · M07</p><h1>กับดักกราฟ และการปรับกราฟให้พร้อมใช้</h1><ul class="outcomes"><li>ชี้กับดัก baseline ใน bar chart, แกนตั้งสองข้าง, การเลือกช่วงเวลา/ค่าสะสม และหลาย panel ที่ตัวหารต่างกันได้ พร้อมวิธีแก้ และตรวจว่าการแก้ของ AI ไม่สร้างปัญหาใหม่</li><li>ปรับกราฟจาก Draft 0 (ค่า default ที่ AI ให้) เป็นภาพที่มีหน่วย n ชนิด interval และชื่อภาพเป็น claim ที่ตัวเลขในภาพรองรับ แล้วส่งออก PDF/SVG ขนาดหนึ่งคอลัมน์และตรวจที่ 100%</li></ul></section>
-<div class="topic-layout"><nav class="topic-tabs topic-menu" aria-label="ในหัวข้อนี้"><p class="topic-menu-title">ในหัวข้อนี้</p><ul><li><a href="#slides" title="สไลด์">สไลด์</a></li><li><a href="#workshop-core" title="Workshop หลัก">Workshop</a><ul class="topic-submenu"><li><a href="#workshop-core--ก่อนเริ่ม-ต้องมีอยู่แล้ว" data-sub>ก่อนเริ่ม (ต้องมีอยู่แล้ว)</a></li><li><a href="#workshop-core--คำที่ใช้ใน-workshop-นี้" data-sub>คำที่ใช้ใน workshop นี้</a></li><li><a href="#workshop-core--ขั้นที่-1--ตรวจกราฟด้วยกับดักสี่แบบ" data-sub>ขั้นที่ 1 — ตรวจกราฟด้วยกับดักสี่แบบ</a></li><li><a href="#workshop-core--ขั้นที่-2--ทำกราฟฉบับพร้อมใช้" data-sub>ขั้นที่ 2 — ทำกราฟฉบับพร้อมใช้</a></li><li><a href="#workshop-core--ขั้นที่-3--เปิดตรวจที่ขนาดจริง" data-sub>ขั้นที่ 3 — เปิดตรวจที่ขนาดจริง</a></li><li><a href="#workshop-core--ตรวจก่อนจบ-workshop" data-sub>ตรวจก่อนจบ workshop</a></li></ul></li><li><a href="#open-explore" title="Exploring workshop">Exploring</a><ul class="topic-submenu"><li><a href="#open-explore--โจทย์" data-sub>โจทย์</a></li><li><a href="#open-explore--ข้อกำหนด" data-sub>ข้อกำหนด</a></li><li><a href="#open-explore--เกณฑ์ผ่าน" data-sub>เกณฑ์ผ่าน</a></li></ul></li><li><a href="#workshop-ai-chart-audit-twelve-questions" title="ให้ AI ตรวจกราฟด้วย 12 คำถาม (จุดอ่อนของกราฟ)">เสริม · Workshop</a><ul class="topic-submenu"><li><a href="#workshop-ai-chart-audit-twelve-questions--ก่อนเริ่ม-ต้องมีอยู่แล้ว" data-sub>ก่อนเริ่ม (ต้องมีอยู่แล้ว)</a></li><li><a href="#workshop-ai-chart-audit-twelve-questions--12-คำถาม-ก่อนใช้กราฟ" data-sub>12 คำถาม ก่อนใช้กราฟ</a></li><li><a href="#workshop-ai-chart-audit-twelve-questions--ขั้นตอน" data-sub>ขั้นตอน</a></li><li><a href="#workshop-ai-chart-audit-twelve-questions--ตรวจก่อนจบ" data-sub>ตรวจก่อนจบ</a></li><li><a href="#workshop-ai-chart-audit-twelve-questions--ส่งงาน" data-sub>ส่งงาน</a></li></ul></li><li><a href="#open-ai-chart-audit-twelve-questions-explore" title="ให้ AI ตรวจกราฟด้วย 12 คำถาม (จุดอ่อนของกราฟ)">เสริม · Exploring</a><ul class="topic-submenu"><li><a href="#open-ai-chart-audit-twelve-questions-explore--ก่อนเริ่ม-ต้องมีอยู่แล้ว" data-sub>ก่อนเริ่ม (ต้องมีอยู่แล้ว)</a></li><li><a href="#open-ai-chart-audit-twelve-questions-explore--ขั้นตอน" data-sub>ขั้นตอน</a></li><li><a href="#open-ai-chart-audit-twelve-questions-explore--ข้อกำหนด" data-sub>ข้อกำหนด</a></li><li><a href="#open-ai-chart-audit-twelve-questions-explore--เกณฑ์ผ่าน" data-sub>เกณฑ์ผ่าน</a></li></ul></li></ul><button type="button" class="aside-toggle" data-aside-toggle aria-pressed="false">ซ่อนสไลด์ข้าง</button></nav><div class="topic-main"><section class="section markdown-section topic-panel" id="slides" aria-labelledby="slides-heading"><div class="section-heading compact"><p class="eyebrow">สไลด์</p><h2 id="slides-heading">สไลด์</h2></div><div class="markdown-body"><div class="slide-tools"><button type="button" class="slide-tool" data-fullscreen="#slide-frame-main">⛶ เต็มจอ</button><a class="slide-tool" href="downloads/topics/chart-pitfalls-and-makeover.pdf" target="_blank" rel="noopener">เปิดแท็บใหม่ ↗</a><a class="slide-tool" href="downloads/instructor-slides-f1464f310a04ae61/chart-pitfalls-and-makeover.pptx" download data-instructor-only hidden title="สำหรับผู้สอน: ไฟล์ PowerPoint พร้อม speaker notes">ดาวน์โหลด .pptx (ผู้สอน)</a></div><iframe id="slide-frame-main" class="slide-frame" src="downloads/topics/chart-pitfalls-and-makeover.pdf#view=FitH" title="สไลด์ กับดักกราฟ และการปรับกราฟให้พร้อมใช้" allowfullscreen></iframe></div></section>
-<section class="section markdown-section topic-panel" id="workshop-core" aria-labelledby="workshop-core-heading"><div class="section-heading compact"><p class="eyebrow">Workshop</p><h2 id="workshop-core-heading">กับดักกราฟ และการปรับกราฟให้พร้อมใช้</h2></div><div class="markdown-body"><p>ใน workshop นี้คุณจะให้ AI ตรวจกราฟ PM2.5 จำลอง แก้กับดักที่พบ สร้างภาพที่ชื่อภาพพูดเท่าที่ตัวเลขรองรับ และเปิดไฟล์ส่งออกที่ขนาดใช้งานจริง</p>
+<div class="topic-layout"><nav class="topic-tabs topic-menu" aria-label="ในหัวข้อนี้"><p class="topic-menu-title">ในหัวข้อนี้</p><ul><li><a href="#slides" title="สไลด์">สไลด์</a></li><li><a href="#workshop-core" title="Workshop หลัก">Workshop</a><ul class="topic-submenu"><li><a href="#workshop-core--ก่อนเริ่ม-ต้องมีอยู่แล้ว" data-sub>ก่อนเริ่ม (ต้องมีอยู่แล้ว)</a></li><li><a href="#workshop-core--คำที่ใช้ใน-workshop-นี้" data-sub>คำที่ใช้ใน workshop นี้</a></li><li><a href="#workshop-core--เริ่มหัวข้อ--ให้-ai-รู้ว่ากำลังทำโมดูลไหน" data-sub>เริ่มหัวข้อ — ให้ AI รู้ว่ากำลังทำโมดูลไหน</a></li><li><a href="#workshop-core--ขั้นที่-1--ตรวจกราฟด้วยกับดักสี่แบบ" data-sub>ขั้นที่ 1 — ตรวจกราฟด้วยกับดักสี่แบบ</a></li><li><a href="#workshop-core--ขั้นที่-2--ทำกราฟฉบับพร้อมใช้" data-sub>ขั้นที่ 2 — ทำกราฟฉบับพร้อมใช้</a></li><li><a href="#workshop-core--ขั้นที่-3--เปิดตรวจที่ขนาดจริง" data-sub>ขั้นที่ 3 — เปิดตรวจที่ขนาดจริง</a></li><li><a href="#workshop-core--ตรวจก่อนจบ-workshop" data-sub>ตรวจก่อนจบ workshop</a></li></ul></li><li><a href="#open-explore" title="Exploring workshop">Exploring</a><ul class="topic-submenu"><li><a href="#open-explore--โจทย์" data-sub>โจทย์</a></li><li><a href="#open-explore--ข้อกำหนด" data-sub>ข้อกำหนด</a></li><li><a href="#open-explore--เกณฑ์ผ่าน" data-sub>เกณฑ์ผ่าน</a></li></ul></li><li><a href="#workshop-ai-chart-audit-twelve-questions" title="ให้ AI ตรวจกราฟด้วย 12 คำถาม (จุดอ่อนของกราฟ)">เสริม · Workshop</a><ul class="topic-submenu"><li><a href="#workshop-ai-chart-audit-twelve-questions--ก่อนเริ่ม-ต้องมีอยู่แล้ว" data-sub>ก่อนเริ่ม (ต้องมีอยู่แล้ว)</a></li><li><a href="#workshop-ai-chart-audit-twelve-questions--12-คำถาม-ก่อนใช้กราฟ" data-sub>12 คำถาม ก่อนใช้กราฟ</a></li><li><a href="#workshop-ai-chart-audit-twelve-questions--ขั้นตอน" data-sub>ขั้นตอน</a></li><li><a href="#workshop-ai-chart-audit-twelve-questions--ตรวจก่อนจบ" data-sub>ตรวจก่อนจบ</a></li><li><a href="#workshop-ai-chart-audit-twelve-questions--ส่งงาน" data-sub>ส่งงาน</a></li></ul></li><li><a href="#open-ai-chart-audit-twelve-questions-explore" title="ให้ AI ตรวจกราฟด้วย 12 คำถาม (จุดอ่อนของกราฟ)">เสริม · Exploring</a><ul class="topic-submenu"><li><a href="#open-ai-chart-audit-twelve-questions-explore--ก่อนเริ่ม-ต้องมีอยู่แล้ว" data-sub>ก่อนเริ่ม (ต้องมีอยู่แล้ว)</a></li><li><a href="#open-ai-chart-audit-twelve-questions-explore--ขั้นตอน" data-sub>ขั้นตอน</a></li><li><a href="#open-ai-chart-audit-twelve-questions-explore--ข้อกำหนด" data-sub>ข้อกำหนด</a></li><li><a href="#open-ai-chart-audit-twelve-questions-explore--เกณฑ์ผ่าน" data-sub>เกณฑ์ผ่าน</a></li></ul></li></ul><button type="button" class="aside-toggle" data-aside-toggle aria-pressed="false">ซ่อนสไลด์ข้าง</button></nav><div class="topic-main"><section class="section markdown-section topic-panel" id="slides" aria-labelledby="slides-heading"><div class="section-heading compact"><p class="eyebrow">สไลด์</p><h2 id="slides-heading">สไลด์</h2></div><div class="markdown-body"><div class="slide-tools"><button type="button" class="slide-tool" data-fullscreen="#slide-frame-main">⛶ เต็มจอ</button><a class="slide-tool" href="downloads/topics/chart-pitfalls-and-makeover.pdf" target="_blank" rel="noopener">เปิดแท็บใหม่ ↗</a><a class="slide-tool" href="downloads/instructor-slides-f1464f310a04ae61/chart-pitfalls-and-makeover.pptx" download data-instructor-only hidden title="สำหรับผู้สอน: ไฟล์ PowerPoint พร้อม speaker notes">ดาวน์โหลด .pptx (ผู้สอน)</a></div><iframe id="slide-frame-main" class="slide-frame" src="downloads/topics/chart-pitfalls-and-makeover.pdf#view=FitH" title="สไลด์ กับดักกราฟ และการปรับกราฟให้พร้อมใช้" allowfullscreen></iframe></div></section>
+<section class="section markdown-section topic-panel" id="workshop-core" aria-labelledby="workshop-core-heading"><div class="section-heading compact"><p class="eyebrow">Workshop</p><h2 id="workshop-core-heading">กับดักกราฟ และการปรับกราฟให้พร้อมใช้</h2></div><div class="markdown-body"><p>ใน workshop นี้คุณจะให้ AI ตรวจกราฟใน notebook ของบทเรียน แก้กับดักที่พบ สร้างภาพที่ชื่อภาพพูดเท่าที่ตัวเลขรองรับ และเปิดไฟล์ส่งออกที่ขนาดใช้งานจริง</p>
 <h3 id="workshop-core--ก่อนเริ่ม-ต้องมีอยู่แล้ว">ก่อนเริ่ม (ต้องมีอยู่แล้ว)</h3>
 <ul>
-<li>ผ่าน workshop “อ่านข้อมูลและเลือกกราฟให้ตรงงานของผู้อ่าน”</li>
-<li>มี <code>module-07-work/chart-choice-notes.md</code> และโฟลเดอร์ <code>module-07-work/figures/</code></li>
 <li>เปิด AI panel ใน VS Code และเห็น <code>.venv-module07</code></li>
+<li>มี <code>course-materials/module-07/notebooks/module-07a-read-and-audit.ipynb</code> และ <code>module-07b-revise-and-publish.ipynb</code> · ถ้ายังไม่มี ให้สั่ง AI รัน <code>AIRR init module-7</code></li>
+<li>ไฟล์ใน <code>course-materials/module-07/</code> ติดตั้งโดย <code>AIRR init module-7</code> · อ่านอย่างเดียว · งานใหม่อยู่ใน <code>module-07-work/</code> และภาพฝึกอยู่ใน <code>module-07-work/figures/practice/</code> (สร้างเองได้ถ้ายังไม่มี)</li>
 </ul>
 <h3 id="workshop-core--คำที่ใช้ใน-workshop-นี้">คำที่ใช้ใน workshop นี้</h3>
 <ul>
 <li><strong>baseline</strong> — จุดอ้างอิงของแกน กราฟแท่งมักต้องเริ่มที่ศูนย์</li>
 <li><strong>dual axis</strong> — แกนตั้งสองข้างที่สเกลต่างกันและอาจทำให้ความสัมพันธ์ดูแรงเกินจริง</li>
 <li><strong>claim title</strong> — ชื่อภาพที่บอกข้อค้นพบซึ่งตัวเลขในภาพรองรับ</li>
-<li><strong>ขนาดหนึ่งคอลัมน์</strong> — ขนาดจริงเมื่อภาพอยู่ในคอลัมน์บทความ ต้องเปิดตรวจที่ 100%</li>
+<li><strong>ขนาดหนึ่งคอลัมน์</strong> — กว้างประมาณ 3.5 นิ้ว (8.9 ซม.) ขนาดจริงเมื่อภาพอยู่ในคอลัมน์บทความ ต้องเปิดตรวจที่ 100%</li>
 </ul>
 <hr>
+<h3 id="workshop-core--เริ่มหัวข้อ--ให้-ai-รู้ว่ากำลังทำโมดูลไหน">เริ่มหัวข้อ — ให้ AI รู้ว่ากำลังทำโมดูลไหน</h3>
+<p>ถ้าแชต AI เดิมทำโมดูลอื่นอยู่ ให้เปิดแชตใหม่ก่อน แล้ววาง prompt นี้</p>
+<div class="command ai-prompt"><code>เริ่ม Module 7 หัวข้อ "กับดักกราฟ และการปรับกราฟให้พร้อมใช้": รัน AIRR update แล้วรัน AIRR init module-7 (ต้องทำทุกครั้งที่เริ่มหัวข้อ ไฟล์ที่ฉันแก้แล้วจะไม่ถูกเขียนทับ) แล้วอ่านส่วน AIRR CONTEXT ที่ได้ ทำงานตามแผนที่ไฟล์ใน module-07-work/ เท่านั้น อ่าน input/ และ course-materials/ โดยห้ามแก้ และเขียนผลลงตำแหน่งที่หัวข้อนี้กำหนด</code><button type="button" data-copy="">คัดลอก</button></div><p><strong>ตรวจ:</strong> AI แสดง <code>AIRR INIT PASS · module-7</code> และบอกได้ว่าไฟล์ที่หัวข้อนี้ใช้อยู่ที่ไหน</p>
+<hr>
 <h3 id="workshop-core--ขั้นที่-1--ตรวจกราฟด้วยกับดักสี่แบบ">ขั้นที่ 1 — ตรวจกราฟด้วยกับดักสี่แบบ</h3>
-<p>ให้ AI อ่าน <code>course-materials/module-07/notebooks/module-07a-read-and-audit.ipynb</code> หัวข้อ Graph Clinic แล้วทำตารางสี่แถว: baseline ของกราฟแท่ง, dual axis, การเลือกช่วงเวลา/ค่าสะสม และหลาย panel ที่ใช้ตัวหารต่างกัน แต่ละแถวให้ระบุตำแหน่ง ปัญหา ผลต่อการตีความ วิธีแก้ และหลักฐานที่ใช้ตรวจ โดยห้ามแก้ notebook</p>
-<p>เปิดกราฟและโค้ดจริง ตรวจตารางทีละแถว แล้วบันทึกผลใน <code>module-07-work/graph-clinic-notes.md</code></p>
+<p>ให้ AI อ่าน <code>course-materials/module-07/notebooks/module-07a-read-and-audit.ipynb</code> หัวข้อ 4 “กราฟที่รันได้ แต่ยังใช้ไม่ได้” กรณีที่ 1–4 แล้วทำตารางสี่แถว: baseline ของกราฟแท่ง, dual axis, การเลือกช่วงเวลา/ค่าสะสม และหลาย panel ที่ใช้ตัวหารต่างกัน แต่ละแถวให้ระบุตำแหน่ง ปัญหา ผลต่อการตีความ วิธีแก้ และหลักฐานที่ใช้ตรวจ โดยห้ามแก้ notebook</p>
+<p>เปิดกราฟและโค้ดจริง ตรวจตารางทีละแถว (เทียบกับส่วน ข ของ <code>course-materials/module-07/templates/module-07-checklists.md</code>) แล้วบันทึกผลใน <code>module-07-work/graph-clinic-notes.md</code></p>
 <p><strong>ตรวจ:</strong> ทุกแถวมีตำแหน่งและหลักฐานจากกราฟหรือโค้ด ไม่ใช้คำตัดสินลอย ๆ ว่า “ทำให้เข้าใจผิด”</p>
 <hr>
 <h3 id="workshop-core--ขั้นที่-2--ทำกราฟฉบับพร้อมใช้">ขั้นที่ 2 — ทำกราฟฉบับพร้อมใช้</h3>
-<p>เลือกกราฟหนึ่งภาพ ให้ AI อ่าน Draft 2 ใน <code>module-07b-revise-and-publish.ipynb</code> แล้วสร้างสคริปต์ใหม่ใน <code>module-07-work/</code> ชื่อภาพต้องเป็น claim ที่คุณเขียนเอง คำบรรยายต้องมีหน่วย <code>n</code> และชนิด interval ส่งออก PDF และ SVG ไว้ใน <code>module-07-work/figures/</code> ห้ามแก้ notebook</p>
+<p>ให้ AI อ่านโค้ด Draft 2 (หัวข้อ 1 “Makeover”) ใน <code>course-materials/module-07/notebooks/module-07b-revise-and-publish.ipynb</code> แล้วสร้างสคริปต์ใหม่ใน <code>module-07-work/</code> ที่ใช้ median เป็นเส้นกลางและ IQR (ช่วง 25–75% ของ runs) เป็นแถบ ชื่อภาพต้องเป็น claim ที่คุณเขียนเอง คำบรรยายต้องมีหน่วย <code>n</code> และชนิด interval ส่งออก PDF กว้าง 3.5 นิ้ว, SVG และ PNG (≤ 2 MB สำหรับส่ง) ไว้ใน <code>module-07-work/figures/practice/</code> ห้ามแก้ notebook</p>
 <p><strong>ตรวจ:</strong> ทุกคำในชื่อภาพมีตัวเลขในภาพรองรับ และคำบรรยายระบุ IQR กับ <code>n</code> ตรงกับข้อมูล</p>
 <hr>
 <h3 id="workshop-core--ขั้นที่-3--เปิดตรวจที่ขนาดจริง">ขั้นที่ 3 — เปิดตรวจที่ขนาดจริง</h3>
-<p>เปิด PDF ที่ 100% เทียบกับ SVG ตรวจตัวอักษร แกน legend marker เส้น และสีในโหมดขาวดำ ถ้าอ่านไม่ได้ ให้แก้สคริปต์ต้นทางแล้วส่งออกใหม่</p>
-<p><strong>ตรวจ:</strong> ไฟล์ PDF/SVG เปิดได้ ตัวอักษรไม่ชนหรือขาด และภาพขาวดำยังแยกกลุ่มได้</p>
+<p>เปิด PDF ที่ 100% เทียบกับ SVG และ PNG ตรวจตัวอักษร แกน legend marker เส้น และสีในโหมดขาวดำ ถ้าอ่านไม่ได้ ให้แก้สคริปต์ต้นทางแล้วส่งออกใหม่</p>
+<p><strong>ตรวจ:</strong> ไฟล์ PDF/SVG/PNG เปิดได้ ตัวอักษรไม่ชนหรือขาด และภาพขาวดำยังแยกกลุ่มได้</p>
 <hr>
 <h3 id="workshop-core--ตรวจก่อนจบ-workshop">ตรวจก่อนจบ workshop</h3>
 <ul class="task-list">
 <li><label><input type="checkbox">ขั้น 1: <code>graph-clinic-notes.md</code> ตรวจครบสี่กับดักพร้อมหลักฐาน</label></li>
-<li><label><input type="checkbox">ขั้น 2: ชื่อภาพเป็น claim ที่ตัวเลขรองรับ และ caption มีหน่วย <code>n</code> กับ interval</label></li>
-<li><label><input type="checkbox">ขั้น 3: เปิด PDF/SVG ที่ 100% แล้วอ่านได้ทั้งสีและขาวดำ</label></li>
-<li><label><input type="checkbox">สคริปต์และภาพใหม่อยู่ใน <code>module-07-work/</code>; <code>course-materials/</code> ไม่ถูกแก้</label></li>
+<li><label><input type="checkbox">ขั้น 2: ชื่อภาพเป็น claim ที่ตัวเลขรองรับ และ caption มีหน่วย <code>n</code> กับ IQR</label></li>
+<li><label><input type="checkbox">ขั้น 3: เปิด PDF/SVG/PNG ที่ 100% แล้วอ่านได้ทั้งสีและขาวดำ</label></li>
+<li><label><input type="checkbox">สคริปต์อยู่ใน <code>module-07-work/</code> ภาพอยู่ใน <code>module-07-work/figures/practice/</code>; <code>course-materials/</code> ไม่ถูกแก้</label></li>
 </ul>
-<p>ผลจากหัวข้อนี้ยังไม่ส่งแยก ให้นำภาพไปใช้ในหัวข้อ “จากข้อมูลสู่ highlights ที่ตรวจย้อนได้”</p>
+<p>ผลจากหัวข้อนี้ยังไม่ส่งแยก ถ้าจะใช้ภาพใดในหัวข้อ “จากข้อมูลสู่ highlights ที่ตรวจย้อนได้” ให้ย้ายเฉพาะ PNG นั้นขึ้นไปไว้ใน <code>module-07-work/figures/</code></p>
 </div></section>
-<section class="section markdown-section topic-panel" id="open-explore" aria-labelledby="open-explore-heading"><div class="section-heading compact"><p class="eyebrow">Exploring</p><h2 id="open-explore-heading">กับดักกราฟ และการปรับกราฟให้พร้อมใช้</h2></div><div class="markdown-body"><p>เลือกกราฟจากงานของคุณหนึ่งภาพ หรือใช้กราฟชุดฝึกสำรอง แล้วเขียน prompt เองทั้งหมด</p>
+<section class="section markdown-section topic-panel" id="open-explore" aria-labelledby="open-explore-heading"><div class="section-heading compact"><p class="eyebrow">Exploring</p><h2 id="open-explore-heading">กับดักกราฟ และการปรับกราฟให้พร้อมใช้</h2></div><div class="markdown-body"><p>เลือกกราฟจากงานของคุณหนึ่งภาพ แล้วเขียน prompt เองทั้งหมด ถ้าไม่มีกราฟของตัวเอง ให้ AI วาดกราฟหนึ่งภาพจาก <code>course-materials/module-07/examples/figure-consistency/mock-study-data.csv</code> (คำอธิบายคอลัมน์: <code>mock-study-data-columns.md</code> ในโฟลเดอร์เดียวกัน)</p>
 <h3 id="open-explore--โจทย์">โจทย์</h3>
 <ol type="1">
-<li>ตรวจ baseline, dual axis, ช่วงเวลาหรือค่าสะสม และตัวหารข้าม panel</li>
+<li>ตรวจ baseline, dual axis, ช่วงเวลาหรือค่าสะสม และตัวหารข้าม panel (ส่วน ข ของ <code>course-materials/module-07/templates/module-07-checklists.md</code>)</li>
 <li>ปรับกราฟให้มี claim title, caption, หน่วย, <code>n</code> และ interval</li>
-<li>ส่งออก PDF/SVG ขนาดใช้งานจริงและตรวจที่ 100% ทั้งสีและขาวดำ</li>
+<li>ส่งออก PDF/SVG ขนาดหนึ่งคอลัมน์ (กว้าง ≈ 3.5 นิ้ว) และตรวจที่ 100% ทั้งสีและขาวดำ</li>
 </ol>
 <h3 id="open-explore--ข้อกำหนด">ข้อกำหนด</h3>
 <ul>
-<li>เก็บต้นฉบับเดิมและภาพหลังแก้แยกกัน</li>
-<li>เก็บ prompt และเหตุผลที่แก้ไว้ใน <code>module-07-work/output/prompts.md</code></li>
-<li>ระบุอย่างน้อยหนึ่งข้อเสนอของ AI ที่คุณไม่รับ พร้อมหลักฐาน</li>
+<li>จด prompt ทุกรอบใน <code>module-07-work/output/prompts.md</code> (มีตารางว่างให้แล้ว)</li>
+<li>คัดลอกข้อมูลหรือภาพต้นฉบับไว้ที่ <code>module-07-work/input/original/</code> และห้ามแก้ · งานใหม่ไว้ที่ <code>module-07-work/output/</code></li>
+<li>ใช้เฉพาะข้อมูลที่มีสิทธิ์นำเข้า AI · บันทึกอย่างน้อยหนึ่งข้อเสนอของ AI ที่คุณไม่รับ พร้อมหลักฐาน</li>
 </ul>
 <h3 id="open-explore--เกณฑ์ผ่าน">เกณฑ์ผ่าน</h3>
 <ul class="task-list">
 <li><label><input type="checkbox">มีบันทึกก่อน–หลังและเหตุผลที่ตรวจย้อนข้อมูลได้</label></li>
 <li><label><input type="checkbox">ชื่อภาพไม่อ้างเกินตัวเลขในภาพ</label></li>
 <li><label><input type="checkbox">PDF/SVG อ่านได้ที่ 100% และไม่ใช้สีเป็นสัญญาณเพียงอย่างเดียว</label></li>
-<li><label><input type="checkbox"><code>prompts.md</code> แสดงการปรับ promptอย่างน้อยหนึ่งรอบพร้อมเหตุผล</label></li>
+<li><label><input type="checkbox"><code>prompts.md</code> แสดงการปรับ prompt อย่างน้อยหนึ่งรอบพร้อมเหตุผล</label></li>
 </ul>
 </div></section>
-<section class="section markdown-section topic-panel" id="workshop-ai-chart-audit-twelve-questions" aria-labelledby="workshop-ai-chart-audit-twelve-questions-heading"><div class="section-heading compact"><p class="eyebrow">เสริม · Workshop</p><h2 id="workshop-ai-chart-audit-twelve-questions-heading">ให้ AI ตรวจกราฟด้วย 12 คำถาม (จุดอ่อนของกราฟ)</h2></div><div class="markdown-body"><p>ใน workshop นี้คุณจะให้ AI ตรวจกราฟที่คุณทำไว้ใน <code>module-07-work/figures/</code> ด้วยรายการ 12 คำถาม ตรวจทุกข้อที่ AI รายงานด้วยตาตัวเอง แล้วสร้างตาราง <code>module-07-work/chart-audit-12.md</code> ที่บอกว่าแก้หรือไม่แก้ข้อใดเพราะอะไร</p>
-<p>ใช้กราฟที่ทำจากข้อมูล PM2.5 จำลองหรือจาก notebook ของบทเรียน ไม่ต้องสร้าง mock เพิ่ม</p>
+<section class="section markdown-section topic-panel" id="workshop-ai-chart-audit-twelve-questions" aria-labelledby="workshop-ai-chart-audit-twelve-questions-heading"><div class="section-heading compact"><p class="eyebrow">เสริม · Workshop</p><h2 id="workshop-ai-chart-audit-twelve-questions-heading">ให้ AI ตรวจกราฟด้วย 12 คำถาม (จุดอ่อนของกราฟ)</h2></div><div class="markdown-body"><p>ใน workshop นี้คุณจะให้ AI ตรวจกราฟที่คุณทำไว้ใน <code>module-07-work/</code> ด้วยรายการ 12 คำถาม ตรวจทุกข้อที่ AI รายงานด้วยตาตัวเอง แล้วสร้างตาราง <code>module-07-work/chart-audit-12.md</code> ที่บอกว่าแก้หรือไม่แก้ข้อใดเพราะอะไร</p>
 <h3 id="workshop-ai-chart-audit-twelve-questions--ก่อนเริ่ม-ต้องมีอยู่แล้ว">ก่อนเริ่ม (ต้องมีอยู่แล้ว)</h3>
 <ul>
-<li>ผ่าน Module 1: เปิด <code>ai-for-research-workspace</code> ใน VS Code และ AI panel เชื่อมแล้ว · Python ของโมดูล <code>.venv-module07</code> (ตัวติดตั้ง Module 1 สร้างไว้)</li>
-<li>กราฟใน <code>module-07-work/figures/</code> ที่ AI สร้างให้คุณใน Prompt activities ก่อนหน้า (เช่น Graph Clinic และ Makeover ของหัวข้อนี้ หรือ "การรับรู้ การเข้ารหัส และสีที่มีหน้าที่") หรือจากกิจกรรม <code>evidence-backed-data-highlights</code> (หัวข้อ <a href="topic-data-highlights-with-evidence.html">จากข้อมูลสู่ highlights ที่ตรวจย้อนได้</a>) ถ้าทำแล้ว
-<ul>
-<li>ถ้ายังไม่มีกราฟของตนเอง ใช้กราฟจาก <code>course-materials/module-07/notebooks/module-07a-read-and-audit.ipynb</code> (ติดตั้งมากับ Module 1) แทน</li>
-</ul></li>
-<li>ข้อมูลต้นทางของกราฟ: <code>course-materials/module-07/examples/figure-consistency/mock-study-data.csv</code> (ติดตั้งมากับ Module 1 · อ่านอย่างเดียว)</li>
+<li>เปิด <code>ai-for-research-workspace</code> ใน VS Code, AI panel เชื่อมแล้ว และมี <code>.venv-module07</code></li>
+<li>ไฟล์ใน <code>course-materials/module-07/</code> ติดตั้งโดย <code>AIRR init module-7</code> · อ่านอย่างเดียว</li>
+<li>กราฟใดก็ได้ใน <code>module-07-work/figures/</code> หรือ <code>module-07-work/figures/practice/</code> · ถ้ายังว่าง ให้ AI วาดกราฟจาก <code>course-materials/module-07/examples/figure-consistency/mock-study-data.csv</code> หนึ่งภาพไว้ใน <code>figures/practice/</code> ก่อน (คำอธิบายคอลัมน์: <code>mock-study-data-columns.md</code> ในโฟลเดอร์เดียวกัน)</li>
 </ul>
 <h3 id="workshop-ai-chart-audit-twelve-questions--12-คำถาม-ก่อนใช้กราฟ">12 คำถาม ก่อนใช้กราฟ</h3>
 <ol type="1">
@@ -109,7 +109,7 @@
 </ol>
 <h3 id="workshop-ai-chart-audit-twelve-questions--ขั้นตอน">ขั้นตอน</h3>
 <ol type="1">
-<li><p>วาง prompt นี้ใน AI panel ให้ AI ตรวจกราฟใน <code>module-07-work/figures/</code></p>
+<li><p>วาง prompt นี้ใน AI panel (เปลี่ยนโฟลเดอร์ใน prompt ถ้ากราฟอยู่ใน <code>figures/practice/</code>)</p>
 <div class="command ai-prompt"><code>ตรวจกราฟทุกภาพใน module-07-work/figures/ ตามรายการ 12 ข้อ “จุดอ่อนของกราฟ” รายงานเป็นตาราง: ข้อ, พบหรือไม่พบ, หลักฐานที่เห็นในภาพหรือข้อมูล, วิธีแก้ที่เสนอ ยังไม่ต้องแก้ไฟล์ใด ๆ และบอกตรง ๆ ถ้าข้อใดตรวจจากภาพอย่างเดียวไม่ได้</code><button type="button" data-copy="">คัดลอก</button></div><p>(ถ้า AI ยังไม่รู้จักรายการ 12 ข้อ ให้วางรายการด้านบนต่อท้าย prompt)</p></li>
 <li><p>อ่านทีละข้อที่ AI บอกว่า "พบ" แล้วเปิดภาพดูเองว่าจริงไหม</p></li>
 <li><p>สร้างไฟล์ <code>module-07-work/chart-audit-12.md</code> เป็นตารางตรวจ 12 ข้อของกราฟคุณ: ข้อ | AI บอกว่า | คุณตรวจแล้วพบว่า | แก้/ไม่แก้ + เหตุผล และจดข้อที่ AI รายงานผิด หรือข้อที่ AI ตรวจจากภาพไม่ได้ (เช่น ข้อ 7 ต้องดูจากข้อมูล)</p></li>
@@ -119,38 +119,34 @@
 <ul class="task-list">
 <li><label><input type="checkbox"><code>module-07-work/chart-audit-12.md</code> มีครบ 12 ข้อ ทุกข้อมีผลที่คุณตรวจเอง และเหตุผลว่าแก้หรือไม่แก้</label></li>
 <li><label><input type="checkbox">ไฟล์เดียวกันระบุข้อที่ AI รายงานผิด หรือข้อที่ตรวจจากภาพอย่างเดียวไม่ได้</label></li>
-<li><label><input type="checkbox">กราฟใน <code>module-07-work/figures/</code> ถูกแก้เฉพาะข้อที่คุณเห็นด้วย</label></li>
+<li><label><input type="checkbox">กราฟถูกแก้เฉพาะข้อที่คุณเห็นด้วย</label></li>
 <li><label><input type="checkbox"><code>course-materials/module-07/examples/figure-consistency/mock-study-data.csv</code> ไม่ถูกแก้</label></li>
 </ul>
 <h3 id="workshop-ai-chart-audit-twelve-questions--ส่งงาน">ส่งงาน</h3>
 <ul>
-<li>หัวข้อนี้ไม่ส่งแยก เก็บผลไว้ใน <code>module-07-work/</code> แล้วนำไปใช้ในกิจกรรม <code>evidence-backed-data-highlights</code> (หัวข้อ <a href="topic-data-highlights-with-evidence.html">จากข้อมูลสู่ highlights ที่ตรวจย้อนได้</a>) ซึ่งส่งผ่าน AIRR</li>
+<li>หัวข้อนี้ไม่ส่งแยก เก็บผลไว้ใน <code>module-07-work/</code> แล้วนำไปใช้ในหัวข้อ “จากข้อมูลสู่ highlights ที่ตรวจย้อนได้” ซึ่งส่งผ่าน AIRR</li>
 </ul>
 </div></section>
 <section class="section markdown-section topic-panel" id="open-ai-chart-audit-twelve-questions-explore" aria-labelledby="open-ai-chart-audit-twelve-questions-explore-heading"><div class="section-heading compact"><p class="eyebrow">เสริม · Exploring</p><h2 id="open-ai-chart-audit-twelve-questions-explore-heading">ให้ AI ตรวจกราฟด้วย 12 คำถาม (จุดอ่อนของกราฟ)</h2></div><div class="markdown-body"><p>ใน Exploring workshop นี้คุณจะออกแบบ prompt เองให้ AI ตรวจกราฟ 2–3 ภาพในงานของคุณด้วยรายการ 12 คำถาม ตรวจซ้ำทุกข้อด้วยตัวเอง แล้วได้ตาราง <code>module-07-work/output/twelve-question-audit.md</code></p>
-<p>ผู้เรียนเขียน prompt เอง ไม่มี prompt สำเร็จรูปให้</p>
 <h3 id="open-ai-chart-audit-twelve-questions-explore--ก่อนเริ่ม-ต้องมีอยู่แล้ว">ก่อนเริ่ม (ต้องมีอยู่แล้ว)</h3>
 <ul>
-<li>ผ่าน Module 1: เปิด <code>ai-for-research-workspace</code> ใน VS Code และ AI panel เชื่อมแล้ว · โฟลเดอร์ <code>module-07-work/</code> (ตัวติดตั้ง Module 1 สร้างไว้)</li>
-<li>รายการ 12 คำถามจาก workshop "ให้ AI ตรวจกราฟด้วย 12 คำถาม" ของหัวข้อนี้</li>
+<li>รายการ 12 คำถาม: ส่วน ค ของ <code>course-materials/module-07/templates/module-07-checklists.md</code></li>
 <li>กราฟ 2–3 ภาพจากบทความหรือร่างที่กำลังเขียน (ของคุณหรือของนิสิต) ที่คุณมีข้อมูลต้นทางหรือโค้ด และมีสิทธิ์นำเข้า AI
 <ul>
-<li>ถ้ายังไม่มี: ใช้ <code>course-materials/module-07/examples/figure-consistency/mock-study-data.csv</code> (ติดตั้งมากับ Module 1) หรือ<a href="module-7-thailand-population-lab.html">กรณีฝึกสำรองประชากรไทย</a> (ข้อมูลเปิด ให้ AI ดาวน์โหลดและทำใบรับข้อมูลตามหน้านั้น)</li>
+<li>ถ้ายังไม่มี: ให้ AI วาดกราฟ 2–3 ภาพจาก <code>course-materials/module-07/examples/figure-consistency/mock-study-data.csv</code> (คำอธิบายคอลัมน์: <code>mock-study-data-columns.md</code> ในโฟลเดอร์เดียวกัน)</li>
 </ul></li>
 </ul>
 <h3 id="open-ai-chart-audit-twelve-questions-explore--ขั้นตอน">ขั้นตอน</h3>
 <ol type="1">
-<li>สร้างโฟลเดอร์ <code>module-07-work/output/</code> และไฟล์ <code>module-07-work/output/prompts.md</code> (ถ้ามีจาก Exploring workshop ข้ออื่นแล้ว ให้เพิ่มหัวข้อใหม่ต่อท้าย) ไว้จดทุกรอบเป็น prompt → สรุปคำตอบของ AI → สิ่งที่คุณตัดสินใจ</li>
 <li>ออกแบบ prompt ให้ AI ตรวจด้วยรายการ 12 คำถาม โดยให้ AI แยกข้อที่ตรวจจากภาพได้ กับข้อที่ต้องดูข้อมูล/โค้ด</li>
 <li>ตรวจทุกข้อที่ AI รายงานด้วยตนเอง อย่างน้อย 1 ข้อตรวจกับข้อมูลต้นทางหรือโค้ด (เช่น ข้อ 7 หรือข้อ 12)</li>
 <li>สร้าง <code>module-07-work/output/twelve-question-audit.md</code> เป็นตาราง: ข้อ | AI บอกว่า | คุณตรวจแล้วพบว่า | หลักฐาน | แก้/ไม่แก้ + เหตุผล แล้วตัดสินว่าแก้หรือไม่แก้</li>
 </ol>
 <h3 id="open-ai-chart-audit-twelve-questions-explore--ข้อกำหนด">ข้อกำหนด</h3>
 <ul>
-<li>เขียน prompt เองทุกข้อ ไม่ใช้ prompt สำเร็จรูปจาก workshop และจดทุกรอบใน <code>module-07-work/output/prompts.md</code></li>
-<li>ระบุว่าตรวจผลของ AI อย่างไร (เปิดภาพดูเอง คำนวณเอง หรือเปิดข้อมูลต้นทาง) และแก้อะไรเอง</li>
-<li>ข้อมูลที่ไม่มีสิทธิ์นำเข้า AI (ข้อมูลส่วนบุคคล ข้อมูลลับ manuscript ที่ยังไม่เผยแพร่) ให้ใช้ข้อมูลจำลอง/ข้อมูลเปิดแทน</li>
-<li>ถ้า AI เสนอวิธีทางสถิติที่คุณอธิบายเหตุผลไม่ได้ ให้หยุดและปรึกษาผู้เชี่ยวชาญก่อนใช้ผล</li>
+<li>จด prompt ทุกรอบใน <code>module-07-work/output/prompts.md</code> (มีตารางว่างให้แล้ว)</li>
+<li>คัดลอกข้อมูลหรือภาพต้นฉบับไว้ที่ <code>module-07-work/input/original/</code> และห้ามแก้ · งานใหม่ไว้ที่ <code>module-07-work/output/</code></li>
+<li>ใช้เฉพาะข้อมูลที่มีสิทธิ์นำเข้า AI · ถ้า AI เสนอวิธีทางสถิติที่คุณอธิบายเหตุผลไม่ได้ ให้หยุดและปรึกษาผู้เชี่ยวชาญก่อนใช้ผล</li>
 </ul>
 <h3 id="open-ai-chart-audit-twelve-questions-explore--เกณฑ์ผ่าน">เกณฑ์ผ่าน</h3>
 <ul class="task-list">

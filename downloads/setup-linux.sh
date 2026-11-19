@@ -267,7 +267,7 @@ make_workspace() {
 configure_vscode() {
   have code || { log 'PREREQUISITE_MISSING VS Code CLI not found. Finish the VS Code/WSL setup, then rerun --setup-user.'; exit 2; }
   profile="AI for Research - $agent"
-  extensions=(mathematic.vscode-pdf mechatroner.rainbow-csv AykutSarac.jsoncrack-vscode)
+  extensions=(mathematic.vscode-pdf mechatroner.rainbow-csv AykutSarac.jsoncrack-vscode imfing.office-viewer-vscode)
   case "$agent" in
     codex) extensions=(openai.chatgpt ganymede404.vscode-codex-usage "${extensions[@]}") ;;
     claude) extensions=(anthropic.claude-code growthjack.claude-code-usage "${extensions[@]}") ;;
