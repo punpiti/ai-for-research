@@ -225,7 +225,13 @@ def windows_temp() -> Path | None:
     if not shutil.which("powershell.exe") or not shutil.which("wslpath"):
         return None
     raw = subprocess.run(["cmd.exe", "/c", "echo %TEMP%"], capture_output=True, text=True, cwd="/mnt/c").stdout.strip()
-    return Path(subprocess.run(["wslpath", "-u", raw], capture_output=True, text=True, check=True).stdout.strip())
+    if not raw or "%" in raw:  # cmd.exe interop can return nothing; ask PowerShell instead
+        raw = subprocess.run(["powershell.exe", "-NoProfile", "-Command", "$env:TEMP"],
+                             capture_output=True, text=True, cwd="/mnt/c").stdout.strip()
+    path = Path(subprocess.run(["wslpath", "-u", raw], capture_output=True, text=True, check=True).stdout.strip()) if raw else None
+    # a relative path here would land in the current folder and break the PowerShell drivers (seen on black5)
+    assert path is not None and path.is_absolute(), f"Could not find the Windows TEMP folder (got {raw!r})"
+    return path
 
 
 def win(path: Path) -> str:
