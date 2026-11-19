@@ -271,7 +271,7 @@ check_file "$site_dir/module-2.html" "M2 website evidence" 'module-2-food-case\.
 check_file "$site_dir/module-2.html" "M2 prepared download" 'เราเตรียมข้อมูลไว้ให้แล้ว'
 check_file "$site_dir/module-2.html" "M2 bundle download" 'downloads/module-02-food-evidence\.zip'
 check_file "$site_dir/module-2.html" "M2 first data prompt" 'Prompt แรกใช้บริหารจัดการข้อมูล'
-check_file "$site_dir/module-2.html" "M2 safe extraction" 'path ภายในไม่เขียนออกนอกโฟลเดอร์ปลายทาง'
+check_file "$site_dir/module-2.html" "M2 extraction by airr init" 'ดาวน์โหลดและแตกชุดตัวอย่างไว้ให้'  # path safety is enforced by the AIRR client (extract_zip_once)
 check_file "$site_dir/module-2.html" "M2 import report" 'import-report\.md'
 check_file "$site_dir/module-2.html" "M2 live web retrieval" '06-web-source\.txt.*live_url|อ่าน 06-web-source\.txt'
 check_file "$site_dir/module-2.html" "M2 web provenance" 'final URL, เวลาเข้าถึง, HTTP status, content type และ SHA-256'
