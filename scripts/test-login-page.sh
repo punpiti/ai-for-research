@@ -14,7 +14,7 @@ if grep -Eq 'Development login|data-dev-login|student-00[1-5]@ku\.th|instructor-
 fi
 grep -q 'role="status" aria-live="polite"' "$page"
 grep -q 'noindex,nofollow' "$page"
-grep -q 'body class="login-body"' "$page"
+grep -Eq 'body class="([^"]* )?login-body( [^"]*)?"' "$page"
 grep -q '/api/ai-for-research/classrooms/auth/google' "$root/assets/login.js"
 if grep -Eq 'auth/preview|Development login|student-00[1-5]@ku\.th|instructor-00[1-2]@ku\.th|admin@ku\.th' "$root/assets/login.js"; then
   echo 'Production login JavaScript must not contain preview endpoints or dummy accounts.' >&2
