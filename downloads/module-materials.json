@@ -122,6 +122,83 @@
   "module-4": {
    "files": [
     {
+     "kind": "mock",
+     "url": "topics/reference-existence-vs-citation-support/mock/retracted-cases.md",
+     "path": "module-04-work/retracted/README.md",
+     "sha256": "43768534ff4ba36d9b62c5dbdac3559110d344ccc4ce443253f1a9af129e1c1d",
+     "bytes": 4592
+    },
+    {
+     "kind": "mock",
+     "url": "module-04-retracted/A-paper.pdf",
+     "path": "module-04-work/retracted/A/paper.pdf",
+     "sha256": "74891e271be6b63ff6638d2e30a9687a732d7777c7862f6cd1f8173d52cc40e9",
+     "bytes": 335149
+    },
+    {
+     "kind": "mock",
+     "url": "module-04-retracted/A-retraction-notice.md",
+     "path": "module-04-work/retracted/A/answer/retraction-notice.md",
+     "sha256": "8da8a04b35f9106ae86f65d924de2d6847b91d18f10df03a9cc885d013cc56df",
+     "bytes": 1425
+    },
+    {
+     "kind": "mock",
+     "url": "module-04-retracted/B-paper.pdf",
+     "path": "module-04-work/retracted/B/paper.pdf",
+     "sha256": "10c33e8aaf192254acb2ca74ebedbff6b0db7f155cc5f0c311c2a733a5486583",
+     "bytes": 1916259
+    },
+    {
+     "kind": "mock",
+     "url": "module-04-retracted/B-retraction-notice.md",
+     "path": "module-04-work/retracted/B/answer/retraction-notice.md",
+     "sha256": "d48afd79d657c065e0f1b46f9dd04f8abfe101e98db0e623a8f3601ceb493d09",
+     "bytes": 1557
+    },
+    {
+     "kind": "mock",
+     "url": "module-04-retracted/C-paper.pdf",
+     "path": "module-04-work/retracted/C/paper.pdf",
+     "sha256": "f4597c9b125d6b3f40582a8aafa812cb97aaf61826d2ec823ce6fac20c870938",
+     "bytes": 1507509
+    },
+    {
+     "kind": "mock",
+     "url": "module-04-retracted/C-retraction-notice.md",
+     "path": "module-04-work/retracted/C/answer/retraction-notice.md",
+     "sha256": "40aa14fe55497e0f7a74500ff66523da9a4bb4799e7bffc43d41ccb19b4552f9",
+     "bytes": 2084
+    },
+    {
+     "kind": "mock",
+     "url": "module-04-retracted/D-paper.pdf",
+     "path": "module-04-work/retracted/D/paper.pdf",
+     "sha256": "fe6d270b7f3d9a22579e1aa24ef6c490a398feb67958e7331b5a62818dd9d3bb",
+     "bytes": 1517058
+    },
+    {
+     "kind": "mock",
+     "url": "module-04-retracted/D-retraction-notice.md",
+     "path": "module-04-work/retracted/D/answer/retraction-notice.md",
+     "sha256": "9806e861e9fd20446f0419cdd1e24f23f344cc9c89e8a31f03cab34fc24a1e38",
+     "bytes": 1737
+    },
+    {
+     "kind": "mock",
+     "url": "module-04-retracted/E-paper.pdf",
+     "path": "module-04-work/retracted/E/paper.pdf",
+     "sha256": "fe69e52e2124a19a0a16f641820911e9fd92198c068378cc3eec2a82153b8485",
+     "bytes": 1162898
+    },
+    {
+     "kind": "mock",
+     "url": "module-04-retracted/E-retraction-notice.md",
+     "path": "module-04-work/retracted/E/answer/retraction-notice.md",
+     "sha256": "991dbc99bbba65780e8b62e152d95791dc9e021321400434534afaaac2dfb97e",
+     "bytes": 1831
+    },
+    {
      "kind": "api",
      "module": "module-4",
      "name": "citation-audit-rules.md",
