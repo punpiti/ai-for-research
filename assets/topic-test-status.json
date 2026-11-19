@@ -48,11 +48,11 @@
   },
   "citation-register-with-openalex": {
    "status": "ready",
-   "note": ""
+   "note": "สไลด์ใหม่ 19 พ.ย."
   },
   "reference-existence-vs-citation-support": {
    "status": "ready",
-   "note": ""
+   "note": "สไลด์ใหม่ 19 พ.ย."
   },
   "thai-reference-verification": {
    "status": "ready",
@@ -60,23 +60,23 @@
   },
   "chart-pitfalls-and-makeover": {
    "status": "ready",
-   "note": ""
+   "note": "สไลด์ใหม่ 19 พ.ย."
   },
   "data-highlights-with-evidence": {
    "status": "ready",
-   "note": ""
+   "note": "สไลด์ใหม่ 19 พ.ย."
   },
   "reading-data-and-choosing-charts": {
    "status": "ready",
-   "note": ""
+   "note": "สไลด์ใหม่ 19 พ.ย."
   },
   "bibtex-abstract-audit-literature-map": {
    "status": "ready",
-   "note": ""
+   "note": "สไลด์ใหม่ 19 พ.ย."
   },
   "journal-fit-and-venue-switch": {
    "status": "ready",
-   "note": ""
+   "note": "สไลด์ใหม่ 19 พ.ย."
   },
   "kuthesis-thai-thesis-template": {
    "status": "ready",
@@ -84,15 +84,15 @@
   },
   "markdown-single-source-latex-pdf-build": {
    "status": "ready",
-   "note": ""
+   "note": "สไลด์ใหม่ 19 พ.ย."
   },
   "paragraph-contract-reverse-check": {
    "status": "ready",
-   "note": ""
+   "note": "สไลด์ใหม่ 19 พ.ย."
   },
   "pdf-qa-submission-readiness": {
    "status": "ready",
-   "note": ""
+   "note": "สไลด์ใหม่ 19 พ.ย."
   },
   "csv-rows-columns-units": {
    "status": "ready",
@@ -208,8 +208,6 @@
    "multiformat-evidence-and-source-levels",
    "faithful-summary-and-condensing",
    "explore-topic-with-openalex",
-   "problem-statement-diagnosis-with-locations",
-   "verify-critique-and-revise",
    "reference-existence-vs-citation-support",
    "citation-register-with-openalex",
    "reading-data-and-choosing-charts",
