@@ -188,6 +188,7 @@ def init_test() -> None:
     """`airr init module-N` downloads the module's files once, never overwrites learner work,
     puts a changed course file in .course-updates/, and needs AIRR only for login-protected files."""
     import hashlib
+    import zipfile
     with tempfile.TemporaryDirectory(prefix="airr-init-") as folder:
         root = Path(folder); web = root / "web"; workspace = root / "ws"
         (web / "course").mkdir(parents=True); workspace.mkdir()
@@ -220,13 +221,38 @@ def init_test() -> None:
         assert (workspace / ".course-updates/course-materials/module-09/rules.md").read_bytes() == b"rules v2\n"
         (workspace / ".airr").mkdir()
         (workspace / ".airr/config.json").write_text(json.dumps({"schema_version": "airr.workspace.v1", "api_base": "https://example.test/api/airr/v1", "api_key": "airr_x", "classroom_id": "c"}), encoding="utf-8")
+        archive = io.BytesIO()
+        with zipfile.ZipFile(archive, "w") as bundle:
+            bundle.writestr("README.md", "course evidence\n")
+            bundle.writestr("data/table.csv", "value\n1\n")
+        zip_bytes = archive.getvalue()
+        manifest["modules"]["module-9"]["files"][2] = {
+            "kind": "api", "module": "module-9", "name": "evidence.zip",
+            "path": "module-09-work/input/original/evidence.zip",
+            "extract": True, "refresh": False,
+        }
+        (web / "module-materials.json").write_text(json.dumps(manifest), encoding="utf-8")
         original = client.request_bytes
-        client.request_bytes = lambda u, key: b"pdf:" + u.encode()
+        client.request_bytes = lambda u, key: zip_bytes
         try:
             call()
         finally:
             client.request_bytes = original
-        assert (workspace / "module-09-work/input/original/paper.pdf").read_bytes() == b"pdf:https://example.test/api/airr/v1/modules/module-9/materials/paper.pdf"
+        extracted = workspace / "module-09-work/input/original/evidence"
+        assert (extracted / "README.md").read_text() == "course evidence\n"
+        assert (extracted / "data/table.csv").read_text() == "value\n1\n"
+        (extracted / "README.md").write_text("learner edit\n")
+        call()
+        assert (extracted / "README.md").read_text() == "learner edit\n"
+        unsafe = root / "unsafe.zip"
+        with zipfile.ZipFile(unsafe, "w") as bundle:
+            bundle.writestr("../outside.txt", "blocked\n")
+        try:
+            client.extract_zip_once(unsafe, workspace / "module-09-work/input/unsafe", workspace)
+            raise AssertionError("unsafe ZIP was accepted")
+        except client.AIRRError:
+            pass
+        assert not (root / "outside.txt").exists()
         manifest["modules"]["module-9"]["files"] = [{"kind": "copy", "from": "../outside.txt", "path": "module-09-work/x.txt"}]
         (web / "module-materials.json").write_text(json.dumps(manifest), encoding="utf-8")
         with contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(io.StringIO()):

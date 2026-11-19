@@ -32,13 +32,17 @@
       <p>หิว → กิน → อิ่ม · ใช้ Prompt กับชุดอาหาร แล้วดูว่าคำตอบและผลงานเปลี่ยนอย่างไร</p>
     </section>
 
-    <section class="section" data-module-2-step="prepare"><div class="plain-note"><strong>ทำทีละ Prompt แล้วหยุดดูผล</strong> <a href="downloads/module-02-food-evidence.zip" download>ดาวน์โหลด ZIP</a> วางใน <code>module-02-work/input/original/</code> ไม่ต้องเตรียมเอกสารเอง <a href="prepare.html#project-basics">ทบทวน Module 1</a></div></section>
+    <section class="section" data-module-2-step="prepare"><div class="plain-note"><strong>ทำทีละ Prompt แล้วหยุดดูผล</strong> คำสั่ง <code>airr init module-2</code> ดาวน์โหลดและแตกชุดตัวอย่างไว้ให้เปิดใน VS Code แล้ว ไม่ต้องเตรียมเอกสารเอง <a href="prepare.html#project-basics">ทบทวน Module 1</a></div></section>
 
     <section class="section" data-module-2-step="prepare"><div class="notice"><strong>เลือกตามความพร้อม:</strong> ถ้าสั่ง AI อ่านไฟล์และตรวจคำตอบกับต้นฉบับได้แล้ว ข้ามไป Module 3 ได้ <a href="module-3.html">ไป Module 3 →</a></div></section>
     <section class="section" id="prompt-start" data-module-2-step="prepare" data-prompt-observe>
       <div class="section-heading compact"><h2>เริ่ม · เปิดชุดที่เตรียมให้</h2></div>
-      <div class="command markdown-command"><code>ใช้ module-02-food-evidence.zip ใน module-02-work/input/original/ ตรวจรายการและแตกไฟล์อย่างปลอดภัยโดยไม่เขียนทับต้นฉบับ ถ้าไม่พบ ZIP ให้ถามฉันก่อน
-แสดงรายการไฟล์ที่อ่านได้และอ่านไม่ได้ แล้วหยุดรอ ยังไม่ตอบเรื่องอาหาร</code><button type="button" data-copy>คัดลอก เริ่ม</button></div>
+      <div class="command markdown-command"><code>ตอนนี้เราจะทำ AIRR Module 2 เรื่องการตรวจคำตอบของ AI กับหลักฐานหลายรูปแบบ
+ก่อนทำอย่างอื่น ให้รันเครื่องมือ AIRR ในโฟลเดอร์ tools/ ด้วยคำสั่ง init module-2 เสมอ แม้เคยทำโมดูลนี้แล้ว
+แสดงผลของคำสั่งให้ฉันดู ถ้ามี AIRR SKIP หรือคำสั่งไม่สำเร็จ ให้หยุดและบอกว่าต้องแก้อะไรก่อน
+ใช้เฉพาะไฟล์ใน module-02-work/input/original/module-02-food-evidence/ สำหรับกิจกรรมนี้
+อ่าน README.md ก่อน แล้วแสดงรายชื่อไฟล์ทั้ง 9 ไฟล์พร้อมบอกว่าแต่ละไฟล์อ่านได้หรืออ่านไม่ได้
+จากนั้นหยุดรอ ยังไม่ตอบคำถามเรื่องอาหาร</code><button type="button" data-copy>คัดลอก เริ่ม</button></div>
       <div class="done-shows"><strong>เสร็จแล้วจะเห็น</strong><p>AI แสดงรายการไฟล์ที่อ่านได้และอ่านไม่ได้ แล้วหยุดรอ</p></div>
       <p class="plain-note"><strong>สังเกตผล:</strong> ไฟล์ที่อ่านไม่ได้ AI บอกตรง ๆ หรือข้ามไปเงียบ ๆ?</p>
     </section>
@@ -117,7 +121,7 @@
       <div class="section-heading compact"><p class="eyebrow">ชุดเอกสารที่ผู้สอนเตรียมให้</p><h2>ของต้องมีก่อนเรียน</h2><p>ใช้เรื่องเดียวกันในหลายรูปแบบ ทุกคนเริ่มจากชุดหลักฐานกลางเพื่อให้เปรียบเทียบคำตอบและปัญหาที่พบได้</p></div>
       <p><strong>เคสกลางสำหรับผู้เรียนทุกคน รวมถึงอาจารย์และนักวิจัย</strong> ถามว่า “มื้อข้าวไข่เจียวเหมาะกับนักศึกษาที่มีงบไม่เกิน 80 บาท มีเวลา 30 นาที และต้องการอิ่มถึง 16:00 หรือไม่” เรื่องอาหารช่วยให้ตรวจตรรกะได้โดยไม่ต้องมีความรู้เฉพาะสาขา แต่ละไฟล์บอกข้อมูลคนละส่วนและมีทั้งภาษาไทยกับอังกฤษ</p>
       <div class="notice">
-        <strong>เราเตรียมข้อมูลไว้ให้แล้ว:</strong> ดาวน์โหลดชุดเดียวได้ทันที ภายในมี PDF, Excel, Word, ภาพ, สำเนาหน้าเว็บไซต์, URL สำหรับดึงเว็บจริง และ README เมื่อดาวน์โหลดแล้วให้นำไฟล์ ZIP ไปวางใน <code>module-02-work/input/original/</code> โดยยังไม่ต้องแตกไฟล์ Prompt แรกจะให้ AI ตรวจรายการ แตกไฟล์อย่างปลอดภัย ดึงข้อมูลจาก URL ที่กำหนด และสร้างรายงานการนำเข้า
+        <strong>เราเตรียมข้อมูลไว้ให้แล้ว:</strong> คำสั่ง <code>airr init module-2</code> ดาวน์โหลด ZIP และแตกไฟล์ PDF, Excel, Word, ภาพ, สำเนาหน้าเว็บไซต์, URL สำหรับดึงเว็บจริง และ README ไว้ใน <code>module-02-work/input/original/module-02-food-evidence/</code> Prompt แรกจะให้ AI ตรวจรายการ ดึงข้อมูลจาก URL ที่กำหนด และสร้างรายงานการนำเข้า
         <div class="hero-actions"><a class="button primary" href="downloads/module-02-food-evidence.zip" download>ดาวน์โหลดชุดข้อมูล Module 2 (.zip)</a></div>
       </div>
       <h3 class="section-zone-heading">ข้อมูลที่อยู่ในชุดดาวน์โหลด</h3>
@@ -135,7 +139,7 @@
         <article><h3>ไฟล์สำหรับ AI</h3><p>เครื่องมือใน Workspace จะดึงข้อความ ตาราง หรือ OCR แล้วสร้างสำเนาที่ค้นได้ใน <code>module-02-work/input/markdown/</code></p></article>
         <article><h3>ขอบเขตข้อมูล</h3><p>ไม่ใช้ข้อมูลลับ ข้อมูลส่วนบุคคลที่ห้ามเปิดเผย หรือเอกสารที่ไม่มีสิทธิ์นำเข้าสู่บริการ AI</p></article>
       </div>
-      <div class="notice"><strong>เมื่อลองทำตามในชั้น:</strong> ใช้ ZIP ที่ผู้สอนเตรียมให้ ถ้าทำ Module 1 แล้วและเห็น <code>PRACTICE_FILES_READY</code> ไฟล์ <code>module-02-food-evidence.zip</code> อยู่ใน <code>module-02-work/input/original/</code> แล้ว ถ้ายังไม่มี ให้ดาวน์โหลดแล้ววางไว้ที่นั่น และเปิด Workspace ได้ก็พอ ยังไม่ต้องแตกไฟล์ จัดโฟลเดอร์ หรือหาคำตอบ เมื่อเข้าใจตัวอย่างและขั้นตอนแล้ว จึงไปเตรียมเอกสารของตนเองตามกิจกรรมท้ายโมดูล ไม่ต้องเตรียมล่วงหน้า</div>
+      <div class="notice"><strong>เมื่อลองทำตามในชั้น:</strong> เปิดโฟลเดอร์ <code>module-02-work/input/original/module-02-food-evidence/</code> ใน VS Code ได้ทันที ถ้ายังไม่มี ให้ AI รัน <code>airr init module-2</code> เมื่อเข้าใจตัวอย่างและขั้นตอนแล้ว จึงไปเตรียมเอกสารของตนเองตามกิจกรรมท้ายโมดูล ไม่ต้องเตรียมล่วงหน้า</div>
     </details>
 </section>
 
@@ -215,16 +219,14 @@
 
       <h3 class="section-zone-heading">ช่วงที่ 1 · ดูคำตอบก่อนกำหนดกติกา</h3>
       <ol class="readiness-steps activity-steps">
-        <li><span>01</span><div><strong>ให้ AI จัดการชุดข้อมูลที่ดาวน์โหลด</strong><p><strong>คุณทำ:</strong> ตรวจว่า <code>module-02-food-evidence.zip</code> อยู่ใน <code>module-02-work/input/original/</code> แล้วส่ง Prompt แรกด้านล่างให้ AI ทำ inventory แตกไฟล์ และสร้างสำเนาที่ค้นได้ หลัง AI หยุดรอ ให้เปิดรายงานและผลจากแต่ละรูปแบบเทียบกับต้นฉบับ</p><p class="expected"><strong>Prompt แรกใช้บริหารจัดการข้อมูล</strong> ยังไม่ให้ AI ตอบคำถามเรื่องอาหาร</p><div class="command markdown-command"><code>งาน: รับและจัดชุดข้อมูล Module 2 โดยยังไม่วิเคราะห์คำถามเรื่องอาหาร
+        <li><span>01</span><div><strong>ให้ AI ตรวจชุดข้อมูลที่เตรียมไว้</strong><p><strong>คุณทำ:</strong> เปิด <code>module-02-work/input/original/module-02-food-evidence/</code> แล้วส่ง Prompt แรกด้านล่างให้ AI ทำ inventory และสร้างสำเนาที่ค้นได้ หลัง AI หยุดรอ ให้เปิดรายงานและผลจากแต่ละรูปแบบเทียบกับต้นฉบับ</p><p class="expected"><strong>Prompt แรกใช้บริหารจัดการข้อมูล</strong> ยังไม่ให้ AI ตอบคำถามเรื่องอาหาร</p><div class="command markdown-command"><code>งาน: ตรวจและจัดชุดข้อมูล Module 2 โดยยังไม่วิเคราะห์คำถามเรื่องอาหาร
 
-1. หา module-02-work/input/original/module-02-food-evidence.zip หากไม่พบให้หยุดและบอกฉัน ห้ามค้นทั้งเครื่อง
-2. แสดงรายการไฟล์ใน ZIP และตรวจว่า path ภายในไม่เขียนออกนอกโฟลเดอร์ปลายทาง
-3. แตกไฟล์ไปที่ module-02-work/input/original/module-02-food-evidence/ โดยไม่ลบ ZIP และไม่เขียนทับไฟล์เดิม หากปลายทางมีอยู่แล้วให้รายงานและถามก่อน
-4. สร้าง inventory ที่ระบุชื่อไฟล์ ชนิดไฟล์ ขนาด ภาษา และ SHA-256 พร้อมตรวจว่ามี PDF, XLSX, DOCX, PNG, HTML, TXT และ README ครบ
-5. อ่าน README ก่อน แล้วใช้เครื่องมือใน Workspace สร้างสำเนาที่ค้นได้ไว้ใน module-02-work/input/markdown/module-02-food-evidence/
-6. อ่าน 06-web-source.txt แล้วดึงเฉพาะ live_url ที่กำหนด หากเข้าถึงได้ให้เก็บสำเนาแบบลงวันที่ พร้อม final URL, เวลาเข้าถึง, HTTP status, content type และ SHA-256 แล้วเปรียบเทียบกับ 05-canteen-reviews.html หากเข้าไม่ได้ให้ใช้สำเนาเดิมและบันทึกว่ายังไม่ได้ตรวจเว็บจริง ห้ามค้นเว็บเรื่องอาหารเพิ่มเติม
-7. สำหรับ Excel ให้เก็บชื่อ sheet หัวตาราง ชนิดข้อมูล และค่าที่ขาด สำหรับ Word/PDF ให้เก็บหัวข้อและตำแหน่ง สำหรับภาพให้แยกสิ่งที่มองเห็นออกจากสิ่งที่ภาพยืนยันไม่ได้ สำหรับ HTML ให้เก็บหัวข้อ ภาษา URL และเวลาที่เข้าถึง
-8. สร้าง module-02-work/input/markdown/module-02-food-evidence/import-report.md ระบุวิธีอ่านแต่ละไฟล์ ผลดึงเว็บ ความต่างระหว่างหน้าเว็บกับสำเนา สิ่งที่สูญหาย คำเตือน และจุดที่ฉันควรเปิดเทียบกับต้นฉบับ
+1. ตรวจ module-02-work/input/original/module-02-food-evidence/ หากไม่มีหรือมีไม่ครบ ให้รัน airr init module-2 แล้วตรวจอีกครั้ง
+2. สร้าง inventory ที่ระบุชื่อไฟล์ ชนิดไฟล์ ขนาด ภาษา และ SHA-256 พร้อมตรวจว่ามี PDF, XLSX, DOCX, PNG, HTML, TXT และ README ครบ
+3. อ่าน README ก่อน แล้วใช้เครื่องมือใน Workspace สร้างสำเนาที่ค้นได้ไว้ใน module-02-work/input/markdown/module-02-food-evidence/
+4. อ่าน 06-web-source.txt แล้วดึงเฉพาะ live_url ที่กำหนด หากเข้าถึงได้ให้เก็บสำเนาแบบลงวันที่ พร้อม final URL, เวลาเข้าถึง, HTTP status, content type และ SHA-256 แล้วเปรียบเทียบกับ 05-canteen-reviews.html หากเข้าไม่ได้ให้ใช้สำเนาเดิมและบันทึกว่ายังไม่ได้ตรวจเว็บจริง ห้ามค้นเว็บเรื่องอาหารเพิ่มเติม
+5. สำหรับ Excel ให้เก็บชื่อ sheet หัวตาราง ชนิดข้อมูล และค่าที่ขาด สำหรับ Word/PDF ให้เก็บหัวข้อและตำแหน่ง สำหรับภาพให้แยกสิ่งที่มองเห็นออกจากสิ่งที่ภาพยืนยันไม่ได้ สำหรับ HTML ให้เก็บหัวข้อ ภาษา URL และเวลาที่เข้าถึง
+6. สร้าง module-02-work/input/markdown/module-02-food-evidence/import-report.md ระบุวิธีอ่านแต่ละไฟล์ ผลดึงเว็บ ความต่างระหว่างหน้าเว็บกับสำเนา สิ่งที่สูญหาย คำเตือน และจุดที่ฉันควรเปิดเทียบกับต้นฉบับ
 
 กติกา:
 - ห้ามแก้ ลบ หรือเขียนทับไฟล์ต้นฉบับ

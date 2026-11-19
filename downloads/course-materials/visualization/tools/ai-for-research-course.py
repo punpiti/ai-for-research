@@ -18,10 +18,11 @@ from typing import Any
 from urllib.error import HTTPError, URLError
 from urllib.request import Request, urlopen
 from uuid import uuid4
+import zipfile
 
 
 DEFAULT_API_BASE = "https://urban.cpe.ku.ac.th/api/airr/v1"
-AIRR_VERSION = "2026.11.19.1"  # bump on every published change of this file
+AIRR_VERSION = "2026.11.19.2"  # bump on every published change of this file
 DOWNLOADS_PREFIX = "https://urban.cpe.ku.ac.th/ai-for-research/downloads/"
 MANIFEST_URL = DOWNLOADS_PREFIX + "course-materials.json"
 MODULE_MATERIALS_URL = DOWNLOADS_PREFIX + "module-materials.json"
@@ -35,6 +36,8 @@ MAX_GRAPH_TOTAL_BYTES = 8 * 1024 * 1024
 MAX_GRAPHS = 5
 MAX_RESPONSE_BYTES = 256 * 1024
 MAX_MATERIAL_BYTES = 10 * 1024 * 1024
+MAX_ARCHIVE_FILES = 100
+MAX_ARCHIVE_EXTRACTED_BYTES = 25 * 1024 * 1024
 GRAPH_SUFFIXES = {".png": "image/png", ".jpg": "image/jpeg", ".jpeg": "image/jpeg", ".webp": "image/webp"}
 REQUIRED_HEADINGS = (
     "คำถามที่สำรวจ",
@@ -761,6 +764,41 @@ def write_file(target: Path, data: bytes) -> None:
     os.replace(temporary, target)
 
 
+def extract_zip_once(archive: Path, destination: Path, workspace: Path) -> tuple[int, int]:
+    """Extract missing regular files from a trusted course ZIP without leaving the workspace."""
+    try:
+        with zipfile.ZipFile(archive) as bundle:
+            members = bundle.infolist()
+            if len(members) > MAX_ARCHIVE_FILES:
+                raise AIRRError(f"ZIP มีไฟล์มากผิดปกติ: {archive.name}")
+            if sum(item.file_size for item in members) > MAX_ARCHIVE_EXTRACTED_BYTES:
+                raise AIRRError(f"ZIP เมื่อแตกแล้วใหญ่ผิดปกติ: {archive.name}")
+            checked: list[tuple[zipfile.ZipInfo, Path]] = []
+            for item in members:
+                name = item.filename.replace("\\", "/")
+                parts = Path(name).parts
+                mode = (item.external_attr >> 16) & 0o170000
+                if (not name or not parts or name.startswith("/") or ".." in parts or ":" in parts[0]
+                        or mode == 0o120000):
+                    raise AIRRError(f"ZIP มีตำแหน่งไฟล์ไม่ปลอดภัย: {item.filename}")
+                target = (destination / Path(*parts)).resolve()
+                if workspace.resolve() not in target.parents:
+                    raise AIRRError(f"ZIP พยายามเขียนไฟล์นอก workspace: {item.filename}")
+                checked.append((item, target))
+            created = kept = 0
+            for item, target in checked:
+                if item.is_dir():
+                    target.mkdir(parents=True, exist_ok=True)
+                elif target.exists():
+                    kept += 1
+                else:
+                    write_file(target, bundle.read(item))
+                    created += 1
+            return created, kept
+    except (zipfile.BadZipFile, OSError) as error:
+        raise AIRRError(f"เปิด ZIP {archive.name} ไม่ได้: {error}") from error
+
+
 def command_init(args: argparse.Namespace) -> None:
     """Prepare one module in the workspace: its form (Module 1-3) and every file its topics use.
 
@@ -800,20 +838,20 @@ def command_init(args: argparse.Namespace) -> None:
         elif kind == "api":
             if target.exists() and not item.get("refresh"):
                 counts["keep"] += 1
-                continue
-            if config is None:
-                config = read_config(workspace, required=False) or {}
-            if not config.get("api_key"):
-                print(f"AIRR SKIP · ต้องเชื่อม AIRR ก่อน (AIRR login): {shown}")
-                counts["skip"] += 1
-                continue
-            module = str(item.get("module", ""))
-            name = str(item.get("name", ""))
-            if module not in INIT_MODULES or not re.fullmatch(r"[A-Za-z0-9._-]+", name):
-                raise AIRRError(f"รายการไฟล์ของ {args.module} ไม่ถูกต้อง: {name}")
-            write_file(target, request_bytes(f"{config['api_base']}/modules/{module}/materials/{name}", config["api_key"]))
-            print(f"AIRR GET · {shown}")
-            counts["get"] += 1
+            else:
+                if config is None:
+                    config = read_config(workspace, required=False) or {}
+                if not config.get("api_key"):
+                    print(f"AIRR SKIP · ต้องเชื่อม AIRR ก่อน (AIRR login): {shown}")
+                    counts["skip"] += 1
+                    continue
+                module = str(item.get("module", ""))
+                name = str(item.get("name", ""))
+                if module not in INIT_MODULES or not re.fullmatch(r"[A-Za-z0-9._-]+", name):
+                    raise AIRRError(f"รายการไฟล์ของ {args.module} ไม่ถูกต้อง: {name}")
+                write_file(target, request_bytes(f"{config['api_base']}/modules/{module}/materials/{name}", config["api_key"]))
+                print(f"AIRR GET · {shown}")
+                counts["get"] += 1
         elif kind == "copy":
             source = workspace_target(workspace, item.get("from"))
             if target.exists():
@@ -825,6 +863,12 @@ def command_init(args: argparse.Namespace) -> None:
             else:
                 print(f"AIRR SKIP · ยังไม่มีต้นฉบับ {source.relative_to(workspace.resolve())}")
                 counts["skip"] += 1
+        if item.get("extract") and target.is_file():
+            if target.suffix.lower() != ".zip":
+                raise AIRRError(f"รายการแตกไฟล์ต้องชี้ไปที่ ZIP: {shown}")
+            destination = target.with_suffix("")
+            created, kept = extract_zip_once(target, destination, workspace)
+            print(f"AIRR EXTRACT · {destination.relative_to(workspace.resolve())} · ใหม่ {created} · มีอยู่แล้ว {kept}")
     if args.module == "module-7":
         (workspace / "module-07-work" / "figures").mkdir(parents=True, exist_ok=True)
     print(f"AIRR INIT PASS · {args.module} · ใหม่ {counts['get']} · มีอยู่แล้ว {counts['keep']}"
