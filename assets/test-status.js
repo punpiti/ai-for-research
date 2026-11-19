@@ -39,13 +39,13 @@
       el.style.cssText = "display:inline-block;margin-left:.3rem;padding:0 .45rem;border-radius:99px;background:#d9534f;color:#fff;font-size:.72rem;line-height:1.5;white-space:nowrap;vertical-align:middle";
       return el;
     };
-    document.querySelectorAll("li[data-tester-only]").forEach((li) => { li.hidden = false; });
+    const testerRows = [...document.querySelectorAll("li[data-tester-only]")];
     // modules not yet open to learners: testers can still open the topic pages
-    document.querySelectorAll("span.locked[data-href]").forEach((span) => {
+    const unlocked = [...document.querySelectorAll("span.locked[data-href]")].map((span) => {
       const a = document.createElement("a");
       a.href = span.dataset.href;
       a.textContent = span.textContent;
-      span.replaceWith(a);
+      return [span, a];
     });
     document.querySelectorAll("details.syllabus-module").forEach((mod) => {
       let passed = 0, total = 0, priCount = 0;
@@ -93,6 +93,33 @@
       }
       syllabus.before(legend);
     }
+    // switch: off = see the page exactly as a learner does (remembered in this browser)
+    const KEY = "airr-test-status-off";
+    const sw = document.createElement("p");
+    sw.className = "test-status-switch";
+    sw.style.cssText = "font-size:.8rem;margin:.4rem 0";
+    const toggle = document.createElement("button");
+    toggle.type = "button";
+    toggle.style.cssText = "font-size:.75rem;padding:.1rem .6rem;border-radius:99px;border:1px solid currentColor;background:transparent;color:inherit;cursor:pointer";
+    sw.append(toggle);
+    (document.querySelector(".test-status-legend") || syllabus)?.before(sw);
+    const apply = (show) => {
+      toggle.textContent = show ? "สถานะทดสอบ: เปิด · กดเพื่อดูแบบผู้เรียน" : "มุมมองผู้เรียน · กดเพื่อแสดงสถานะทดสอบ";
+      toggle.setAttribute("aria-pressed", String(show));
+      document.querySelectorAll(".test-status, .test-priority, .test-status-count, .test-status-legend")
+        .forEach((el) => { if (!sw.contains(el)) el.style.display = show ? "" : "none"; });
+      testerRows.forEach((li) => { li.hidden = !show; });
+      unlocked.forEach(([span, a]) => { (show ? span : a).replaceWith(show ? a : span); });
+      if (!show) document.querySelectorAll("details.syllabus-module, li[data-topic]").forEach((el) => { el.style.display = ""; });
+    };
+    let show = true;
+    try { show = localStorage.getItem(KEY) !== "1"; } catch (e) { /* storage blocked: default on */ }
+    toggle.addEventListener("click", () => {
+      show = !show;
+      try { show ? localStorage.removeItem(KEY) : localStorage.setItem(KEY, "1"); } catch (e) { /* ignore */ }
+      apply(show);
+    });
+    apply(show);
   }
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", run); else run();
 })();
