@@ -188,7 +188,8 @@ if grep -q 'requests>=2.32' "$root/downloads/setup-runtime.py"; then
   echo 'Requests must remain an on-demand OpenAlex dependency.' >&2
   exit 1
 fi
-grep -q 'L1–L4' "$root/module-2.html"
+grep -q 'คาดการณ์' "$root/module-2.html"
+! grep -qE '\bL[1-4]\b' "$root/module-2.html"
 grep -q 'module-2-conclusion.md' "$root/module-2.html"
 grep -q 'module-2-submission.json' "$root/module-2.html"
 grep -q 'OPEN ANTIGRAVITY_WORKSPACE' "$root/downloads/setup-macos.sh"

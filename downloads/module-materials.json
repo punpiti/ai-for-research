@@ -43,6 +43,13 @@
   "module-2": {
    "files": [
     {
+     "kind": "mock",
+     "url": "validate-module-2.py",
+     "path": "course-materials/module-02/validate-module-2.py",
+     "sha256": "f1a36af38cfdec96c9123745ae019a618cb49b4657261c008d7adcc7b45ebbfd",
+     "bytes": 12404
+    },
+    {
      "kind": "api",
      "module": "module-2",
      "name": "module-02-food-evidence.zip",
@@ -248,8 +255,8 @@
      "kind": "course",
      "url": "course-materials/visualization/tools/ai-for-research-course.py",
      "path": "course-materials/module-07/tools/ai-for-research-course.py",
-     "sha256": "459e4863fb789fda2391d00258d33c14dca628fd28222a2ba15d255f5b246224",
-     "bytes": 73782
+     "sha256": "b091369e307bdf7324f2b0040807b2c14ef3ce9ede09e97a6147c0eb3ea31766",
+     "bytes": 74598
     },
     {
      "kind": "mock",

@@ -167,8 +167,8 @@ const assert = require("node:assert/strict");
 const { validateCheckpoint } = require(process.argv[2]);
 assert.equal(validateCheckpoint("prepare", { evidence_ready: false }).ok, false);
 assert.equal(validateCheckpoint("prepare", { evidence_ready: true }).ok, true);
-assert.equal(validateCheckpoint("concepts", { level: "L3" }).ok, false);
-assert.equal(validateCheckpoint("concepts", { level: "L4" }).ok, true);
+assert.equal(validateCheckpoint("concepts", { level: "synthesis" }).ok, false);
+assert.equal(validateCheckpoint("concepts", { level: "speculation" }).ok, true);
 assert.equal(validateCheckpoint("practice", { round1_traceable: "6", round1_unsupported: "2", round2_traceable: "8", round2_unsupported: "1" }).ok, true);
 assert.equal(validateCheckpoint("practice", { round1_traceable: "5", round1_unsupported: "0", round2_traceable: "8", round2_unsupported: "1" }).ok, false);
 console.log("Module 2 step validation tests passed");
@@ -346,7 +346,7 @@ assert len(example["result"]["claims"]) == 8
 assert len(example["result"]["open_questions"]) >= 1
 assert len(example["result"]["learner_additions"]) == len(example["result"]["open_questions"])
 assert example["declaration"]["learner_additions_written_by_learner"] is True
-assert {claim["level"] for claim in example["result"]["claims"]} == {"L1", "L2", "L3", "L4"}
+assert {claim["level"] for claim in example["result"]["claims"]} == {"evidence", "opinion", "synthesis", "speculation"}
 PYEXAMPLE
 python3 - "$site_dir/downloads/validate-module-2.py" "$site_dir/downloads/module-02-submission-example.json" <<'PYVALIDATOR'
 import hashlib, json, subprocess, sys, tempfile

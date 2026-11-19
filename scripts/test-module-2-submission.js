@@ -31,14 +31,14 @@ const validPayload = {
     decision: "insufficient_evidence",
     reason: "หลักฐานตอบเรื่องราคาและเวลาได้ แต่ยังไม่พอยืนยันความอิ่มของทุกคนถึงเวลา 16:00",
     claims: [
-      claim("C1", "L1", ["pdf"], "หน้า 1 ตารางราคา"),
-      claim("C2", "L1", ["xlsx"], "Sheet observations แถว 2"),
-      claim("C3", "L2", ["web"], "รีวิวภาษาไทยย่อหน้า 1"),
-      claim("C4", "L2", ["web"], "English review paragraph 1"),
-      claim("C5", "L3", ["pdf", "xlsx"], "เปรียบเทียบราคาและเวลารอ"),
-      claim("C6", "L3", ["docx", "image"], "เปรียบเทียบสูตรกับภาพ"),
-      claim("C7", "L4", [], ""),
-      claim("C8", "L4", [], ""),
+      claim("C1", "evidence", ["pdf"], "หน้า 1 ตารางราคา"),
+      claim("C2", "evidence", ["xlsx"], "Sheet observations แถว 2"),
+      claim("C3", "opinion", ["web"], "รีวิวภาษาไทยย่อหน้า 1"),
+      claim("C4", "opinion", ["web"], "English review paragraph 1"),
+      claim("C5", "synthesis", ["pdf", "xlsx"], "เปรียบเทียบราคาและเวลารอ"),
+      claim("C6", "synthesis", ["docx", "image"], "เปรียบเทียบสูตรกับภาพ"),
+      claim("C7", "speculation", [], ""),
+      claim("C8", "speculation", [], ""),
     ],
     open_questions: [
       {
@@ -97,7 +97,11 @@ assert.deepEqual(JSON.parse(JSON.stringify(context.testApi.buildMachineCheck(val
 
 const badL4 = structuredClone(validPayload);
 badL4.result.claims[6].sources = ["pdf"];
-assert.throws(() => context.testApi.validatePayload(badL4), /L4/);
+assert.throws(() => context.testApi.validatePayload(badL4), /คาดการณ์/);
+// old files that still use L1–L4 keep passing
+const legacy = structuredClone(validPayload);
+legacy.result.claims.forEach((item) => { item.level = { evidence: "L1", opinion: "L2", synthesis: "L3", speculation: "L4" }[item.level]; });
+assert.doesNotThrow(() => context.testApi.validatePayload(legacy));
 
 // Round 2 equal to an incomplete round 1 is an honest result, not an error.
 const equalPrompt = structuredClone(validPayload);

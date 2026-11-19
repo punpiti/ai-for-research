@@ -94,7 +94,7 @@
         <summary>Markdown (.md) กับ JSON ต่างกันอย่างไร</summary>
         <div class="concept-grid">
           <article><h3>Markdown · เขียนให้คนอ่าน</h3><p>เป็นไฟล์ข้อความที่ใช้ <code>#</code> ทำหัวข้อ <code>-</code> ทำรายการ และ backticks ครอบชื่อไฟล์หรือคำสั่ง เหมาะกับข้อสรุปที่ผู้เรียนและผู้สอนอ่านต่อเนื่องได้</p><pre><code># ข้อสรุป&#10;&#10;- ราคาอยู่ในงบ&#10;- ความอิ่มยังยืนยันไม่ได้</code></pre></article>
-          <article><h3>JSON · จัดข้อมูลให้โปรแกรมตรวจ</h3><p>เก็บข้อมูลเป็น <code>"key": value</code> ภายใน object และ array รูปแบบต้องตรงกับ schema จึงเหมาะกับการนับ claims ตรวจ L1–L4 และรับผลบน server</p><pre><code>{&#10;  "decision": "insufficient_evidence",&#10;  "open_questions": 2&#10;}</code></pre></article>
+          <article><h3>JSON · จัดข้อมูลให้โปรแกรมตรวจ</h3><p>เก็บข้อมูลเป็น <code>"key": value</code> ภายใน object และ array รูปแบบต้องตรงกับ schema จึงเหมาะกับการนับ claims ตรวจสี่ประเภท (หลักฐาน · ความเห็น · สังเคราะห์ · คาดการณ์) และรับผลบน server</p><pre><code>{&#10;  "decision": "insufficient_evidence",&#10;  "open_questions": 2&#10;}</code></pre></article>
         </div>
         <p class="plain-note"><strong>สองไฟล์ทำงานคู่กัน:</strong> Markdown เก็บคำอธิบายฉบับเต็ม ส่วน JSON เก็บผลแบบมีโครงสร้างและ SHA-256 ของ Markdown เพื่อยืนยันว่าอ้างถึงไฟล์รุ่นใด</p>
       </details>
@@ -144,14 +144,14 @@
 </section>
 
 
-    <section class="section" id="levels" data-module-2-step="concepts" data-brief="สรุป: L1 พบในเอกสาร · L2 ความเห็นผู้เขียน · L3 สังเคราะห์จากหลายแหล่ง · L4 ยังไม่มีหลักฐาน คุ้นแล้วข้ามได้">
-      <div class="section-heading compact"><p class="eyebrow">ภาษากลางของบทนี้</p><h2>จัดคำตอบเป็น L1–L4</h2></div>
-      <p>คำตอบของ AI มักปนกันระหว่างสิ่งที่อยู่ในเอกสารของคุณจริง ความเห็นของผู้เขียน และสิ่งที่ AI เดาหรือแต่งขึ้นเอง ถ้าไม่แยก คุณอาจหยิบข้อความที่ไม่มีหลักฐานไปใช้ในงานโดยไม่รู้ตัว L1–L4 คือป้ายสี่ระดับที่บอกว่าแต่ละข้อความเชื่อได้แค่ไหน และต้องตรวจเพิ่มหรือไม่</p>
+    <section class="section" id="levels" data-module-2-step="concepts" data-brief="สรุป: หลักฐาน พบในเอกสาร · ความเห็น ของผู้เขียน · สังเคราะห์ จากหลายแหล่ง · คาดการณ์ ยังไม่มีหลักฐาน คุ้นแล้วข้ามได้">
+      <div class="section-heading compact"><p class="eyebrow">ภาษากลางของบทนี้</p><h2>จัดคำตอบเป็นสี่ประเภท</h2></div>
+      <p>คำตอบของ AI มักปนกันระหว่างสิ่งที่อยู่ในเอกสารของคุณจริง ความเห็นของผู้เขียน และสิ่งที่ AI เดาหรือแต่งขึ้นเอง ถ้าไม่แยก คุณอาจหยิบข้อความที่ไม่มีหลักฐานไปใช้ในงานโดยไม่รู้ตัว สี่ประเภทนี้คือป้ายที่บอกว่าแต่ละข้อความเชื่อได้แค่ไหน และต้องตรวจเพิ่มหรือไม่</p>
       <div class="level-grid">
-        <article><span>L1</span><div><h3>พบโดยตรง</h3><p>ตัวเลข วันที่ คำพูด หรือข้อความที่ชี้กลับไปยังไฟล์และตำแหน่งในต้นฉบับได้</p></div></article>
-        <article><span>L2</span><div><h3>ความเห็นในต้นฉบับ</h3><p>การตีความ คำวิจารณ์ หรือข้อสรุปของผู้เขียน ไม่ใช่ข้อเท็จจริงที่เป็นกลาง</p></div></article>
-        <article><span>L3</span><div><h3>การสังเคราะห์</h3><p>ข้อสังเกตที่ AI หรือเราสร้างจากหลายเอกสาร ต้องอธิบายเหตุผลและให้มนุษย์ตรวจ</p></div></article>
-        <article><span>L4</span><div><h3>ยังไม่มีหลักฐาน</h3><p>คำตอบใหม่ การคาดการณ์ หรือสาเหตุที่เอกสารชุดนี้ยังพิสูจน์ไม่ได้ ต้องระบุว่าไม่ทราบหรือไปค้นเพิ่ม</p></div></article>
+        <article><span>1</span><div><h3>หลักฐาน (evidence) · พบโดยตรง</h3><p>ตัวเลข วันที่ คำพูด หรือข้อความที่ชี้กลับไปยังไฟล์และตำแหน่งในต้นฉบับได้</p></div></article>
+        <article><span>2</span><div><h3>ความเห็น (opinion) · ความเห็นในต้นฉบับ</h3><p>การตีความ คำวิจารณ์ หรือข้อสรุปของผู้เขียน ไม่ใช่ข้อเท็จจริงที่เป็นกลาง</p></div></article>
+        <article><span>3</span><div><h3>สังเคราะห์ (synthesis) · จากหลายเอกสาร</h3><p>ข้อสังเกตที่ AI หรือเราสร้างจากหลายเอกสาร ต้องอธิบายเหตุผลและให้มนุษย์ตรวจ</p></div></article>
+        <article><span>4</span><div><h3>คาดการณ์ (speculation) · ยังไม่มีหลักฐาน</h3><p>คำตอบใหม่ การคาดการณ์ หรือสาเหตุที่เอกสารชุดนี้ยังพิสูจน์ไม่ได้ ต้องระบุว่าไม่ทราบหรือไปค้นเพิ่ม</p></div></article>
       </div>
 </section>
 
@@ -160,7 +160,7 @@
       <p>ในขั้นทดลอง AI จะสร้างไฟล์ให้ คุณไม่ต้องเขียนเอง แค่รู้ว่าแต่ละไฟล์มีไว้ทำอะไร</p>
       <div class="concept-grid">
         <article><h3><code>.md</code> · ให้คนอ่าน</h3><p>ข้อสรุปและเหตุผลของคุณ เปิดอ่านใน VS Code ได้เหมือนเอกสารทั่วไป</p></article>
-        <article><h3><code>.json</code> · ให้ระบบตรวจ</h3><p>สรุป Claim และระดับ L1–L4 ในรูปแบบที่โปรแกรมตรวจความครบได้อัตโนมัติ</p></article>
+        <article><h3><code>.json</code> · ให้ระบบตรวจ</h3><p>สรุป Claim และประเภทความน่าเชื่อในรูปแบบที่โปรแกรมตรวจความครบได้อัตโนมัติ</p></article>
       </div>
       <div class="notice"><strong>สิ่งเดียวที่คุณต้องเขียนเอง:</strong> คำตอบของคำถามที่ AI ตอบไม่ได้ (ใน JSON เรียกว่า <code>learner_additions</code>) AI ช่วยจัดรูปแบบได้ แต่เนื้อคำตอบต้องมาจากคุณ</div>
       <details class="fallback-details">
@@ -170,15 +170,15 @@
       <div class="concept-grid">
         <article><h3><code>#</code> หัวข้อ</h3><p><code>#</code> คือชื่อเอกสาร และ <code>##</code> คือหัวข้อย่อย ช่วยแบ่งข้อสรุปเป็นส่วนที่ค้นง่าย</p></article>
         <article><h3><code>-</code> รายการ</h3><p>ขีดกลางนำหน้ารายการ เหมาะกับ claims แหล่งหลักฐาน และคำถามที่ยังตอบไม่ได้</p></article>
-        <article><h3><code>|</code> ตาราง</h3><p>เครื่องหมายขีดตั้งแบ่งคอลัมน์ ใช้เทียบ Prompt รอบแรกกับรอบสองหรือสรุป L1–L4</p></article>
+        <article><h3><code>|</code> ตาราง</h3><p>เครื่องหมายขีดตั้งแบ่งคอลัมน์ ใช้เทียบ Prompt รอบแรกกับรอบสองหรือสรุปการจัดประเภท</p></article>
         <article><h3>Backticks สำหรับ code</h3><p>ใช้ backticks ครอบชื่อไฟล์ field หรือคำสั่ง เช่น <code>module-2-submission.json</code></p></article>
       </div>
       <div class="command markdown-command"><code># ข้อสรุป Module 2&#10;&#10;## ข้ออ้างที่มีหลักฐาน&#10;&#10;- ราคาเริ่มต้น 55 บาท — `01-lunch-brief-th.pdf`, หน้า 1&#10;&#10;## ยังตอบไม่ได้&#10;&#10;- ทุกคนจะอิ่มถึง 16:00 หรือไม่ เพราะยังไม่มีข้อมูลเพียงพอ</code><button type="button" data-copy>คัดลอกตัวอย่าง Markdown</button></div>
       <div class="notice"><strong>ลองอ่าน Markdown:</strong> ชี้ชื่อเอกสาร หัวข้อย่อย รายการ และตำแหน่งอ้างอิง จากนั้นสังเกตว่าเนื้อหายังอ่านได้แม้ไม่เปิดโปรแกรมจัดเอกสาร</div>
       <h3 class="section-zone-heading">2 · JSON คือข้อมูลที่มีโครงสร้างสำหรับโปรแกรม</h3>
-      <p>JSON ใช้ object, array และชนิดข้อมูลที่กำหนดชัด โปรแกรมจึงตรวจจำนวน claims ระดับ L1–L4 และช่องที่ยังไม่ตอบได้โดยไม่ต้องตีความ Markdown ทั้งฉบับ</p>
+      <p>JSON ใช้ object, array และชนิดข้อมูลที่กำหนดชัด โปรแกรมจึงตรวจจำนวน claims แต่ละประเภท และช่องที่ยังไม่ตอบได้โดยไม่ต้องตีความ Markdown ทั้งฉบับ</p>
       <div class="concept-grid">
-        <article><h3><code>{ }</code> Object</h3><p>วงเล็บปีกกาครอบข้อมูลหนึ่งชุด ภายในเก็บ <code>"key": value</code> เช่น <code>"level": "L1"</code></p></article>
+        <article><h3><code>{ }</code> Object</h3><p>วงเล็บปีกกาครอบข้อมูลหนึ่งชุด ภายในเก็บ <code>"key": value</code> เช่น <code>"level": "evidence"</code></p></article>
         <article><h3><code>[ ]</code> Array</h3><p>วงเล็บเหลี่ยมเก็บหลายรายการตามลำดับ เช่น <code>"sources": ["pdf", "xlsx"]</code></p></article>
         <article><h3>ชนิดของค่า</h3><p>ข้อความอยู่ในเครื่องหมายคำพูด ตัวเลขไม่ใส่คำพูด และ boolean ใช้ <code>true</code> หรือ <code>false</code></p></article>
         <article><h3>Comma และชื่อ key</h3><p>แต่ละรายการคั่นด้วย comma แต่รายการสุดท้ายไม่ใส่ comma ชื่อ key และตัวพิมพ์เล็ก–ใหญ่ต้องตรงกับ schema</p></article>
@@ -186,11 +186,11 @@
       <div class="command markdown-command"><code>{
   "id": "C5",
   "text": "ราคาอยู่ในงบ แต่เวลารออาจเปลี่ยนตามวันที่สังเกต",
-  "level": "L3",
+  "level": "synthesis",
   "sources": ["pdf", "xlsx"],
   "location": "เปรียบเทียบตารางราคาและคอลัมน์ wait_minutes"
 }</code><button type="button" data-copy>คัดลอกตัวอย่าง Claim</button></div>
-      <div class="notice"><strong>ลองอ่านก่อน:</strong> Claim นี้มี id อะไร อยู่ระดับใด ใช้กี่แหล่ง และโปรแกรมจะรู้ได้อย่างไรว่าผ่านกติกา L3 จากนั้นดาวน์โหลดไฟล์ตัวอย่าง เปิดใน VS Code แล้วพับ–ขยาย object กับ array เพื่อดูโครงสร้างทั้งไฟล์</div>
+      <div class="notice"><strong>ลองอ่านก่อน:</strong> Claim นี้มี id อะไร อยู่ประเภทใด ใช้กี่แหล่ง และโปรแกรมจะรู้ได้อย่างไรว่าผ่านกติกาของประเภทสังเคราะห์ จากนั้นดาวน์โหลดไฟล์ตัวอย่าง เปิดใน VS Code แล้วพับ–ขยาย object กับ array เพื่อดูโครงสร้างทั้งไฟล์</div>
       <div class="plain-note"><strong>JSON ต้องแยกช่องว่างกับคำตอบที่ผู้เรียนเติม:</strong> <code>open_questions</code> เก็บคำถามที่ AI ยังตอบไม่ได้หรือตอบไม่ครบ หลักฐานที่ขาด และ <code>next_prompt</code> ที่ยังไม่ถูกรัน ส่วน <code>learner_additions</code> เก็บคำตอบหรือคำตัดสินที่ผู้เรียนเขียนเองสำหรับคำถามแต่ละข้อ AI ห้ามเขียนส่วนนี้แทน</div>
       <div class="command markdown-command"><code>{
   "id": "U1",
@@ -239,7 +239,7 @@
 
       <h3 class="section-zone-heading">ช่วงที่ 2 · ตรวจคำตอบกับต้นฉบับ</h3>
       <ol class="readiness-steps activity-steps">
-        <li><span>03</span><div><strong>แยกคำตอบออกเป็นข้ออ้างที่ตรวจได้</strong><p><strong>ส่งให้ AI:</strong> ให้ AI เลือกข้ออ้าง 8–10 ข้อและถามเพื่อตรวจทีละข้อ แต่ยังไม่ให้เฉลยระดับ L1–L4 คุณเป็นคนเปิดต้นฉบับและตอบเองก่อน</p><div class="command markdown-command"><code>งาน: แยกคำตอบก่อนหน้าเป็นข้ออ้างที่ตรวจได้
+        <li><span>03</span><div><strong>แยกคำตอบออกเป็นข้ออ้างที่ตรวจได้</strong><p><strong>ส่งให้ AI:</strong> ให้ AI เลือกข้ออ้าง 8–10 ข้อและถามเพื่อตรวจทีละข้อ แต่ยังไม่ให้เฉลยประเภท คุณเป็นคนเปิดต้นฉบับและตอบเองก่อน</p><div class="command markdown-command"><code>งาน: แยกคำตอบก่อนหน้าเป็นข้ออ้างที่ตรวจได้
 
 เลือกข้อความสำคัญ 8–10 ข้อจากคำตอบของคุณ
 
@@ -251,10 +251,10 @@
 
 กติกา:
 - ถามทีละหนึ่งข้ออ้างและรอคำตอบของฉัน
-- ยังไม่ต้องเฉลยหรือจัดระดับ L1–L4
+- ยังไม่ต้องเฉลยหรือจัดประเภท
 - เมื่อฉันตอบครบ 8–10 ข้อแล้ว ให้สรุปคำตอบของฉันเป็นตาราง
 - จากนั้นหยุดและรอให้ฉันตรวจตารางก่อนทำขั้นต่อไป</code><button type="button" data-copy>คัดลอก Prompt แยก Claims</button></div></div></li>
-        <li><span>04</span><div><strong>ตรวจและจัด L1–L4 ด้วยตนเอง</strong><p><strong>ผู้เรียนทำ:</strong> เปิดต้นฉบับตรวจ Claims ทีละข้อ บันทึกระดับ L1–L4 เหตุผล ชื่อไฟล์ และตำแหน่งที่พบ ขั้นนี้ไม่มี Prompt ให้คัดลอก เพราะผู้เรียนต้องตัดสินจากหลักฐานเอง</p></div></li>
+        <li><span>04</span><div><strong>ตรวจและจัดประเภทด้วยตนเอง</strong><p><strong>ผู้เรียนทำ:</strong> เปิดต้นฉบับตรวจ Claims ทีละข้อ บันทึกประเภท เหตุผล ชื่อไฟล์ และตำแหน่งที่พบ ขั้นนี้ไม่มี Prompt ให้คัดลอก เพราะผู้เรียนต้องตัดสินจากหลักฐานเอง</p></div></li>
         <li><span>05</span><div><strong>ทดสอบคำถามที่เอกสารตอบไม่ได้</strong><p><strong>ผู้เรียนทำ:</strong> เขียนและส่งคำถามของตนเองสองข้อ ข้อหนึ่งถามข้อมูลที่ไม่มีในเอกสาร อีกข้อถามสาเหตุหรือการคาดการณ์ แล้วสังเกตว่า AI ยอมรับว่าไม่รู้ ระบุว่าเป็นการอนุมาน หรือแต่งคำตอบ ขั้นนี้ไม่มี Prompt สำเร็จรูป เพราะคำถามต้องสัมพันธ์กับเอกสารของผู้เรียน</p></div></li>
         <li><span>06</span><div><strong>ให้ AI ตรวจคำตอบของตัวเอง</strong><p><strong>ส่งให้ AI:</strong> ขอให้แยกข้อความที่มีหลักฐาน การอนุมาน และข้อความที่ไม่มีหลักฐาน แล้วเปรียบเทียบกับสิ่งที่คุณตรวจในข้อ 4–5</p><div class="command markdown-command"><code>งาน: ตรวจคำตอบก่อนหน้ากับเอกสารต้นทาง
 
@@ -276,13 +276,13 @@
         <li><span>07</span><div><strong>เติมคำตอบที่ AI เว้นไว้ด้วยตนเอง</strong><p><strong>ผู้เรียนทำโดยไม่ใช้ AI เขียนแทน:</strong> เปิดรายการคำถามที่ AI ตอบไม่ครบ แล้วสร้าง <code>module-02-work/notes/learner-additions.md</code> เขียนคำตอบหรือคำตัดสินของตนเองให้ครบทุกข้อ ระบุว่าเป็นคำตอบจากหลักฐาน การตัดสินใจภายใต้ความไม่แน่นอน หรือยังตอบไม่ได้ พร้อมบอกหลักฐานหรือเหตุผล การยืนยันว่า “ยังตอบไม่ได้” ถือเป็นคำตอบได้เมื่อระบุสิ่งที่ต้องหาเพิ่มอย่างชัดเจน</p><p class="expected"><strong>จุดตรวจของกิจกรรม:</strong> AI สร้าง <code>open_questions</code> ได้ แต่ผู้เรียนต้องเขียน <code>learner_additions</code> เองทุกข้อ</p></div></li>
         <li><span>08</span><div><strong>เขียน Prompt รอบสองด้วยตนเอง</strong><p><strong>ผู้เรียนทำ:</strong> เขียน Prompt ใหม่ให้มีงานที่ต้องการ ขอบเขตไฟล์ รูปแบบคำตอบ วิธีระบุแหล่งที่มา และกติกาเมื่อไม่พบข้อมูล ขั้นนี้ไม่มีข้อความให้คัดลอก เพราะเป้าหมายคือให้ผู้เรียนแก้จุดอ่อนที่ตนพบจากรอบแรก</p></div></li>
         <li><span>09</span><div><strong>ใช้ Prompt รอบสองและเปรียบเทียบ</strong><p><strong>ผู้เรียนทำ:</strong> ส่ง Prompt ที่เขียนในข้อ 8 แล้วเปรียบเทียบกับรอบแรก โดยดูจำนวน Claims ที่ตรวจย้อนกลับได้ ข้อความที่ไม่มีหลักฐาน การแยกข้อเท็จจริงกับความเห็น และจำนวนครั้งที่ต้องถามซ้ำ</p></div></li>
-        <li><span>10</span><div><strong>เปรียบเทียบการจัด L1–L4 กับ AI</strong><p><strong>ส่งให้ AI หลังจากคุณตอบเองแล้ว:</strong> ขอผลจัดระดับเป็นตาราง จากนั้นเปิดต้นฉบับตรวจเฉพาะข้อที่เห็นต่างกัน AI ทำหน้าที่เป็นคู่เปรียบเทียบ ไม่ใช่เฉลยสุดท้าย</p><div class="command markdown-command"><code>งาน: เปรียบเทียบการจัดระดับ L1–L4
+        <li><span>10</span><div><strong>เปรียบเทียบการจัดประเภทกับ AI</strong><p><strong>ส่งให้ AI หลังจากคุณตอบเองแล้ว:</strong> ขอผลจัดระดับเป็นตาราง จากนั้นเปิดต้นฉบับตรวจเฉพาะข้อที่เห็นต่างกัน AI ทำหน้าที่เป็นคู่เปรียบเทียบ ไม่ใช่เฉลยสุดท้าย</p><div class="command markdown-command"><code>งาน: เปรียบเทียบการจัดประเภท
 
 ตอนนี้ฉันจัดระดับ 8–10 ข้ออ้างด้วยตนเองครบแล้ว
 
 สร้างตารางที่มี:
 - ข้ออ้าง
-- ระดับ L1–L4 ที่ AI เสนอ
+- ประเภท (หลักฐาน · ความเห็น · สังเคราะห์ · คาดการณ์) ที่ AI เสนอ
 - เหตุผล
 - ชื่อไฟล์และตำแหน่งที่รองรับ
 - ความมั่นใจ
@@ -290,9 +290,9 @@
 เปรียบเทียบกับคำตอบของฉัน และอธิบายเฉพาะข้อที่เห็นต่างกัน
 
 กติกา:
-- หากหาแหล่งรองรับไม่ได้ ให้จัดเป็น L4
+- หากหาแหล่งรองรับไม่ได้ ให้จัดเป็นคาดการณ์
 - ห้ามใช้ความรู้ภายนอก
-- เตือนให้ฉันเปิดต้นฉบับตรวจผลอีกครั้ง</code><button type="button" data-copy>คัดลอก Prompt เปรียบเทียบ L1–L4</button></div></div></li>
+- เตือนให้ฉันเปิดต้นฉบับตรวจผลอีกครั้ง</code><button type="button" data-copy>คัดลอก Prompt เปรียบเทียบการจัดประเภท</button></div></div></li>
         <li><span>11</span><div><strong>สร้างข้อสรุปและ JSON สำหรับตรวจในเครื่อง</strong><p><strong>ส่งให้ AI:</strong> หลังคุณตรวจและอนุมัติข้อมูลแล้ว ใช้คำสั่งนี้สร้างข้อสรุป (Markdown) และ JSON แล้วให้ AI ตรวจในเครื่อง</p><p class="expected"><strong>ข้อความด้านล่างเป็นคำสั่งสร้างชิ้นงาน</strong> AI ต้องไม่ส่งข้อมูลไปยังเซิร์ฟเวอร์เอง และห้ามเขียนคำตอบส่วนของผู้เรียนแทน</p><div class="command markdown-command"><code>งาน: สร้างข้อสรุป Module 2 และ JSON สำหรับให้ฉันตรวจเอง
 
 อ่านเฉพาะผลที่ฉันตรวจและอนุมัติแล้วจากกิจกรรม Module 2 และไฟล์ module-02-work/notes/learner-additions.md ที่ฉันเขียนเอง หากไม่พบไฟล์นี้หรือมีคำถามที่ฉันยังไม่ได้ตอบ ให้หยุดและบอกรายการที่ขาด ห้ามร่างคำตอบแทนฉัน จากนั้นสร้างไฟล์สองไฟล์:
@@ -318,8 +318,8 @@
 - result.decision เลือกหนึ่งค่า: conditional_yes, conditional_no หรือ insufficient_evidence
 - result.reason สรุปเหตุผล 40–800 ตัวอักษร
 - result.claims มี 8–10 ข้อ แต่ละข้อมี id, text, level, sources และ location
-- claims ต้องมี L1, L2, L3 และ L4 อย่างน้อยระดับละหนึ่งข้อ
-- L1–L3 ต้องมี source และ location; L3 ต้องเชื่อมอย่างน้อยสอง source; L4 ต้องใช้ sources = [] และ location = ""
+- claims ต้องมีครบสี่ประเภท อย่างน้อยประเภทละหนึ่งข้อ: `level` เป็น `evidence`, `opinion`, `synthesis` หรือ `speculation`
+- หลักฐาน ความเห็น และสังเคราะห์ ต้องมี source และ location; สังเคราะห์ต้องเชื่อมอย่างน้อยสอง source; คาดการณ์ต้องใช้ sources = [] และ location = ""
 - result.open_questions มี 1–3 รายการ แต่ละรายการมี id, question, missing_evidence และ next_prompt
 - next_prompt ต้องเสนอวิธีหาหลักฐานที่ขาด ห้ามรัน Prompt ต่อเอง และห้ามเติมคำตอบที่ยังไม่มีหลักฐาน
 - result.learner_additions ต้องตอบ open_questions ครบทุกข้อ แต่ละรายการมี id, open_question_id, answer_type, learner_answer, basis และ sources
@@ -397,7 +397,7 @@
             <label><span>สถานะการทำกิจกรรม</span><select name="completion_status" required><option value="completed">ทำครบด้วยตนเอง</option><option value="completed_with_help">ทำครบโดยได้รับความช่วยเหลือ</option><option value="could_not_complete">ยังทำไม่ครบ</option></select></label>
             <label><span>ความยาก 1–5</span><input name="difficulty_rating" type="number" min="1" max="5" required></label>
             <label><span>ประโยชน์ 1–5</span><input name="usefulness_rating" type="number" min="1" max="5" required></label>
-            <label><span>ขั้นที่ยากที่สุด</span><select name="hardest_step" required><option value="none">ไม่มี</option><option value="import_evidence">นำเข้าหลักฐาน</option><option value="check_claims">ตรวจ Claims และ L1–L4</option><option value="learner_additions">เติมคำตอบที่ AI เว้นไว้</option><option value="revise_prompt">เขียน Prompt รอบสอง</option><option value="build_submission">สร้างและส่ง JSON</option></select></label>
+            <label><span>ขั้นที่ยากที่สุด</span><select name="hardest_step" required><option value="none">ไม่มี</option><option value="import_evidence">นำเข้าหลักฐาน</option><option value="check_claims">ตรวจ Claims และจัดประเภท</option><option value="learner_additions">เติมคำตอบที่ AI เว้นไว้</option><option value="revise_prompt">เขียน Prompt รอบสอง</option><option value="build_submission">สร้างและส่ง JSON</option></select></label>
           </div>
         </fieldset>
         <label class="submission-consent"><input name="consent" type="checkbox" required><span>ฉันตรวจ Progress JSON ด้านล่างแล้ว และยินยอมส่งผลสรุปกับแบบประเมินให้ผู้สอนดูความคืบหน้าของคลาส</span></label>
@@ -432,11 +432,11 @@
       <div class="checklist" data-checklist="module-2">
         <label><input type="checkbox"> มี PDF, XLSX, DOCX และ PNG ใน <code>module-02-work/input/original/</code> พร้อม URL/วันที่เข้าถึงของเว็บไซต์ และมีผลนำเข้าใน <code>module-02-work/input/markdown/</code></label>
         <label><input type="checkbox"> ตรวจจุดสำคัญของข้อความ OCR เทียบกับต้นฉบับแล้ว</label>
-        <label><input type="checkbox"> ตรวจ 8–10 Claims กับต้นฉบับและแยก L1–L4 ได้</label>
+        <label><input type="checkbox"> ตรวจ 8–10 Claims กับต้นฉบับและจัดประเภทได้</label>
         <label><input type="checkbox"> ทดลองคำถามที่เอกสารตอบไม่ได้ 2 แบบแล้ว</label>
         <label><input type="checkbox"> เขียน <code>module-02-work/notes/learner-additions.md</code> ด้วยตนเอง และตอบ <code>open_questions</code> ครบทุกข้อแล้ว</label>
         <label><input type="checkbox"> เขียน Prompt รอบสองเองและเปรียบเทียบผลก่อน–หลังแล้ว</label>
-        <label><input type="checkbox"> เปิดเฉลย L1–L4 หลังตอบเอง และตรวจข้อที่เห็นต่างกับต้นฉบับแล้ว</label>
+        <label><input type="checkbox"> เปิดเฉลยการจัดประเภทหลังตอบเอง และตรวจข้อที่เห็นต่างกับต้นฉบับแล้ว</label>
         <label><input type="checkbox"> เปิดและตรวจ <code>module-02-work/output/module-2-conclusion.md</code> กับ <code>module-02-work/output/module-2-submission.json</code> แล้ว</label>
         <label><input type="checkbox"> ส่ง JSON สำเร็จและดาวน์โหลด Receipt JSON เก็บไว้แล้ว</label>
       </div>

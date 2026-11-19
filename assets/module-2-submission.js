@@ -12,7 +12,9 @@ const classStatusBase = "/api/ai-for-research/module-2/classes";
 const schemaVersion = "ai-for-research.module-2-submission.v4";
 const eventType = "ai_for_research_module_2_submission";
 const formats = ["pdf", "xlsx", "docx", "image", "web"];
-const levels = ["L1", "L2", "L3", "L4"];
+const levels = ["evidence", "opinion", "synthesis", "speculation"];
+const legacyLevels = { L1: "evidence", L2: "opinion", L3: "synthesis", L4: "speculation" }; // old files still pass
+const levelOf = (claim) => legacyLevels[claim.level] || claim.level;
 const maxMarkdownBytes = 32000;
 const maxJsonBytes = 64000;
 let checkedPayload = null;
@@ -100,16 +102,16 @@ function validateClaims(claims) {
     if (!/^C(10|[1-9])$/.test(text(claim.id)) || ids.has(claim.id)) throw new Error("claim.id ต้องเป็น C1–C10 และห้ามซ้ำ");
     ids.add(claim.id);
     requireText(claim.text, 10, 500, `${claim.id}.text`);
-    if (!levels.includes(claim.level)) throw new Error(`${claim.id}.level ต้องเป็น L1–L4`);
+    if (!levels.includes(levelOf(claim))) throw new Error(`${claim.id}.level ต้องเป็น evidence (หลักฐาน), opinion (ความเห็น), synthesis (สังเคราะห์) หรือ speculation (คาดการณ์)`);
     if (!Array.isArray(claim.sources) || claim.sources.some((source) => !formats.includes(source)) || new Set(claim.sources).size !== claim.sources.length) throw new Error(`${claim.id}.sources มีค่าที่ไม่รองรับหรือซ้ำกัน`);
-    if (claim.level === "L4") {
-      if (claim.sources.length || text(claim.location)) throw new Error(`${claim.id} ระดับ L4 ต้องไม่มี source และ location`);
+    if (levelOf(claim) === "speculation") {
+      if (claim.sources.length || text(claim.location)) throw new Error(`${claim.id} ประเภทคาดการณ์ต้องไม่มี source และ location`);
     } else {
-      if (!claim.sources.length || text(claim.location).length < 3) throw new Error(`${claim.id} ระดับ L1–L3 ต้องมี source และ location`);
-      if (claim.level === "L3" && claim.sources.length < 2) throw new Error(`${claim.id} ระดับ L3 ต้องเชื่อมอย่างน้อยสองแหล่ง`);
+      if (!claim.sources.length || text(claim.location).length < 3) throw new Error(`${claim.id} ประเภทหลักฐาน ความเห็น และสังเคราะห์ต้องมี source และ location`);
+      if (levelOf(claim) === "synthesis" && claim.sources.length < 2) throw new Error(`${claim.id} ประเภทสังเคราะห์ต้องเชื่อมอย่างน้อยสองแหล่ง`);
     }
   }
-  if (!levels.every((level) => claims.some((claim) => claim.level === level))) throw new Error("claims ต้องมีตัวอย่าง L1, L2, L3 และ L4 อย่างน้อยระดับละหนึ่งข้อ");
+  if (!levels.every((level) => claims.some((claim) => levelOf(claim) === level))) throw new Error("claims ต้องมีครบสี่ประเภท: หลักฐาน ความเห็น สังเคราะห์ คาดการณ์ อย่างน้อยประเภทละหนึ่งข้อ");
 }
 
 function validatePromptTest(promptTest, claimCount) {
@@ -123,7 +125,9 @@ function validatePromptTest(promptTest, claimCount) {
 }
 
 function buildMachineCheck(payload) {
-  const levelCounts = Object.fromEntries(levels.map((level) => [level, payload.result.claims.filter((claim) => claim.level === level).length]));
+  // the server still counts claim types under its original keys L1–L4 (not shown to learners)
+  const serverKey = { evidence: "L1", opinion: "L2", synthesis: "L3", speculation: "L4" };
+  const levelCounts = Object.fromEntries(levels.map((level) => [serverKey[level], payload.result.claims.filter((claim) => levelOf(claim) === level).length]));
   return {
     passed: true,
     claim_count: payload.result.claims.length,

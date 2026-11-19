@@ -13,7 +13,9 @@ from typing import Any
 
 SCHEMA_VERSION = "ai-for-research.module-2-submission.v4"
 FORMATS = {"pdf", "xlsx", "docx", "image", "web"}
-LEVELS = {"L1", "L2", "L3", "L4"}
+LEVELS = {"evidence", "opinion", "synthesis", "speculation"}
+LEVEL_NAMES = {"evidence": "หลักฐาน", "opinion": "ความเห็น", "synthesis": "สังเคราะห์", "speculation": "คาดการณ์"}
+LEGACY_LEVELS = {"L1": "evidence", "L2": "opinion", "L3": "synthesis", "L4": "speculation"}  # old files still pass
 ANSWER_TYPES = {"evidence_based", "reasoned_judgment", "still_unknown"}
 
 
@@ -74,18 +76,19 @@ def validate_submission(payload: Any) -> dict[str, Any]:
         claim_id = str(claim["id"])
         require(bool(re.fullmatch(r"C(10|[1-9])", claim_id)) and claim_id not in claim_ids, "claim.id ต้องเป็น C1–C10 และห้ามซ้ำ")
         bounded_text(claim["text"], 10, 500, f"{claim_id}.text")
-        require(claim["level"] in LEVELS, f"{claim_id}.level ต้องเป็น L1–L4")
+        level = LEGACY_LEVELS.get(claim["level"], claim["level"])
+        require(level in LEVELS, f"{claim_id}.level ต้องเป็น evidence (หลักฐาน), opinion (ความเห็น), synthesis (สังเคราะห์) หรือ speculation (คาดการณ์)")
         sources = claim["sources"]
         require(isinstance(sources, list) and len(sources) == len(set(sources)) and all(item in FORMATS for item in sources), f"{claim_id}.sources ไม่ถูกต้อง")
         location = claim["location"].strip() if isinstance(claim["location"], str) else ""
-        if claim["level"] == "L4":
-            require(not sources and not location, f"{claim_id} ระดับ L4 ต้องไม่มี source และ location")
+        if level == "speculation":
+            require(not sources and not location, f"{claim_id} ประเภทคาดการณ์ต้องไม่มี source และ location")
         else:
-            require(bool(sources) and len(location) >= 3, f"{claim_id} ระดับ L1–L3 ต้องมี source และ location")
-            require(claim["level"] != "L3" or len(sources) >= 2, f"{claim_id} ระดับ L3 ต้องเชื่อมอย่างน้อยสองแหล่ง")
+            require(bool(sources) and len(location) >= 3, f"{claim_id} ประเภทหลักฐาน ความเห็น และสังเคราะห์ต้องมี source และ location")
+            require(level != "synthesis" or len(sources) >= 2, f"{claim_id} ประเภทสังเคราะห์ต้องเชื่อมอย่างน้อยสองแหล่ง")
         claim_ids.add(claim_id)
-        observed_levels.add(claim["level"])
-    require(observed_levels == LEVELS, "claims ต้องครอบคลุม L1–L4")
+        observed_levels.add(level)
+    require(observed_levels == LEVELS, "claims ต้องมีครบสี่ประเภท: หลักฐาน ความเห็น สังเคราะห์ คาดการณ์ อย่างน้อยประเภทละหนึ่งข้อ")
 
     questions = result["open_questions"]
     require(isinstance(questions, list) and 1 <= len(questions) <= 3, "open_questions ต้องมี 1–3 ข้อ")

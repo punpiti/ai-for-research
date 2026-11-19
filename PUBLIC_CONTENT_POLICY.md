@@ -58,7 +58,8 @@ material, or secrets. The Markdown file and complete submission JSON are read
 locally and are never included in the request. Original evidence files and
 workspace files also remain on the learner's computer.
 
-Learning-content validation (claims, L1–L4, learner additions, and prompt-test
+Learning-content validation (claims, the four claim categories (evidence,
+opinion, synthesis, speculation), learner additions, and prompt-test
 rules) runs in the learner's browser or local workspace before submission. The
 public `downloads/validate-module-2.py` file is hosted centrally but uses only
 the Python standard library and performs no network operation when run. The

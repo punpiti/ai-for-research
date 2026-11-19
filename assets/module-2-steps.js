@@ -47,9 +47,9 @@
         : { ok: false, message: facultyRoute() ? "เตรียมหลักฐานจากงานของคุณใน module-02-work/input/original/ แล้วติ๊กยืนยันก่อน" : "วางไฟล์ ZIP ใน module-02-work/input/original/ แล้วติ๊กยืนยันก่อน" };
     }
     if (stageId === "concepts") {
-      return values.level === "L4"
-        ? { ok: true, message: "ถูกต้อง — ข้อสรุปที่หลักฐานยังยืนยันไม่ได้คือ L4" }
-        : { ok: false, message: facultyRoute() ? "ยังไม่ถูก ข้อความที่หลักฐานยังยืนยันไม่ได้ต้องอยู่ L4" : "ยังไม่ถูก ลองดูว่าหลักฐานยืนยันคำว่า “ทุกคน” ได้หรือไม่" };
+      return values.level === "speculation" || values.level === "L4"
+        ? { ok: true, message: "ถูกต้อง — ข้อสรุปที่หลักฐานยังยืนยันไม่ได้คือประเภทคาดการณ์" }
+        : { ok: false, message: facultyRoute() ? "ยังไม่ถูก ข้อความที่หลักฐานยังยืนยันไม่ได้ต้องเป็นประเภทคาดการณ์" : "ยังไม่ถูก ลองดูว่าหลักฐานยืนยันคำว่า “ทุกคน” ได้หรือไม่" };
     }
     if (stageId === "practice") {
       const names = ["round1_traceable", "round1_unsupported", "round2_traceable", "round2_unsupported"];
@@ -77,10 +77,10 @@
       return `<label class="module-step-confirm"><input type="checkbox" name="evidence_ready" ${saved.evidence_ready ? "checked" : ""}> <span>${label}</span></label>`;
     }
     if (stageId === "concepts") {
-      const options = ["L1", "L2", "L3", "L4"].map((level) => `<label><input type="radio" name="level" value="${level}" ${saved.level === level ? "checked" : ""}> ${level}</label>`).join("");
+      const options = [["evidence", "หลักฐาน"], ["opinion", "ความเห็น"], ["synthesis", "สังเคราะห์"], ["speculation", "คาดการณ์"]].map(([level, label]) => `<label><input type="radio" name="level" value="${level}" ${saved.level === level ? "checked" : ""}> ${label}</label>`).join("");
       const question = facultyRoute()
-        ? "ข้อความที่ดูสมเหตุสมผล แต่เอกสารชุดนี้ยังยืนยันไม่ได้ ควรจัดระดับใด?"
-        : "“ทุกคนจะอิ่มถึง 16:00” เมื่อหลักฐานยังยืนยันไม่ได้ ควรจัดระดับใด?";
+        ? "ข้อความที่ดูสมเหตุสมผล แต่เอกสารชุดนี้ยังยืนยันไม่ได้ ควรจัดเป็นประเภทใด?"
+        : "“ทุกคนจะอิ่มถึง 16:00” เมื่อหลักฐานยังยืนยันไม่ได้ ควรจัดเป็นประเภทใด?";
       return `<fieldset><legend>${question}</legend><div class="module-step-options">${options}</div></fieldset>`;
     }
     if (stageId === "practice") {

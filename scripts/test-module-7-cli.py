@@ -124,7 +124,7 @@ def run() -> None:
                 (workspace / "module-02-work/output/meal-card.md").write_text("# full\n# short\n", encoding="utf-8")
                 assert client.main(["--workspace", str(workspace), "check", "module-2", "--short"]) == 1
                 (workspace / "module-02-work/notes").mkdir(parents=True, exist_ok=True)
-                (workspace / "module-02-work/notes/learner-additions.md").write_text("answer\n\n", encoding="utf-8")
+                (workspace / "module-02-work/output/evidence-table.md").write_text("answer\n\n", encoding="utf-8")
                 assert client.main(["--workspace", str(workspace), "check", "module-2", "--short"]) == 1, "placeholder evaluation must fail"
                 evaluation_path = workspace / "module-02-work/output/module-2-evaluation.json"
                 evaluation = json.loads(evaluation_path.read_text(encoding="utf-8"))

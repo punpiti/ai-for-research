@@ -35,7 +35,7 @@
             "properties": {
               "id": {"type": "string", "pattern": "^C(10|[1-9])$"},
               "text": {"type": "string", "minLength": 10, "maxLength": 500},
-              "level": {"enum": ["L1", "L2", "L3", "L4"]},
+              "level": {"enum": ["evidence", "opinion", "synthesis", "speculation"], "description": "หลักฐาน · ความเห็น · สังเคราะห์ · คาดการณ์"},
               "sources": {
                 "type": "array",
                 "maxItems": 5,
@@ -46,12 +46,12 @@
             },
             "allOf": [
               {
-                "if": {"properties": {"level": {"const": "L4"}}},
+                "if": {"properties": {"level": {"const": "speculation"}}},
                 "then": {"properties": {"sources": {"maxItems": 0}, "location": {"maxLength": 0}}},
                 "else": {"properties": {"sources": {"minItems": 1}, "location": {"minLength": 3}}}
               },
               {
-                "if": {"properties": {"level": {"const": "L3"}}},
+                "if": {"properties": {"level": {"const": "synthesis"}}},
                 "then": {"properties": {"sources": {"minItems": 2}}}
               }
             ]

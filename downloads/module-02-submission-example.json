@@ -12,56 +12,56 @@
       {
         "id": "C1",
         "text": "ประกาศร้านระบุราคาเริ่มต้นของข้าวไข่เจียวไว้ที่ 55 บาท",
-        "level": "L1",
+        "level": "evidence",
         "sources": ["pdf"],
         "location": "หน้า 1 ตารางรายการอาหาร"
       },
       {
         "id": "C2",
         "text": "ข้อมูลสังเกตมีเวลารอที่แตกต่างกันระหว่างแต่ละแถว",
-        "level": "L1",
+        "level": "evidence",
         "sources": ["xlsx"],
         "location": "Sheet observations คอลัมน์ wait_minutes"
       },
       {
         "id": "C3",
         "text": "ผู้รีวิวภาษาไทยให้ความเห็นว่ามื้อนี้อิ่มถึงช่วงบ่าย",
-        "level": "L2",
+        "level": "opinion",
         "sources": ["web"],
         "location": "หัวข้อรีวิวภาษาไทย ย่อหน้าแรก"
       },
       {
         "id": "C4",
         "text": "ผู้รีวิวภาษาอังกฤษรายงานว่าหิวอีกครั้งก่อนเวลา 16:00",
-        "level": "L2",
+        "level": "opinion",
         "sources": ["web"],
         "location": "English review, first paragraph"
       },
       {
         "id": "C5",
         "text": "ราคาอยู่ในงบที่กำหนด แต่เวลารออาจเปลี่ยนตามวันที่สังเกต",
-        "level": "L3",
+        "level": "synthesis",
         "sources": ["pdf", "xlsx"],
         "location": "เปรียบเทียบตารางราคาและคอลัมน์ wait_minutes"
       },
       {
         "id": "C6",
         "text": "ภาพยืนยันรายการบนถาดได้ แต่ยืนยันไม่ได้ว่าใช้สูตรเดียวกับเอกสาร Word",
-        "level": "L3",
+        "level": "synthesis",
         "sources": ["docx", "image"],
         "location": "เปรียบเทียบหัวข้อส่วนประกอบกับภาพถาดอาหาร"
       },
       {
         "id": "C7",
         "text": "หลักฐานชุดนี้ยังยืนยันไม่ได้ว่ามื้อนี้มีคุณค่าทางโภชนาการเหมาะกับทุกคน",
-        "level": "L4",
+        "level": "speculation",
         "sources": [],
         "location": ""
       },
       {
         "id": "C8",
         "text": "หลักฐานชุดนี้ยังยืนยันไม่ได้ว่าผู้เรียนทุกคนจะอิ่มถึงเวลา 16:00",
-        "level": "L4",
+        "level": "speculation",
         "sources": [],
         "location": ""
       }

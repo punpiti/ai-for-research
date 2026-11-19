@@ -22,7 +22,7 @@ import zipfile
 
 
 DEFAULT_API_BASE = "https://urban.cpe.ku.ac.th/api/airr/v1"
-AIRR_VERSION = "2026.11.19.3"  # bump on every published change of this file
+AIRR_VERSION = "2026.11.19.5"  # bump on every published change of this file
 DOWNLOADS_PREFIX = "https://urban.cpe.ku.ac.th/ai-for-research/downloads/"
 MANIFEST_URL = DOWNLOADS_PREFIX + "course-materials.json"
 MODULE_MATERIALS_URL = DOWNLOADS_PREFIX + "module-materials.json"
@@ -219,7 +219,11 @@ def validate_evaluation(value: dict[str, Any], module: str) -> dict[str, Any]:
 
 
 def run_local_validator(workspace: Path, module: str, artifact: Path, markdown: Path | None = None) -> None:
-    validator = workspace / "tools" / f"validate-{module}.py"
+    # init module-N delivers the current validator to course-materials/; older workspaces still have tools/
+    number = module.split("-")[1]
+    validator = workspace / "course-materials" / f"module-0{number}" / f"validate-{module}.py"
+    if not validator.is_file():
+        validator = workspace / "tools" / f"validate-{module}.py"
     if not validator.is_file():
         raise AIRRError(f"ไม่พบ {validator}; รันตัวติดตั้ง course workspace รุ่นล่าสุด")
     command = [sys.executable, str(validator), str(artifact)]
@@ -273,7 +277,9 @@ def module_payload(workspace: Path, args: argparse.Namespace) -> tuple[dict[str,
         run_local_validator(workspace, "module-2", artifact_path, markdown)
         artifact = load_json(artifact_path, "module-2-submission.json")
         result = artifact["result"]
-        levels = {level: sum(item["level"] == level for item in result["claims"]) for level in ("L1", "L2", "L3", "L4")}
+        # claim types are evidence/opinion/synthesis/speculation (old files: L1–L4); the server still counts them under its original keys
+        server_keys = {"evidence": "L1", "opinion": "L2", "synthesis": "L3", "speculation": "L4", "L1": "L1", "L2": "L2", "L3": "L3", "L4": "L4"}
+        levels = {key: sum(server_keys.get(item["level"]) == key for item in result["claims"]) for key in ("L1", "L2", "L3", "L4")}
         machine = {"passed": True, "claim_count": len(result["claims"]), "open_question_count": len(result["open_questions"]), "learner_addition_count": len(result["learner_additions"]), "level_counts": levels,
                    "formats_complete": True, "source_rules_pass": True, "prompt_rule_passed": True, "follow_up_prompts_present": True, "unanswered_questions_completed_by_learner": True, "learner_authorship_declared": True, "declaration_complete": True, "markdown_hash_match": True}
         progress = {"schema_version": artifact["schema_version"], "artifact_sha256": artifact["artifact"]["sha256"], "decision": result["decision"], "human_decision": result["human_decision"], "web_retrieval": result["web_retrieval"], "prompt_test": result["prompt_test"], "learner_answer_types": [item["answer_type"] for item in result["learner_additions"]]}
@@ -295,7 +301,9 @@ def module_payload(workspace: Path, args: argparse.Namespace) -> tuple[dict[str,
 # Short paths used in the one-day workshop (lecture notes): files must exist and
 # not be empty; only line counts are sent.
 SHORT_PATH_FILES = {
-    "module-2": {"meal_card": "module-02-work/output/meal-card.md", "learner_additions": "module-02-work/notes/learner-additions.md"},
+    # owner 2026-11-19: Friday class drops the learner-additions topic; the second file is now the Workshop 2 evidence table.
+    # The server only accepts the keys meal_card + learner_additions, so the evidence table is counted under the old key.
+    "module-2": {"meal_card": "module-02-work/output/meal-card.md", "learner_additions": "module-02-work/output/evidence-table.md"},
     "module-3": {"author_prior": "module-03-work/output/author-prior.md", "diagnosis": "module-03-work/output/problem-statement-diagnosis.md",
                  "revision_table": "module-03-work/output/revision-table.md", "citation_for_m4": "module-03-work/output/citation-for-m4.md"},
 }
