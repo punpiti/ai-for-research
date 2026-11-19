@@ -1,6 +1,6 @@
 {
  "_comment": "Topic test status, shown on the class page only to viewers whose sha256(lowercase email) is listed. status: not-ready | ready | issue | passed",
- "updated": "2026-11-18",
+ "updated": "2026-11-19",
  "viewers": [
   "06d2486ab966da913725dd1876d3387745b06767d55ed0da54683a979986e8f3",
   "210782f11d12b702e0b63c7359a1906ee697253e0004f612d096bdd49f3dd531",
@@ -193,6 +193,10 @@
   "thesis-exam-questions-review": {
    "status": "not-ready",
    "note": "เนื้อหาเดิมยกมาก่อน"
+  },
+  "explore-topic-with-openalex": {
+   "status": "ready",
+   "note": "ใหม่ 19 พ.ย. · ต้องมี OPENALEX_KEY"
   }
  },
  "priority": {
@@ -203,6 +207,7 @@
    "prepare-machine",
    "multiformat-evidence-and-source-levels",
    "faithful-summary-and-condensing",
+   "explore-topic-with-openalex",
    "problem-statement-diagnosis-with-locations",
    "verify-critique-and-revise",
    "reference-existence-vs-citation-support",
