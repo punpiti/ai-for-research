@@ -311,3 +311,24 @@ body.console .submission-status.is-could_not_complete { color: var(--accent); }
 .instructor-topic-list a:hover { color: var(--mint); text-decoration: underline; }
 .instructor-topic-list li.is-unused a { color: var(--ink-soft); }
 .instructor-topic-tag { grid-column: 2; justify-self: start; padding: 0 .4rem; border: 1px solid var(--mint); border-radius: 99px; color: var(--mint); font-size: .68rem; }
+
+/* Live AI spend (enrollment tab): small pulse per key + class summary + click callout. */
+.usage-summary { display: flex; align-items: center; gap: .45rem; margin: 0 0 .5rem; color: var(--ink-soft); font-size: .82rem; }
+.usage-dot { flex: none; width: .5rem; height: .5rem; border-radius: 50%; background: var(--line); }
+.usage-dot.is-active, .usage-pulse.is-active .usage-dot { background: var(--mint); box-shadow: 0 0 0 .18rem color-mix(in srgb, var(--mint) 25%, transparent); }
+.usage-pulse.is-recent .usage-dot { background: color-mix(in srgb, var(--mint) 45%, var(--ink-soft)); }
+.usage-pulse { display: inline-flex; align-items: center; gap: .3rem; max-width: 100%; margin-top: .15rem; padding: .05rem .4rem; border: 1px solid var(--line); border-radius: 999px; color: var(--ink-soft); background: transparent; font: inherit; font-size: .72rem; line-height: 1.5; white-space: nowrap; cursor: pointer; }
+.usage-pulse:hover, .usage-pulse:focus-visible { color: var(--ink); border-color: var(--ink-soft); outline: none; }
+.usage-pulse.is-active { color: var(--ink); }
+.usage-callout { position: absolute; z-index: 40; width: min(20rem, calc(100vw - 16px)); padding: .7rem .8rem; border: 1px solid var(--line); border-radius: .6rem; color: var(--ink); background: var(--surface-strong); box-shadow: 0 .5rem 1.5rem color-mix(in srgb, var(--ink) 18%, transparent); font-size: .82rem; }
+.usage-callout > strong { display: block; padding-right: 1.5rem; }
+.usage-callout > small { display: block; color: var(--ink-soft); }
+.usage-callout-close { position: absolute; top: .35rem; right: .45rem; border: 0; color: var(--ink-soft); background: transparent; font-size: 1.1rem; line-height: 1; cursor: pointer; }
+.usage-spark { display: block; width: 100%; height: 2.2rem; margin: .45rem 0 0; }
+.usage-spark path { fill: none; stroke: var(--mint); stroke-width: 1.6; }
+.usage-callout .usage-spark-caption { font-size: .7rem; }
+.usage-callout-grid { display: grid; gap: .2rem; margin: .5rem 0; }
+.usage-callout-grid div { display: flex; justify-content: space-between; gap: .8rem; }
+.usage-callout-grid dt { color: var(--ink-soft); }
+.usage-callout-grid dd { margin: 0; text-align: right; }
+.usage-callout-note { margin: 0; color: var(--ink-soft); font-size: .7rem; }

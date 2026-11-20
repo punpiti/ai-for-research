@@ -10,10 +10,10 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../assets/styles.css?v=20261115-4">
-  <link rel="stylesheet" href="../assets/console.css?v=20261119-1">
+  <link rel="stylesheet" href="../assets/console.css?v=20261120-1">
   <script src="../assets/site-shell.js?v=20261120-1"></script>
   <script src="../assets/dev-auth.js?v=20261010-1"></script>
-  <script src="../assets/instructor-admin.js?v=20261119-4" defer></script>
+  <script src="../assets/instructor-admin.js?v=20261120-1" defer></script>
   <link rel="icon" href="../assets/images/airr-mark-dark.svg" type="image/svg+xml">
   <link rel="icon" href="../assets/images/favicon-32.png" sizes="32x32" type="image/png">
   <link rel="apple-touch-icon" href="../assets/images/favicon-180.png">
@@ -202,6 +202,7 @@
         <p class="console-toolbar-count" data-enrollment-count role="status" aria-live="polite"></p>
         <button type="button" class="button secondary" data-enrollment-copy-emails title="คัดลอกอีเมลของทุกคนที่แสดงอยู่ (ตามตัวกรอง ยกเว้นสถานะไม่อนุมัติ) คั่นด้วย comma เพื่อวางในช่อง To: ของ Gmail">คัดลอกอีเมล</button>
       </div>
+      <p class="usage-summary" data-usage-summary hidden></p>
       <table class="data-table enrollment-table">
         <thead><tr><th class="col-name" scope="col">ชื่อ</th><th class="col-role" scope="col">บทบาท</th><th class="col-status" scope="col">สถานะ</th><th class="col-budget num" scope="col">งบ AI ($)</th><th class="col-airr" scope="col">AIRR</th><th class="col-key" scope="col">AI key</th><th class="col-expand" scope="col"><span class="sr-only">รายละเอียด</span></th><th class="col-actions" scope="col"><span class="sr-only">จัดการ</span></th></tr></thead>
         <tbody data-enrollment-rows></tbody>

@@ -67,3 +67,20 @@ assert.equal(admin.usageText(null), "");
 assert.equal(admin.usageText({ label: "L01" }), "");
 assert.equal(admin.usageText({ usage_usd: 0.254, limit_usd: 2 }), "$0.25 / $2.00");
 assert.equal(admin.usageText({ usage_usd: 0, limit_usd: null }), "$0.00 / —");
+{
+  // Live AI spend history: points only on change; rate over the last hour once watched ≥5 min.
+  const m = 60000, t0 = 1e12;
+  let e = null;
+  for (const [min, usd] of [[0, 0.1], [1, 0.1], [10, 0.2], [11, 0.2], [20, 0.5]]) e = admin.recordUsage(e, usd, t0 + min * m);
+  assert.deepEqual(e.points.map((p) => p[1]), [0.1, 0.2, 0.5]);
+  const s = admin.usageStats(e, t0 + 22 * m);
+  assert.equal(s.lastChangeAt, t0 + 20 * m);
+  assert.ok(Math.abs(s.add15 - 0.4) < 1e-9);
+  assert.ok(Math.abs(s.ratePerHour - 0.4 / (22 / 60)) < 1e-9);
+  assert.equal(admin.usageStats(admin.recordUsage(null, 0.3, t0), t0 + 2 * m).ratePerHour, null);
+  assert.equal(admin.usageStats(admin.recordUsage(null, 0.3, t0), t0).lastChangeAt, null);
+  assert.equal(admin.usageActivity(t0, t0 + 3 * m), "active");
+  assert.equal(admin.usageActivity(t0, t0 + 20 * m), "recent");
+  assert.equal(admin.usageActivity(null, t0), "idle");
+  assert.equal(admin.recordUsage(null, "x", t0), null);
+}

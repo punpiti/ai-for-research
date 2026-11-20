@@ -104,7 +104,59 @@
       .some((value) => String(value || "").toLowerCase().includes(needle));
   }
 
-  const testApi = { apiBase, classroomListEndpoint, classroomIdFromSearch, loginPath, dashboardEndpoint, moduleContentPath, formatTokens, submissionLabel, enrollmentLabel, parseBulkEmails, roleLabel, formatDateTime, budgetValue, usageText, parseBudget, enrollmentPatchBody, enrollmentName, matchesEnrollmentFilter };
+  // ---- AI spend history (kept in this browser; OpenRouter only gives the running total) ----
+  // entry = { since, checked, points: [[ms, usd], ...] }; a point is added only when the total
+  // changes, so points[0] is the baseline seen when watching started.
+  const USAGE_KEEP_MS = 6 * 3600 * 1000;
+  function recordUsage(entry, usage, now) {
+    const value = Number(usage);
+    if (!Number.isFinite(value)) return entry || null;
+    const next = entry && Array.isArray(entry.points) && entry.points.length
+      ? { since: entry.since, checked: now, points: entry.points.slice() }
+      : { since: now, checked: now, points: [] };
+    const last = next.points[next.points.length - 1];
+    if (!last || Math.abs(last[1] - value) > 0.000001) next.points.push([now, value]);
+    // Trim old points but keep the last one before the window as the baseline.
+    while (next.points.length > 2 && next.points[1][0] < now - USAGE_KEEP_MS) next.points.shift();
+    return next;
+  }
+  function usageAt(points, time) {
+    let value = points.length ? points[0][1] : 0;
+    for (const [at, usd] of points) { if (at <= time) value = usd; else break; }
+    return value;
+  }
+  // { used, lastChangeAt|null, watchedMs, add15, add60, ratePerHour|null }
+  function usageStats(entry, now) {
+    if (!entry || !Array.isArray(entry.points) || !entry.points.length) return null;
+    const points = entry.points;
+    const used = points[points.length - 1][1];
+    const lastChangeAt = points.length > 1 ? points[points.length - 1][0] : null;
+    const watchedMs = Math.max(0, now - entry.since);
+    const add15 = Math.max(0, used - usageAt(points, now - 15 * 60000));
+    const add60 = Math.max(0, used - usageAt(points, now - 60 * 60000));
+    const windowMs = Math.min(60 * 60000, watchedMs);
+    const ratePerHour = windowMs >= 5 * 60000 ? add60 / (windowMs / 3600000) : null;
+    return { used, lastChangeAt, watchedMs, add15, add60, ratePerHour };
+  }
+  function agoText(ms) {
+    if (!Number.isFinite(ms) || ms < 0) return "—";
+    const minutes = Math.floor(ms / 60000);
+    if (minutes < 1) return "เมื่อครู่";
+    if (minutes < 60) return `${minutes} นาทีก่อน`;
+    const hours = Math.floor(minutes / 60);
+    return hours < 24 ? `${hours} ชม. ${minutes % 60} นาทีก่อน` : `${Math.floor(hours / 24)} วันก่อน`;
+  }
+  // "active" (changed ≤5 min) · "recent" (≤30 min) · "idle"
+  function usageActivity(lastAt, now) {
+    if (!lastAt) return "idle";
+    const age = now - lastAt;
+    return age <= 5 * 60000 ? "active" : age <= 30 * 60000 ? "recent" : "idle";
+  }
+  function money(value, digits = 2) {
+    return Number.isFinite(value) ? `$${value.toFixed(digits)}` : "—";
+  }
+
+  const testApi = { apiBase, classroomListEndpoint, classroomIdFromSearch, loginPath, dashboardEndpoint, moduleContentPath, formatTokens, submissionLabel, enrollmentLabel, parseBulkEmails, roleLabel, formatDateTime, budgetValue, usageText, parseBudget, enrollmentPatchBody, enrollmentName, matchesEnrollmentFilter, recordUsage, usageAt, usageStats, agoText, usageActivity };
   if (typeof module !== "undefined" && module.exports) module.exports = testApi;
   globalObject.instructorAdminTestApi = testApi;
 
@@ -222,6 +274,7 @@
       globalObject.history.replaceState(null, "", `${globalObject.location.search || ""}#${selectedTab}`);
     }
     setSubmissionPolling();
+    setUsagePolling();
   }
 
   function applyClassroomMode(classroom) {
@@ -544,7 +597,15 @@
         if (used) {
           const usage = node("small", "", used);
           usage.title = "ใช้ไป / เพดานของ key ใน OpenRouter";
+          usage.dataset.usageText = item.email || "";
           keyCell.append(usage);
+        }
+        if (item.email) {
+          const pulse = node("button", "usage-pulse");
+          pulse.type = "button";
+          pulse.dataset.usagePulse = item.email;
+          pulse.setAttribute("aria-haspopup", "dialog");
+          keyCell.append(pulse);
         }
         if (item.ai_key.state === "disabled") keyCell.append(node("span", "badge is-muted", "ปิดใช้"));
       } else {
@@ -940,6 +1001,201 @@
     submissionsLive.lastChild.textContent = `อัปเดต ${new Date(data.refreshed_at).toLocaleTimeString("th-TH")} · อัตโนมัติทุก 15 วินาที`;
   }
 
+  // ---- Live AI spend on the enrollment tab ----
+  // Refreshes only the usage cells (never re-renders the table, so unsaved edits and open rows stay).
+  const USAGE_POLL_MS = 60000;
+  const usageSummary = document.querySelector("[data-usage-summary]");
+  let usageTimer = null;
+  let usageHistory = {};
+  let usageRefreshedAt = 0;
+  let usageCallout = null;
+  let usageCalloutEmail = "";
+  const usageStoreKey = () => `airr-usage-history:${classroomId}`;
+  function loadUsageHistory() {
+    try { usageHistory = JSON.parse(globalObject.localStorage.getItem(usageStoreKey()) || "{}") || {}; } catch (_error) { usageHistory = {}; }
+  }
+  function saveUsageHistory() {
+    try { globalObject.localStorage.setItem(usageStoreKey(), JSON.stringify(usageHistory)); } catch (_error) { /* storage blocked: history lasts until reload */ }
+  }
+  function usageItem(email) {
+    return enrollmentItems.find((item) => item.email === email) || null;
+  }
+  function paintUsage() {
+    const now = Date.now();
+    let total = 0, add15 = 0, activeCount = 0, keyed = 0;
+    enrollmentItems.forEach((item) => {
+      const key = item.ai_key;
+      const stats = usageStats(usageHistory[item.email], now);
+      const lastAt = stats?.lastChangeAt || null;
+      const activity = usageActivity(lastAt, now);
+      if (key && Number.isFinite(Number(key.usage_usd))) { keyed += 1; total += Number(key.usage_usd); }
+      if (stats) add15 += stats.add15;
+      if (activity === "active") activeCount += 1;
+      const textNode = enrollmentRows.querySelector(`[data-usage-text="${CSS.escape(item.email || "")}"]`);
+      if (textNode) textNode.textContent = usageText(key);
+      const pulse = enrollmentRows.querySelector(`[data-usage-pulse="${CSS.escape(item.email || "")}"]`);
+      if (!pulse) return;
+      const hasUsage = key && Number.isFinite(Number(key.usage_usd));
+      pulse.hidden = !hasUsage;
+      if (!hasUsage) return;
+      pulse.className = `usage-pulse is-${activity}`;
+      let label;
+      if (lastAt) {
+        const rate = stats.ratePerHour;
+        label = `${agoText(now - lastAt)}${rate ? ` · ${money(rate)}/ชม.` : ""}`;
+      } else if (key.last_used_at) {
+        label = `ใช้ล่าสุด ${agoText(now - new Date(key.last_used_at).getTime())}`;
+      } else {
+        label = "ยังไม่เห็นการเปลี่ยน";
+      }
+      pulse.replaceChildren(node("span", "usage-dot"), node("span", "", label));
+      pulse.title = "ค่าใช้ AI เปลี่ยนล่าสุด · อัตราใช้ต่อชั่วโมง (คลิกดูรายละเอียด)";
+      pulse.setAttribute("aria-label", `ค่าใช้ AI ของ ${enrollmentName(item)}: ${label} คลิกดูรายละเอียด`);
+    });
+    if (usageSummary) {
+      usageSummary.hidden = keyed === 0;
+      const time = usageRefreshedAt ? new Date(usageRefreshedAt).toLocaleTimeString("th-TH") : "—";
+      usageSummary.replaceChildren(
+        node("span", `usage-dot ${activeCount ? "is-active" : "is-idle"}`),
+        node("span", "", `ค่า AI ทั้งคลาส ${money(total)} · 15 นาทีล่าสุด +${money(add15)} · กำลังใช้ ${activeCount} คน · อัปเดต ${time} (ทุก 1 นาที)`),
+      );
+    }
+    if (usageCallout && !usageCallout.hidden && usageCalloutEmail) fillUsageCallout(usageCalloutEmail);
+  }
+  function trackUsage(data) {
+    if (!Object.keys(usageHistory).length) loadUsageHistory();
+    const now = Date.now();
+    (Array.isArray(data?.enrollments) ? data.enrollments : []).forEach((item) => {
+      if (!item.email || !item.ai_key) return;
+      const next = recordUsage(usageHistory[item.email], item.ai_key.usage_usd, now);
+      if (next) usageHistory[item.email] = next;
+    });
+    usageRefreshedAt = now;
+    saveUsageHistory();
+    paintUsage();
+  }
+  async function refreshUsage() {
+    try {
+      const data = await request(dashboardEndpoint(classroomId));
+      const byEmail = new Map((data.enrollments || []).map((item) => [item.email, item]));
+      enrollmentItems.forEach((item) => {
+        const fresh = byEmail.get(item.email);
+        if (fresh) item.ai_key = fresh.ai_key || null;
+      });
+      trackUsage(data);
+    } catch (error) {
+      if (usageSummary && error.message !== "authentication-required") {
+        usageSummary.hidden = false;
+        usageSummary.replaceChildren(node("span", "usage-dot"), node("span", "", `หยุดอัปเดตค่า AI ชั่วคราว · ${error.message}`));
+      }
+    }
+  }
+  function setUsagePolling() {
+    if (usageTimer) { globalObject.clearInterval(usageTimer); usageTimer = null; }
+    if (classroomType !== "template" && activeAdminTab === "enrollment") {
+      usageTimer = globalObject.setInterval(() => {
+        if (document.visibilityState !== "hidden") refreshUsage();
+      }, USAGE_POLL_MS);
+    } else if (usageCallout) {
+      usageCallout.hidden = true;
+    }
+  }
+  function sparkline(entry, now) {
+    const width = 220, height = 36, span = 60 * 60000;
+    const points = entry?.points || [];
+    const start = now - span;
+    const samples = [];
+    for (let i = 0; i <= 60; i += 1) samples.push(usageAt(points, start + i * 60000));
+    const min = samples[0], max = samples[samples.length - 1];
+    const range = Math.max(max - min, 0.0001);
+    const path = samples.map((value, i) => `${i ? "L" : "M"}${(i / 60 * width).toFixed(1)},${(height - 2 - ((value - min) / range) * (height - 4)).toFixed(1)}`).join(" ");
+    const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    svg.setAttribute("viewBox", `0 0 ${width} ${height}`);
+    svg.setAttribute("class", "usage-spark");
+    svg.setAttribute("aria-hidden", "true");
+    const line = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    line.setAttribute("d", path);
+    svg.append(line);
+    return svg;
+  }
+  function fillUsageCallout(email) {
+    const item = usageItem(email);
+    if (!item || !usageCallout) return;
+    const now = Date.now();
+    const key = item.ai_key || {};
+    const entry = usageHistory[email];
+    const stats = usageStats(entry, now);
+    const limit = Number(key.limit_usd);
+    const used = Number(key.usage_usd);
+    const remaining = Number.isFinite(limit) && Number.isFinite(used) ? Math.max(0, limit - used) : NaN;
+    const rate = stats?.ratePerHour;
+    const runOut = rate > 0 && Number.isFinite(remaining)
+      ? new Date(now + (remaining / rate) * 3600000).toLocaleTimeString("th-TH", { hour: "2-digit", minute: "2-digit" })
+      : null;
+    const rows = [
+      ["ใช้ไป / เพดาน", usageText(key) || "—"],
+      ["เหลือ", money(remaining)],
+      ["เปลี่ยนล่าสุด", stats?.lastChangeAt ? `${new Date(stats.lastChangeAt).toLocaleTimeString("th-TH")} (${agoText(now - stats.lastChangeAt)})` : "ยังไม่เห็นการเปลี่ยน"],
+      ["15 นาทีล่าสุด", `+${money(stats?.add15 ?? NaN, 3)}`],
+      ["60 นาทีล่าสุด", `+${money(stats?.add60 ?? NaN, 3)}`],
+      ["อัตราใช้", rate === null || rate === undefined ? "กำลังเก็บข้อมูล (ต้องดูอย่างน้อย 5 นาที)" : `${money(rate)}/ชม.`],
+      ["งบหมดประมาณ", runOut ? `${runOut} ถ้าใช้อัตรานี้ต่อ` : "—"],
+      ["OpenRouter ใช้ล่าสุด", formatDateTime(key.last_used_at)],
+    ];
+    const list = node("dl", "usage-callout-grid");
+    rows.forEach(([label, value]) => {
+      const pair = node("div");
+      pair.append(node("dt", "", label), node("dd", "", value));
+      list.append(pair);
+    });
+    const close = node("button", "usage-callout-close", "×");
+    close.type = "button";
+    close.setAttribute("aria-label", "ปิด");
+    close.addEventListener("click", () => { usageCallout.hidden = true; });
+    const since = entry?.since ? new Date(entry.since).toLocaleTimeString("th-TH", { hour: "2-digit", minute: "2-digit" }) : "—";
+    usageCallout.replaceChildren(
+      close,
+      node("strong", "", enrollmentName(item)),
+      node("small", "", key.label || ""),
+      sparkline(entry, now),
+      node("small", "usage-spark-caption", "ยอดใช้สะสม 60 นาทีล่าสุด"),
+      list,
+      node("p", "usage-callout-note", `ประวัติเก็บในเบราว์เซอร์นี้ตั้งแต่ ${since} · OpenRouter อัปเดตยอดทุก ~1 นาที · เห็นเฉพาะ key ของคลาส`),
+    );
+  }
+  function openUsageCallout(button) {
+    if (!usageCallout) {
+      usageCallout = node("div", "usage-callout");
+      usageCallout.setAttribute("role", "dialog");
+      usageCallout.hidden = true;
+      document.body.append(usageCallout);
+    }
+    const email = button.dataset.usagePulse;
+    if (!usageCallout.hidden && usageCalloutEmail === email) { usageCallout.hidden = true; return; }
+    usageCalloutEmail = email;
+    fillUsageCallout(email);
+    usageCallout.setAttribute("aria-label", `รายละเอียดค่าใช้ AI`);
+    usageCallout.hidden = false;
+    const box = button.getBoundingClientRect();
+    const width = usageCallout.offsetWidth;
+    const left = Math.max(8, Math.min(box.left + globalObject.scrollX, globalObject.scrollX + document.documentElement.clientWidth - width - 8));
+    usageCallout.style.left = `${left}px`;
+    usageCallout.style.top = `${box.bottom + globalObject.scrollY + 6}px`;
+  }
+  enrollmentRows.addEventListener("click", (event) => {
+    const button = event.target.closest("[data-usage-pulse]");
+    if (button) { event.stopPropagation(); openUsageCallout(button); }
+  });
+  document.addEventListener("click", (event) => {
+    if (usageCallout && !usageCallout.hidden && !usageCallout.contains(event.target)) usageCallout.hidden = true;
+  });
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && usageCallout && !usageCallout.hidden) usageCallout.hidden = true;
+  });
+  document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "visible" && activeAdminTab === "enrollment") refreshUsage();
+  });
+
   function setSubmissionPolling() {
     if (submissionRefreshTimer) {
       globalObject.clearInterval(submissionRefreshTimer);
@@ -961,6 +1217,7 @@
       renderClassDetails(data);
       renderTemplateDetails(data);
       renderEnrollments(data);
+      trackUsage(data);
       renderSyllabus(data);
       renderSubmissions(data);
       renderSubmissionOverview(data);
