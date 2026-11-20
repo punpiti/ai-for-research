@@ -2,7 +2,11 @@
 set -euo pipefail
 
 site_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-module_source_dir="$site_dir/../modules"
+# Course sources (modules/) stay in the OneDrive project folder; the site repo lives in
+# ~/projects since 2026-11-20. Override with AIRR_SOURCES=<folder that holds modules/>.
+if [[ -n "${AIRR_SOURCES:-}" ]]; then module_source_dir="$AIRR_SOURCES/modules"
+elif [[ -d "$site_dir/../modules" ]]; then module_source_dir="$site_dir/../modules"
+else module_source_dir="/mnt/c/Users/punpi/OneDrive/airr/modules"; fi
 failed=0
 
 check_file() {
