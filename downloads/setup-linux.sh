@@ -216,7 +216,8 @@ check() {
   disk_ready=no; awk -v disk="$free_disk_gb" 'BEGIN {exit !(disk >= 20)}' && disk_ready=yes
   issues=()
   [[ "$arch_ready" == yes ]] || issues+=("supported 64-bit architecture")
-  [[ "$ram_ready" == yes ]] || issues+=("RAM 8 GB (found $ram_gb GB)")
+  # RAM is advisory (AI runs in the cloud): warn and continue.
+  [[ "$ram_ready" == yes ]] || log "DEVICE_WARNING RAM $ram_gb GB (recommended 8 GB+, 16 GB best); setup continues - close other apps if the machine is slow."
   [[ "$disk_ready" == yes ]] || issues+=("free disk 20 GB (found $free_disk_gb GB)")
   [[ "$network" == yes ]] || issues+=("HTTPS network access to github.com")
   if (( ${#issues[@]} == 0 )); then

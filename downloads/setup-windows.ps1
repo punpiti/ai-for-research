@@ -444,7 +444,8 @@ function Check-Tools {
   $issues = @()
   if (-not $osReady) { $issues += 'Windows 11' }
   if (-not $archReady) { $issues += '64-bit architecture' }
-  if ($ramGb -lt 8) { $issues += "RAM 8 GB (found $ramGb GB)" }
+  # RAM is advisory: an 8 GB PC reports ~7.6-7.9 GB visible (GPU-reserved), and AI runs in the cloud.
+  if ($ramGb -lt 8) { Log "DEVICE_WARNING RAM $ramGb GB (recommended 8 GB+, 16 GB best); setup continues - close other apps if the machine is slow." }
   if ($diskGb -lt 20) { $issues += "free disk 20 GB (found $diskGb GB)" }
   if (-not $network) { $issues += 'HTTPS network access to github.com' }
   if ($issues.Count -eq 0) {
