@@ -20,13 +20,14 @@ import sys
 import tempfile
 from typing import Any
 from urllib.error import HTTPError, URLError
+from urllib.parse import urlencode
 from urllib.request import Request, urlopen
 from uuid import uuid4
 import zipfile
 
 
 DEFAULT_API_BASE = "https://urban.cpe.ku.ac.th/api/airr/v1"
-AIRR_VERSION = "2026.11.20.1"  # bump on every published change of this file
+AIRR_VERSION = "2026.11.20.2"  # bump on every published change of this file
 DOWNLOADS_PREFIX = "https://urban.cpe.ku.ac.th/ai-for-research/downloads/"
 MANIFEST_URL = DOWNLOADS_PREFIX + "course-materials.json"
 MODULE_MATERIALS_URL = DOWNLOADS_PREFIX + "module-materials.json"
@@ -1133,6 +1134,120 @@ HELP_OVERVIEW = """AIRR — เครื่องมือเชื่อม wor
 
 ดูรายละเอียดทีละคำสั่ง: help submit · ดูตัวเลือกทั้งหมด: <คำสั่ง> --help"""
 
+OPENALEX_API = "https://api.openalex.org/works"
+OPENALEX_DIR = Path("module-02-work") / "openalex"
+OPENALEX_PLACEHOLDERS = ("key ของคุณ", "วาง key", "your key", "YOUR_KEY", "<", ">")
+
+
+def _clean_key(value: str | None) -> str:
+    return (value or "").strip().strip('"').strip("'").strip()
+
+
+def openalex_key() -> tuple[str, str]:
+    """Find the learner's OpenAlex key without printing it.
+
+    The process variable first; then where the setup steps saved it, so a VS Code
+    window opened before `setx` or before editing ~/.zshrc still works."""
+    key = _clean_key(os.environ.get("OPENALEX_KEY"))
+    if key:
+        return key, "ตัวแปร OPENALEX_KEY"
+    if os.name == "nt":
+        try:
+            import winreg
+            with winreg.OpenKey(winreg.HKEY_CURRENT_USER, "Environment") as handle:
+                key = _clean_key(str(winreg.QueryValueEx(handle, "OPENALEX_KEY")[0]))
+            if key:
+                return key, "ค่าที่ setx บันทึกไว้ (VS Code หน้าต่างนี้ยังไม่เห็นตัวแปร)"
+        except OSError:
+            pass
+    else:
+        pattern = re.compile(r"""^\s*export\s+OPENALEX_KEY=(["']?)([^"'\s]+)\1\s*$""")
+        for name in (".zshrc", ".zprofile", ".bashrc", ".bash_profile", ".profile"):
+            path = Path.home() / name
+            try:
+                lines = path.read_text(encoding="utf-8", errors="replace").splitlines()
+            except OSError:
+                continue
+            found = [m.group(2) for m in map(pattern.match, lines) if m]
+            if found:
+                return found[-1], f"~/{name} (terminal นี้ยังไม่ได้โหลดตัวแปร)"
+    raise AIRRError("ไม่พบ OPENALEX_KEY · สมัคร key ที่ https://openalex.org/settings/api แล้วเก็บไว้ "
+                    "(Windows: setx OPENALEX_KEY \"key\" · macOS: echo 'export OPENALEX_KEY=\"key\"' >> ~/.zshrc) แล้วรันคำสั่งนี้ซ้ำ")
+
+
+def openalex_request(params: dict[str, Any], key: str, limit: int = 32 * 1024 * 1024) -> tuple[dict[str, Any], str]:
+    """GET /works with the key; returns (json, the URL without the key for logs)."""
+    if any(mark.lower() in key.lower() for mark in OPENALEX_PLACEHOLDERS) or re.search(r"\s", key):
+        raise AIRRError("OPENALEX_KEY ยังเป็นข้อความตัวอย่างหรือมีช่องว่าง · ใส่ key จริงที่คัดลอกจาก openalex.org/settings/api")
+    public_url = f"{OPENALEX_API}?{urlencode(params)}"
+    request = Request(f"{OPENALEX_API}?{urlencode({**params, 'api_key': key})}",
+                      headers={"User-Agent": "airr-openalex/1", "Accept": "application/json"})
+    try:
+        raw = http_read(request, 60, limit)
+    except HTTPError as error:
+        if error.code in (401, 403):
+            raise AIRRError(f"OpenAlex ไม่รับ key นี้ (HTTP {error.code}) · คัดลอก key ใหม่จาก openalex.org/settings/api "
+                            "ให้ครบทุกตัว แล้วบันทึกซ้ำ (Windows: setx · macOS: แก้บรรทัดใน ~/.zshrc)") from error
+        if error.code == 429:
+            raise AIRRError("OpenAlex ตอบ 429: โควตาวันนี้ของ key นี้หมดหรือเรียกถี่เกินไป · รอสักครู่แล้วลองใหม่") from error
+        raise AIRRError(f"OpenAlex ตอบ HTTP {error.code} ({public_url})") from error
+    except (URLError, TimeoutError, OSError) as error:
+        raise AIRRError(f"เชื่อมต่อ OpenAlex ไม่ได้: {error}") from error
+    try:
+        data = json.loads(raw.decode("utf-8"))
+    except (UnicodeDecodeError, json.JSONDecodeError) as error:
+        raise AIRRError("OpenAlex ตอบกลับมาไม่ใช่ JSON ลองใหม่อีกครั้ง") from error
+    notice = str((data.get("meta") or {}).get("notice") or "")
+    if "No API key" in notice:
+        raise AIRRError("OpenAlex บอกว่าไม่ได้รับ key (ใช้โควตาร่วมของเครือข่าย) แจ้งผู้สอน")
+    return data, public_url
+
+
+def command_openalex(args: argparse.Namespace) -> None:
+    key, source = openalex_key()
+    if args.action == "check":
+        data, _ = openalex_request({"search": "rice", "per-page": 1}, key, 1024 * 1024)
+        print(f"AIRR OPENALEX PASS · key ใช้ได้ (ใช้โควตาของคุณเอง) · พบ key จาก {source}")
+        if not os.environ.get("OPENALEX_KEY"):
+            print("หมายเหตุ: ใช้ AIRR openalex search ค้นได้เลย · ถ้าจะให้ AI เรียก API เอง ให้ปิด VS Code ทุกหน้าต่างแล้วเปิดใหม่")
+        return
+    query = " ".join(args.query).strip()
+    if not query:
+        raise AIRRError('ใส่คำค้น เช่น AIRR openalex search "rice straw burning PM2.5"')
+    filters = [f"from_publication_date:{args.since}"] if args.since else []
+    if args.type:
+        filters.append(f"type:{args.type}")
+    if args.filter:
+        filters.append(args.filter)
+    params: dict[str, Any] = {"search": query, "per-page": max(1, min(args.per_page, 200)), "sort": "relevance_score:desc"}
+    if filters:
+        params["filter"] = ",".join(filters)
+    data, public_url = openalex_request(params, key)
+    workspace = resolve_workspace(args.workspace)
+    folder = workspace / OPENALEX_DIR
+    folder.mkdir(parents=True, exist_ok=True)
+    stamp = datetime.now().astimezone()
+    works = folder / "works.json"
+    if works.exists():
+        works.replace(folder / f"works.prev-{stamp.strftime('%Y%m%d-%H%M%S')}.json")
+    works.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    results = [item for item in data.get("results", []) if isinstance(item, dict)]
+    total = (data.get("meta") or {}).get("count")
+    log = folder / "search-log.md"
+    if not log.exists():
+        log.write_text("# บันทึกการค้น OpenAlex\n\n| วันเวลา | คำค้น | ตัวกรอง | URL (ไม่มี key) | พบทั้งหมด | เก็บไว้ |\n|---|---|---|---|---|---|\n", encoding="utf-8")
+    with log.open("a", encoding="utf-8") as stream:
+        cell = lambda value: str(value).replace("|", "\\|")
+        stream.write(f"| {stamp.strftime('%Y-%m-%d %H:%M')} | {cell(query)} | {cell(params.get('filter', '-'))} | {public_url} | {total} | {len(results)} |\n")
+    print(f"AIRR OPENALEX SEARCH PASS · พบทั้งหมด {total} · เก็บ {len(results)} รายการลง {works.relative_to(workspace).as_posix()} · บันทึกใน search-log.md")
+    print("ลำดับ | ปี | ชื่อเรื่อง | source | cited_by_count | abstract")
+    for number, item in enumerate(results[:10], 1):
+        source_name = ((item.get("primary_location") or {}).get("source") or {}).get("display_name") or "-"
+        title = str(item.get("display_name") or item.get("title") or "-").replace("|", "/")[:90]
+        has_abstract = "มี" if item.get("abstract_inverted_index") else "ไม่มี"
+        print(f"{number} | {item.get('publication_year', '-')} | {title} | {str(source_name)[:40]} | {item.get('cited_by_count', 0)} | {has_abstract}")
+
+
 HELP_TOPICS = {
     "version": "version\n  แสดงรุ่นของเครื่องมือ AIRR ในเครื่องนี้ และตรวจกับเว็บคลาสว่ามีรุ่นใหม่หรือไม่\n  ไม่ส่งข้อมูลใด ๆ · มีรุ่นใหม่: ใช้คำสั่ง update",
     "update": "update\n  ดาวน์โหลดเครื่องมือ AIRR รุ่นล่าสุดจากเว็บคลาส ตรวจ checksum แล้วแทนที่ไฟล์ใน tools/ ของ workspace\n  ไม่แตะงานใน module-0N-work/ และไม่ส่งข้อมูลใด ๆ · ใช้เมื่อผู้สอนแจ้งว่ามีการแก้เครื่องมือ",
@@ -1145,6 +1260,7 @@ HELP_TOPICS = {
     "submit": "submit MODULE [--yes] [--short]\n  ส่งงานหรือสถานะของโมดูลให้ผู้สอน แสดงสรุปและถามยืนยันก่อนส่ง (--yes = ไม่ถามซ้ำ)\n  Module 1 ส่งเฉพาะเช็กลิสต์และเวลา ไม่ส่งไฟล์งาน · Module 7 ส่ง highlights และกราฟ 1–5 ภาพ\n  --short Module 1: แจ้งผู้สอนว่าเสร็จ (ผู้เรียนติ๊กเช็กลิสต์บนเว็บเองแล้ว) · Module 2/3: แจ้งว่าเสร็จด้วยจำนวนบรรทัด ไม่ส่งเนื้อหา\n  ตัวอย่าง: submit module-1 --short --yes",
     "status": "status module-1|module-2|module-3|module-4|module-7\n  ดูว่าผู้สอนได้รับงานแล้วหรือยัง ผลตรวจ และ feedback\n  ตัวอย่าง: status module-7",
     "ai-key": "ai-key [--open] [--clear]\n  รับ OpenRouter key ที่ผู้สอนจัดให้ (หนึ่งคนหนึ่ง key รันซ้ำได้ key เดิม) ลงไฟล์ ~/.airr/ai-key.txt\n  ไม่แสดง key บนจอ · --open เปิดไฟล์ใน VS Code · คัดลอกบรรทัดแรกไปวางใน Cline\n  ใส่ใน Cline และทดสอบได้แล้ว: ai-key --clear เพื่อลบไฟล์",
+    "openalex": "openalex check | openalex search \"คำค้น\" [--since 2018-01-01] [--type \"article|review\"] [--filter ...] [--per-page 50]\n  check: ตรวจว่า OpenAlex API key ของคุณใช้ได้ (ไม่แสดง key; อ่านจาก OPENALEX_KEY หรือที่ setx/~/.zshrc บันทึกไว้)\n  search: ค้น OpenAlex ด้วย key ของคุณ เก็บผลทั้งก้อนลง module-02-work/openalex/works.json (ไฟล์เดิมเก็บเป็น works.prev-*.json)\n  และเพิ่มบรรทัดใน search-log.md (URL ไม่มี key) แล้วแสดงสิบรายการแรก",
     "materials": "materials module-2|module-4 [--thai]\n  ดาวน์โหลดไฟล์ฝึกของโมดูลลง workspace (ถ้าติดตั้งพร้อม key ไฟล์จะมีอยู่แล้ว)\n  ตัวอย่าง: materials module-4 --thai",
 }
 
@@ -1210,6 +1326,14 @@ def parser() -> argparse.ArgumentParser:
     ai_key.add_argument("--open", action="store_true", help="เปิดไฟล์ key ใน VS Code")
     ai_key.add_argument("--clear", action="store_true", help="ลบไฟล์ key หลังใส่ใน Cline แล้ว")
     ai_key.set_defaults(handler=command_ai_key)
+    openalex = commands.add_parser("openalex", help="ตรวจ OpenAlex API key หรือค้น OpenAlex ด้วย key ของคุณ (ไม่แสดง key)")
+    openalex.add_argument("action", choices=["check", "search"])
+    openalex.add_argument("query", nargs="*", help="คำค้น (สำหรับ search)")
+    openalex.add_argument("--since", default="2018-01-01", help="from_publication_date (ค่าเริ่มต้น 2018-01-01; ใส่ค่าว่างเพื่อไม่กรองปี)")
+    openalex.add_argument("--type", default="article|review", help="ประเภทผลงาน (ค่าเริ่มต้น article|review; ใส่ค่าว่างเพื่อไม่กรอง)")
+    openalex.add_argument("--filter", default="", help="ตัวกรอง OpenAlex เพิ่มเติม เช่น language:en")
+    openalex.add_argument("--per-page", type=int, default=50, help="จำนวนที่เก็บ (1-200, ค่าเริ่มต้น 50)")
+    openalex.set_defaults(handler=command_openalex)
     status = commands.add_parser("status", help="ดูผลตรวจและ feedback")
     status.add_argument("module", choices=("module-1", "module-2", "module-3", "module-4", "module-7"))
     status.set_defaults(handler=command_status)

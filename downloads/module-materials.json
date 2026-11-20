@@ -346,8 +346,8 @@
      "kind": "course",
      "url": "course-materials/visualization/tools/ai-for-research-course.py",
      "path": "course-materials/module-07/tools/ai-for-research-course.py",
-     "sha256": "bf6bb3531ca8be57675ac542fb6cc4ae67d4132edeb2e8591f49cabf26c09eeb",
-     "bytes": 79741
+     "sha256": "d3bdb4863a8d68b1d86da11b5bf760a33f75929efd769d719efb483d1cd2e1f9",
+     "bytes": 89348
     },
     {
      "kind": "mock",
