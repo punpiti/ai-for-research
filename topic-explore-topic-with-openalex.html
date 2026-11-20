@@ -11,7 +11,7 @@
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/styles.css?v=20261113-2">
   <link rel="stylesheet" href="assets/learn.css?v=20261119-2">
-  <script src="assets/site-shell.js?v=20261119-2"></script>
+  <script src="assets/site-shell.js?v=20261120-1"></script>
   <script src="assets/app.js?v=20261119-2" defer></script>
   <link rel="icon" href="assets/images/airr-mark-dark.svg" type="image/svg+xml">
   <link rel="icon" href="assets/images/favicon-32.png" sizes="32x32" type="image/png">
@@ -27,10 +27,9 @@
 <h3 id="workshop-core--ก่อนเริ่ม-ต้องมีอยู่แล้ว">ก่อนเริ่ม (ต้องมีอยู่แล้ว)</h3>
 <ul>
 <li>เรื่องที่คุณสนใจหนึ่งเรื่อง และคำถามหนึ่งข้อ (ไม่ต้องเป็นหัวข้อวิจัยใหม่)</li>
-<li><strong>ต้องมี</strong> OpenAlex API key ของตัวเองในตัวแปร <code>OPENALEX_KEY</code> (ขั้นที่ 7 ของหัวข้อ "บัตรสรุป" — ถ้ายังไม่ได้ทำ กลับไปทำขั้นนั้นก่อน)
+<li><strong>ต้องมี</strong> OpenAlex API key ของตัวเองในไฟล์ <code>.airr/keys/openalex.txt</code> (ขั้นที่ 7 ของหัวข้อ "บัตรสรุป" — ถ้ายังไม่ได้ทำ กลับไปทำขั้นนั้นก่อน)
 <ul>
-<li>Windows: เปิด PowerShell พิมพ์ <code>setx OPENALEX_KEY "key ของคุณ"</code> แล้วปิด–เปิด VS Code ใหม่</li>
-<li>macOS / Linux: เพิ่มบรรทัด <code>export OPENALEX_KEY="key ของคุณ"</code> ใน <code>~/.zshrc</code> หรือ <code>~/.bashrc</code> แล้วเปิด terminal ใหม่</li>
+<li>ตรวจด้วย prompt <code>AIRR key check openalex</code> ต้องได้ <code>AIRR KEY PASS · openalex</code> · ยังไม่มี: <code>AIRR key set openalex</code> แล้ววาง key ในไฟล์ที่เปิดขึ้น</li>
 <li><strong>ห้ามวาง key ใน prompt ไฟล์งาน หรือภาพหน้าจอ</strong> (ไม่มี key AI จะเรียก API ไม่ได้ — OpenAlex ตอบ 429)</li>
 </ul></li>
 <li>ไฟล์ทั้งหมดของหัวข้อนี้อยู่ใน <code>module-02-work/openalex/</code> (ดูแผนที่ไฟล์ใน <code>module-02-work/openalex/README.md</code>)</li>
@@ -119,7 +118,7 @@
 </ol>
 <h3 id="open-explore--ข้อกำหนด">ข้อกำหนด</h3>
 <ul>
-<li>ห้ามวาง OpenAlex API key ใน prompt หรือไฟล์ใด ใช้ <code>OPENALEX_KEY</code> เท่านั้น</li>
+<li>ห้ามวาง OpenAlex API key ใน prompt หรือไฟล์ใด key อยู่ใน <code>.airr/keys/openalex.txt</code> เท่านั้น</li>
 <li>ไม่แก้ <code>works.json</code> และ <code>refs.bib</code> ของ workshop</li>
 <li>ทุกข้อสรุปอ้าง key และบอกเมื่อ abstract ไม่พอ</li>
 <li>ถ้าผลรอบใหม่ไม่ดีกว่า ให้บันทึกตามจริง</li>

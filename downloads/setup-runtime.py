@@ -90,6 +90,35 @@ def _is_cert_error(error):
     return isinstance(reason, ssl.SSLError) or 'CERTIFICATE_VERIFY_FAILED' in str(error)
 
 
+ANTIVIRUS_HINT = ('If an antivirus scans HTTPS (Kaspersky, ESET, Avast, Bitdefender ...), it may be blocking python/curl: '
+                  'turn off its HTTPS/Web Shield scanning for a moment or allow python and curl, then rerun the same command.')
+
+
+def _tls_or_reset(error):
+    reason = getattr(error, 'reason', error)
+    return _is_cert_error(error) or isinstance(reason, (ConnectionResetError, ConnectionAbortedError))
+
+
+def _powershell_download(url, target, timeout=300):
+    """Windows only: download with PowerShell (Schannel). Antivirus that blocks python/curl
+    usually trusts PowerShell. Returns True on success."""
+    if os.name != 'nt':
+        return False
+    shell = Path(os.environ.get('SystemRoot', r'C:\Windows')) / 'System32' / 'WindowsPowerShell' / 'v1.0' / 'powershell.exe'
+    shell = str(shell) if shell.exists() else shutil.which('powershell.exe')
+    if not shell:
+        return False
+    script = ("$ErrorActionPreference='Stop'; try { [Net.ServicePointManager]::SecurityProtocol = "
+              "[Net.ServicePointManager]::SecurityProtocol -bor [Net.SecurityProtocolType]::Tls12 } catch {}; "
+              "Invoke-WebRequest -UseBasicParsing -Uri $args[0] -OutFile $args[1] -TimeoutSec " + str(int(timeout)))
+    try:
+        result = subprocess.run([shell, '-NoProfile', '-NonInteractive', '-Command', script, url, str(target)],
+                                capture_output=True, text=True, timeout=timeout + 60)
+    except (OSError, subprocess.SubprocessError):
+        return False
+    return result.returncode == 0 and Path(target).is_file()
+
+
 def fetch_file(url, target, hook=None):
     """urlretrieve, falling back to the OS curl when Python's OpenSSL cannot verify the
     certificate chain. Windows curl.exe uses Schannel (the Windows trust store, AIA fetch,
@@ -97,15 +126,24 @@ def fetch_file(url, target, hook=None):
     try:
         urllib.request.urlretrieve(url, target, hook)
         return
-    except (urllib.error.URLError, ssl.SSLError) as error:
-        if not _is_cert_error(error):
+    except (urllib.error.URLError, ssl.SSLError, ConnectionError) as error:
+        if isinstance(error, urllib.error.HTTPError) or not _tls_or_reset(error):
             raise
         first_error = error
     curl = _system_curl()
-    if not curl:
-        raise first_error
-    log(f'DOWNLOAD_FALLBACK Python could not verify the certificate for {url.split("/")[2]}; using the system curl (OS trust store).')
-    run(curl, '-fL', '--retry', '2', '--connect-timeout', '30', '-o', str(target), url)
+    if curl:
+        log(f'DOWNLOAD_FALLBACK Python could not verify the certificate for {url.split("/")[2]}; using the system curl (OS trust store).')
+        try:
+            run(curl, '-fL', '--retry', '2', '--connect-timeout', '30', '-o', str(target), url)
+            return
+        except (OSError, subprocess.CalledProcessError) as error:
+            curl_error = error
+    else:
+        curl_error = 'curl not found'
+    if _powershell_download(url, target):
+        log(f'DOWNLOAD_FALLBACK curl failed too; downloaded {url.split("/")[2]} with PowerShell.')
+        return
+    raise RuntimeError(f'Download failed with Python ({first_error}) and curl ({curl_error}). {ANTIVIRUS_HINT}')
 
 
 def _system_curl():
@@ -123,24 +161,37 @@ def read_url(url, limit, timeout=30):
     try:
         with urllib.request.urlopen(url, timeout=timeout) as response:
             return response.read(limit + 1), getattr(response, 'geturl', lambda: url)()
-    except (urllib.error.URLError, ssl.SSLError) as error:
-        if isinstance(error, urllib.error.HTTPError) or not _is_cert_error(error):
+    except (urllib.error.URLError, ssl.SSLError, ConnectionError) as error:
+        if isinstance(error, urllib.error.HTTPError) or not _tls_or_reset(error):
             raise
         first_error = error
     curl = _system_curl()
     if not curl:
-        raise first_error
+        return _read_url_powershell(url, limit, first_error, 'curl not found')
     log(f'DOWNLOAD_FALLBACK Python could not verify the certificate for {url.split("/")[2]}; using the system curl (OS trust store).')
     with tempfile.TemporaryDirectory(prefix='ai-research-curl-') as scratch:
         body = Path(scratch) / 'body'
-        result = subprocess.run([curl, '-fsSL', '--proto', '=https', '--proto-redir', '=https', '--max-redirs', '5',
-                                 '--retry', '2', '--connect-timeout', '30', '--max-time', str(max(timeout, 120)),
-                                 '-o', str(body), '-w', '%{url_effective}', url],
-                                stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+        try:
+            result = subprocess.run([curl, '-fsSL', '--proto', '=https', '--proto-redir', '=https', '--max-redirs', '5',
+                                     '--retry', '2', '--connect-timeout', '30', '--max-time', str(max(timeout, 120)),
+                                     '-o', str(body), '-w', '%{url_effective}', url],
+                                    stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+        except OSError as error:  # antivirus may stop curl.exe from starting
+            return _read_url_powershell(url, limit, first_error, error)
         if result.returncode != 0:
-            raise RuntimeError(f'Download failed with Python ({first_error}) and with curl (exit {result.returncode}: {result.stderr.strip()[:300]}).')
+            return _read_url_powershell(url, limit, first_error, f'exit {result.returncode}: {result.stderr.strip()[:300]}')
         with body.open('rb') as stream:
             return stream.read(limit + 1), result.stdout.strip() or url
+
+
+def _read_url_powershell(url, limit, first_error, curl_error):
+    with tempfile.TemporaryDirectory(prefix='ai-research-ps-') as scratch:
+        body = Path(scratch) / 'body'
+        if _powershell_download(url, body, 120):
+            log(f'DOWNLOAD_FALLBACK curl failed too; downloaded {url.split("/")[2]} with PowerShell.')
+            with body.open('rb') as stream:
+                return stream.read(limit + 1), url
+    raise RuntimeError(f'Download failed with Python ({first_error}) and with curl ({curl_error}). {ANTIVIRUS_HINT}')
 
 
 def log(message):
@@ -322,7 +373,7 @@ def setup_airr(workspace, python):
         log('AIRR_NOT_CONNECTED Create an AIRR Key on the Module 1 page, then run tools/airr login once.')
         return
     try:
-        result = subprocess.run([str(python), str(client), '--workspace', str(workspace), 'login', '--key', key],
+        result = subprocess.run([str(python), str(client), '--workspace', str(workspace), 'login', '--key', key, '--no-init'],
                                 capture_output=True, text=True, timeout=60)
     except (OSError, subprocess.TimeoutExpired) as error:
         log(f'AIRR_LOGIN_SKIPPED {type(error).__name__}; run tools/airr login later.')
@@ -731,35 +782,41 @@ def configure(workspace, agent, root, env, python_receipt=None):
         source = workspace / 'AGENTS.md'
         if source.exists():
             write_new(workspace / '.clinerules' / 'course.md', source.read_text(encoding='utf-8'))
-        log('CLINE_READY Paste the class OpenRouter key (see AI_KEY_READY) and set Auto Approve in the Cline panel once; environment is ready for user-owned package installs.')
+        log('CLINE_READY Key, model and reasoning effort are set by AIRR (see CLINE_CONFIGURED); set Auto Approve in the Cline panel once.')
     else:
         log('ANTIGRAVITY_PERMISSIONS Configure terminal execution/download approval once in the IDE; the installer does not change IDE-wide policy.')
     log(f'RUNTIME_ROOT {root}')
 
 
 def fetch_ai_key(workspace, python):
-    """OpenRouter learners: fetch the class-issued key into ~/.airr/ai-key.txt.
-
-    The key is never printed or logged; the learner pastes it into Cline and
-    then deletes the file (tools/airr ai-key --clear). Never fails Module 1.
-    """
+    """OpenRouter learners: fetch the class-issued key into <workspace>/.airr/keys/openrouter.txt
+    and put it into Cline with the class model and reasoning effort = medium (owner 2026-11-20:
+    Cline's default effort "none" made Luna Pro give up after one failure). Never prints the key;
+    never replaces a key/model the learner already set in Cline. Never fails Module 1."""
     client = workspace / AIRR_CLIENT
     if not (workspace / '.airr' / 'config.json').exists() or not client.is_file():
-        log('AI_KEY_SKIPPED AIRR is not connected yet; after connecting, ask for tools/airr ai-key.')
+        log('AI_KEY_SKIPPED AIRR is not connected yet; after connecting, ask for tools/airr key get openrouter.')
         return
-    try:
-        result = subprocess.run([str(python), str(client), '--workspace', str(workspace), 'ai-key'],
-                                capture_output=True, text=True, timeout=60)
-    except (OSError, subprocess.TimeoutExpired) as error:
-        log(f'AI_KEY_SKIPPED {type(error).__name__}; run tools/airr ai-key later.')
+    def airr(*argv):
+        try:
+            result = subprocess.run([str(python), str(client), '--workspace', str(workspace), *argv],
+                                    capture_output=True, text=True, timeout=60)
+        except (OSError, subprocess.TimeoutExpired) as error:
+            return False, [type(error).__name__]
+        lines = (result.stdout or '').strip().splitlines()
+        return result.returncode == 0, lines or (result.stderr or 'unknown error').strip().splitlines()
+    ok, lines = airr('key', 'get', 'openrouter')
+    if not ok:
+        log(f'AI_KEY_SKIPPED {lines[-1][:200]}; run tools/airr key get openrouter later.')
         return
-    lines = (result.stdout or '').strip().splitlines()
-    if result.returncode == 0 and lines:
-        path = next((line[5:] for line in lines if line.startswith('file=')), '~/.airr/ai-key.txt')
-        log(f'AI_KEY_READY {lines[0]} -> {path}; open it in VS Code, paste line 1 into Cline, then run tools/airr ai-key --clear.')
+    path = next((line[5:] for line in lines if line.startswith('file=')), '.airr/keys/openrouter.txt')
+    log(f'AI_KEY_READY {lines[0]} -> {path}')
+    ok, lines = airr('key', 'use', 'openrouter')
+    if ok:
+        log('CLINE_CONFIGURED ' + lines[0])
     else:
-        reason = ((result.stderr or result.stdout or '').strip().splitlines() or ['unknown error'])[-1]
-        log(f'AI_KEY_SKIPPED {reason[:200]}')
+        log(f'CLINE_NOT_CONFIGURED {lines[-1][:200]}; open {path} in VS Code and paste line 1 into Cline '
+            '(Settings > API Configuration > OpenRouter), and set Reasoning Effort to Medium.')
 
 
 def traced_main():

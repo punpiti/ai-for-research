@@ -27,7 +27,7 @@ import zipfile
 
 
 DEFAULT_API_BASE = "https://urban.cpe.ku.ac.th/api/airr/v1"
-AIRR_VERSION = "2026.11.20.3"  # bump on every published change of this file
+AIRR_VERSION = "2026.11.20.4"  # bump on every published change of this file
 DOWNLOADS_PREFIX = "https://urban.cpe.ku.ac.th/ai-for-research/downloads/"
 MANIFEST_URL = DOWNLOADS_PREFIX + "course-materials.json"
 MODULE_MATERIALS_URL = DOWNLOADS_PREFIX + "module-materials.json"
@@ -63,6 +63,67 @@ def _is_cert_error(error: BaseException) -> bool:
     return isinstance(reason, ssl.SSLError) or "CERTIFICATE_VERIFY_FAILED" in str(error)
 
 
+def _is_tls_or_reset(error: BaseException) -> bool:
+    """Certificate failures and connections cut mid-handshake: what HTTPS-scanning antivirus causes."""
+    reason = getattr(error, "reason", error)
+    return _is_cert_error(error) or isinstance(reason, (ConnectionResetError, ConnectionAbortedError))
+
+
+ANTIVIRUS_HINT = ("ถ้าเครื่องมีโปรแกรม antivirus ที่สแกน HTTPS (เช่น Kaspersky, ESET, Avast, Bitdefender) "
+                  "อาจบล็อกอยู่: ปิดการสแกน HTTPS/Web Shield ชั่วคราว หรืออนุญาต python/curl แล้วลองใหม่ · ถ้ายังไม่ได้ แจ้งผู้สอน")
+
+POWERSHELL_FETCH = r"""
+$ErrorActionPreference = 'Stop'
+$r = Get-Content -Raw -Encoding UTF8 -LiteralPath $args[0] | ConvertFrom-Json
+try { [Net.ServicePointManager]::SecurityProtocol = [Net.ServicePointManager]::SecurityProtocol -bor [Net.SecurityProtocolType]::Tls12 } catch {}
+$h = @{}; $p = @{ Uri = $r.url; Method = $r.method; TimeoutSec = [int]$r.timeout; UseBasicParsing = $true; OutFile = $r.out; PassThru = $true }
+foreach ($x in $r.headers.PSObject.Properties) {
+  if ($x.Name -eq 'Content-Type') { $p.ContentType = $x.Value }
+  elseif ($x.Name -eq 'User-Agent') { $p.UserAgent = $x.Value }
+  else { $h[$x.Name] = $x.Value }
+}
+$p.Headers = $h
+if ($r.body) { $p.InFile = $r.body }
+try { $resp = Invoke-WebRequest @p; [Console]::Out.Write([int]$resp.StatusCode) }
+catch {
+  $resp = $_.Exception.Response
+  if ($null -eq $resp) { [Console]::Error.Write($_.Exception.Message); exit 1 }
+  try { $s = $resp.GetResponseStream(); $f = [IO.File]::Create($r.out); $s.CopyTo($f); $f.Close() } catch {}
+  [Console]::Out.Write([int]$resp.StatusCode)
+}
+"""
+
+
+def _powershell_read(request: Request, timeout: int, limit: int) -> tuple[int, bytes] | None:
+    """Windows only: the same request through PowerShell (Schannel). Antivirus that blocks
+    python/curl usually trusts PowerShell. The API key goes in a temp file, never the command line."""
+    if os.name != "nt":
+        return None
+    shell = Path(os.environ.get("SystemRoot", r"C:\Windows")) / "System32" / "WindowsPowerShell" / "v1.0" / "powershell.exe"
+    shell_cmd = str(shell) if shell.exists() else shutil.which("powershell.exe")
+    if not shell_cmd:
+        return None
+    with tempfile.TemporaryDirectory(prefix="airr-ps-") as scratch:
+        folder = Path(scratch)
+        spec = {"url": request.full_url, "method": request.get_method(), "timeout": timeout,
+                "out": str(folder / "body"), "headers": dict(request.header_items()), "body": ""}
+        if request.data is not None:
+            (folder / "payload").write_bytes(request.data)
+            spec["body"] = str(folder / "payload")
+        (folder / "request.json").write_text(json.dumps(spec), encoding="utf-8")
+        (folder / "fetch.ps1").write_text(POWERSHELL_FETCH, encoding="utf-8-sig")
+        try:
+            result = subprocess.run([shell_cmd, "-NoProfile", "-NonInteractive", "-ExecutionPolicy", "Bypass",
+                                     "-File", str(folder / "fetch.ps1"), str(folder / "request.json")],
+                                    capture_output=True, text=True, timeout=timeout + 30)
+        except (OSError, subprocess.SubprocessError):
+            return None
+        if result.returncode != 0 or not result.stdout.strip().isdigit():
+            return None
+        body = folder / "body"
+        return int(result.stdout.strip()), (body.read_bytes()[:limit] if body.exists() else b"")
+
+
 def _curl_quote(value: str) -> str:
     return '"' + value.replace("\\", "\\\\").replace('"', '\\"') + '"'
 
@@ -75,10 +136,24 @@ def http_read(request: Request, timeout: int, limit: int) -> bytes:
     try:
         with urlopen(request, timeout=timeout) as response:
             return response.read(limit)
-    except URLError as error:
-        if isinstance(error, HTTPError) or not _is_cert_error(error):
+    except (URLError, ConnectionError) as error:
+        if isinstance(error, HTTPError) or not _is_tls_or_reset(error):
             raise
-        first_error = error
+        first_error = error if isinstance(error, URLError) else URLError(error)
+    url = request.full_url
+    try:
+        return _curl_read(request, timeout, limit, first_error)
+    except URLError as curl_error:
+        fallback = _powershell_read(request, timeout, limit)
+        if fallback is None:
+            raise URLError(f"{curl_error.reason} · {ANTIVIRUS_HINT}") from curl_error
+    status, data = fallback
+    if status >= 400:
+        raise HTTPError(url, status, f"HTTP {status}", None, io.BytesIO(data))  # type: ignore[arg-type]
+    return data
+
+
+def _curl_read(request: Request, timeout: int, limit: int, first_error: URLError) -> bytes:
     if os.name == "nt":
         system_curl = Path(os.environ.get("SystemRoot", r"C:\Windows")) / "System32" / "curl.exe"
         curl = str(system_curl) if system_curl.exists() else shutil.which("curl.exe")
@@ -98,7 +173,10 @@ def http_read(request: Request, timeout: int, limit: int) -> bytes:
             payload = Path(scratch) / "payload"
             payload.write_bytes(request.data)
             command += ["--data-binary", f"@{payload}"]
-        result = subprocess.run(command + [url], input=config, capture_output=True, text=True)
+        try:
+            result = subprocess.run(command + [url], input=config, capture_output=True, text=True)
+        except OSError as error:  # antivirus may stop curl.exe from starting at all
+            raise URLError(f"{first_error.reason}; เรียก curl ไม่ได้ ({error})") from error
         if result.returncode != 0:
             raise URLError(f"{first_error.reason}; curl ก็เชื่อมต่อไม่ได้ (exit {result.returncode}: {result.stderr.strip()[:200]})")
         data = body.read_bytes()[:limit] if body.exists() else b""
@@ -633,6 +711,21 @@ def command_login(args: argparse.Namespace) -> None:
     })
     print(f"AIRR CONNECTED · {me.get('classroom_title')} ({me.get('classroom_id')})")
     print(f"config={config_path(workspace)}")
+    if args.no_init:
+        return
+    # owner 2026-11-20: once the key is in, prepare every module of this class right away.
+    modules = ["module-1"] + [name for name, state in (me.get("module_states") or {}).items()
+                              if name in INIT_MODULES and name != "module-1" and (state or {}).get("available")]
+    failed = []
+    for module in modules:
+        try:
+            command_init(argparse.Namespace(workspace=str(workspace), module=module, force=False, forms_only=False,
+                                            manifest_url=getattr(args, "manifest_url", None)))
+        except (AIRRError, OSError) as error:
+            failed.append(module)
+            print(f"AIRR INIT SKIP · {module}: {error}")
+    print(f"AIRR LOGIN INIT · เตรียมแล้ว {len(modules) - len(failed)}/{len(modules)} โมดูล"
+          + (f" · ทำซ้ำภายหลัง: airr init {' / '.join(failed)}" if failed else ""))
 
 
 def command_logout(args: argparse.Namespace) -> None:
@@ -690,52 +783,326 @@ def command_materials(args: argparse.Namespace) -> None:
     print(f"AIRR MATERIALS PASS · {args.module}")
 
 
-def ai_key_path() -> Path:
-    # Outside the workspace on purpose: workspaces may be synced or committed.
+# ---------------------------------------------------------------------------
+# Key protocol (owner 2026-11-20). Every personal key lives INSIDE the workspace:
+#   .airr/config.json           the AIRR Key (written by `airr login`; links this workspace to the class)
+#   .airr/keys/<service>.txt    one file per outside service; line 1 = the key, lines starting with # = notes
+# .airr/ is git-ignored. Keys are never printed. Commands: airr key list | set | check | get | clear.
+# A new service = one entry in KEY_SERVICES (plus a checker in KEY_CHECKERS if it can be tested).
+KEY_SERVICES: dict[str, dict[str, Any]] = {
+    "openrouter": {
+        "title": "OpenRouter (AI ใน Cline)",
+        "obtain": "ผู้สอนแจกให้ผ่าน AIRR: airr key get openrouter",
+        "use": "คัดลอกบรรทัดแรกไปวางในช่อง OpenRouter API Key ของ Cline",
+        "pattern": r"sk-or-v1-[A-Za-z0-9]{32,128}",
+        "env": "",
+    },
+    "openalex": {
+        "title": "OpenAlex (ค้นบทความ Module 2/4)",
+        "obtain": "สมัครฟรีที่ https://openalex.org/settings/api แล้ววางด้วย airr key set openalex",
+        "use": "airr openalex search \"คำค้น\" ใช้ให้เอง · สคริปต์ที่เขียนเองให้อ่านจากไฟล์นี้ ห้ามพิมพ์ key ออกจอ",
+        "pattern": r"[A-Za-z0-9_\-]{8,128}",
+        "env": "OPENALEX_KEY",
+    },
+}
+KEY_PLACEHOLDER = "วาง key ที่บรรทัดนี้แทนข้อความนี้ แล้วกด Ctrl+S (macOS: Cmd+S)"
+KEY_PLACEHOLDER_MARKS = ("วาง key", "key ของคุณ", "your key", "YOUR_KEY", "<", ">")
+
+
+def key_path(workspace: Path, service: str) -> Path:
+    return workspace / ".airr" / "keys" / f"{service}.txt"
+
+
+def legacy_key_path() -> Path:
+    """Before 2026.11.20.3 the OpenRouter key went to ~/.airr/ai-key.txt (outside the workspace)."""
     return Path.home() / ".airr" / "ai-key.txt"
 
 
-def command_ai_key(args: argparse.Namespace) -> None:
-    """Fetch this learner's OpenRouter key into a private file, never to stdout.
+def _clean_key(value: str | None) -> str:
+    return (value or "").strip().strip('"').strip("'").strip()
 
-    The AI agent runs this command, so the key must not appear in its output.
-    """
-    path = ai_key_path()
-    if args.clear:
-        if path.exists():
-            path.unlink()
-            print(f"AIRR AI-KEY CLEARED · ลบ {path} แล้ว (key ที่ใส่ใน Cline ยังใช้ได้ตามปกติ)")
-        else:
-            print("AIRR AI-KEY CLEARED · ไม่มีไฟล์ key ค้างอยู่")
-        return
-    workspace = resolve_workspace(args.workspace)
-    config = read_config(workspace)
-    assert config is not None
-    value = request_json("POST", f"{config['api_base']}/ai-key", config["api_key"], {})
-    key = str(value.get("api_key", ""))
-    if not re.fullmatch(r"sk-or-v1-[A-Za-z0-9]{32,128}", key):
-        raise AIRRError("AIRR ส่ง AI key ที่รูปแบบไม่ถูกต้อง แจ้งผู้สอน")
+
+def read_key_file(path: Path) -> str:
+    """First line that is not empty and not a # note; '' when missing or unreadable."""
+    try:
+        lines = path.read_text(encoding="utf-8-sig", errors="replace").splitlines()
+    except OSError:
+        return ""
+    return next((_clean_key(line) for line in lines if line.strip() and not line.lstrip().startswith("#")), "")
+
+
+def key_problem(service: str, key: str) -> str:
+    """'' when the text looks like a real key for this service, otherwise why not (Thai)."""
+    if not key:
+        return "ยังไม่มี key"
+    if any(mark.lower() in key.lower() for mark in KEY_PLACEHOLDER_MARKS):
+        return "ยังเป็นข้อความตัวอย่าง ยังไม่ได้วาง key จริง"
+    if re.search(r"\s", key):
+        return "มีช่องว่างอยู่ใน key (คัดลอกมาไม่ครบหรือเกิน)"
+    if not re.fullmatch(KEY_SERVICES[service]["pattern"], key):
+        return f"รูปแบบไม่เหมือน key ของ {KEY_SERVICES[service]['title']} (ยาว {len(key)} ตัวอักษร)"
+    return ""
+
+
+def write_key_file(path: Path, service: str, key: str) -> None:
+    info = KEY_SERVICES[service]
     path.parent.mkdir(parents=True, exist_ok=True)
     temporary = path.with_suffix(".tmp")
     temporary.write_text(
         f"{key}\n\n"
-        "# บรรทัดแรกคือ OpenRouter API key ของคุณ (ห้ามส่งต่อ ห้ามวางในแชต AI)\n"
-        "# 1) คัดลอกบรรทัดแรก  2) วางในช่อง OpenRouter API Key ของ Cline\n"
-        "# 3) ทดสอบส่งข้อความใน Cline ได้แล้ว ให้ AI รันคำสั่ง ai-key --clear เพื่อลบไฟล์นี้\n",
+        f"# บรรทัดแรกคือ key ของ {info['title']} · ห้ามส่งต่อ ห้ามวางในแชต AI\n"
+        f"# ใช้อย่างไร: {info['use']}\n"
+        f"# ได้มาจาก: {info['obtain']}\n"
+        f"# ตรวจว่าใช้ได้: airr key check {service} · ดูทุก key: airr key list\n",
         encoding="utf-8",
     )
     os.replace(temporary, path)
     if os.name != "nt":
         path.chmod(0o600)
-    print(f"AIRR AI-KEY READY · {value.get('provider')} {value.get('label')} ({value.get('tier')})")
-    print(f"file={path}")
-    print("ห้ามแสดงหรืออ่านเนื้อหาไฟล์นี้ในแชต · ให้ผู้เรียนเปิดไฟล์เองใน VS Code แล้วคัดลอกบรรทัดแรกไปวางใน Cline")
-    if args.open:
+
+
+def _openalex_legacy_sources() -> list[tuple[str, str]]:
+    """Where the old M2 steps saved OPENALEX_KEY: setx (Windows registry) or a shell rc file."""
+    found: list[tuple[str, str]] = []
+    if os.name == "nt":
         try:
-            subprocess.run(["code", "--reuse-window", str(path)], check=False, timeout=30,
-                           shell=os.name == "nt")
-        except (OSError, subprocess.SubprocessError):
-            print("เปิด VS Code อัตโนมัติไม่ได้ · เปิดไฟล์ตาม path ด้านบนเอง")
+            import winreg
+            with winreg.OpenKey(winreg.HKEY_CURRENT_USER, "Environment") as handle:
+                found.append(("ค่าที่ setx บันทึกไว้ (Windows)", _clean_key(str(winreg.QueryValueEx(handle, "OPENALEX_KEY")[0]))))
+        except OSError:
+            pass
+    else:
+        pattern = re.compile(r"""^\s*export\s+OPENALEX_KEY=(["']?)([^"'\s]+)\1\s*$""")
+        for name in (".zshrc", ".zprofile", ".bashrc", ".bash_profile", ".profile"):
+            try:
+                lines = (Path.home() / name).read_text(encoding="utf-8", errors="replace").splitlines()
+            except OSError:
+                continue
+            hits = [m.group(2) for m in map(pattern.match, lines) if m]
+            if hits:
+                found.append((f"~/{name}", hits[-1]))
+    return found
+
+
+def key_sources(workspace: Path, service: str) -> list[tuple[str, str]]:
+    """Every place this service's key may be, in the order they are used: (where, key or '')."""
+    path = key_path(workspace, service)
+    sources = [(path.relative_to(workspace).as_posix(), read_key_file(path) if path.exists() else "")]
+    env = KEY_SERVICES[service]["env"]
+    if env:
+        sources.append((f"ตัวแปร {env} ของหน้าต่างนี้", _clean_key(os.environ.get(env))))
+    if service == "openalex":
+        sources += _openalex_legacy_sources()
+    if service == "openrouter":
+        sources.append(("~/.airr/ai-key.txt (ที่เก็บแบบเก่า)", read_key_file(legacy_key_path()) if legacy_key_path().exists() else ""))
+    return sources
+
+
+def find_key(workspace: Path, service: str) -> tuple[str, str]:
+    """The key to use and where it came from. A usable key found only in an old place is
+    copied into .airr/keys/ so every key ends up in one known folder."""
+    sources = key_sources(workspace, service)
+    for index, (where, key) in enumerate(sources):
+        if key and not key_problem(service, key):
+            if index > 0:
+                write_key_file(key_path(workspace, service), service, key)
+                if service == "openrouter":
+                    remove_legacy_key()
+                where += f" → คัดลอกมาไว้ที่ {key_path(workspace, service).relative_to(workspace).as_posix()} แล้ว"
+            return key, where
+    first = sources[0]
+    problem = key_problem(service, first[1]) if first[1] else "ยังไม่มีไฟล์"
+    raise AIRRError(f"ไม่พบ key ของ {KEY_SERVICES[service]['title']} ที่ใช้ได้ ({first[0]}: {problem}) · "
+                    f"{KEY_SERVICES[service]['obtain']} · ดูทุกที่ที่ตรวจ: airr key check {service}")
+
+
+def remove_legacy_key() -> None:
+    legacy = legacy_key_path()
+    try:
+        legacy.unlink()
+        legacy.parent.rmdir()  # only when empty
+    except OSError:
+        pass
+
+
+def open_in_vscode(path: Path) -> None:
+    try:
+        subprocess.run(["code", "--reuse-window", str(path)], check=False, timeout=30, shell=os.name == "nt")
+    except (OSError, subprocess.SubprocessError):
+        print("เปิด VS Code อัตโนมัติไม่ได้ · เปิดไฟล์ตาม path ด้านบนเอง")
+
+
+def check_openrouter_key(key: str) -> str:
+    request = Request("https://openrouter.ai/api/v1/key", headers={"Authorization": f"Bearer {key}", "User-Agent": "AIRR-VS-Code/1"})
+    try:
+        data = json.loads(http_read(request, 30, MAX_RESPONSE_BYTES).decode("utf-8")).get("data") or {}
+    except HTTPError as error:
+        if error.code in (401, 403):
+            raise AIRRError("OpenRouter ไม่รับ key นี้ (หมดอายุ ถูกยกเลิก หรือคัดลอกไม่ครบ) · รัน airr key get openrouter ใหม่ หรือแจ้งผู้สอน") from error
+        raise AIRRError(f"OpenRouter ตอบ HTTP {error.code}") from error
+    except (URLError, TimeoutError, OSError, ValueError) as error:
+        raise AIRRError(f"เชื่อมต่อ OpenRouter ไม่ได้: {error}") from error
+    limit, usage = data.get("limit"), data.get("usage")
+    if isinstance(limit, (int, float)) and isinstance(usage, (int, float)):
+        return f"ใช้ไป ${usage:.2f} จากงบ ${limit:.2f} · เหลือ ${max(limit - usage, 0):.2f}"
+    return "key ใช้ได้"
+
+
+def check_openalex_key(key: str) -> str:
+    openalex_request({"search": "rice", "per-page": 1}, key, 1024 * 1024)
+    return "key ใช้ได้ (ใช้โควตาของคุณเอง)"
+
+
+KEY_CHECKERS = {"openrouter": check_openrouter_key, "openalex": check_openalex_key}
+
+CLINE_MODEL = "openai/gpt-6-luna-pro"
+CLINE_REASONING = {"enabled": True, "effort": "medium"}
+
+
+def cline_settings_path() -> Path:
+    """Cline 4.x keeps provider settings in ~/.cline/data/settings/providers.json on every OS."""
+    base = os.environ.get("CLINE_DATA_DIR") or str(Path(os.environ.get("CLINE_DIR") or Path.home() / ".cline") / "data")
+    return Path(os.environ.get("CLINE_PROVIDER_SETTINGS_PATH") or Path(base) / "settings" / "providers.json")
+
+
+def use_key_in_cline(key: str, force: bool = False) -> list[str]:
+    """Put the class OpenRouter key, the class model and reasoning effort = medium into Cline.
+
+    Merges into Cline's file (schema: version 1, providers.<id>.{settings, updatedAt, tokenSource}).
+    Never replaces a different key or model the learner set unless force; an unset or "none"
+    reasoning becomes medium (Cline's default "none" made weak models give up, 2026-11-20).
+    Returns what changed."""
+    path = cline_settings_path()
+    data: dict[str, Any] = {}
+    if path.exists():
+        try:
+            data = json.loads(path.read_text(encoding="utf-8"))
+        except (OSError, ValueError) as error:
+            raise AIRRError(f"อ่านไฟล์ตั้งค่า Cline ไม่ได้ ({path}) จึงไม่แตะไฟล์ · ใส่ key ใน Cline เอง") from error
+        if not isinstance(data, dict) or data.get("version") != 1 or not isinstance(data.get("providers", {}), dict):
+            raise AIRRError(f"ไฟล์ตั้งค่า Cline เป็นรุ่นที่ไม่รู้จัก ({path}) จึงไม่แตะไฟล์ · ใส่ key ใน Cline เอง")
+    data.setdefault("version", 1)
+    data.setdefault("modes", {})
+    providers = data.setdefault("providers", {})
+    entry = providers.get("openrouter") if isinstance(providers.get("openrouter"), dict) else {}
+    settings = dict(entry.get("settings") or {})
+    settings["provider"] = "openrouter"
+    changed = []
+    if force or not settings.get("apiKey"):
+        if settings.get("apiKey") != key:
+            changed.append("key")
+        settings["apiKey"] = key
+    if force or not settings.get("model"):
+        if settings.get("model") != CLINE_MODEL:
+            changed.append(f"model {CLINE_MODEL}")
+        settings["model"] = CLINE_MODEL
+    reasoning = settings.get("reasoning") if isinstance(settings.get("reasoning"), dict) else {}
+    if force or not reasoning.get("enabled") or reasoning.get("effort") in (None, "", "none"):
+        if reasoning != CLINE_REASONING:
+            changed.append("reasoning effort medium")
+        settings["reasoning"] = dict(CLINE_REASONING)
+    if not changed:
+        return []
+    providers["openrouter"] = {"settings": settings,
+                               "updatedAt": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%S.000Z"),
+                               "tokenSource": entry.get("tokenSource") or "manual"}
+    data.setdefault("lastUsedProvider", "openrouter")
+    path.parent.mkdir(parents=True, exist_ok=True)
+    temporary = path.with_name(path.name + f".airr-{os.getpid()}.tmp")
+    temporary.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    if os.name != "nt":
+        temporary.chmod(0o600)
+    os.replace(temporary, path)
+    return changed
+
+
+def command_key(args: argparse.Namespace) -> None:
+    workspace = resolve_workspace(args.workspace)
+    action, service = args.action, args.service
+    if action != "list" and service not in KEY_SERVICES:
+        raise AIRRError(f"ระบุบริการ: {' | '.join(KEY_SERVICES)} · เช่น airr key {action} openalex")
+    if action == "list":
+        config = config_path(workspace)
+        print(f"AIRR KEYS · ทุก key อยู่ในโฟลเดอร์ {(workspace / '.airr').resolve()}")
+        print(f"  airr        {'พบ' if config.is_file() else 'ไม่พบ'}  .airr/config.json"
+              + ("" if config.is_file() else " · กดคัดลอกคำสั่งติดตั้งใหม่จากหน้า Module 1 แล้วรันซ้ำ"))
+        for name, info in KEY_SERVICES.items():
+            path = key_path(workspace, name)
+            problem = key_problem(name, read_key_file(path)) if path.exists() else "ยังไม่มีไฟล์"
+            state = "พบ" if not problem else f"ไม่พบ ({problem})"
+            print(f"  {name:<11} {state}  {path.relative_to(workspace).as_posix()}"
+                  + ("" if not problem else f" · {info['obtain']}"))
+        print("ตรวจว่าใช้ได้จริง: airr key check <ชื่อ> · key ไม่ถูกแสดงบนจอ")
+        return
+    path = key_path(workspace, service)
+    shown = path.relative_to(workspace).as_posix()
+    if action == "clear":
+        if path.exists():
+            path.unlink()
+        if service == "openrouter":
+            remove_legacy_key()
+        print(f"AIRR KEY CLEARED · {service} · ลบ {shown} แล้ว")
+        return
+    if action == "check":
+        print(f"AIRR KEY · {KEY_SERVICES[service]['title']} · ตรวจตามลำดับ:")
+        for where, key in key_sources(workspace, service):
+            print(f"  - {where}: {'ใช้ได้' if key and not key_problem(service, key) else (key_problem(service, key) if key else 'ไม่มี')}")
+        key, where = find_key(workspace, service)
+        result = KEY_CHECKERS[service](key)
+        print(f"AIRR KEY PASS · {service} · {result} · ใช้ key จาก {where}")
+        return
+    if action == "use":
+        if service != "openrouter":
+            raise AIRRError("ตอนนี้ use ใช้ได้กับ openrouter (ใส่ key ลงใน Cline) เท่านั้น")
+        key, where = find_key(workspace, service)
+        changed = use_key_in_cline(key, args.force)
+        if changed:
+            print(f"AIRR KEY USE · ตั้งค่า Cline แล้ว: {', '.join(changed)} · ไฟล์ {cline_settings_path()}")
+            print("ถ้า VS Code เปิดอยู่: ปิดทุกหน้าต่างแล้วเปิดใหม่ จากนั้นดูใต้ช่องพิมพ์ของ Cline ว่าเป็น " + CLINE_MODEL)
+        else:
+            print("AIRR KEY USE · Cline ตั้งค่าไว้ครบแล้ว (key, model, reasoning) ไม่ได้แก้อะไร · เปลี่ยนทับด้วย --force")
+        return
+    if action == "get":
+        if service != "openrouter":
+            raise AIRRError(f"{service} ไม่ได้แจกผ่าน AIRR · {KEY_SERVICES[service]['obtain']}")
+        config = read_config(workspace)
+        assert config is not None
+        value = request_json("POST", f"{config['api_base']}/ai-key", config["api_key"], {})
+        key = str(value.get("api_key", ""))
+        if key_problem("openrouter", key):
+            raise AIRRError("AIRR ส่ง AI key ที่รูปแบบไม่ถูกต้อง แจ้งผู้สอน")
+        write_key_file(path, service, key)
+        remove_legacy_key()
+        print(f"AIRR KEY READY · openrouter · {value.get('provider')} {value.get('label')} ({value.get('tier')})")
+        print(f"file={path.resolve()}")
+        print("ห้ามแสดงหรืออ่านเนื้อหาไฟล์นี้ในแชต · ให้ผู้เรียนเปิดไฟล์เองใน VS Code (แถบซ้าย: .airr › keys › openrouter.txt) แล้วคัดลอกบรรทัดแรกไปวางใน Cline")
+        if args.open:
+            open_in_vscode(path)
+        return
+    # set: paste the key into the file (or type it hidden with --prompt)
+    if args.prompt:
+        key = _clean_key(getpass.getpass(f"วาง key ของ {KEY_SERVICES[service]['title']} (ตัวอักษรจะไม่แสดง) แล้วกด Enter: "))
+        problem = key_problem(service, key)
+        if problem:
+            raise AIRRError(f"ยังไม่ได้บันทึก: {problem}")
+        write_key_file(path, service, key)
+        print(f"AIRR KEY SAVED · {service} · {shown} · ตรวจต่อ: airr key check {service}")
+        return
+    if path.exists() and not key_problem(service, read_key_file(path)):
+        print(f"AIRR KEY · {service} มี key อยู่แล้วที่ {shown} · จะเปลี่ยน ให้แก้บรรทัดแรกของไฟล์นี้")
+    else:
+        write_key_file(path, service, KEY_PLACEHOLDER)
+        print(f"AIRR KEY FILE · สร้าง {shown} แล้ว")
+    print(f"file={path.resolve()}")
+    print(f"ขั้นต่อไป: เปิดไฟล์นี้ใน VS Code (แถบซ้าย: .airr › keys › {service}.txt) วาง key แทนบรรทัดแรก กด Ctrl+S แล้วรัน airr key check {service}")
+    if not args.no_open:
+        open_in_vscode(path)
+
+
+def command_ai_key(args: argparse.Namespace) -> None:
+    """Old name, kept for pages and installers: ai-key = key get openrouter, ai-key --clear = key clear openrouter."""
+    args.action, args.service, args.prompt, args.no_open, args.force = ("clear" if args.clear else "get"), "openrouter", False, True, False
+    command_key(args)
 
 
 def latest_client_entry(manifest_url_override: str | None) -> tuple[dict[str, Any], str]:
@@ -1124,61 +1491,31 @@ HELP_OVERVIEW = """AIRR — เครื่องมือเชื่อม wor
   submit MODULE   ส่งงานหรือสถานะให้ผู้สอน
   status MODULE   ดูผลตรวจ module-1/2/3/4/7
   materials MOD   ดาวน์โหลดไฟล์ฝึกของ module-2 หรือ module-4
-  ai-key          รับ OpenRouter key ของคุณจากคลาส ลงไฟล์ส่วนตัวสำหรับวางใน Cline
+  key list        ดูว่า key ทุกตัวอยู่ที่ไหน (AIRR, OpenRouter, OpenAlex) ไม่แสดงตัว key
+  key get openrouter   รับ OpenRouter key จากคลาส (ชื่อเดิม: ai-key)
+  key use openrouter   ใส่ key นั้นลงใน Cline ให้เลย พร้อม model ของคลาส และ reasoning effort = medium
+  key set openalex     สร้างไฟล์ให้วาง OpenAlex key แล้วเปิดใน VS Code
+  key check NAME  ตรวจว่า key ใช้ได้จริง และบอกว่าหาเจอที่ไหน
+  openalex search ค้น OpenAlex ด้วย key ของคุณ
   login / logout  เชื่อมหรือยกเลิก AIRR Key ใน workspace นี้ (ตัวติดตั้งทำให้แล้ว)
 
 ความปลอดภัย
-  - AIRR Key เก็บใน .airr/ ของ workspace ห้ามเปิดดู คัดลอก หรือส่งต่อ
-  - ai-key ไม่แสดง key บนจอ · เก็บใน ~/.airr/ai-key.txt จนกว่าจะสั่ง ai-key --clear
+  - key ทุกตัวอยู่ใน .airr/ ของ workspace ที่เดียว: AIRR Key ใน .airr/config.json
+    key ของบริการอื่นใน .airr/keys/<ชื่อ>.txt (บรรทัดแรกคือ key) · ห้ามส่งต่อ ห้ามวางในแชต
+  - คำสั่ง key ไม่แสดง key บนจอ · login แล้วเตรียมทุกโมดูลของคลาสให้อัตโนมัติ
   - check ไม่ส่งอะไรออกจากเครื่อง · submit ส่งเฉพาะสิ่งที่สรุปให้ดูก่อนยืนยัน
 
 ดูรายละเอียดทีละคำสั่ง: help submit · ดูตัวเลือกทั้งหมด: <คำสั่ง> --help"""
 
 OPENALEX_API = "https://api.openalex.org/works"
 OPENALEX_DIR = Path("module-02-work") / "openalex"
-OPENALEX_PLACEHOLDERS = ("key ของคุณ", "วาง key", "your key", "YOUR_KEY", "<", ">")
-
-
-def _clean_key(value: str | None) -> str:
-    return (value or "").strip().strip('"').strip("'").strip()
-
-
-def openalex_key() -> tuple[str, str]:
-    """Find the learner's OpenAlex key without printing it.
-
-    The process variable first; then where the setup steps saved it, so a VS Code
-    window opened before `setx` or before editing ~/.zshrc still works."""
-    key = _clean_key(os.environ.get("OPENALEX_KEY"))
-    if key:
-        return key, "ตัวแปร OPENALEX_KEY"
-    if os.name == "nt":
-        try:
-            import winreg
-            with winreg.OpenKey(winreg.HKEY_CURRENT_USER, "Environment") as handle:
-                key = _clean_key(str(winreg.QueryValueEx(handle, "OPENALEX_KEY")[0]))
-            if key:
-                return key, "ค่าที่ setx บันทึกไว้ (VS Code หน้าต่างนี้ยังไม่เห็นตัวแปร)"
-        except OSError:
-            pass
-    else:
-        pattern = re.compile(r"""^\s*export\s+OPENALEX_KEY=(["']?)([^"'\s]+)\1\s*$""")
-        for name in (".zshrc", ".zprofile", ".bashrc", ".bash_profile", ".profile"):
-            path = Path.home() / name
-            try:
-                lines = path.read_text(encoding="utf-8", errors="replace").splitlines()
-            except OSError:
-                continue
-            found = [m.group(2) for m in map(pattern.match, lines) if m]
-            if found:
-                return found[-1], f"~/{name} (terminal นี้ยังไม่ได้โหลดตัวแปร)"
-    raise AIRRError("ไม่พบ OPENALEX_KEY · สมัคร key ที่ https://openalex.org/settings/api แล้วเก็บไว้ "
-                    "(Windows: setx OPENALEX_KEY \"key\" · macOS: echo 'export OPENALEX_KEY=\"key\"' >> ~/.zshrc) แล้วรันคำสั่งนี้ซ้ำ")
 
 
 def openalex_request(params: dict[str, Any], key: str, limit: int = 32 * 1024 * 1024) -> tuple[dict[str, Any], str]:
     """GET /works with the key; returns (json, the URL without the key for logs)."""
-    if any(mark.lower() in key.lower() for mark in OPENALEX_PLACEHOLDERS) or re.search(r"\s", key):
-        raise AIRRError("OPENALEX_KEY ยังเป็นข้อความตัวอย่างหรือมีช่องว่าง · ใส่ key จริงที่คัดลอกจาก openalex.org/settings/api")
+    problem = key_problem("openalex", key)
+    if problem:
+        raise AIRRError(f"OpenAlex key {problem} · แก้ที่ .airr/keys/openalex.txt (airr key set openalex)")
     public_url = f"{OPENALEX_API}?{urlencode(params)}"
     request = Request(f"{OPENALEX_API}?{urlencode({**params, 'api_key': key})}",
                       headers={"User-Agent": "airr-openalex/1", "Accept": "application/json"})
@@ -1187,7 +1524,7 @@ def openalex_request(params: dict[str, Any], key: str, limit: int = 32 * 1024 * 
     except HTTPError as error:
         if error.code in (401, 403):
             raise AIRRError(f"OpenAlex ไม่รับ key นี้ (HTTP {error.code}) · คัดลอก key ใหม่จาก openalex.org/settings/api "
-                            "ให้ครบทุกตัว แล้วบันทึกซ้ำ (Windows: setx · macOS: แก้บรรทัดใน ~/.zshrc)") from error
+                            "ให้ครบทุกตัว แล้ววางใหม่ด้วย airr key set openalex") from error
         if error.code == 429:
             raise AIRRError("OpenAlex ตอบ 429: โควตาวันนี้ของ key นี้หมดหรือเรียกถี่เกินไป · รอสักครู่แล้วลองใหม่") from error
         raise AIRRError(f"OpenAlex ตอบ HTTP {error.code} ({public_url})") from error
@@ -1269,13 +1606,11 @@ def command_openalex(args: argparse.Namespace) -> None:
     if args.action == "bib":
         openalex_bib(resolve_workspace(args.workspace), args.abstract_only)
         return
-    key, source = openalex_key()
     if args.action == "check":
-        data, _ = openalex_request({"search": "rice", "per-page": 1}, key, 1024 * 1024)
-        print(f"AIRR OPENALEX PASS · key ใช้ได้ (ใช้โควตาของคุณเอง) · พบ key จาก {source}")
-        if not os.environ.get("OPENALEX_KEY"):
-            print("หมายเหตุ: ใช้ AIRR openalex search ค้นได้เลย · ถ้าจะให้ AI เรียก API เอง ให้ปิด VS Code ทุกหน้าต่างแล้วเปิดใหม่")
+        args.service, args.action = "openalex", "check"
+        command_key(args)
         return
+    key, _ = find_key(resolve_workspace(args.workspace), "openalex")
     query = " ".join(args.query).strip()
     if not query:
         raise AIRRError('ใส่คำค้น เช่น AIRR openalex search "rice straw burning PM2.5"')
@@ -1320,14 +1655,15 @@ HELP_TOPICS = {
     "update": "update\n  ดาวน์โหลดเครื่องมือ AIRR รุ่นล่าสุดจากเว็บคลาส ตรวจ checksum แล้วแทนที่ไฟล์ใน tools/ ของ workspace\n  ไม่แตะงานใน module-0N-work/ และไม่ส่งข้อมูลใด ๆ · ใช้เมื่อผู้สอนแจ้งว่ามีการแก้เครื่องมือ",
     "help": "help [คำสั่ง]\n  แสดงคำอธิบายภาพรวม หรือคำอธิบายของคำสั่งที่ระบุ เช่น help init",
     "whoami": "whoami\n  ถาม server ว่า AIRR Key ของ workspace นี้ผูกกับบัญชีและคลาสใด และโมดูลไหนเปิดอยู่\n  ใช้ทดสอบหลังติดตั้ง ผู้สอนจะเห็นว่าคุณเชื่อมแล้ว\n  ไม่ส่งไฟล์ใด ๆ · ถ้าแจ้งว่าไม่มี key: สร้าง AIRR Key ในหน้าเว็บแล้วรันคำสั่งติดตั้งซ้ำ",
-    "login": "login\n  เชื่อม workspace ด้วย AIRR Key (ระบบจะถามโดยไม่แสดงตัวอักษร)\n  ปกติไม่ต้องใช้ เพราะตัวติดตั้งเชื่อมให้แล้ว",
+    "login": "login [--no-init]\n  เชื่อม workspace ด้วย AIRR Key (ระบบจะถามโดยไม่แสดงตัวอักษร) แล้วเตรียมทุกโมดูลของคลาส (init) ให้เลย\n  ปกติไม่ต้องใช้ เพราะตัวติดตั้งเชื่อมให้แล้ว",
     "logout": "logout\n  ลบ AIRR Key ออกจาก workspace นี้ ใช้เมื่อเลิกใช้เครื่องหรือ key รั่ว\n  หลัง logout ต้องสร้าง key ใหม่และเชื่อมใหม่ก่อนส่งงาน",
     "init": "init module-N [--force] [--forms-only]\n  เตรียมโมดูลใน workspace: ดาวน์โหลดไฟล์ที่ทุกหัวข้อของโมดูลนั้นใช้ลง course-materials/ และ module-0N-work/\n  และสร้างไฟล์ progress/evaluation (Module 1–3) ให้แก้ใน VS Code\n  ไม่เขียนทับไฟล์ของผู้เรียน ไฟล์ของคลาสรุ่นใหม่จะไปอยู่ใน .course-updates/ · ท้ายผลมี AIRR CONTEXT บอกโมดูล โฟลเดอร์งาน และไฟล์ที่ใช้ · ไฟล์ฝึก Module 2/4 ต้องเชื่อม AIRR ก่อน\n  --force เขียนทับเฉพาะไฟล์ progress/evaluation · --forms-only ไม่ดาวน์โหลด\n  ตัวอย่าง: init module-4",
     "check": "check MODULE [--file ...] [--graph ...]\n  ตรวจไฟล์ของโมดูลในเครื่องว่าครบตามรูปแบบก่อนส่ง ไม่ส่งอะไรออกจากเครื่อง\n  ตัวอย่าง: check module-1 · check module-7 --graph module-07-work/figures/fig1.png",
     "submit": "submit MODULE [--yes] [--short]\n  ส่งงานหรือสถานะของโมดูลให้ผู้สอน แสดงสรุปและถามยืนยันก่อนส่ง (--yes = ไม่ถามซ้ำ)\n  Module 1 ส่งเฉพาะเช็กลิสต์และเวลา ไม่ส่งไฟล์งาน · Module 7 ส่ง highlights และกราฟ 1–5 ภาพ\n  --short Module 1: แจ้งผู้สอนว่าเสร็จ (ผู้เรียนติ๊กเช็กลิสต์บนเว็บเองแล้ว) · Module 2/3: แจ้งว่าเสร็จด้วยจำนวนบรรทัด ไม่ส่งเนื้อหา\n  ตัวอย่าง: submit module-1 --short --yes",
     "status": "status module-1|module-2|module-3|module-4|module-7\n  ดูว่าผู้สอนได้รับงานแล้วหรือยัง ผลตรวจ และ feedback\n  ตัวอย่าง: status module-7",
-    "ai-key": "ai-key [--open] [--clear]\n  รับ OpenRouter key ที่ผู้สอนจัดให้ (หนึ่งคนหนึ่ง key รันซ้ำได้ key เดิม) ลงไฟล์ ~/.airr/ai-key.txt\n  ไม่แสดง key บนจอ · --open เปิดไฟล์ใน VS Code · คัดลอกบรรทัดแรกไปวางใน Cline\n  ใส่ใน Cline และทดสอบได้แล้ว: ai-key --clear เพื่อลบไฟล์",
-    "openalex": "openalex check | openalex search \"คำค้น\" [--since 2022-01-01] [--core] [--type \"article|review\"] [--filter ...] [--per-page 50] | openalex bib [--abstract-only]\n  check: ตรวจว่า OpenAlex API key ใช้ได้ (ไม่แสดง key)\n  search: ค้นใหม่ทุกครั้งด้วย key ของคุณ เก็บลง module-02-work/openalex/works.json (ไฟล์เดิม -> works.prev-*.json) + search-log.md แล้วแสดงจำนวนที่พบและสิบรายการแรก\n    --since ปีที่เริ่ม (ค่าว่าง = ไม่กรอง) · --type ค่าว่าง = ทุกประเภท · --core เฉพาะวารสารหลัก (ใช้แทน Q1)\n  bib: แปลง works.json เป็น refs.bib พร้อม abstract จาก OpenAlex (--abstract-only เก็บเฉพาะที่มี abstract)",
+    "key": "key list | key set NAME [--prompt] [--no-open] | key check NAME | key get openrouter [--open] | key clear NAME\n  key ทุกตัวเก็บที่ .airr/keys/<NAME>.txt ใน workspace (บรรทัดแรก = key) · ชื่อที่มี: " + ", ".join(KEY_SERVICES) + "\n  list: ดูว่ามี key ไหนบ้าง อยู่ที่ไหน · set: สร้างไฟล์แล้วเปิดใน VS Code ให้วาง key (--prompt = พิมพ์ในหน้าต่างนี้แบบซ่อน)\n  check: ตรวจกับบริการจริง และบอกทุกที่ที่ค้นหา · get openrouter: รับ key ที่ผู้สอนแจก · use openrouter: ใส่ key + model + reasoning medium ลงใน Cline ให้ (ไม่ทับค่าที่ตั้งเองถ้าไม่ใส่ --force) · clear: ลบไฟล์\n  ไม่แสดง key บนจอ",
+    "ai-key": "ai-key [--open] [--clear]\n  ชื่อเดิมของ key get openrouter / key clear openrouter · ไฟล์อยู่ที่ .airr/keys/openrouter.txt",
+    "openalex": "openalex check | openalex search \"คำค้น\" [--since 2022-01-01] [--core] [--type \"article|review\"] [--filter ...] [--per-page 50] | openalex bib [--abstract-only]\n  check: เหมือน key check openalex · key อยู่ที่ .airr/keys/openalex.txt (วางด้วย key set openalex)\n  search: ค้นใหม่ทุกครั้งด้วย key ของคุณ เก็บลง module-02-work/openalex/works.json (ไฟล์เดิม -> works.prev-*.json) + search-log.md แล้วแสดงจำนวนที่พบและสิบรายการแรก\n    --since ปีที่เริ่ม (ค่าว่าง = ไม่กรอง) · --type ค่าว่าง = ทุกประเภท · --core เฉพาะวารสารหลัก (ใช้แทน Q1)\n  bib: แปลง works.json เป็น refs.bib พร้อม abstract จาก OpenAlex (--abstract-only เก็บเฉพาะที่มี abstract)",
     "materials": "materials module-2|module-4 [--thai]\n  ดาวน์โหลดไฟล์ฝึกของโมดูลลง workspace (ถ้าติดตั้งพร้อม key ไฟล์จะมีอยู่แล้ว)\n  ตัวอย่าง: materials module-4 --thai",
 }
 
@@ -1361,6 +1697,8 @@ def parser() -> argparse.ArgumentParser:
     help_cmd.set_defaults(handler=command_help)
     login = commands.add_parser("login", help="เชื่อม VS Code ด้วย AIRR Key")
     login.add_argument("--key", help=argparse.SUPPRESS)
+    login.add_argument("--no-init", action="store_true", help="เชื่อมอย่างเดียว ไม่เตรียมโมดูล")
+    login.add_argument("--manifest-url", help=argparse.SUPPRESS)
     login.set_defaults(handler=command_login)
     logout = commands.add_parser("logout", help="ลบ AIRR Key ออกจาก workspace นี้")
     logout.set_defaults(handler=command_logout)
@@ -1389,6 +1727,14 @@ def parser() -> argparse.ArgumentParser:
     materials.add_argument("module", choices=("module-2", "module-4"))
     materials.add_argument("--thai", action="store_true", help="Module 4: ดาวน์โหลดบทความจำลองภาษาไทยไปที่ module-04-work/thai-mock")
     materials.set_defaults(handler=command_materials)
+    key_cmd = commands.add_parser("key", help="ดู/วาง/ตรวจ key ทุกตัวของ workspace (เก็บใน .airr/keys/)")
+    key_cmd.add_argument("action", choices=["list", "set", "check", "get", "use", "clear"])
+    key_cmd.add_argument("service", nargs="?", default="", help="ชื่อบริการ: " + ", ".join(KEY_SERVICES))
+    key_cmd.add_argument("--prompt", action="store_true", help="set: พิมพ์/วาง key ในหน้าต่างนี้แบบซ่อน แทนการแก้ไฟล์")
+    key_cmd.add_argument("--no-open", action="store_true", help="set: ไม่เปิดไฟล์ใน VS Code")
+    key_cmd.add_argument("--open", action="store_true", help="get: เปิดไฟล์ key ใน VS Code")
+    key_cmd.add_argument("--force", action="store_true", help="use: เขียนทับ key/model/reasoning ที่ตั้งไว้ใน Cline")
+    key_cmd.set_defaults(handler=command_key)
     ai_key = commands.add_parser("ai-key", help="รับ OpenRouter key ของคุณลงไฟล์ส่วนตัว (ไม่แสดงบนจอ)")
     ai_key.add_argument("--open", action="store_true", help="เปิดไฟล์ key ใน VS Code")
     ai_key.add_argument("--clear", action="store_true", help="ลบไฟล์ key หลังใส่ใน Cline แล้ว")

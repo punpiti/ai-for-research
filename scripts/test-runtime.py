@@ -73,7 +73,7 @@ class AirrSetupTests(unittest.TestCase):
             log = self.setup(ws, 'airr_secret_value')
             self.assertIn('AIRR_CONNECTED', log)
             self.assertNotIn('airr_secret_value', log)
-            self.assertEqual(json.loads((ws / 'client-args.json').read_text())[-3:], ['login', '--key', 'airr_secret_value'])
+            self.assertEqual(json.loads((ws / 'client-args.json').read_text())[-4:], ['login', '--key', 'airr_secret_value', '--no-init'])
             launcher = subprocess.run(['bash', str(ws / 'tools/airr.sh'), 'whoami'], capture_output=True, text=True)
             self.assertEqual(launcher.returncode, 0, launcher.stderr)
             self.assertEqual(json.loads((ws / 'client-args.json').read_text())[-1], 'whoami')

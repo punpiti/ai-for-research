@@ -83,7 +83,7 @@
 <ul>
 <li>ผ่าน Module 1: เปิด <code>ai-for-research-workspace</code> ใน VS Code และ AI panel เชื่อมแล้ว</li>
 <li><code>module-04-work/retracted/README.md</code> และ <code>module-04-work/retracted/&lt;รหัส&gt;/paper.pdf</code> ทั้งห้าเรื่อง — <code>AIRR init module-4</code> วางไว้ให้ ถ้าไม่พบ ให้สั่ง AI รัน <code>AIRR init module-4</code> ครั้งเดียว</li>
-<li>OpenAlex API key ในตัวแปร <code>OPENALEX_KEY</code> (ถ้ายังไม่มี ทำขั้น "OpenAlex API key" ด้านล่างก่อน) — <strong>ในห้องเรียนต้องมี</strong> เพราะถ้าไม่มี key ทุกเครื่องที่ใช้เครือข่ายเดียวกันจะแบ่งโควตาฟรีรายวันชุดเดียวกัน และหมดเร็ว (ทำคนเดียวที่บ้าน ไม่มี key ก็ใช้ได้แต่จำกัด)</li>
+<li>OpenAlex API key ในไฟล์ <code>.airr/keys/openalex.txt</code> (ตรวจ: <code>AIRR key check openalex</code>) (ถ้ายังไม่มี ทำขั้น "OpenAlex API key" ด้านล่างก่อน) — <strong>ในห้องเรียนต้องมี</strong> เพราะถ้าไม่มี key ทุกเครื่องที่ใช้เครือข่ายเดียวกันจะแบ่งโควตาฟรีรายวันชุดเดียวกัน และหมดเร็ว (ทำคนเดียวที่บ้าน ไม่มี key ก็ใช้ได้แต่จำกัด)</li>
 </ul>
 <h3 id="workshop-retracted-paper-check--คำที่ใช้ใน-workshop-นี้">คำที่ใช้ใน workshop นี้</h3>
 <ul>
@@ -95,24 +95,21 @@
 </ul>
 <hr>
 <h3 id="workshop-retracted-paper-check--openalex-api-key--ทำครั้งเดียว-ถ้ามีแล้ว-ข้ามได้">OpenAlex API key — ทำครั้งเดียว (ถ้ามีแล้ว ข้ามได้)</h3>
-<p>workshop นี้ให้ AI เรียก OpenAlex ซึ่งต้องใช้ API key ของแต่ละคน (ฟรี) ถ้าไม่มี key ทุกเครื่องในเครือข่ายเดียวกันจะแบ่งโควตาฟรีรายวันชุดเดียวกัน และหมดก่อนทำเสร็จ <strong>ถ้าเคยตั้ง <code>OPENALEX_KEY</code> แล้ว (เช่น ใน Module 2) ข้ามไปขั้นถัดไปได้เลย</strong></p>
+<p>workshop นี้ให้ AI เรียก OpenAlex ซึ่งต้องใช้ API key ของแต่ละคน (ฟรี) ถ้าไม่มี key ทุกเครื่องในเครือข่ายเดียวกันจะแบ่งโควตาฟรีรายวันชุดเดียวกัน และหมดก่อนทำเสร็จ <strong>ถ้าเคยวาง key แล้ว (เช่น ใน Module 2) แค่วาง prompt <code>AIRR key check openalex</code> ได้ PASS ก็ข้ามไปขั้นถัดไปได้เลย</strong></p>
 <ol type="1">
 <li>เปิด <a href="https://openalex.org/settings/api">openalex.org/settings/api</a> สมัครหรือเข้าสู่ระบบ แล้วคัดลอก API key</li>
-<li>เก็บ key ในตัวแปร <code>OPENALEX_KEY</code> ด้วยตัวเอง (<strong>ห้ามวาง key ในแชต AI หรือในไฟล์ใด ๆ</strong>)
-<ul>
-<li>Windows: เปิด PowerShell พิมพ์ <code>setx OPENALEX_KEY "key ของคุณ"</code></li>
-<li>macOS / Linux: เพิ่มบรรทัด <code>export OPENALEX_KEY="key ของคุณ"</code> ใน <code>~/.zshrc</code> หรือ <code>~/.bashrc</code></li>
-</ul></li>
-<li>ปิด VS Code แล้วเปิดใหม่ แล้ววาง prompt นี้</li>
+<li>ใน Cline วาง prompt <code>AIRR key set openalex</code> — ไฟล์ <code>.airr/keys/openalex.txt</code> ใน workspace จะเปิดขึ้นใน VS Code (หาเองได้ที่แถบซ้าย: <code>.airr</code> › <code>keys</code> › <code>openalex.txt</code>)</li>
+<li>วาง key แทนบรรทัดแรกของไฟล์นั้น กด Ctrl+S (macOS: Cmd+S) แล้วปิดแท็บ (<strong>ห้ามวาง key ในแชต AI</strong>) · ไม่ต้องปิด–เปิด VS Code</li>
+<li>วาง prompt นี้</li>
 </ol>
-<div class="command ai-prompt"><code>ตรวจว่ามีตัวแปร OPENALEX_KEY หรือไม่ ตอบแค่ว่ามีหรือไม่มี ห้ามแสดงค่า</code><button type="button" data-copy="">คัดลอก</button></div><p><strong>ตรวจ:</strong> AI ตอบว่ามี <code>OPENALEX_KEY</code> และไม่มี key ปรากฏในแชตหรือไฟล์ใด</p>
+<div class="command ai-prompt"><code>AIRR key check openalex</code><button type="button" data-copy="">คัดลอก</button></div><p><strong>ตรวจ:</strong> ได้ <code>AIRR KEY PASS · openalex</code> และไม่มี key ปรากฏในแชต · ถ้าไม่ผ่าน ผลจะบอกว่าตรวจที่ไหนบ้างและติดตรงไหน (เช่น ยังเป็นข้อความตัวอย่าง คัดลอกไม่ครบ หรือ OpenAlex ไม่รับ key) ให้แก้ไฟล์ตามนั้นแล้วรันซ้ำ</p>
 <hr>
 <h3 id="workshop-retracted-paper-check--เริ่มหัวข้อ--ให้-ai-รู้ว่ากำลังทำโมดูลไหน">เริ่มหัวข้อ — ให้ AI รู้ว่ากำลังทำโมดูลไหน</h3>
 <p>ถ้าแชต AI เดิมทำโมดูลอื่นอยู่ ให้เปิดแชตใหม่ก่อน เลือกหนึ่งเรื่องจาก <code>module-04-work/retracted/README.md</code> (ครั้งแรกแนะนำ <strong>A</strong>) แล้ววาง prompt นี้ โดยเปลี่ยน A เป็นรหัสที่เลือก</p>
 <div class="command ai-prompt"><code>เริ่ม Module 4 หัวข้อ "ตรวจเปเปอร์จริงที่ถูกถอน" เรื่อง A: ทำงานใน module-04-work/retracted/A/ เท่านั้น ห้ามแก้ paper.pdf และห้ามเปิดโฟลเดอร์ answer/ จนกว่าฉันจะสั่ง ทุก prompt ต่อจากนี้หมายถึงโฟลเดอร์นี้</code><button type="button" data-copy="">คัดลอก</button></div><p><strong>ตรวจ:</strong> AI บอกได้ว่ามี <code>paper.pdf</code> อยู่ และรับว่าจะไม่เปิด <code>answer/</code></p>
 <hr>
 <h3 id="workshop-retracted-paper-check--ขั้นที่-1--สร้าง-bibtex-พร้อม-abstract-แล้วดูว่า-ref-ไหนขาด">ขั้นที่ 1 — สร้าง BibTeX พร้อม abstract แล้วดูว่า ref ไหนขาด</h3>
-<div class="command ai-prompt"><code>รัน pdftotext -layout paper.pdf paper.md แล้วแยกรายการอ้างอิงท้ายบทความทั้งหมดจาก paper.md ตรวจว่าเลข ref เรียงครบ 1 ถึงเลขสุดท้ายไม่ขาด ถ้าขาด (มักเกิดกับ PDF สองคอลัมน์) ให้ลอง pdftotext โดยไม่ใส่ -layout หรืออ่านหน้ารายการอ้างอิงจาก PDF โดยตรง แล้วบอกว่าใช้วิธีไหน สำหรับแต่ละ ref ค้น OpenAlex ( https://api.openalex.org/works ) ถ้ามี DOI ให้เรียก /works/doi:{DOI} ถ้าไม่มี ให้ค้นด้วยชื่อเรื่อง ใส่ api_key จากตัวแปร OPENALEX_KEY ห้ามแสดงค่า ถ้าไม่มีตัวแปรนี้ให้หยุดและบอกฉัน ระวัง: DOI ใน PDF มักขาดตอนตรงขึ้นบรรทัดใหม่ และ API คืนผลเสมอแม้ไม่ใช่เรื่องเดียวกัน — นับว่า "พบ" เฉพาะเมื่อชื่อเรื่องที่ได้ตรงกับรายการอ้างอิง และผู้แต่งคนแรกกับปีตรงกัน สร้าง refs.bib: หนึ่ง entry ต่อ ref ที่พบ key เป็น ref01, ref02, … ใส่ title author year journal doi และ abstract จาก OpenAlex เท่านั้น (ถ้าไม่มี abstract ให้เว้นว่าง ห้ามแต่ง) สร้าง existence-check.md ตาราง: เลข | สถานะ (พบตรงกัน · พบแต่ข้อมูลไม่ตรง · ค้นไม่พบ) | ถูกถอนแล้วไหม (is_retracted) | มี abstract ไหม | สิ่งที่ไม่ตรง | URL ที่ใช้ค้น ห้ามเขียนว่า "แต่งขึ้น" สรุปจำนวนแต่ละสถานะ แล้วหยุดรอ</code><button type="button" data-copy="">คัดลอก</button></div><p>จากนั้นดูว่าอะไรขาด: ref ไหน "ค้นไม่พบ" เลือกสองรายการ ค้นเองด้วยชื่อเรื่องในเครื่องหมายคำพูดใน Google Scholar และเว็บวารสารที่อ้าง แล้วบอก AI ผลที่คุณค้น</p>
+<div class="command ai-prompt"><code>รัน pdftotext -layout paper.pdf paper.md แล้วแยกรายการอ้างอิงท้ายบทความทั้งหมดจาก paper.md ตรวจว่าเลข ref เรียงครบ 1 ถึงเลขสุดท้ายไม่ขาด ถ้าขาด (มักเกิดกับ PDF สองคอลัมน์) ให้ลอง pdftotext โดยไม่ใส่ -layout หรืออ่านหน้ารายการอ้างอิงจาก PDF โดยตรง แล้วบอกว่าใช้วิธีไหน สำหรับแต่ละ ref ค้น OpenAlex ( https://api.openalex.org/works ) ถ้ามี DOI ให้เรียก /works/doi:{DOI} ถ้าไม่มี ให้ค้นด้วยชื่อเรื่อง เขียนเป็นสคริปต์ Python ที่ทำทุก ref ในครั้งเดียว อ่าน api_key จากบรรทัดแรกของ .airr/keys/openalex.txt ห้ามแสดงค่า ถ้าไม่มีไฟล์นี้ให้หยุดและบอกให้ฉันรัน AIRR key set openalex ระวัง: DOI ใน PDF มักขาดตอนตรงขึ้นบรรทัดใหม่ และ API คืนผลเสมอแม้ไม่ใช่เรื่องเดียวกัน — นับว่า "พบ" เฉพาะเมื่อชื่อเรื่องที่ได้ตรงกับรายการอ้างอิง และผู้แต่งคนแรกกับปีตรงกัน สร้าง refs.bib: หนึ่ง entry ต่อ ref ที่พบ key เป็น ref01, ref02, … ใส่ title author year journal doi และ abstract จาก OpenAlex เท่านั้น (ถ้าไม่มี abstract ให้เว้นว่าง ห้ามแต่ง) สร้าง existence-check.md ตาราง: เลข | สถานะ (พบตรงกัน · พบแต่ข้อมูลไม่ตรง · ค้นไม่พบ) | ถูกถอนแล้วไหม (is_retracted) | มี abstract ไหม | สิ่งที่ไม่ตรง | URL ที่ใช้ค้น ห้ามเขียนว่า "แต่งขึ้น" สรุปจำนวนแต่ละสถานะ แล้วหยุดรอ</code><button type="button" data-copy="">คัดลอก</button></div><p>จากนั้นดูว่าอะไรขาด: ref ไหน "ค้นไม่พบ" เลือกสองรายการ ค้นเองด้วยชื่อเรื่องในเครื่องหมายคำพูดใน Google Scholar และเว็บวารสารที่อ้าง แล้วบอก AI ผลที่คุณค้น</p>
 <div class="command ai-prompt"><code>ฉันค้นเองแล้ว: ref เลข … ผลคือ … (เจอ/ไม่เจอ พร้อมที่ค้น) ปรับ existence-check.md ถ้าไม่เจอทั้ง OpenAlex และที่ฉันค้น ให้เปลี่ยนเป็น "น่าจะไม่มีจริง (ค้น 3 แหล่งไม่พบ)"</code><button type="button" data-copy="">คัดลอก</button></div><p><strong>ตรวจ:</strong> จำนวนแถวใน <code>existence-check.md</code> เท่ากับจำนวน ref ใน PDF · entry ใน <code>refs.bib</code> สุ่มดูหนึ่งรายการ ชื่อเรื่องตรงกับรายการอ้างอิงใน PDF</p>
 <hr>
 <h3 id="workshop-retracted-paper-check--ขั้นที่-2--จาก-abstract-ดูว่า-ref-เกี่ยวกับเรื่องที่อ้างไหม-แล้ววิจารณ์ว่าวิธีนี้เชื่อได้แค่ไหน">ขั้นที่ 2 — จาก abstract ดูว่า ref เกี่ยวกับเรื่องที่อ้างไหม แล้ววิจารณ์ว่าวิธีนี้เชื่อได้แค่ไหน</h3>

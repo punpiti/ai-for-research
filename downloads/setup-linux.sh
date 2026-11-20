@@ -213,14 +213,15 @@ check() {
   log "AI_FRONTENDS available=$available_text missing=$missing_text"
   arch_ready=no; [[ "$(uname -m)" == x86_64 || "$(uname -m)" == aarch64 || "$(uname -m)" == arm64 ]] && arch_ready=yes
   ram_ready=no; (( ram_kb >= 7 * 1024 * 1024 )) && ram_ready=yes
-  disk_ready=no; awk -v disk="$free_disk_gb" 'BEGIN {exit !(disk >= 20)}' && disk_ready=yes
+  disk_ready=no; awk -v disk="$free_disk_gb" 'BEGIN {exit !(disk >= 25)}' && disk_ready=yes
   issues=()
   [[ "$arch_ready" == yes ]] || issues+=("supported 64-bit architecture")
   # RAM is advisory (AI runs in the cloud): warn and continue.
   [[ "$ram_ready" == yes ]] || log "DEVICE_WARNING RAM $ram_gb GB (recommended 8 GB+, 16 GB best); setup continues - close other apps if the machine is slow."
-  # Disk: below 20 GB is a warning (install needs ~3-6 GB); below 3 GB setup cannot finish.
-  if awk -v disk="$free_disk_gb" 'BEGIN {exit !(disk < 3)}'; then issues+=("free disk 3 GB (found $free_disk_gb GB)")
-  elif [[ "$disk_ready" != yes ]]; then log "DEVICE_WARNING free disk $free_disk_gb GB (recommended 20 GB); setup continues - free up space if it fails."; fi
+  # Disk (owner 2026-11-20, a full disk stopped a learner mid-class): tools ~4-5 GB incl. download caches,
+  # class work + on-demand packages ~2-3 GB, and the OS needs headroom to keep running. Below 15 GB = stop.
+  if awk -v disk="$free_disk_gb" 'BEGIN {exit !(disk < 15)}'; then issues+=("free disk 15 GB (found $free_disk_gb GB) - delete or move files, then rerun")
+  elif [[ "$disk_ready" != yes ]]; then log "DEVICE_WARNING free disk $free_disk_gb GB (recommended 25 GB); setup continues - keep at least 15 GB free during class."; fi
   [[ "$network" == yes ]] || issues+=("HTTPS network access to github.com")
   if (( ${#issues[@]} == 0 )); then
     if [[ "$mode" == --check ]]; then log 'FINAL_RESULT PASS - Device is ready.'; else log 'DEVICE_CHECK_PASS Hardware and network checks passed.'; fi

@@ -442,13 +442,14 @@ function Check-Tools {
   $osReady = $os.Version -like '10.*' -and [int]$os.BuildNumber -ge 22000
   $archReady = $env:PROCESSOR_ARCHITECTURE -match '64|ARM'
   $issues = @()
-  if (-not $osReady) { $issues += 'Windows 11' }
+  if (-not $osReady) { $issues += "Windows 11 (found $($os.Caption) $($os.Version))" }
   if (-not $archReady) { $issues += '64-bit architecture' }
   # RAM is advisory: an 8 GB PC reports ~7.6-7.9 GB visible (GPU-reserved), and AI runs in the cloud.
   if ($ramGb -lt 8) { Log "DEVICE_WARNING RAM $ramGb GB (recommended 8 GB+, 16 GB best); setup continues - close other apps if the machine is slow." }
-  # Disk: below 20 GB is a warning (install needs ~3-6 GB); below 3 GB setup cannot finish.
-  if ($diskGb -lt 3) { $issues += "free disk 3 GB (found $diskGb GB)" }
-  elseif ($diskGb -lt 20) { Log "DEVICE_WARNING free disk $diskGb GB (recommended 20 GB); setup continues - free up space if it fails." }
+  # Disk (owner 2026-11-20, a full disk stopped a learner mid-class): tools ~4-5 GB incl. download caches,
+  # class work + on-demand packages ~2-3 GB, and Windows needs headroom (updates, pagefile, temp). Below 15 GB = stop.
+  if ($diskGb -lt 15) { $issues += "free disk 15 GB (found $diskGb GB) - delete or move files, then rerun" }
+  elseif ($diskGb -lt 25) { Log "DEVICE_WARNING free disk $diskGb GB (recommended 25 GB); setup continues - keep at least 15 GB free during class." }
   if (-not $network) { $issues += 'HTTPS network access to github.com' }
   if ($issues.Count -eq 0) {
     if ($Mode -eq 'Check') { Log 'FINAL_RESULT PASS - Device is ready.' }
@@ -457,6 +458,14 @@ function Check-Tools {
   }
   Log "FINAL_RESULT FAIL - Missing: $($issues -join '; ')"
   return $false
+}
+function Assert-SupportedWindows {
+  if ($DryRun) { return }
+  $os = Get-CimInstance Win32_OperatingSystem
+  if (-not ($os.Version -like '10.*' -and [int]$os.BuildNumber -ge 22000)) {
+    Log "FINAL_RESULT FAIL - Windows 11 is required (found $($os.Caption) $($os.Version)). This class does not support older Windows; use a Windows 11, macOS or Linux notebook."
+    throw 'INSTALL_STOPPED Unsupported Windows version. Nothing was installed.'
+  }
 }
 function New-CourseWorkspace {
   if ($DryRun) { Log "DRY_RUN workspace=$CourseDir"; return }
@@ -733,6 +742,7 @@ function Install-UserTools {
 }
 $installSucceeded = $false
 try {
+if ($Mode -in @('Install','InstallSystem','SetupUser','Repair')) { Assert-SupportedWindows }
 switch ($Mode) {
   'Install' {
     if ($DryRun) {

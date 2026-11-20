@@ -11,7 +11,7 @@
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="assets/styles.css?v=20261113-2">
   <link rel="stylesheet" href="assets/learn.css?v=20261116-2">
-  <script src="assets/app.js?v=20261119-2" defer></script>
+  <script src="assets/app.js?v=20261120-1" defer></script>
   <script src="assets/module-1-steps.js?v=20261010-3" defer></script>
   <script src="assets/module-1-submission.js?v=20261117-2" defer></script>
   <script src="assets/airr-connect.js?v=20261116-1" defer></script>
@@ -67,7 +67,7 @@
     </section>
 
     <section class="section platform-section" id="install" data-agent-required hidden>
-      <div class="section-heading compact"><p class="eyebrow">2 · ติดตั้ง</p><h2>คำสั่งเดียวจบ</h2><p>ใช้ของที่มีอยู่แล้ว และเติมเฉพาะส่วนที่ขาด</p></div>
+      <div class="section-heading compact"><p class="eyebrow">2 · ติดตั้ง</p><h2>คำสั่งเดียวจบ</h2><p>ใช้ของที่มีอยู่แล้ว และเติมเฉพาะส่วนที่ขาด · เครื่องต้องเป็น Windows 11, macOS หรือ Linux และมีพื้นที่ว่างอย่างน้อย 15 GB (แนะนำ 25 GB) ไม่ถึงเกณฑ์ตัวติดตั้งจะหยุดเอง</p></div>
       <details class="fallback-details software-details">
       <summary>ดูรายการโปรแกรมที่จะติดตั้งให้ (ไม่ต้องอ่านก็ติดตั้งได้)</summary>
       <div class="software-table-wrap" aria-labelledby="software-list-heading">
@@ -142,7 +142,7 @@
     <section class="section" id="airr-gate">
       <div class="section-heading compact"><p class="eyebrow">ทดสอบหลังติดตั้ง</p><h2>เชื่อม AI แล้วให้ AI รัน AIRR whoami</h2></div>
       <div class="task-heading"><strong>เชื่อม AI ใน VS Code (ครั้งแรกครั้งเดียว)</strong></div>
-      <div class="notice is-warning" data-agent-only="openrouter" hidden><strong>⚠ ต้องเปลี่ยน model ก่อนใช้ Cline ครั้งแรก</strong>Cline ตั้ง <code>anthropic/claude-sonnet-5.5</code> ไว้ให้เอง รุ่นนี้แพงกว่ารุ่นที่คลาสแนะนำประมาณ 20 เท่า ทดลองจริงใช้ไป $0.2 ในไม่กี่ขั้น ถ้าไม่เปลี่ยน งบ $2 ของคุณอาจหมดตั้งแต่ช่วงแรกของวันเรียน และใช้ AI ไม่ได้จนกว่าผู้สอนจะเติมให้ · ให้เปลี่ยนเป็น <code>openai/gpt-6-luna-pro</code> ตามขั้นที่ 04 ด้านล่าง แล้วดูชื่อ model ใต้ช่องพิมพ์ของ Cline ทุกครั้งก่อนเริ่มงาน</div>
+      <div class="notice is-warning" data-agent-only="openrouter" hidden><strong>⚠ ดู model ใต้ช่องพิมพ์ของ Cline ทุกครั้งก่อนเริ่มงาน</strong>ตัวติดตั้งตั้ง <code>openai/gpt-6-luna-pro</code> และ Reasoning Effort = Medium ไว้ให้ · ถ้าเห็น <code>anthropic/claude-sonnet-5.5</code> หรือ opus ให้เปลี่ยนกลับเป็น <code>openai/gpt-6-luna-pro</code> เพราะแพงกว่าประมาณ 20 เท่า งบ $2 ของคุณอาจหมดตั้งแต่ช่วงแรกของวันเรียน</div>
       <ol class="readiness-steps" data-login-steps>
         <li><span>01</span><div><strong>เปิด AI panel</strong></div></li>
         <li><span>02</span><div><strong>ลงชื่อเข้าใช้</strong></div></li>

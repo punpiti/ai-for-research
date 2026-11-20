@@ -35,7 +35,7 @@
 <li><code>course-materials/module-04/citation-register-template.csv</code> — แม่แบบทะเบียน (อ่านอย่างเดียว)</li>
 </ul></li>
 <li>ถ้ายังไม่มีไฟล์เหล่านี้: ให้สั่ง AI รัน <code>AIRR init module-4</code> ครั้งเดียว หรือดาวน์โหลดจากหน้า Module 4 แล้ววางตามตำแหน่งข้างต้นเอง</li>
-<li>OpenAlex API key ของคุณเก็บในตัวแปร <code>OPENALEX_KEY</code> ของเครื่องแล้ว (ถ้ายังไม่มี ทำขั้น "OpenAlex API key" ด้านล่างก่อน) ห้ามวาง key ลงใน Prompt ไฟล์งาน หรือภาพหน้าจอ</li>
+<li>OpenAlex API key ของคุณอยู่ในไฟล์ <code>.airr/keys/openalex.txt</code> แล้ว (ตรวจ: <code>AIRR key check openalex</code>) (ถ้ายังไม่มี ทำขั้น "OpenAlex API key" ด้านล่างก่อน) ห้ามวาง key ลงใน Prompt ไฟล์งาน หรือภาพหน้าจอ</li>
 </ul>
 <h3 id="workshop-bibtex-with-openalex-abstracts--คำที่ใช้ใน-workshop-นี้">คำที่ใช้ใน workshop นี้</h3>
 <ul>
@@ -47,21 +47,18 @@
 </ul>
 <hr>
 <h3 id="workshop-bibtex-with-openalex-abstracts--openalex-api-key--ทำครั้งเดียว-ถ้ามีแล้ว-ข้ามได้">OpenAlex API key — ทำครั้งเดียว (ถ้ามีแล้ว ข้ามได้)</h3>
-<p>workshop นี้ให้ AI เรียก OpenAlex ซึ่งต้องใช้ API key ของแต่ละคน (ฟรี) ถ้าไม่มี key ทุกเครื่องในเครือข่ายเดียวกันจะแบ่งโควตาฟรีรายวันชุดเดียวกัน และหมดก่อนทำเสร็จ <strong>ถ้าเคยตั้ง <code>OPENALEX_KEY</code> แล้ว (เช่น ใน Module 2) ข้ามไปขั้นถัดไปได้เลย</strong></p>
+<p>workshop นี้ให้ AI เรียก OpenAlex ซึ่งต้องใช้ API key ของแต่ละคน (ฟรี) ถ้าไม่มี key ทุกเครื่องในเครือข่ายเดียวกันจะแบ่งโควตาฟรีรายวันชุดเดียวกัน และหมดก่อนทำเสร็จ <strong>ถ้าเคยวาง key แล้ว (เช่น ใน Module 2) แค่วาง prompt <code>AIRR key check openalex</code> ได้ PASS ก็ข้ามไปขั้นถัดไปได้เลย</strong></p>
 <ol type="1">
 <li>เปิด <a href="https://openalex.org/settings/api">openalex.org/settings/api</a> สมัครหรือเข้าสู่ระบบ แล้วคัดลอก API key</li>
-<li>เก็บ key ในตัวแปร <code>OPENALEX_KEY</code> ด้วยตัวเอง (<strong>ห้ามวาง key ในแชต AI หรือในไฟล์ใด ๆ</strong>)
-<ul>
-<li>Windows: เปิด PowerShell พิมพ์ <code>setx OPENALEX_KEY "key ของคุณ"</code></li>
-<li>macOS / Linux: เพิ่มบรรทัด <code>export OPENALEX_KEY="key ของคุณ"</code> ใน <code>~/.zshrc</code> หรือ <code>~/.bashrc</code></li>
-</ul></li>
-<li>ปิด VS Code แล้วเปิดใหม่ แล้ววาง prompt นี้</li>
+<li>ใน Cline วาง prompt <code>AIRR key set openalex</code> — ไฟล์ <code>.airr/keys/openalex.txt</code> ใน workspace จะเปิดขึ้นใน VS Code (หาเองได้ที่แถบซ้าย: <code>.airr</code> › <code>keys</code> › <code>openalex.txt</code>)</li>
+<li>วาง key แทนบรรทัดแรกของไฟล์นั้น กด Ctrl+S (macOS: Cmd+S) แล้วปิดแท็บ (<strong>ห้ามวาง key ในแชต AI</strong>) · ไม่ต้องปิด–เปิด VS Code</li>
+<li>วาง prompt นี้</li>
 </ol>
-<div class="command ai-prompt"><code>ตรวจว่ามีตัวแปร OPENALEX_KEY หรือไม่ ตอบแค่ว่ามีหรือไม่มี ห้ามแสดงค่า</code><button type="button" data-copy="">คัดลอก</button></div><p><strong>ตรวจ:</strong> AI ตอบว่ามี <code>OPENALEX_KEY</code> และไม่มี key ปรากฏในแชตหรือไฟล์ใด</p>
+<div class="command ai-prompt"><code>AIRR key check openalex</code><button type="button" data-copy="">คัดลอก</button></div><p><strong>ตรวจ:</strong> ได้ <code>AIRR KEY PASS · openalex</code> และไม่มี key ปรากฏในแชต · ถ้าไม่ผ่าน ผลจะบอกว่าตรวจที่ไหนบ้างและติดตรงไหน (เช่น ยังเป็นข้อความตัวอย่าง คัดลอกไม่ครบ หรือ OpenAlex ไม่รับ key) ให้แก้ไฟล์ตามนั้นแล้วรันซ้ำ</p>
 <hr>
 <h3 id="workshop-bibtex-with-openalex-abstracts--ขั้นที่-1--ให้-ai-แกะรายการอ้างอิงและจับคู่กับ-openalex">ขั้นที่ 1 — ให้ AI แกะรายการอ้างอิงและจับคู่กับ OpenAlex</h3>
 <p>วาง Prompt นี้ใน AI — AI จะสร้าง <code>module-04-work/input/markdown/paper.md</code> และ <code>module-04-work/output/refs.bib</code></p>
-<div class="command ai-prompt"><code>อ่าน course-materials/module-04/citation-audit-rules.md ก่อน แล้วแปลงงานวิจัยใน module-04-work/input/original/ เป็น module-04-work/input/markdown/paper.md พร้อม page marker แล้วแกะรายการอ้างอิง ท้ายเรื่องทั้งหมดตามลำดับ ห้ามเดาชื่อเรื่อง ผู้แต่ง หรือ DOI ที่อ่านไม่ชัด จากนั้นค้นแต่ละรายการใน OpenAlex API ด้วย DOI ก่อน ถ้าไม่มี DOI ให้ค้นด้วยชื่อเรื่องและปี แล้วสร้าง module-04-work/output/refs.bib หนึ่ง entry ต่อหนึ่งรายการ ใส่ abstract ที่ประกอบจาก OpenAlex เท่านั้น พร้อม field abstract_source, openalex_id, identity_check, retracted และ local_fulltext (เว้นว่างไว้ก่อน) ถ้าไม่พบหรือ metadata ไม่ตรง ให้บันทึกตามจริง ห้ามแต่ง abstract ใช้ API key จากตัวแปร OPENALEX_KEY เท่านั้น และห้ามพิมพ์ key ลงไฟล์ log หรือผลลัพธ์ใด สรุปจำนวน matched, metadata_conflict, not_found, abstract not found และ retracted แล้วหยุดรอ</code><button type="button" data-copy="">คัดลอก</button></div><p><strong>ตรวจ:</strong> เปิด <code>paper.md</code> แล้วเห็น page marker และ AI ตอบกลับเป็นจำนวนครบห้ากลุ่ม (matched, metadata_conflict, not_found, abstract not found, retracted) — จดตัวเลขไว้</p>
+<div class="command ai-prompt"><code>อ่าน course-materials/module-04/citation-audit-rules.md ก่อน แล้วแปลงงานวิจัยใน module-04-work/input/original/ เป็น module-04-work/input/markdown/paper.md พร้อม page marker แล้วแกะรายการอ้างอิง ท้ายเรื่องทั้งหมดตามลำดับ ห้ามเดาชื่อเรื่อง ผู้แต่ง หรือ DOI ที่อ่านไม่ชัด จากนั้นค้นแต่ละรายการใน OpenAlex API ด้วย DOI ก่อน ถ้าไม่มี DOI ให้ค้นด้วยชื่อเรื่องและปี แล้วสร้าง module-04-work/output/refs.bib หนึ่ง entry ต่อหนึ่งรายการ ใส่ abstract ที่ประกอบจาก OpenAlex เท่านั้น พร้อม field abstract_source, openalex_id, identity_check, retracted และ local_fulltext (เว้นว่างไว้ก่อน) ถ้าไม่พบหรือ metadata ไม่ตรง ให้บันทึกตามจริง ห้ามแต่ง abstract อ่าน API key จากบรรทัดแรกของไฟล์ .airr/keys/openalex.txt เท่านั้น เขียนเป็นสคริปต์ Python ที่ทำทุกรายการในครั้งเดียว และห้ามพิมพ์ key ลงไฟล์ log หรือผลลัพธ์ใด สรุปจำนวน matched, metadata_conflict, not_found, abstract not found และ retracted แล้วหยุดรอ</code><button type="button" data-copy="">คัดลอก</button></div><p><strong>ตรวจ:</strong> เปิด <code>paper.md</code> แล้วเห็น page marker และ AI ตอบกลับเป็นจำนวนครบห้ากลุ่ม (matched, metadata_conflict, not_found, abstract not found, retracted) — จดตัวเลขไว้</p>
 <hr>
 <h3 id="workshop-bibtex-with-openalex-abstracts--ขั้นที่-2--เปิด-refsbib-และดู-field-ของทุก-entry">ขั้นที่ 2 — เปิด <code>refs.bib</code> และดู field ของทุก entry</h3>
 <p>เปิด <code>module-04-work/output/refs.bib</code> ดูว่าทุก entry มีช่อง <code>abstract_source</code>, <code>openalex_id</code>, <code>identity_check</code>, <code>retracted</code>, <code>local_fulltext</code> และรายการที่ไม่มี abstract เขียนว่า <code>abstract not found</code> ไม่ใช่ข้อความที่ AI สรุปขึ้นเอง</p>
@@ -91,7 +88,7 @@
 <ul>
 <li>ทำ workshop <code>bibtex-with-openalex-abstracts</code> กับบทความจำลองแล้ว</li>
 <li><code>course-materials/module-04/citation-audit-rules.md</code> (ตัวติดตั้ง Module 1 วางไว้ให้ อ่านอย่างเดียว)</li>
-<li>OpenAlex API key ในตัวแปร <code>OPENALEX_KEY</code> ของเครื่อง (ตั้งไว้ก่อนเรียน Module 4)</li>
+<li>OpenAlex API key ในไฟล์ <code>.airr/keys/openalex.txt</code> (ตรวจ: <code>AIRR key check openalex</code>) (ตั้งไว้ก่อนเรียน Module 4)</li>
 <li>บทหรือส่วนที่อ้างอิงมากของงานคุณหรือของนิสิตที่ดูแล (เฉพาะงานที่ได้รับอนุญาต และตัดข้อมูลส่วนบุคคลออกแล้ว)</li>
 </ul>
 <h3 id="open-bibtex-with-openalex-abstracts-explore--โจทย์">โจทย์</h3>
@@ -134,17 +131,14 @@
 </ul>
 <hr>
 <h3 id="workshop-open-access-fulltext-library--openalex-api-key--ทำครั้งเดียว-ถ้ามีแล้ว-ข้ามได้">OpenAlex API key — ทำครั้งเดียว (ถ้ามีแล้ว ข้ามได้)</h3>
-<p>workshop นี้ให้ AI เรียก OpenAlex ซึ่งต้องใช้ API key ของแต่ละคน (ฟรี) ถ้าไม่มี key ทุกเครื่องในเครือข่ายเดียวกันจะแบ่งโควตาฟรีรายวันชุดเดียวกัน และหมดก่อนทำเสร็จ <strong>ถ้าเคยตั้ง <code>OPENALEX_KEY</code> แล้ว (เช่น ใน Module 2) ข้ามไปขั้นถัดไปได้เลย</strong></p>
+<p>workshop นี้ให้ AI เรียก OpenAlex ซึ่งต้องใช้ API key ของแต่ละคน (ฟรี) ถ้าไม่มี key ทุกเครื่องในเครือข่ายเดียวกันจะแบ่งโควตาฟรีรายวันชุดเดียวกัน และหมดก่อนทำเสร็จ <strong>ถ้าเคยวาง key แล้ว (เช่น ใน Module 2) แค่วาง prompt <code>AIRR key check openalex</code> ได้ PASS ก็ข้ามไปขั้นถัดไปได้เลย</strong></p>
 <ol type="1">
 <li>เปิด <a href="https://openalex.org/settings/api">openalex.org/settings/api</a> สมัครหรือเข้าสู่ระบบ แล้วคัดลอก API key</li>
-<li>เก็บ key ในตัวแปร <code>OPENALEX_KEY</code> ด้วยตัวเอง (<strong>ห้ามวาง key ในแชต AI หรือในไฟล์ใด ๆ</strong>)
-<ul>
-<li>Windows: เปิด PowerShell พิมพ์ <code>setx OPENALEX_KEY "key ของคุณ"</code></li>
-<li>macOS / Linux: เพิ่มบรรทัด <code>export OPENALEX_KEY="key ของคุณ"</code> ใน <code>~/.zshrc</code> หรือ <code>~/.bashrc</code></li>
-</ul></li>
-<li>ปิด VS Code แล้วเปิดใหม่ แล้ววาง prompt นี้</li>
+<li>ใน Cline วาง prompt <code>AIRR key set openalex</code> — ไฟล์ <code>.airr/keys/openalex.txt</code> ใน workspace จะเปิดขึ้นใน VS Code (หาเองได้ที่แถบซ้าย: <code>.airr</code> › <code>keys</code> › <code>openalex.txt</code>)</li>
+<li>วาง key แทนบรรทัดแรกของไฟล์นั้น กด Ctrl+S (macOS: Cmd+S) แล้วปิดแท็บ (<strong>ห้ามวาง key ในแชต AI</strong>) · ไม่ต้องปิด–เปิด VS Code</li>
+<li>วาง prompt นี้</li>
 </ol>
-<div class="command ai-prompt"><code>ตรวจว่ามีตัวแปร OPENALEX_KEY หรือไม่ ตอบแค่ว่ามีหรือไม่มี ห้ามแสดงค่า</code><button type="button" data-copy="">คัดลอก</button></div><p><strong>ตรวจ:</strong> AI ตอบว่ามี <code>OPENALEX_KEY</code> และไม่มี key ปรากฏในแชตหรือไฟล์ใด</p>
+<div class="command ai-prompt"><code>AIRR key check openalex</code><button type="button" data-copy="">คัดลอก</button></div><p><strong>ตรวจ:</strong> ได้ <code>AIRR KEY PASS · openalex</code> และไม่มี key ปรากฏในแชต · ถ้าไม่ผ่าน ผลจะบอกว่าตรวจที่ไหนบ้างและติดตรงไหน (เช่น ยังเป็นข้อความตัวอย่าง คัดลอกไม่ครบ หรือ OpenAlex ไม่รับ key) ให้แก้ไฟล์ตามนั้นแล้วรันซ้ำ</p>
 <hr>
 <h3 id="workshop-open-access-fulltext-library--ขั้นที่-1--ให้-ai-โหลด-open-access-และทำรายการดาวน์โหลดเอง">ขั้นที่ 1 — ให้ AI โหลด open access และทำรายการดาวน์โหลดเอง</h3>
 <p>วาง Prompt นี้ใน AI — AI จะใช้ <code>literature/publisher-download-policy.md</code> (สร้างใหม่ถ้ายังไม่มี) และจะสร้าง <code>literature/pdf/{citation_key}.pdf</code>, <code>literature/markdown/&lt;citation_key&gt;.md</code> กับ <code>module-04-work/output/manual-download.md</code></p>
@@ -234,34 +228,34 @@
 <p>เลือกรายการที่ไม่มี abstract อย่างน้อยหนึ่งรายการ (ถ้ามีเวลา 3 รายการ) ดูว่าข้อความที่ถูกอ้างเป็นชนิดใด แล้วเปิดส่วนที่ตอบได้ตรงที่สุดใน <code>literature/markdown/</code></p>
 <table>
 <thead>
-<tr class="header">
+<tr>
 <th>ชนิดข้อความที่ถูกอ้าง</th>
 <th>อ่านส่วนใดของต้นฉบับ</th>
 <th>ตรวจอะไร</th>
 </tr>
 </thead>
 <tbody>
-<tr class="odd">
+<tr>
 <td>ข้อเท็จจริงหรือนิยาม</td>
 <td>Introduction หรือส่วนที่นิยาม</td>
 <td>ความหมายตรงกันหรือไม่</td>
 </tr>
-<tr class="even">
+<tr>
 <td>ตัวเลขหรือขนาดผล</td>
 <td>Results, ตาราง, รูป</td>
 <td>ค่า หน่วย กลุ่ม และช่วงความเชื่อมั่นตรงหรือไม่</td>
 </tr>
-<tr class="odd">
+<tr>
 <td>ความสัมพันธ์หรือเหตุและผล</td>
 <td>Methods และ Discussion</td>
 <td>รูปแบบการศึกษารองรับการอ้างเหตุและผลหรือไม่</td>
 </tr>
-<tr class="even">
+<tr>
 <td>การขยายผลไปกลุ่มอื่น</td>
 <td>Methods (ประชากร) และ Limitations</td>
 <td>กลุ่มที่ศึกษาตรงกับกลุ่มที่อ้างหรือไม่</td>
 </tr>
-<tr class="odd">
+<tr>
 <td>ข้อเสนอแนะหรือมาตรฐาน</td>
 <td>Conclusion หรือประกาศทางการ</td>
 <td>เป็นข้อเสนอของผู้เขียน หรือข้อบังคับจริง</td>
@@ -276,25 +270,25 @@
 <p>ในแถวที่คุณตรวจ: แก้ <code>checked_against</code> เป็น <code>full_text</code> ใส่หน้าหรือส่วนของต้นฉบับใน <code>support</code> กำหนดสถานะใหม่ ใส่ <code>decision</code> ตามตาราง และใส่ชื่อของคุณในช่อง <code>reviewer</code></p>
 <table>
 <thead>
-<tr class="header">
+<tr>
 <th>การตัดสินใจ</th>
 <th>ใช้เมื่อ</th>
 </tr>
 </thead>
 <tbody>
-<tr class="odd">
+<tr>
 <td>เก็บ</td>
 <td>verified</td>
 </tr>
-<tr class="even">
+<tr>
 <td>ลดขอบเขตข้อความ</td>
 <td>partially supported: แก้ข้อความให้แคบเท่าที่ต้นฉบับรองรับ</td>
 </tr>
-<tr class="odd">
+<tr>
 <td>ตัดออก</td>
 <td>not supported, retracted หรือ fabricated</td>
 </tr>
-<tr class="even">
+<tr>
 <td>หาแหล่งแทน</td>
 <td>not found, outdated หรือข้อความยังต้องการหลักฐาน</td>
 </tr>

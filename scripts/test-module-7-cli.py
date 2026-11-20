@@ -6,6 +6,7 @@ import contextlib
 import importlib.util
 import io
 import json
+import os
 from pathlib import Path
 import tempfile
 
@@ -95,7 +96,7 @@ def run() -> None:
         try:
             output = io.StringIO()
             with contextlib.redirect_stdout(output):
-                assert client.main(["--workspace", str(workspace), "--api-base", "https://test/api/airr/v1", "login", "--key", "airr_" + "k" * 48]) == 0
+                assert client.main(["--workspace", str(workspace), "--api-base", "https://test/api/airr/v1", "login", "--key", "airr_" + "k" * 48, "--no-init"]) == 0
                 assert client.main(["--workspace", str(workspace), "check", "module-7"]) == 0
                 assert client.main(["--workspace", str(workspace), "submit", "module-7", "--yes"]) == 0
                 assert client.main(["--workspace", str(workspace), "status", "module-7"]) == 0
@@ -306,37 +307,117 @@ def topic_card_test() -> None:
 
 
 def ai_key_test() -> None:
-    """`airr ai-key` writes the key to a private file outside the workspace and never prints it."""
+    """Key protocol: every key in <workspace>/.airr/keys/<service>.txt, never printed;
+    the old ~/.airr/ai-key.txt is migrated; login prepares every module of the class."""
     with tempfile.TemporaryDirectory(prefix="airr-aikey-") as folder:
         workspace, home = Path(folder) / "ws", Path(folder) / "home"
         (workspace / ".airr").mkdir(parents=True)
         (workspace / ".airr/config.json").write_text(json.dumps({"schema_version": "airr.workspace.v1", "api_base": "https://example.test/api/airr/v1", "api_key": "airr_x", "classroom_id": "c"}), encoding="utf-8")
         key = "sk-or-v1-" + "a1" * 32
         calls = []
-        original_request, original_path = client.request_json, client.ai_key_path
+        saved = (client.request_json, client.legacy_key_path, client.open_in_vscode, client.KEY_CHECKERS.copy(), client.command_init)
         client.request_json = lambda method, url, api_key=None, payload=None: calls.append((method, url)) or {
             "provider": "openrouter", "label": "L01", "tier": "learner", "api_key": key}
-        client.ai_key_path = lambda: home / ".airr" / "ai-key.txt"
+        client.legacy_key_path = lambda: home / ".airr" / "ai-key.txt"
+        client.open_in_vscode = lambda path: None
+        client.KEY_CHECKERS["openrouter"] = lambda k: "ใช้ไป $0.10 จากงบ $2.00"
+        client.KEY_CHECKERS["openalex"] = lambda k: "key ใช้ได้"
+        run = lambda *argv: client.main(["--workspace", str(workspace), *argv])
         try:
+            path = workspace / ".airr/keys/openrouter.txt"
             out = io.StringIO()
             with contextlib.redirect_stdout(out):
-                assert client.main(["--workspace", str(workspace), "ai-key"]) == 0
+                assert run("ai-key") == 0  # old name still works
             assert calls == [("POST", "https://example.test/api/airr/v1/ai-key")]
-            assert key not in out.getvalue() and "AIRR AI-KEY READY" in out.getvalue()
-            path = home / ".airr" / "ai-key.txt"
+            assert key not in out.getvalue() and "AIRR KEY READY" in out.getvalue()
             assert path.read_text(encoding="utf-8").splitlines()[0] == key
             assert oct(path.stat().st_mode & 0o777) == "0o600"
-            assert not any(key in item.read_text(encoding="utf-8", errors="ignore") for item in workspace.rglob("*") if item.is_file())
+            assert not (home / ".airr").exists()
+            out = io.StringIO()
+            with contextlib.redirect_stdout(out):
+                assert run("key", "list") == 0
+                assert run("key", "check", "openrouter") == 0
+            assert key not in out.getvalue() and "AIRR KEY PASS · openrouter" in out.getvalue(), out.getvalue()
+            # key use: merges key + model + reasoning medium into Cline's providers.json, keeps other providers
+            cline = Path(folder) / "cline" / "providers.json"
+            cline.parent.mkdir()
+            cline.write_text(json.dumps({"version": 1, "modes": {}, "providers": {"anthropic": {"settings": {"provider": "anthropic"}, "updatedAt": "2026-01-01T00:00:00.000Z", "tokenSource": "manual"},
+                                         "openrouter": {"settings": {"provider": "openrouter", "model": "x/y", "reasoning": {"enabled": False, "effort": "none"}}, "updatedAt": "2026-01-01T00:00:00.000Z", "tokenSource": "manual"}}}), encoding="utf-8")
+            os.environ["CLINE_PROVIDER_SETTINGS_PATH"] = str(cline)
+            try:
+                out = io.StringIO()
+                with contextlib.redirect_stdout(out):
+                    assert run("key", "use", "openrouter") == 0
+                assert key not in out.getvalue()
+                stored = json.loads(cline.read_text(encoding="utf-8"))
+                entry = stored["providers"]["openrouter"]["settings"]
+                assert entry["apiKey"] == key and entry["model"] == "x/y" and entry["reasoning"] == {"enabled": True, "effort": "medium"}
+                assert "anthropic" in stored["providers"] and stored["providers"]["openrouter"]["updatedAt"].endswith("Z")
+                with contextlib.redirect_stdout(io.StringIO()):
+                    assert run("key", "use", "openrouter") == 0  # nothing left to change
+                cline.unlink()
+                with contextlib.redirect_stdout(io.StringIO()):
+                    assert run("key", "use", "openrouter") == 0  # fresh install: file created
+                assert json.loads(cline.read_text(encoding="utf-8"))["providers"]["openrouter"]["settings"]["model"] == client.CLINE_MODEL
+            finally:
+                os.environ.pop("CLINE_PROVIDER_SETTINGS_PATH", None)
             with contextlib.redirect_stdout(io.StringIO()):
-                assert client.main(["--workspace", str(workspace), "ai-key", "--clear"]) == 0
+                assert run("ai-key", "--clear") == 0
             assert not path.exists()
             client.request_json = lambda *a, **k: {"api_key": "not-a-key"}
             with contextlib.redirect_stderr(io.StringIO()):
-                assert client.main(["--workspace", str(workspace), "ai-key"]) == 1
+                assert run("key", "get", "openrouter") == 1
             assert not path.exists()
+            # old location is found, copied into .airr/keys/ and removed
+            (home / ".airr").mkdir(parents=True)
+            (home / ".airr/ai-key.txt").write_text(key + "\n# note\n", encoding="utf-8")
+            with contextlib.redirect_stdout(io.StringIO()):
+                assert run("key", "check", "openrouter") == 0
+            assert path.read_text(encoding="utf-8").splitlines()[0] == key and not (home / ".airr").exists()
+            # OpenAlex: set creates a placeholder file; check refuses the placeholder, accepts a pasted key
+            alex = workspace / ".airr/keys/openalex.txt"
+            env = os.environ.pop("OPENALEX_KEY", None)
+            original_legacy = client._openalex_legacy_sources
+            client._openalex_legacy_sources = lambda: []
+            try:
+                with contextlib.redirect_stdout(io.StringIO()):
+                    assert run("key", "set", "openalex") == 0
+                assert client.KEY_PLACEHOLDER in alex.read_text(encoding="utf-8")
+                err = io.StringIO()
+                with contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(err):
+                    assert run("key", "check", "openalex") == 1
+                assert "ข้อความตัวอย่าง" in err.getvalue(), err.getvalue()
+                lines = alex.read_text(encoding="utf-8").splitlines()
+                alex.write_text("\n".join(["  AbCdEf123456XYZ  "] + lines[1:]) + "\n", encoding="utf-8")
+                with contextlib.redirect_stdout(io.StringIO()):
+                    assert run("key", "check", "openalex") == 0
+                assert client.find_key(workspace, "openalex")[0] == "AbCdEf123456XYZ"
+                # a key only in the environment variable is copied into the file
+                alex.unlink()
+                os.environ["OPENALEX_KEY"] = "EnvKey987654321"
+                with contextlib.redirect_stdout(io.StringIO()):
+                    assert run("key", "check", "openalex") == 0
+                assert client.read_key_file(alex) == "EnvKey987654321"
+            finally:
+                client._openalex_legacy_sources = original_legacy
+                os.environ.pop("OPENALEX_KEY", None)
+                if env is not None:
+                    os.environ["OPENALEX_KEY"] = env
+            # login prepares module-1 plus every available module of the class
+            inited = []
+            client.command_init = lambda args: inited.append(args.module)
+            client.request_json = lambda method, url, api_key=None, payload=None: {
+                "classroom_title": "T", "classroom_id": "c", "key_id": "k",
+                "module_states": {"module-1": {"available": True}, "module-2": {"available": True},
+                                  "module-7": {"available": True, "is_open": False}, "module-5": {"available": False}}}
+            out = io.StringIO()
+            with contextlib.redirect_stdout(out):
+                assert run("login", "--key", "airr_" + "k" * 48) == 0
+            assert inited == ["module-1", "module-2", "module-7"], inited
+            assert "AIRR LOGIN INIT · เตรียมแล้ว 3/3" in out.getvalue()
         finally:
-            client.request_json, client.ai_key_path = original_request, original_path
-
+            (client.request_json, client.legacy_key_path, client.open_in_vscode, checkers, client.command_init) = saved
+            client.KEY_CHECKERS.clear(); client.KEY_CHECKERS.update(checkers)
 
 
 def run_update() -> None:
