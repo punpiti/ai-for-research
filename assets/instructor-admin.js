@@ -73,12 +73,15 @@
     return `$${used.toFixed(2)} / ${limitText}`;
   }
 
-  // Input text -> budget (0-1000, cents precision) or null when invalid. Empty means 0.
-  function parseBudget(raw) {
+  // Owner 2026-11-20: a learner's AI budget is at most $10 (the server enforces it too).
+  const LEARNER_BUDGET_MAX = 10;
+  const budgetMax = (role) => (role === "ta" ? 1000 : LEARNER_BUDGET_MAX);
+  // Input text -> budget (0-max, cents precision) or null when invalid. Empty means 0.
+  function parseBudget(raw, max = 1000) {
     const text = String(raw ?? "").trim();
     if (text === "") return 0;
     const value = Number(text);
-    if (!Number.isFinite(value) || value < 0 || value > 1000) return null;
+    if (!Number.isFinite(value) || value < 0 || value > max) return null;
     return Math.round(value * 100) / 100;
   }
 
@@ -574,7 +577,7 @@
       const budgetInput = node("input");
       budgetInput.type = "number";
       budgetInput.min = "0";
-      budgetInput.max = "1000";
+      budgetInput.max = String(budgetMax(item.role));
       budgetInput.step = "0.5";
       budgetInput.inputMode = "decimal";
       budgetInput.value = String(budgetValue(item));
@@ -636,9 +639,11 @@
         const controls = [statusSelect, roleSelect, budgetInput];
         const saveEnrollment = async () => {
           globalObject.clearTimeout(budgetSaveTimer);
-          const nextBudget = parseBudget(budgetInput.value);
+          const maxBudget = budgetMax(roleSelect.value);
+          budgetInput.max = String(maxBudget);
+          const nextBudget = parseBudget(budgetInput.value, maxBudget);
           if (nextBudget === null) {
-            saveState.textContent = "งบต้องอยู่ระหว่าง 0–1000";
+            saveState.textContent = roleSelect.value === "ta" ? "งบต้องอยู่ระหว่าง 0–1000" : "งบผู้เรียนต้องอยู่ระหว่าง 0–10 ดอลลาร์";
             saveState.classList.add("is-error");
             return;
           }
