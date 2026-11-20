@@ -12,4 +12,4 @@
 | `summaries/` | AI | สรุปจาก prompt แต่ละแบบ หนึ่งไฟล์ต่อหนึ่งแบบ |
 | `prompts.md` | คุณ | prompt ที่ใช้และสิ่งที่สังเกต |
 
-ห้ามวาง OpenAlex API key ในไฟล์ใดในโฟลเดอร์นี้ · ใช้ตัวแปร `OPENALEX_KEY` เท่านั้น
+ห้ามวาง OpenAlex API key ในไฟล์ใดในโฟลเดอร์นี้ · key อยู่ใน `.airr/keys/openalex.txt` ของ workspace เท่านั้น
