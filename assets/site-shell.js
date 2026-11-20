@@ -295,17 +295,20 @@ class SiteHeader extends HTMLElement {
         if (session.user?.system_role !== "admin") { cta.remove(); return; }
       }
 
-      if (session.user?.system_role === "admin") {
-        cta.textContent = "จัดการผู้สอน";
+      // One label per meaning: "จัดการคลาส" = your teaching role in this class (same words as
+      // the class card); "ผู้ดูแลระบบ" = system admin console (all classes, create class, config).
+      // A person can be both; inside a class the class role wins, on the home page the cards
+      // already offer "จัดการคลาส", so the header shows only the admin role.
+      const teachesHere = membership?.status === "active" && membership.role === "teacher";
+      if (teachesHere && current !== "home") {
+        cta.textContent = "จัดการคลาส";
+        cta.href = `admin/?id=${encodeURIComponent(targetClassroomId)}`;
+      } else if (session.user?.system_role === "admin") {
+        cta.textContent = "ผู้ดูแลระบบ";
         cta.href = `admin/?id=${encodeURIComponent(targetClassroomId)}`;
       } else if (membership?.status === "active") {
-        if (membership.role === "teacher") {
-          cta.textContent = "หน้าของอาจารย์";
-          cta.href = `admin/?id=${encodeURIComponent(targetClassroomId)}`;
-        } else {
-          cta.textContent = current === "classroom" ? "เข้าสู่เนื้อหา" : "ห้องเรียนของฉัน";
-          cta.href = current === "classroom" ? moduleContentHref(membership.active_module_id, targetClassroomId) : classroomHref;
-        }
+        cta.textContent = current === "classroom" ? "เข้าสู่เนื้อหา" : "ห้องเรียนของฉัน";
+        cta.href = current === "classroom" ? moduleContentHref(membership.active_module_id, targetClassroomId) : classroomHref;
       } else if (membership?.status === "pending") {
         cta.textContent = "รออนุมัติ";
         cta.href = current === "classroom" ? "#syllabus" : classroomHref;

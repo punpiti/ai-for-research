@@ -90,7 +90,7 @@ grep -q '/content/\${path}?classroom_id=' "$root/assets/site-shell.js"
 grep -q '/content/\${path}?classroom_id=' "$root/assets/classroom.js"
 grep -q 'pathMatch = location.pathname.match' "$root/assets/app.js"
 grep -q 'cta.textContent = "รออนุมัติ"' "$root/assets/site-shell.js"
-grep -q 'cta.textContent = "หน้าของอาจารย์"' "$root/assets/site-shell.js"
+grep -q 'cta.textContent = "จัดการคลาส"' "$root/assets/site-shell.js"
 grep -q 'globalObject.location.assign(`admin/?id=' "$root/assets/classroom.js"
 node "$root/scripts/test-classroom.js"
 echo 'Classroom public-detail and enrollment checks passed.'

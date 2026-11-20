@@ -2,7 +2,7 @@
   "use strict";
 
   const endpoint = "/api/ai-for-research/classrooms/me";
-  const roleLabel = (role) => role === "teacher" ? "ผู้สอน" : "ผู้เรียน";
+  const roleLabel = (role) => ({ teacher: "ผู้สอน", ta: "ผู้ช่วยสอน (TA)" })[role] || "ผู้เรียน";
   const statusLabel = (status) => ({
     active: "เข้าใช้งานได้",
     pending: "รออนุมัติ",

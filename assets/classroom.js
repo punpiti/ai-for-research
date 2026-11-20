@@ -226,7 +226,7 @@
       instructor = membership.role === "teacher";
       learnerContentHref = instructor ? "" : learnerHomePath(membership.active_module_id, classroomId);
       button.disabled = false;
-      button.textContent = instructor ? "เปิดหน้าของอาจารย์" : "เข้าสู่เนื้อหา";
+      button.textContent = instructor ? "จัดการคลาส" : "เข้าสู่เนื้อหา";
       status.textContent = instructor ? "ลงทะเบียนแล้วในบทบาทผู้สอน" : "ได้รับอนุมัติแล้ว พร้อมเข้าสู่เนื้อหาที่กำลังเรียน";
       status.classList.add("is-success");
       return;
