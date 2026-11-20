@@ -195,7 +195,9 @@ check() {
   [[ "$arch_ready" == yes ]] || issues+=("supported 64-bit Apple silicon or Intel architecture")
   # RAM is advisory (AI runs in the cloud): warn and continue.
   [[ "$ram_ready" == yes ]] || log "DEVICE_WARNING RAM $ram_gb GB (recommended 8 GB+, 16 GB best); setup continues - close other apps if the machine is slow."
-  [[ "$disk_ready" == yes ]] || issues+=("free disk 20 GB (found $free_disk_gb GB)")
+  # Disk: below 20 GB is a warning (install needs ~3-6 GB); below 3 GB setup cannot finish.
+  if awk -v disk="$free_disk_gb" 'BEGIN {exit !(disk < 3)}'; then issues+=("free disk 3 GB (found $free_disk_gb GB)")
+  elif [[ "$disk_ready" != yes ]]; then log "DEVICE_WARNING free disk $free_disk_gb GB (recommended 20 GB); setup continues - free up space if it fails."; fi
   [[ "$network" == yes ]] || issues+=("HTTPS network access to github.com")
   if (( ${#issues[@]} == 0 )); then
     if [[ "$mode" == --check ]]; then log 'FINAL_RESULT PASS - Device is ready.'; else log 'DEVICE_CHECK_PASS Hardware and network checks passed.'; fi
