@@ -27,7 +27,7 @@ import zipfile
 
 
 DEFAULT_API_BASE = "https://urban.cpe.ku.ac.th/api/airr/v1"
-AIRR_VERSION = "2026.11.20.2"  # bump on every published change of this file
+AIRR_VERSION = "2026.11.20.3"  # bump on every published change of this file
 DOWNLOADS_PREFIX = "https://urban.cpe.ku.ac.th/ai-for-research/downloads/"
 MANIFEST_URL = DOWNLOADS_PREFIX + "course-materials.json"
 MODULE_MATERIALS_URL = DOWNLOADS_PREFIX + "module-materials.json"
@@ -1203,7 +1203,72 @@ def openalex_request(params: dict[str, Any], key: str, limit: int = 32 * 1024 * 
     return data, public_url
 
 
+def _abstract_text(index: Any) -> str:
+    if not isinstance(index, dict):
+        return ""
+    words: dict[int, str] = {}
+    for word, positions in index.items():
+        for position in positions if isinstance(positions, list) else []:
+            if isinstance(position, int):
+                words[position] = str(word)
+    return " ".join(words[i] for i in sorted(words))
+
+
+def _bib_escape(value: Any) -> str:
+    text = re.sub(r"\s+", " ", str(value or "")).strip()
+    for char in "\\{}":
+        text = text.replace(char, "")
+    for char in "&%$#_":
+        text = text.replace(char, "\\" + char)
+    return text
+
+
+def openalex_bib(workspace: Path, only_abstract: bool) -> None:
+    folder = workspace / OPENALEX_DIR
+    works = folder / "works.json"
+    if not works.is_file():
+        raise AIRRError("ยังไม่มี module-02-work/openalex/works.json · รัน AIRR openalex search \"คำค้น\" ก่อน")
+    data = json.loads(works.read_text(encoding="utf-8"))
+    results = [item for item in data.get("results", []) if isinstance(item, dict)]
+    entries, keys, skipped = [], set(), 0
+    for item in results:
+        abstract = _abstract_text(item.get("abstract_inverted_index"))
+        if only_abstract and not abstract:
+            skipped += 1
+            continue
+        authors = [((a.get("author") or {}).get("display_name") or "") for a in item.get("authorships") or [] if isinstance(a, dict)]
+        authors = [a for a in authors if a]
+        year = item.get("publication_year") or "nd"
+        surname = re.sub(r"[^A-Za-z]", "", (authors[0].split()[-1] if authors else "anon")) or "anon"
+        title = str(item.get("display_name") or item.get("title") or "")
+        first = next((re.sub(r"[^A-Za-z]", "", w) for w in title.split() if len(re.sub(r"[^A-Za-z]", "", w)) > 3), "work")
+        key = f"{surname.lower()}{year}{first.lower()}"
+        base, n = key, 2
+        while key in keys:
+            key, n = f"{base}{chr(96 + n)}", n + 1
+        keys.add(key)
+        source = ((item.get("primary_location") or {}).get("source") or {}).get("display_name") or ""
+        doi = str(item.get("doi") or "").replace("https://doi.org/", "")
+        openalex_id = str(item.get("id") or "").rsplit("/", 1)[-1]
+        fields = [("author", " and ".join(_bib_escape(a) for a in authors)), ("title", "{" + _bib_escape(title) + "}"),
+                  ("journal", _bib_escape(source)), ("year", str(year)), ("doi", doi),
+                  ("url", f"https://openalex.org/{openalex_id}" if openalex_id else ""),
+                  ("note", f"OpenAlex {openalex_id}; cited_by_count={item.get('cited_by_count', 0)}"),
+                  ("abstract", _bib_escape(abstract))]
+        body = ",\n".join(f"  {name} = {{{value}}}" for name, value in fields if value)
+        entries.append(f"@article{{{key},\n{body}\n}}\n")
+    target = folder / "refs.bib"
+    target.write_text("\n".join(entries), encoding="utf-8")
+    with_abstract = sum(1 for e in entries if "  abstract = {" in e)
+    print(f"AIRR OPENALEX BIB PASS · {len(entries)} entry ลง module-02-work/openalex/refs.bib · มี abstract {with_abstract}"
+          + (f" · ข้ามที่ไม่มี abstract {skipped}" if only_abstract else f" · ไม่มี abstract {len(entries) - with_abstract}"))
+    print("abstract มาจาก OpenAlex เท่านั้น (ไม่ได้ให้ AI แต่งเพิ่ม)")
+
+
 def command_openalex(args: argparse.Namespace) -> None:
+    if args.action == "bib":
+        openalex_bib(resolve_workspace(args.workspace), args.abstract_only)
+        return
     key, source = openalex_key()
     if args.action == "check":
         data, _ = openalex_request({"search": "rice", "per-page": 1}, key, 1024 * 1024)
@@ -1217,6 +1282,8 @@ def command_openalex(args: argparse.Namespace) -> None:
     filters = [f"from_publication_date:{args.since}"] if args.since else []
     if args.type:
         filters.append(f"type:{args.type}")
+    if args.core:
+        filters.append("primary_location.source.is_core:true")
     if args.filter:
         filters.append(args.filter)
     params: dict[str, Any] = {"search": query, "per-page": max(1, min(args.per_page, 200)), "sort": "relevance_score:desc"}
@@ -1260,7 +1327,7 @@ HELP_TOPICS = {
     "submit": "submit MODULE [--yes] [--short]\n  ส่งงานหรือสถานะของโมดูลให้ผู้สอน แสดงสรุปและถามยืนยันก่อนส่ง (--yes = ไม่ถามซ้ำ)\n  Module 1 ส่งเฉพาะเช็กลิสต์และเวลา ไม่ส่งไฟล์งาน · Module 7 ส่ง highlights และกราฟ 1–5 ภาพ\n  --short Module 1: แจ้งผู้สอนว่าเสร็จ (ผู้เรียนติ๊กเช็กลิสต์บนเว็บเองแล้ว) · Module 2/3: แจ้งว่าเสร็จด้วยจำนวนบรรทัด ไม่ส่งเนื้อหา\n  ตัวอย่าง: submit module-1 --short --yes",
     "status": "status module-1|module-2|module-3|module-4|module-7\n  ดูว่าผู้สอนได้รับงานแล้วหรือยัง ผลตรวจ และ feedback\n  ตัวอย่าง: status module-7",
     "ai-key": "ai-key [--open] [--clear]\n  รับ OpenRouter key ที่ผู้สอนจัดให้ (หนึ่งคนหนึ่ง key รันซ้ำได้ key เดิม) ลงไฟล์ ~/.airr/ai-key.txt\n  ไม่แสดง key บนจอ · --open เปิดไฟล์ใน VS Code · คัดลอกบรรทัดแรกไปวางใน Cline\n  ใส่ใน Cline และทดสอบได้แล้ว: ai-key --clear เพื่อลบไฟล์",
-    "openalex": "openalex check | openalex search \"คำค้น\" [--since 2018-01-01] [--type \"article|review\"] [--filter ...] [--per-page 50]\n  check: ตรวจว่า OpenAlex API key ของคุณใช้ได้ (ไม่แสดง key; อ่านจาก OPENALEX_KEY หรือที่ setx/~/.zshrc บันทึกไว้)\n  search: ค้น OpenAlex ด้วย key ของคุณ เก็บผลทั้งก้อนลง module-02-work/openalex/works.json (ไฟล์เดิมเก็บเป็น works.prev-*.json)\n  และเพิ่มบรรทัดใน search-log.md (URL ไม่มี key) แล้วแสดงสิบรายการแรก",
+    "openalex": "openalex check | openalex search \"คำค้น\" [--since 2022-01-01] [--core] [--type \"article|review\"] [--filter ...] [--per-page 50] | openalex bib [--abstract-only]\n  check: ตรวจว่า OpenAlex API key ใช้ได้ (ไม่แสดง key)\n  search: ค้นใหม่ทุกครั้งด้วย key ของคุณ เก็บลง module-02-work/openalex/works.json (ไฟล์เดิม -> works.prev-*.json) + search-log.md แล้วแสดงจำนวนที่พบและสิบรายการแรก\n    --since ปีที่เริ่ม (ค่าว่าง = ไม่กรอง) · --type ค่าว่าง = ทุกประเภท · --core เฉพาะวารสารหลัก (ใช้แทน Q1)\n  bib: แปลง works.json เป็น refs.bib พร้อม abstract จาก OpenAlex (--abstract-only เก็บเฉพาะที่มี abstract)",
     "materials": "materials module-2|module-4 [--thai]\n  ดาวน์โหลดไฟล์ฝึกของโมดูลลง workspace (ถ้าติดตั้งพร้อม key ไฟล์จะมีอยู่แล้ว)\n  ตัวอย่าง: materials module-4 --thai",
 }
 
@@ -1327,12 +1394,14 @@ def parser() -> argparse.ArgumentParser:
     ai_key.add_argument("--clear", action="store_true", help="ลบไฟล์ key หลังใส่ใน Cline แล้ว")
     ai_key.set_defaults(handler=command_ai_key)
     openalex = commands.add_parser("openalex", help="ตรวจ OpenAlex API key หรือค้น OpenAlex ด้วย key ของคุณ (ไม่แสดง key)")
-    openalex.add_argument("action", choices=["check", "search"])
+    openalex.add_argument("action", choices=["check", "search", "bib"])
     openalex.add_argument("query", nargs="*", help="คำค้น (สำหรับ search)")
     openalex.add_argument("--since", default="2018-01-01", help="from_publication_date (ค่าเริ่มต้น 2018-01-01; ใส่ค่าว่างเพื่อไม่กรองปี)")
     openalex.add_argument("--type", default="article|review", help="ประเภทผลงาน (ค่าเริ่มต้น article|review; ใส่ค่าว่างเพื่อไม่กรอง)")
     openalex.add_argument("--filter", default="", help="ตัวกรอง OpenAlex เพิ่มเติม เช่น language:en")
     openalex.add_argument("--per-page", type=int, default=50, help="จำนวนที่เก็บ (1-200, ค่าเริ่มต้น 50)")
+    openalex.add_argument("--core", action="store_true", help="เฉพาะวารสารหลัก (CWTS core: วารสารวิชาการนานาชาติที่มี peer review) ใช้แทน Q1 ซึ่ง OpenAlex ไม่มี")
+    openalex.add_argument("--abstract-only", action="store_true", help="bib: เก็บเฉพาะรายการที่มี abstract")
     openalex.set_defaults(handler=command_openalex)
     status = commands.add_parser("status", help="ดูผลตรวจและ feedback")
     status.add_argument("module", choices=("module-1", "module-2", "module-3", "module-4", "module-7"))
