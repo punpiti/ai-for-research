@@ -10,9 +10,11 @@ from pathlib import Path
 import platform
 import shlex
 import shutil
+import ssl
 import subprocess
 import tarfile
 import tempfile
+import urllib.error
 import urllib.request
 import zipfile
 
@@ -81,6 +83,34 @@ def download_progress(label):
         console(f'\r[AI for Research]     {label} [{bar}] {percent:3d}%  {done / 1e6:5.1f}/{total / 1e6:.1f} MB',
                 end='\n' if percent >= 100 else '')
     return hook
+
+
+def _is_cert_error(error):
+    reason = getattr(error, 'reason', error)
+    return isinstance(reason, ssl.SSLError) or 'CERTIFICATE_VERIFY_FAILED' in str(error)
+
+
+def fetch_file(url, target, hook=None):
+    """urlretrieve, falling back to the OS curl when Python's OpenSSL cannot verify the
+    certificate chain. Windows curl.exe uses Schannel (the Windows trust store, AIA fetch,
+    root auto-update, antivirus/enterprise roots); verification stays on (no -k)."""
+    try:
+        urllib.request.urlretrieve(url, target, hook)
+        return
+    except (urllib.error.URLError, ssl.SSLError) as error:
+        if not _is_cert_error(error):
+            raise
+        first_error = error
+    curl = None
+    if os.name == 'nt':
+        system_curl = Path(os.environ.get('SystemRoot', r'C:\Windows')) / 'System32' / 'curl.exe'
+        curl = str(system_curl) if system_curl.exists() else shutil.which('curl.exe')
+    else:
+        curl = shutil.which('curl')
+    if not curl:
+        raise first_error
+    log(f'DOWNLOAD_FALLBACK Python could not verify the certificate for {url.split("/")[2]}; using the system curl (OS trust store).')
+    run(curl, '-fL', '--retry', '2', '--connect-timeout', '30', '-o', str(target), url)
 
 
 def log(message):
@@ -475,7 +505,7 @@ def install_tex(root):
         log('INSTALL user-owned TinyTeX (LaTeX/XeLaTeX); existing system TeX is retained.')
         with tempfile.TemporaryDirectory(prefix='ai-research-tex-') as scratch:
             archive = Path(scratch) / f'TinyTeX.{extension}'
-            urllib.request.urlretrieve(url, archive, download_progress('TinyTeX'))
+            fetch_file(url, archive, download_progress('TinyTeX'))
             if os.name == 'nt':
                 run(archive, '-y', cwd=scratch)
             else:
@@ -755,8 +785,8 @@ def main():
             if not data.exists() or data.stat().st_size == 0:
                 log(f'INSTALL OCR language {language}; only English/Thai data are downloaded.')
                 step(f'Downloading OCR language data ({language})')
-                urllib.request.urlretrieve(f'https://github.com/tesseract-ocr/tessdata_fast/raw/4.1.0/{language}.traineddata', data,
-                                           download_progress(f'OCR {language}'))
+                fetch_file(f'https://github.com/tesseract-ocr/tessdata_fast/raw/4.1.0/{language}.traineddata', data,
+                           download_progress(f'OCR {language}'))
     os.environ.update(env)
     uv = shutil.which('uv')
     if not uv:
