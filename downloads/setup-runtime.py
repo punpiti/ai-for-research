@@ -472,9 +472,23 @@ def tex_root(root):
     if not any(ch.isspace() for ch in str(preferred)):
         return preferred
     fallback = Path.home() / '.ai-for-research' / 'TinyTeX'
-    if any(ch.isspace() for ch in str(fallback)):
-        raise RuntimeError('XeLaTeX needs a folder path without spaces for TinyTeX; the home folder path contains spaces.')
-    return fallback
+    if not any(ch.isspace() for ch in str(fallback)):
+        return fallback
+    if os.name == 'nt':
+        # Windows user names often contain spaces (C:\Users\First Last). Standard users may
+        # create folders at the system-drive root, so use C:\ai-for-research\TinyTeX.
+        drive_root = Path((os.environ.get('SystemDrive') or 'C:') + '\\')
+        windows_fallback = drive_root / 'ai-for-research' / 'TinyTeX'
+        if not any(ch.isspace() for ch in str(windows_fallback)):
+            try:
+                windows_fallback.parent.mkdir(parents=True, exist_ok=True)
+                probe = windows_fallback.parent / f'.write-test-{os.getpid()}'
+                probe.write_text('ok', encoding='utf-8')
+                probe.unlink()
+                return windows_fallback
+            except OSError as error:
+                raise RuntimeError(f'XeLaTeX needs a folder path without spaces for TinyTeX; the user folder has spaces and {windows_fallback.parent} is not writable ({error}). Ask IT to allow creating that folder, or use an account without spaces in its name.') from error
+    raise RuntimeError('XeLaTeX needs a folder path without spaces for TinyTeX; the home folder path contains spaces.')
 
 
 def install_tex(root):
