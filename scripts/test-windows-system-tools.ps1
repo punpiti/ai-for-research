@@ -89,7 +89,9 @@ try {
   $TraceFile = Join-Path $scratch 'trace.jsonl'
   Trace-Path (Join-Path $scratch 'missing-file') 'before'
   $output = (& { Run-Quiet 'test success' { cmd.exe /d /c 'echo tool detail & echo a warning 1>&2 & exit 0' } } 6>&1 | Out-String)
-  if ($output.Trim()) { throw "Successful tool output must be hidden: $output" }
+  # Run-Quiet shows its own progress ("> step ..." / "done: step (N s)"); the tool's own output stays in the log.
+  if ($output -match 'tool detail|a warning') { throw "Successful tool output must be hidden: $output" }
+  if ($output -notmatch '> test success \.\.\.' -or $output -notmatch 'done: test success') { throw "Step progress must stay visible: $output" }
   $failed = $false
   try { Run-Quiet 'test failure' { cmd.exe /d /c 'echo missing package 1>&2 & exit 7' } } catch { $failed = $_.Exception.Message -match 'exit 7' }
   if (-not $failed) { throw 'Quiet capture must preserve native command failure.' }
