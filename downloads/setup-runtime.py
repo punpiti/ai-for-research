@@ -101,16 +101,46 @@ def fetch_file(url, target, hook=None):
         if not _is_cert_error(error):
             raise
         first_error = error
-    curl = None
-    if os.name == 'nt':
-        system_curl = Path(os.environ.get('SystemRoot', r'C:\Windows')) / 'System32' / 'curl.exe'
-        curl = str(system_curl) if system_curl.exists() else shutil.which('curl.exe')
-    else:
-        curl = shutil.which('curl')
+    curl = _system_curl()
     if not curl:
         raise first_error
     log(f'DOWNLOAD_FALLBACK Python could not verify the certificate for {url.split("/")[2]}; using the system curl (OS trust store).')
     run(curl, '-fL', '--retry', '2', '--connect-timeout', '30', '-o', str(target), url)
+
+
+def _system_curl():
+    if os.name == 'nt':
+        system_curl = Path(os.environ.get('SystemRoot', r'C:\Windows')) / 'System32' / 'curl.exe'
+        return str(system_curl) if system_curl.exists() else shutil.which('curl.exe')
+    return shutil.which('curl')
+
+
+def read_url(url, limit, timeout=30):
+    """Return (body, final_url) of an HTTPS GET, at most limit+1 bytes. Like fetch_file, a
+    certificate error from Python's OpenSSL (seen on some Windows machines: "certificate has
+    expired" for a chain browsers accept) retries once through the OS curl, which verifies
+    against the OS trust store. Verification stays on; redirects stay HTTPS-only."""
+    try:
+        with urllib.request.urlopen(url, timeout=timeout) as response:
+            return response.read(limit + 1), getattr(response, 'geturl', lambda: url)()
+    except (urllib.error.URLError, ssl.SSLError) as error:
+        if isinstance(error, urllib.error.HTTPError) or not _is_cert_error(error):
+            raise
+        first_error = error
+    curl = _system_curl()
+    if not curl:
+        raise first_error
+    log(f'DOWNLOAD_FALLBACK Python could not verify the certificate for {url.split("/")[2]}; using the system curl (OS trust store).')
+    with tempfile.TemporaryDirectory(prefix='ai-research-curl-') as scratch:
+        body = Path(scratch) / 'body'
+        result = subprocess.run([curl, '-fsSL', '--proto', '=https', '--proto-redir', '=https', '--max-redirs', '5',
+                                 '--retry', '2', '--connect-timeout', '30', '--max-time', str(max(timeout, 120)),
+                                 '-o', str(body), '-w', '%{url_effective}', url],
+                                stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+        if result.returncode != 0:
+            raise RuntimeError(f'Download failed with Python ({first_error}) and with curl (exit {result.returncode}: {result.stderr.strip()[:300]}).')
+        with body.open('rb') as stream:
+            return stream.read(limit + 1), result.stdout.strip() or url
 
 
 def log(message):
@@ -157,21 +187,15 @@ def _download_verified(url, target, expected_sha256, expected_bytes, allowed_url
         raise RuntimeError('Course-material size is invalid.')
     target.parent.mkdir(parents=True, exist_ok=True)
     temporary = target.with_name(target.name + '.download')
-    digest = hashlib.sha256(); total = 0
     try:
-        with urllib.request.urlopen(url, timeout=30) as response, temporary.open('wb') as stream:
-            if not response.geturl().startswith(allowed_url_prefix):
-                raise RuntimeError('Course-material download redirected outside the approved root.')
-            while True:
-                chunk = response.read(1024 * 1024)
-                if not chunk:
-                    break
-                total += len(chunk)
-                if total > expected_bytes or total > 32 * 1024 * 1024:
-                    raise RuntimeError('Course-material download exceeded its manifest size.')
-                digest.update(chunk); stream.write(chunk)
-        if total != expected_bytes or digest.hexdigest() != expected_sha256:
+        data, final_url = read_url(url, expected_bytes, timeout=60)
+        if not final_url.startswith(allowed_url_prefix):
+            raise RuntimeError('Course-material download redirected outside the approved root.')
+        if len(data) > expected_bytes:
+            raise RuntimeError('Course-material download exceeded its manifest size.')
+        if len(data) != expected_bytes or hashlib.sha256(data).hexdigest() != expected_sha256:
             raise RuntimeError('Course-material download failed its size/SHA-256 check.')
+        temporary.write_bytes(data)
         os.replace(temporary, target)
     finally:
         if temporary.exists():
@@ -185,10 +209,9 @@ def install_course_materials(workspace, manifest_url=COURSE_MATERIALS_MANIFEST_U
     update_root = (workspace / '.course-updates/course-materials/module-07').resolve()
     if not isinstance(manifest_url, str) or not manifest_url.startswith(allowed_url_prefix):
         raise RuntimeError('Course-material manifest is outside the approved download root.')
-    with urllib.request.urlopen(manifest_url, timeout=30) as response:
-        if not response.geturl().startswith(allowed_url_prefix):
-            raise RuntimeError('Course-material manifest redirected outside the approved root.')
-        raw = response.read(128 * 1024 + 1)
+    raw, final_url = read_url(manifest_url, 128 * 1024)
+    if not final_url.startswith(allowed_url_prefix):
+        raise RuntimeError('Course-material manifest redirected outside the approved root.')
     if len(raw) > 128 * 1024:
         raise RuntimeError('Course-material manifest is too large.')
     manifest = json.loads(raw.decode('utf-8'))
@@ -427,8 +450,7 @@ def ensure_node(root, agent):
         raise RuntimeError('No supported Node LTS binary for this platform.')
     extension = 'zip' if os.name == 'nt' else 'tar.xz'
     base_url = 'https://nodejs.org/dist/latest-v24.x/'
-    with urllib.request.urlopen(base_url + 'SHASUMS256.txt') as response:
-        checksums = response.read().decode('utf-8')
+    checksums = read_url(base_url + 'SHASUMS256.txt', 1024 * 1024)[0].decode('utf-8')
     matches = [line.split() for line in checksums.splitlines() if line.strip().endswith(f'-{os_part}-{arch}.{extension}')]
     if len(matches) != 1:
         raise RuntimeError('Node LTS release metadata is ambiguous.')

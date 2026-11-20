@@ -8,12 +8,16 @@ import base64
 from datetime import datetime, timezone
 import getpass
 import hashlib
+import io
 import json
 import os
 from pathlib import Path
 import re
+import shutil
+import ssl
 import subprocess
 import sys
+import tempfile
 from typing import Any
 from urllib.error import HTTPError, URLError
 from urllib.request import Request, urlopen
@@ -22,7 +26,7 @@ import zipfile
 
 
 DEFAULT_API_BASE = "https://urban.cpe.ku.ac.th/api/airr/v1"
-AIRR_VERSION = "2026.11.19.7"  # bump on every published change of this file
+AIRR_VERSION = "2026.11.20.1"  # bump on every published change of this file
 DOWNLOADS_PREFIX = "https://urban.cpe.ku.ac.th/ai-for-research/downloads/"
 MANIFEST_URL = DOWNLOADS_PREFIX + "course-materials.json"
 MODULE_MATERIALS_URL = DOWNLOADS_PREFIX + "module-materials.json"
@@ -51,6 +55,56 @@ REQUIRED_HEADINGS = (
 class AIRRError(RuntimeError):
     pass
 
+
+
+def _is_cert_error(error: BaseException) -> bool:
+    reason = getattr(error, "reason", error)
+    return isinstance(reason, ssl.SSLError) or "CERTIFICATE_VERIFY_FAILED" in str(error)
+
+
+def _curl_quote(value: str) -> str:
+    return '"' + value.replace("\\", "\\\\").replace('"', '\\"') + '"'
+
+
+def http_read(request: Request, timeout: int, limit: int) -> bytes:
+    """urlopen(...).read(limit). When Python's OpenSSL rejects the certificate chain (some
+    Windows machines report "certificate has expired" for a chain browsers accept), retry
+    once with the OS curl, which verifies against the OS trust store. HTTP errors still
+    raise HTTPError with the response body, so callers keep their error handling."""
+    try:
+        with urlopen(request, timeout=timeout) as response:
+            return response.read(limit)
+    except URLError as error:
+        if isinstance(error, HTTPError) or not _is_cert_error(error):
+            raise
+        first_error = error
+    if os.name == "nt":
+        system_curl = Path(os.environ.get("SystemRoot", r"C:\Windows")) / "System32" / "curl.exe"
+        curl = str(system_curl) if system_curl.exists() else shutil.which("curl.exe")
+    else:
+        curl = shutil.which("curl")
+    if not curl:
+        raise first_error
+    url = request.full_url
+    with tempfile.TemporaryDirectory(prefix="airr-curl-") as scratch:
+        body = Path(scratch) / "body"
+        # Headers (incl. the API key) go through a config on stdin, never the command line.
+        config = "".join(f"header = {_curl_quote(f'{name}: {value}')}\n" for name, value in request.header_items())
+        command = [curl, "-sSL", "--proto", "=https", "--proto-redir", "=https", "--max-redirs", "5",
+                   "--connect-timeout", "30", "--max-time", str(timeout), "-K", "-",
+                   "-X", request.get_method(), "-o", str(body), "-w", "%{http_code}"]
+        if request.data is not None:
+            payload = Path(scratch) / "payload"
+            payload.write_bytes(request.data)
+            command += ["--data-binary", f"@{payload}"]
+        result = subprocess.run(command + [url], input=config, capture_output=True, text=True)
+        if result.returncode != 0:
+            raise URLError(f"{first_error.reason}; curl ก็เชื่อมต่อไม่ได้ (exit {result.returncode}: {result.stderr.strip()[:200]})")
+        data = body.read_bytes()[:limit] if body.exists() else b""
+    status = int(result.stdout.strip() or 0)
+    if status >= 400:
+        raise HTTPError(url, status, f"HTTP {status}", None, io.BytesIO(data))  # type: ignore[arg-type]
+    return data
 
 def section(markdown: str, heading: str) -> str:
     match = re.search(
@@ -500,8 +554,7 @@ def request_json(method: str, url: str, api_key: str | None = None, payload: dic
         headers["Authorization"] = f"Bearer {api_key}"
     request = Request(url, data=data, method=method, headers=headers)
     try:
-        with urlopen(request, timeout=60) as response:
-            raw = response.read(MAX_RESPONSE_BYTES + 1)
+        raw = http_read(request, 60, MAX_RESPONSE_BYTES + 1)
     except HTTPError as error:
         raw = error.read(MAX_RESPONSE_BYTES + 1)
         try:
@@ -592,8 +645,7 @@ def command_logout(args: argparse.Namespace) -> None:
 def request_bytes(url: str, api_key: str) -> bytes:
     request = Request(url, method="GET", headers={"User-Agent": "AIRR-VS-Code/1", "Authorization": f"Bearer {api_key}"})
     try:
-        with urlopen(request, timeout=60) as response:
-            raw = response.read(MAX_MATERIAL_BYTES + 1)
+        raw = http_read(request, 60, MAX_MATERIAL_BYTES + 1)
     except HTTPError as error:
         try:
             detail = json.loads(error.read(MAX_RESPONSE_BYTES).decode("utf-8")).get("detail")
@@ -689,8 +741,7 @@ def latest_client_entry(manifest_url_override: str | None) -> tuple[dict[str, An
     manifest_url = manifest_url_override or MANIFEST_URL
     prefix = DOWNLOADS_PREFIX if not manifest_url_override else manifest_url.rsplit("/", 1)[0] + "/"
     try:
-        with urlopen(Request(manifest_url, headers={"User-Agent": "airr-update/1"}), timeout=30) as response:
-            manifest = json.loads(response.read(256 * 1024).decode("utf-8"))
+        manifest = json.loads(http_read(Request(manifest_url, headers={"User-Agent": "airr-update/1"}), 30, 256 * 1024).decode("utf-8"))
     except (HTTPError, URLError, ValueError) as error:
         raise AIRRError(f"อ่านรายการรุ่นล่าสุดไม่ได้ ({error}); ลองใหม่ หรือรันคำสั่งติดตั้งซ้ำจากหน้า Module 1") from error
     entry = next((item for item in manifest.get("files", []) if isinstance(item, dict)
@@ -726,8 +777,7 @@ def command_update(args: argparse.Namespace) -> None:
         print("AIRR UPDATE · เครื่องมือ AIRR เป็นรุ่นล่าสุดแล้ว")
         return
     try:
-        with urlopen(Request(entry["url"], headers={"User-Agent": "airr-update/1"}), timeout=60) as response:
-            content = response.read(size + 1)
+        content = http_read(Request(entry["url"], headers={"User-Agent": "airr-update/1"}), 60, size + 1)
     except (HTTPError, URLError) as error:
         raise AIRRError(f"ดาวน์โหลดรุ่นใหม่ไม่ได้ ({error})") from error
     if len(content) != size or hashlib.sha256(content).hexdigest() != expected:
@@ -773,8 +823,7 @@ def init_forms(workspace: Path, module: str, force: bool) -> None:
 def module_materials(manifest_url: str | None, module: str) -> list[dict[str, Any]]:
     url = manifest_url or MODULE_MATERIALS_URL
     try:
-        with urlopen(Request(url, headers={"User-Agent": "airr-init/1"}), timeout=30) as response:
-            manifest = json.loads(response.read(MAX_MODULE_MANIFEST_BYTES).decode("utf-8"))
+        manifest = json.loads(http_read(Request(url, headers={"User-Agent": "airr-init/1"}), 30, MAX_MODULE_MANIFEST_BYTES).decode("utf-8"))
     except (HTTPError, URLError, TimeoutError, OSError, ValueError) as error:
         raise AIRRError(f"อ่านรายการไฟล์ของโมดูลจากเว็บคลาสไม่ได้: {error}") from error
     if not isinstance(manifest, dict) or manifest.get("schema_version") != "airr.module-materials.v1":
@@ -796,8 +845,7 @@ def download_public(url_path: str, expected_sha256: str, expected_bytes: int, ba
     if not re.fullmatch(r"[A-Za-z0-9._/-]+", url_path or "") or ".." in url_path.split("/"):
         raise AIRRError(f"ที่อยู่ไฟล์ในรายการไม่ถูกต้อง: {url_path}")
     try:
-        with urlopen(Request(base + url_path, headers={"User-Agent": "airr-init/1"}), timeout=120) as response:
-            data = response.read(int(expected_bytes) + 1)
+        data = http_read(Request(base + url_path, headers={"User-Agent": "airr-init/1"}), 120, int(expected_bytes) + 1)
     except (HTTPError, URLError, TimeoutError, OSError) as error:
         raise AIRRError(f"ดาวน์โหลด {url_path} ไม่ได้: {error}") from error
     if len(data) != int(expected_bytes) or hashlib.sha256(data).hexdigest() != expected_sha256:
